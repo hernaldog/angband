@@ -3,6 +3,13 @@
 ## Autor
 Hernaldo González  - hernaldog@gmail.com
 
+# Status de la traducción
+4%
+
+## Bitácora
+- 21-02-2026 - Se entiende como compilar en Windows 11 y hacen pruebas de concepto.
+- 21-02-2026 - Se inicia traducción de primeros elementos como news.txt o archivos c/h base.
+
 ## Motivación
 Me entantan los juegos Roguelike clásicos como Moria, Rogue, etc, a la vez, siempre me ha gustado el Señor de los Anillos, y que mejor que este gran juego que uno los dos mundos. 
 Lo he jugado un par de veces solo en inglés y siempre he pensado que más gente de habla hispana lo jugaría si estaría en Español. 
@@ -17,9 +24,7 @@ tengo algo de experiencia en traducciones y quise aplicar lo aprendido allí. Es
 ## Licencia
 GNU GPL v2
 
-## Bitácora
-- 21-02-2026 - Se entiende como compilar en Windows 11 y hacen pruebas de concepto.
-- 21-02-2026 - Se inicia traducción de primeros elementos como news.txt o archivos c/h base.
+
 
 ## Pasos para la compilación si quieres colaborar
 
@@ -145,18 +150,13 @@ Contenido del script shell:
     
     echo "Compilacion terminada..."
 
-# Status de la traducción
-
-## General
-2%
-
-## Pendientes
+## Pendientes de traducción
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
 - Cambios de lb por kg
 - Cambios de ft por mt (infravisión)
 - Mejoras en traducciones como con tecla d "Soltar qué objeto", por "¿Qué objeto tirar?" o con k "¿Ingorar que objeto?"
 
-## Detalle por archivo
+## Detalle de la traducción por archivo
 
 | Archivo                                  | % Avance | TODO                                                 |
 | -----------------------------------------| ------   | -----------------------------------------------------|
