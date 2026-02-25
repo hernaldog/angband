@@ -1,6 +1,6 @@
 /**
  * \file ui-game.c
- * \brief Game management for the traditional text UI
+ * \brief Gestión del juego para la interfaz de texto tradicional
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2015 Nick McConnell
@@ -76,270 +76,270 @@ struct savefile_getter_impl {
 };
 
 
-bool arg_wizard;			/* Command arg -- Request wizard mode */
+bool arg_wizard;			/* Argumento de línea de comandos -- Solicitar modo mago */
 
 #ifdef ALLOW_BORG
 bool screensaver = false;
 #endif /* ALLOW_BORG */
 
 /**
- * Buffer to hold the current savefile name
+ * Búfer para contener el nombre del archivo guardado actual
  */
 char savefile[1024];
 
 /**
- * Buffer to hold the name of the panic save corresponding to savefile.  Only
- * set and used as necessary (in start_game() and handle_signal_abort()).  Use
- * static storage to avoid complications in the signal handler (i.e. limited
- * stack space or the possibility of a full or corrupted heap).
+ * Búfer para contener el nombre del guardado de pánico correspondiente a savefile.
+ * Solo se establece y usa según sea necesario (en start_game() y handle_signal_abort()).
+ * Usar almacenamiento estático para evitar complicaciones en el manejador de señales
+ * (ej. espacio de pila limitado o la posibilidad de un montón lleno o corrupto).
  */
 char panicfile[1024];
 
 /**
- * Set by the front end to perform necessary actions when restarting after death
- * without exiting.  May be NULL.
+ * Establecido por el frontend para realizar acciones necesarias al reiniciar después de la muerte
+ * sin salir. Puede ser NULL.
  */
 void (*reinit_hook)(void) = NULL;
 
 
 /**
- * Here are lists of commands, stored in this format so that they can be
- * easily maniuplated for e.g. help displays, or if a port wants to provide a
- * native menu containing a command list.
+ * Aquí hay listas de comandos, almacenadas en este formato para que puedan ser
+ * manipuladas fácilmente para, ej., pantallas de ayuda, o si un puerto quiere proporcionar un
+ * menú nativo que contenga una lista de comandos.
  *
- * Consider a two-paned layout for the command menus. XXX
+ * Considerar un diseño de dos paneles para los menús de comandos. XXX
  */
 
 /**
- * Item commands
+ * Comandos de objetos
  */
 struct cmd_info cmd_item[] =
 {
-	{ "Inscribe an object", { '{' }, CMD_INSCRIBE, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Uninscribe an object", { '}' }, CMD_UNINSCRIBE, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Wear/wield an item", { 'w' }, CMD_WIELD, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Take off/unwield an item", { 't', 'T'}, CMD_TAKEOFF, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Examine an item", { 'I' }, CMD_NULL, textui_obj_examine, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Drop an item", { 'd' }, CMD_DROP, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Fire your missile weapon", { 'f', 't' }, CMD_FIRE, NULL, player_can_fire_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Use a staff", { 'u', 'Z' }, CMD_USE_STAFF, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Aim a wand", {'a', 'z'}, CMD_USE_WAND, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Zap a rod", {'z', 'a'}, CMD_USE_ROD, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Activate an object", {'A' }, CMD_ACTIVATE, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Eat some food", { 'E' }, CMD_EAT, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Quaff a potion", { 'q' }, CMD_QUAFF, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Read a scroll", { 'r' }, CMD_READ_SCROLL, NULL, player_can_read_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Fuel your light source", { 'F' }, CMD_REFILL, NULL, player_can_refuel_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Use an item", { 'U', 'X' }, CMD_USE, NULL, NULL, 0, NULL, NULL, NULL, 0 }
+	{ "Inscribir un objeto", { '{' }, CMD_INSCRIBE, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Desinscribir un objeto", { '}' }, CMD_UNINSCRIBE, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Usar/empuñar un objeto", { 'w' }, CMD_WIELD, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Quitar/soltar un objeto", { 't', 'T'}, CMD_TAKEOFF, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Examinar un objeto", { 'I' }, CMD_NULL, textui_obj_examine, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Soltar un objeto", { 'd' }, CMD_DROP, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Disparar tu arma de proyectiles", { 'f', 't' }, CMD_FIRE, NULL, player_can_fire_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Usar un báculo", { 'u', 'Z' }, CMD_USE_STAFF, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Apuntar una varita", {'a', 'z'}, CMD_USE_WAND, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Activar una vara", {'z', 'a'}, CMD_USE_ROD, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Activar un objeto", {'A' }, CMD_ACTIVATE, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Comer algo", { 'E' }, CMD_EAT, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Beber una poción", { 'q' }, CMD_QUAFF, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Leer un pergamino", { 'r' }, CMD_READ_SCROLL, NULL, player_can_read_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Recargar tu fuente de luz", { 'F' }, CMD_REFILL, NULL, player_can_refuel_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Usar un objeto", { 'U', 'X' }, CMD_USE, NULL, NULL, 0, NULL, NULL, NULL, 0 }
 };
 
 /**
- * General actions
+ * Acciones generales
  */
 struct cmd_info cmd_action[] =
 {
-	{ "Disarm a trap or chest", { 'D' }, CMD_DISARM, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Rest for a while", { 'R' }, CMD_NULL, textui_cmd_rest, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Look around", { 'l', 'x' }, CMD_NULL, do_cmd_look, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Target monster or location", { '*' }, CMD_NULL, textui_target, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Target closest monster", { '\'' }, CMD_NULL, textui_target_closest, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Dig a tunnel", { 'T', KTRL('T') }, CMD_TUNNEL, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Go up staircase", {'<' }, CMD_GO_UP, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Go down staircase", { '>' }, CMD_GO_DOWN, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Open a door or a chest", { 'o' }, CMD_OPEN, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Close a door", { 'c' }, CMD_CLOSE, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Fire at nearest target", { 'h', KC_TAB }, CMD_NULL, do_cmd_fire_at_nearest, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Throw an item", { 'v' }, CMD_THROW, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Walk into a trap", { 'W', '-' }, CMD_JUMP, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Desarmar una trampa o cofre", { 'D' }, CMD_DISARM, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Descansar un rato", { 'R' }, CMD_NULL, textui_cmd_rest, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Mirar alrededor", { 'l', 'x' }, CMD_NULL, do_cmd_look, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Apuntar a monstruo o ubicación", { '*' }, CMD_NULL, textui_target, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Apuntar al monstruo más cercano", { '\'' }, CMD_NULL, textui_target_closest, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Excavar un túnel", { 'T', KTRL('T') }, CMD_TUNNEL, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Subir escaleras", {'<' }, CMD_GO_UP, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Bajar escaleras", { '>' }, CMD_GO_DOWN, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Abrir una puerta o cofre", { 'o' }, CMD_OPEN, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Cerrar una puerta", { 'c' }, CMD_CLOSE, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Disparar al objetivo más cercano", { 'h', KC_TAB }, CMD_NULL, do_cmd_fire_at_nearest, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Lanzar un objeto", { 'v' }, CMD_THROW, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Caminar hacia una trampa", { 'W', '-' }, CMD_JUMP, NULL, NULL, 0, NULL, NULL, NULL, 0 },
 };
 
 /**
- * Item management commands
+ * Comandos de gestión de objetos
  */
 struct cmd_info cmd_item_manage[] =
 {
-	{ "Display equipment listing", { 'e' }, CMD_NULL, do_cmd_equip, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Display inventory listing", { 'i' }, CMD_NULL, do_cmd_inven, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Display quiver listing", { '|' }, CMD_NULL, do_cmd_quiver, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Pick up objects", { 'g' }, CMD_PICKUP, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Ignore an item", { 'k', KTRL('D') }, CMD_IGNORE, textui_cmd_ignore, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Mostrar lista de equipo", { 'e' }, CMD_NULL, do_cmd_equip, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Mostrar lista de inventario", { 'i' }, CMD_NULL, do_cmd_inven, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Mostrar lista de carcaj", { '|' }, CMD_NULL, do_cmd_quiver, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Recoger objetos", { 'g' }, CMD_PICKUP, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Ignorar un objeto", { 'k', KTRL('D') }, CMD_IGNORE, textui_cmd_ignore, NULL, 0, NULL, NULL, NULL, 0 },
 };
 
 /**
- * Information access commands
+ * Comandos de acceso a información
  */
 struct cmd_info cmd_info[] =
 {
-	{ "Browse a book", { 'b', 'P' }, CMD_BROWSE_SPELL, textui_spell_browse, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Gain new spells", { 'G' }, CMD_STUDY, NULL, player_can_study_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "View abilities", { 'S' }, CMD_NULL, do_cmd_abilities, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Cast a spell", { 'm' }, CMD_CAST, NULL, player_can_cast_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Full dungeon map", { 'M' }, CMD_NULL, do_cmd_view_map, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Toggle ignoring of items", { 'K', 'O' }, CMD_NULL, textui_cmd_toggle_ignore, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Display visible item list", { ']' }, CMD_NULL, do_cmd_itemlist, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Display visible monster list", { '[' }, CMD_NULL, do_cmd_monlist, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Locate player on map", { 'L', 'W' }, CMD_NULL, do_cmd_locate, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Help", { '?' }, CMD_NULL, do_cmd_help, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Identify symbol", { '/' }, CMD_NULL, do_cmd_query_symbol, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Character description", { 'C' }, CMD_NULL, do_cmd_change_name, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Check knowledge", { '~' }, CMD_NULL, textui_browse_knowledge, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Repeat level feeling", { KTRL('F') }, CMD_NULL, do_cmd_feeling, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Show previous message", { KTRL('O') }, CMD_NULL, do_cmd_message_one, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Show previous messages", { KTRL('P') }, CMD_NULL, do_cmd_messages, NULL, 0, NULL, NULL, NULL, 0 }
+	{ "Examinar un libro", { 'b', 'P' }, CMD_BROWSE_SPELL, textui_spell_browse, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Aprender nuevos hechizos", { 'G' }, CMD_STUDY, NULL, player_can_study_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Ver habilidades", { 'S' }, CMD_NULL, do_cmd_abilities, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Lanzar un hechizo", { 'm' }, CMD_CAST, NULL, player_can_cast_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Mapa completo de la mazmorra", { 'M' }, CMD_NULL, do_cmd_view_map, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Alternar ignorado de objetos", { 'K', 'O' }, CMD_NULL, textui_cmd_toggle_ignore, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Mostrar lista de objetos visibles", { ']' }, CMD_NULL, do_cmd_itemlist, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Mostrar lista de monstruos visibles", { '[' }, CMD_NULL, do_cmd_monlist, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Localizar jugador en el mapa", { 'L', 'W' }, CMD_NULL, do_cmd_locate, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Ayuda", { '?' }, CMD_NULL, do_cmd_help, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Identificar símbolo", { '/' }, CMD_NULL, do_cmd_query_symbol, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Descripción del personaje", { 'C' }, CMD_NULL, do_cmd_change_name, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Consultar conocimiento", { '~' }, CMD_NULL, textui_browse_knowledge, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Repetir sensación de nivel", { KTRL('F') }, CMD_NULL, do_cmd_feeling, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Mostrar mensaje anterior", { KTRL('O') }, CMD_NULL, do_cmd_message_one, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Mostrar mensajes anteriores", { KTRL('P') }, CMD_NULL, do_cmd_messages, NULL, 0, NULL, NULL, NULL, 0 }
 };
 
 /**
- * Utility/assorted commands
+ * Comandos de utilidad/varios
  */
 struct cmd_info cmd_util[] =
 {
-	{ "Interact with options", { '=' }, CMD_NULL, do_cmd_xxx_options, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Interactuar con opciones", { '=' }, CMD_NULL, do_cmd_xxx_options, NULL, 0, NULL, NULL, NULL, 0 },
 
-	{ "Save and don't quit", { KTRL('S') }, CMD_NULL, save_game, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Save and quit", { KTRL('X') }, CMD_NULL, textui_quit, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Retire character and quit", { 'Q' }, CMD_NULL, textui_cmd_retire, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Redraw the screen", { KTRL('R') }, CMD_NULL, do_cmd_redraw, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Guardar y no salir", { KTRL('S') }, CMD_NULL, save_game, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Guardar y salir", { KTRL('X') }, CMD_NULL, textui_quit, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Retirar personaje y salir", { 'Q' }, CMD_NULL, textui_cmd_retire, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Redibujar la pantalla", { KTRL('R') }, CMD_NULL, do_cmd_redraw, NULL, 0, NULL, NULL, NULL, 0 },
 
-	{ "Save \"screen dump\"", { ')' }, CMD_NULL, do_cmd_save_screen, NULL, 0, NULL, NULL, NULL, 0 }
+	{ "Guardar \"captura de pantalla\"", { ')' }, CMD_NULL, do_cmd_save_screen, NULL, 0, NULL, NULL, NULL, 0 }
 };
 
 /**
- * Commands that shouldn't be shown to the user
+ * Comandos que no deben mostrarse al usuario
  */
 struct cmd_info cmd_hidden[] =
 {
-	{ "Take notes", { ':' }, CMD_NULL, do_cmd_note, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Version info", { 'V' }, CMD_NULL, do_cmd_version, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Load a single pref line", { '"' }, CMD_NULL, do_cmd_pref, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Toggle windows", { KTRL('E') }, CMD_NULL, toggle_inven_equip, NULL, 0, NULL, NULL, NULL, 0 }, /* XXX */
-	{ "Alter a grid", { '+' }, CMD_ALTER, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Steal from a monster", { 's' }, CMD_STEAL, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Walk", { ';' }, CMD_WALK, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Start running", { '.', ',' }, CMD_RUN, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Start exploring", { 'p' }, CMD_EXPLORE, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Stand still", { ',', '.' }, CMD_HOLD, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Center map", { KTRL('L'), '@' }, CMD_NULL, do_cmd_center_map, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Toggle wizard mode", { KTRL('W') }, CMD_NULL, do_cmd_wizard, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Repeat previous command", { 'n', KTRL('V') }, CMD_REPEAT, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Do autopickup", { KTRL('G') }, CMD_AUTOPICKUP, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Debug mode commands", { KTRL('A') }, CMD_NULL, NULL, NULL, 1, "Debug Command: ", "That is not a valid debug command.", "Debug", -1 },
+	{ "Tomar notas", { ':' }, CMD_NULL, do_cmd_note, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Información de versión", { 'V' }, CMD_NULL, do_cmd_version, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Cargar una línea de preferencias", { '"' }, CMD_NULL, do_cmd_pref, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Alternar ventanas", { KTRL('E') }, CMD_NULL, toggle_inven_equip, NULL, 0, NULL, NULL, NULL, 0 }, /* XXX */
+	{ "Alterar una casilla", { '+' }, CMD_ALTER, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Robar de un monstruo", { 's' }, CMD_STEAL, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Caminar", { ';' }, CMD_WALK, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Empezar a correr", { '.', ',' }, CMD_RUN, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Empezar a explorar", { 'p' }, CMD_EXPLORE, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Quedarse quieto", { ',', '.' }, CMD_HOLD, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Centrar mapa", { KTRL('L'), '@' }, CMD_NULL, do_cmd_center_map, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Alternar modo mago", { KTRL('W') }, CMD_NULL, do_cmd_wizard, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Repetir comando anterior", { 'n', KTRL('V') }, CMD_REPEAT, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Hacer recogida automática", { KTRL('G') }, CMD_AUTOPICKUP, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Comandos de modo depuración", { KTRL('A') }, CMD_NULL, NULL, NULL, 1, "Comando de Depuración: ", "Ese no es un comando de depuración válido.", "Depuración", -1 },
 #ifdef ALLOW_BORG
-	{ "Borg commands", { KTRL('Z') }, CMD_NULL, do_cmd_try_borg, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Comandos Borg", { KTRL('Z') }, CMD_NULL, do_cmd_try_borg, NULL, 0, NULL, NULL, NULL, 0 },
 #endif
 };
 
 /**
- * Debug mode command categories; placeholders for the Enter menu system
+ * Categorías de comandos del modo depuración; marcadores de posición para el sistema de menú Enter
  */
 struct cmd_info cmd_debug[] =
 {
-	{ "Items", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgObj", -1 },
-	{ "Player", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgPlayer", -1 },
-	{ "Teleport", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgTele", -1 },
-	{ "Effects", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgEffects", -1 },
-	{ "Summon", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgSummon", -1 },
-	{ "Files", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgFiles", -1 },
-	{ "Statistics", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgStat", -1 },
-	{ "Query", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgQuery", -1 },
-	{ "Miscellaneous", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgMisc", -1 },
+	{ "Objetos", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgObj", -1 },
+	{ "Jugador", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgPlayer", -1 },
+	{ "Teletransporte", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgTele", -1 },
+	{ "Efectos", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgEffects", -1 },
+	{ "Invocar", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgSummon", -1 },
+	{ "Archivos", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgFiles", -1 },
+	{ "Estadísticas", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgStat", -1 },
+	{ "Consulta", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgQuery", -1 },
+	{ "Miscelánea", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgMisc", -1 },
 };
 
 struct cmd_info cmd_debug_obj[] =
 {
-	{ "Create an object", { 'c' }, CMD_NULL, wiz_create_nonartifact, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Create an artifact", { 'C' }, CMD_NULL, wiz_create_artifact, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Create all from tval", { 'V' }, CMD_NULL, wiz_create_all_for_tval, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Acquire good", { 'g' }, CMD_NULL, wiz_acquire_good, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Acquire great", { 'v' }, CMD_NULL, wiz_acquire_great, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Play with item", { 'o' }, CMD_WIZ_PLAY_ITEM, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Crear un objeto", { 'c' }, CMD_NULL, wiz_create_nonartifact, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Crear un artefacto", { 'C' }, CMD_NULL, wiz_create_artifact, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Crear todos del tval", { 'V' }, CMD_NULL, wiz_create_all_for_tval, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Adquirir bueno", { 'g' }, CMD_NULL, wiz_acquire_good, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Adquirir excelente", { 'v' }, CMD_NULL, wiz_acquire_great, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Jugar con objeto", { 'o' }, CMD_WIZ_PLAY_ITEM, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
 struct cmd_info cmd_debug_player[] =
 {
-	{ "Cure everything", { 'a' }, CMD_WIZ_CURE_ALL, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Make powerful", { 'A' }, CMD_WIZ_ADVANCE, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Increase experience", { 'x' }, CMD_WIZ_INCREASE_EXP, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Rerate hitpoints", { 'h' }, CMD_WIZ_RERATE, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Edit player", { 'e' }, CMD_WIZ_EDIT_PLAYER_START, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Learn object kinds", { 'l' }, CMD_NULL, wiz_learn_all_object_kinds, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Recall monster", { 'r' }, CMD_WIZ_RECALL_MONSTER, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Erase monster recall", { 'W' }, CMD_WIZ_WIPE_RECALL, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Curar todo", { 'a' }, CMD_WIZ_CURE_ALL, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Hacer poderoso", { 'A' }, CMD_WIZ_ADVANCE, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Aumentar experiencia", { 'x' }, CMD_WIZ_INCREASE_EXP, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Reevaluar puntos de golpe", { 'h' }, CMD_WIZ_RERATE, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Editar jugador", { 'e' }, CMD_WIZ_EDIT_PLAYER_START, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Aprender tipos de objetos", { 'l' }, CMD_NULL, wiz_learn_all_object_kinds, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Recordar monstruo", { 'r' }, CMD_WIZ_RECALL_MONSTER, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Borrar recuerdo de monstruo", { 'W' }, CMD_WIZ_WIPE_RECALL, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
 struct cmd_info cmd_debug_tele[] =
 {
-	{ "To location", { 'b' }, CMD_WIZ_TELEPORT_TO, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Random near", { 'p' }, CMD_NULL, wiz_phase_door, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Random far", { 't' }, CMD_NULL, wiz_teleport, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Jump to a level", { 'j' }, CMD_WIZ_JUMP_LEVEL, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "A ubicación", { 'b' }, CMD_WIZ_TELEPORT_TO, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Aleatorio cercano", { 'p' }, CMD_NULL, wiz_phase_door, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Aleatorio lejano", { 't' }, CMD_NULL, wiz_teleport, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Saltar a un nivel", { 'j' }, CMD_WIZ_JUMP_LEVEL, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
 struct cmd_info cmd_debug_effects[] =
 {
-	{ "Detect all nearby", { 'd' }, CMD_WIZ_DETECT_ALL_LOCAL, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Detect all monsters", { 'u' }, CMD_WIZ_DETECT_ALL_MONSTERS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Map local area", { 'm' }, CMD_WIZ_MAGIC_MAP, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Hit all in LOS", { 'H' }, CMD_WIZ_HIT_ALL_LOS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Perform an effect", { 'E' }, CMD_WIZ_PERFORM_EFFECT, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Graphics demo", { 'G' }, CMD_NULL, wiz_proj_demo, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Detectar todo cercano", { 'd' }, CMD_WIZ_DETECT_ALL_LOCAL, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Detectar todos los monstruos", { 'u' }, CMD_WIZ_DETECT_ALL_MONSTERS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Mapa del área local", { 'm' }, CMD_WIZ_MAGIC_MAP, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Golpear todo en LdV", { 'H' }, CMD_WIZ_HIT_ALL_LOS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Realizar un efecto", { 'E' }, CMD_WIZ_PERFORM_EFFECT, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Demostración de gráficos", { 'G' }, CMD_NULL, wiz_proj_demo, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
 struct cmd_info cmd_debug_summon[] =
 {
-	{ "Summon specific", { 'n' }, CMD_WIZ_SUMMON_NAMED, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Summon random", { 's' }, CMD_WIZ_SUMMON_RANDOM, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Invocar específico", { 'n' }, CMD_WIZ_SUMMON_NAMED, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Invocar aleatorio", { 's' }, CMD_WIZ_SUMMON_RANDOM, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
 struct cmd_info cmd_debug_files[] =
 {
-	{ "Create spoilers", { '"' }, CMD_NULL, do_cmd_spoilers, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Write map", { 'M' }, CMD_WIZ_DUMP_LEVEL_MAP, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Crear spoilers", { '"' }, CMD_NULL, do_cmd_spoilers, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Escribir mapa", { 'M' }, CMD_WIZ_DUMP_LEVEL_MAP, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
 struct cmd_info cmd_debug_stats[] =
 {
-	{ "Objects and monsters", { 'S' }, CMD_WIZ_COLLECT_OBJ_MON_STATS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Pits", { 'P' }, CMD_WIZ_COLLECT_PIT_STATS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Disconnected levels", { 'D' }, CMD_WIZ_COLLECT_DISCONNECT_STATS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Obj/mon alternate key", { 'f' }, CMD_WIZ_COLLECT_OBJ_MON_STATS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Objetos y monstruos", { 'S' }, CMD_WIZ_COLLECT_OBJ_MON_STATS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Cámaras", { 'P' }, CMD_WIZ_COLLECT_PIT_STATS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Niveles desconectados", { 'D' }, CMD_WIZ_COLLECT_DISCONNECT_STATS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Tecla alterna Obj/mon", { 'f' }, CMD_WIZ_COLLECT_OBJ_MON_STATS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
 struct cmd_info cmd_debug_query[] =
 {
-	{ "Feature", { 'F' }, CMD_WIZ_QUERY_FEATURE, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Square flag", { 'q' }, CMD_WIZ_QUERY_SQUARE_FLAG, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Noise and scent", { '_' }, CMD_WIZ_PEEK_NOISE_SCENT, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Keystroke log", { 'L' }, CMD_WIZ_DISPLAY_KEYLOG, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Característica", { 'F' }, CMD_WIZ_QUERY_FEATURE, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Bandera de casilla", { 'q' }, CMD_WIZ_QUERY_SQUARE_FLAG, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Ruido y olor", { '_' }, CMD_WIZ_PEEK_NOISE_SCENT, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Registro de pulsaciones", { 'L' }, CMD_WIZ_DISPLAY_KEYLOG, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
 struct cmd_info cmd_debug_misc[] =
 {
-	{ "Wizard light level", { 'w' }, CMD_WIZ_WIZARD_LIGHT, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Create a trap", { 'T' }, CMD_WIZ_CREATE_TRAP, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Banish nearby monsters", { 'z' }, CMD_WIZ_BANISH, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Push objects from square", { '>' }, CMD_WIZ_PUSH_OBJECT, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
-	{ "Quit without saving", { 'X' }, CMD_NULL, wiz_confirm_quit_no_save, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Nivel de luz de mago", { 'w' }, CMD_WIZ_WIZARD_LIGHT, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Crear una trampa", { 'T' }, CMD_WIZ_CREATE_TRAP, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Expulsar monstruos cercanos", { 'z' }, CMD_WIZ_BANISH, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Empujar objetos de la casilla", { '>' }, CMD_WIZ_PUSH_OBJECT, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+	{ "Salir sin guardar", { 'X' }, CMD_NULL, wiz_confirm_quit_no_save, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
 /**
- * List of command lists; because of the implementation in ui-context.c all
- * entries with menu_level == 0 should appear first; hardwired geometry in
- * ui-context.c limits the maximum nesting level to 2
+ * Lista de listas de comandos; debido a la implementación en ui-context.c, todas las
+ * entradas con menu_level == 0 deberían aparecer primero; la geometría fija en
+ * ui-context.c limita el nivel máximo de anidamiento a 2
  */
 struct command_list cmds_all[] =
 {
-	{ "Items",           cmd_item,        N_ELEMENTS(cmd_item), 0, 0 },
-	{ "Action commands", cmd_action,      N_ELEMENTS(cmd_action), 0, 0 },
-	{ "Manage items",    cmd_item_manage, N_ELEMENTS(cmd_item_manage), 0, false },
-	{ "Information",     cmd_info,        N_ELEMENTS(cmd_info), 0, 0 },
-	{ "Utility",         cmd_util,        N_ELEMENTS(cmd_util), 0, 0 },
-	{ "Hidden",          cmd_hidden,      N_ELEMENTS(cmd_hidden), 0, 0 },
+	{ "Objetos",           cmd_item,        N_ELEMENTS(cmd_item), 0, 0 },
+	{ "Acciones",          cmd_action,      N_ELEMENTS(cmd_action), 0, 0 },
+	{ "Gestionar objetos", cmd_item_manage, N_ELEMENTS(cmd_item_manage), 0, false },
+	{ "Información",       cmd_info,        N_ELEMENTS(cmd_info), 0, 0 },
+	{ "Utilidades",        cmd_util,        N_ELEMENTS(cmd_util), 0, 0 },
+	{ "Ocultos",           cmd_hidden,      N_ELEMENTS(cmd_hidden), 0, 0 },
 	/*
-	 * This is nested below "Hidden"->"Debug mode commands" and only
-	 * contains categories.
+	 * Esto está anidado debajo de "Ocultos"->"Comandos de modo depuración" y solo
+	 * contiene categorías.
 	 */
-	{ "Debug", cmd_debug, N_ELEMENTS(cmd_debug), 1, -1 },
-	/* These are nested in "Debug"; names have to match with cmd_debug. */
+	{ "Depuración", cmd_debug, N_ELEMENTS(cmd_debug), 1, -1 },
+	/* Estos están anidados en "Depuración"; los nombres tienen que coincidir con cmd_debug. */
 	{ "DbgObj", cmd_debug_obj, N_ELEMENTS(cmd_debug_obj), 2, 1 },
 	{ "DbgPlayer", cmd_debug_player, N_ELEMENTS(cmd_debug_player), 2, 1 },
 	{ "DbgTele", cmd_debug_tele, N_ELEMENTS(cmd_debug_tele), 2, 1 },
@@ -354,22 +354,22 @@ struct command_list cmds_all[] =
 
 
 
-/*** Exported functions ***/
+/*** Funciones exportadas ***/
 
 #define KEYMAP_MAX 2
 
-/* List of directly accessible commands indexed by char */
+/* Lista de comandos directamente accesibles indexados por carácter */
 static struct cmd_info *converted_list[KEYMAP_MAX][UCHAR_MAX+1];
 
 /*
- * Lists of nested commands; each list is also indexed by char but there's no
- * distinction between original/roguelike keys
+ * Listas de comandos anidados; cada lista también está indexada por carácter pero no hay
+ * distinción entre teclas originales/roguelike
  */
 static int n_nested = 0;
 static struct cmd_info ***nested_lists = NULL;
 
 /**
- * Initialise the command list.
+ * Inicializar la lista de comandos.
  */
 void cmd_init(void)
 {
@@ -377,7 +377,7 @@ void cmd_init(void)
 
 	memset(converted_list, 0, sizeof(converted_list));
 
-	/* Set up storage for the nested command lists */
+	/* Configurar almacenamiento para las listas de comandos anidados */
 	if (nested_lists != NULL) {
 		assert(n_nested >= 0);
 		for (j = 0; j < (size_t)n_nested; j++) {
@@ -397,19 +397,19 @@ void cmd_init(void)
 		}
 	}
 
-	/* Go through all generic commands (-1 for NULL end entry) */
+	/* Recorrer todos los comandos genéricos (-1 para la entrada final NULL) */
 	for (j = 0; j < N_ELEMENTS(cmds_all) - 1; j++)
 	{
 		struct cmd_info *commands = cmds_all[j].list;
 
-		/* Fill everything in */
+		/* Rellenar todo */
 		if (cmds_all[j].keymap == 0) {
 			for (i = 0; i < cmds_all[j].len; i++) {
-				/* If a roguelike key isn't set, use default */
+				/* Si una tecla roguelike no está establecida, usar la predeterminada */
 				if (!commands[i].key[1])
 					commands[i].key[1] = commands[i].key[0];
 
-				/* Skip entries that don't have a valid key. */
+				/* Saltar entradas que no tienen una tecla válida. */
 				if (!commands[i].key[0] || !commands[i].key[1])
 					continue;
 
@@ -424,14 +424,14 @@ void cmd_init(void)
 			assert(kidx < n_nested);
 			for (i = 0; i < cmds_all[j].len; i++) {
 				/*
-				 * Nested commands don't go through a keymap;
-				 * use the default for the roguelike key.
+				 * Los comandos anidados no pasan por un mapa de teclas;
+				 * usar la predeterminada para la tecla roguelike.
 				 */
 				commands[i].key[1] = commands[i].key[0];
 
 				/*
-				 * Check for duplicated keys in the same
-				 * command set.
+				 * Verificar si hay teclas duplicadas en el mismo
+				 * conjunto de comandos.
 				 */
 				assert(!nested_lists[kidx][commands[i].key[0]]);
 
@@ -463,8 +463,8 @@ unsigned char cmd_lookup_key_unktrl(cmd_code lookup_cmd, int mode)
 	unsigned char c = cmd_lookup_key(lookup_cmd, mode);
 
 	/*
-	 * Because UN_KTRL('ctrl-d') (i.e. rogue-like ignore command) gives 'd'
-	 * which is the drop command in both keysets, use UN_KTRL_CAP().
+	 * Porque UN_KTRL('ctrl-d') (ej. comando de ignorar en roguelike) da 'd'
+	 * que es el comando de soltar en ambos conjuntos de teclas, usar UN_KTRL_CAP().
 	 */
 	if (c < 0x20)
 		c = UN_KTRL_CAP(c);
@@ -484,7 +484,7 @@ cmd_code cmd_lookup(unsigned char key, int mode)
 
 
 /**
- * Return the index into cmds_all for the given name or -2 if not found.
+ * Devolver el índice en cmds_all para el nombre dado o -2 si no se encuentra.
  */
 size_t cmd_list_lookup_by_name(const char *name)
 {
@@ -493,10 +493,10 @@ size_t cmd_list_lookup_by_name(const char *name)
 	while (1) {
 		if (i >= (int) N_ELEMENTS(cmds_all)) {
 			/*
-			 * Return a negative value other than -1 to prevent
-			 * future lookups for the same name by ui-context.c.
-			 * Those lookups are guaranteed to fail since the
-			 * names in cmds_all don't change.
+			 * Devolver un valor negativo diferente de -1 para evitar
+			 * búsquedas futuras para el mismo nombre por ui-context.c.
+			 * Esas búsquedas están garantizadas a fallar ya que los
+			 * nombres en cmds_all no cambian.
 			 */
 			return -2;
 		}
@@ -509,8 +509,8 @@ size_t cmd_list_lookup_by_name(const char *name)
 
 
 /**
- * Parse and execute the current command
- * Give "Warning" on illegal commands.
+ * Analizar y ejecutar el comando actual
+ * Dar "Advertencia" en comandos ilegales.
  */
 void textui_process_command(void)
 {
@@ -529,27 +529,27 @@ void textui_process_command(void)
 		default: ;
 	}
 
-	/* Null command */
+	/* Comando nulo */
 	if (!key && done)
 		return;
 
 	if (key == KC_ENTER) {
-		/* Use command menus */
+		/* Usar menús de comandos */
 		cmd = textui_action_menu_choose();
 	} else {
-		/* Command key */
+		/* Tecla de comando */
 		cmd = converted_list[mode][key];
 	}
 
 	if (cmd && done) {
 		if (cmd->cmd || cmd->hook) {
-			/* Confirm for worn equipment inscriptions. */
+			/* Confirmar para inscripciones de equipo usado. */
 			if (!key_confirm_command(key)) cmd = NULL;
 		} else {
 			/*
-			 * It refers to nested commands.  Get the nested
-			 * command.  Those aren't subject to keymaps and
-			 * inherit the count.
+			 * Se refiere a comandos anidados. Obtener el comando
+			 * anidado. Estos no están sujetos a mapas de teclas y
+			 * heredan el contador.
 			 */
 			while (cmd && !cmd->cmd && !cmd->hook) {
 				char nestkey;
@@ -563,7 +563,7 @@ void textui_process_command(void)
 
 						cmd = nested_lists[cmd->nested_keymap - 1][(unsigned char) nestkey];
 						if (!cmd) {
-							msg("%s", em ? em : "That is not a valid nested command.");
+							msg("%s", em ? em : "Ese no es un comando anidado válido.");
 						}
 					} else {
 						cmd = NULL;
@@ -574,24 +574,24 @@ void textui_process_command(void)
 			}
 		}
 
-		/* Check prereqs. */
+		/* Verificar requisitos previos. */
 		if (cmd && cmd->prereq && !cmd->prereq()) cmd = NULL;
 
-		/* Split on type of command */
+		/* Dividir por tipo de comando */
 		if (cmd && cmd->hook) {
-			/* UI command */
+			/* Comando de UI */
 			cmd->hook();
 		} else if (cmd && cmd->cmd) {
-			/* Game command */
+			/* Comando de juego */
 			cmdq_push_repeat(cmd->cmd, count);
 		} else if (!cmd && inkey_next) {
 			/*
-			 * If processing a keymap, skip the rest if a command
-			 * lookup, confirmation, or prereq failed.  For
-			 * keymaps that specify multiple commands, the player
-			 * might want to continue with the keymap, but that
-			 * would require skipping over the keys in the keymap
-			 * that provide input to the command that failed.
+			 * Si se está procesando un mapa de teclas, saltarse el resto si falla una
+			 * búsqueda de comando, confirmación o requisito previo. Para
+			 * mapas de teclas que especifican múltiples comandos, el jugador
+			 * podría querer continuar con el mapa de teclas, pero eso
+			 * requeriría saltarse las teclas en el mapa de teclas que
+			 * proporcionan entrada al comando que falló.
 			 */
 			inkey_next = NULL;
 		}
@@ -600,9 +600,8 @@ void textui_process_command(void)
 		do_cmd_unknown();
 		if (inkey_next) {
 			/*
-			 * As above, abandon the rest of a keymap when a
-			 * command was expected and what we got was not
-			 * recognized.
+			 * Como arriba, abandonar el resto de un mapa de teclas cuando se
+			 * esperaba un comando y lo que obtuvimos no fue reconocido.
 			 */
 			inkey_next = NULL;
 		}
@@ -614,35 +613,35 @@ errr textui_get_cmd(cmd_context context)
 	if (context == CTX_GAME)
 		textui_process_command();
 
-	/* If we've reached here, we haven't got a command. */
+	/* Si hemos llegado aquí, no hemos obtenido un comando. */
 	return 1;
 }
 
 
 /**
- * Allow for user abort during repeated commands, running and resting.
+ * Permitir la interrupción por parte del usuario durante comandos repetidos, correr y descansar.
  *
- * This will only check during every 128th game turn while resting.
+ * Esto solo se comprobará durante cada 128º turno de juego mientras se descansa.
  */
 void check_for_player_interrupt(game_event_type type, game_event_data *data,
 								void *user)
 {
-	/* Check for "player abort" */
+	/* Verificar "interrupción del jugador" */
 	if (player->upkeep->running ||
 	    cmd_get_nrepeats() > 0 ||
 	    (player_is_resting(player) && !(turn & 0x7F))) {
 		ui_event e;
 
-		/* Do not wait */
+		/* No esperar */
 		inkey_scan = SCAN_INSTANT;
 
-		/* Check for a key */
+		/* Verificar si hay una tecla */
 		e = inkey_ex();
 		if (e.type != EVT_NONE) {
-			/* Flush and disturb */
+			/* Vaciar búfer y molestar */
 			event_signal(EVENT_INPUT_FLUSH);
 			disturb(player);
-			msg("Cancelled.");
+			msg("Cancelado.");
 		}
 	}
 }
@@ -652,7 +651,7 @@ static void pre_turn_refresh(void)
 	term *old = Term;
 	int j;
 	if (character_dungeon) {
-		/* Redraw map */
+		/* Redibujar mapa */
 		player->upkeep->redraw |= (PR_MAP | PR_STATE);
 		player->upkeep->redraw |= (PR_MONLIST | PR_ITEMLIST);
 		handle_stuff(player);
@@ -676,18 +675,18 @@ static void pre_turn_refresh(void)
 }
 
 /**
- * Start actually playing a game, either by loading a savefile or creating
- * a new character
+ * Empezar a jugar realmente, ya sea cargando un archivo guardado o creando
+ * un nuevo personaje
  */
 static bool start_game(bool new_game)
 {
 	const char *loadpath = savefile;
 	bool exists;
 
-	/* Player will be resuscitated if living in the savefile */
+	/* El jugador será resucitado si está vivo en el archivo guardado */
 	player->is_dead = true;
 
-	/* Try loading */
+	/* Intentar cargar */
 	savefile_get_panic_name(panicfile, sizeof(panicfile), loadpath);
 	safe_setuid_grab();
 	exists = loadpath[0] && file_exists(panicfile);
@@ -699,11 +698,11 @@ static bool start_game(bool new_game)
 		newer = file_newer(panicfile, loadpath);
 		safe_setuid_drop();
 		if (newer) {
-			if (get_check("A panic save exists.  Use it? ")) {
+			if (get_check("Existe un guardado de pánico. ¿Usarlo? ")) {
 				loadpath = panicfile;
 			}
 		} else {
-			/* Remove the out-of-date panic save. */
+			/* Eliminar el guardado de pánico desactualizado. */
 			safe_setuid_grab();
 			file_delete(panicfile);
 			safe_setuid_drop();
@@ -716,27 +715,27 @@ static bool start_game(bool new_game)
 		return false;
 	}
 
-	/* No living character loaded */
+	/* No se cargó un personaje vivo */
 	if (player->is_dead || new_game) {
 		character_generated = false;
 		textui_do_birth();
 	} else {
 		/*
-		 * Bring the stock curse objects up-to-date with what the
-		 * player knows.
+		 * Poner al día los objetos de maldición estándar con lo que el
+		 * jugador sabe.
 		 */
 		update_player_object_knowledge(player);
 	}
 
-	/* Tell the UI we've started. */
+	/* Informar a la UI de que hemos comenzado. */
 	event_signal(EVENT_LEAVE_INIT);
 	event_signal(EVENT_ENTER_GAME);
 	event_signal(EVENT_ENTER_WORLD);
 
-	/* Save not required yet. */
+	/* Guardado aún no requerido. */
 	player->upkeep->autosave = false;
 
-	/* Enter the level, generating a new one if needed */
+	/* Entrar al nivel, generando uno nuevo si es necesario */
 	if (!character_dungeon) {
 		prepare_next_level(player);
 	}
@@ -746,7 +745,7 @@ static bool start_game(bool new_game)
 }
 
 /**
- * Help select_savefile():  clean up the array of strings
+ * Ayuda para select_savefile(): limpiar la matriz de cadenas
  */
 static void cleanup_savefile_selection_strings(char **entries, int count)
 {
@@ -759,21 +758,21 @@ static void cleanup_savefile_selection_strings(char **entries, int count)
 }
 
 /**
- * Help play_game():  implement the savefile selection menu.
+ * Ayuda para play_game(): implementar el menú de selección de archivo guardado.
  *
- * \param retry flags that this is a repeated call because the savefile selected
- * by an earlier one could not be loaded.
- * \param new_game points to a boolean.  The pointed to value at entry is not
- * used.  At exit *new_game will be true if the user selected to start a new
- * game.  Otherwise, it will be false.
+ * \param retry indica que esta es una llamada repetida porque el archivo guardado seleccionado
+ * por una anterior no pudo cargarse.
+ * \param new_game apunta a un booleano. El valor apuntado al inicio no se usa.
+ * Al salir, *new_game será true si el usuario seleccionó comenzar una nueva partida.
+ * En caso contrario, será false.
  */
 static void select_savefile(bool retry, bool *new_game)
 {
-	/* Build the list of selections. */
+	/* Construir la lista de selecciones. */
 	savefile_getter g = NULL;
 	/*
-	 * Leave the first entry for selecting a new game.  Will fill in the
-	 * label later.
+	 * Dejar la primera entrada para seleccionar una nueva partida. Se rellenará la
+	 * etiqueta más tarde.
 	 */
 	int count = 1, allocated = 16;
 	char **entries = mem_zalloc(allocated * sizeof(*entries));
@@ -797,20 +796,20 @@ static void select_savefile(bool retry, bool *new_game)
 			names = mem_realloc(names, allocated * sizeof(*names));
 		}
 		if (details->desc) {
-			entries[count] = string_make(format("Use %s: %s",
+			entries[count] = string_make(format("Usar %s: %s",
 				details->fnam + details->foff, details->desc));
 		} else {
-			entries[count] = string_make(format("Use %s",
+			entries[count] = string_make(format("Usar %s",
 				details->fnam + details->foff));
 		}
 		names[count] = string_make(details->fnam);
 		if (suffix(savefile, details->fnam)) {
 			/*
-			 * Matches what's in savefile; put it second in the
-			 * list and mark it as the default entry.  If not
-			 * forcing the name, clear savefile and arg_name so
-			 * the new game option won't be set up to overwrite
-			 * an existing savefile.
+			 * Coincide con lo que está en savefile; ponerlo segundo en la
+			 * lista y marcarlo como entrada predeterminada. Si no se
+			 * fuerza el nombre, limpiar savefile y arg_name para
+			 * que la opción de nueva partida no esté configurada para sobrescribir
+			 * un archivo guardado existente.
 			 */
 			if (count != 1) {
 				char *hold_entry = entries[count];
@@ -836,8 +835,8 @@ static void select_savefile(bool retry, bool *new_game)
 		assert(allocated > 0 && !entries[0]);
 		if (default_entry && arg_force_name) {
 			/*
-			 * Name set by front end is already in use and names
-			 * are forced so don't allow the new game option.
+			 * El nombre establecido por el frontend ya está en uso y los nombres
+			 * están forzados, así que no permitir la opción de nueva partida.
 			 */
 			int i;
 
@@ -850,7 +849,7 @@ static void select_savefile(bool retry, bool *new_game)
 			--count;
 			allow_new_game = false;
 		} else {
-			entries[0] = string_make("New game");
+			entries[0] = string_make("Nueva partida");
 		}
 		failed = false;
 	} else {
@@ -860,7 +859,7 @@ static void select_savefile(bool retry, bool *new_game)
 	if (failed) {
 		cleanup_savefile_selection_strings(names, count);
 		cleanup_savefile_selection_strings(entries, count);
-		quit("Cannot open the savefile directory");
+		quit("No se puede abrir el directorio de archivos guardados");
 	}
 
 	m = menu_new(MN_SKIN_SCROLL, menu_find_iter(MN_ITER_STRINGS));
@@ -870,10 +869,10 @@ static void select_savefile(bool retry, bool *new_game)
 	m->flags |= MN_DBL_TAP;
 
 	screen_save();
-	prt("Select the save to use (movement keys and enter or mouse) or quit",
+	prt("Selecciona el guardado a usar (teclas de movimiento y enter o ratón) o salir",
 		0, 0);
-	prt("(escape or second mouse button).", 1, 0);
-	prt((retry) ? "The previously selected savefile was unusable." : "",
+	prt("(escape o segundo botón del ratón).", 1, 0);
+	prt((retry) ? "El archivo guardado seleccionado anteriormente no era utilizable." : "",
 		2, 0);
 	selection = menu_select(m, 0, false);
 	screen_load();
@@ -899,19 +898,19 @@ static void select_savefile(bool retry, bool *new_game)
 }
 
 /**
- * Play Angband
+ * Jugar a Angband
  */
 void play_game(enum game_mode_type mode)
 {
 	while (1) {
 		play_again = false;
 
-		/* Load a savefile or birth a character, or both */
+		/* Cargar un archivo guardado o crear un personaje, o ambos */
 		switch (mode) {
 		case GAME_LOAD:
 		case GAME_NEW:
 			if (!start_game(mode == GAME_NEW)) {
-				quit("Broken savefile");
+				quit("Archivo guardado corrupto");
 			}
 			break;
 
@@ -930,20 +929,20 @@ void play_game(enum game_mode_type mode)
 			break;
 
 		default:
-			quit("Invalid game mode in play_game()");
+			quit("Modo de juego inválido en play_game()");
 			break;
 		}
 
-		/* Get commands from the user, then process the game world
-		 * until the command queue is empty and a new player command
-		 * is needed */
+		/* Obtener comandos del usuario, luego procesar el mundo del juego
+		 * hasta que la cola de comandos esté vacía y se necesite un nuevo
+		 * comando del jugador */
 		while (!player->is_dead && player->upkeep->playing) {
 			pre_turn_refresh();
 			cmd_get_hook(CTX_GAME);
 			run_game_loop();
 		}
 
-		/* Close game on death or quitting */
+		/* Cerrar juego al morir o al salir */
 		close_game(true);
 
 		if (!play_again) break;
@@ -962,7 +961,7 @@ void play_game(enum game_mode_type mode)
 }
 
 /**
- * Set the savefile name.
+ * Establecer el nombre del archivo guardado.
  */
 void savefile_set_name(const char *fname, bool make_safe, bool strip_suffix)
 {
@@ -972,8 +971,8 @@ void savefile_set_name(const char *fname, bool make_safe, bool strip_suffix)
 
 #if defined(SETGID)
 	/*
-	 * On SETGID systems, we prefix the filename with the user's UID so we
-	 * know whose is whose.
+	 * En sistemas SETGID, prefijamos el nombre del archivo con el UID del usuario
+	 * para saber de quién es cada uno.
 	 */
 
 	strnfmt(path, pathlen, "%d.", player_uid);
@@ -988,12 +987,12 @@ void savefile_set_name(const char *fname, bool make_safe, bool strip_suffix)
 		my_strcpy(path + off, fname, pathlen);
 	}
 
-	/* Save the path */
+	/* Guardar la ruta */
 	path_build(savefile, sizeof(savefile), ANGBAND_DIR_SAVE, path);
 }
 
 /**
- * Test whether savefile_set_name() generates a name that's already in use.
+ * Probar si savefile_set_name() genera un nombre que ya está en uso.
  */
 bool savefile_name_already_used(const char *fname, bool make_safe,
 		bool strip_suffix)
@@ -1011,7 +1010,7 @@ bool savefile_name_already_used(const char *fname, bool make_safe,
 }
 
 /**
- * Save the game.
+ * Guardar el juego.
  */
 void save_game(void)
 {
@@ -1019,132 +1018,132 @@ void save_game(void)
 }
 
 /**
- * Save the game.
+ * Guardar el juego.
  *
- * \return whether the save was successful.
+ * \return si el guardado fue exitoso.
  */
 bool save_game_checked(void)
 {
 	char path[1024];
 	bool result;
 
-	/* Disturb the player */
+	/* Molestar al jugador */
 	disturb(player);
 
-	/* Clear messages */
+	/* Limpiar mensajes */
 	event_signal(EVENT_MESSAGE_FLUSH);
 
-	/* Handle stuff */
+	/* Manejar eventos */
 	handle_stuff(player);
 
-	/* Message */
-	prt("Saving game...", 0, 0);
+	/* Mensaje */
+	prt("Guardando partida...", 0, 0);
 
-	/* Refresh */
+	/* Refrescar */
 	Term_fresh();
 
-	/* The player is not dead */
-	my_strcpy(player->died_from, "(saved)", sizeof(player->died_from));
+	/* El jugador no está muerto */
+	my_strcpy(player->died_from, "(guardado)", sizeof(player->died_from));
 
-	/* Forbid suspend */
+	/* Prohibir suspender */
 	signals_ignore_tstp();
 
-	/* Save the player */
+	/* Guardar el jugador */
 	if (savefile_save(savefile)) {
-		prt("Saving game... done.", 0, 0);
+		prt("Guardando partida... hecho.", 0, 0);
 		result = true;
 	} else {
-		prt("Saving game... failed!", 0, 0);
+		prt("¡Guardando partida... falló!", 0, 0);
 		result = false;
 	}
 
-	/* Refresh */
+	/* Refrescar */
 	Term_fresh();
 
-	/* Allow suspend again */
+	/* Permitir suspender de nuevo */
 	signals_handle_tstp();
 
-	/* Save the window prefs */
+	/* Guardar las preferencias de ventana */
 	path_build(path, sizeof(path), ANGBAND_DIR_USER, "window.prf");
-	if (!prefs_save(path, option_dump, "Dump window settings"))
-		prt("Failed to save subwindow preferences", 0, 0);
+	if (!prefs_save(path, option_dump, "Volcar configuración de ventanas"))
+		prt("Fallo al guardar preferencias de subventana", 0, 0);
 
-	/* Refresh */
+	/* Refrescar */
 	Term_fresh();
 
-	/* Save monster memory to user directory */
+	/* Guardar memoria de monstruos en el directorio de usuario */
 	if (!lore_save("lore.txt")) {
-		msg("lore save failed!");
+		msg("¡fallo al guardar lore!");
 		event_signal(EVENT_MESSAGE_FLUSH);
 	}
 
-	/* Refresh */
+	/* Refrescar */
 	Term_fresh();
 
-	/* Note that the player is not dead */
-	my_strcpy(player->died_from, "(alive and well)", sizeof(player->died_from));
+	/* Notar que el jugador no está muerto */
+	my_strcpy(player->died_from, "(vivo y coleando)", sizeof(player->died_from));
 
 	return result;
 }
 
 
 /**
- * Close up the current game (player may or may not be dead).
+ * Cerrar la partida actual (el jugador puede estar muerto o no).
  *
- * \param prompt_failed_save If true, prompt the user to retry if saving fails.
- * Otherwise, no prompt is issued.
+ * \param prompt_failed_save Si es true, preguntar al usuario si quiere reintentar si falla el guardado.
+ * En caso contrario, no se emite ningún aviso.
  *
- * Note that the savefile is not saved until the tombstone is
- * actually displayed and the player has a chance to examine
- * the inventory and such.  This allows cheating if the game
- * is equipped with a "quit without save" method.  XXX XXX XXX
+ * Nótese que el archivo guardado no se guarda hasta que la lápida está
+ * realmente visible y el jugador tiene la oportunidad de examinar
+ * el inventario y tal. Esto permite hacer trampas si el juego
+ * está equipado con un método "salir sin guardar". XXX XXX XXX
  */
 void close_game(bool prompt_failed_save)
 {
 	bool prompting = true;
 
-	/* Tell the UI we're done with the world */
+	/* Informar a la UI de que hemos terminado con el mundo */
 	event_signal(EVENT_LEAVE_WORLD);
 
-	/* Handle stuff */
+	/* Manejar eventos */
 	handle_stuff(player);
 
-	/* Flush the messages */
+	/* Vaciar los mensajes */
 	event_signal(EVENT_MESSAGE_FLUSH);
 
-	/* Flush the input */
+	/* Vaciar la entrada */
 	event_signal(EVENT_INPUT_FLUSH);
 
-	/* No suspending now */
+	/* No suspender ahora */
 	signals_ignore_tstp();
 
-	/* Increase "icky" depth */
+	/* Aumentar la profundidad "icky" */
 	screen_save_depth++;
 
-	/* Deal with the randarts file */
+	/* Gestionar el archivo de randarts */
 	if (OPT(player, birth_randarts)) {
 		deactivate_randart_file();
 	}
 
-	/* Handle death or life */
+	/* Gestionar muerte o vida */
 	if (player->is_dead) {
 		death_knowledge(player);
 		death_screen();
 
-		/* Save dead player */
+		/* Guardar jugador muerto */
 		while (prompting && !savefile_save(savefile)) {
 			if (!prompt_failed_save
-					|| !get_check("Saving failed.  Try again? ")) {
+					|| !get_check("Fallo al guardar. ¿Reintentar? ")) {
 				prompting = false;
-				msg("death save failed!");
+				msg("¡fallo al guardar la muerte!");
 				event_signal(EVENT_MESSAGE_FLUSH);
 			}
 		}
 	} else {
-		/* Save the game */
+		/* Guardar la partida */
 		while (prompting && !save_game_checked()) {
 			if (!prompt_failed_save
-					|| !get_check("Saving failed.  Try again? ")) {
+					|| !get_check("Fallo al guardar. ¿Reintentar? ")) {
 				prompting = false;
 			}
 		}
@@ -1152,46 +1151,46 @@ void close_game(bool prompt_failed_save)
 		if (Term->mapped_flag) {
 			struct keypress ch;
 
-			prt("Press Return (or Escape).", 0, 40);
+			prt("Pulsa Retorno (o Escape).", 0, 40);
 			ch = inkey();
 			if (ch.code != ESCAPE)
 				predict_score(false);
 		}
 	}
 
-	/* Wipe the monster list */
+	/* Limpiar la lista de monstruos */
 	wipe_mon_list(cave, player);
 
-	/* Decrease "icky" depth */
+	/* Disminuir la profundidad "icky" */
 	screen_save_depth--;
 
-	/* Tell the UI we're done with the game state */
+	/* Informar a la UI de que hemos terminado con el estado del juego */
 	event_signal(EVENT_LEAVE_GAME);
 
-	/* Allow suspending now */
+	/* Permitir suspender ahora */
 	signals_handle_tstp();
 }
 
 
 /**
- * Enumerate savefiles in the savefile directory that are available to the
- * current player.
+ * Enumerar los archivos guardados en el directorio de guardados que están disponibles para el
+ * jugador actual.
  *
- * \param pg points to the state for the enumeration.  If *pg is NULL, the
- * enumeration will start from scratch.  After enumerating, *pg should be
- * passed to cleanup_savefile_getter() to release any allocated resources.
- * \return true if another savefile useful for the player was found.  In
- * that case calling get_savefile_details() on *pg will return a non-NULL
- * result.  Otherwise, return false.
+ * \param pg apunta al estado de la enumeración. Si *pg es NULL, la
+ * enumeración comenzará desde cero. Después de enumerar, *pg debe ser
+ * pasado a cleanup_savefile_getter() para liberar los recursos asignados.
+ * \return true si se encontró otro archivo guardado útil para el jugador.
+ * En ese caso, llamar a get_savefile_details() en *pg devolverá un resultado
+ * no NULL. En caso contrario, devuelve false.
  */
 bool got_savefile(savefile_getter *pg)
 {
 	char fname[256];
 
 	if (*pg == NULL) {
-		/* Initialize the enumeration. */
+		/* Inicializar la enumeración. */
 		*pg = mem_zalloc(sizeof(**pg));
-		/* Need enhanced privileges to read from the save directory. */
+		/* Se necesitan privilegios elevados para leer del directorio de guardados. */
 		safe_setuid_grab();
 		(*pg)->d = my_dopen(ANGBAND_DIR_SAVE);
 		safe_setuid_drop();
@@ -1200,7 +1199,7 @@ bool got_savefile(savefile_getter *pg)
 		}
 		(*pg)->have_savedir = true;
 		/*
-		 * Set up the user-specific prefix.  Mimics savefile_set_name().
+		 * Configurar el prefijo específico del usuario. Imita savefile_set_name().
 		 */
 #ifdef SETGID
 		strnfmt((*pg)->uid_c, sizeof((*pg)->uid_c), "%d.", player_uid);
@@ -1221,8 +1220,8 @@ bool got_savefile(savefile_getter *pg)
 		bool no_entry;
 
 		/*
-		 * Also need elevated privileges for the file attribute queries
-		 * in my_dread().
+		 * También se necesitan privilegios elevados para las consultas de atributos de archivo
+		 * en my_dread().
 		 */
 		safe_setuid_grab();
 		no_entry = !my_dread((*pg)->d, fname, sizeof(fname));
@@ -1232,7 +1231,7 @@ bool got_savefile(savefile_getter *pg)
 		}
 
 #ifdef SETGID
-		/* Check that the savefile name begins with the user's ID. */
+		/* Verificar que el nombre del archivo guardado comienza con el ID del usuario. */
 		if (!prefix(fname, (*pg)->uid_c)) {
 			continue;
 		}
@@ -1257,7 +1256,7 @@ bool got_savefile(savefile_getter *pg)
 
 
 /**
- * Return whether the savefile directory was at all readable.
+ * Devolver si el directorio de archivos guardados era al menos legible.
  */
 bool got_savefile_dir(const savefile_getter g)
 {
@@ -1266,11 +1265,11 @@ bool got_savefile_dir(const savefile_getter g)
 
 
 /**
- * Return the details for a savefile enumerated by a prior call to
+ * Devolver los detalles para un archivo guardado enumerado por una llamada anterior a
  * got_savefile().
  *
- * \return is NULL if the prior call to get_savefile() failed.  Otherwise,
- * returns a non-null pointer with the details about the enumerated savefile.
+ * \return es NULL si la llamada anterior a get_savefile() falló. En caso contrario,
+ * devuelve un puntero no nulo con los detalles sobre el archivo guardado enumerado.
  */
 const struct savefile_details *get_savefile_details(const savefile_getter g)
 {
@@ -1279,7 +1278,7 @@ const struct savefile_details *get_savefile_details(const savefile_getter g)
 
 
 /**
- * Cleanup resources allocated by got_savefile().
+ * Limpiar los recursos asignados por got_savefile().
  */
 void cleanup_savefile_getter(savefile_getter g)
 {

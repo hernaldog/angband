@@ -1,6 +1,6 @@
 /**
  * \file player-util.c
- * \brief Player utility functions
+ * \brief Funciones de utilidad del jugador
  *
  * Copyright (c) 2011 The Angband Developers. See COPYING.
  *
@@ -46,26 +46,25 @@
 #include "ui-input.h"
 
 /**
- * Increment to the next or decrement to the preceeding level
-   accounting for the stair skip value in constants
-   Keep in mind to check all intermediate level for unskippable
-   quests
+ * Incrementar al siguiente nivel o decrementar al nivel anterior
+   teniendo en cuenta el valor de salto de escaleras en las constantes
+   Recordar verificar todos los niveles intermedios para misiones no omitibles
 */
 int dungeon_get_next_level(struct player *p, int dlev, int added)
 {
 	int target_level, i;
 
-	/* Get target level */
+	/* Obtener nivel objetivo */
 	target_level = dlev + added * z_info->stair_skip;
 
-	/* Don't allow levels below max */
+	/* No permitir niveles por debajo del máximo */
 	if (target_level > z_info->max_depth - 1)
 		target_level = z_info->max_depth - 1;
 
-	/* Don't allow levels above the town */
+	/* No permitir niveles por encima de la ciudad */
 	if (target_level < 0) target_level = 0;
 
-	/* Check intermediate levels for quests */
+	/* Verificar niveles intermedios para misiones */
 	for (i = dlev; i <= target_level; i++) {
 		if (is_quest(p, i)) return i;
 	}
@@ -74,13 +73,13 @@ int dungeon_get_next_level(struct player *p, int dlev, int added)
 }
 
 /**
- * Set recall depth for a player recalling from town
+ * Establecer la profundidad de retorno para un jugador que recuerda desde la ciudad
  */
 void player_set_recall_depth(struct player *p)
 {
-	/* Account for forced descent */
+	/* Tener en cuenta el descenso forzado */
 	if (OPT(p, birth_force_descend)) {
-		/* Force descent to a lower level if allowed */
+		/* Forzar descenso a un nivel inferior si está permitido */
 		if (p->max_depth < z_info->max_depth - 1
 				&& !is_quest(p, p->max_depth)) {
 			p->recall_depth = dungeon_get_next_level(p,
@@ -88,14 +87,14 @@ void player_set_recall_depth(struct player *p)
 		}
 	}
 
-	/* Players who haven't left town before go to level 1 */
+	/* Los jugadores que nunca han salido de la ciudad van al nivel 1 */
 	p->recall_depth = MAX(p->recall_depth, 1);
 }
 
 /**
- * Give the player the choice of persistent level to recall to.  Note that if
- * a level greater than the player's maximum depth is chosen, we silently go
- * to the maximum depth.
+ * Dar al jugador la opción de nivel persistente al que recordar. Nótese que si
+ * se elige un nivel mayor que la profundidad máxima del jugador, vamos silenciosamente
+ * a la profundidad máxima.
  */
 bool player_get_recall_depth(struct player *p)
 {
@@ -103,24 +102,24 @@ bool player_get_recall_depth(struct player *p)
 	int new = 0;
 
 	/*
-	 * No choice when have not entered the dungeon or descent is forced,
-	 * so do not prompt.
+	 * Sin opción cuando no se ha entrado en la mazmorra o el descenso es forzado,
+	 * así que no preguntar.
 	 */
 	if (p->max_depth <= 0 || OPT(p, birth_force_descend)) {
 		return true;
 	}
 	while (!level_ok) {
 		const char *prompt =
-			"Which level do you wish to return to (0 to cancel)? ";
+			"¿A qué nivel deseas volver (0 para cancelar)? ";
 		int i;
 
-		/* Choose the level */
+		/* Elegir el nivel */
 		new = get_quantity(prompt, p->max_depth);
 		if (new == 0) {
 			return false;
 		}
 
-		/* Is that level valid? */
+		/* ¿Es válido ese nivel? */
 		for (i = 0; i < chunk_list_max; i++) {
 			if (chunk_list[i]->depth == new) {
 				level_ok = true;
@@ -128,7 +127,7 @@ bool player_get_recall_depth(struct player *p)
 			}
 		}
 		if (!level_ok) {
-			msg("You must choose a level you have previously visited.");
+			msg("Debes elegir un nivel que hayas visitado anteriormente.");
 		}
 	}
 	p->recall_depth = new;
@@ -136,37 +135,37 @@ bool player_get_recall_depth(struct player *p)
 }
 
 /**
- * Change dungeon level - e.g. by going up stairs or with WoR.
+ * Cambiar de nivel de mazmorra - ej. subiendo escaleras o con Palabra de Retorno.
  */
 void dungeon_change_level(struct player *p, int dlev)
 {
-	/* New depth */
+	/* Nueva profundidad */
 	p->depth = dlev;
 
-	/* If we're returning to town, update the store contents
-	   according to how long we've been away */
+	/* Si volvemos a la ciudad, actualizar el contenido de las tiendas
+	   según cuánto tiempo hemos estado fuera */
 	if (!dlev && daycount)
 		store_update();
 
-	/* Leaving, make new level */
+	/* Salir, hacer nuevo nivel */
 	p->upkeep->generate_level = true;
 
-	/* Save the game when we arrive on the new level. */
+	/* Guardar la partida cuando lleguemos al nuevo nivel. */
 	p->upkeep->autosave = true;
 }
 
 
 /**
- * Returns what an incoming damage amount would be after applying a player's
- * damage reduction.
+ * Devuelve cuál sería una cantidad de daño entrante después de aplicar la reducción
+ * de daño del jugador.
  *
- * \param p is the player of interest.
- * \param dam is the incoming damaage amount.
- * \return the damage after the player's damage reduction, if any.
+ * \param p es el jugador de interés.
+ * \param dam es la cantidad de daño entrante.
+ * \return el daño después de la reducción de daño del jugador, si la hay.
  */
 int player_apply_damage_reduction(struct player *p, int dam)
 {
-	/* Mega-Hack -- Apply "invulnerability" */
+	/* Mega-Truco -- Aplicar "in vulnerabilidad" */
 	if (p->timed[TMD_INVULN] && (dam < 9000)) return 0;
 
 	dam -= p->state.dam_red;
@@ -179,20 +178,15 @@ int player_apply_damage_reduction(struct player *p, int dam)
 
 
 /**
- * Decreases players hit points and sets death flag if necessary
+ * Disminuye los puntos de golpe del jugador y establece la bandera de muerte si es necesario
  *
- * \param p is the player of interest.
- * \param dam is the amount of damage to apply.  If dam is less than
- * or equal to zero, nothing will be done.  The amount of damage should have
- * been processed with player_apply_damage_reduction(); that is not done
- * internally here so the caller can display messages that include the amount of
- * damage.
- * \param kb_str is the null-terminated string describing the cause of the
- * damage.
+ * \param p es el jugador de interés.
+ * \param dam es la cantidad de daño a aplicar. Si dam es menor o igual a cero, no se hará nada. La cantidad de daño debería haber sido procesada con player_apply_damage_reduction(); eso no se hace internamente aquí para que la función llamadora pueda mostrar mensajes que incluyan la cantidad de daño.
+ * \param kb_str es la cadena terminada en nulo que describe la causa del daño.
  *
- * This function allows the user to save (or quit) the game
- * when he dies, since the "You die." message is shown before setting
- * the player to "dead".
+ * Esta función permite al usuario guardar (o salir) del juego
+ * cuando muere, ya que el mensaje "Moriste." se muestra antes de establecer
+ * al jugador como "muerto".
  */
 void take_hit(struct player *p, int dam, const char *kb_str)
 {
@@ -203,80 +197,79 @@ void take_hit(struct player *p, int dam, const char *kb_str)
 	/* Paranoia */
 	if (p->is_dead || dam <= 0) return;
 
-	/* Disturb */
+	/* Molestar */
 	disturb(p);
 
-	/* Hurt the player */
+	/* Herir al jugador */
 	p->chp -= dam;
 
-	/* Reward COMBAT_REGEN characters with mana for their lost hitpoints
-	 * Unenviable task of separating what should and should not cause rage
-	 * If we eliminate the most exploitable cases it should be fine.
-	 * All traps and lava currently give mana, which could be exploited  */
-	if (player_has(p, PF_COMBAT_REGEN)  && !streq(kb_str, "poison")
-		&& !streq(kb_str, "a fatal wound") && !streq(kb_str, "starvation")) {
-		/* lose X% of hitpoints get X% of spell points */
+	/* Recompensar a los personajes COMBAT_REGEN con maná por los puntos de golpe perdidos
+	 * La tarea poco envidiable de separar lo que debería y no debería causar ira
+	 * Si eliminamos los casos más explotables debería estar bien.
+	 * Todas las trampas y lava actualmente dan maná, lo que podría ser explotado */
+	if (player_has(p, PF_COMBAT_REGEN)  && !streq(kb_str, "veneno")
+		&& !streq(kb_str, "una herida mortal") && !streq(kb_str, "inanición")) {
+		/* perder X% de puntos de golpe obtener X% de puntos de hechizo */
 		int32_t sp_gain = (((int32_t)MAX(p->msp, 10)) * 65536)
 			/ (int32_t)p->mhp * dam;
 		player_adjust_mana_precise(p, sp_gain);
 	}
 
-	/* Display the hitpoints */
+	/* Mostrar los puntos de golpe */
 	p->upkeep->redraw |= (PR_HP);
 
-	/* Dead player */
+	/* Jugador muerto */
 	if (p->chp < 0) {
-		/* From hell's heart I stab at thee */
+		/* Desde el corazón del infierno te apuñalo */
 		if (p->timed[TMD_BLOODLUST]
 			&& (p->chp + p->timed[TMD_BLOODLUST] + p->lev >= 0)) {
 			if (randint0(10)) {
-				msg("Your lust for blood keeps you alive!");
+				msg("¡Tu sed de sangre te mantiene con vida!");
 			} else {
-				msg("So great was his prowess and skill in warfare, the Elves said: ");
-				msg("'The Mormegil cannot be slain, save by mischance.'");
+				msg("Tan grande era su destreza y habilidad en la guerra, que los Elfos decían: ");
+				msg("'El Mormegil no puede ser asesinado, salvo por desgracia.'");
 			}
 		} else {
 			/*
-			 * Note cause of death.  Do it here so EVENT_CHEAT_DEATH
-			 * handlers or things looking for the "Die? " prompt
-			 * (the borg, for instance), have access to it.
+			 * Anotar la causa de la muerte. Hacerlo aquí para que los manejadores de EVENT_CHEAT_DEATH
+			 * o las cosas que buscan el mensaje "¿Morir? " (el borg, por ejemplo), tengan acceso a ella.
 			 */
 			my_strcpy(p->died_from, kb_str, sizeof(p->died_from));
 
 			if ((p->wizard || OPT(p, cheat_live))
-					&& !get_check("Die? ")) {
+					&& !get_check("¿Morir? ")) {
 				event_signal(EVENT_CHEAT_DEATH);
 			} else {
-				/* Note death */
-				msgt(MSG_DEATH, "You die.");
+				/* Anotar muerte */
+				msgt(MSG_DEATH, "Moriste.");
 				event_signal(EVENT_MESSAGE_FLUSH);
 
-				/* No longer a winner */
+				/* Ya no es un ganador */
 				p->total_winner = false;
 
-				/* Note death */
+				/* Anotar muerte */
 				p->is_dead = true;
 
-				/* Dead */
+				/* Muerto */
 				return;
 			}
 		}
 	}
 
-	/* Hitpoint warning */
+	/* Advertencia de puntos de golpe */
 	if (p->chp < warning) {
-		/* Bell on first notice */
+		/* Tocar campana en el primer aviso */
 		if (old_chp > warning)
 			bell();
 
-		/* Message */
-		msgt(MSG_HITPOINT_WARN, "*** LOW HITPOINT WARNING! ***");
+		/* Mensaje */
+		msgt(MSG_HITPOINT_WARN, "*** ¡ADVERTENCIA DE PUNTOS DE GOLPE BAJOS! ***");
 		event_signal(EVENT_MESSAGE_FLUSH);
 	}
 }
 
 /**
- * Win or not, know inventory, home items and history upon death, enter score
+ * Ganador o no, conocer inventario, objetos del hogar e historia al morir, entrar en puntuación
  */
 void death_knowledge(struct player *p)
 {
@@ -284,7 +277,7 @@ void death_knowledge(struct player *p)
 	struct object *obj;
 	time_t death_time = (time_t)0;
 
-	/* Retire in the town in a good state */
+	/* Retirarse en la ciudad en buen estado */
 	if (p->total_winner) {
 		p->depth = 0;
 		my_strcpy(p->died_from, WINNING_HOW, sizeof(p->died_from));
@@ -308,17 +301,17 @@ void death_knowledge(struct player *p)
 
 	history_unmask_unknown(p);
 
-	/* Get time of death */
+	/* Obtener hora de la muerte */
 	(void)time(&death_time);
 	enter_score(p, &death_time);
 
-	/* Recalculate bonuses */
+	/* Recalcular bonificaciones */
 	p->upkeep->update |= (PU_BONUS);
 	handle_stuff(p);
 }
 
 /**
- * Energy per move, taking extra moves into account
+ * Energía por movimiento, teniendo en cuenta los movimientos extra
  */
 int energy_per_move(struct player *p)
 {
@@ -328,55 +321,55 @@ int energy_per_move(struct player *p)
 }
 
 /**
- * Modify a stat value by a "modifier", return new value
+ * Modificar un valor de estadística por un "modificador", devolver nuevo valor
  *
- * Stats go up: 3,4,...,17,18,18/10,18/20,...,18/220
- * Or even: 18/13, 18/23, 18/33, ..., 18/220
+ * Las estadísticas suben: 3,4,...,17,18,18/10,18/20,...,18/220
+ * O incluso: 18/13, 18/23, 18/33, ..., 18/220
  *
- * Stats go down: 18/220, 18/210,..., 18/10, 18, 17, ..., 3
- * Or even: 18/13, 18/03, 18, 17, ..., 3
+ * Las estadísticas bajan: 18/220, 18/210,..., 18/10, 18, 17, ..., 3
+ * O incluso: 18/13, 18/03, 18, 17, ..., 3
  */
 int16_t modify_stat_value(int value, int amount)
 {
 	int i;
 
-	/* Reward or penalty */
+	/* Recompensa o penalización */
 	if (amount > 0) {
-		/* Apply each point */
+		/* Aplicar cada punto */
 		for (i = 0; i < amount; i++) {
-			/* One point at a time */
+			/* Un punto a la vez */
 			if (value < 18) value++;
 
-			/* Ten "points" at a time */
+			/* Diez "puntos" a la vez */
 			else value += 10;
 		}
 	} else if (amount < 0) {
-		/* Apply each point */
+		/* Aplicar cada punto */
 		for (i = 0; i < (0 - amount); i++) {
-			/* Ten points at a time */
+			/* Diez puntos a la vez */
 			if (value >= 18+10) value -= 10;
 
-			/* Prevent weirdness */
+			/* Prevenir rarezas */
 			else if (value > 18) value = 18;
 
-			/* One point at a time */
+			/* Un punto a la vez */
 			else if (value > 3) value--;
 		}
 	}
 
-	/* Return new value */
+	/* Devolver nuevo valor */
 	return (value);
 }
 
 /**
- * Swap player's stats at random, retaining information so they can be
- * reverted to their original state.
+ * Intercambiar las estadísticas del jugador al azar, reteniendo información para que puedan ser
+ * revertidas a su estado original.
  */
 void player_scramble_stats(struct player *p)
 {
 	int max1, cur1, max2, cur2, i, j, swap;
 
-	/* Fisher-Yates shuffling algorithm */
+	/* Algoritmo de mezcla de Fisher-Yates */
 	for (i = STAT_MAX - 1; i > 0; --i) {
 		j = randint0(i);
 
@@ -390,7 +383,7 @@ void player_scramble_stats(struct player *p)
 		p->stat_max[j] = max1;
 		p->stat_cur[j] = cur1;
 
-		/* Record what we did */
+		/* Registrar lo que hicimos */
 		swap = p->stat_map[i];
 		assert(swap >= 0 && swap < STAT_MAX);
 		p->stat_map[i] = p->stat_map[j];
@@ -398,17 +391,17 @@ void player_scramble_stats(struct player *p)
 		p->stat_map[j] = swap;
 	}
 
-	/* Mark what else needs to be updated */
+	/* Marcar qué más necesita ser actualizado */
 	p->upkeep->update |= (PU_BONUS);
 }
 
 /**
- * Revert all prior swaps to the player's stats.  Has no effect if the
- * stats have not been swapped.
+ * Revertir todos los intercambios anteriores de las estadísticas del jugador. No tiene efecto si las
+ * estadísticas no han sido intercambiadas.
  */
 void player_fix_scramble(struct player *p)
 {
-	/* Figure out what stats should be */
+	/* Averiguar cuáles deberían ser las estadísticas */
 	int new_cur[STAT_MAX];
 	int new_max[STAT_MAX];
 	int i;
@@ -419,27 +412,27 @@ void player_fix_scramble(struct player *p)
 		new_max[p->stat_map[i]] = p->stat_max[i];
 	}
 
-	/* Apply new stats and reset stat_map */
+	/* Aplicar nuevas estadísticas y reiniciar stat_map */
 	for (i = 0; i < STAT_MAX; ++i) {
 		p->stat_cur[i] = new_cur[i];
 		p->stat_max[i] = new_max[i];
 		p->stat_map[i] = i;
 	}
 
-	/* Mark what else needs to be updated */
+	/* Marcar qué más necesita ser actualizado */
 	p->upkeep->update |= (PU_BONUS);
 }
 
 /**
- * Regenerate one turn's worth of hit points
+ * Regenerar el valor de un turno de puntos de golpe
  */
 void player_regen_hp(struct player *p)
 {
 	int32_t hp_gain;
-	int percent = 0;/* max 32k -> 50% of mhp; more accurately "pertwobytes" */
+	int percent = 0;/* máx 32k -> 50% de mhp; más exactamente "pertwobytes" */
 	int fed_pct, old_chp = p->chp;
 
-	/* Default regeneration */
+	/* Regeneración por defecto */
 	if (p->timed[TMD_FOOD] >= PY_FOOD_WEAK) {
 		percent = PY_REGEN_NORMAL;
 	} else if (p->timed[TMD_FOOD] >= PY_FOOD_FAINT) {
@@ -448,32 +441,32 @@ void player_regen_hp(struct player *p)
 		percent = PY_REGEN_FAINT;
 	}
 
-	/* Food bonus - better fed players regenerate up to 1/3 faster */
+	/* Bonificación por comida - los jugadores mejor alimentados regeneran hasta 1/3 más rápido */
 	fed_pct = p->timed[TMD_FOOD] / z_info->food_value;
 	percent *= 100 + fed_pct / 3;
 	percent /= 100;
 
-	/* Various things speed up regeneration */
+	/* Varias cosas aceleran la regeneración */
 	if (player_of_has(p, OF_REGEN))
 		percent *= 2;
 	if (player_resting_can_regenerate(p))
 		percent *= 2;
 
-	/* Some things slow it down */
+	/* Algunas cosas la ralentizan */
 	if (player_of_has(p, OF_IMPAIR_HP))
 		percent /= 2;
 
-	/* Various things interfere with physical healing */
+	/* Varias cosas interfieren con la curación física */
 	if (p->timed[TMD_PARALYZED]) percent = 0;
 	if (p->timed[TMD_POISONED]) percent = 0;
 	if (p->timed[TMD_STUN]) percent = 0;
 	if (p->timed[TMD_CUT]) percent = 0;
 
-	/* Extract the new hitpoints */
+	/* Extraer los nuevos puntos de golpe */
 	hp_gain = (int32_t)(p->mhp * percent) + PY_REGEN_HPBASE;
 	player_adjust_hp_precise(p, hp_gain);
 
-	/* Notice changes */
+	/* Notar cambios */
 	if (old_chp != p->chp) {
 		equip_learn_flag(p, OF_REGEN);
 		equip_learn_flag(p, OF_IMPAIR_HP);
@@ -482,20 +475,20 @@ void player_regen_hp(struct player *p)
 
 
 /**
- * Regenerate one turn's worth of mana
+ * Regenerar el valor de un turno de maná
  */
 void player_regen_mana(struct player *p)
 {
 	int32_t sp_gain;
 	int percent, old_csp = p->csp;
 
-	/* Save the old spell points */
+	/* Guardar los viejos puntos de hechizo */
 	old_csp = p->csp;
 
-	/* Default regeneration */
+	/* Regeneración por defecto */
 	percent = PY_REGEN_NORMAL;
 
-	/* Various things speed up regeneration, but shouldn't punish healthy BGs */
+	/* Varias cosas aceleran la regeneración, pero no deberían castigar a los BG saludables */
 	if (!(player_has(p, PF_COMBAT_REGEN) && p->chp  > p->mhp / 2)) {
 		if (player_of_has(p, OF_REGEN))
 			percent *= 2;
@@ -503,25 +496,25 @@ void player_regen_mana(struct player *p)
 			percent *= 2;
 	}
 
-	/* Some things slow it down */
+	/* Algunas cosas la ralentizan */
 	if (player_has(p, PF_COMBAT_REGEN)) {
 		percent /= -2;
 	} else if (player_of_has(p, OF_IMPAIR_MANA)) {
 		percent /= 2;
 	}
 
-	/* Regenerate mana */
+	/* Regenerar maná */
 	sp_gain = (int32_t)(p->msp * percent);
 	if (percent >= 0)
 		sp_gain += PY_REGEN_MNBASE;
 	sp_gain = player_adjust_mana_precise(p, sp_gain);
 
-	/* SP degen heals BGs at double efficiency vs casting */
+	/* La degen de SP cura a los BG al doble de eficiencia que lanzar */
 	if (sp_gain < 0  && player_has(p, PF_COMBAT_REGEN)) {
 		convert_mana_to_hp(p, -sp_gain * 2);
 	}
 
-	/* Notice changes */
+	/* Notar cambios */
 	if (old_csp != p->csp) {
 		p->upkeep->redraw |= (PR_MANA);
 		equip_learn_flag(p, OF_REGEN);
@@ -532,10 +525,10 @@ void player_regen_mana(struct player *p)
 void player_adjust_hp_precise(struct player *p, int32_t hp_gain)
 {
 	int16_t old_16 = p->chp;
-	/* Load it all into 4 byte format */
+	/* Cargar todo en formato de 4 bytes */
 	int32_t old_32 = ((int32_t) old_16) * 65536 + p->chp_frac, new_32;
 
-	/* Check for overflow */
+	/* Comprobar desbordamiento */
 	if (hp_gain >= 0) {
 		new_32 = (old_32 < INT32_MAX - hp_gain) ?
 			old_32 + hp_gain : INT32_MAX;
@@ -544,11 +537,11 @@ void player_adjust_hp_precise(struct player *p, int32_t hp_gain)
 			old_32 + hp_gain : INT32_MIN;
 	}
 
-	/* Break it back down */
+	/* Descomponerlo de nuevo */
 	if (new_32 < 0) {
 		/*
-		 * Don't use right bitwise shift on negative values:  whether
-		 * the left bits are zero or one depends on the system.
+		 * No usar desplazamiento de bits a la derecha en valores negativos: si
+		 * los bits de la izquierda son cero o uno depende del sistema.
 		 */
 		int32_t remainder = new_32 % 65536;
 
@@ -566,7 +559,7 @@ void player_adjust_hp_precise(struct player *p, int32_t hp_gain)
 		p->chp_frac = (uint16_t)(new_32 & 0xFFFF); /* mod 65536 */
 	}
 
-	/* Fully healed */
+	/* Completamente curado */
 	if (p->chp >= p->mhp) {
 		p->chp = p->mhp;
 		p->chp_frac = 0;
@@ -579,18 +572,18 @@ void player_adjust_hp_precise(struct player *p, int32_t hp_gain)
 
 
 /**
- * Accept a 4 byte signed int, divide it by 65k, and add
- * to current spell points. p->csp and csp_frac are 2 bytes each.
+ * Aceptar un entero con signo de 4 bytes, dividirlo por 65k, y añadirlo
+ * a los puntos de hechizo actuales. p->csp y csp_frac tienen 2 bytes cada uno.
  */
 int32_t player_adjust_mana_precise(struct player *p, int32_t sp_gain)
 {
 	int16_t old_16 = p->csp;
-	/* Load it all into 4 byte format*/
+	/* Cargar todo en formato de 4 bytes*/
 	int32_t old_32 = ((int32_t) p->csp) * 65536 + p->csp_frac, new_32;
 
 	if (sp_gain == 0) return 0;
 
-	/* Check for overflow */
+	/* Comprobar desbordamiento */
 	if (sp_gain > 0) {
 		if (old_32 < INT32_MAX - sp_gain) {
 			new_32 = old_32 + sp_gain;
@@ -605,11 +598,11 @@ int32_t player_adjust_mana_precise(struct player *p, int32_t sp_gain)
 		sp_gain = 0;
 	}
 
-	/* Break it back down*/
+	/* Descomponerlo de nuevo*/
 	if (new_32 < 0) {
 		/*
-		 * Don't use right bitwise shift on negative values:  whether
-		 * the left bits are zero or one depends on the system.
+		 * No usar desplazamiento de bits a la derecha en valores negativos: si
+		 * los bits de la izquierda son cero o uno depende del sistema.
 		 */
 		int32_t remainder = new_32 % 65536;
 
@@ -627,7 +620,7 @@ int32_t player_adjust_mana_precise(struct player *p, int32_t sp_gain)
 		p->csp_frac = (uint16_t)(new_32 & 0xFFFF);    /* mod 65536 */
 	}
 
-	/* Max/min SP */
+	/* SP máx/mín */
 	if (p->csp >= p->msp) {
 		p->csp = p->msp;
 		p->csp_frac = 0;
@@ -638,13 +631,13 @@ int32_t player_adjust_mana_precise(struct player *p, int32_t sp_gain)
 		sp_gain = 0;
 	}
 
-	/* Notice changes */
+	/* Notar cambios */
 	if (old_16 != p->csp) {
 		p->upkeep->redraw |= (PR_MANA);
 	}
 
 	if (sp_gain == 0) {
-		/* Recalculate */
+		/* Recalcular */
 		new_32 = ((int32_t) p->csp) * 65536 + p->csp_frac;
 		sp_gain = new_32 - old_32;
 	}
@@ -657,65 +650,65 @@ void convert_mana_to_hp(struct player *p, int32_t sp_long) {
 
 	if (sp_long <= 0 || p->msp == 0 || p->mhp == p->chp) return;
 
-	/* Total HP from max */
+	/* HP totales desde el máximo */
 	hp_gain = ((int32_t)(p->mhp - p->chp)) * 65536;
 	hp_gain -= (int32_t)p->chp_frac;
 
-	/* Spend X% of SP get X/2% of lost HP. E.g., at 50% HP get X/4% */
-	/* Gain stays low at msp<10 because MP gains are generous at msp<10 */
-	/* sp_ratio is max sp to spent sp, doubled to suit target rate. */
+	/* Gastar X% de SP obtener X/2% de HP perdidos. Ej., al 50% HP obtener X/4% */
+	/* La ganancia se mantiene baja con msp<10 porque las ganancias de MP son generosas con msp<10 */
+	/* sp_ratio es sp máximo a sp gastado, duplicado para ajustarse a la tasa objetivo. */
 	sp_ratio = (((int32_t)MAX(10, (int32_t)p->msp)) * 131072) / sp_long;
 
-	/* Limit max healing to 25% of damage; ergo spending > 50% msp
-	 * is inefficient */
+	/* Limitar la curación máxima al 25% del daño; por lo tanto, gastar > 50% de msp
+	 * es ineficiente */
 	if (sp_ratio < 4) {sp_ratio = 4;}
 	hp_gain /= sp_ratio;
 
-	/* DAVIDTODO Flavorful comments on large gains would be fun and informative */
+	/* DAVIDTODO Comentarios descriptivos sobre grandes ganancias serían divertidos e informativos */
 
 	player_adjust_hp_precise(p, hp_gain);
 }
 
 /**
- * Update the player's light fuel
+ * Actualizar el combustible de la luz del jugador
  */
 void player_update_light(struct player *p)
 {
-	/* Check for light being wielded */
+	/* Verificar si se está usando una luz */
 	struct object *obj = equipped_item_by_slot_name(p, "light");
 
-	/* Burn some fuel in the current light */
+	/* Quemar algo de combustible en la luz actual */
 	if (obj && tval_is_light(obj)) {
 		bool burn_fuel = true;
 
-		/* Turn off the wanton burning of light during the day in the town */
+		/* Apagar la quema imprudente de luz durante el día en la ciudad */
 		if (!p->depth && is_daytime())
 			burn_fuel = false;
 
-		/* If the light has the NO_FUEL flag, well... */
+		/* Si la luz tiene la bandera NO_FUEL, pues... */
 		if (of_has(obj->flags, OF_NO_FUEL))
 		    burn_fuel = false;
 
-		/* Use some fuel (except on artifacts, or during the day) */
+		/* Usar algo de combustible (excepto en artefactos, o durante el día) */
 		if (burn_fuel && obj->timeout > 0) {
-			/* Decrease life-span */
+			/* Disminuir vida útil */
 			obj->timeout--;
 
-			/* Notice interesting fuel steps */
+			/* Notar pasos de combustible interesantes */
 			if ((obj->timeout < 100) || (!(obj->timeout % 100)))
-				/* Redraw stuff */
+				/* Redibujar cosas */
 				p->upkeep->redraw |= (PR_EQUIP);
 
-			/* Special treatment when blind */
+			/* Tratamiento especial cuando está ciego */
 			if (p->timed[TMD_BLIND]) {
-				/* Save some light for later */
+				/* Guardar algo de luz para después */
 				if (obj->timeout == 0) obj->timeout++;
 			} else if (obj->timeout == 0) {
-				/* The light is now out */
+				/* La luz ahora se ha apagado */
 				disturb(p);
-				msg("Your light has gone out!");
+				msg("¡Tu luz se ha apagado!");
 
-				/* If it's a torch, now is the time to delete it */
+				/* Si es una antorcha, ahora es el momento de eliminarla */
 				if (of_has(obj->flags, OF_BURNS_OUT)) {
 					bool dummy;
 					struct object *burnt =
@@ -726,27 +719,27 @@ void player_update_light(struct player *p)
 					object_delete(cave, p->cave, &burnt);
 				}
 			} else if ((obj->timeout < 50) && (!(obj->timeout % 20))) {
-				/* The light is getting dim */
+				/* La luz se está volviendo tenue */
 				disturb(p);
-				msg("Your light is growing faint.");
+				msg("Tu luz se está volviendo tenue.");
 			}
 		}
 	}
 
-	/* Calculate torch radius */
+	/* Calcular radio de la antorcha */
 	p->upkeep->update |= (PU_TORCH);
 }
 
 /**
- * Find the player's best digging tool.  If forbid_stack is true, ignores
- * stacks of more than one item.
+ * Encontrar la mejor herramienta de excavación del jugador. Si forbid_stack es true, ignora
+ * montones de más de un objeto.
  */
 struct object *player_best_digger(struct player *p, bool forbid_stack)
 {
 	int weapon_slot = slot_by_name(p, "weapon");
 	struct object *current_weapon = slot_object(p, weapon_slot);
 	struct object *obj, *best = NULL;
-	/* Prefer any melee weapon over unarmed digging, i.e. best == NULL. */
+	/* Preferir cualquier arma cuerpo a cuerpo sobre la excavación sin armas, ej. best == NULL. */
 	int best_score = -1;
 	struct player_state local_state;
 
@@ -754,10 +747,10 @@ struct object *player_best_digger(struct player *p, bool forbid_stack)
 		int score, old_number;
 		if (!tval_is_melee_weapon(obj)) continue;
 		if (obj->number < 1 || (forbid_stack && obj->number > 1)) continue;
-		/* Don't use it if it has a sticky curse. */
+		/* No usarlo si tiene una maldición pegajosa. */
 		if (!obj_can_takeoff(obj)) continue;
 
-		/* Swap temporarily for the calc_bonuses() computation. */
+		/* Intercambiar temporalmente para el cálculo de calc_bonuses(). */
 		old_number = obj->number;
 		if (obj != current_weapon) {
 			obj->number = 1;
@@ -765,15 +758,15 @@ struct object *player_best_digger(struct player *p, bool forbid_stack)
 		}
 
 		/*
-		 * Avoid side effects from using update set to false
-		 * with calc_bonuses().
+		 * Evitar efectos secundarios de usar update establecido a false
+		 * con calc_bonuses().
 		 */
 		local_state.stat_ind[STAT_STR] = 0;
 		local_state.stat_ind[STAT_DEX] = 0;
 		calc_bonuses(p, &local_state, true, false);
 		score = local_state.skills[SKILL_DIGGING];
 
-		/* Swap back. */
+		/* Intercambiar de vuelta. */
 		if (obj != current_weapon) {
 			obj->number = old_number;
 			p->body.slots[weapon_slot].obj = current_weapon;
@@ -789,22 +782,22 @@ struct object *player_best_digger(struct player *p, bool forbid_stack)
 }
 
 /**
- * Melee a random adjacent monster
+ * Atacar cuerpo a cuerpo a un monstruo adyacente aleatorio
  */
 bool player_attack_random_monster(struct player *p)
 {
 	int i, dir = randint0(8);
 
-	/* Confused players get a free pass */
+	/* Los jugadores confundidos tienen un pase libre */
 	if (p->timed[TMD_CONFUSED]) return false;
 
-	/* Look for a monster, attack */
+	/* Buscar un monstruo, atacar */
 	for (i = 0; i < 8; i++, dir++) {
 		struct loc grid = loc_sum(p->grid, ddgrid_ddd[dir % 8]);
 		const struct monster *mon = square_monster(cave, grid);
 		if (mon && !monster_is_camouflaged(mon)) {
 			p->upkeep->energy_use = z_info->move_energy;
-			msg("You angrily lash out at a nearby foe!");
+			msg("¡Atacas con furia a un enemigo cercano!");
 			py_attack(p, grid);
 			return true;
 		}
@@ -813,36 +806,36 @@ bool player_attack_random_monster(struct player *p)
 }
 
 /**
- * Have random bad stuff happen to the player from over-exertion
+ * Que le sucedan cosas malas aleatorias al jugador por sobreesfuerzo
  *
- * This function uses the PY_EXERT_* flags
+ * Esta función usa las banderas PY_EXERT_*
  */
 void player_over_exert(struct player *p, int flag, int chance, int amount)
 {
 	if (chance <= 0) return;
 
-	/* CON damage */
+	/* Daño a CON */
 	if (flag & PY_EXERT_CON) {
 		if (randint0(100) < chance) {
-			/* Hack - only permanent with high chance (no-mana casting) */
+			/* Truco - solo permanente con alta probabilidad (lanzamiento sin maná) */
 			bool perm = (randint0(100) < chance / 2) && (chance >= 50);
-			msg("You have damaged your health!");
+			msg("¡Has dañado tu salud!");
 			player_stat_dec(p, STAT_CON, perm);
 		}
 	}
 
-	/* Fainting */
+	/* Desmayo */
 	if (flag & PY_EXERT_FAINT) {
 		if (randint0(100) < chance) {
-			msg("You faint from the effort!");
+			msg("¡Te desmayas por el esfuerzo!");
 
-			/* Bypass free action */
+			/* Omitir acción libre */
 			(void)player_inc_timed(p, TMD_PARALYZED,
 				randint1(amount), true, true, false);
 		}
 	}
 
-	/* Scrambled stats */
+	/* Estadísticas mezcladas */
 	if (flag & PY_EXERT_SCRAMBLE) {
 		if (randint0(100) < chance) {
 			(void)player_inc_timed(p, TMD_SCRAMBLE,
@@ -850,16 +843,16 @@ void player_over_exert(struct player *p, int flag, int chance, int amount)
 		}
 	}
 
-	/* Cut damage */
+	/* Daño por cortes */
 	if (flag & PY_EXERT_CUT) {
 		if (randint0(100) < chance) {
-			msg("Wounds appear on your body!");
+			msg("¡Aparecen heridas en tu cuerpo!");
 			(void)player_inc_timed(p, TMD_CUT, randint1(amount),
 				true, true, false);
 		}
 	}
 
-	/* Confusion */
+	/* Confusión */
 	if (flag & PY_EXERT_CONF) {
 		if (randint0(100) < chance) {
 			(void)player_inc_timed(p, TMD_CONFUSED,
@@ -867,7 +860,7 @@ void player_over_exert(struct player *p, int flag, int chance, int amount)
 		}
 	}
 
-	/* Hallucination */
+	/* Alucinación */
 	if (flag & PY_EXERT_HALLU) {
 		if (randint0(100) < chance) {
 			(void)player_inc_timed(p, TMD_IMAGE, randint1(amount),
@@ -875,10 +868,10 @@ void player_over_exert(struct player *p, int flag, int chance, int amount)
 		}
 	}
 
-	/* Slowing */
+	/* Ralentización */
 	if (flag & PY_EXERT_SLOW) {
 		if (randint0(100) < chance) {
-			msg("You feel suddenly lethargic.");
+			msg("De repente te sientes letárgico.");
 			(void)player_inc_timed(p, TMD_SLOW, randint1(amount),
 				true, true, false);
 		}
@@ -895,20 +888,20 @@ void player_over_exert(struct player *p, int flag, int chance, int amount)
 				strnfmt(dam_text, sizeof(dam_text),
 					" (%d)", dam);
 			}
-			msg("You cry out in sudden pain!%s", dam_text);
-			take_hit(p, dam, "over-exertion");
+			msg("¡Gritas de repentino dolor!%s", dam_text);
+			take_hit(p, dam, "sobreesfuerzo");
 		}
 	}
 }
 
 
 /**
- * See how much damage the player will take from terrain.
+ * Ver cuánto daño recibirá el jugador del terreno.
  *
- * \param p is the player to check
- * \param grid is the location of the terrain
- * \param actual will, if true, cause the player to learn the appropriate
- * runes if equipment or effects mitigate the damage.
+ * \param p es el jugador a verificar
+ * \param grid es la ubicación del terreno
+ * \param actual, si es true, hará que el jugador aprenda las runas apropiadas
+ * si el equipo o los efectos mitigan el daño.
  */
 int player_check_terrain_damage(struct player *p, struct loc grid, bool actual)
 {
@@ -918,11 +911,11 @@ int player_check_terrain_damage(struct player *p, struct loc grid, bool actual)
 		int base_dam = 100 + randint1(100);
 		int res = p->state.el_info[ELEM_FIRE].res_level;
 
-		/* Fire damage */
+		/* Daño de fuego */
 		dam_taken = adjust_dam(p, ELEM_FIRE, base_dam, RANDOMISE, res,
 			actual);
 
-		/* Feather fall makes one lightfooted. */
+		/* Caída de pluma hace a uno ligero de pies. */
 		if (player_of_has(p, OF_FEATHER)) {
 			dam_taken /= 2;
 			if (actual) {
@@ -935,7 +928,7 @@ int player_check_terrain_damage(struct player *p, struct loc grid, bool actual)
 }
 
 /**
- * Terrain damages the player
+ * El terreno daña al jugador
  */
 void player_take_terrain_damage(struct player *p, struct loc grid)
 {
@@ -947,9 +940,9 @@ void player_take_terrain_damage(struct player *p, struct loc grid)
 	}
 
 	/*
-	 * Damage the player and inventory; inventory damage is based on
-	 * the raw incoming damage and not the value accounting for the
-	 * player's damage reduction.
+	 * Dañar al jugador y al inventario; el daño al inventario se basa en
+	 * el daño entrante bruto y no en el valor que tiene en cuenta la
+	 * reducción de daño del jugador.
 	 */
 	dam_reduced = player_apply_damage_reduction(p, dam_taken);
 	if (square_isfiery(cave, grid)) {
@@ -966,7 +959,7 @@ void player_take_terrain_damage(struct player *p, struct loc grid)
 }
 
 /**
- * Find a player shape from the name
+ * Encontrar una forma de jugador a partir del nombre
  */
 struct player_shape *lookup_player_shape(const char *name)
 {
@@ -977,12 +970,12 @@ struct player_shape *lookup_player_shape(const char *name)
 		}
 		shape = shape->next;
 	}
-	msg("Could not find %s shape!", name);
+	msg("¡No se pudo encontrar la forma %s!", name);
 	return NULL;
 }
 
 /**
- * Find a player shape index from the shape name
+ * Encontrar un índice de forma de jugador a partir del nombre de la forma
  */
 int shape_name_to_idx(const char *name)
 {
@@ -995,7 +988,7 @@ int shape_name_to_idx(const char *name)
 }
 
 /**
- * Find a player shape from the index
+ * Encontrar una forma de jugador a partir del índice
  */
 struct player_shape *player_shape_by_idx(int index)
 {
@@ -1006,61 +999,61 @@ struct player_shape *player_shape_by_idx(int index)
 		}
 		shape = shape->next;
 	}
-	msg("Could not find shape %d!", index);
+	msg("¡No se pudo encontrar la forma %d!", index);
 	return NULL;
 }
 
 /**
- * Give shapechanged players a choice of returning to normal shape and
- * performing a command, just returning to normal shape without acting, or
- * canceling.
+ * Dar a los jugadores con forma cambiada la opción de volver a la forma normal y
+ * realizar un comando, solo volver a la forma normal sin actuar, o
+ * cancelar.
  *
- * \param p the player
- * \param cmd the command being performed
- * \return true if the player wants to proceed with their command
+ * \param p el jugador
+ * \param cmd el comando que se está realizando
+ * \return true si el jugador quiere continuar con su comando
  */
 bool player_get_resume_normal_shape(struct player *p, struct command *cmd)
 {
 	if (player_is_shapechanged(p)) {
-		msg("You cannot do this while in %s form.", p->shape->name);
+		msg("No puedes hacer esto mientras estás en forma de %s.", p->shape->name);
 		char prompt[100];
 		strnfmt(prompt, sizeof(prompt),
-		        "Change back and %s (y/n) or (r)eturn to normal? ",
+		        "¿Cambiar y %s (s/n) o (v)olver a la forma normal? ",
 		        cmd_verb(cmd->code));
-		char answer = get_char(prompt, "yrn", 3, 'n');
+		char answer = get_char(prompt, "svn", 3, 'n');
 
-		// Change back to normal shape
-		if (answer == 'y' || answer == 'r') {
+		// Cambiar de vuelta a la forma normal
+		if (answer == 's' || answer == 'v') {
 			player_resume_normal_shape(p);
 		}
 
-		// Players may only act if they return to normal shape
-		return answer == 'y';
+		// Los jugadores solo pueden actuar si vuelven a la forma normal
+		return answer == 's';
 	}
 
-	// Normal shape players can proceed as usual
+	// Los jugadores en forma normal pueden proceder como siempre
 	return true;
 }
 
 /**
- * Revert to normal shape
+ * Revertir a la forma normal
  */
 void player_resume_normal_shape(struct player *p)
 {
 	p->shape = lookup_player_shape("normal");
-	msg("You resume your usual shape.");
+	msg("Retomas tu forma habitual.");
 
-	/* Kill vampire attack */
+	/* Matar ataque de vampiro */
 	(void) player_clear_timed(p, TMD_ATT_VAMP, true, false);
 
-	/* Update */
+	/* Actualizar */
 	p->upkeep->update |= (PU_BONUS);
 	p->upkeep->redraw |= (PR_TITLE | PR_MISC);
 	handle_stuff(p);
 }
 
 /**
- * Check if the player is shapechanged
+ * Verificar si el jugador ha cambiado de forma
  */
 bool player_is_shapechanged(const struct player *p)
 {
@@ -1068,7 +1061,7 @@ bool player_is_shapechanged(const struct player *p)
 }
 
 /**
- * Check if the player is immune from traps
+ * Verificar si el jugador es inmune a las trampas
  */
 bool player_is_trapsafe(const struct player *p)
 {
@@ -1078,31 +1071,30 @@ bool player_is_trapsafe(const struct player *p)
 }
 
 /**
- * Return true if the player can cast a spell.
+ * Devolver true si el jugador puede lanzar un hechizo.
  *
- * \param p is the player
- * \param show_msg should be set to true if a failure message should be
- * displayed.
+ * \param p es el jugador
+ * \param show_msg debe ser true si se debe mostrar un mensaje de fallo.
  */
 bool player_can_cast(const struct player *p, bool show_msg)
 {
 	if (!p->class->magic.total_spells) {
 		if (show_msg) {
-			msg("You cannot pray or produce magics.");
+			msg("No puedes rezar o producir magias.");
 		}
 		return false;
 	}
 
 	if (p->timed[TMD_BLIND] || no_light(p)) {
 		if (show_msg) {
-			msg("You cannot see!");
+			msg("¡No puedes ver!");
 		}
 		return false;
 	}
 
 	if (p->timed[TMD_CONFUSED]) {
 		if (show_msg) {
-			msg("You are too confused!");
+			msg("¡Estás demasiado confundido!");
 		}
 		return false;
 	}
@@ -1111,11 +1103,10 @@ bool player_can_cast(const struct player *p, bool show_msg)
 }
 
 /**
- * Return true if the player can study a spell.
+ * Devolver true si el jugador puede estudiar un hechizo.
  *
- * \param p is the player
- * \param show_msg should be set to true if a failure message should be
- * displayed.
+ * \param p es el jugador
+ * \param show_msg debe ser true si se debe mostrar un mensaje de fallo.
  */
 bool player_can_study(const struct player *p, bool show_msg)
 {
@@ -1139,7 +1130,7 @@ bool player_can_study(const struct player *p, bool show_msg)
 					if (count) {
 						my_strcat(buf, ", ", sizeof(buf));
 					} else {
-						my_strcat(buf, " or ", sizeof(buf));
+						my_strcat(buf, " o ", sizeof(buf));
 					}
 					my_strcat(buf, r->spell_noun, sizeof(buf));
 					my_strcat(buf, "s", sizeof(buf));
@@ -1148,7 +1139,7 @@ bool player_can_study(const struct player *p, bool show_msg)
 					r = r1;
 				}
 			}
-			msg("You cannot learn any new %s!", buf);
+			msg("¡No puedes aprender ningún %s nuevo!", buf);
 		}
 		return false;
 	}
@@ -1157,38 +1148,37 @@ bool player_can_study(const struct player *p, bool show_msg)
 }
 
 /**
- * Return true if the player can read scrolls or books.
+ * Devolver true si el jugador puede leer pergaminos o libros.
  *
- * \param p is the player
- * \param show_msg should be set to true if a failure message should be
- * displayed.
+ * \param p es el jugador
+ * \param show_msg debe ser true si se debe mostrar un mensaje de fallo.
  */
 bool player_can_read(const struct player *p, bool show_msg)
 {
 	if (p->timed[TMD_BLIND]) {
 		if (show_msg)
-			msg("You can't see anything.");
+			msg("No puedes ver nada.");
 
 		return false;
 	}
 
 	if (no_light(p)) {
 		if (show_msg)
-			msg("You have no light to read by.");
+			msg("No tienes luz para leer.");
 
 		return false;
 	}
 
 	if (p->timed[TMD_CONFUSED]) {
 		if (show_msg)
-			msg("You are too confused to read!");
+			msg("¡Estás demasiado confundido para leer!");
 
 		return false;
 	}
 
 	if (p->timed[TMD_AMNESIA]) {
 		if (show_msg)
-			msg("You can't remember how to read!");
+			msg("¡No recuerdas cómo leer!");
 
 		return false;
 	}
@@ -1197,20 +1187,19 @@ bool player_can_read(const struct player *p, bool show_msg)
 }
 
 /**
- * Return true if the player can fire something with a launcher.
+ * Devolver true si el jugador puede disparar algo con un lanzador.
  *
- * \param p is the player
- * \param show_msg should be set to true if a failure message should be
- * displayed.
+ * \param p es el jugador
+ * \param show_msg debe ser true si se debe mostrar un mensaje de fallo.
  */
 bool player_can_fire(struct player *p, bool show_msg)
 {
 	struct object *obj = equipped_item_by_slot_name(p, "shooting");
 
-	/* Require a usable launcher */
+	/* Requerir un lanzador utilizable */
 	if (!obj || !p->state.ammo_tval) {
 		if (show_msg)
-			msg("You have nothing to fire with.");
+			msg("No tienes nada con qué disparar.");
 		return false;
 	}
 
@@ -1218,11 +1207,10 @@ bool player_can_fire(struct player *p, bool show_msg)
 }
 
 /**
- * Return true if the player can refuel their light source.
+ * Devolver true si el jugador puede recargar su fuente de luz.
  *
- * \param p is the player
- * \param show_msg should be set to true if a failure message should be
- * displayed.
+ * \param p es el jugador
+ * \param show_msg debe ser true si se debe mostrar un mensaje de fallo.
  */
 bool player_can_refuel(struct player *p, bool show_msg)
 {
@@ -1233,15 +1221,15 @@ bool player_can_refuel(struct player *p, bool show_msg)
 	}
 
 	if (show_msg) {
-		msg("Your light cannot be refuelled.");
+		msg("Tu luz no se puede recargar.");
 	}
 
 	return false;
 }
 
 /**
- * Prerequisite function for command. See struct cmd_info in ui-input.h and
- * it's use in ui-game.c.
+ * Función de requisito previo para comandos. Ver struct cmd_info en ui-input.h y
+ * su uso en ui-game.c.
  */
 bool player_can_cast_prereq(void)
 {
@@ -1249,8 +1237,8 @@ bool player_can_cast_prereq(void)
 }
 
 /**
- * Prerequisite function for command. See struct cmd_info in ui-input.h and
- * it's use in ui-game.c.
+ * Función de requisito previo para comandos. Ver struct cmd_info en ui-input.h y
+ * su uso en ui-game.c.
  */
 bool player_can_study_prereq(void)
 {
@@ -1258,22 +1246,22 @@ bool player_can_study_prereq(void)
 }
 
 /**
- * Prerequisite function for command. See struct cmd_info in ui-input.h and
- * it's use in ui-game.c.
+ * Función de requisito previo para comandos. Ver struct cmd_info en ui-input.h y
+ * su uso en ui-game.c.
  */
 bool player_can_read_prereq(void)
 {
 	/*
-	 * Accommodate hacks elsewhere:  'r' is overloaded to mean
-	 * release a commanded monster when TMD_COMMAND is active.
+	 * Acomodar trucos en otras partes: 'r' está sobrecargado para significar
+	 * liberar un monstruo comandado cuando TMD_COMMAND está activo.
 	 */
 	return (player->timed[TMD_COMMAND]) ?
 		true : player_can_read(player, true);
 }
 
 /**
- * Prerequisite function for command. See struct cmd_info in ui-input.h and
- * it's use in ui-game.c.
+ * Función de requisito previo para comandos. Ver struct cmd_info en ui-input.h y
+ * su uso en ui-game.c.
  */
 bool player_can_fire_prereq(void)
 {
@@ -1281,8 +1269,8 @@ bool player_can_fire_prereq(void)
 }
 
 /**
- * Prerequisite function for command. See struct cmd_info in ui-input.h and
- * it's use in ui-game.c.
+ * Función de requisito previo para comandos. Ver struct cmd_info en ui-input.h y
+ * su uso en ui-game.c.
  */
 bool player_can_refuel_prereq(void)
 {
@@ -1290,8 +1278,8 @@ bool player_can_refuel_prereq(void)
 }
 
 /**
- * Prerequisite function for command. See struct cmd_info in ui-input.h and
- * it's use in ui-game.c.
+ * Función de requisito previo para comandos. Ver struct cmd_info en ui-input.h y
+ * su uso en ui-game.c.
  */
 bool player_can_debug_prereq(void)
 {
@@ -1299,7 +1287,7 @@ bool player_can_debug_prereq(void)
 		return true;
 	}
 	if (confirm_debug()) {
-		/* Mark savefile */
+		/* Marcar archivo guardado */
 		player->noscore |= NOSCORE_DEBUG;
 		return true;
 	}
@@ -1308,9 +1296,9 @@ bool player_can_debug_prereq(void)
 
 
 /**
- * Return true if the player has access to a book that has unlearned spells.
+ * Devolver true si el jugador tiene acceso a un libro que tiene hechizos no aprendidos.
  *
- * \param p is the player
+ * \param p es el jugador
  */
 bool player_book_has_unlearned_spells(struct player *p)
 {
@@ -1319,23 +1307,23 @@ bool player_book_has_unlearned_spells(struct player *p)
 	struct object **item_list = mem_zalloc(item_max * sizeof(struct object *));
 	int item_num;
 
-	/* Check if the player can learn new spells */
+	/* Verificar si el jugador puede aprender nuevos hechizos */
 	if (!p->upkeep->new_spells) {
 		mem_free(item_list);
 		return false;
 	}
 
-	/* Check through all available books */
+	/* Verificar todos los libros disponibles */
 	item_num = scan_items(item_list, item_max, p, USE_INVEN | USE_FLOOR,
 		obj_can_study);
 	for (i = 0; i < item_num; i++) {
 		const struct class_book *book = player_object_to_book(p, item_list[i]);
 		if (!book) continue;
 
-		/* Extract spells */
+		/* Extraer hechizos */
 		for (j = 0; j < book->num_spells; j++)
 			if (spell_okay_to_study(p, book->spells[j].sidx)) {
-				/* There is a spell the player can study */
+				/* Hay un hechizo que el jugador puede estudiar */
 				mem_free(item_list);
 				return true;
 			}
@@ -1346,9 +1334,9 @@ bool player_book_has_unlearned_spells(struct player *p)
 }
 
 /**
- * Apply confusion, if needed, to a direction
+ * Aplicar confusión, si es necesario, a una dirección
  *
- * Display a message and return true if direction changes.
+ * Mostrar un mensaje y devolver true si la dirección cambia.
  */
 bool player_confuse_dir(struct player *p, int *dp, bool too)
 {
@@ -1356,18 +1344,18 @@ bool player_confuse_dir(struct player *p, int *dp, bool too)
 
 	if (p->timed[TMD_CONFUSED]) {
 		if ((dir == 5) || (randint0(100) < 75)) {
-			/* Random direction */
+			/* Dirección aleatoria */
 			dir = ddd[randint0(8)];
 		}
 
-	/* Running attempts always fail */
+	/* Los intentos de correr siempre fallan */
 	if (too) {
-		msg("You are too confused.");
+		msg("Estás demasiado confundido.");
 		return true;
 	}
 
 	if (*dp != dir) {
-		msg("You are confused.");
+		msg("Estás confundido.");
 		*dp = dir;
 		return true;
 	}
@@ -1377,7 +1365,7 @@ bool player_confuse_dir(struct player *p, int *dp, bool too)
 }
 
 /**
- * Return true if the provided count is one of the conditional REST_ flags.
+ * Devolver true si el recuento proporcionado es uno de los REST_ condicionales.
  */
 bool player_resting_is_special(int16_t count)
 {
@@ -1392,7 +1380,7 @@ bool player_resting_is_special(int16_t count)
 }
 
 /**
- * Return true if the player is resting.
+ * Devolver true si el jugador está descansando.
  */
 bool player_is_resting(const struct player *p)
 {
@@ -1401,7 +1389,7 @@ bool player_is_resting(const struct player *p)
 }
 
 /**
- * Return the remaining number of resting turns.
+ * Devolver el número restante de turnos de descanso.
  */
 int16_t player_resting_count(const struct player *p)
 {
@@ -1409,43 +1397,43 @@ int16_t player_resting_count(const struct player *p)
 }
 
 /**
- * In order to prevent the regeneration bonus from the first few turns, we have
- * to store the number of turns the player has rested. Otherwise, the first
- * few turns will have the bonus and the last few will not.
+ * Para evitar la bonificación de regeneración de los primeros turnos, tenemos que
+ * almacenar el número de turnos que el jugador ha descansado. De lo contrario, los primeros
+ * pocos turnos tendrán la bonificación y los últimos no.
  */
 static int player_turns_rested = 0;
 static bool player_rest_disturb = false;
 
 /**
- * Set the number of resting turns.
+ * Establecer el número de turnos de descanso.
  *
- * \param p is the player trying to rest.
- * \param count is the number of turns to rest or one of the REST_ constants.
+ * \param p es el jugador que intenta descansar.
+ * \param count es el número de turnos a descansar o una de las constantes REST_.
  */
 void player_resting_set_count(struct player *p, int16_t count)
 {
-	/* Cancel if player is disturbed */
+	/* Cancelar si el jugador es molestado */
 	if (player_rest_disturb) {
 		p->upkeep->resting = 0;
 		player_rest_disturb = false;
 		return;
 	}
 
-	/* Ignore if the rest count is negative. */
+	/* Ignorar si el recuento de descanso es negativo. */
 	if ((count < 0) && !player_resting_is_special(count)) {
 		p->upkeep->resting = 0;
 		return;
 	}
 
-	/* Save the rest code */
+	/* Guardar el código de descanso */
 	p->upkeep->resting = count;
 
-	/* Truncate overlarge values */
+	/* Truncar valores demasiado grandes */
 	if (p->upkeep->resting > 9999) p->upkeep->resting = 9999;
 }
 
 /**
- * Cancel current rest.
+ * Cancelar el descanso actual.
  */
 void player_resting_cancel(struct player *p, bool disturb)
 {
@@ -1455,8 +1443,8 @@ void player_resting_cancel(struct player *p, bool disturb)
 }
 
 /**
- * Return true if the player should get a regeneration bonus for the current
- * rest.
+ * Devolver true si el jugador debería obtener una bonificación de regeneración por el
+ * descanso actual.
  */
 bool player_resting_can_regenerate(const struct player *p)
 {
@@ -1465,41 +1453,41 @@ bool player_resting_can_regenerate(const struct player *p)
 }
 
 /**
- * Perform one turn of resting. This only handles the bookkeeping of resting
- * itself, and does not calculate any possible other effects of resting (see
- * process_world() for regeneration).
+ * Realizar un turno de descanso. Esto solo maneja la contabilidad del descanso
+ * en sí mismo, y no calcula ningún posible otro efecto del descanso (ver
+ * process_world() para la regeneración).
  */
 void player_resting_step_turn(struct player *p)
 {
-	/* Timed rest */
+	/* Descanso cronometrado */
 	if (p->upkeep->resting > 0) {
-		/* Reduce rest count */
+		/* Reducir contador de descanso */
 		p->upkeep->resting--;
 
-		/* Redraw the state */
+		/* Redibujar el estado */
 		p->upkeep->redraw |= (PR_STATE);
 	}
 
-	/* Take a turn */
+	/* Gastar un turno */
 	p->upkeep->energy_use = z_info->move_energy;
 
-	/* Increment the resting counters */
+	/* Incrementar los contadores de descanso */
 	p->resting_turn++;
 	player_turns_rested++;
 }
 
 /**
- * Handle the conditions for conditional resting (resting with the REST_
- * constants).
+ * Manejar las condiciones para el descanso condicional (descansar con las constantes
+ * REST_).
  */
 void player_resting_complete_special(struct player *p)
 {
-	/* Complete resting */
+	/* Descanso completo */
 	if (!player_resting_is_special(p->upkeep->resting)) return;
 
 	if (p->upkeep->resting == REST_ALL_POINTS) {
 		if ((p->chp == p->mhp) && (p->csp == p->msp))
-			/* Stop resting */
+			/* Dejar de descansar */
 			disturb(p);
 	} else if (p->upkeep->resting == REST_COMPLETE) {
 		if ((p->chp == p->mhp) &&
@@ -1510,22 +1498,22 @@ void player_resting_complete_special(struct player *p)
 			!p->timed[TMD_CUT] && !p->timed[TMD_SLOW] &&
 			!p->timed[TMD_PARALYZED] && !p->timed[TMD_IMAGE] &&
 			!p->word_recall && !p->deep_descent)
-			/* Stop resting */
+			/* Dejar de descansar */
 			disturb(p);
 	} else if (p->upkeep->resting == REST_SOME_POINTS) {
 		if ((p->chp == p->mhp) || (p->csp == p->msp))
-			/* Stop resting */
+			/* Dejar de descansar */
 			disturb(p);
 	}
 }
 
-/* Record the player's last rest count for repeating */
+/* Registrar el último recuento de descanso del jugador para repetir */
 static int player_resting_repeat_count = 0;
 
 /**
- * Get the number of resting turns to repeat.
+ * Obtener el número de turnos de descanso a repetir.
  *
- * \param p The current player.
+ * \param p El jugador actual.
  */
 int player_get_resting_repeat_count(struct player *p)
 {
@@ -1533,10 +1521,10 @@ int player_get_resting_repeat_count(struct player *p)
 }
 
 /**
- * Set the number of resting turns to repeat.
+ * Establecer el número de turnos de descanso a repetir.
  *
- * \param p is the player trying to rest.
- * \param count is the number of turns requested for rest most recently.
+ * \param p es el jugador que intenta descansar.
+ * \param count es el número de turnos solicitados para descansar más recientemente.
  */
 void player_set_resting_repeat_count(struct player *p, int16_t count)
 {
@@ -1544,7 +1532,7 @@ void player_set_resting_repeat_count(struct player *p, int16_t count)
 }
 
 /**
- * Check if the player state has the given OF_ flag.
+ * Verificar si el estado del jugador tiene la bandera OF_ dada.
  */
 bool player_of_has(const struct player *p, int flag)
 {
@@ -1553,7 +1541,7 @@ bool player_of_has(const struct player *p, int flag)
 }
 
 /**
- * Check if the player resists (or better) an element
+ * Verificar si el jugador resiste (o mejor) un elemento
  */
 bool player_resists(const struct player *p, int element)
 {
@@ -1561,7 +1549,7 @@ bool player_resists(const struct player *p, int element)
 }
 
 /**
- * Check if the player resists (or better) an element
+ * Verificar si el jugador resiste (o mejor) un elemento
  */
 bool player_is_immune(const struct player *p, int element)
 {
@@ -1569,40 +1557,40 @@ bool player_is_immune(const struct player *p, int element)
 }
 
 /**
- * Places the player at the given coordinates in the cave.
+ * Coloca al jugador en las coordenadas dadas en la cueva.
  */
 void player_place(struct chunk *c, struct player *p, struct loc grid)
 {
 	assert(!square_monster(c, grid));
 
-	/* Save player location */
+	/* Guardar ubicación del jugador */
 	p->grid = grid;
 
-	/* Mark cave grid */
+	/* Marcar casilla de la cueva */
 	square_set_mon(c, grid, -1);
 
-	/* Clear stair creation */
+	/* Limpiar creación de escaleras */
 	p->upkeep->create_down_stair = false;
 	p->upkeep->create_up_stair = false;
 }
 
 /*
- * Take care of bookkeeping after moving the player with monster_swap().
+ * Ocuparse de la contabilidad después de mover al jugador con monster_swap().
  *
- * \param p is the player that was moved.
- * \param eval_trap will, if true, cause evaluation (possibly affecting the
- * player) of the traps in the grid.
- * \param is_involuntary will, if true, do appropriate actions (flush the
- * command queue) for a move not expected by the player.
+ * \param p es el jugador que fue movido.
+ * \param eval_trap, si es true, causará la evaluación (posiblemente afectando al
+ * jugador) de las trampas en la casilla.
+ * \param is_involuntary, si es true, hará acciones apropiadas (vaciar la
+ * cola de comandos) para un movimiento no esperado por el jugador.
  */
 void player_handle_post_move(struct player *p, bool eval_trap,
 		bool is_involuntary)
 {
-	/* Handle store doors, or notice objects */
+	/* Manejar puertas de tiendas, o notar objetos */
 	if (square_isshop(cave, p->grid)) {
 		if (player_is_shapechanged(p)) {
 			if (square(cave, p->grid)->feat != FEAT_HOME) {
-				msg("There is a scream and the door slams shut!");
+				msg("¡Se oye un grito y la puerta se cierra de golpe!");
 			}
 			return;
 		}
@@ -1623,82 +1611,82 @@ void player_handle_post_move(struct player *p, bool eval_trap,
 		square_know_pile(cave, p->grid, NULL);
 	}
 
-	/* Discover invisible traps, set off visible ones */
+	/* Descubrir trampas invisibles, activar las visibles */
 	if (eval_trap && square_isplayertrap(cave, p->grid)
 			&& !square_isdisabledtrap(cave, p->grid)) {
 		hit_trap(p->grid, 0);
 	}
 
-	/* Update view and search */
+	/* Actualizar vista y búsqueda */
 	update_view(cave, p);
 	search(p);
 }
 
 /*
- * Something has happened to disturb the player.
+ * Algo ha sucedido para molestar al jugador.
  *
- * All disturbance cancels repeated commands, resting, and running.
+ * Toda molestia cancela comandos repetidos, descanso y carrera.
  *
- * XXX-AS: Make callers either pass in a command
- * or call cmd_cancel_repeat inside the function calling this
+ * XXX-AS: Hacer que los llamadores pasen un comando
+ * o llamar a cmd_cancel_repeat dentro de la función que llama a esto
  */
 void disturb(struct player *p)
 {
-	/* Cancel repeated commands */
+	/* Cancelar comandos repetidos */
 	cmd_cancel_repeat();
 
-	/* Cancel Resting */
+	/* Cancelar Descanso */
 	if (player_is_resting(p)) {
 		player_resting_cancel(p, true);
 		p->upkeep->redraw |= PR_STATE;
 	}
 
-	/* Cancel running */
+	/* Cancelar carrera */
 	if (p->upkeep->running) {
 		p->upkeep->running = 0;
 		mem_free(p->upkeep->steps);
 		p->upkeep->steps = NULL;
 
-		/* Cancel queued commands */
+		/* Cancelar comandos en cola */
 		cmdq_flush();
 
-		/* Check for new panel if appropriate */
+		/* Verificar nuevo panel si corresponde */
 		event_signal(EVENT_PLAYERMOVED);
 		p->upkeep->update |= PU_TORCH;
 
-		/* Mark the whole map to be redrawn */
+		/* Marcar todo el mapa para ser redibujado */
 		event_signal_point(EVENT_MAP, -1, -1);
 	}
 
-	/* Flush input */
+	/* Vaciar entrada */
 	event_signal(EVENT_INPUT_FLUSH);
 }
 
 /**
- * Search for traps or secret doors
+ * Buscar trampas o puertas secretas
  */
 void search(struct player *p)
 {
 	struct loc grid;
 
-	/* Various conditions mean no searching */
+	/* Varias condiciones significan no buscar */
 	if (p->timed[TMD_BLIND] || no_light(p) ||
 		p->timed[TMD_CONFUSED] || p->timed[TMD_IMAGE])
 		return;
 
-	/* Search the nearby grids, which are always in bounds */
+	/* Buscar en las casillas cercanas, que siempre están dentro de los límites */
 	for (grid.y = (p->grid.y - 1); grid.y <= (p->grid.y + 1); grid.y++) {
 		for (grid.x = (p->grid.x - 1); grid.x <= (p->grid.x + 1); grid.x++) {
 			struct object *obj;
 
-			/* Secret doors */
+			/* Puertas secretas */
 			if (square_issecretdoor(cave, grid)) {
-				msg("You have found a secret door.");
+				msg("Has encontrado una puerta secreta.");
 				place_closed_door(cave, grid);
 				disturb(p);
 			}
 
-			/* Traps on chests */
+			/* Trampas en cofres */
 			for (obj = square_object(cave, grid); obj; obj = obj->next) {
 				if (!obj->known || ignore_item_ok(p, obj)
 						|| !is_trapped_chest(obj)) {
@@ -1706,7 +1694,7 @@ void search(struct player *p)
 				}
 
 				if (obj->known->pval != obj->pval) {
-					msg("You have discovered a trap on the chest!");
+					msg("¡Has descubierto una trampa en el cofre!");
 					obj->known->pval = obj->pval;
 					disturb(p);
 				}
@@ -1716,7 +1704,7 @@ void search(struct player *p)
 }
 
 /**
- * Test if there are any monsters the player knows about in the field of view.
+ * Probar si hay algún monstruo que el jugador conozca en el campo de visión.
  */
 bool player_has_monster_in_view(const struct player *p)
 {

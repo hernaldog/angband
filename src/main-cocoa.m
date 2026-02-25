@@ -5897,7 +5897,7 @@ static void cocoa_reinit(void)
 	Term_flush();
 
 	/* Prompt the user */
-	prt("[Choose 'New' or 'Open' from the 'File' menu]",
+	prt("[Selecciona 'New' or 'Open' from the 'File' menu]",
 	    (Term->hgt - 23) / 5 + 23, (Term->wid - 45) / 2);
 	Term_fresh();
     }

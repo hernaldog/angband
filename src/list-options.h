@@ -1,104 +1,103 @@
 /**
  * \file list-options.h
- * \brief options
+ * \brief opciones
  *
- * Currently, if there are more than 21 of any option type, the later ones
- * will be ignored
- * Cheat options need to be followed by corresponding score options
+ * Actualmente, si hay más de 21 de cualquier tipo de opción, las últimas
+ * serán ignoradas.
+ * Las opciones de trampa deben ser seguidas por las opciones de puntuación correspondientes.
  */
 
-/* name                   description
-type     normal */
+/* nombre                 descripción
+tipo      normal */
 OP(none,                  "",
 SPECIAL, false)
-OP(rogue_like_commands,   "Use the roguelike command keyset",
+OP(rogue_like_commands,   "Usar teclas estilo roguelike",
 INTERFACE, false)
-OP(autoexplore_commands,  "Use autoexplore commands",
+OP(autoexplore_commands,  "Usar comandos de autoexploración",
 INTERFACE, false)
-OP(use_sound,             "Use sound",
+OP(use_sound,             "Usar sonido",
 INTERFACE, false)
-OP(show_damage,           "Show damage player deals to monsters",
+OP(show_damage,           "Mostrar el daño que el jugador inflige",
 INTERFACE, false)
-OP(use_old_target,        "Use old target by default",
+OP(use_old_target,        "Usar el objetivo antiguo por defecto",
 INTERFACE, false)
-OP(pickup_always,         "Always pickup items",
+OP(pickup_always,         "Recoger objetos siempre",
 INTERFACE, false)
-OP(pickup_inven,          "Always pickup items matching inventory",
+OP(pickup_inven,          "Recoger obj siempre que coincidan con el inventario",
 INTERFACE, true)
-OP(show_flavors,          "Show flavors in object descriptions",
+OP(show_flavors,          "Mostrar sabores en las descripciones de objetos",
 INTERFACE, false)
-OP(show_target,           "Highlight target with cursor",
+OP(show_target,           "Resaltar el objetivo con el cursor",
 INTERFACE, true)
-OP(highlight_player,      "Highlight player with cursor between turns",
+OP(highlight_player,      "Resaltar al jugador con el cursor entre turnos",
 INTERFACE, false)
-OP(disturb_near,          "Disturb whenever viewable monster moves",
+OP(disturb_near,          "Molestar cuando un monstruo visible se mueve",
 INTERFACE, true)
-OP(solid_walls,           "Show walls as solid blocks",
+OP(solid_walls,           "Mostrar paredes como bloques sólidos",
 INTERFACE, false)
-OP(hybrid_walls,          "Show walls with shaded background",
+OP(hybrid_walls,          "Mostrar paredes con fondo sombreado",
 INTERFACE, false)
-OP(view_yellow_light,     "Color: Illuminate torchlight in yellow",
+OP(view_yellow_light,     "Color: Iluminar la luz de antorcha en amarillo",
 INTERFACE, false)
-OP(animate_flicker,       "Color: Shimmer multi-colored things",
+OP(animate_flicker,       "Color: Hacer brillar las cosas multicolores",
 INTERFACE, false)
-OP(center_player,         "Center map continuously",
+OP(center_player,         "Centrar el mapa continuamente",
 INTERFACE, false)
-OP(purple_uniques,        "Color: Show unique monsters in purple",
+OP(purple_uniques,        "Color: Mostrar monstruos únicos en púrpura",
 INTERFACE, false)
-OP(auto_more,             "Automatically clear '-more-' prompts",
+OP(auto_more,             "Limpiar automáticamente los avisos '-más-'",
 INTERFACE, false)
-OP(hp_changes_color,      "Color: Player color indicates % hit points",
+OP(hp_changes_color,      "Color: Color del jugador indica % de puntos de golpe",
 INTERFACE, true)
-OP(mouse_movement,        "Allow mouse clicks to move the player",
+OP(mouse_movement,        "Permitir clics del ratón para mover al jugador",
 INTERFACE, true)
-OP(notify_recharge,       "Notify on object recharge",
+OP(notify_recharge,       "Notificar al recargar objeto",
 INTERFACE, false)
-OP(effective_speed,       "Show effective speed as multiplier",
+OP(effective_speed,       "Mostrar velocidad efectiva como multiplicador",
 INTERFACE, false)
-OP(cheat_hear,            "Cheat: Peek into monster creation",
+OP(cheat_hear,            "Trampa: Espiar la creación de monstruos",
 CHEAT, false)
-OP(score_hear,            "Score: Peek into monster creation",
+OP(score_hear,            "Puntuación: Espiar la creación de monstruos",
 SCORE, false)
-OP(cheat_room,            "Cheat: Peek into dungeon creation",
+OP(cheat_room,            "Trampa: Espiar la creación de mazmorras",
 CHEAT, false)
-OP(score_room,            "Score: Peek into dungeon creation",
+OP(score_room,            "Puntuación: Espiar la creación de mazmorras",
 SCORE, false)
-OP(cheat_xtra,            "Cheat: Peek into something else",
+OP(cheat_xtra,            "Trampa: Espiar otra cosa",
 CHEAT, false)
-OP(score_xtra,            "Score: Peek into something else",
+OP(score_xtra,            "Puntuación: Espiar otra cosa",
 SCORE, false)
-OP(cheat_live,            "Cheat: Allow player to avoid death",
+OP(cheat_live,            "Trampa: Permitir evitar la muerte",
 CHEAT, false)
-OP(score_live,            "Score: Allow player to avoid death",
+OP(score_live,            "Puntuación: Permitir evitar la muerte",
 SCORE, false)
-OP(birth_randarts,        "Generate a new, random artifact set",
+OP(birth_randarts,        "Generar nuevos artefactos aleatorios",
 BIRTH, false)
-OP(birth_connect_stairs,  "Generate connected stairs",
+OP(birth_connect_stairs,  "Generar escaleras conectadas",
 BIRTH, true)
-OP(birth_force_descend,   "Force player descent (never make up stairs)",
+OP(birth_force_descend,   "Forzar descenso del jugador (sin escal arriba)",
 BIRTH, false)
-OP(birth_no_recall,       "Word of Recall has no effect",
+OP(birth_no_recall,       "Palabra de Retorno no tiene efecto",
 BIRTH, false)
-OP(birth_no_artifacts,    "Restrict creation of artifacts",
+OP(birth_no_artifacts,    "Restringir la creación de artefactos",
 BIRTH, false)
-OP(birth_stacking,        "Stack objects on the floor",
+OP(birth_stacking,        "Apilar objetos en el suelo",
 BIRTH, true)
-OP(birth_lose_arts,       "Lose artifacts when leaving level",
+OP(birth_lose_arts,       "Perder artefactos al salir del nivel",
 BIRTH, false)
-OP(birth_feelings,        "Show level feelings",
+OP(birth_feelings,        "Mostrar sensaciones de nivel",
 BIRTH, true)
-OP(birth_no_selling,      "Increase gold drops but disable selling",
+OP(birth_no_selling,      "Aumentar caída de oro pero sin venta",
 BIRTH, true)
-OP(birth_start_kit,       "Start with a kit of useful gear",
+OP(birth_start_kit,       "Comenzar con un kit de equipo útil",
 BIRTH, true)
-OP(birth_ai_learn,        "Monsters learn from their mistakes",
+OP(birth_ai_learn,        "Los monstruos aprenden de sus errores",
 BIRTH, true)
-OP(birth_know_runes,      "Know all runes on birth",
+OP(birth_know_runes,      "Conocer todas las runas al nacer",
 BIRTH, false)
-OP(birth_know_flavors,    "Know all flavors on birth",
+OP(birth_know_flavors,    "Conocer todos los sabores al nacer",
 BIRTH, false)
-OP(birth_levels_persist,  "Persistent levels (experimental)",
+OP(birth_levels_persist,  "Niveles persistentes (experimental)",
 BIRTH, false)
-OP(birth_percent_damage,  "To-damage is a percentage of dice (experimental)",
+OP(birth_percent_damage,  "Para-dañar es un porcent de dados (experimental)",
 BIRTH, false)
-

@@ -1,6 +1,6 @@
 /**
  * \file ui-birth.c
- * \brief Text-based user interface for character creation
+ * \brief Interfaz de usuario basada en texto para la creación de personajes
  *
  * Copyright (c) 1987 - 2015 Angband contributors
  *
@@ -37,26 +37,26 @@
 #include "ui-target.h"
 
 /**
- * Overview
- * ========
- * This file implements the user interface side of the birth process
- * for the classic terminal-based UI of Angband.
+ * Visión general
+ * ==============
+ * Este archivo implementa la parte de la interfaz de usuario del proceso de
+ * nacimiento para la interfaz de usuario clásica basada en terminal de Angband.
  *
- * It models birth as a series of steps which must be carried out in 
- * a specified order, with the option of stepping backwards to revisit
- * past choices.
+ * Modela el nacimiento como una serie de pasos que deben llevarse a cabo en
+ * un orden específico, con la opción de retroceder para revisar elecciones
+ * pasadas.
  *
- * It starts when we receive the EVENT_ENTER_BIRTH event from the game,
- * and ends when we receive the EVENT_LEAVE_BIRTH event.  In between,
- * we will repeatedly be asked to supply a game command, which change
- * the state of the character being rolled.  Once the player is happy
- * with their character, we send the CMD_ACCEPT_CHARACTER command.
+ * Comienza cuando recibimos el evento EVENT_ENTER_BIRTH del juego,
+ * y termina cuando recibimos el evento EVENT_LEAVE_BIRTH. Entre medias,
+ * se nos pedirá repetidamente que proporcionemos un comando de juego, que
+ * cambiará el estado del personaje que se está creando. Una vez que el jugador
+ * está satisfecho con su personaje, enviamos el comando CMD_ACCEPT_CHARACTER.
  */
 
 /**
- * A local-to-this-file global to hold the most important bit of state
- * between calls to the game proper.  Probably not strictly necessary,
- * but reduces complexity a bit. */
+ * Un global local a este archivo para mantener la parte más importante del estado
+ * entre llamadas al juego propiamente dicho. Probablemente no es estrictamente necesario,
+ * pero reduce un poco la complejidad. */
 enum birth_stage
 {
 	BIRTH_BACK = -1,
@@ -98,21 +98,21 @@ bool arg_force_name;
 
 /**
  * ------------------------------------------------------------------------
- * Quickstart? screen.
+ * Pantalla de inicio rápido.
  * ------------------------------------------------------------------------ */
 static enum birth_stage textui_birth_quickstart(void)
-//phantom name change changes
+//cambios de nombre fantasma
 {
-	const char *prompt = "['Y': use as is; 'N': redo; 'C': change name/history; '=': set birth options]";
+	const char *prompt = "['S': usar tal cual; 'N': rehacer; 'C': cambiar nombre/historia; '=': establecer opciones de nacimiento]";
 
 	enum birth_stage next = BIRTH_QUICKSTART;
 
-	/* Prompt for it */
-	prt("New character based on previous one:", 0, 0);
+	/* Preguntar por ello */
+	prt("¿Nuevo personaje basado en el anterior?:", 0, 0);
 	prt(prompt, Term->hgt - 1, Term->wid / 2 - strlen(prompt) / 2);
 
 	do {
-		/* Get a key */
+		/* Obtener una tecla */
 		struct keypress ke = inkey();
 		
 		if (ke.code == 'N' || ke.code == 'n') {
@@ -124,13 +124,13 @@ static enum birth_stage textui_birth_quickstart(void)
 			next = BIRTH_NAME_CHOICE;
 		} else if (ke.code == '=') {
 			do_cmd_options_birth();
-		} else if (ke.code == 'Y' || ke.code == 'y') {
+		} else if (ke.code == 'S' || ke.code == 's') {
 			cmdq_push(CMD_ACCEPT_CHARACTER);
 			next = BIRTH_COMPLETE;
 		}
 	} while (next == BIRTH_QUICKSTART);
 
-	/* Clear prompt */
+	/* Limpiar mensaje */
 	clear_from(23);
 
 	return next;
@@ -138,17 +138,17 @@ static enum birth_stage textui_birth_quickstart(void)
 
 /**
  * ------------------------------------------------------------------------
- * The various "menu" bits of the birth process - namely choice of race,
- * class, and roller type.
+ * Las diversas partes del "menú" del proceso de nacimiento - concretamente la elección de raza,
+ * clase, y tipo de generador.
  * ------------------------------------------------------------------------ */
 
 /**
- * The various menus
+ * Los diversos menús
  */
 static struct menu race_menu, class_menu, roller_menu;
 
 /**
- * Locations of the menus, etc. on the screen
+ * Ubicaciones de los menús, etc. en la pantalla
  */
 #define HEADER_ROW       1
 #define QUESTION_ROW     7
@@ -165,25 +165,25 @@ static struct menu race_menu, class_menu, roller_menu;
 #define MENU_ROWS TABLE_ROW + 14
 
 /**
- * upper left column and row, width, and lower column
+ * columna y fila superior izquierda, ancho, y columna inferior
  */
 static region race_region = {RACE_COL, TABLE_ROW, 17, MENU_ROWS};
 static region class_region = {CLASS_COL, TABLE_ROW, 17, MENU_ROWS};
 static region roller_region = {ROLLER_COL, TABLE_ROW, 34, MENU_ROWS};
 
 /**
- * We use different menu "browse functions" to display the help text
- * sometimes supplied with the menu items - currently just the list
- * of bonuses, etc, corresponding to each race and class.
+ * Usamos diferentes "funciones de exploración" del menú para mostrar el texto de ayuda
+ * a veces suministrado con los elementos del menú - actualmente solo la lista
+ * de bonificaciones, etc., correspondientes a cada raza y clase.
  */
 typedef void (*browse_f) (int oid, void *db, const region *l);
 
 /**
- * We have one of these structures for each menu we display - it holds
- * the useful information for the menu - text of the menu items, "help"
- * text, current (or default) selection, whether random selection is allowed,
- * and the current stage of the process for setting up a context menu and
- * relaying the reuslt of a selection in that menu.
+ * Tenemos una de estas estructuras para cada menú que mostramos - contiene
+ * la información útil para el menú - texto de los elementos del menú, texto de "ayuda",
+ * selección actual (o por defecto), si se permite la selección aleatoria,
+ * y la etapa actual del proceso para configurar un menú contextual y
+ * transmitir el resultado de una selección en ese menú.
  */
 struct birthmenu_data 
 {
@@ -194,9 +194,9 @@ struct birthmenu_data
 };
 
 /**
- * A custom "display" function for our menus that simply displays the
- * text from our stored data in a different colour if it's currently
- * selected.
+ * Una función de "visualización" personalizada para nuestros menús que simplemente muestra el
+ * texto de nuestros datos almacenados en un color diferente si está actualmente
+ * seleccionado.
  */
 static void birthmenu_display(struct menu *menu, int oid, bool cursor,
 			      int row, int col, int width)
@@ -208,9 +208,9 @@ static void birthmenu_display(struct menu *menu, int oid, bool cursor,
 }
 
 /**
- * Our custom menu iterator, only really needed to allow us to override
- * the default handling of "commands" in the standard iterators (hence
- * only defining the display and handler parts).
+ * Nuestro iterador de menú personalizado, solo realmente necesario para permitirnos anular
+ * el manejo por defecto de "comandos" en los iteradores estándar (por lo tanto
+ * solo definiendo las partes de visualización y manejador).
  */
 static const menu_iter birth_iter = { NULL, NULL, birthmenu_display, NULL, NULL };
 
@@ -222,17 +222,17 @@ static void skill_help(const int r_skills[], const int c_skills[], int mhp, int 
 	for (i = 0; i < SKILL_MAX ; ++i)
 		skills[i] = (r_skills ? r_skills[i] : 0 ) + (c_skills ? c_skills[i] : 0);
 
-	text_out_e("Hit/Shoot/Throw: %+d/%+d/%+d\n", skills[SKILL_TO_HIT_MELEE],
+	text_out_e("Golpear/Disparar/Lanzar: %+d/%+d/%+d\n", skills[SKILL_TO_HIT_MELEE],
 			   skills[SKILL_TO_HIT_BOW], skills[SKILL_TO_HIT_THROW]);
-	text_out_e("Hit die: %2d   XP mod: %d%%\n", mhp, exp);
-	text_out_e("Disarm: %+3d/%+3d   Devices: %+3d\n", skills[SKILL_DISARM_PHYS],
+	text_out_e("Dado de golpe: %2d   Modificador EXP: %d%%\n", mhp, exp);
+	text_out_e("Desarmar: %+3d/%+3d   Dispositivos: %+3d\n", skills[SKILL_DISARM_PHYS],
 			   skills[SKILL_DISARM_MAGIC], skills[SKILL_DEVICE]);
-	text_out_e("Save:   %+3d   Stealth: %+3d\n", skills[SKILL_SAVE],
+	text_out_e("Salvación:   %+3d   Sigilo: %+3d\n", skills[SKILL_SAVE],
 			   skills[SKILL_STEALTH]);
 	if (infra >= 0)
-		text_out_e("Infravision:  %d ft\n", infra * 10);
-	text_out_e("Digging:      %+d\n", skills[SKILL_DIGGING]);
-	text_out_e("Search:       %+d", skills[SKILL_SEARCH]);
+		text_out_e("Infravisión:  %d pies\n", infra * 10);
+	text_out_e("Excavar:      %+d\n", skills[SKILL_DIGGING]);
+	text_out_e("Buscar:       %+d", skills[SKILL_SEARCH]);
 	if (infra < 0)
 		text_out_e("\n");
 }
@@ -249,10 +249,10 @@ static void race_help(int i, void *db, const region *l)
 
 	if (!r) return;
 
-	/* Output to the screen */
+	/* Salida a la pantalla */
 	text_out_hook = text_out_to_screen;
 	
-	/* Indent output */
+	/* Sangrar salida */
 	text_out_indent = RACE_AUX_COL;
 	Term_gotoxy(RACE_AUX_COL, TABLE_ROW);
 
@@ -296,7 +296,7 @@ static void race_help(int i, void *db, const region *l)
 		n_flags++;
 	}
 
-	/* Reset text_out() indentation */
+	/* Restablecer sangría de text_out() */
 	text_out_indent = 0;
 }
 
@@ -313,10 +313,10 @@ static void class_help(int i, void *db, const region *l)
 
 	if (!c) return;
 
-	/* Output to the screen */
+	/* Salida a la pantalla */
 	text_out_hook = text_out_to_screen;
 	
-	/* Indent output */
+	/* Sangrar salida */
 	text_out_indent = CLASS_AUX_COL;
 	Term_gotoxy(CLASS_AUX_COL, TABLE_ROW);
 
@@ -355,7 +355,7 @@ static void class_help(int i, void *db, const region *l)
 				if (count) {
 					my_strcat(buf, ", ", sizeof(buf));
 				} else {
-					my_strcat(buf, " and ", sizeof(buf));
+					my_strcat(buf, " y ", sizeof(buf));
 				}
 				my_strcat(buf, realm->name, sizeof(buf));
 				realm_next = realm->next;
@@ -363,7 +363,7 @@ static void class_help(int i, void *db, const region *l)
 				realm = realm_next;
 			}
 		}
-		text_out_e("\nLearns %s magic", buf);
+		text_out_e("\nAprende magia de %s", buf);
 	}
 
 	for (ability = player_abilities; ability; ability = ability->next) {
@@ -387,23 +387,23 @@ static void class_help(int i, void *db, const region *l)
 		n_flags++;
 	}
 
-	/* Reset text_out() indentation */
+	/* Restablecer sangría de text_out() */
 	text_out_indent = 0;
 }
 
 /**
- * Display and handle user interaction with a context menu appropriate for the
- * current stage.  That way actions available with certain keys are also
- * available if only using the mouse.
+ * Mostrar y manejar la interacción del usuario con un menú contextual apropiado para la
+ * etapa actual. De esa manera, las acciones disponibles con ciertas teclas también están
+ * disponibles si solo se usa el ratón.
  *
- * \param current_menu is the standard (not contextual) menu for the stage.
- * \param in is the event triggering the context menu.  in->type must be
+ * \param current_menu es el menú estándar (no contextual) para la etapa.
+ * \param in es el evento que desencadena el menú contextual. El tipo de in debe ser
  * EVT_MOUSE.
- * \param out is the event to be passed upstream (to internal handling in
- * menu_select() or, potentially, menu_select()'s caller).
- * \return true if the event was handled; otherwise, return false.
+ * \param out es el evento que se pasará hacia arriba (al manejo interno en
+ * menu_select() o, potencialmente, al llamador de menu_select()).
+ * \return true si el evento fue manejado; de lo contrario, devuelve false.
  *
- * The logic here overlaps with what's done to handle cmd_keys in
+ * La lógica aquí se superpone con lo que se hace para manejar cmd_keys en
  * menu_question().
  */
 static bool use_context_menu_birth(struct menu *current_menu,
@@ -430,16 +430,16 @@ static bool use_context_menu_birth(struct menu *current_menu,
 	m = menu_dynamic_new();
 
 	m->selections = labels;
-	menu_dynamic_add_label(m, "Show birth options", '=',
+	menu_dynamic_add_label(m, "Mostrar opciones de nacimiento", '=',
 		ACT_CTX_BIRTH_OPT, labels);
 	if (menu_data->allow_random) {
-		menu_dynamic_add_label(m, "Select one at random", '*',
+		menu_dynamic_add_label(m, "Seleccionar uno al azar", '*',
 			ACT_CTX_BIRTH_RAND, labels);
 	}
-	menu_dynamic_add_label(m, "Finish with random choices", '@',
+	menu_dynamic_add_label(m, "Terminar con elecciones aleatorias", '@',
 		ACT_CTX_BIRTH_FINISH_RAND, labels);
-	menu_dynamic_add_label(m, "Quit", 'q', ACT_CTX_BIRTH_QUIT, labels);
-	menu_dynamic_add_label(m, "Help", '?', ACT_CTX_BIRTH_HELP, labels);
+	menu_dynamic_add_label(m, "Salir", 'q', ACT_CTX_BIRTH_QUIT, labels);
+	menu_dynamic_add_label(m, "Ayuda", '?', ACT_CTX_BIRTH_HELP, labels);
 
 	screen_save();
 
@@ -456,7 +456,7 @@ static bool use_context_menu_birth(struct menu *current_menu,
 	switch (selected) {
 	case ACT_CTX_BIRTH_OPT:
 		do_cmd_options_birth();
-		/* The stage remains the same so leave stage_inout as is. */
+		/* La etapa permanece igual, así que dejar stage_inout como está. */
 		out->type = EVT_SWITCH;
 		break;
 
@@ -481,7 +481,7 @@ static bool use_context_menu_birth(struct menu *current_menu,
 		out->type = EVT_SWITCH;
 
 	default:
-		/* There's nothing to do. */
+		/* No hay nada que hacer. */
 		break;
 	}
 
@@ -489,8 +489,8 @@ static bool use_context_menu_birth(struct menu *current_menu,
 }
 
 /**
- * Set up one of our menus ready to display choices for a birth question.
- * This is slightly involved.
+ * Configurar uno de nuestros menús listo para mostrar opciones para una pregunta de nacimiento.
+ * Esto es ligeramente complicado.
  */
 static void init_birth_menu(struct menu *menu, int n_choices,
 							int initial_choice, const region *reg,
@@ -498,40 +498,40 @@ static void init_birth_menu(struct menu *menu, int n_choices,
 {
 	struct birthmenu_data *menu_data;
 
-	/* Initialise a basic menu */
+	/* Inicializar un menú básico */
 	menu_init(menu, MN_SKIN_SCROLL, &birth_iter);
 
-	/* A couple of behavioural flags - we want selections as letters
-	   skipping the rogue-like cardinal direction movements and a
-	   double tap to act as a selection. */
+	/* Un par de banderas de comportamiento - queremos selecciones como letras
+	   omitiendo los movimientos de dirección cardinal de tipo roguelike y un
+	   doble toque para actuar como una selección. */
 	menu->selections = all_letters_nohjkl;
 	menu->flags = MN_DBL_TAP;
 
-	/* Copy across the game's suggested initial selection, etc. */
+	/* Copiar la selección inicial sugerida del juego, etc. */
 	menu->cursor = initial_choice;
 
-	/* Allocate sufficient space for our own bits of menu information. */
+	/* Asignar suficiente espacio para nuestras propias partes de información del menú. */
 	menu_data = mem_alloc(sizeof *menu_data);
 
-	/* Allocate space for an array of menu item texts and help texts
-	   (where applicable) */
+	/* Asignar espacio para una matriz de textos de elementos del menú y textos de ayuda
+	   (donde corresponda) */
 	menu_data->items = mem_alloc(n_choices * sizeof *menu_data->items);
 	menu_data->allow_random = allow_random;
 
-	/* Set private data */
+	/* Establecer datos privados */
 	menu_setpriv(menu, n_choices, menu_data);
 
-	/* Set up the "browse" hook to display help text (where applicable). */
+	/* Configurar el gancho "browse" para mostrar texto de ayuda (donde corresponda). */
 	menu->browse_hook = aux;
 
 	/*
-	 * All use the same hook to display a context menu so that
-	 * functionality driven by keyboard input (see how cmd_keys is used
-	 * in menu_question()) is also available using the mouse.
+	 * Todos usan el mismo gancho para mostrar un menú contextual para que la
+	 * funcionalidad impulsada por la entrada del teclado (ver cómo se usa cmd_keys
+	 * en menu_question()) también esté disponible usando el ratón.
 	 */
 	menu->context_hook = use_context_menu_birth;
 
-	/* Lay out the menu appropriately */
+	/* Diseñar el menú apropiadamente */
 	menu_layout(menu, reg);
 }
 
@@ -544,49 +544,49 @@ static void setup_menus(void)
 	struct player_race *r;
 
 	const char *roller_choices[MAX_BIRTH_ROLLERS] = { 
-		"Point-based", 
-		"Standard roller" 
+		"Basado en puntos", 
+		"Generador estándar" 
 	};
 
 	struct birthmenu_data *mdata;
 
-	/* Count the races */
+	/* Contar las razas */
 	n = 0;
 	for (r = races; r; r = r->next) n++;
 
-	/* Race menu. */
+	/* Menú de raza. */
 	init_birth_menu(&race_menu, n, player->race ? player->race->ridx : 0,
 	                &race_region, true, race_help);
 	mdata = race_menu.menu_data;
 
 	for (i = 0, r = races; r; r = r->next, i++)
 		mdata->items[r->ridx] = r->name;
-	mdata->hint = "Race affects stats and skills, and may confer resistances and abilities.";
+	mdata->hint = "La raza afecta a las estadísticas y habilidades, da resistencias y capacidades.";
 
-	/* Count the classes */
+	/* Contar las clases */
 	n = 0;
 	for (c = classes; c; c = c->next) n++;
 
-	/* Class menu similar to race. */
+	/* Menú de clase similar al de raza. */
 	init_birth_menu(&class_menu, n, player->class ? player->class->cidx : 0,
 	                &class_region, true, class_help);
 	mdata = class_menu.menu_data;
 
 	for (i = 0, c = classes; c; c = c->next, i++)
 		mdata->items[c->cidx] = c->name;
-	mdata->hint = "Class affects stats, skills, and other character traits.";
+	mdata->hint = "La clase afecta a las estadísticas, habilidades y otros rasgos del personaje.";
 		
-	/* Roller menu straightforward */
+	/* Menú de generador sencillo */
 	init_birth_menu(&roller_menu, MAX_BIRTH_ROLLERS, 0, &roller_region, false,
 					NULL);
 	mdata = roller_menu.menu_data;
 	for (i = 0; i < MAX_BIRTH_ROLLERS; i++)
 		mdata->items[i] = roller_choices[i];
-	mdata->hint = "Choose how to generate your intrinsic stats. Point-based is recommended.";
+	mdata->hint = "Elige cómo generar tus estadísticas. Se recomienda el basado en puntos.";
 }
 
 /**
- * Cleans up our stored menu info when we've finished with it.
+ * Limpia nuestra información de menú almacenada cuando hemos terminado con ella.
  */
 static void free_birth_menu(struct menu *menu)
 {
@@ -600,61 +600,61 @@ static void free_birth_menu(struct menu *menu)
 
 static void free_birth_menus(void)
 {
-	/* We don't need these any more. */
+	/* Ya no necesitamos estos. */
 	free_birth_menu(&race_menu);
 	free_birth_menu(&class_menu);
 	free_birth_menu(&roller_menu);
 }
 
 /**
- * Clear the previous question
+ * Limpiar la pregunta anterior
  */
 static void clear_question(void)
 {
 	int i;
 
 	for (i = QUESTION_ROW; i < TABLE_ROW; i++)
-		/* Clear line, position cursor */
+		/* Limpiar línea, posicionar cursor */
 		Term_erase(0, i, 255);
 }
 
 
 #define BIRTH_MENU_HELPTEXT \
-	"{light blue}Please select your character traits from the menus below:{/}\n\n" \
-	"Use the {light green}movement keys{/} to scroll the menu, " \
-	"{light green}Enter{/} to select the current menu item, '{light green}*{/}' " \
-	"for a random menu item, '{light green}@{/}' to finish the character with random selections, " \
-	"'{light green}ESC{/}' to step back through the birth process, " \
-	"'{light green}={/}' for the birth options, '{light green}?{/}' " \
-	"for help, or '{light green}Ctrl-X{/}' to quit."
+	"{light blue}Por favor, selecciona los rasgos de tu personaje en los menús de abajo:{/}\n\n" \
+	"Usa las {light green}teclas de movimiento{/} para desplazarte por el menú, " \
+	"{light green}Enter{/} para seleccionar el elemento, '{light green}*{/}' " \
+	"para usar una opción aleatoria, '{light green}@{/}' para armar el personaje completo de forma aleatoria, " \
+	"'{light green}ESC{/}' para retroceder en el proceso, " \
+	"'{light green}={/}' para ver opciones de nacimiento, '{light green}?{/}' " \
+	"para ayuda, o '{light green}Ctrl-X{/}' para salir."
 
 /**
- * Show the birth instructions on an otherwise blank screen
+ * Mostrar las instrucciones de nacimiento en una pantalla por lo demás en blanco
  */	
 static void print_menu_instructions(void)
 {
-	/* Clear screen */
+	/* Limpiar pantalla */
 	Term_clear();
 	
-	/* Output to the screen */
+	/* Salida a la pantalla */
 	text_out_hook = text_out_to_screen;
 	
-	/* Indent output */
+	/* Sangrar salida */
 	text_out_indent = QUESTION_COL;
 	Term_gotoxy(QUESTION_COL, HEADER_ROW);
 	
-	/* Display some helpful information */
+	/* Mostrar información útil */
 	text_out_e(BIRTH_MENU_HELPTEXT);
 	
-	/* Reset text_out() indentation */
+	/* Restablecer sangría de text_out() */
 	text_out_indent = 0;
 }
 
 /**
- * Advance character generation to the confirmation step using random choices
- * and a default point buy for the statistics.
+ * Avanzar la generación del personaje al paso de confirmación usando elecciones aleatorias
+ * y una compra por puntos por defecto para las estadísticas.
  *
- * \param current is the current stage for character generation.
+ * \param current es la etapa actual para la generación del personaje.
  */
 static void finish_with_random_choices(enum birth_stage current)
 {
@@ -704,8 +704,8 @@ static void finish_with_random_choices(enum birth_stage current)
 
 	if (current <= BIRTH_NAME_CHOICE) {
 		/*
-		 * Mimic what happens in get_name_command() for the
-		 * arg_force_name case.
+		 * Imitar lo que sucede en get_name_command() para el
+		 * caso arg_force_name.
 		 */
 		if (arg_force_name) {
 			if (arg_name[0]) {
@@ -717,16 +717,15 @@ static void finish_with_random_choices(enum birth_stage current)
 
 			while (1) {
 				if (ntry > 100) {
-					quit("Likely bug:  could not generate "
-						"a random name that was not "
-						"in use for a savefile");
+					quit("Posible error: no se pudo generar "
+						"un nombre aleatorio que no estuviera "
+						"en uso para un archivo guardado");
 				}
 				player_random_name(name, sizeof(name));
 				/*
-				 * We're good to go if the frontend specified
-				 * a savefile to use or the savefile name
-				 * corresponding to the random name is not
-				 * already in use.
+				 * Estamos listos para continuar si el frontend especificó
+				 * un archivo guardado a usar o el nombre del archivo guardado
+				 * correspondiente al nombre aleatorio no está ya en uso.
 				 */
 				if (savefile[0] || !savefile_name_already_used(name, true, true)) {
 					break;
@@ -757,7 +756,7 @@ static void finish_with_random_choices(enum birth_stage current)
 		++ncmd;
 	}
 
-	/* Push in reverse order:  the last pushed will be executed first. */
+	/* Insertar en orden inverso: el último insertado se ejecutará primero. */
 	while (ncmd > 0) {
 		--ncmd;
 		cmdq_push(cmds[ncmd].code);
@@ -776,9 +775,9 @@ static void finish_with_random_choices(enum birth_stage current)
 }
 
 /**
- * Allow the user to select from the current menu, and return the 
- * corresponding command to the game.  Some actions are handled entirely
- * by the UI (displaying help text, for instance).
+ * Permitir al usuario seleccionar del menú actual, y devolver el
+ * comando correspondiente al juego. Algunas acciones son manejadas completamente
+ * por la interfaz de usuario (mostrar texto de ayuda, por ejemplo).
  */
 static enum birth_stage menu_question(enum birth_stage current,
 									  struct menu *current_menu,
@@ -789,36 +788,36 @@ static enum birth_stage menu_question(enum birth_stage current,
 
 	enum birth_stage next = BIRTH_RESET;
 	
-	/* Print the question currently being asked. */
+	/* Imprimir la pregunta que se está haciendo actualmente. */
 	clear_question();
 	Term_putstr(QUESTION_COL, QUESTION_ROW, -1, COLOUR_YELLOW, menu_data->hint);
 
 	current_menu->cmd_keys = "?=*@\x18";	 /* ?, =, *, @, <ctl-X> */
 
 	while (next == BIRTH_RESET) {
-		/* Display the menu, wait for a selection of some sort to be made. */
+		/* Mostrar el menú, esperar a que se haga algún tipo de selección. */
 		menu_data->stage_inout = current;
 		cx = menu_select(current_menu, EVT_KBRD, false);
 
-		/* As all the menus are displayed in "hierarchical" style, we allow
-		   use of "back" (left arrow key or equivalent) to step back in 
-		   the proces as well as "escape". */
+		/* Como todos los menús se muestran en estilo "jerárquico", permitimos
+		   el uso de "atrás" (tecla de flecha izquierda o equivalente) para retroceder en
+		   el proceso, así como "escape". */
 		if (cx.type == EVT_ESCAPE) {
 			next = BIRTH_BACK;
 		} else if (cx.type == EVT_SELECT) {
 			if (current == BIRTH_ROLLER_CHOICE) {
 				if (current_menu->cursor) {
-					/* Do a first roll of the stats */
+					/* Hacer una primera tirada de las estadísticas */
 					cmdq_push(CMD_ROLL_STATS);
 					next = current + 2;
 				} else {
 					/* 
-					 * Make sure we've got a point-based char to play with. 
-					 * We call point_based_start here to make sure we get
-					 * an update on the points totals before trying to
-					 * display the screen.  The call to CMD_RESET_STATS
-					 * forces a rebuying of the stats to give us up-to-date
-					 * totals.  This is, it should go without saying, a hack.
+					 * Asegurarse de que tenemos un personaje basado en puntos con el que jugar.
+					 * Llamamos a point_based_start aquí para asegurarnos de obtener
+					 * una actualización de los totales de puntos antes de intentar
+					 * mostrar la pantalla. La llamada a CMD_RESET_STATS
+					 * fuerza una recompra de las estadísticas para darnos totales
+					 * actualizados. Esto es, no hace falta decirlo, un truco.
 					 */
 					point_based_start();
 					cmdq_push(CMD_RESET_STATS);
@@ -833,7 +832,7 @@ static enum birth_stage menu_question(enum birth_stage current,
 		} else if (cx.type == EVT_SWITCH) {
 			next = menu_data->stage_inout;
 		} else if (cx.type == EVT_KBRD) {
-			/* '*' chooses an option at random from those the game's provided */
+			/* '*' elige una opción al azar de las proporcionadas por el juego */
 			if (cx.key.code == '*' && menu_data->allow_random) {
 				current_menu->cursor = randint0(current_menu->count);
 				cmdq_push(choice_command);
@@ -846,7 +845,7 @@ static enum birth_stage menu_question(enum birth_stage current,
 				next = current;
 			} else if (cx.key.code == '@') {
 				/*
-				 * Use random choices to complete the character.
+				 * Usar elecciones aleatorias para completar el personaje.
 				 */
 				finish_with_random_choices(current);
 				next = BIRTH_FINAL_CONFIRM;
@@ -863,7 +862,7 @@ static enum birth_stage menu_question(enum birth_stage current,
 
 /**
  * ------------------------------------------------------------------------
- * The rolling bit of the roller.
+ * La parte de tirada del generador.
  * ------------------------------------------------------------------------ */
 static enum birth_stage roller_command(bool first_call)
 {
@@ -883,27 +882,27 @@ static enum birth_stage roller_command(bool first_call)
 
 	enum birth_stage next = BIRTH_ROLLER;
 
-	/* Used to keep track of whether we've rolled a character before or not. */
+	/* Se usa para llevar la cuenta de si hemos tirado un personaje antes o no. */
 	static bool prev_roll = false;
 
-	/* Display the player - a bit cheaty, but never mind. */
+	/* Mostrar el jugador - un poco tramposo, pero no importa. */
 	display_player(0);
 
 	if (first_call)
 		prev_roll = false;
 
-	/* Prepare a prompt (must squeeze everything in) */
-	strnfcat(prompt, sizeof (prompt), &promptlen, "['r' to reroll");
+	/* Preparar un mensaje (debe apretar todo) */
+	strnfcat(prompt, sizeof (prompt), &promptlen, "['r' para tirar");
 	if (prev_roll) 
-		strnfcat(prompt, sizeof(prompt), &promptlen, ", 'p' for previous roll");
-	strnfcat(prompt, sizeof (prompt), &promptlen, " or 'Enter' to accept]");
+		strnfcat(prompt, sizeof(prompt), &promptlen, ", 'p' tirada anterior");
+	strnfcat(prompt, sizeof (prompt), &promptlen, " o 'Enter' para aceptar]");
 
-	/* Prompt for it */
+	/* Preguntar por ello */
 	prt(prompt, Term->hgt - 1, Term->wid / 2 - promptlen / 2);
 	
 	/*
-	 * Get the response.  Emulate what inkey_does() without coercing mouse
-	 * events to look like keystrokes.
+	 * Obtener la respuesta. Emular lo que hace inkey() sin forzar eventos de ratón
+	 * a parecer pulsaciones de teclas.
 	 */
 	while (1) {
 		in = inkey_ex();
@@ -922,7 +921,7 @@ static enum birth_stage roller_command(bool first_call)
 		}
 	}
 
-	/* Analyse the command */
+	/* Analizar el comando */
 	if (in.type == EVT_KBRD) {
 		if (in.key.code == ESCAPE) {
 			action = ACT_CTX_BIRTH_ROLL_ESCAPE;
@@ -937,29 +936,29 @@ static enum birth_stage roller_command(bool first_call)
 		} else if (in.key.code == '?') {
 			action = ACT_CTX_BIRTH_ROLL_HELP;
 		} else {
-			/* Nothing handled directly here */
+			/* Nada manejado directamente aquí */
 			bell();
 		}
 	} else if (in.type == EVT_MOUSE) {
 		if (in.mouse.button == 2) {
 			action = ACT_CTX_BIRTH_ROLL_ESCAPE;
 		} else {
-			/* Present a context menu with the other actions. */
+			/* Presentar un menú contextual con las otras acciones. */
 			char *labels = string_make(lower_case);
 			struct menu *m = menu_dynamic_new();
 
 			m->selections = labels;
-			menu_dynamic_add_label(m, "Reroll", 'r',
+			menu_dynamic_add_label(m, "Volver a tirar", 'r',
 				ACT_CTX_BIRTH_ROLL_REROLL, labels);
 			if (prev_roll) {
-				menu_dynamic_add_label(m, "Retrieve previous",
+				menu_dynamic_add_label(m, "Recuperar anterior",
 					'p', ACT_CTX_BIRTH_ROLL_PREV, labels);
 			}
-			menu_dynamic_add_label(m, "Accept", 'a',
+			menu_dynamic_add_label(m, "Aceptar", 'a',
 				ACT_CTX_BIRTH_ROLL_ACCEPT, labels);
-			menu_dynamic_add_label(m, "Quit", 'q',
+			menu_dynamic_add_label(m, "Salir", 'q',
 				ACT_CTX_BIRTH_ROLL_QUIT, labels);
-			menu_dynamic_add_label(m, "Help", '?',
+			menu_dynamic_add_label(m, "Ayuda", '?',
 				ACT_CTX_BIRTH_ROLL_HELP, labels);
 
 			screen_save();
@@ -978,23 +977,23 @@ static enum birth_stage roller_command(bool first_call)
 
 	switch (action) {
 	case ACT_CTX_BIRTH_ROLL_ESCAPE:
-		/* Back out to the previous birth stage. */
+		/* Retroceder a la etapa de nacimiento anterior. */
 		next = BIRTH_BACK;
 		break;
 
 	case ACT_CTX_BIRTH_ROLL_REROLL:
-		/* Reroll this character. */
+		/* Volver a tirar este personaje. */
 		cmdq_push(CMD_ROLL_STATS);
 		prev_roll = true;
 		break;
 
 	case ACT_CTX_BIRTH_ROLL_PREV:
-		/* Swap with previous roll. */
+		/* Intercambiar con la tirada anterior. */
 		cmdq_push(CMD_PREV_STATS);
 		break;
 
 	case ACT_CTX_BIRTH_ROLL_ACCEPT:
-		/* Accept the roll.  Go to the next stage. */
+		/* Aceptar la tirada. Ir a la siguiente etapa. */
 		next = BIRTH_NAME_CHOICE;
 		break;
 
@@ -1012,23 +1011,23 @@ static enum birth_stage roller_command(bool first_call)
 
 /**
  * ------------------------------------------------------------------------
- * Point-based stat allocation.
+ * Asignación de estadísticas basada en puntos.
  * ------------------------------------------------------------------------ */
 
-/* The locations of the "costs" area on the birth screen. */
+/* Las ubicaciones del área de "costes" en la pantalla de nacimiento. */
 #define COSTS_ROW 2
 #define COSTS_COL (42 + 32)
 #define TOTAL_COL (42 + 19)
 
 /*
- * Remember what's possible for a given stat.  0 means can't buy or sell.
- * 1 means can sell.  2 means can buy.  3 means can buy or sell.
+ * Recordar lo que es posible para una estadística dada. 0 significa que no se puede comprar ni vender.
+ * 1 significa que se puede vender. 2 significa que se puede comprar. 3 significa que se puede comprar o vender.
  */
 static int buysell[STAT_MAX];
 
 /**
- * This is called whenever a stat changes.  We take the easy road, and just
- * redisplay them all using the standard function.
+ * Esto se llama cada vez que cambia una estadística. Tomamos el camino fácil, y simplemente
+ * las volvemos a mostrar todas usando la función estándar.
  */
 static void point_based_stats(game_event_type type, game_event_data *data,
 							  void *user)
@@ -1037,9 +1036,9 @@ static void point_based_stats(game_event_type type, game_event_data *data,
 }
 
 /**
- * This is called whenever any of the other miscellaneous stat-dependent things
- * changed.  We are hooked into changes in the amount of gold in this case,
- * but redisplay everything because it's easier.
+ * Esto se llama cada vez que cambia cualquiera de las otras cosas misceláneas dependientes de estadísticas.
+ * Estamos enganchados a cambios en la cantidad de oro en este caso,
+ * pero lo volvemos a mostrar todo porque es más fácil.
  */
 static void point_based_misc(game_event_type type, game_event_data *data,
 							 void *user)
@@ -1049,9 +1048,9 @@ static void point_based_misc(game_event_type type, game_event_data *data,
 
 
 /**
- * This is called whenever the points totals are changed (in birth.c), so
- * that we can update our display of how many points have been spent and
- * are available.
+ * Esto se llama cada vez que se cambian los totales de puntos (en birth.c), para
+ * que podamos actualizar nuestra visualización de cuántos puntos se han gastado y
+ * están disponibles.
  */
 static void point_based_points(game_event_type type, game_event_data *data,
 							   void *user)
@@ -1062,11 +1061,11 @@ static void point_based_points(game_event_type type, game_event_data *data,
 	const int *inc = data->birthpoints.inc_points;
 	int remaining = data->birthpoints.remaining;
 
-	/* Display the costs header */
-	put_str("Cost", COSTS_ROW - 1, COSTS_COL);
+	/* Mostrar el encabezado de costes */
+	put_str("Coste", COSTS_ROW - 1, COSTS_COL);
 	
 	for (i = 0; i < STAT_MAX; i++) {
-		/* Remember what's allowed. */
+		/* Recordar lo que está permitido. */
 		buysell[i] = 0;
 		if (spent[i] > 0) {
 			buysell[i] |= 1;
@@ -1074,24 +1073,24 @@ static void point_based_points(game_event_type type, game_event_data *data,
 		if (inc[i] <= remaining) {
 			buysell[i] |= 2;
 		}
-		/* Display cost */
+		/* Mostrar coste */
 		put_str(format("%4d", spent[i]), COSTS_ROW + i, COSTS_COL);
 		sum += spent[i];
 	}
 	
-	put_str(format("Total Cost: %2d/%2d", sum, remaining + sum),
+	put_str(format("Coste Total: %2d/%2d", sum, remaining + sum),
 		COSTS_ROW + STAT_MAX, TOTAL_COL);
 }
 
 static void point_based_start(void)
 {
-	const char *prompt = "[up/down to move, left/right to modify, 'r' to reset, 'Enter' to accept]";
+	const char *prompt = "[arriba/abajo mover, izq/der modificar, 'r' reiniciar, 'Enter' aceptar]";
 	int i;
 
-	/* Clear */
+	/* Limpiar */
 	Term_clear();
 
-	/* Display the player */
+	/* Mostrar el jugador */
 	display_player_xtra_info();
 	display_player_stat_info();
 
@@ -1101,8 +1100,8 @@ static void point_based_start(void)
 		buysell[i] = 0;
 	}
 
-	/* Register handlers for various events - cheat a bit because we redraw
-	   the lot at once rather than each bit at a time. */
+	/* Registrar manejadores para varios eventos - hacer trampa un poco porque redibujamos
+	   todo de una vez en lugar de cada parte por separado. */
 	event_add_handler(EVENT_BIRTHPOINTS, point_based_points, NULL);	
 	event_add_handler(EVENT_STATS, point_based_stats, NULL);	
 	event_add_handler(EVENT_GOLD, point_based_misc, NULL);	
@@ -1131,12 +1130,12 @@ static enum birth_stage point_based_command(void)
 	ui_event in;
 	enum birth_stage next = BIRTH_POINTBASED;
 
-	/* Place cursor just after cost of current stat */
+	/* Colocar cursor justo después del coste de la estadística actual */
 	Term_gotoxy(COSTS_COL + 4, COSTS_ROW + stat);
 
 	/*
-	 * Get input.  Emulate what inkey() does without coercing mouse events
-	 * to look like keystrokes.
+	 * Obtener entrada. Emular lo que hace inkey() sin forzar eventos de ratón
+	 * a parecer pulsaciones de teclas.
 	 */
 	while (1) {
 		in = inkey_ex();
@@ -1154,7 +1153,7 @@ static enum birth_stage point_based_command(void)
 		}
 	}
 
-	/* Figure out what to do. */
+	/* Determinar qué hacer. */
 	if (in.type == EVT_KBRD) {
 		if (in.key.code == KTRL('X')) {
 			action = ACT_CTX_BIRTH_PTS_QUIT;
@@ -1176,27 +1175,27 @@ static enum birth_stage point_based_command(void)
 			}
 
 			/*
-			 * Go to previous stat.  Loop back to the last if at
-			 * the first.
+			 * Ir a la estadística anterior. Volver a la última si estamos
+			 * en la primera.
 			 */
 			if (dir == 8) {
 				stat = (stat + STAT_MAX - 1) % STAT_MAX;
 			}
 
 			/*
-			 * Go to next stat.  Loop back to the first if at the
-			 * last.
+			 * Ir a la siguiente estadística. Volver a la primera si estamos en la
+			 * última.
 			 */
 			if (dir == 2) {
 				stat = (stat + 1) % STAT_MAX;
 			}
 
-			/* Decrease stat (if possible). */
+			/* Disminuir estadística (si es posible). */
 			if (dir == 4) {
 				action = ACT_CTX_BIRTH_PTS_SELL;
 			}
 
-			/* Increase stat (if possible). */
+			/* Aumentar estadística (si es posible). */
 			if (dir == 6) {
 				action = ACT_CTX_BIRTH_PTS_BUY;
 			}
@@ -1209,30 +1208,30 @@ static enum birth_stage point_based_command(void)
 				&& in.mouse.y < COSTS_ROW + STAT_MAX
 				&& in.mouse.y != COSTS_ROW + stat) {
 			/*
-			 * Make that stat the current one if buying or selling.
+			 * Hacer que esa estadística sea la actual si se está comprando o vendiendo.
 			 */
 			stat = in.mouse.y - COSTS_ROW;
 		} else {
-			/* Present a context menu with the other actions. */
+			/* Presentar un menú contextual con las otras acciones. */
 			char *labels = string_make(lower_case);
 			struct menu *m = menu_dynamic_new();
 
 			m->selections = labels;
 			if (in.mouse.y == COSTS_ROW + stat
 					&& (buysell[stat] & 1)) {
-				menu_dynamic_add_label(m, "Sell", 's',
+				menu_dynamic_add_label(m, "Vender", 's',
 					ACT_CTX_BIRTH_PTS_SELL, labels);
 			}
 			if (in.mouse.y == COSTS_ROW + stat
 					&& (buysell[stat] & 2)) {
-				menu_dynamic_add_label(m, "Buy", 'b',
+				menu_dynamic_add_label(m, "Comprar", 'b',
 					ACT_CTX_BIRTH_PTS_BUY, labels);
 			}
-			menu_dynamic_add_label(m, "Accept", 'a',
+			menu_dynamic_add_label(m, "Aceptar", 'a',
 				ACT_CTX_BIRTH_PTS_ACCEPT, labels);
-			menu_dynamic_add_label(m, "Reset", 'r',
+			menu_dynamic_add_label(m, "Reiniciar", 'r',
 				ACT_CTX_BIRTH_PTS_RESET, labels);
-			menu_dynamic_add_label(m, "Quit", 'q',
+			menu_dynamic_add_label(m, "Salir", 'q',
 				ACT_CTX_BIRTH_PTS_QUIT, labels);
 
 			screen_save();
@@ -1249,7 +1248,7 @@ static enum birth_stage point_based_command(void)
 		}
 	}
 
-	/* Do it. */
+	/* Hacerlo. */
 	switch (action) {
 	case ACT_CTX_BIRTH_PTS_SELL:
 		assert(stat >= 0 && stat < STAT_MAX);
@@ -1264,7 +1263,7 @@ static enum birth_stage point_based_command(void)
 		break;
 
 	case ACT_CTX_BIRTH_PTS_ESCAPE:
-		/* Go back a step or back to the start of this step. */
+		/* Retroceder un paso o volver al inicio de este paso. */
 		next = BIRTH_BACK;
 		break;
 
@@ -1274,7 +1273,7 @@ static enum birth_stage point_based_command(void)
 		break;
 
 	case ACT_CTX_BIRTH_PTS_ACCEPT:
-		/* Done with this stage.  Proceed to the next. */
+		/* Terminado con esta etapa. Proceder a la siguiente. */
 		next = BIRTH_NAME_CHOICE;
 		break;
 
@@ -1283,7 +1282,7 @@ static enum birth_stage point_based_command(void)
 		break;
 
 	default:
-		/* Do nothing and remain at this stage. */
+		/* No hacer nada y permanecer en esta etapa. */
 		break;
 	}
 
@@ -1292,31 +1291,31 @@ static enum birth_stage point_based_command(void)
 	
 /**
  * ------------------------------------------------------------------------
- * Asking for the player's chosen name.
+ * Preguntar por el nombre elegido por el jugador.
  * ------------------------------------------------------------------------ */
-//phantom changes for server
+//cambios fantasma para el servidor
 static enum birth_stage get_name_command(void)
 {
 	enum birth_stage next;
 	char name[PLAYER_NAME_LEN];
 
-	/* Use frontend-provided savefile name if requested */
+	/* Usar el nombre de archivo guardado proporcionado por el frontend si se solicita */
 	if (arg_name[0]) {
 		my_strcpy(player->full_name, arg_name, sizeof(player->full_name));
 	}
 
 	/*
-	 * If not forcing the character's name, the front end didn't set the
-	 * savefile to use, and the chosen name for the character would lead
-	 * to overwriting an existing savefile, confirm that's okay with the
-	 * player.
+	 * Si no se fuerza el nombre del personaje, el frontend no estableció el
+	 * archivo guardado a usar, y el nombre elegido para el personaje llevaría
+	 * a sobrescribir un archivo guardado existente, confirmar que está bien con el
+	 * jugador.
 	 */
 	if (arg_force_name) {
 		next = BIRTH_HISTORY_CHOICE;
 	} else if (get_character_name(name, sizeof(name))
 			&& (savefile[0]
 			|| !savefile_name_already_used(name, true, true)
-			|| get_check("A savefile for that name exists.  Overwrite it? "))) {
+			|| get_check("¿Ya existe un archivo guardado para ese nombre. ¿Sobrescribirlo? "))) {
 		cmdq_push(CMD_NAME_CHOICE);
 		cmd_set_arg_string(cmdq_peek(), "name", name);
 		next = BIRTH_HISTORY_CHOICE;
@@ -1344,7 +1343,7 @@ static void get_screen_loc(size_t cursor, int *x, int *y, size_t n_lines,
 				break;
 			}
 		}
-		/* +1 for the space */
+		/* +1 por el espacio */
 		lengths_so_far += line_lengths[i] + 1;
 	}
 }
@@ -1364,14 +1363,13 @@ static int edit_text(char *buffer, int buflen) {
 		size_t *line_starts = NULL, *line_lengths = NULL;
 		size_t n_lines;
 		/*
-		 * This is the total number of UTF-8 characters; can be less
-		 * less than len, the number of 8-bit units in the buffer,
-		 * if a single character is encoded with more than one 8-bit
-		 * unit.
+		 * Este es el número total de caracteres UTF-8; puede ser menor
+		 * que len, el número de unidades de 8 bits en el búfer,
+		 * si un solo carácter se codifica con más de una unidad de 8 bits.
 		 */
 		int ulen;
 
-		/* Display on screen */
+		/* Mostrar en pantalla */
 		clear_from(HIST_INSTRUCT_ROW);
 		textblock_append(tb, "%s", buffer);
 		textui_textblock_place(tb, area, NULL);
@@ -1381,7 +1379,7 @@ static int edit_text(char *buffer, int buflen) {
 		ulen = (n_lines > 0) ? line_starts[n_lines - 1] +
 			line_lengths[n_lines - 1]: 0;
 
-		/* Set cursor to current editing position */
+		/* Establecer cursor a la posición de edición actual */
 		get_screen_loc(cursor, &x, &y, n_lines, line_starts, line_lengths);
 		Term_gotoxy(1 + x, 19 + y);
 
@@ -1427,38 +1425,38 @@ static int edit_text(char *buffer, int buflen) {
 			case KC_DELETE: {
 				char *ocurs, *oshift;
 
-				/* Refuse to backspace into oblivion */
+				/* Rechazar retroceder hacia la nada */
 				if ((ke.code == KC_BACKSPACE && cursor == 0) ||
 						(ke.code == KC_DELETE && cursor >= ulen))
 					break;
 
 				/*
-				 * Move the string from k to nul along to the
-				 * left by 1.  First, have to get offset
-				 * corresponding to the cursor position.
+				 * Mover la cadena desde k hasta nulo hacia la
+				 * izquierda en 1. Primero, hay que obtener el desplazamiento
+				 * correspondiente a la posición del cursor.
 				 */
 				ocurs = utf8_fskip(buffer, cursor, NULL);
 				assert(ocurs);
 				if (ke.code == KC_BACKSPACE) {
-					/* Get offset of the previous character. */
+					/* Obtener desplazamiento del carácter anterior. */
 					oshift = utf8_rskip(ocurs, 1, buffer);
 					assert(oshift);
 					memmove(oshift, ocurs,
 						len - (ocurs - buffer));
-					/* Decrement */
+					/* Decrementar */
 					--cursor;
 					len -= ocurs - oshift;
 				} else {
-					/* Get offset of the next character. */
+					/* Obtener desplazamiento del siguiente carácter. */
 					oshift = utf8_fskip(ocurs, 1, NULL);
 					assert(oshift);
 					memmove(ocurs, oshift,
 						len - (oshift - buffer));
-					/* Decrement. */
+					/* Decrementar. */
 					len -= oshift - ocurs;
 				}
 
-				/* Terminate */
+				/* Terminar */
 				buffer[len] = '\0';
 
 				break;
@@ -1477,33 +1475,33 @@ static int edit_text(char *buffer, int buflen) {
 					N_ELEMENTS(encoded), &ke.code, 1, NULL);
 
 				/*
-				 * Make sure we have something to add and have
-				 * enough space.
+				 * Asegurarse de que tenemos algo que añadir y tenemos
+				 * suficiente espacio.
 				 */
 				if (n_enc == 0 || n_enc + len >= buflen) {
 					break;
 				}
 
-				/* Insert the encoded character. */
+				/* Insertar el carácter codificado. */
 				if (atnull) {
 					ocurs = buffer + len;
 				} else {
 					ocurs = utf8_fskip(buffer, cursor, NULL);
 					assert(ocurs);
 					/*
-					 * Move the rest of the buffer along
-					 * to make room.
+					 * Mover el resto del búfer hacia adelante
+					 * para hacer espacio.
 					 */
 					memmove(ocurs + n_enc, ocurs,
 						len - (ocurs - buffer));
 				}
 				memcpy(ocurs, encoded, n_enc);
 
-				/* Update cursor position and length. */
+				/* Actualizar posición del cursor y longitud. */
 				++cursor;
 				len += n_enc;
 
-				/* Terminate */
+				/* Terminar */
 				buffer[len] = '\0';
 
 				break;
@@ -1520,7 +1518,7 @@ static int edit_text(char *buffer, int buflen) {
 
 /**
  * ------------------------------------------------------------------------
- * Allowing the player to choose their history.
+ * Permitir al jugador elegir su historia.
  * ------------------------------------------------------------------------ */
 static enum birth_stage get_history_command(void)
 {
@@ -1528,14 +1526,14 @@ static enum birth_stage get_history_command(void)
 	struct keypress ke;
 	char old_history[240];
 
-	/* Save the original history */
+	/* Guardar la historia original */
 	my_strcpy(old_history, player->history, sizeof(old_history));
 
-	/* Ask for some history */
-	prt("Accept character history? [y/n]", 0, 0);
+	/* Preguntar por alguna historia */
+	prt("¿Aceptar la historia del personaje? [s/n]", 0, 0);
 	ke = inkey();
 
-	/* Quit, go back, change history, or accept */
+	/* Salir, retroceder, cambiar historia, o aceptar */
 	if (ke.code == KTRL('X')) {
 		quit(NULL);
 	} else if (ke.code == ESCAPE) {
@@ -1562,22 +1560,22 @@ static enum birth_stage get_history_command(void)
 
 /**
  * ------------------------------------------------------------------------
- * Final confirmation of character.
+ * Confirmación final del personaje.
  * ------------------------------------------------------------------------ */
 static enum birth_stage get_confirm_command(void)
 {
-	const char *prompt = "['ESC' to step back, 'S' to start over, or any other key to continue]";
+	const char *prompt = "['ESC' retroceder, 'S' empezar de nuevo, otra tecla para continuar]";
 	struct keypress ke;
 
 	enum birth_stage next = BIRTH_RESET;
 
-	/* Prompt for it */
+	/* Preguntar por ello */
 	prt(prompt, Term->hgt - 1, Term->wid / 2 - strlen(prompt) / 2);
 
-	/* Get a key */
+	/* Obtener una tecla */
 	ke = inkey();
 	
-	/* Start over */
+	/* Empezar de nuevo */
 	if (ke.code == 'S' || ke.code == 's') {
 		next = BIRTH_RESET;
 	} else if (ke.code == KTRL('X')) {
@@ -1589,7 +1587,7 @@ static enum birth_stage get_confirm_command(void)
 		next = BIRTH_COMPLETE;
 	}
 
-	/* Clear prompt */
+	/* Limpiar mensaje */
 	clear_from(23);
 
 	return next;
@@ -1599,20 +1597,19 @@ static enum birth_stage get_confirm_command(void)
 
 /**
  * ------------------------------------------------------------------------
- * Things that relate to the world outside this file: receiving game events
- * and being asked for game commands.
+ * Cosas que se relacionan con el mundo fuera de este archivo: recibir eventos del juego
+ * y que se nos pidan comandos del juego.
  * ------------------------------------------------------------------------ */
 
 /**
- * This is called when we receive a request for a command in the birth 
- * process.
+ * Esto se llama cuando recibimos una solicitud de un comando en el proceso de nacimiento.
 
- * The birth process continues until we send a final character confirmation
- * command (or quit), so this is effectively called in a loop by the main
- * game.
+ * El proceso de nacimiento continúa hasta que enviamos un comando de confirmación final
+ * del personaje (o salimos), así que esto se llama efectivamente en un bucle por el juego
+ * principal.
  *
- * We're imposing a step-based system onto the main game here, so we need
- * to keep track of where we're up to, where each step moves on to, etc.
+ * Estamos imponiendo un sistema basado en pasos al juego principal aquí, así que necesitamos
+ * llevar la cuenta de dónde estamos, a dónde lleva cada paso, etc.
  */
 int textui_do_birth(void)
 {
@@ -1679,7 +1676,7 @@ int textui_do_birth(void)
 				if (next == BIRTH_BACK)
 					next = current_stage - 1;
 
-				/* Make sure the character gets reset before quickstarting */
+				/* Asegurarse de que el personaje se reinicia antes del inicio rápido */
 				if (next == BIRTH_QUICKSTART) 
 					next = BIRTH_RESET;
 
@@ -1693,8 +1690,8 @@ int textui_do_birth(void)
 				if (prev > BIRTH_POINTBASED) {
 					point_based_start();
 					/*
-					 * Force a redraw of the point
-					 * allocations but do not reset them.
+					 * Forzar un redibujado de las asignaciones de puntos
+					 * pero no reiniciarlas.
 					 */
 					cmdq_push(CMD_REFRESH_STATS);
 					cmdq_execute(CTX_BIRTH);
@@ -1762,14 +1759,14 @@ int textui_do_birth(void)
 
 			default:
 			{
-				/* Remove dodgy compiler warning, */
+				/* Eliminar advertencia de compilador, */
 			}
 		}
 
 		prev = current_stage;
 		current_stage = next;
 
-		/* Execute whatever commands have been sent */
+		/* Ejecutar los comandos que se hayan enviado */
 		cmdq_execute(CTX_BIRTH);
 	}
 
@@ -1777,13 +1774,13 @@ int textui_do_birth(void)
 }
 
 /**
- * Called when we enter the birth mode - so we set up handlers, command hooks,
- * etc, here.
+ * Llamado cuando entramos en el modo de nacimiento - así que configuramos manejadores, ganchos de comando,
+ * etc., aquí.
  */
 static void ui_enter_birthscreen(game_event_type type, game_event_data *data,
 								 void *user)
 {
-	/* Set the ugly static global that tells us if quickstart's available. */
+	/* Establecer el feo global estático que nos dice si el inicio rápido está disponible. */
 	quickstart_allowed = data->flag;
 
 	setup_menus();
@@ -1792,7 +1789,7 @@ static void ui_enter_birthscreen(game_event_type type, game_event_data *data,
 static void ui_leave_birthscreen(game_event_type type, game_event_data *data,
 								 void *user)
 {
-	/* Set the savefile name if it's not already set */
+	/* Establecer el nombre del archivo guardado si aún no está establecido */
 	if (!savefile[0])
 		savefile_set_name(player->full_name, true, true);
 
@@ -1805,4 +1802,3 @@ void ui_init_birthstate_handlers(void)
 	event_add_handler(EVENT_ENTER_BIRTH, ui_enter_birthscreen, NULL);
 	event_add_handler(EVENT_LEAVE_BIRTH, ui_leave_birthscreen, NULL);
 }
-

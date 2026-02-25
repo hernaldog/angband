@@ -1,6 +1,6 @@
 /**
  * \file ui-knowledge.c
- * \brief Player knowledge functions
+ * \brief Funciones de conocimiento del jugador
  *
  * Copyright (c) 2000-2007 Eytan Zweig, Andrew Doull, Pete Mack.
  * Copyright (c) 2010 Peter Denison, Chris Carr.
@@ -65,68 +65,68 @@
 #include "z-util.h"
 
 /**
- * The first part of this file contains the knowledge menus.  Generic display
- * routines are followed  by sections which implement "subclasses" of the
- * abstract classes represented by member_funcs and group_funcs.
+ * La primera parte de este archivo contiene los menús de conocimiento. Las rutinas
+ * de visualización genéricas son seguidas por secciones que implementan "subclases" de
+ * las clases abstractas representadas por member_funcs y group_funcs.
  *
- * After the knowledge menus are various knowledge functions - message review;
- * inventory, equipment, monster and object lists; symbol lookup; and the 
- * "locate" command which scrolls the screen around the current dungeon level.
+ * Después de los menús de conocimiento hay varias funciones de conocimiento - revisión de mensajes;
+ * listas de inventario, equipo, monstruos y objetos; búsqueda de símbolos; y el
+ * comando "localizar" que desplaza la pantalla por el nivel de mazmorra actual.
  */
 
 typedef struct {
-	/* Name of this group */
+	/* Nombre de este grupo */
 	const char *(*name)(int gid);
 
-	/* Compares gids of two oids */
+	/* Compara gid de dos oid */
 	int (*gcomp)(const void *, const void *);
 
-	/* Returns gid for an oid */
+	/* Devuelve gid para un oid */
 	int (*group)(int oid);
 
-	/* Summary function for the "object" information. */
+	/* Función de resumen para la información del "objeto". */
 	void (*summary)(int gid, const int *item_list, int n, int top, int row,
 					int col);
 
-	/* Maximum possible item count for this class */
+	/* Número máximo posible de elementos para esta clase */
 	int maxnum;
 
-	/* Items don't need to be IDed to recognize membership */
+	/* Los elementos no necesitan ser ID para reconocer pertenencia */
 	bool easy_know;
 
 } group_funcs;
 
 typedef struct {
-	/* Displays an entry at given location, including kill-count and graphics */
+	/* Muestra una entrada en la ubicación dada, incluyendo contador de muertes y gráficos */
 	void (*display_member)(int col, int row, bool cursor, int oid);
 
-	/* Displays lore for an oid */
+	/* Muestra el saber para un oid */
 	void (*lore)(int oid);
 
 
-	/* Required only for objects with modifiable display attributes
-	 * Unknown 'flavors' return flavor attributes */
+	/* Requerido solo para objetos con atributos de visualización modificables
+	 * Los 'sabores' desconocidos devuelven atributos de sabor */
 
-	/* Get character attr for OID (by address) */
+	/* Obtener atributo de carácter para OID (por dirección) */
 	wchar_t *(*xchar)(int oid);
 
-	/* Get color attr for OID (by address) */
+	/* Obtener atributo de color para OID (por dirección) */
 	uint8_t *(*xattr)(int oid);
 
-	/* Returns optional extra prompt */
+	/* Devuelve un mensaje adicional opcional */
 	const char *(*xtra_prompt)(int oid);
 
-	/* Handles optional extra actions */
+	/* Maneja acciones adicionales opcionales */
 	void (*xtra_act)(struct keypress ch, int oid);
 
-	/* Does this kind have visual editing? */
+	/* Este tipo tiene edición visual? */
 	bool is_visual;
 
 } member_funcs;
 
 
 /**
- * Helper class for generating joins
+ * Clase auxiliar para generar uniones
  */
 typedef struct join {
 		int oid;
@@ -147,19 +147,19 @@ struct file_parser ui_knowledge_parser = {
 };
 
 /**
- * A default group-by
+ * Una agrupación por defecto
  */
 static join_t *default_join;
 
 /**
- * Clipboard variables for copy & paste in visual mode
+ * Variables del portapapeles para copiar y pegar en modo visual
  */
 static uint8_t attr_idx = 0;
 static wchar_t char_idx = 0;
 
 /**
  * ------------------------------------------------------------------------
- * Knowledge menu utilities
+ * Utilidades del menú de conocimiento
  * ------------------------------------------------------------------------ */
 
 static int default_item_id(int oid)
@@ -173,27 +173,27 @@ static int default_group_id(int oid)
 }
 
 /**
- * Return a specific ordering for the features
+ * Devuelve un orden específico para las características
  */
 static int feat_order(int feat)
 {
 	if (tf_has(f_info[feat].flags, TF_SHOP)) return 6;
 	if (tf_has(f_info[feat].flags, TF_STAIR)) return 2;
 	if (tf_has(f_info[feat].flags, TF_DOOR_ANY)) return 1;
-	/* These also have WALL set so check them first before checking WALL. */
+	/* Estas también tienen WALL, así que verifícalas antes de verificar WALL. */
 	if (tf_has(f_info[feat].flags, TF_MAGMA)
 		|| tf_has(f_info[feat].flags, TF_QUARTZ)) return 4;
-	/* These also have ROCK set so check them first before checking ROCK. */
+	/* Estas también tienen ROCK, así que verifícalas antes de verificar ROCK. */
 	if (tf_has(f_info[feat].flags, TF_WALL)) return 3;
 	if (tf_has(f_info[feat].flags, TF_ROCK)) return 5;
-	/* Many above have PASSABLE so do this last. */
+	/* Muchas de las anteriores tienen PASSABLE, así que haz esto al final. */
 	if (tf_has(f_info[feat].flags, TF_PASSABLE)) return 0;
 	return 7;
 }
 
 
 /**
- * Return the actual width of a symbol
+ * Devuelve el ancho real de un símbolo
  */
 static int actual_width(int width)
 {
@@ -201,7 +201,7 @@ static int actual_width(int width)
 }
 
 /**
- * Return the actual height of a symbol
+ * Devuelve la altura real de un símbolo
  */
 static int actual_height(int height)
 {
@@ -210,7 +210,7 @@ static int actual_height(int height)
 
 
 /**
- * From an actual width, return the logical width
+ * De un ancho real, devuelve el ancho lógico
  */
 static int logical_width(int width)
 {
@@ -218,7 +218,7 @@ static int logical_width(int width)
 }
 
 /**
- * From an actual height, return the logical height
+ * De una altura real, devuelve la altura lógica
  */
 static int logical_height(int height)
 {
@@ -227,23 +227,23 @@ static int logical_height(int height)
 
 
 /**
- * Display tiles.
+ * Mostrar mosaicos.
  */
 static void display_tiles(int col, int row, int height, int width,
 		uint8_t attr_top, wchar_t char_left)
 {
 	int i, j;
 
-	/* Clear the display lines */
+	/* Limpiar las líneas de visualización */
 	for (i = 0; i < height; i++)
 			Term_erase(col, row + i, width);
 
 	width = logical_width(width);
 	height = logical_height(height);
 
-	/* Display lines until done */
+	/* Mostrar líneas hasta terminar */
 	for (i = 0; i < height; i++) {
-		/* Display columns until done */
+		/* Mostrar columnas hasta terminar */
 		for (j = 0; j < width; j++) {
 			uint8_t a;
 			wchar_t c;
@@ -257,7 +257,7 @@ static void display_tiles(int col, int row, int height, int width,
 			a = (uint8_t)ia;
 			c = (wchar_t)ic;
 
-			/* Display symbol */
+			/* Mostrar símbolo */
 			big_pad(x, y, a, c);
 		}
 	}
@@ -265,7 +265,7 @@ static void display_tiles(int col, int row, int height, int width,
 
 
 /**
- * Place the cursor at the correct position for tile picking
+ * Colocar el cursor en la posición correcta para seleccionar mosaicos
  */
 static void place_tile_cursor(int col, int row, uint8_t a, wchar_t c,
 		uint8_t attr_top, wchar_t char_left)
@@ -276,33 +276,33 @@ static void place_tile_cursor(int col, int row, uint8_t a, wchar_t c,
 	int x = col + actual_width(j);
 	int y = row + actual_height(i);
 
-	/* Place the cursor */
+	/* Colocar el cursor */
 	Term_gotoxy(x, y);
 }
 
 
 /**
- * Remove the tile display and clear the screen 
+ * Eliminar la visualización de mosaicos y limpiar la pantalla
  */
 static void remove_tiles(int col, int row, bool *picker_ptr, int width,
 						 int height)
 {
 	int i;
 
-	/* No more big cursor */
+	/* No más cursor grande */
 	bigcurs = false;
 
-	/* Cancel visual list */
+	/* Cancelar la lista visual */
 	*picker_ptr = false;
 
-	/* Clear the display lines */
+	/* Limpiar las líneas de visualización */
 	for (i = 0; i < height; i++)
 		Term_erase(col, row + i, width);
 
 }
 
 /**
- *  Do tile picker command -- Change tiles
+ *  Hacer comando del selector de mosaicos -- Cambiar mosaicos
  */
 static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 		int height, int width, uint8_t *attr_top_ptr,
@@ -312,15 +312,14 @@ static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 	static uint8_t attr_old = 0;
 	static wchar_t char_old = 0;
 
-	/* These are the distance we want to maintain between the
-	 * cursor and borders. */
+	/* Estas son las distancias que queremos mantener entre el cursor y los bordes. */
 	int frame_left = logical_width(10);
 	int frame_right = logical_width(10);
 	int frame_top = logical_height(4);
 	int frame_bottom = logical_height(4);
 
 
-	/* Get mouse movement */
+	/* Obtener movimiento del ratón */
 	if (*tile_picker_ptr &&  (ke.type == EVT_MOUSE)) {
 		int eff_width = actual_width(width);
 		int eff_height = actual_height(height);
@@ -333,11 +332,11 @@ static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 		if ((my >= 0) && (my < eff_height) && (mx >= 0) && (mx < eff_width)
 			&& ((ke.mouse.button == 1) || (a != *attr_top_ptr + my)
 				|| (c != *char_left_ptr + mx))) {
-			/* Set the visual */
+			/* Establecer lo visual */
 			*cur_attr_ptr = a = *attr_top_ptr + my;
 			*cur_char_ptr = c = *char_left_ptr + mx;
 
-			/* Move the frame */
+			/* Mover el marco */
 			if (*char_left_ptr > MAX(0, (int)c - frame_left))
 				(*char_left_ptr)--;
 			if (*char_left_ptr + eff_width <= MIN(255, (int)c + frame_right))
@@ -347,16 +346,16 @@ static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 			if (*attr_top_ptr + eff_height <= MIN(255, (int)a + frame_bottom))
 				(*attr_top_ptr)++;
 
-			/* Delay */
+			/* Demora */
 			*delay = 100;
 
-			/* Accept change */
+			/* Aceptar cambio */
 			if (ke.mouse.button)
 			  remove_tiles(col, row, tile_picker_ptr, width, height);
 
 			return true;
 		} else if (ke.mouse.button == 2) {
-			/* Cancel change */
+			/* Cancelar cambio */
 			*cur_attr_ptr = attr_old;
 			*cur_char_ptr = char_old;
 			remove_tiles(col, row, tile_picker_ptr, width, height);
@@ -376,7 +375,7 @@ static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 		case ESCAPE:
 		{
 			if (*tile_picker_ptr) {
-				/* Cancel change */
+				/* Cancelar cambio */
 				*cur_attr_ptr = attr_old;
 				*cur_char_ptr = char_old;
 				remove_tiles(col, row, tile_picker_ptr, width, height);
@@ -390,7 +389,7 @@ static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 		case KC_ENTER:
 		{
 			if (*tile_picker_ptr) {
-				/* Accept change */
+				/* Aceptar cambio */
 				remove_tiles(col, row, tile_picker_ptr, width, height);
 				return true;
 			}
@@ -401,7 +400,7 @@ static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 		case 'V':
 		case 'v':
 		{
-			/* No visual mode without graphics, for now - NRM */
+			/* Sin modo visual sin gráficos, por ahora - NRM */
 			if (current_graphics_mode != NULL)
 				if (current_graphics_mode->grafID == 0)
 					break;
@@ -416,7 +415,7 @@ static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 				attr_old = *cur_attr_ptr;
 				char_old = *cur_char_ptr;
 			} else {
-				/* Cancel change */
+				/* Cancelar cambio */
 				*cur_attr_ptr = attr_old;
 				*cur_char_ptr = char_old;
 				remove_tiles(col, row, tile_picker_ptr, width, height);
@@ -428,7 +427,7 @@ static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 		case 'C':
 		case 'c':
 		{
-			/* Set the tile */
+			/* Establecer el mosaico */
 			attr_idx = *cur_attr_ptr;
 			char_idx = *cur_char_ptr;
 
@@ -439,13 +438,13 @@ static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 		case 'p':
 		{
 			if (attr_idx) {
-				/* Set the char */
+				/* Establecer el carácter */
 				*cur_attr_ptr = attr_idx;
 				*attr_top_ptr = (uint8_t)MAX(0, (int)*cur_attr_ptr - frame_top);
 			}
 
 			if (char_idx) {
-				/* Set the char */
+				/* Establecer el carácter */
 				*cur_char_ptr = char_idx;
 				*char_left_ptr = (wchar_t)MAX(0, (int)*cur_char_ptr - frame_left);
 			}
@@ -464,7 +463,7 @@ static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 
 			bigcurs = true;
 
-			/* Restrict direction */
+			/* Restringir dirección */
 			if ((a == 0) && (ddy[d] < 0)) d = 0;
 			if ((c == 0) && (ddx[d] < 0)) d = 0;
 			if ((a == 255) && (ddy[d] > 0)) d = 0;
@@ -473,11 +472,11 @@ static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 			a += ddy[d];
 			c += ddx[d];
 
-			/* Set the tile */
+			/* Establecer el mosaico */
 			*cur_attr_ptr = a;
 			*cur_char_ptr = c;
 
-			/* Move the frame */
+			/* Mover el marco */
 			if (ddx[d] < 0 &&
 					*char_left_ptr > MAX(0, (int)c - frame_left))
 				(*char_left_ptr)--;
@@ -494,21 +493,21 @@ static bool tile_picker_command(ui_event ke, bool *tile_picker_ptr,
 							MIN(255, (int)a + frame_bottom))
 				(*attr_top_ptr)++;
 
-			/* We need to always eat the input even if it is clipped,
-			 * otherwise it will be interpreted as a change object
-			 * selection command with messy results.
+			/* Necesitamos siempre consumir la entrada incluso si está recortada,
+			 * de lo contrario se interpretará como un comando de cambio de selección de objeto
+			 * con resultados desordenados.
 			 */
 			return true;
 		}
 	}
 
-	/* Tile picker command is not used */
+	/* El comando del selector de mosaicos no se usa */
 	return false;
 }
 
 
 /**
- * Display glyph and colours
+ * Mostrar glifos y colores
  */
 static void display_glyphs(int col, int row, int height, int width, uint8_t a,
 			   wchar_t c)
@@ -516,21 +515,21 @@ static void display_glyphs(int col, int row, int height, int width, uint8_t a,
 	int i;
 	int x, y;
 
-	/* Clear the display lines */
+	/* Limpiar las líneas de visualización */
 	for (i = 0; i < height; i++)
 	        Term_erase(col, row + i, width);
 
-	/* Prompt */
-	prt("Choose colour:", row + height/2, col);
+	/* Mensaje */
+	prt("Elige color:", row + height/2, col);
 	Term_locate(&x, &y);
 	for (i = 0; i < MAX_COLORS; i++) big_pad(x + i, y, i, c);
 	
-	/* Place the cursor */
+	/* Colocar el cursor */
 	Term_gotoxy(x + a, y);
 }
 
 /**
- * Do glyph picker command -- Change glyphs
+ * Hacer comando del selector de glifos -- Cambiar glifos
  */
 static bool glyph_command(ui_event ke, bool *glyph_picker_ptr,
 			  int height, int width, uint8_t *cur_attr_ptr,
@@ -539,17 +538,17 @@ static bool glyph_command(ui_event ke, bool *glyph_picker_ptr,
 	static uint8_t attr_old = 0;
 	static wchar_t char_old = 0;
 	
-	/* Get mouse movement */
+	/* Obtener movimiento del ratón */
 	if (*glyph_picker_ptr && (ke.type == EVT_MOUSE)) {
 		int mx = logical_width(ke.mouse.x - col);
 		
 		if (ke.mouse.y != row + height / 2) return false;
 		
 		if ((mx >= 0) && (mx < MAX_COLORS) && (ke.mouse.button == 1)) {
-			/* Set the visual */
+			/* Establecer lo visual */
 			*cur_attr_ptr = mx - 14;
 
-			/* Accept change */
+			/* Aceptar cambio */
 			remove_tiles(col, row, glyph_picker_ptr, width, height);
 			
 			return true;
@@ -567,7 +566,7 @@ static bool glyph_command(ui_event ke, bool *glyph_picker_ptr,
 	        case ESCAPE:
 		{
 			if (*glyph_picker_ptr) {
-				/* Cancel change */
+				/* Cancelar cambio */
 				*cur_attr_ptr = attr_old;
 				*cur_char_ptr = char_old;
 				remove_tiles(col, row, glyph_picker_ptr, width, height);
@@ -581,7 +580,7 @@ static bool glyph_command(ui_event ke, bool *glyph_picker_ptr,
 	    case KC_ENTER:
 	    {
 		    if (*glyph_picker_ptr) {
-			    /* Accept change */
+			    /* Aceptar cambio */
 			    remove_tiles(col, row, glyph_picker_ptr, width, height);
 			    return true;
 		    }
@@ -598,7 +597,7 @@ static bool glyph_command(ui_event ke, bool *glyph_picker_ptr,
 			    attr_old = *cur_attr_ptr;
 			    char_old = *cur_char_ptr;
 		    } else {
-			    /* Cancel change */
+			    /* Cancelar cambio */
 			    *cur_attr_ptr = attr_old;
 			    *cur_char_ptr = char_old;
 			    remove_tiles(col, row, glyph_picker_ptr, width, height);
@@ -610,7 +609,7 @@ static bool glyph_command(ui_event ke, bool *glyph_picker_ptr,
 		case 'C':
 		case 'c':
 		{
-			/* Set the tile */
+			/* Establecer el mosaico */
 			attr_idx = *cur_attr_ptr;
 			char_idx = *cur_char_ptr;
 
@@ -621,12 +620,12 @@ static bool glyph_command(ui_event ke, bool *glyph_picker_ptr,
 		case 'p':
 		{
 			if (attr_idx) {
-				/* Set the char */
+				/* Establecer el carácter */
 				*cur_attr_ptr = attr_idx;
 			}
 
 			if (char_idx) {
-				/* Set the char */
+				/* Establecer el carácter */
 				*cur_char_ptr = char_idx;
 			}
 
@@ -640,11 +639,11 @@ static bool glyph_command(ui_event ke, bool *glyph_picker_ptr,
 			    char code_point[6];
 			    bool res = false;
 	
-			    /* Ask the user for a code point */
+			    /* Preguntar al usuario por un punto de código */
 			    Term_gotoxy(col, row + height/2 + 2);
-			    res = get_string("(up to 5 hex digits):", code_point, 5);
+			    res = get_string("(hasta 5 dígitos hex):", code_point, 5);
 	
-			    /* Process input */
+			    /* Procesar entrada */
 			    if (res) {
 				    unsigned long int point = strtoul(code_point,
 													  (char **)NULL, 16);
@@ -666,10 +665,10 @@ static bool glyph_command(ui_event ke, bool *glyph_picker_ptr,
 		    if (!*glyph_picker_ptr)
 				break;
 
-		    /* Horizontal only */
+		    /* Solo horizontal */
 		    if (ddy[d] != 0) break;
 		    
-		    /* Horizontal movement */
+		    /* Movimiento horizontal */
 		    if (ddx[d] != 0) {
 				a += ddx[d] + BASIC_COLORS;
 				a = a % BASIC_COLORS;
@@ -677,15 +676,15 @@ static bool glyph_command(ui_event ke, bool *glyph_picker_ptr,
 		    }
     
 	
-		    /* We need to always eat the input even if it is clipped,
-		     * otherwise it will be interpreted as a change object
-		     * selection command with messy results.
+		    /* Necesitamos siempre consumir la entrada incluso si está recortada,
+		     * de lo contrario se interpretará como un comando de cambio de selección de objeto
+		     * con resultados desordenados.
 		     */
 		    return true;
 	    }
 	}
 
-	/* Glyph picker command is not used */
+	/* El comando del selector de glifos no se usa */
 	return false;
 }
 
@@ -697,14 +696,14 @@ static void display_group_member(struct menu *menu, int oid,
 
 	(void)wid;
 
-	/* Print the interesting part */
+	/* Imprimir la parte interesante */
 	o_funcs->display_member(col, row, cursor, oid);
 
 #ifdef KNOWLEDGE_MENU_DEBUG
 	c_put_str(attr, format("%d", oid), row, 60);
 #endif
 
-	/* Do visual mode */
+	/* Hacer modo visual */
 	if (o_funcs->is_visual && o_funcs->xattr) {
 		wchar_t c = *o_funcs->xchar(oid);
 		uint8_t a = *o_funcs->xattr(oid);
@@ -718,44 +717,44 @@ static void display_group_member(struct menu *menu, int oid,
 static const char *recall_prompt(int oid)
 {
 	(void)oid;
-	return ", 'r' to recall";
+	return ", 'r' para recordar";
 }
 
 #define swap(a, b) (swapspace = (void*)(a)), ((a) = (b)), ((b) = swapspace)
 
-/* Flag value for missing array entry */
+/* Valor de bandera para entrada de matriz faltante */
 #define MISSING -17
 
 /**
- * Interactive group by.
- * Recognises inscriptions, graphical symbols, lore
+ * Agrupación interactiva.
+ * Reconoce inscripciones, símbolos gráficos, saber.
  */
 static void display_knowledge(const char *title, int *obj_list, int o_count,
 				group_funcs g_funcs, member_funcs o_funcs,
 				const char *otherfields)
 {
-	/* Maximum number of groups to display */
+	/* Número máximo de grupos a mostrar */
 	int max_group = g_funcs.maxnum < o_count ? g_funcs.maxnum : o_count ;
 
-	/* This could (should?) be (void **) */
+	/* Esto podría (debería?) ser (void **) */
 	int *g_list, *g_offset;
 
 	const char **g_names;
 
-	int g_name_len = 8;  /* group name length, minumum is 8 */
+	int g_name_len = 8;  /* longitud del nombre del grupo, mínimo 8 */
 
-	int grp_cnt = 0; /* total number groups */
+	int grp_cnt = 0; /* número total de grupos */
 
-	int g_cur = 0, grp_old = -1; /* group list positions */
-	int o_cur = 0;					/* object list positions */
-	int g_o_count = 0;				 /* object count for group */
-	int oid;  				/* object identifiers */
+	int g_cur = 0, grp_old = -1; /* posiciones en la lista de grupos */
+	int o_cur = 0;					/* posiciones en la lista de objetos */
+	int g_o_count = 0;				 /* recuento de objetos para el grupo */
+	int oid;  				/* identificadores de objeto */
 
 	region title_area = { 0, 0, 0, 4 };
 	region group_region = { 0, 6, MISSING, -2 };
 	region object_region = { MISSING, 6, 0, -2 };
 
-	/* display state variables */
+	/* variables de estado de visualización */
 	bool tiles = (current_graphics_mode != NULL);
 	bool tile_picker = false;
 	bool glyph_picker = false;
@@ -768,9 +767,8 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 	struct menu object_menu;
 	menu_iter object_iter = { NULL, NULL, display_group_member, NULL, NULL };
 
-	/* Panel state */
-	/* These are swapped in parallel whenever the actively browsing " */
-	/* changes */
+	/* Estado del panel */
+	/* Estos se intercambian en paralelo cada vez que cambia la navegación activa */
 	int *active_cursor = &g_cur, *inactive_cursor = &o_cur;
 	struct menu *active_menu = &group_menu, *inactive_menu = &object_menu;
 	int panel = 0;
@@ -787,17 +785,17 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 	int prev_g = -1;
 	ui_event ke;
 
-	/* Get size */
+	/* Obtener tamaño */
 	Term_get_size(&wid, &hgt);
 	browser_rows = hgt - 8;
 
-	/* Determine if using tiles or not */
+	/* Determinar si se usan mosaicos o no */
 	if (tiles) tiles = (current_graphics_mode->grafID != 0);
 
 	if (g_funcs.gcomp)
 		sort(obj_list, o_count, sizeof(*obj_list), g_funcs.gcomp);
 
-	/* Sort everything into group order */
+	/* Ordenar todo en orden de grupo */
 	g_list = mem_zalloc((max_group + 1) * sizeof(int));
 	g_offset = mem_zalloc((max_group + 1) * sizeof(int));
 
@@ -813,7 +811,7 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 	g_list[grp_cnt] = -1;
 
 
-	/* The compact set of group names, in display order */
+	/* El conjunto compacto de nombres de grupo, en orden de visualización */
 	g_names = mem_zalloc(grp_cnt * sizeof(char*));
 
 	for (i = 0; i < grp_cnt; i++) {
@@ -823,18 +821,18 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 		if (len > g_name_len) g_name_len = len;
 	}
 
-	/* Reasonable max group name len */
+	/* Longitud máxima razonable del nombre del grupo */
 	if (g_name_len >= 20) g_name_len = 20;
 
 	object_region.col = g_name_len + 3;
 	group_region.width = g_name_len;
 
 
-	/* Leave room for the group summary information */
+	/* Dejar espacio para la información resumida del grupo */
 	if (g_funcs.summary) object_region.page_rows = -3;
 
 
-	/* Set up the two menus */
+	/* Configurar los dos menús */
 	menu_init(&group_menu, MN_SKIN_SCROLL, menu_find_iter(MN_ITER_STRINGS));
 	menu_setpriv(&group_menu, grp_cnt, g_names);
 	menu_layout(&group_menu, &group_region);
@@ -847,28 +845,28 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 
 	o_funcs.is_visual = false;
 
-	/* Save screen */
+	/* Guardar pantalla */
 	screen_save();
 	clear_from(0);
 
-	/* This is the event loop for a multi-region panel */
-	/* Panels are -- text panels, two menus, and visual browser */
-	/* with "pop-up menu" for lore */
+	/* Este es el bucle de eventos para un panel de múltiples regiones */
+	/* Los paneles son -- paneles de texto, dos menús, y navegador visual */
+	/* con "menú emergente" para el saber */
 	while ((!flag) && (grp_cnt)) {
 		bool recall = false;
 
 		if (redraw) {
-			/* Print the title bits */
+			/* Imprimir los bits del título */
 			region_erase(&title_area);
-			prt(format("Knowledge - %s", title), 2, 0);
-			prt("Group", 4, 0);
-			prt("Name", 4, g_name_len + 3);
+			prt(format("Conocimiento - %s", title), 2, 0);
+			prt("Grupo", 4, 0);
+			prt("Nombre", 4, g_name_len + 3);
 
 			if (otherfields)
 				prt(otherfields, 4, 46);
 
 
-			/* Print dividers: horizontal and vertical */
+			/* Imprimir divisores: horizontal y vertical */
 			for (i = 0; i < 79; i++)
 				Term_putch(i, 5, COLOUR_WHITE, L'=');
 
@@ -876,7 +874,7 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 				Term_putch(g_name_len + 1, 6 + i, COLOUR_WHITE, L'|');
 
 
-			/* Reset redraw flag */
+			/* Reiniciar bandera de redibujado */
 			redraw = false;
 		}
 
@@ -892,13 +890,13 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 
 		/* HACK ... */
 		if (!(tile_picker || glyph_picker)) {
-			/* ... The object menu may be browsing the entire group... */
+			/* ... El menú de objetos puede estar navegando por todo el grupo... */
 			o_funcs.is_visual = false;
 			menu_set_filter(&object_menu, obj_list + g_offset[g_cur],
 							g_o_count);
 			object_menu.cursor = o_cur;
 		} else {
-			/* ... or just a single element in the group. */
+			/* ... o solo un elemento en el grupo. */
 			o_funcs.is_visual = true;
 			menu_set_filter(&object_menu, obj_list + o_cur + g_offset[g_cur],
 							1);
@@ -907,18 +905,18 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 
 		oid = obj_list[g_offset[g_cur]+o_cur];
 
-		/* Print prompt */
+		/* Imprimir mensaje */
 		{
 			const char *pedit = (!o_funcs.xattr) ? "" :
 					(!(attr_idx|char_idx) ?
-					 ", 'c' to copy" : ", 'c', 'p' to paste");
+					 ", 'c' para copiar" : ", 'c', 'p' para pegar");
 			const char *xtra = o_funcs.xtra_prompt ?
 				o_funcs.xtra_prompt(oid) : "";
 			const char *pvs = "";
 
-			if (tile_picker) pvs = ", ENTER to accept";
-			else if (glyph_picker) pvs = ", 'i' to insert, ENTER to accept";
-			else if (o_funcs.xattr) pvs = ", 'v' for visuals";
+			if (tile_picker) pvs = ", ENTER para aceptar";
+			else if (glyph_picker) pvs = ", 'i' para insertar, ENTER para aceptar";
+			else if (o_funcs.xattr) pvs = ", 'v' para visuales";
 
 			prt(format("<dir>%s%s%s, ESC", pvs, pedit, xtra), hgt - 1, 0);
 		}
@@ -961,10 +959,10 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 		}
 
 		if (delay) {
-			/* Force screen update */
+			/* Forzar actualización de pantalla */
 			Term_fresh();
 
-			/* Delay */
+			/* Demora */
 			Term_xtra(TERM_XTRA_DELAY, delay);
 
 			delay = 0;
@@ -983,7 +981,7 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 				ke = ke0;
 		}
 
-		/* XXX Do visual mode command if needed */
+		/* XXX Hacer comando de modo visual si es necesario */
 		if (o_funcs.xattr && o_funcs.xchar) {
 			if (tiles) {
 				if (tile_picker_command(ke, &tile_picker, 
@@ -1018,7 +1016,7 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 
 			case EVT_MOUSE:
 			{
-				/* Change active panels */
+				/* Cambiar paneles activos */
 				if (region_inside(&inactive_menu->active, &ke)) {
 					swap(active_menu, inactive_menu);
 					swap(active_cursor, inactive_cursor);
@@ -1059,7 +1057,7 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 			}
 		}
 
-		/* Recall on screen */
+		/* Recordar en pantalla */
 		if (recall) {
 			if (oid >= 0)
 				o_funcs.lore(oid);
@@ -1068,9 +1066,9 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 		}
 	}
 
-	/* Prompt */
+	/* Mensaje */
 	if (!grp_cnt)
-		prt(format("No %s known.", title), 15, 0);
+		prt(format("Ningún %s conocido.", title), 15, 0);
 
 	mem_free(g_names);
 	mem_free(g_offset);
@@ -1081,36 +1079,36 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 
 /**
  * ------------------------------------------------------------------------
- *  MONSTERS
+ *  MONSTRUOS
  * ------------------------------------------------------------------------ */
 
 /**
- * Is a flat array describing each monster group.  Configured by
- * ui_knowledge.txt.  The last element receives special treatment and is
- * used to catch any type of monster not caught by the other categories.
- * That's intended as a debugging tool while modding the game.
+ * Es una matriz plana que describe cada grupo de monstruos. Configurada por
+ * ui_knowledge.txt. El último elemento recibe un trato especial y se
+ * usa para capturar cualquier tipo de monstruo no capturado por las otras categorías.
+ * Eso está pensado como una herramienta de depuración mientras se modifica el juego.
  */
 static struct ui_monster_category *monster_group = NULL;
 
 /**
- * Is the number of entries, including the last one receiving special
- * treatment, in monster_group.
+ * Es el número de entradas, incluyendo la última que recibe trato especial,
+ * en monster_group.
  */
 static int n_monster_group = 0;
 
 /**
- * Display a monster
+ * Mostrar un monstruo
  */
 static void display_monster(int col, int row, bool cursor, int oid)
 {
-	/* HACK Get the race index. (Should be a wrapper function) */
+	/* HACK Obtener el índice de raza. (Debería ser una función envoltorio) */
 	int r_idx = default_item_id(oid);
 
-	/* Access the race */
+	/* Acceder a la raza */
 	struct monster_race *race = &r_info[r_idx];
 	struct monster_lore *lore = &l_list[r_idx];
 
-	/* Choose colors */
+	/* Elegir colores */
 	uint8_t attr = curs_attrs[CURS_KNOWN][(int)cursor];
 	uint8_t a = monster_x_attr[race->ridx];
 	wchar_t c = monster_x_char[race->ridx];
@@ -1118,26 +1116,26 @@ static void display_monster(int col, int row, bool cursor, int oid)
 	if ((tile_height != 1) && (a & 0x80)) {
 		a = race->d_attr;
 		c = race->d_char;
-		/* If uniques are purple, make it so */
+		/* Si los únicos son morados, hacerlo así */
 		if (OPT(player, purple_uniques) && rf_has(race->flags, RF_UNIQUE))
 			a = COLOUR_VIOLET;
 	}
-	/* If uniques are purple, make it so */
+	/* Si los únicos son morados, hacerlo así */
 	else if (OPT(player, purple_uniques) && !(a & 0x80) &&
 			 rf_has(race->flags, RF_UNIQUE))
 		a = COLOUR_VIOLET;
 
-	/* Display the name */
+	/* Mostrar el nombre */
 	c_prt(attr, race->name, row, col);
 
-	/* Display symbol */
+	/* Mostrar símbolo */
 	big_pad(66, row, a, c);
 
-	/* Display kills */
+	/* Mostrar muertes */
 	if (!race->rarity) {
-		put_str(format("%s", "shape"), row, 70);
+		put_str(format("%s", "forma"), row, 70);
 	} else if (rf_has(race->flags, RF_UNIQUE)) {
-		put_str(format("%s", (race->max_num == 0)?  " dead" : "alive"),
+		put_str(format("%s", (race->max_num == 0)?  " muerto" : "vivo"),
 				row, 70);
 	} else {
 		put_str(format("%5d", lore->pkills), row, 70);
@@ -1152,15 +1150,15 @@ static int m_cmp_race(const void *a, const void *b)
 	const struct monster_race *r_b = &r_info[default_item_id(b_val)];
 	int gid = default_group_id(a_val);
 
-	/* Group by */
+	/* Agrupar por */
 	int c = gid - default_group_id(b_val);
 	if (c)
 		return c;
 
 	/*
-	 * If the group specifies monster bases, order those that are included
-	 * by the base by those bases.  Those that aren't in any of the bases
-	 * appear last.
+	 * Si el grupo especifica bases de monstruos, ordenar aquellos que están incluidos
+	 * por la base según esas bases. Aquellos que no están en ninguna de las bases
+	 * aparecen al final.
 	 */
 	assert(gid >= 0 && gid < n_monster_group);
 	if (monster_group[gid].n_inc_bases) {
@@ -1183,8 +1181,8 @@ static int m_cmp_race(const void *a, const void *b)
 	}
 
 	/*
-	 * Within the same base or outside of a specified base, order by level
-	 * and then by name.
+	 * Dentro de la misma base o fuera de una base especificada, ordenar por nivel
+	 * y luego por nombre.
 	 */
 	c = r_a->level - r_b->level;
 	if (c)
@@ -1221,7 +1219,7 @@ static void mon_lore(int oid)
 	race = &r_info[r_idx];
 	lore = get_lore(race);
 
-	/* Update the monster recall window */
+	/* Actualizar la ventana de recuerdo de monstruos */
 	monster_race_track(player->upkeep, race);
 	handle_stuff(player);
 
@@ -1237,16 +1235,16 @@ static void mon_summary(int gid, const int *item_list, int n, int top,
 	int i;
 	int kills = 0;
 
-	/* Access the race */
+	/* Acceder a la raza */
 	for (i = 0; i < n; i++) {
 		int oid = default_join[item_list[i+top]].oid;
 		kills += l_list[oid].pkills;
 	}
 
-	/* Different display for the first item if we've got uniques to show */
+	/* Visualización diferente para el primer elemento si tenemos únicos que mostrar */
 	if (gid == 0 &&
 		rf_has((&r_info[default_join[item_list[0]].oid])->flags, RF_UNIQUE)) {
-		c_prt(COLOUR_L_BLUE, format("%d known uniques, %d slain.", n, kills),
+		c_prt(COLOUR_L_BLUE, format("%d únicos conocidos, %d asesinados.", n, kills),
 					row, col);
 	} else {
 		int tkills = 0;
@@ -1254,7 +1252,7 @@ static void mon_summary(int gid, const int *item_list, int n, int top,
 		for (i = 0; i < z_info->r_max; i++)
 			tkills += l_list[i].pkills;
 
-		c_prt(COLOUR_L_BLUE, format("Creatures slain: %d/%d (in group/in total)", kills, tkills), row, col);
+		c_prt(COLOUR_L_BLUE, format("Criaturas asesinadas: %d/%d (en grupo/en total)", kills, tkills), row, col);
 	}
 }
 
@@ -1304,7 +1302,7 @@ static int count_known_monsters(void)
 }
 
 /**
- * Display known monsters.
+ * Mostrar monstruos conocidos.
  */
 static void do_cmd_knowledge_monsters(const char *name, int row)
 {
@@ -1371,56 +1369,56 @@ static void do_cmd_knowledge_monsters(const char *name, int row)
 		}
 	}
 
-	display_knowledge("monsters", monsters, m_count, r_funcs, m_funcs,
-			"                   Sym  Kills");
+	display_knowledge("monstruos", monsters, m_count, r_funcs, m_funcs,
+			"                   Símb  Muertes");
 	mem_free(default_join);
 	mem_free(monsters);
 }
 
 /**
  * ------------------------------------------------------------------------
- *  ARTIFACTS
+ *  ARTEFACTOS
  * ------------------------------------------------------------------------ */
 
 /**
- * These are used for all the object sections
+ * Estos se usan para todas las secciones de objetos
  */
 static const grouper object_text_order[] =
 {
-	{TV_RING,			"Ring"			},
-	{TV_AMULET,			"Amulet"		},
-	{TV_POTION,			"Potion"		},
-	{TV_SCROLL,			"Scroll"		},
-	{TV_WAND,			"Wand"			},
-	{TV_STAFF,			"Staff"			},
-	{TV_ROD,			"Rod"			},
- 	{TV_FOOD,			"Food"			},
- 	{TV_MUSHROOM,		"Mushroom"		},
-	{TV_PRAYER_BOOK,	"Priest Book"	},
-	{TV_MAGIC_BOOK,		"Magic Book"	},
-	{TV_NATURE_BOOK,	"Nature Book"	},
-	{TV_SHADOW_BOOK,	"Shadow Book"	},
-	{TV_OTHER_BOOK,		"Mystery Book"	},
-	{TV_LIGHT,			"Light"			},
-	{TV_FLASK,			"Flask"			},
-	{TV_SWORD,			"Sword"			},
-	{TV_POLEARM,		"Polearm"		},
-	{TV_HAFTED,			"Hafted Weapon" },
-	{TV_BOW,			"Bow"			},
-	{TV_ARROW,			"Ammunition"	},
+	{TV_RING,			"Anillo"			},
+	{TV_AMULET,			"Amuleto"		},
+	{TV_POTION,			"Poción"		},
+	{TV_SCROLL,			"Pergamino"		},
+	{TV_WAND,			"Varita"			},
+	{TV_STAFF,			"Báculo"			},
+	{TV_ROD,			"Vara"			},
+ 	{TV_FOOD,			"Comida"			},
+ 	{TV_MUSHROOM,		"Seta"		},
+	{TV_PRAYER_BOOK,	"Libro Sacerdotal"	},
+	{TV_MAGIC_BOOK,		"Libro de Magia"	},
+	{TV_NATURE_BOOK,	"Libro de la Naturaleza"	},
+	{TV_SHADOW_BOOK,	"Libro de las Sombras"	},
+	{TV_OTHER_BOOK,		"Libro Misterioso"	},
+	{TV_LIGHT,			"Luz"			},
+	{TV_FLASK,			"Frasco"			},
+	{TV_SWORD,			"Espada"			},
+	{TV_POLEARM,		"Arma de Asta"		},
+	{TV_HAFTED,			"Arma Embrazada" },
+	{TV_BOW,			"Arco"			},
+	{TV_ARROW,			"Munición"	},
 	{TV_BOLT,			NULL			},
 	{TV_SHOT,			NULL			},
-	{TV_SHIELD,			"Shield"		},
-	{TV_CROWN,			"Crown"			},
-	{TV_HELM,			"Helm"			},
-	{TV_GLOVES,			"Gloves"		},
-	{TV_BOOTS,			"Boots"			},
-	{TV_CLOAK,			"Cloak"			},
-	{TV_DRAG_ARMOR,		"Dragon Scale Mail" },
-	{TV_HARD_ARMOR,		"Hard Armor"	},
-	{TV_SOFT_ARMOR,		"Soft Armor"	},
-	{TV_DIGGING,		"Digger"		},
-	{TV_GOLD,			"Money"			},
+	{TV_SHIELD,			"Escudo"		},
+	{TV_CROWN,			"Corona"			},
+	{TV_HELM,			"Yelmo"			},
+	{TV_GLOVES,			"Guantes"		},
+	{TV_BOOTS,			"Botas"			},
+	{TV_CLOAK,			"Capa"			},
+	{TV_DRAG_ARMOR,		"Malla de Escamas de Dragón" },
+	{TV_HARD_ARMOR,		"Armadura Rígida"	},
+	{TV_SOFT_ARMOR,		"Armadura Flexible"	},
+	{TV_DIGGING,		"Pico"		},
+	{TV_GOLD,			"Dinero"			},
 	{0,					NULL			}
 };
 
@@ -1442,7 +1440,7 @@ static void get_artifact_display_name(char *o_name, size_t namelen, int a_idx)
 }
 
 /**
- * Display an artifact label
+ * Mostrar una etiqueta de artefacto
  */
 static void display_artifact(int col, int row, bool cursor, int oid)
 {
@@ -1455,14 +1453,14 @@ static void display_artifact(int col, int row, bool cursor, int oid)
 }
 
 /**
- * Look for an artifact
+ * Buscar un artefacto
  */
 static struct object *find_artifact(struct artifact *artifact)
 {
 	int y, x, i;
 	struct object *obj;
 
-	/* Ground objects */
+	/* Objetos en el suelo */
 	for (y = 1; y < cave->height; y++) {
 		for (x = 1; x < cave->width; x++) {
 			struct loc grid = loc(x, y);
@@ -1472,12 +1470,12 @@ static struct object *find_artifact(struct artifact *artifact)
 		}
 	}
 
-	/* Player objects */
+	/* Objetos del jugador */
 	for (obj = player->gear; obj; obj = obj->next) {
 		if (obj->artifact == artifact) return obj;
 	}
 
-	/* Monster objects */
+	/* Objetos de monstruos */
 	for (i = cave_monster_max(cave) - 1; i >= 1; i--) {
 		struct monster *mon = cave_monster(cave, i);
 		obj = mon ? mon->held_obj : NULL;
@@ -1488,7 +1486,7 @@ static struct object *find_artifact(struct artifact *artifact)
 		}
 	}
 
-	/* Store objects */
+	/* Objetos de tiendas */
 	for (i = 0; i < z_info->store_max; i++) {
 		struct store *s = &stores[i];
 		for (obj = s->stock; obj; obj = obj->next) {
@@ -1496,13 +1494,13 @@ static struct object *find_artifact(struct artifact *artifact)
 		}
 	}
 
-	/* Stored chunk objects */
+	/* Objetos en fragmentos almacenados */
 	for (i = 0; i < chunk_list_max; i++) {
 		struct chunk *c = chunk_list[i];
 		int j;
 		if (strstr(c->name, "known")) continue;
 
-		/* Ground objects */
+		/* Objetos en el suelo */
 		for (y = 1; y < c->height; y++) {
 			for (x = 1; x < c->width; x++) {
 				struct loc grid = loc(x, y);
@@ -1512,7 +1510,7 @@ static struct object *find_artifact(struct artifact *artifact)
 			}
 		}
 
-		/* Monster objects */
+		/* Objetos de monstruos */
 		for (j = cave_monster_max(c) - 1; j >= 1; j--) {
 			struct monster *mon = cave_monster(c, j);
 			obj = mon ? mon->held_obj : NULL;
@@ -1528,7 +1526,7 @@ static struct object *find_artifact(struct artifact *artifact)
 }
 
 /**
- * Show artifact lore
+ * Mostrar saber de artefacto
  */
 static void desc_art_fake(int a_idx)
 {
@@ -1543,7 +1541,7 @@ static void desc_art_fake(int a_idx)
 
 	obj = find_artifact(&a_info[a_idx]);
 
-	/* If it's been lost, make a fake artifact for it */
+	/* Si se ha perdido, hacer un artefacto falso */
 	if (!obj) {
 		fake = true;
 		obj = &object_body;
@@ -1554,14 +1552,13 @@ static void desc_art_fake(int a_idx)
 		known_obj->artifact = obj->artifact;
 		known_obj->kind = obj->kind;
 
-		/* Check the history entry, to see if it was fully known before it
-		 * was lost */
+		/* Verificar la entrada de historia, para ver si era completamente conocido antes de perderse */
 		if (history_is_artifact_known(player, obj->artifact))
-			/* Be very careful not to influence anything but this object */
+			/* Tener mucho cuidado de no influir en nada más que este objeto */
 			object_copy(known_obj, obj);
 	}
 
-	/*Handle stuff */
+	/*Manejar eventos */
 	handle_stuff(player);
 
 	tb = object_info(obj, OINFO_NONE);
@@ -1583,13 +1580,13 @@ static int a_cmp_tval(const void *a, const void *b)
 	const struct artifact *a_a = &a_info[a_val];
 	const struct artifact *a_b = &a_info[b_val];
 
-	/* Group by */
+	/* Agrupar por */
 	int ta = obj_group_order[a_a->tval];
 	int tb = obj_group_order[a_b->tval];
 	int c = ta - tb;
 	if (c) return c;
 
-	/* Order by */
+	/* Ordenar por */
 	c = a_a->sval - a_b->sval;
 	if (c) return c;
 	return strcmp(a_a->name, a_b->name);
@@ -1606,7 +1603,7 @@ static int art2gid(int oid)
 }
 
 /**
- * Check if the given artifact idx is something we should "Know" about
+ * Verificar si el índice de artefacto dado es algo sobre lo que deberíamos "saber"
  */
 static bool artifact_is_known(int a_idx)
 {
@@ -1621,7 +1618,7 @@ static bool artifact_is_known(int a_idx)
 	if (!is_artifact_created(&a_info[a_idx]))
 		return false;
 
-	/* Check all objects to see if it exists but hasn't been IDed */
+	/* Verificar todos los objetos para ver si existe pero no ha sido ID */
 	obj = find_artifact(&a_info[a_idx]);
 	if (obj && !object_is_known_artifact(obj))
 		return false;
@@ -1631,8 +1628,8 @@ static bool artifact_is_known(int a_idx)
 
 
 /**
- * If 'artifacts' is NULL, it counts the number of known artifacts, otherwise
- * it collects the list of known artifacts into 'artifacts' as well.
+ * Si 'artifacts' es NULL, cuenta el número de artefactos conocidos; si no,
+ * también recopila la lista de artefactos conocidos en 'artifacts'.
  */
 static int collect_known_artifacts(int *artifacts, size_t artifacts_len)
 {
@@ -1643,7 +1640,7 @@ static int collect_known_artifacts(int *artifacts, size_t artifacts_len)
 		assert(artifacts_len >= z_info->a_max);
 
 	for (j = 0; j < z_info->a_max; j++) {
-		/* Artifact doesn't exist */
+		/* El artefacto no existe */
 		if (!a_info[j].name) continue;
 
 		if (OPT(player, cheat_xtra) || artifact_is_known(j)) {
@@ -1658,11 +1655,11 @@ static int collect_known_artifacts(int *artifacts, size_t artifacts_len)
 }
 
 /**
- * Display known artifacts
+ * Mostrar artefactos conocidos
  */
 static void do_cmd_knowledge_artifacts(const char *name, int row)
 {
-	/* HACK -- should be TV_MAX */
+	/* HACK -- debería ser TV_MAX */
 	group_funcs obj_f = {kind_name, a_cmp_tval, art2gid, 0, TV_MAX, false};
 	member_funcs art_f = {display_artifact, desc_art_fake, 0, 0, recall_prompt,
 						  0, 0};
@@ -1673,14 +1670,14 @@ static void do_cmd_knowledge_artifacts(const char *name, int row)
 
 	artifacts = mem_zalloc(z_info->a_max * sizeof(int));
 
-	/* Collect valid artifacts */
+	/* Recopilar artefactos válidos */
 	a_count = collect_known_artifacts(artifacts, z_info->a_max);
 
 	if (OPT(player, birth_randarts)) {
-		strnfmt(title, sizeof(title), "artifacts (seed %08lx)",
+		strnfmt(title, sizeof(title), "artefactos (semilla %08lx)",
 			(unsigned long)seed_randart);
 	} else {
-		strnfmt(title, sizeof(title), "artifacts");
+		strnfmt(title, sizeof(title), "artefactos");
 	}
 	display_knowledge(title, artifacts, a_count, obj_f, art_f, NULL);
 	mem_free(artifacts);
@@ -1688,7 +1685,7 @@ static void do_cmd_knowledge_artifacts(const char *name, int row)
 
 /**
  * ------------------------------------------------------------------------
- *  EGO ITEMS
+ *  OBJETOS ÉGIDA (EGO)
  * ------------------------------------------------------------------------ */
 
 static const char *ego_grp_name(int gid)
@@ -1698,18 +1695,18 @@ static const char *ego_grp_name(int gid)
 
 static void display_ego_item(int col, int row, bool cursor, int oid)
 {
-	/* Access the object */
+	/* Acceder al objeto */
 	struct ego_item *ego = &e_info[default_item_id(oid)];
 
-	/* Choose a color */
+	/* Elegir un color */
 	uint8_t attr = curs_attrs[0 != (int)ego->everseen][0 != (int)cursor];
 
-	/* Display the name */
+	/* Mostrar el nombre */
 	c_prt(attr, ego->name, row, col);
 }
 
 /**
- * Describe fake ego item "lore"
+ * Describir "saber" de objeto de égida falso
  */
 static void desc_ego_fake(int oid)
 {
@@ -1719,7 +1716,7 @@ static void desc_ego_fake(int oid)
 	textblock *tb;
 	region area = { 0, 0, 0, 0 };
 
-	/* List ego flags */
+	/* Listar banderas de égida */
 	tb = object_info_ego(ego);
 
 	textui_textblock_show(tb, area, format("%s %s",
@@ -1728,7 +1725,7 @@ static void desc_ego_fake(int oid)
 	textblock_free(tb);
 }
 
-/* TODO? Currently ego items will order by e_idx */
+/* ¿TODO? Actualmente los objetos de égida se ordenarán por e_idx */
 static int e_cmp_tval(const void *a, const void *b)
 {
 	const int a_val = *(const int *)a;
@@ -1736,16 +1733,16 @@ static int e_cmp_tval(const void *a, const void *b)
 	const struct ego_item *ea = &e_info[default_item_id(a_val)];
 	const struct ego_item *eb = &e_info[default_item_id(b_val)];
 
-	/* Group by */
+	/* Agrupar por */
 	int c = default_group_id(a_val) - default_group_id(b_val);
 	if (c) return c;
 
-	/* Order by */
+	/* Ordenar por */
 	return strcmp(ea->name, eb->name);
 }
 
 /**
- * Display known ego_items
+ * Mostrar objetos de égida conocidos
  */
 static void do_cmd_knowledge_ego_items(const char *name, int row)
 {
@@ -1759,12 +1756,12 @@ static void do_cmd_knowledge_ego_items(const char *name, int row)
 	int e_count = 0;
 	int i;
 
-	/* Overkill - NRM */
+	/* Excesivo - NRM */
 	int max_pairs = z_info->e_max * N_ELEMENTS(object_text_order);
 	egoitems = mem_zalloc(max_pairs * sizeof(int));
 	default_join = mem_zalloc(max_pairs * sizeof(join_t));
 
-	/* Look at all the ego items */
+	/* Mirar todos los objetos de égida */
 	for (i = 0; i < z_info->e_max; i++)	{
 		struct ego_item *ego = &e_info[i];
 		if (ego->everseen || OPT(player, cheat_xtra)) {
@@ -1772,21 +1769,21 @@ static void do_cmd_knowledge_ego_items(const char *name, int row)
 			int *tval = mem_zalloc(N_ELEMENTS(object_text_order) * sizeof(int));
 			struct poss_item *poss;
 
-			/* Note the tvals which are possible for this ego */
+			/* Notar los tvals que son posibles para esta égida */
 			for (poss = ego->poss_items; poss; poss = poss->next) {
 				struct object_kind *kind = &k_info[poss->kidx];
 				assert(obj_group_order[kind->tval] >= 0);
 				tval[obj_group_order[kind->tval]]++;
 			}
 
-			/* Count and put into the list */
+			/* Contar y poner en la lista */
 			for (j = 0; j < TV_MAX; j++) {
 				int gid = obj_group_order[j];
 
-				/* Skip if nothing in this group */
+				/* Saltar si no hay nada en este grupo */
 				if (gid < 0) continue;
 
-				/* Ignore duplicates */
+				/* Ignorar duplicados */
 				if ((e_count > 0) && (gid == default_join[e_count - 1].gid)
 					&& (i == default_join[e_count - 1].oid))
 					continue;
@@ -1801,7 +1798,7 @@ static void do_cmd_knowledge_ego_items(const char *name, int row)
 		}
 	}
 
-	display_knowledge("ego items", egoitems, e_count, obj_f, ego_f, NULL);
+	display_knowledge("objetos de égida", egoitems, e_count, obj_f, ego_f, NULL);
 
 	mem_free(default_join);
 	mem_free(egoitems);
@@ -1809,11 +1806,11 @@ static void do_cmd_knowledge_ego_items(const char *name, int row)
 
 /**
  * ------------------------------------------------------------------------
- * ORDINARY OBJECTS
+ * OBJETOS ORDINARIOS
  * ------------------------------------------------------------------------ */
 
 /**
- * Display the objects in a group.
+ * Mostrar los objetos en un grupo.
  */
 static void display_object(int col, int row, bool cursor, int oid)
 {
@@ -1822,32 +1819,32 @@ static void display_object(int col, int row, bool cursor, int oid)
 
 	char o_name[80];
 
-	/* Choose a color */
+	/* Elegir un color */
 	bool aware = (!kind->flavor || kind->aware);
 	uint8_t attr = curs_attrs[(int)aware][(int)cursor];
 
-	/* Graphics versions of the object_char and object_attr defines */
+	/* Versiones gráficas de las definiciones object_char y object_attr */
 	uint8_t a = object_kind_attr(kind);
 	wchar_t c = object_kind_char(kind);
 
-	/* Don't display special artifacts */
+	/* No mostrar artefactos especiales */
 	if (!kf_has(kind->kind_flags, KF_INSTA_ART))
  		object_kind_name(o_name, sizeof(o_name), kind, OPT(player, cheat_xtra));
 
-	/* If the type is "tried", display that */
+	/* Si el tipo es "probado", mostrar eso */
 	if (kind->tried && !aware)
-		my_strcat(o_name, " {tried}", sizeof(o_name));
+		my_strcat(o_name, " {probado}", sizeof(o_name));
 
-	/* Display the name */
+	/* Mostrar el nombre */
 	c_prt(attr, o_name, row, col);
 
-	/* Show ignore status */
+	/* Mostrar estado de ignorar */
 	if ((aware && kind_is_ignored_aware(kind)) ||
 		(!aware && kind_is_ignored_unaware(kind)))
-		c_put_str(attr, "Yes", row, 46);
+		c_put_str(attr, "Sí", row, 46);
 
 
-	/* Show autoinscription if around */
+	/* Mostrar autoinscripción si existe */
 	if (inscrip)
 		c_put_str(COLOUR_YELLOW, inscrip, row, 55);
 
@@ -1857,7 +1854,7 @@ static void display_object(int col, int row, bool cursor, int oid)
 }
 
 /**
- * Describe fake object
+ * Describir objeto falso
  */
 static void desc_obj_fake(int k_idx)
 {
@@ -1871,19 +1868,19 @@ static void desc_obj_fake(int k_idx)
 	textblock *tb;
 	region area = { 0, 0, 0, 0 };
 
-	/* Update the object recall window */
+	/* Actualizar la ventana de recuerdo de objetos */
 	track_object_kind(player->upkeep, kind);
 	handle_stuff(player);
 
-	/* Create the artifact */
+	/* Crear el artefacto */
 	object_prep(obj, kind, 0, EXTREMIFY);
 
-	/* It's fully known */
+	/* Es completamente conocido */
 	if (kind->aware || !kind->flavor)
 		object_copy(known_obj, obj);
 	obj->known = known_obj;
 
-	/* Handle stuff */
+	/* Manejar eventos */
 	handle_stuff(player);
 
 	tb = object_info(obj, OINFO_FAKE);
@@ -1895,7 +1892,7 @@ static void desc_obj_fake(int k_idx)
 	object_delete(NULL, NULL, &obj);
 	textblock_free(tb);
 
-	/* Restore the old trackee */
+	/* Restaurar el objeto rastreado anterior */
 	if (old_kind)
 		track_object_kind(player->upkeep, old_kind);
 	else if (old_obj)
@@ -1911,15 +1908,15 @@ static int o_cmp_tval(const void *a, const void *b)
 	const struct object_kind *k_a = &k_info[a_val];
 	const struct object_kind *k_b = &k_info[b_val];
 
-	/* Group by */
+	/* Agrupar por */
 	int ta = obj_group_order[k_a->tval];
 	int tb = obj_group_order[k_b->tval];
 	int c = ta - tb;
 	if (c) return c;
 
-	/* Order by */
+	/* Ordenar por */
 	c = k_a->aware - k_b->aware;
-	if (c) return -c; /* aware has low sort weight */
+	if (c) return -c; /* aware tiene peso de ordenación bajo */
 
 	switch (k_a->tval)
 	{
@@ -1930,14 +1927,14 @@ static int o_cmp_tval(const void *a, const void *b)
 		case TV_SHADOW_BOOK:
 		case TV_OTHER_BOOK:
 		case TV_DRAG_ARMOR:
-			/* leave sorted by sval */
+			/* dejar ordenado por sval */
 			break;
 
 		default:
 			if (k_a->aware)
 				return strcmp(k_a->name, k_b->name);
 
-			/* Then in tried order */
+			/* Luego en orden de probado */
 			c = k_a->tried - k_b->tried;
 			if (c) return -c;
 
@@ -1975,18 +1972,18 @@ static uint8_t *o_xattr(int oid)
 }
 
 /**
- * Display special prompt for object inscription.
+ * Mostrar mensaje especial para inscripción de objetos.
  */
 static const char *o_xtra_prompt(int oid)
 {
 	struct object_kind *kind = objkind_byid(oid);
 
-	const char *no_insc = ", 's' to toggle ignore, 'r'ecall, '{'";
-	const char *with_insc = ", 's' to toggle ignore, 'r'ecall, '{', '}'";
+	const char *no_insc = ", 's' para alternar ignorar, 'r'ecordar, '{'";
+	const char *with_insc = ", 's' para alternar ignorar, 'r'ecordar, '{', '}'";
 
 	if (!kind) return NULL;
 
-	/* Appropriate prompt */
+	/* Mensaje apropiado */
 	if (kind->aware)
 		return kind->note_aware ? with_insc : no_insc;
 	else
@@ -1994,14 +1991,14 @@ static const char *o_xtra_prompt(int oid)
 }
 
 /**
- * Special key actions for object inscription.
+ * Acciones de tecla especiales para inscripción de objetos.
  */
 static void o_xtra_act(struct keypress ch, int oid)
 {
 	struct object_kind *k = objkind_byid(oid);
 	if (!k) return;
 
-	/* Toggle ignore */
+	/* Alternar ignorar */
 	if (ignore_tval(k->tval) && (ch.code == 's' || ch.code == 'S')) {
 		if (k->aware) {
 			if (kind_is_ignored_aware(k))
@@ -2018,38 +2015,38 @@ static void o_xtra_act(struct keypress ch, int oid)
 		return;
 	}
 
-	/* Uninscribe */
+	/* Desinscribir */
 	if (ch.code == '}') {
 		remove_autoinscription(oid);
 	} else if (ch.code == '{') {
-		/* Inscribe */
+		/* Inscribir */
 		char text[80] = "";
 
-		/* Avoid the prompt getting in the way */
+		/* Evitar que el mensaje se interponga */
 		screen_save();
 
-		/* Prompt */
-		prt("Inscribe with: ", 0, 0);
+		/* Mensaje */
+		prt("Inscribir con: ", 0, 0);
 
-		/* Default note */
+		/* Nota por defecto */
 		if (k->note_aware || k->note_unaware)
 			strnfmt(text, sizeof(text), "%s", get_autoinscription(k, k->aware));
 
-		/* Get an inscription */
+		/* Obtener una inscripción */
 		if (askfor_aux(text, sizeof(text), NULL)) {
-			/* Remove old inscription if existent */
+			/* Eliminar inscripción anterior si existe */
 			if (k->note_aware || k->note_unaware)
 				remove_autoinscription(oid);
 
-			/* Add the autoinscription */
+			/* Añadir la autoinscripción */
 			add_autoinscription(oid, text, k->aware);
 			cmdq_push(CMD_AUTOINSCRIBE);
 
-			/* Redraw gear */
+			/* Redibujar equipo */
 			player->upkeep->redraw |= (PR_INVEN | PR_EQUIP);
 		}
 
-		/* Reload the screen */
+		/* Recargar la pantalla */
 		screen_load();
 	}
 }
@@ -2057,7 +2054,7 @@ static void o_xtra_act(struct keypress ch, int oid)
 
 
 /**
- * Display known objects
+ * Mostrar objetos conocidos
  */
 void textui_browse_object_knowledge(const char *name, int row)
 {
@@ -2074,9 +2071,9 @@ void textui_browse_object_knowledge(const char *name, int row)
 
 	for (i = 0; i < z_info->k_max; i++) {
 		kind = &k_info[i];
-		/* It's in the list if we've ever seen it, or it has a flavour,
-		 * and it's not one of the special artifacts. This way the flavour
-		 * appears in the list until it is found. */
+		/* Está en la lista si lo hemos visto alguna vez, o tiene un sabor,
+		 * y no es uno de los artefactos especiales. De esta manera el sabor
+		 * aparece en la lista hasta que se encuentra. */
 		if ((kind->everseen || kind->flavor || OPT(player, cheat_xtra)) &&
 			(!kf_has(kind->kind_flags, KF_INSTA_ART))) {
 			int c = obj_group_order[k_info[i].tval];
@@ -2084,34 +2081,34 @@ void textui_browse_object_knowledge(const char *name, int row)
 		}
 	}
 
-	display_knowledge("known objects", objects, o_count, kind_f, obj_f,
-					  "Ignore  Inscribed          Sym");
+	display_knowledge("objetos conocidos", objects, o_count, kind_f, obj_f,
+					  "Ignorar  Inscrito          Símb");
 
 	mem_free(objects);
 }
 
 /**
  * ------------------------------------------------------------------------
- * OBJECT RUNES
+ * RUNAS DE OBJETOS
  * ------------------------------------------------------------------------ */
 
 /**
- * Description of each rune group.
+ * Descripción de cada grupo de runas.
  */
 static const char *rune_group_text[] =
 {
-	"Combat",
-	"Modifiers",
-	"Resists",
-	"Brands",
-	"Slays",
-	"Curses",
-	"Other",
+	"Combate",
+	"Modificadores",
+	"Resistencias",
+	"Marcas",
+	"Azotes",
+	"Maldiciones",
+	"Otro",
 	NULL
 };
 
 /**
- * Display the runes in a group.
+ * Mostrar las runas en un grupo.
  */
 static void display_rune(int col, int row, bool cursor, int oid )
 {
@@ -2120,7 +2117,7 @@ static void display_rune(int col, int row, bool cursor, int oid )
 
 	c_prt(attr, rune_name(oid), row, col);
 
-	/* Show autoinscription if around */
+	/* Mostrar autoinscripción si existe */
 	if (inscrip)
 		c_put_str(COLOUR_YELLOW, inscrip, row, 47);
 }
@@ -2153,55 +2150,55 @@ static void rune_lore(int oid)
 }
 
 /**
- * Display special prompt for rune inscription.
+ * Mostrar mensaje especial para inscripción de runas.
  */
 static const char *rune_xtra_prompt(int oid)
 {
-	const char *no_insc = ", 'r'ecall, '{'";
-	const char *with_insc = ", 'r'ecall, '{', '}'";
+	const char *no_insc = ", 'r'ecordar, '{'";
+	const char *with_insc = ", 'r'ecordar, '{', '}'";
 
-	/* Appropriate prompt */
+	/* Mensaje apropiado */
 	return rune_note(oid) ? with_insc : no_insc;
 }
 
 /**
- * Special key actions for rune inscription.
+ * Acciones de tecla especiales para inscripción de runas.
  */
 static void rune_xtra_act(struct keypress ch, int oid)
 {
-	/* Uninscribe */
+	/* Desinscribir */
 	if (ch.code == '}') {
 		rune_set_note(oid, NULL);
 	} else if (ch.code == '{') {
-		/* Inscribe */
+		/* Inscribir */
 		char note_text[80] = "";
 
-		/* Avoid the prompt getting in the way */
+		/* Evitar que el mensaje se interponga */
 		screen_save();
 
-		/* Prompt */
-		prt("Inscribe with: ", 0, 0);
+		/* Mensaje */
+		prt("Inscribir con: ", 0, 0);
 
-		/* Default note */
+		/* Nota por defecto */
 		if (rune_note(oid))
 			strnfmt(note_text, sizeof(note_text), "%s",
 					quark_str(rune_note(oid)));
 
-		/* Get an inscription */
+		/* Obtener una inscripción */
 		if (askfor_aux(note_text, sizeof(note_text), NULL)) {
-			/* Remove old inscription if existent */
+			/* Eliminar inscripción anterior si existe */
 			if (rune_note(oid))
 				rune_set_note(oid, NULL);
 
-			/* Add the autoinscription */
+			/* Añadir la autoinscripción */
 			rune_set_note(oid, note_text);
 			rune_autoinscribe(player, oid);
 
-			/* Redraw gear */
+			/* Redibujar equipo */
 			player->upkeep->redraw |= (PR_INVEN | PR_EQUIP);
 		}
 
-		/* Reload the screen */
+		/* Recargar la pantalla */
 		screen_load();
 	}
 }
@@ -2209,7 +2206,7 @@ static void rune_xtra_act(struct keypress ch, int oid)
 
 
 /**
- * Display rune knowledge.
+ * Mostrar conocimiento de runas.
  */
 static void do_cmd_knowledge_runes(const char *name, int row)
 {
@@ -2228,43 +2225,43 @@ static void do_cmd_knowledge_runes(const char *name, int row)
 	runes = mem_zalloc(rune_max * sizeof(int));
 
 	for (i = 0; i < rune_max; i++) {
-		/* Ignore unknown runes */
+		/* Ignorar runas desconocidas */
 		if (!player_knows_rune(player, i))
 			continue;
 
 		runes[count++] = i;
 	}
 
-	strnfmt(buf, sizeof(buf), "runes (%d unknown)", rune_max - count);
+	strnfmt(buf, sizeof(buf), "runas (%d desconocidas)", rune_max - count);
 
-	display_knowledge(buf, runes, count, rune_var_f, rune_f, "Inscribed");
+	display_knowledge(buf, runes, count, rune_var_f, rune_f, "Inscrito");
 	mem_free(runes);
 }
 
 /**
  * ------------------------------------------------------------------------
- * TERRAIN FEATURES
+ * CARACTERÍSTICAS DEL TERRENO
  * ------------------------------------------------------------------------ */
 
 /**
- * Description of each feature group.
+ * Descripción de cada grupo de características.
  */
 static const char *feature_group_text[] =
 {
-	"Floors",
-	"Doors",
-	"Stairs",
-	"Walls",
-	"Streamers",
-	"Obstructions",
-	"Stores",
-	"Other",
+	"Suelos",
+	"Puertas",
+	"Escaleras",
+	"Paredes",
+	"Filones",
+	"Obstrucciones",
+	"Tiendas",
+	"Otro",
 	NULL
 };
 
 
 /**
- * Display the features in a group.
+ * Mostrar las características en un grupo.
  */
 static void display_feature(int col, int row, bool cursor, int oid )
 {
@@ -2274,7 +2271,7 @@ static void display_feature(int col, int row, bool cursor, int oid )
 	c_prt(attr, feat->name, row, col);
 
 	if (tile_height == 1) {
-		/* Display symbols */
+		/* Mostrar símbolos */
 		col = 65;
 		col += big_pad(col, row, feat_x_attr[LIGHTING_DARK][feat->fidx],
 					   feat_x_char[LIGHTING_DARK][feat->fidx]);
@@ -2295,11 +2292,11 @@ static int f_cmp_fkind(const void *a, const void *b)
 	const struct feature *fa = &f_info[a_val];
 	const struct feature *fb = &f_info[b_val];
 
-	/* Group by */
+	/* Agrupar por */
 	int c = feat_order(a_val) - feat_order(b_val);
 	if (c) return c;
 
-	/* Order by feature name */
+	/* Ordenar por nombre de característica */
 	return strcmp(fa->name, fb->name);
 }
 
@@ -2310,11 +2307,11 @@ static const char *fkind_name(int gid)
 
 
 /**
- * Disgusting hack to allow 4 in 1 editing of terrain visuals
+ * Horrible truco para permitir la edición 4 en 1 de los visuales del terreno
  */
 static enum grid_light_level f_uik_lighting = LIGHTING_LIT;
 
-/* XXX needs *better* retooling for multi-light terrain */
+/* XXX necesita una *mejor* reestructuración para terreno con múltiples iluminaciones */
 static uint8_t *f_xattr(int oid)
 {
 	return &feat_x_attr[f_uik_lighting][oid];
@@ -2345,19 +2342,19 @@ static const char *feat_prompt(int oid)
 {
 	(void)oid;
 		switch (f_uik_lighting) {
-				case LIGHTING_LIT:  return ", 't/T' for lighting (lit)";
-                case LIGHTING_TORCH: return ", 't/T' for lighting (torch)";
-				case LIGHTING_LOS:  return ", 't/T' for lighting (LOS)";
-				default:	return ", 't/T' for lighting (dark)";
+				case LIGHTING_LIT:  return ", 't/T' para iluminación (iluminado)";
+                case LIGHTING_TORCH: return ", 't/T' para iluminación (antorcha)";
+				case LIGHTING_LOS:  return ", 't/T' para iluminación (LdV)";
+				default:	return ", 't/T' para iluminación (oscuro)";
 		}		
 }
 
 /**
- * Special key actions for cycling lighting
+ * Acciones de tecla especiales para cambiar la iluminación
  */
 static void f_xtra_act(struct keypress ch, int oid)
 {
-	/* XXX must be a better way to cycle this */
+	/* XXX debe haber una mejor manera de cambiar esto */
 	if (ch.code == 't') {
 		switch (f_uik_lighting) {
 				case LIGHTING_LIT:  f_uik_lighting = LIGHTING_TORCH; break;
@@ -2378,7 +2375,7 @@ static void f_xtra_act(struct keypress ch, int oid)
 
 
 /**
- * Interact with feature visuals.
+ * Interactuar con los visuales de características.
  */
 static void do_cmd_knowledge_features(const char *name, int row)
 {
@@ -2395,39 +2392,39 @@ static void do_cmd_knowledge_features(const char *name, int row)
 	features = mem_zalloc(FEAT_MAX * sizeof(int));
 
 	for (i = 0; i < FEAT_MAX; i++) {
-		/* Ignore non-features and mimics */
+		/* Ignorar no-características e imitaciones */
 		if (f_info[i].name == 0 || f_info[i].mimic)
 			continue;
 
-		/* Currently no filter for features */
+		/* Actualmente no hay filtro para características */
 		features[f_count++] = i;
 	}
 
-	display_knowledge("features", features, f_count, fkind_f, feat_f,
-					  "                    Sym");
+	display_knowledge("características", features, f_count, fkind_f, feat_f,
+					  "                    Símb");
 	mem_free(features);
 }
 
 /**
  * ------------------------------------------------------------------------
- * TRAPS
+ * TRAMPAS
  * ------------------------------------------------------------------------ */
 
 /**
- * Description of each feature group.
+ * Descripción de cada grupo de características.
  */
 static const char *trap_group_text[] =
 {
-	"Runes",
-	"Locks",
-	"Traps",
-	"Other",
+	"Runas",
+	"Cerrajería",
+	"Trampas",
+	"Otro",
 	NULL
 };
 
 
 /**
- * Display the features in a group.
+ * Mostrar las características en un grupo.
  */
 static void display_trap(int col, int row, bool cursor, int oid )
 {
@@ -2437,7 +2434,7 @@ static void display_trap(int col, int row, bool cursor, int oid )
 	c_prt(attr, trap->desc, row, col);
 
 	if (tile_height == 1) {
-		/* Display symbols */
+		/* Mostrar símbolos */
 		col = 65;
 		col += big_pad(col, row, trap_x_attr[LIGHTING_DARK][trap->tidx],
 				trap_x_char[LIGHTING_DARK][trap->tidx]);
@@ -2471,11 +2468,11 @@ static int t_cmp_tkind(const void *a, const void *b)
 	const struct trap_kind *ta = &trap_info[a_val];
 	const struct trap_kind *tb = &trap_info[b_val];
 
-	/* Group by */
+	/* Agrupar por */
 	int c = trap_order(a_val) - trap_order(b_val);
 	if (c) return c;
 
-	/* Order by name */
+	/* Ordenar por nombre */
 	if (ta->name) {
 		if (tb->name)
 			return strcmp(ta->name, tb->name);
@@ -2495,11 +2492,11 @@ static const char *tkind_name(int gid)
 
 
 /**
- * Disgusting hack to allow 4 in 1 editing of trap visuals
+ * Horrible truco para permitir la edición 4 en 1 de los visuales de trampas
  */
 static enum grid_light_level t_uik_lighting = LIGHTING_LIT;
 
-/* XXX needs *better* retooling for multi-light terrain */
+/* XXX necesita una *mejor* reestructuración para terreno con múltiples iluminaciones */
 static uint8_t *t_xattr(int oid)
 {
 	return &trap_x_attr[t_uik_lighting][oid];
@@ -2530,15 +2527,15 @@ static void trap_lore(int oid)
 static const char *trap_prompt(int oid)
 {
 	(void)oid;
-	return ", 't' to cycle lighting";
+	return ", 't' para cambiar iluminación";
 }
 
 /**
- * Special key actions for cycling lighting
+ * Acciones de tecla especiales para cambiar la iluminación
  */
 static void t_xtra_act(struct keypress ch, int oid)
 {
-	/* XXX must be a better way to cycle this */
+	/* XXX debe haber una mejor manera de cambiar esto */
 	if (ch.code == 't') {
 		switch (t_uik_lighting) {
 				case LIGHTING_LIT:  t_uik_lighting = LIGHTING_TORCH; break;
@@ -2559,7 +2556,7 @@ static void t_xtra_act(struct keypress ch, int oid)
 
 
 /**
- * Interact with trap visuals.
+ * Interactuar con los visuales de trampas.
  */
 static void do_cmd_knowledge_traps(const char *name, int row)
 {
@@ -2581,19 +2578,19 @@ static void do_cmd_knowledge_traps(const char *name, int row)
 		traps[t_count++] = i;
 	}
 
-	display_knowledge("traps", traps, t_count, tkind_f, trap_f,
-					  "                    Sym");
+	display_knowledge("trampas", traps, t_count, tkind_f, trap_f,
+					  "                    Símb");
 	mem_free(traps);
 }
 
 
 /**
  * ------------------------------------------------------------------------
- * SHAPECHANGE
+ * CAMBIO DE FORMA
  * ------------------------------------------------------------------------ */
 
 /**
- * Counts the number of interesting shapechanges and returns it.
+ * Cuenta el número de cambios de forma interesantes y lo devuelve.
  */
 static int count_interesting_shapes(void)
 {
@@ -2611,9 +2608,9 @@ static int count_interesting_shapes(void)
 
 
 /**
- * Is a comparison function for an array of struct player_shape* which is
- * compatible with sort() and puts the elements in ascending alphabetical
- * order by name.
+ * Es una función de comparación para una matriz de struct player_shape* que es
+ * compatible con sort() y coloca los elementos en orden alfabético ascendente
+ * por nombre.
  */
 static int compare_shape_names(const void *left, const void *right)
 {
@@ -2647,43 +2644,43 @@ static const char *skill_index_to_name(int i)
 
 	switch (i) {
 	case SKILL_DISARM_PHYS:
-		name = "physical disarming";
+		name = "desarme físico";
 		break;
 
 	case SKILL_DISARM_MAGIC:
-		name = "magical disarming";
+		name = "desarme mágico";
 		break;
 
 	case SKILL_DEVICE:
-		name = "magic devices";
+		name = "dispositivos mágicos";
 		break;
 
 	case SKILL_SAVE:
-		name = "saving throws";
+		name = "tiradas de salvación";
 		break;
 
 	case SKILL_SEARCH:
-		name = "searching";
+		name = "búsqueda";
 		break;
 
 	case SKILL_TO_HIT_MELEE:
-		name = "melee to hit";
+		name = "ataque cuerpo a cuerpo";
 		break;
 
 	case SKILL_TO_HIT_BOW:
-		name = "shooting to hit";
+		name = "puntería con arco";
 		break;
 
 	case SKILL_TO_HIT_THROW:
-		name = "throwing to hit";
+		name = "puntería al lanzar";
 		break;
 
 	case SKILL_DIGGING:
-		name = "digging";
+		name = "excavación";
 		break;
 
 	default:
-		name = "unknown skill";
+		name = "habilidad desconocida";
 		break;
 	}
 
@@ -2700,7 +2697,7 @@ static void shape_lore_append_list(textblock *tb,
 		textblock_append(tb, " %s", list[0]);
 	}
 	for (i = 1; i < n; ++i) {
-		textblock_append(tb, "%s %s", (i < n - 1) ? "," : " and",
+		textblock_append(tb, "%s %s", (i < n - 1) ? "," : " y",
 			list[i]);
 	}
 }
@@ -2716,22 +2713,22 @@ static void shape_lore_append_basic_combat(textblock *tb,
 	int n = 0;
 
 	if (s->to_a != 0) {
-		strnfmt(toa_msg, sizeof(toa_msg), "%+d to AC", s->to_a);
+		strnfmt(toa_msg, sizeof(toa_msg), "%+d a CA", s->to_a);
 		msgs[n] = toa_msg;
 		++n;
 	}
 	if (s->to_h != 0) {
-		strnfmt(toh_msg, sizeof(toh_msg), "%+d to hit", s->to_h);
+		strnfmt(toh_msg, sizeof(toh_msg), "%+d a atacar", s->to_h);
 		msgs[n] = toh_msg;
 		++n;
 	}
 	if (s->to_d != 0) {
-		strnfmt(tod_msg, sizeof(tod_msg), "%+d to damage", s->to_d);
+		strnfmt(tod_msg, sizeof(tod_msg), "%+d a daño", s->to_d);
 		msgs[n] = tod_msg;
 		++n;
 	}
 	if (n > 0) {
-		textblock_append(tb, "Adds");
+		textblock_append(tb, "Añade");
 		shape_lore_append_list(tb, msgs, n);
 		textblock_append(tb, ".\n");
 	}
@@ -2748,14 +2745,14 @@ static void shape_lore_append_skills(textblock *tb,
 	for (i = 0; i < SKILL_MAX; ++i) {
 		if (s->skills[i] != 0) {
 			shape_lore_helper_append_to_list(
-				format("%+d to %s", s->skills[i],
+				format("%+d a %s", s->skills[i],
 					skill_index_to_name(i)),
 				&msgs, &nmax, &n);
 		}
 	}
 
 	if (n > 0) {
-		textblock_append(tb, "Adds");
+		textblock_append(tb, "Añade");
 		shape_lore_append_list(tb, msgs, n);
 		textblock_append(tb, ".\n");
 		for (i = 0; i < n; ++i) {
@@ -2777,7 +2774,7 @@ static void shape_lore_append_non_stat_modifiers(textblock *tb,
 	for (i = STAT_MAX; i < OBJ_MOD_MAX; ++i) {
 		if (s->modifiers[i] != 0) {
 			shape_lore_helper_append_to_list(
-				format("%+d to %s",
+				format("%+d a %s",
 					s->modifiers[i],
 					lookup_obj_property(OBJ_PROPERTY_MOD, i)->name),
 				&msgs, &nmax, &n);
@@ -2785,7 +2782,7 @@ static void shape_lore_append_non_stat_modifiers(textblock *tb,
 	}
 
 	if (n > 0) {
-		textblock_append(tb, "Adds");
+		textblock_append(tb, "Añade");
 		shape_lore_append_list(tb, msgs, n);
 		textblock_append(tb, ".\n");
 		for (i = 0; i < n; ++i) {
@@ -2807,7 +2804,7 @@ static void shape_lore_append_stat_modifiers(textblock *tb,
 	for (i = 0; i < STAT_MAX; ++i) {
 		if (s->modifiers[i] != 0) {
 			shape_lore_helper_append_to_list(
-				format("%+d to %s",
+				format("%+d a %s",
 					s->modifiers[i],
 					lookup_obj_property(OBJ_PROPERTY_MOD, i)->name),
 				&msgs, &nmax, &n);
@@ -2815,7 +2812,7 @@ static void shape_lore_append_stat_modifiers(textblock *tb,
 	}
 
 	if (n > 0) {
-		textblock_append(tb, "Adds");
+		textblock_append(tb, "Añade");
 		shape_lore_append_list(tb, msgs, n);
 		textblock_append(tb, ".\n");
 		for (i = 0; i < n; ++i) {
@@ -2850,19 +2847,19 @@ static void shape_lore_append_resistances(textblock *tb,
 	}
 
 	if (nvul != 0) {
-		textblock_append(tb, "Makes you vulnerable to");
+		textblock_append(tb, "Te hace vulnerable a");
 		shape_lore_append_list(tb, vul, nvul);
 		textblock_append(tb, ".\n");
 	}
 
 	if (nres != 0) {
-		textblock_append(tb, "Makes you resistant to");
+		textblock_append(tb, "Te hace resistente a");
 		shape_lore_append_list(tb, res, nres);
 		textblock_append(tb, ".\n");
 	}
 
 	if (nimm != 0) {
-		textblock_append(tb, "Makes you immune to");
+		textblock_append(tb, "Te hace inmune a");
 		shape_lore_append_list(tb, imm, nimm);
 		textblock_append(tb, ".\n");
 	}
@@ -2888,7 +2885,7 @@ static void shape_lore_append_protection_flags(textblock *tb,
 	}
 
 	if (n > 0) {
-		textblock_append(tb, "Provides protection from");
+		textblock_append(tb, "Proporciona protección contra");
 		shape_lore_append_list(tb, msgs, n);
 		textblock_append(tb, ".\n");
 		for (i = 0; i < n; ++i) {
@@ -2918,7 +2915,7 @@ static void shape_lore_append_sustains(textblock *tb,
 	}
 
 	if (n > 0) {
-		textblock_append(tb, "Sustains");
+		textblock_append(tb, "Sostiene");
 		shape_lore_append_list(tb, msgs, n);
 		textblock_append(tb, ".\n");
 		for (i = 0; i < n; ++i) {
@@ -2968,8 +2965,7 @@ static void shape_lore_append_misc_flags(textblock *tb,
 static void shape_lore_append_change_effects(textblock *tb,
 	const struct player_shape *s)
 {
-	textblock *tbe = effect_describe(s->effect, "Changing into the shape ",
-		0, false);
+	textblock *tbe = effect_describe(s->effect, "Cambiar a la forma ", 0, false);
 
 	if (tbe) {
 		textblock_append_textblock(tb, tbe);
@@ -3011,7 +3007,7 @@ static void shape_lore_append_triggering_spells(textblock *tb,
 							textblock_append(tb, "\n");
 						}
 						textblock_append(tb,
-							"The %s spell, %s, from %s triggers the shapechange.",
+							"El hechizo %s, %s, de %s desencadena el cambio de forma.",
 							c->name,
 							spell->name,
 							kind->name
@@ -3030,20 +3026,20 @@ static void shape_lore_append_triggering_spells(textblock *tb,
 
 
 /**
- * Display information about a shape change.
+ * Mostrar información sobre un cambio de forma.
  */
 static void shape_lore(const struct player_shape *s)
 {
 	textblock *tb = textblock_new();
 
 	textblock_append(tb, "%s", s->name);
-	textblock_append(tb, "\nLike all shapes, the equipment at the time of "
-		"the shapechange sets the base attributes, including damage "
-		"per blow, number of blows and resistances.  While changed, "
-		"items in your pack or on the floor (except for pickup or "
-		"eating) are inaccessible.  To switch back to your normal "
-		"shape, cast a spell or use an item command other than eat "
-		"(drop, for instance).\n");
+	textblock_append(tb, "\nComo todas las formas, el equipo en el momento del "
+		"cambio de forma establece los atributos base, incluyendo daño "
+		"por golpe, número de golpes y resistencias. Mientras estás cambiado, "
+		"los objetos en tu mochila o en el suelo (excepto para recoger o "
+		"comer) son inaccesibles. Para volver a tu forma normal, "
+		"lanza un hechizo o usa un comando de objeto que no sea comer "
+		"(soltar, por ejemplo).\n");
 	shape_lore_append_basic_combat(tb, s);
 	shape_lore_append_skills(tb, s);
 	shape_lore_append_non_stat_modifiers(tb, s);
@@ -3079,7 +3075,7 @@ static void do_cmd_knowledge_shapechange(const char *name, int row)
 
 	m = menu_new(MN_SKIN_SCROLL, menu_find_iter(MN_ITER_STRINGS));
 
-	/* Set up an easily indexable list of the interesting shapes. */
+	/* Configurar una lista fácilmente indexable de las formas interesantes. */
 	sarray = mem_alloc(count * sizeof(*sarray));
 	for (s = shapes, i = 0; s; s = s->next) {
 		if (streq(s->name, "normal")) {
@@ -3090,8 +3086,8 @@ static void do_cmd_knowledge_shapechange(const char *name, int row)
 	}
 
 	/*
-	 * Sort them alphabetically by name and set up an array with just the
-	 * names.
+	 * Ordenarlas alfabéticamente por nombre y configurar una matriz con solo los
+	 * nombres.
 	 */
 	sort(sarray, count, sizeof(sarray[0]), compare_shape_names);
 	narray = mem_alloc(count * sizeof(*narray));
@@ -3125,12 +3121,12 @@ static void do_cmd_knowledge_shapechange(const char *name, int row)
 
 		if (redraw) {
 			region_erase(&header_region);
-			prt("Knowledge - shapes", 2, 0);
-			prt("Name", 4, 0);
+			prt("Conocimiento - formas", 2, 0);
+			prt("Nombre", 4, 0);
 			for (i = 0; i < MIN(80, wnew); i++) {
 				Term_putch(i, 5, COLOUR_WHITE, L'=');
 			}
-			prt("<dir>, 'r' to recall, ESC", h - 2, 0);
+			prt("<dir>, 'r' para recordar, ESC", h - 2, 0);
 			redraw = false;
 		}
 
@@ -3194,7 +3190,7 @@ static void do_cmd_knowledge_shapechange(const char *name, int row)
 
 /**
  * ------------------------------------------------------------------------
- * ui_knowledge.txt parsing
+ * Análisis de ui_knowledge.txt
  * ------------------------------------------------------------------------
  */
 static enum parser_error parse_monster_category(struct parser *p)
@@ -3301,15 +3297,15 @@ static errr finish_ui_knowledge_parser(struct parser *p)
 
 	assert(s);
 
-	/* Count the number of categories and allocate a flat array for them. */
+	/* Contar el número de categorías y asignar una matriz plana para ellas. */
 	count = 0;
 	for (cursor = s->categories; cursor; cursor = cursor->next) {
 		++count;
 	}
 	if (count > INT_MAX - 1) {
 		/*
-		 * The sorting and display logic for monster groups assumes
-		 * the number of categories fits in an int.
+		 * La lógica de ordenación y visualización para grupos de monstruos asume
+		 * que el número de categorías cabe en un int.
 		 */
 		cursor = s->categories;
 		while (cursor) {
@@ -3330,18 +3326,18 @@ static errr finish_ui_knowledge_parser(struct parser *p)
 	monster_group = mem_alloc((count + 1) * sizeof(*monster_group));
 	n_monster_group = (int) (count + 1);
 
-	/* Set the element at the end which receives special treatment. */
+	/* Establecer el elemento al final que recibe trato especial. */
 	monster_group[count].next = NULL;
-	monster_group[count].name = string_make("***Unclassified***");
+	monster_group[count].name = string_make("***Sin clasificar***");
 	monster_group[count].inc_bases = NULL;
 	rf_wipe(monster_group[count].inc_flags);
 	monster_group[count].n_inc_bases = 0;
 	monster_group[count].max_inc_bases = 0;
 
 	/*
-	 * Set the others, restoring the order they had in the data file.
-	 * Release the memory for the linked list (but not pointed to data
-	 * as ownership for that is transferred to the flat array).
+	 * Establecer los demás, restaurando el orden que tenían en el archivo de datos.
+	 * Liberar la memoria para la lista enlazada (pero no los datos a los que apunta,
+	 * ya que la propiedad de esos se transfiere a la matriz plana).
 	 */
 	cursor = s->categories;
 	while (cursor) {
@@ -3378,11 +3374,11 @@ static void cleanup_ui_knowledge_parsed_data(void)
 
 /**
  * ------------------------------------------------------------------------
- * Main knowledge menus
+ * Menús principales de conocimiento
  * ------------------------------------------------------------------------ */
 
 /**
- * Holds information about the main knowledge menu.
+ * Contiene información sobre el menú principal de conocimiento.
  */
 static struct {
 	menu_action *actions;
@@ -3451,7 +3447,7 @@ static bool handle_store_shortcuts(struct menu *m, const ui_event *ev, int oid)
 }
 
 /**
- * Release the information associated with the main knowledge menu.
+ * Liberar la información asociada con el menú principal de conocimiento.
  */
 static void cleanup_main_knowledge_menu(void)
 {
@@ -3478,28 +3474,28 @@ static void cleanup_main_knowledge_menu(void)
 }
 
 /**
- * Reset the information associated with the main knowledge menu.
+ * Reiniciar la información asociada con el menú principal de conocimiento.
  */
 static void reset_main_knowledge_menu(void)
 {
 	struct {
 		const char *label; void (*action)(const char*, int);
 	} pre_store_actions[] = {
-		{ "Display object knowledge", textui_browse_object_knowledge },
-		{ "Display rune knowledge", do_cmd_knowledge_runes },
-		{ "Display artifact knowledge", do_cmd_knowledge_artifacts },
-		{ "Display ego item knowledge", do_cmd_knowledge_ego_items },
-		{ "Display monster knowledge", do_cmd_knowledge_monsters },
-		{ "Display feature knowledge", do_cmd_knowledge_features },
-		{ "Display trap knowledge", do_cmd_knowledge_traps },
-		{ "Display shapechange effects", do_cmd_knowledge_shapechange },
+		{ "Mostrar conocimiento de objetos", textui_browse_object_knowledge },
+		{ "Mostrar conocimiento de runas", do_cmd_knowledge_runes },
+		{ "Mostrar conocimiento de artefactos", do_cmd_knowledge_artifacts },
+		{ "Mostrar conocimiento de objetos de égida", do_cmd_knowledge_ego_items },
+		{ "Mostrar conocimiento de monstruos", do_cmd_knowledge_monsters },
+		{ "Mostrar conocimiento de características", do_cmd_knowledge_features },
+		{ "Mostrar conocimiento de trampas", do_cmd_knowledge_traps },
+		{ "Mostrar efectos de cambio de forma", do_cmd_knowledge_shapechange },
 	};
 	struct {
 		const char *label; void (*action)(const char*, int);
 	} post_store_actions[] = {
-		{ "Display hall of fame", do_cmd_knowledge_scores },
-		{ "Display character history", do_cmd_knowledge_history },
-		{ "Display equippable comparison", do_cmd_knowledge_equip_cmp },
+		{ "Mostrar salón de la fama", do_cmd_knowledge_scores },
+		{ "Mostrar historial del personaje", do_cmd_knowledge_history },
+		{ "Mostrar comparación de equipables", do_cmd_knowledge_equip_cmp },
 	};
 	const char *shortcuts[] = {
 		" (1)", " (2)", " (3)",
@@ -3511,8 +3507,8 @@ static void reset_main_knowledge_menu(void)
 	cleanup_main_knowledge_menu();
 
 	/*
-	 * These have to be consistent with the arrangement of pre_store_actions
-	 * above.
+	 * Estos tienen que ser consistentes con la disposición de pre_store_actions
+	 * arriba.
 	 */
 	main_knowledge_menu.irune = 1;
 	main_knowledge_menu.iartifact = 2;
@@ -3523,8 +3519,8 @@ static void reset_main_knowledge_menu(void)
 	main_knowledge_menu.count = (int) N_ELEMENTS(pre_store_actions)
 		+ z_info->store_max + (int) N_ELEMENTS(post_store_actions);
 	/*
-	 * Restrict the store entries to keep in the bounds of a 24 row display.
-	 * There's two extra rows used for title and prompt.
+	 * Restringir las entradas de tiendas para mantener dentro de los límites de una pantalla de 24 filas.
+	 * Hay dos filas extra usadas para el título y el mensaje.
 	 */
 	if (main_knowledge_menu.count > 22) {
 		scount = MAX(0, z_info->store_max
@@ -3554,17 +3550,17 @@ static void reset_main_knowledge_menu(void)
 
 		main_knowledge_menu.labels[i] =
 			string_make((name) ?
-				format("Display %s'%s contents%s",
+				format("Mostrar contenido de %s'%s%s",
 				name, (suffix(name, "s")) ? "" : "s",
 				(j < 9) ? shortcuts[j] : "") :
-				format("Display store %d's contents%s",
+				format("Mostrar contenido de tienda %d%s",
 				j + 1, (j < 9) ? shortcuts[j] : ""));
 		main_knowledge_menu.actions[i].name =
 			main_knowledge_menu.labels[i];
 		main_knowledge_menu.actions[i].action =
 			do_cmd_knowledge_store;
 	}
-	for (j = 0; j < (int) N_ELEMENTS(pre_store_actions)
+	for (j = 0; j < (int) N_ELEMENTS(post_store_actions)
 			&& i < main_knowledge_menu.count; ++j, ++i) {
 		main_knowledge_menu.labels[i] =
 			string_make(post_store_actions[j].label);
@@ -3578,12 +3574,12 @@ static void reset_main_knowledge_menu(void)
 		menu_find_iter(MN_ITER_ACTIONS));
 	menu_setpriv(&main_knowledge_menu.m, main_knowledge_menu.count,
 		main_knowledge_menu.actions);
-	main_knowledge_menu.m.title = "Display current knowledge";
+	main_knowledge_menu.m.title = "Mostrar conocimiento actual";
 	main_knowledge_menu.m.selections = all_letters_nohjkl;
 	/*
-	 * These are shortcuts to get the contents of the stores by number;
-	 * can prevent (depending on the number of stores) the normal use of
-	 * 4 and 6 to go to the previous or next menu.
+	 * Estos son atajos para obtener el contenido de las tiendas por número;
+	 * pueden prevenir (dependiendo del número de tiendas) el uso normal de
+	 * 4 y 6 para ir al menú anterior o siguiente.
 	 */
 	if (scount > 0) {
 		const char digits[] = "123456789";
@@ -3599,12 +3595,12 @@ static void reset_main_knowledge_menu(void)
 
 void textui_knowledge_init(void)
 {
-	/* Initialize the menus */
+	/* Inicializar los menús */
 	reset_main_knowledge_menu();
 
-	/* initialize other static variables */
+	/* inicializar otras variables estáticas */
 	if (run_parser(&ui_knowledge_parser) != PARSE_ERROR_NONE) {
-		quit_fmt("Encountered error parsing ui_knowledge.txt");
+		quit_fmt("Se encontró un error al analizar ui_knowledge.txt");
 	}
 
 	if (!obj_group_order) {
@@ -3613,7 +3609,7 @@ void textui_knowledge_init(void)
 
 		obj_group_order = mem_zalloc((TV_MAX + 1) * sizeof(int));
 
-		/* Allow for missing values */
+		/* Permitir valores faltantes */
 		for (i = 0; i < TV_MAX; i++)
 			obj_group_order[i] = -1;
 
@@ -3635,15 +3631,15 @@ void textui_knowledge_cleanup(void)
 
 
 /**
- * Display the "player knowledge" menu, greying out items that won't display
- * anything.
+ * Mostrar el menú "conocimiento del jugador", atenuando los elementos que no mostrarán
+ * nada.
  */
 void textui_browse_knowledge(void)
 {
 	int i, flag, rune_max = max_runes();
 	region knowledge_region = { 0, 0, -1, 2 + main_knowledge_menu.count };
 
-	/* Runes */
+	/* Runas */
 	if (main_knowledge_menu.irune < main_knowledge_menu.count) {
 		flag = MN_ACT_GRAYED;
 		for (i = 0; i < rune_max; i++) {
@@ -3657,14 +3653,14 @@ void textui_browse_knowledge(void)
 			flag;
 	}
 		
-	/* Artifacts */
+	/* Artefactos */
 	if (main_knowledge_menu.iartifact < main_knowledge_menu.count) {
 		main_knowledge_menu.actions[main_knowledge_menu.iartifact].flags =
 			(collect_known_artifacts(NULL, 0) > 0) ?
 			0 : MN_ACT_GRAYED;
 	}
 
-	/* Ego items */
+	/* Objetos de égida */
 	if (main_knowledge_menu.iego < main_knowledge_menu.count) {
 		flag = MN_ACT_GRAYED;
 		for (i = 0; i < z_info->e_max; i++) {
@@ -3676,13 +3672,13 @@ void textui_browse_knowledge(void)
 		main_knowledge_menu.actions[main_knowledge_menu.iego].flags = flag;
 	}
 
-	/* Monsters */
+	/* Monstruos */
 	if (main_knowledge_menu.imonster < main_knowledge_menu.count) {
 		main_knowledge_menu.actions[main_knowledge_menu.imonster].flags =
 			(count_known_monsters() > 0) ? 0 : MN_ACT_GRAYED;
 	}
 
-	/* Shapechanges */
+	/* Cambios de forma */
 	if (main_knowledge_menu.ishape < main_knowledge_menu.count) {
 		main_knowledge_menu.actions[main_knowledge_menu.ishape].flags =
 			(count_interesting_shapes() > 0) ? 0 : MN_ACT_GRAYED;
@@ -3700,33 +3696,33 @@ void textui_browse_knowledge(void)
 
 /**
  * ------------------------------------------------------------------------
- * Other knowledge functions
+ * Otras funciones de conocimiento
  * ------------------------------------------------------------------------ */
 
 /**
- * Recall the most recent message
+ * Recordar el mensaje más reciente
  */
 void do_cmd_message_one(void)
 {
-	/* Recall one message XXX XXX XXX */
+	/* Recordar un mensaje XXX XXX XXX */
 	c_prt(message_color(0), format( "> %s", message_str(0)), 0, 0);
 }
 
 
 /**
- * Show previous messages to the user
+ * Mostrar mensajes anteriores al usuario
  *
- * The screen format uses line 0 and 23 for headers and prompts,
- * skips line 1 and 22, and uses line 2 thru 21 for old messages.
+ * El formato de pantalla usa las líneas 0 y 23 para encabezados y mensajes,
+ * omite las líneas 1 y 22, y usa las líneas 2 a 21 para mensajes antiguos.
  *
- * This command shows you which commands you are viewing, and allows
- * you to "search" for strings in the recall.
+ * Este comando te muestra qué comandos estás viendo, y te permite
+ * "buscar" cadenas en el recuerdo.
  *
- * Note that messages may be longer than 80 characters, but they are
- * displayed using "infinite" length, with a special sub-command to
- * "slide" the virtual display to the left or right.
+ * Nótese que los mensajes pueden tener más de 80 caracteres, pero se muestran
+ * usando longitud "infinita", con un subcomando especial para
+ * "desplazar" la pantalla virtual a la izquierda o derecha.
  *
- * Attempt to only highlight the matching portions of the string.
+ * Intenta resaltar solo las partes coincidentes de la cadena.
  */
 void do_cmd_messages(void)
 {
@@ -3739,27 +3735,27 @@ void do_cmd_messages(void)
 
 	char shower[80] = "";
 
-	/* Total messages */
+	/* Mensajes totales */
 	n = messages_num();
 
-	/* Start on first message */
+	/* Comenzar en el primer mensaje */
 	i = 0;
 
-	/* Start at leftmost edge */
+	/* Comenzar en el borde más a la izquierda */
 	q = 0;
 
-	/* Get size */
+	/* Obtener tamaño */
 	Term_get_size(&wid, &hgt);
 
-	/* Save screen */
+	/* Guardar pantalla */
 	screen_save();
 
-	/* Process requests until done */
+	/* Procesar solicitudes hasta terminar */
 	while (more) {
-		/* Clear screen */
+		/* Limpiar pantalla */
 		Term_clear();
 
-		/* Dump messages */
+		/* Volcar mensajes */
 		for (j = 0; (j < hgt - 4) && (i + j < n); j++) {
 			const char *msg;
 			const char *str = message_str(i + j);
@@ -3771,53 +3767,53 @@ void do_cmd_messages(void)
 			else
 				msg = format("%s <%dx>", str, count);
 
-			/* Apply horizontal scroll */
+			/* Aplicar desplazamiento horizontal */
 			msg = ((int)strlen(msg) >= q) ? (msg + q) : "";
 
-			/* Dump the messages, bottom to top */
+			/* Volcar los mensajes, de abajo a arriba */
 			Term_putstr(0, hgt - 3 - j, -1, attr, msg);
 
-			/* Highlight "shower" */
+			/* Resaltar "shower" */
 			if (strlen(shower)) {
 				str = msg;
 
-				/* Display matches */
+				/* Mostrar coincidencias */
 				while ((str = my_stristr(str, shower)) != NULL) {
 					int len = strlen(shower);
 
-					/* Display the match */
+					/* Mostrar la coincidencia */
 					Term_putstr(str-msg, hgt - 3 - j, len, COLOUR_YELLOW, str);
 
-					/* Advance */
+					/* Avanzar */
 					str += len;
 				}
 			}
 		}
 
-		/* Display header */
-		prt(format("Message recall (%d-%d of %d), offset %d",
+		/* Mostrar encabezado */
+		prt(format("Recuerdo de mensajes (%d-%d de %d), desplazamiento %d",
 				   i, i + j - 1, n, q), 0, 0);
 
-		/* Display prompt (not very informative) */
+		/* Mostrar mensaje (no muy informativo) */
 		if (strlen(shower))
-			prt("[Movement keys to navigate, '-' for next, '=' to find]",
+			prt("[Teclas de movimiento para navegar, '-' para siguiente, '=' para buscar]",
 				hgt - 1, 0);
 		else
-			prt("[Movement keys to navigate, '=' to find, or ESCAPE to exit]",
+			prt("[Teclas de movimiento para navegar, '=' para buscar, o ESCAPE para salir]",
 				hgt - 1, 0);
 			
-		/* Get a command */
+		/* Obtener un comando */
 		ke = inkey_ex();
 
-		/* Scroll forwards or backwards using mouse clicks */
+		/* Desplazarse hacia adelante o atrás con clics del ratón */
 		if (ke.type == EVT_MOUSE) {
 			if (ke.mouse.button == 1) {
 				if (ke.mouse.y <= hgt / 2) {
-					/* Go older if legal */
+					/* Ir a más antiguo si es legal */
 					if (i + 20 < n)
 						i += 20;
 				} else {
-					/* Go newer */
+					/* Ir a más nuevo */
 					i = (i >= 20) ? (i - 20) : 0;
 				}
 			} else if (ke.mouse.button == 2) {
@@ -3833,11 +3829,11 @@ void do_cmd_messages(void)
 
 				case '=':
 				{
-					/* Get the string to find */
-					prt("Find: ", hgt - 1, 0);
+					/* Obtener la cadena a buscar */
+					prt("Buscar: ", hgt - 1, 0);
 					if (!askfor_aux(shower, sizeof shower, NULL)) continue;
 		
-					/* Set to find */
+					/* Establecer para buscar */
 					ke.key.code = '-';
 					break;
 				}
@@ -3880,25 +3876,25 @@ void do_cmd_messages(void)
 			}
 		}
 
-		/* Find the next item */
+		/* Encontrar el siguiente elemento */
 		if (ke.key.code == '-' && strlen(shower)) {
 			int16_t z;
 
-			/* Scan messages */
+			/* Escanear mensajes */
 			for (z = i + 1; z < n; z++) {
-				/* Search for it */
+				/* Buscarlo */
 				if (my_stristr(message_str(z), shower)) {
-					/* New location */
+					/* Nueva ubicación */
 					i = z;
 
-					/* Done */
+					/* Hecho */
 					break;
 				}
 			}
 		}
 	}
 
-	/* Load screen */
+	/* Cargar pantalla */
 	screen_load();
 }
 
@@ -3908,7 +3904,7 @@ void do_cmd_messages(void)
  	(USE_EQUIP | USE_INVEN | USE_QUIVER | USE_FLOOR | SHOW_QUIVER | SHOW_EMPTY | IS_HARMLESS)
  
 /**
- * Display inventory
+ * Mostrar inventario
  */
 void do_cmd_inven(void)
 {
@@ -3916,27 +3912,27 @@ void do_cmd_inven(void)
 	int ret = 3;
 
 	if (player->upkeep->inven[0] == NULL) {
-		msg("You have nothing in your inventory.");
+		msg("No tienes nada en tu inventario.");
 		return;
 	}
 
-	/* Start in "inventory" mode */
+	/* Comenzar en modo "inventario" */
 	player->upkeep->command_wrk = (USE_INVEN);
 
-	/* Loop this menu until an object context menu says differently */
+	/* Repetir este menú hasta que un menú contextual de objeto diga lo contrario */
 	while (ret == 3) {
-		/* Save screen */
+		/* Guardar pantalla */
 		screen_save();
 
-		/* Get an item to use a context command on (Display the inventory) */
-		if (get_item(&obj, "Select Item:",
-				"Error in do_cmd_inven(), please report.",
+		/* Obtener un elemento para usar un comando contextual (Mostrar el inventario) */
+		if (get_item(&obj, "Seleccionar Objeto:",
+				"Error en do_cmd_inven(), por favor informa.",
 				CMD_NULL, NULL, GET_ITEM_PARAMS)) {
-			/* Load screen */
+			/* Cargar pantalla */
 			screen_load();
 
 			if (obj && obj->kind) {
-				/* Track the object */
+				/* Rastrear el objeto */
 				track_object(player->upkeep, obj);
 
 				if (!player_is_shapechanged(player)) {
@@ -3944,7 +3940,7 @@ void do_cmd_inven(void)
 				}
 			}
 		} else {
-			/* Load screen */
+			/* Cargar pantalla */
 			screen_load();
 
 			ret = -1;
@@ -3954,7 +3950,7 @@ void do_cmd_inven(void)
 
 
 /**
- * Display equipment
+ * Mostrar equipo
  */
 void do_cmd_equip(void)
 {
@@ -3962,38 +3958,38 @@ void do_cmd_equip(void)
 	int ret = 3;
 
 	if (!player->upkeep->equip_cnt) {
-		msg("You are not wielding or wearing anything.");
+		msg("No estás empuñando o usando nada.");
 		return;
 	}
 
-	/* Start in "equipment" mode */
+	/* Comenzar en modo "equipo" */
 	player->upkeep->command_wrk = (USE_EQUIP);
 
-	/* Loop this menu until an object context menu says differently */
+	/* Repetir este menú hasta que un menú contextual de objeto diga lo contrario */
 	while (ret == 3) {
-		/* Save screen */
+		/* Guardar pantalla */
 		screen_save();
 
-		/* Get an item to use a context command on (Display the equipment) */
-		if (get_item(&obj, "Select Item:",
-				"Error in do_cmd_equip(), please report.",
+		/* Obtener un elemento para usar un comando contextual (Mostrar el equipo) */
+		if (get_item(&obj, "Seleccionar Objeto:",
+				"Error en do_cmd_equip(), por favor informa.",
 				CMD_NULL, NULL, GET_ITEM_PARAMS)) {
-			/* Load screen */
+			/* Cargar pantalla */
 			screen_load();
 
 			if (obj && obj->kind) {
-				/* Track the object */
+				/* Rastrear el objeto */
 				track_object(player->upkeep, obj);
 
 				if (!player_is_shapechanged(player)) {
 					while ((ret = context_menu_object(obj)) == 2);
 				}
 
-				/* Stay in "equipment" mode */
+				/* Permanecer en modo "equipo" */
 				player->upkeep->command_wrk = (USE_EQUIP);
 			}
 		} else {
-			/* Load screen */
+			/* Cargar pantalla */
 			screen_load();
 
 			ret = -1;
@@ -4003,7 +3999,7 @@ void do_cmd_equip(void)
 
 
 /**
- * Display equipment
+ * Mostrar carcaj
  */
 void do_cmd_quiver(void)
 {
@@ -4011,38 +4007,38 @@ void do_cmd_quiver(void)
 	int ret = 3;
 
 	if (player->upkeep->quiver_cnt == 0) {
-		msg("You have nothing in your quiver.");
+		msg("No tienes nada en tu carcaj.");
 		return;
 	}
 
-	/* Start in "quiver" mode */
+	/* Comenzar en modo "carcaj" */
 	player->upkeep->command_wrk = (USE_QUIVER);
 
-	/* Loop this menu until an object context menu says differently */
+	/* Repetir este menú hasta que un menú contextual de objeto diga lo contrario */
 	while (ret == 3) {
-		/* Save screen */
+		/* Guardar pantalla */
 		screen_save();
 
-		/* Get an item to use a context command on (Display the quiver) */
-		if (get_item(&obj, "Select Item:",
-				"Error in do_cmd_quiver(), please report.",
+		/* Obtener un elemento para usar un comando contextual (Mostrar el carcaj) */
+		if (get_item(&obj, "Seleccionar Objeto:",
+				"Error en do_cmd_quiver(), por favor informa.",
 				CMD_NULL, NULL, GET_ITEM_PARAMS)) {
-			/* Load screen */
+			/* Cargar pantalla */
 			screen_load();
 
 			if (obj && obj->kind) {
-				/* Track the object */
+				/* Rastrear el objeto */
 				track_object(player->upkeep, obj);
 
 				if (!player_is_shapechanged(player)) {
 					while  ((ret = context_menu_object(obj)) == 2);
 				}
 
-				/* Stay in "quiver" mode */
+				/* Permanecer en modo "carcaj" */
 				player->upkeep->command_wrk = (USE_QUIVER);
 			}
 		} else {
-			/* Load screen */
+			/* Cargar pantalla */
 			screen_load();
 
 			ret = -1;
@@ -4052,27 +4048,27 @@ void do_cmd_quiver(void)
 
 
 /**
- * Look command
+ * Comando mirar
  */
 void do_cmd_look(void)
 {
-	/* Look around */
+	/* Mirar alrededor */
 	if (target_set_interactive(TARGET_LOOK, -1, -1, true))
 	{
-		msg("Target Selected.");
+		msg("Objetivo Seleccionado.");
 	}
 }
 
 
 /**
- * Allow the player to examine other sectors on the map
+ * Permitir al jugador examinar otros sectores en el mapa
  */
 void do_cmd_locate(void)
 {
 	int panel_hgt, panel_wid;
 	int y1, x1;
 
-	/* Use dimensions that match those in ui-output.c. */
+	/* Usar dimensiones que coincidan con las de ui-output.c. */
 	if (Term == term_screen) {
 		panel_hgt = SCREEN_HGT;
 		panel_wid = SCREEN_WID;
@@ -4080,73 +4076,73 @@ void do_cmd_locate(void)
 		panel_hgt = Term->hgt / tile_height;
 		panel_wid = Term->wid / tile_width;
 	}
-	/* Bound below to avoid division by zero. */
+	/* Limitar inferiormente para evitar división por cero. */
 	panel_hgt = MAX(panel_hgt, 1);
 	panel_wid = MAX(panel_wid, 1);
 
-	/* Start at current panel */
+	/* Comenzar en el panel actual */
 	y1 = Term->offset_y;
 	x1 = Term->offset_x;
 
-	/* Show panels until done */
+	/* Mostrar paneles hasta terminar */
 	while (1) {
 		char tmp_val[80];
 		char out_val[160];
 
-		/* Assume no direction */
+		/* Asumir ninguna dirección */
 		int dir = 0;
 
-		/* Get the current panel */
+		/* Obtener el panel actual */
 		int y2 = Term->offset_y;
 		int x2 = Term->offset_x;
 		
-		/* Describe the location */
+		/* Describir la ubicación */
 		if ((y2 == y1) && (x2 == x1)) {
 			tmp_val[0] = '\0';
 		} else {
-			strnfmt(tmp_val, sizeof(tmp_val), "%s%s of",
-			        ((y2 < y1) ? " north" : (y2 > y1) ? " south" : ""),
-			        ((x2 < x1) ? " west" : (x2 > x1) ? " east" : ""));
+			strnfmt(tmp_val, sizeof(tmp_val), "%s%s de",
+			        ((y2 < y1) ? " norte" : (y2 > y1) ? " sur" : ""),
+			        ((x2 < x1) ? " oeste" : (x2 > x1) ? " este" : ""));
 		}
 
-		/* Prepare to ask which way to look */
+		/* Preparar para preguntar hacia dónde mirar */
 		strnfmt(out_val, sizeof(out_val),
-		        "Map sector [%d,%d], which is%s your sector.  Direction?",
+		        "Sector del mapa [%d,%d], que está%s tu sector. ¿Dirección?",
 		        (2 * y2) / panel_hgt, (2 * x2) / panel_wid, tmp_val);
 
-		/* More detail */
+		/* Más detalle */
 		if (OPT(player, center_player)) {
 			strnfmt(out_val, sizeof(out_val),
-		        	"Map sector [%d(%02d),%d(%02d)], which is%s your sector.  Direction?",
+		        	"Sector del mapa [%d(%02d),%d(%02d)], que está%s tu sector. ¿Dirección?",
 					(2 * y2) / panel_hgt, (2 * y2) % panel_hgt,
 					(2 * x2) / panel_wid, (2 * x2) % panel_wid, tmp_val);
 		}
 
-		/* Get a direction */
+		/* Obtener una dirección */
 		while (!dir) {
 			struct keypress command = KEYPRESS_NULL;
 
-			/* Get a command (or Cancel) */
+			/* Obtener un comando (o Cancelar) */
 			if (!get_com(out_val, (char *)&command.code)) break;
 
-			/* Extract direction */
+			/* Extraer dirección */
 			dir = target_dir(command);
 
 			/* Error */
 			if (!dir) bell();
 		}
 
-		/* No direction */
+		/* Sin dirección */
 		if (!dir) break;
 
-		/* Apply the motion */
+		/* Aplicar el movimiento */
 		change_panel(dir);
 
-		/* Handle stuff */
+		/* Manejar eventos */
 		handle_stuff(player);
 	}
 
-	/* Verify panel */
+	/* Verificar panel */
 	verify_panel();
 }
 
@@ -4200,19 +4196,19 @@ int cmp_monsters(const void *a, const void *b)
 }
 
 /**
- * Search the monster, item, and feature types to find the
- * meaning for the given symbol.
+ * Buscar en los tipos de monstruo, objeto y característica para encontrar el
+ * significado del símbolo dado.
  *
- * Note: We currently search items first, then features, then
- * monsters, and we return the first hit for a symbol.
- * This is to prevent mimics and lurkers from matching
- * a symbol instead of the item or feature it is mimicking.
+ * Nota: Actualmente buscamos primero objetos, luego características, luego
+ * monstruos, y devolvemos el primer acierto para un símbolo.
+ * Esto es para evitar que imitadores y acechadores coincidan
+ * con un símbolo en lugar del objeto o característica que están imitando.
  *
- * Todo: concatenate all matches into buf. This will be much
- * easier once we can loop through item tvals instead of items
- * (see note below.)
+ * Tarea: concatenar todas las coincidencias en buf. Esto será mucho
+ * más fácil una vez que podamos recorrer tvals de objetos en lugar de objetos
+ * (ver nota abajo).
  *
- * Todo: Should this take the user's pref files into account?
+ * Tarea: ¿Debería esto tener en cuenta los archivos de preferencias del usuario?
  */
 static void lookup_symbol(keycode_t key, char *buf, size_t max)
 {
@@ -4225,11 +4221,11 @@ static void lookup_symbol(keycode_t key, char *buf, size_t max)
 		key_utf8[1] = '\0';
 	}
 
-	/* Look through items */
-	/* Note: We currently look through all items, and grab the tval when we
-	 * find a match.
-	 * It would make more sense to loop through tvals, but then we need to
-	 * associate a display character with each tval. */
+	/* Buscar entre objetos */
+	/* Nota: Actualmente buscamos en todos los objetos, y tomamos el tval cuando
+	 * encontramos una coincidencia.
+	 * Tendría más sentido recorrer tvals, pero entonces necesitaríamos
+	 * asociar un carácter de visualización con cada tval. */
 	for (i = 0; i < z_info->k_max; i++) {
 		if (char_matches_key(k_info[i].d_char, key)) {
 			strnfmt(buf, max, "%s - %s.", key_utf8,
@@ -4238,9 +4234,9 @@ static void lookup_symbol(keycode_t key, char *buf, size_t max)
 		}
 	}
 
-	/* Look through features */
-	/* Note: We need a better way of doing this. Currently '#' matches secret
-	 * door, and '^' matches trap door (instead of the more generic "trap"). */
+	/* Buscar entre características */
+	/* Nota: Necesitamos una mejor manera de hacer esto. Actualmente '#' coincide con puerta
+	 * secreta, y '^' coincide con trampa (en lugar de la más genérica "trampa"). */
 	for (i = 1; i < FEAT_MAX; i++) {
 		if (char_matches_key(f_info[i].d_char, key)) {
 			strnfmt(buf, max, "%s - %s.", key_utf8, f_info[i].name);
@@ -4248,9 +4244,9 @@ static void lookup_symbol(keycode_t key, char *buf, size_t max)
 		}
 	}
 	
-	/* Look through monster templates */
+	/* Buscar entre plantillas de monstruos */
 	for (race = rb_info; race; race = race->next) {
-		/* Slight hack - P appears twice */
+		/* Pequeño truco - P aparece dos veces */
 		if (streq(race->name, "Morgoth")) continue;
 		if (char_matches_key(race->d_char, key)) {
 			strnfmt(buf, max, "%s - %s.", key_utf8, race->text);
@@ -4258,27 +4254,27 @@ static void lookup_symbol(keycode_t key, char *buf, size_t max)
 		}
 	}
 
-	/* No matches */
+	/* Sin coincidencias */
         if (utf32_isprint(key)) {
-			strnfmt(buf, max, "%s - Unknown Symbol.", key_utf8);
+			strnfmt(buf, max, "%s - Símbolo Desconocido.", key_utf8);
         } else {
-			strnfmt(buf, max, "? - Unknown Symbol.");
+			strnfmt(buf, max, "? - Símbolo Desconocido.");
         }
 	
 	return;
 }
 
 /**
- * Identify a character, allow recall of monsters
+ * Identificar un carácter, permitir recordar monstruos
  *
- * Several "special" responses recall "multiple" monsters:
- *   ^A (all monsters)
- *   ^U (all unique monsters)
- *   ^N (all non-unique monsters)
+ * Varias respuestas "especiales" recuerdan monstruos "múltiples":
+ *   ^A (todos los monstruos)
+ *   ^U (todos los monstruos únicos)
+ *   ^N (todos los monstruos no únicos)
  *
- * The responses may be sorted in several ways, see below.
+ * Las respuestas pueden ordenarse de varias maneras, ver abajo.
  *
- * Note that the player ghosts are ignored, since they do not exist.
+ * Nota: Los fantasmas de jugador se ignoran, ya que no existen.
  */
 void do_cmd_query_symbol(void)
 {
@@ -4296,153 +4292,153 @@ void do_cmd_query_symbol(void)
 
 	uint16_t *who;
 
-	/* Get a character, or abort */
-	if (!get_com_ex("Enter character to be identified, or control+[ANU]: ",
+	/* Obtener un carácter, o abortar */
+	if (!get_com_ex("Introduce el carácter a identificar, o control+[ANU]: ",
 			&sym) || sym.type == EVT_MOUSE) {
 		return;
 	}
 
-	/* Describe */
+	/* Describir */
 	if (sym.key.code == KTRL('A')) {
 		all = true;
-		my_strcpy(buf, "Full monster list.", sizeof(buf));
+		my_strcpy(buf, "Lista completa de monstruos.", sizeof(buf));
 	} else if (sym.key.code == KTRL('U')) {
 		all = uniq = true;
-		my_strcpy(buf, "Unique monster list.", sizeof(buf));
+		my_strcpy(buf, "Lista de monstruos únicos.", sizeof(buf));
 	} else if (sym.key.code == KTRL('N')) {
 		all = norm = true;
-		my_strcpy(buf, "Non-unique monster list.", sizeof(buf));
+		my_strcpy(buf, "Lista de monstruos no únicos.", sizeof(buf));
 	} else {
 		lookup_symbol(sym.key.code, buf, sizeof(buf));
 	}
 
-	/* Display the result */
+	/* Mostrar el resultado */
 	prt(buf, 0, 0);
 
-	/* Allocate the "who" array */
+	/* Asignar la matriz "who" */
 	who = mem_zalloc(z_info->r_max * sizeof(uint16_t));
 
-	/* Collect matching monsters */
+	/* Recopilar monstruos coincidentes */
 	for (num = 0, idx = 1; idx < z_info->r_max - 1; idx++) {
 		struct monster_race *race = &r_info[idx];
 		struct monster_lore *lore = &l_list[idx];
 
-		/* Nothing to recall */
+		/* Nada que recordar */
 		if (!lore->all_known && !lore->sights)
 			continue;
 
-		/* Require non-unique monsters if needed */
+		/* Requerir monstruos no únicos si es necesario */
 		if (norm && rf_has(race->flags, RF_UNIQUE)) continue;
 
-		/* Require unique monsters if needed */
+		/* Requerir monstruos únicos si es necesario */
 		if (uniq && !rf_has(race->flags, RF_UNIQUE)) continue;
 
-		/* Collect "appropriate" monsters */
+		/* Recopilar monstruos "apropiados" */
 		if (all || char_matches_key(race->d_char, sym.key.code)) {
 			who[num++] = idx;
 		}
 	}
 
-	/* No monsters to recall */
+	/* No hay monstruos que recordar */
 	if (!num) {
-		/* Free the "who" array */
+		/* Liberar la matriz "who" */
 		mem_free(who);
 		return;
 	}
 
-	/* Prompt */
-	put_str("Recall details? (y/k/n): ", 0, 40);
+	/* Mensaje */
+	put_str("¿Recordar detalles? (y/k/n): ", 0, 40);
 
-	/* Query */
+	/* Preguntar */
 	query = inkey();
 
-	/* Restore */
+	/* Restaurar */
 	prt(buf, 0, 0);
 
-	/* Interpret the response */
+	/* Interpretar la respuesta */
 	if (query.code == 'k') {
-		/* Sort by kills (and level) */
+		/* Ordenar por muertes (y nivel) */
 		sort(who, num, sizeof(*who), cmp_pkill);
 	} else if (query.code == 'y' || query.code == 'p') {
-		/* Sort by level; accept 'p' as legacy */
+		/* Ordenar por nivel; aceptar 'p' como legado */
 		sort(who, num, sizeof(*who), cmp_level);
 	} else {
-		/* Any unsupported response is "nope, no history please" */
+		/* Cualquier respuesta no soportada es "no, no quiero historial por favor" */
 		mem_free(who);
 		return;
 	}
 
-	/* Start at the end, as the array is sorted lowest to highest */
+	/* Comenzar al final, ya que la matriz está ordenada de menor a mayor */
 	idx = num - 1;
 
-	/* Scan the monster memory */
+	/* Escanear la memoria de monstruos */
 	while (1) {
 		textblock *tb;
 
-		/* Extract a race */
+		/* Extraer una raza */
 		int r_idx = who[idx];
 		struct monster_race *race = &r_info[r_idx];
 		struct monster_lore *lore = &l_list[r_idx];
 
-		/* Auto-recall */
+		/* Auto-recordar */
 		monster_race_track(player->upkeep, race);
 
-		/* Do any necessary updates or redraws */
+		/* Hacer las actualizaciones o redibujados necesarios */
 		handle_stuff(player);
 
 		tb = textblock_new();
 		lore_title(tb, race);
 
-		textblock_append(tb, " [(r)ecall, ESC]");
+		textblock_append(tb, " [(r)ecordar, ESC]");
 		textui_textblock_place(tb, SCREEN_REGION, NULL);
 		textblock_free(tb);
 
-		/* Interact */
+		/* Interactuar */
 		while (1) {
-			/* Ignore keys during recall presentation, otherwise, the 'r' key
-			 * acts like a toggle and instead of a one-off command */
+			/* Ignorar teclas durante la presentación de recuerdo; de lo contrario, la tecla 'r'
+			 * actúa como un conmutador y no como un comando único */
 			if (recall)
 				lore_show_interactive(race, lore);
 			else
 				query = inkey();
 
-			/* Normal commands */
+			/* Comandos normales */
 			if (query.code != 'r') break;
 
-			/* Toggle recall */
+			/* Conmutar recuerdo */
 			recall = !recall;
 		}
 
-		/* Stop scanning */
+		/* Dejar de escanear */
 		if (query.code == ESCAPE) break;
 
-		/* Move to previous or next monster */
+		/* Moverse al monstruo anterior o siguiente */
 		if (query.code == '-') {
-			/* Previous is a step forward in the array */
+			/* Anterior es un paso adelante en la matriz */
 			idx++;
-			/* Wrap if we're at the end of the array */
+			/* Envolver si estamos al final de la matriz */
 			if (idx == num) {
 				idx = 0;
 			}
 		} else {
-			/* Next is a step back in the array */
+			/* Siguiente es un paso atrás en la matriz */
 			idx--;
-			/* Wrap if we're at the start of the array */
+			/* Envolver si estamos al principio de la matriz */
 			if (idx < 0) {
 				idx = num - 1;
 			}
 		}
 	}
 
-	/* Re-display the identity */
+	/* Re-mostrar la identidad */
 	prt(buf, 0, 0);
 
-	/* Free the "who" array */
+	/* Liberar la matriz "who" */
 	mem_free(who);
 }
 
 /**
- * Centers the map on the player
+ * Centra el mapa en el jugador
  */
 void do_cmd_center_map(void)
 {
@@ -4452,30 +4448,30 @@ void do_cmd_center_map(void)
 
 
 /**
- * Display the main-screen monster list.
+ * Mostrar la lista de monstruos de la pantalla principal.
  */
 void do_cmd_monlist(void)
 {
-	/* Save the screen and display the list */
+	/* Guardar la pantalla y mostrar la lista */
 	screen_save();
 
     monster_list_show_interactive(Term->hgt, Term->wid);
 
-	/* Return */
+	/* Volver */
 	screen_load();
 }
 
 
 /**
- * Display the main-screen item list.
+ * Mostrar la lista de objetos de la pantalla principal.
  */
 void do_cmd_itemlist(void)
 {
-	/* Save the screen and display the list */
+	/* Guardar la pantalla y mostrar la lista */
 	screen_save();
 
     object_list_show_interactive(Term->hgt, Term->wid);
 
-	/* Return */
+	/* Volver */
 	screen_load();
 }

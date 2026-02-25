@@ -1,6 +1,6 @@
 /**
  * \file cmd-cave.c
- * \brief Chest and door opening/closing, disarming, running, resting, &c.
+ * \brief Apertura/cierre de cofres y puertas, desarme, correr, descansar, etc.
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
@@ -51,112 +51,112 @@
 #include "trap.h"
 
 /**
- * Go up one level
+ * Subir un nivel
  */
 void do_cmd_go_up(struct command *cmd)
 {
 	int ascend_to;
 
-	/* Verify stairs */
+	/* Verificar escaleras */
 	if (!square_isupstairs(cave, player->grid)) {
 		if (OPT(player, autoexplore_commands)) {
 			do_cmd_navigate_up(cmd);
 		} else {
-			msg("I see no up staircase here.");
+			msg("No veo una escalera para subir aquí.");
 		}
 		return;
 	}
 
-	/* Force descend */
+	/* Forzar descenso */
 	if (OPT(player, birth_force_descend)) {
-		msg("Nothing happens!");
+		msg("¡No pasa nada!");
 		return;
 	}
 	
 	ascend_to = dungeon_get_next_level(player, player->depth, -1);
 	
 	if (ascend_to == player->depth) {
-		msg("You can't go up from here!");
+		msg("¡No puedes subir desde aquí!");
 		return;
 	}
 
-	/* Take a turn */
+	/* Gastar un turno */
 	player->upkeep->energy_use = z_info->move_energy;
 
-	/* Success */
-	msgt(MSG_STAIRS_UP, "You enter a maze of up staircases.");
+	/* Éxito */
+	msgt(MSG_STAIRS_UP, "Entras en un laberinto de escaleras que suben.");
 
-	/* Create a way back */
+	/* Crear un camino de vuelta */
 	player->upkeep->create_up_stair = false;
 	player->upkeep->create_down_stair = true;
 	
-	/* Change level */
+	/* Cambiar de nivel */
 	dungeon_change_level(player, ascend_to);
 }
 
 
 /**
- * Go down one level
+ * Bajar un nivel
  */
 void do_cmd_go_down(struct command *cmd)
 {
 	int descend_to = dungeon_get_next_level(player, player->depth, 1);
 
-	/* Verify stairs */
+	/* Verificar escaleras */
 	if (!square_isdownstairs(cave, player->grid)) {
 		if (OPT(player, autoexplore_commands)) {
 			do_cmd_navigate_down(cmd);
 		} else {
-			msg("I see no down staircase here.");
+			msg("No veo una escalera para bajar aquí.");
 		}
 		return;
 	}
 
-	/* Paranoia, no descent from z_info->max_depth - 1 */
+	/* Paranoia, no se puede bajar de z_info->max_depth - 1 */
 	if (player->depth == z_info->max_depth - 1) {
-		msg("The dungeon does not appear to extend deeper");
+		msg("La mazmorra no parece extenderse más profundo");
 		return;
 	}
 
-	/* Warn a force_descend player if they're going to a quest level */
+	/* Advertir a un jugador con force_descend si va a un nivel de misión */
 	if (OPT(player, birth_force_descend)) {
 		descend_to = dungeon_get_next_level(player,
 			player->max_depth, 1);
 		if (is_quest(player, descend_to) &&
-			!get_check("Are you sure you want to descend? "))
+			!get_check("¿Estás seguro de que quieres bajar? "))
 			return;
 	}
 
-	/* Take a turn */
+	/* Gastar un turno */
 	player->upkeep->energy_use = z_info->move_energy;
 
-	/* Success */
-	msgt(MSG_STAIRS_DOWN, "You enter a maze of down staircases.");
+	/* Éxito */
+	msgt(MSG_STAIRS_DOWN, "Entras en un laberinto de escaleras que bajan.");
 
-	/* Create a way back */
+	/* Crear un camino de vuelta */
 	player->upkeep->create_up_stair = true;
 	player->upkeep->create_down_stair = false;
 
-	/* Change level */
+	/* Cambiar de nivel */
 	dungeon_change_level(player, descend_to);
 }
 
 
 
 /**
- * Determine if a given grid may be "opened"
+ * Determina si una casilla dada puede ser "abierta"
  */
 static bool do_cmd_open_test(struct player *p, struct loc grid)
 {
-	/* Must have knowledge */
+	/* Debe ser conocida */
 	if (!square_isknown(cave, grid)) {
-		msg("You see nothing there.");
+		msg("No ves nada ahí.");
 		return false;
 	}
 
-	/* Must be a closed door */
+	/* Debe ser una puerta cerrada */
 	if (!square_iscloseddoor(cave, grid)) {
-		msgt(MSG_NOTHING_TO_OPEN, "You see nothing there to open.");
+		msgt(MSG_NOTHING_TO_OPEN, "No ves nada que abrir ahí.");
 		if (square_iscloseddoor(p->cave, grid)) {
 			square_forget(cave, grid);
 			square_light_spot(cave, grid);
@@ -169,50 +169,50 @@ static bool do_cmd_open_test(struct player *p, struct loc grid)
 
 
 /**
- * Perform the basic "open" command on doors
+ * Realiza la acción básica de "abrir" en puertas
  *
- * Assume there is no monster blocking the destination
+ * Asume que no hay ningún monstruo bloqueando el destino
  *
- * Returns true if repeated commands may continue
+ * Devuelve true si los comandos repetidos pueden continuar
  */
 static bool do_cmd_open_aux(struct loc grid)
 {
 	bool more = false;
 
-	/* Verify legality */
+	/* Verificar legalidad */
 	if (!do_cmd_open_test(player, grid)) return (false);
 
-	/* Locked door */
+	/* Puerta cerrada con llave */
 	if (square_islockeddoor(cave, grid)) {
 		int chance = calc_unlocking_chance(player,
 			square_door_power(cave, grid), no_light(player));
 
 		if (randint0(100) < chance) {
-			/* Message */
-			msgt(MSG_LOCKPICK, "You have picked the lock.");
+			/* Mensaje */
+			msgt(MSG_LOCKPICK, "Has forzado la cerradura.");
 
-			/* Open the door */
+			/* Abrir la puerta */
 			square_open_door(cave, grid);
 
-			/* Update the visuals */
+			/* Actualizar lo visual */
 			square_memorize(cave, grid);
 			square_light_spot(cave, grid);
 			player->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 
-			/* Experience */
-			/* Removed to avoid exploit by repeatedly locking and unlocking */
+			/* Experiencia */
+			/* Eliminado para evitar explotación al cerrar y abrir repetidamente */
 			/* player_exp_gain(player, 1); */
 		} else {
 			event_signal(EVENT_INPUT_FLUSH);
 
-			/* Message */
-			msgt(MSG_LOCKPICK_FAIL, "You failed to pick the lock.");
+			/* Mensaje */
+			msgt(MSG_LOCKPICK_FAIL, "No has podido forzar la cerradura.");
 
-			/* We may keep trying */
+			/* Podemos seguir intentando */
 			more = true;
 		}
 	} else {
-		/* Closed door */
+		/* Puerta cerrada */
 		square_open_door(cave, grid);
 		square_memorize(cave, grid);
 		square_light_spot(cave, grid);
@@ -220,17 +220,17 @@ static bool do_cmd_open_aux(struct loc grid)
 		sound(MSG_OPENDOOR);
 	}
 
-	/* Result */
+	/* Resultado */
 	return (more);
 }
 
 
 
 /**
- * Open a closed/locked/jammed door or a closed/locked chest.
+ * Abrir una puerta cerrada/con llave/atascada o un cofre cerrado/con llave.
  *
- * Unlocking a locked chest is worth one experience point; since doors are
- * player lockable, there is no experience for unlocking doors.
+ * Abrir un cofre con llave vale un punto de experiencia; como las puertas
+ * pueden ser cerradas con llave por el jugador, no hay experiencia por abrir puertas.
  */
 void do_cmd_open(struct command *cmd)
 {
@@ -241,7 +241,7 @@ void do_cmd_open(struct command *cmd)
 	int err;
 	struct monster *mon;
 
-	/* Get arguments */
+	/* Obtener argumentos */
 	err = cmd_get_arg_direction(cmd, "direction", &dir);
 	if (err || dir == DIR_UNKNOWN) {
 		struct loc grid1;
@@ -251,8 +251,8 @@ void do_cmd_open(struct command *cmd)
 		n_locked_chests = count_chests(&grid1, CHEST_OPENABLE);
 
 		/*
-		 * If prompting for a direction, allow the player's square as
-		 * an option if there's a chest nearby.
+		 * Si se pide una dirección, permitir la casilla del jugador como
+		 * opción si hay un cofre cerca.
 		 */
 		if (n_closed_doors + n_locked_chests == 1) {
 			dir = motion_dir(player->grid, grid1);
@@ -262,121 +262,121 @@ void do_cmd_open(struct command *cmd)
 		}
 	}
 
-	/* Get location */
+	/* Obtener ubicación */
 	grid = loc_sum(player->grid, ddgrid[dir]);
 
-	/* Check for chest */
+	/* Buscar cofre */
 	obj = chest_check(player, grid, CHEST_OPENABLE);
 
-	/* Check for door */
+	/* Buscar puerta */
 	if (!obj && !do_cmd_open_test(player, grid)) {
-		/* Cancel repeat */
+		/* Cancelar repetición */
 		disturb(player);
 		return;
 	}
 
-	/* Take a turn */
+	/* Gastar un turno */
 	player->upkeep->energy_use = z_info->move_energy;
 
-	/* Apply confusion */
+	/* Aplicar confusión */
 	if (player_confuse_dir(player, &dir, false)) {
-		/* Get location */
+		/* Obtener ubicación */
 		grid = loc_sum(player->grid, ddgrid[dir]);
 
-		/* Check for chest */
+		/* Buscar cofre */
 		obj = chest_check(player, grid, CHEST_OPENABLE);
 	}
 
-	/* Monster */
+	/* Monstruo */
 	mon = square_monster(cave, grid);
 	if (mon) {
-		/* Camouflaged monsters surprise the player */
+		/* Los monstruos camuflados sorprenden al jugador */
 		if (monster_is_camouflaged(mon)) {
 			become_aware(cave, mon);
 
-			/* Camouflaged monster wakes up and becomes aware */
+			/* El monstruo camuflado se despierta y se da cuenta */
 			monster_wake(mon, false, 100);
 		} else {
-			/* Message */
-			msg("There is a monster in the way!");
+			/* Mensaje */
+			msg("¡Hay un monstruo en medio!");
 
-			/* Attack */
+			/* Atacar */
 			py_attack(player, grid);
 		}
 	} else if (obj) {
-		/* Chest */
+		/* Cofre */
 		more = do_cmd_open_chest(grid, obj);
 	} else {
-		/* Door */
+		/* Puerta */
 		more = do_cmd_open_aux(grid);
 	}
 
-	/* Cancel repeat unless we may continue */
+	/* Cancelar repetición a menos que podamos continuar */
 	if (!more) disturb(player);
 }
 
 
 /**
- * Determine if a given grid may be "closed"
+ * Determina si una casilla dada puede ser "cerrada"
  */
 static bool do_cmd_close_test(struct player *p, struct loc grid)
 {
-	/* Must have knowledge */
+	/* Debe ser conocida */
 	if (!square_isknown(cave, grid)) {
-		/* Message */
-		msg("You see nothing there.");
+		/* Mensaje */
+		msg("No ves nada ahí.");
 
-		/* Nope */
+		/* No */
 		return (false);
 	}
 
- 	/* Require open/broken door */
+ 	/* Requiere puerta abierta/rota */
 	if (!square_isopendoor(cave, grid) && !square_isbrokendoor(cave, grid)) {
-		/* Message */
-		msg("You see nothing there to close.");
+		/* Mensaje */
+		msg("No ves nada que cerrar ahí.");
 		if (square_isopendoor(p->cave, grid)
 				|| square_isbrokendoor(p->cave, grid)) {
 			square_forget(cave, grid);
 			square_light_spot(cave, grid);
 		}
 
-		/* Nope */
+		/* No */
 		return (false);
 	}
 
-	/* Don't allow if player is in the way. */
+	/* No permitir si el jugador está en medio. */
 	if (square(cave, grid)->mon < 0) {
-		/* Message */
-		msg("You're standing in that doorway.");
+		/* Mensaje */
+		msg("Estás parado en esa puerta.");
 
-		/* Nope */
+		/* No */
 		return (false);
 	}
 
-	/* Okay */
+	/* Ok */
 	return (true);
 }
 
 
 /**
- * Perform the basic "close" command
+ * Realiza la acción básica de "cerrar"
  *
- * Assume there is no monster blocking the destination
+ * Asume que no hay ningún monstruo bloqueando el destino
  *
- * Returns true if repeated commands may continue
+ * Devuelve true si los comandos repetidos pueden continuar
  */
 static bool do_cmd_close_aux(struct loc grid)
 {
 	bool more = false;
 
-	/* Verify legality */
+	/* Verificar legalidad */
 	if (!do_cmd_close_test(player, grid)) return (false);
 
-	/* Broken door */
+	/* Puerta rota */
 	if (square_isbrokendoor(cave, grid)) {
-		msg("The door appears to be broken.");
+		msg("La puerta parece estar rota.");
 	} else {
-		/* Close door */
+		/* Cerrar puerta */
 		square_close_door(cave, grid);
 		square_memorize(cave, grid);
 		square_light_spot(cave, grid);
@@ -384,13 +384,13 @@ static bool do_cmd_close_aux(struct loc grid)
 		sound(MSG_SHUTDOOR);
 	}
 
-	/* Result */
+	/* Resultado */
 	return (more);
 }
 
 
 /**
- * Close an open door.
+ * Cerrar una puerta abierta.
  */
 void do_cmd_close(struct command *cmd)
 {
@@ -400,12 +400,12 @@ void do_cmd_close(struct command *cmd)
 
 	bool more = false;
 
-	/* Get arguments */
+	/* Obtener argumentos */
 	err = cmd_get_arg_direction(cmd, "direction", &dir);
 	if (err || dir == DIR_UNKNOWN) {
 		struct loc grid1;
 
-		/* Count open doors */
+		/* Contar puertas abiertas */
 		if (count_feats(&grid1, square_isopendoor, false) == 1) {
 			dir = motion_dir(player->grid, grid1);
 			cmd_set_arg_direction(cmd, "direction", dir);
@@ -414,53 +414,53 @@ void do_cmd_close(struct command *cmd)
 		}
 	}
 
-	/* Get location */
+	/* Obtener ubicación */
 	grid = loc_sum(player->grid, ddgrid[dir]);
 
-	/* Verify legality */
+	/* Verificar legalidad */
 	if (!do_cmd_close_test(player, grid)) {
-		/* Cancel repeat */
+		/* Cancelar repetición */
 		disturb(player);
 		return;
 	}
 
-	/* Take a turn */
+	/* Gastar un turno */
 	player->upkeep->energy_use = z_info->move_energy;
 
-	/* Apply confusion */
+	/* Aplicar confusión */
 	if (player_confuse_dir(player, &dir, false)) {
-		/* Get location */
+		/* Obtener ubicación */
 		grid = loc_sum(player->grid, ddgrid[dir]);
 	}
 
-	/* Monster - alert, then attack */
+	/* Monstruo - alertar, luego atacar */
 	if (square(cave, grid)->mon > 0) {
-		msg("There is a monster in the way!");
+		msg("¡Hay un monstruo en medio!");
 		py_attack(player, grid);
 	} else
-		/* Door - close it */
+		/* Puerta - cerrarla */
 		more = do_cmd_close_aux(grid);
 
-	/* Cancel repeat unless told not to */
+	/* Cancelar repetición a menos que se indique lo contrario */
 	if (!more) disturb(player);
 }
 
 
 /**
- * Determine if a given grid may be "tunneled"
+ * Determina si una casilla dada puede ser "excavada"
  */
 static bool do_cmd_tunnel_test(struct player *p, struct loc grid)
 {
 
-	/* Must have knowledge */
+	/* Debe ser conocida */
 	if (!square_isknown(cave, grid)) {
-		msg("You see nothing there.");
+		msg("No ves nada ahí.");
 		return (false);
 	}
 
-	/* Titanium */
+	/* Titanio */
 	if (square_isperm(cave, grid)) {
-		msg("This seems to be permanent rock.");
+		msg("Esto parece ser roca permanente.");
 		if (!square_isperm(p->cave, grid)) {
 			square_memorize(cave, grid);
 			square_light_spot(cave, grid);
@@ -468,9 +468,9 @@ static bool do_cmd_tunnel_test(struct player *p, struct loc grid)
 		return (false);
 	}
 
-	/* Must be a wall/door/etc */
+	/* Debe ser una pared/puerta/etc */
 	if (!(square_isdiggable(cave, grid) || square_iscloseddoor(cave, grid))) {
-		msg("You see nothing there to tunnel.");
+		msg("No ves nada que excavar ahí.");
 		if (square_isdiggable(p->cave, grid)
 				|| square_iscloseddoor(p->cave, grid)) {
 			square_forget(cave, grid);
@@ -479,50 +479,50 @@ static bool do_cmd_tunnel_test(struct player *p, struct loc grid)
 		return (false);
 	}
 
-	/* Okay */
+	/* Ok */
 	return (true);
 }
 
 
 /**
- * Tunnel through wall.  Assumes valid location.
+ * Excavar a través de una pared. Asume ubicación válida.
  *
- * Note that it is impossible to "extend" rooms past their
- * outer walls (which are actually part of the room).
+ * Nótese que es imposible "extender" habitaciones más allá de sus
+ * muros exteriores (que en realidad son parte de la habitación).
  *
- * Attempting to do so will produce floor grids which are not part
- * of the room, and whose "illumination" status do not change with
- * the rest of the room.
+ * Intentar hacerlo producirá casillas de suelo que no son parte
+ * de la habitación, y cuyo estado de "iluminación" no cambia con
+ * el resto de la habitación.
  */
 static bool twall(struct loc grid)
 {
-	/* Paranoia -- Require a wall or door or some such */
+	/* Paranoia -- Requiere una pared o puerta o algo similar */
 	if (!(square_isdiggable(cave, grid) || square_iscloseddoor(cave, grid)))
 		return (false);
 
-	/* Sound */
+	/* Sonido */
 	sound(MSG_DIG);
 
-	/* Forget the wall */
+	/* Olvidar la pared */
 	square_forget(cave, grid);
 
-	/* Remove the feature */
+	/* Eliminar la característica */
 	square_tunnel_wall(cave, grid);
 
-	/* Update the visuals */
+	/* Actualizar lo visual */
 	player->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 
-	/* Result */
+	/* Resultado */
 	return (true);
 }
 
 
 /**
- * Perform the basic "tunnel" command
+ * Realiza la acción básica de "excavar"
  *
- * Assumes that no monster is blocking the destination.
- * Uses twall() (above) to do all "terrain feature changing".
- * Returns true if repeated commands may continue.
+ * Asume que ningún monstruo bloquea el destino.
+ * Usa twall() (arriba) para hacer toda la "modificación del terreno".
+ * Devuelve true si los comandos repetidos pueden continuar.
  */
 static bool do_cmd_tunnel_aux(struct loc grid)
 {
@@ -538,18 +538,18 @@ static bool do_cmd_tunnel_aux(struct loc grid)
 	struct player_state local_state;
 	struct player_state *used_state = &player->state;
 	int oldn = 1, dig_idx;
-	const char *with_clause = current_weapon == NULL ? "with your hands" : "with your weapon";
+	const char *with_clause = current_weapon == NULL ? "con las manos" : "con tu arma";
 
-	/* Verify legality */
+	/* Verificar legalidad */
 	if (!do_cmd_tunnel_test(player, grid)) return (false);
 
-	/* Find what we're digging with and our chance of success */
+	/* Encontrar con qué estamos excavando y nuestra probabilidad de éxito */
 	best_digger = player_best_digger(player, false);
 	if (best_digger != current_weapon &&
 			(!current_weapon || obj_can_takeoff(current_weapon))) {
 		digger_swapped = true;
-		with_clause = "with your swap digger";
-		/* Use only one without the overhead of gear_obj_for_use(). */
+		with_clause = "con tu pico de intercambio";
+		/* Usar solo uno sin la sobrecarga de gear_obj_for_use(). */
 		if (best_digger) {
 			oldn = best_digger->number;
 			best_digger->number = 1;
@@ -557,7 +557,7 @@ static bool do_cmd_tunnel_aux(struct loc grid)
 		player->body.slots[weapon_slot].obj = best_digger;
 		memcpy(&local_state, &player->state, sizeof(local_state));
 		/*
-		 * Avoid side effects from using update set to false with
+		 * Evitar efectos secundarios de usar update establecido a false con
 		 * calc_bonuses().
 		 */
 		local_state.stat_ind[STAT_STR] = 0;
@@ -567,10 +567,10 @@ static bool do_cmd_tunnel_aux(struct loc grid)
 	}
 	calc_digging_chances(used_state, digging_chances);
 
-	/* Do we succeed? */
+	/* ¿Tenemos éxito? */
 	dig_idx = square_digging(cave, grid);
 	if (dig_idx < 1 || dig_idx > DIGGING_MAX) {
-		msg("%s has misconfigured digging chance; please report this bug.",
+		msg("%s tiene la probabilidad de excavar mal configurada; por favor, informa de este error.",
 			(square_feat(cave, grid)->name) ?
 			square_feat(cave, grid)->name :
 			format("Terrain index %d", square_feat(cave, grid)->fidx));
@@ -579,7 +579,7 @@ static bool do_cmd_tunnel_aux(struct loc grid)
 	chance = digging_chances[dig_idx - 1];
 	okay = (chance > randint0(1600));
 
-	/* Swap back */
+	/* Intercambiar de vuelta */
 	if (digger_swapped) {
 		if (best_digger) {
 			best_digger->number = oldn;
@@ -587,68 +587,68 @@ static bool do_cmd_tunnel_aux(struct loc grid)
 		player->body.slots[weapon_slot].obj = current_weapon;
 	}
 
-	/* Success */
+	/* Éxito */
 	if (okay && twall(grid)) {
-		/* Rubble is a special case - could be handled more generally NRM */
+		/* Los escombros son un caso especial - podría manejarse de forma más general NRM */
 		if (rubble) {
-			/* Message */
-			msg("You have removed the rubble %s.", with_clause);
+			/* Mensaje */
+			msg("Has quitado los escombros %s.", with_clause);
 
-			/* Place an object (except in town) */
+			/* Colocar un objeto (excepto en la ciudad) */
 			if ((randint0(100) < 10) && player->depth) {
-				/* Create a simple object */
+				/* Crear un objeto simple */
 				place_object(cave, grid, player->depth, false, false,
 							 ORIGIN_RUBBLE, 0);
 
-				/* Observe the new object */
+				/* Observar el nuevo objeto */
 				if (square_object(cave, grid)
 						&& !ignore_item_ok(player,
 						square_object(cave, grid))
 						&& square_isseen(cave, grid)) {
-					msg("You have found something!");
+					msg("¡Has encontrado algo!");
 				}
 			} 
 		} else if (gold) {
-			/* Found treasure */
+			/* Encontró tesoro */
 			place_gold(cave, grid, player->depth, ORIGIN_FLOOR);
-			msg("You have found something digging %s!", with_clause);
+			msg("¡Has encontrado algo excavando %s!", with_clause);
 		} else {
-			msg("You have finished the tunnel %s.", with_clause);
+			msg("Has terminado el túnel %s.", with_clause);
 		}
-		/* On the surface, new terrain may be exposed to the sun. */
+		/* En la superficie, el nuevo terreno puede quedar expuesto al sol. */
 		if (cave->depth == 0) expose_to_sun(cave, grid, is_daytime());
-		/* Update the visuals. */
+		/* Actualizar lo visual. */
 		square_memorize(cave, grid);
 		square_light_spot(cave, grid);
 		player->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 	} else if (chance > 0) {
-		/* Failure, continue digging */
+		/* Fracaso, continuar excavando */
 		if (rubble)
-			msg("You dig in the rubble %s.", with_clause);
+			msg("Excavas entre los escombros %s.", with_clause);
 		else
-			msg("You tunnel into the %s %s.",
+			msg("Excavas en %s %s.",
 				square_apparent_name(player->cave, grid), with_clause);
 		more = true;
 	} else {
-		/* Don't automatically repeat if there's no hope. */
+		/* No repetir automáticamente si no hay esperanza. */
 		if (rubble) {
-			msg("You dig in the rubble %s with little effect.", with_clause);
+			msg("Excavas entre los escombros %s con poco efecto.", with_clause);
 		} else {
-			msg("You chip away futilely %s at the %s.", with_clause,
+			msg("Martilleas sin resultado %s contra %s.", with_clause,
 				square_apparent_name(player->cave, grid));
 		}
 	}
 
-	/* Result */
+	/* Resultado */
 	return (more);
 }
 
 
 /**
- * Tunnel through "walls" (including rubble and doors, secret or otherwise)
+ * Excavar a través de "paredes" (incluyendo escombros y puertas, secretas o no)
  *
- * Digging is very difficult without a "digger" weapon, but can be
- * accomplished by strong players using heavy weapons.
+ * Excavar es muy difícil sin un arma "excavadora", pero puede ser
+ * realizado por jugadores fuertes usando armas pesadas.
  */
 void do_cmd_tunnel(struct command *cmd)
 {
@@ -656,60 +656,60 @@ void do_cmd_tunnel(struct command *cmd)
 	int dir;
 	bool more = false;
 
-	/* Get arguments */
+	/* Obtener argumentos */
 	if (cmd_get_direction(cmd, "direction", &dir, false))
 		return;
 
-	/* Get location */
+	/* Obtener ubicación */
 	grid = loc_sum(player->grid, ddgrid[dir]);
 
-	/* Oops */
+	/* Ups */
 	if (!do_cmd_tunnel_test(player, grid)) {
-		/* Cancel repeat */
+		/* Cancelar repetición */
 		disturb(player);
 		return;
 	}
 
-	/* Take a turn */
+	/* Gastar un turno */
 	player->upkeep->energy_use = z_info->move_energy;
 
-	/* Apply confusion */
+	/* Aplicar confusión */
 	if (player_confuse_dir(player, &dir, false)) {
-		/* Get location */
+		/* Obtener ubicación */
 		grid = loc_sum(player->grid, ddgrid[dir]);
 	}
 
-	/* Attack any monster we run into */
+	/* Atacar cualquier monstruo con el que nos topemos */
 	if (square(cave, grid)->mon > 0) {
-		msg("There is a monster in the way!");
+		msg("¡Hay un monstruo en medio!");
 		py_attack(player, grid);
 	} else {
-		/* Tunnel through walls */
+		/* Excavar a través de paredes */
 		more = do_cmd_tunnel_aux(grid);
 	}
 
-	/* Cancel repetition unless we can continue */
+	/* Cancelar repetición a menos que podamos continuar */
 	if (!more) disturb(player);
 }
 
 /**
- * Determine if a given grid may be "disarmed"
+ * Determina si una casilla dada puede ser "desarmada"
  */
 static bool do_cmd_disarm_test(struct player *p, struct loc grid)
 {
-	/* Must have knowledge */
+	/* Debe ser conocida */
 	if (!square_isknown(cave, grid)) {
-		msg("You see nothing there.");
+		msg("No ves nada ahí.");
 		return false;
 	}
 
-	/* Look for a closed, unlocked door to lock */
+	/* Buscar una puerta cerrada sin llave para cerrar con llave */
 	if (square_iscloseddoor(cave, grid) && !square_islockeddoor(cave, grid))
 		return true;
 
-	/* Look for a trap */
+	/* Buscar una trampa */
 	if (!square_isdisarmabletrap(cave, grid)) {
-		msg("You see nothing there to disarm.");
+		msg("No ves nada que desarmar ahí.");
 		if (square_isdisarmabletrap(p->cave, grid)) {
 			square_memorize_traps(cave, grid);
 			square_light_spot(cave, grid);
@@ -717,73 +717,73 @@ static bool do_cmd_disarm_test(struct player *p, struct loc grid)
 		return false;
 	}
 
-	/* Okay */
+	/* Ok */
 	return true;
 }
 
 
 /**
- * Perform the command "lock door"
+ * Realiza el comando "cerrar con llave"
  *
- * Assume there is no monster blocking the destination
+ * Asume que no hay ningún monstruo bloqueando el destino
  *
- * Returns true if repeated commands may continue
+ * Devuelve true si los comandos repetidos pueden continuar
  */
 static bool do_cmd_lock_door(struct loc grid)
 {
 	int i, j, power;
 	bool more = false;
 
-	/* Verify legality */
+	/* Verificar legalidad */
 	if (!do_cmd_disarm_test(player, grid)) return false;
 
-	/* Get the "disarm" factor */
+	/* Obtener el factor de "desarme" */
 	i = player->state.skills[SKILL_DISARM_PHYS];
 
-	/* Penalize some conditions */
+	/* Penalizar algunas condiciones */
 	if (player->timed[TMD_BLIND] || no_light(player))
 		i = i / 10;
 	if (player->timed[TMD_CONFUSED] || player->timed[TMD_IMAGE])
 		i = i / 10;
 
-	/* Calculate lock "power" */
+	/* Calcular "poder" de la cerradura */
 	power = m_bonus(7, player->depth);
 
-	/* Extract the difficulty */
+	/* Extraer la dificultad */
 	j = i - power;
 
-	/* Always have a small chance of success */
+	/* Tener siempre una pequeña probabilidad de éxito */
 	if (j < 2) j = 2;
 
-	/* Success */
+	/* Éxito */
 	if (randint0(100) < j) {
-		msg("You lock the door.");
+		msg("Cierras la puerta con llave.");
 		square_set_door_lock(cave, grid, power);
 	}
 
-	/* Failure -- Keep trying */
+	/* Fracaso -- Seguir intentando */
 	else if ((i > 5) && (randint1(i) > 5)) {
 		event_signal(EVENT_INPUT_FLUSH);
-		msg("You failed to lock the door.");
+		msg("No has podido cerrar la puerta con llave.");
 
-		/* We may keep trying */
+		/* Podemos seguir intentando */
 		more = true;
 	}
-	/* Failure */
+	/* Fracaso */
 	else
-		msg("You failed to lock the door.");
+		msg("No has podido cerrar la puerta con llave.");
 
-	/* Result */
+	/* Resultado */
 	return more;
 }
 
 
 /**
- * Perform the basic "disarm" command
+ * Realiza la acción básica de "desarmar"
  *
- * Assume there is no monster blocking the destination
+ * Asume que no hay ningún monstruo bloqueando el destino
  *
- * Returns true if repeated commands may continue
+ * Devuelve true si los comandos repetidos pueden continuar
  */
 static bool do_cmd_disarm_aux(struct loc grid)
 {
@@ -791,10 +791,10 @@ static bool do_cmd_disarm_aux(struct loc grid)
     struct trap *trap = square(cave, grid)->trap;
 	bool more = false;
 
-	/* Verify legality */
+	/* Verificar legalidad */
 	if (!do_cmd_disarm_test(player, grid)) return (false);
 
-    /* Choose first player trap */
+    /* Elegir la primera trampa de jugador */
 	while (trap) {
 		if (trf_has(trap->flags, TRF_TRAP))
 			break;
@@ -803,57 +803,57 @@ static bool do_cmd_disarm_aux(struct loc grid)
 	if (!trap)
 		return false;
 
-	/* Get the base disarming skill */
+	/* Obtener la habilidad base de desarme */
 	if (trf_has(trap->flags, TRF_MAGICAL))
 		skill = player->state.skills[SKILL_DISARM_MAGIC];
 	else
 		skill = player->state.skills[SKILL_DISARM_PHYS];
 
-	/* Penalize some conditions */
+	/* Penalizar algunas condiciones */
 	if (player->timed[TMD_BLIND] ||
 			no_light(player) ||
 			player->timed[TMD_CONFUSED] ||
 			player->timed[TMD_IMAGE])
 		skill = skill / 10;
 
-	/* Extract trap power */
+	/* Extraer poder de la trampa */
 	power = cave->depth / 5;
 
-	/* Extract the percentage success */
+	/* Extraer el porcentaje de éxito */
 	chance = skill - power;
 
-	/* Always have a small chance of success */
+	/* Tener siempre una pequeña probabilidad de éxito */
 	if (chance < 2) chance = 2;
 
-	/* Two chances - one to disarm, one not to set the trap off */
+	/* Dos oportunidades - una para desarmar, otra para no activar la trampa */
 	if (randint0(100) < chance) {
-		msgt(MSG_DISARM, "You have disarmed the %s.", trap->kind->name);
+		msgt(MSG_DISARM, "Has desarmado %s.", trap->kind->name);
 		player_exp_gain(player, 1 + power);
 
-		/* Trap is gone */
+		/* La trampa ha desaparecido */
 		if (!square_remove_trap(cave, grid, trap, true)) {
 			assert(0);
 		}
 	} else if (randint0(100) < chance) {
 		event_signal(EVENT_INPUT_FLUSH);
-		msg("You failed to disarm the %s.", trap->kind->name);
+		msg("No has podido desarmar %s.", trap->kind->name);
 
-		/* Player can try again */
+		/* El jugador puede intentarlo de nuevo */
 		more = true;
 	} else {
-		msg("You set off the %s!", trap->kind->name);
+		msg("¡Has activado %s!", trap->kind->name);
 		hit_trap(grid, -1);
 	}
 
-	/* Result */
+	/* Resultado */
 	return (more);
 }
 
 
 /**
- * Disarms a trap, or a chest
+ * Desarma una trampa, o un cofre
  *
- * Traps must be visible, chests must be known trapped
+ * Las trampas deben ser visibles, los cofres deben saberse que están atrapados
  */
 void do_cmd_disarm(struct command *cmd)
 {
@@ -865,7 +865,7 @@ void do_cmd_disarm(struct command *cmd)
 	bool more = false;
 	struct monster *mon;
 
-	/* Get arguments */
+	/* Obtener argumentos */
 	err = cmd_get_arg_direction(cmd, "direction", &dir);
 	if (err || dir == DIR_UNKNOWN) {
 		struct loc grid1;
@@ -879,38 +879,38 @@ void do_cmd_disarm(struct command *cmd)
 			dir = motion_dir(player->grid, grid1);
 			cmd_set_arg_direction(cmd, "direction", dir);
 		} else if (cmd_get_direction(cmd, "direction", &dir, n_chests > 0)) {
-			/* If there are chests to disarm, 5 is allowed as a direction */
+			/* Si hay cofres que desarmar, se permite el 5 como dirección */
 			return;
 		}
 	}
 
-	/* Get location */
+	/* Obtener ubicación */
 	grid = loc_sum(player->grid, ddgrid[dir]);
 
-	/* Check for chests */
+	/* Buscar cofres */
 	obj = chest_check(player, grid, CHEST_TRAPPED);
 
-	/* Verify legality */
+	/* Verificar legalidad */
 	if (!obj && !do_cmd_disarm_test(player, grid)) {
-		/* Cancel repeat */
+		/* Cancelar repetición */
 		disturb(player);
 		return;
 	}
 
-	/* Take a turn */
+	/* Gastar un turno */
 	player->upkeep->energy_use = z_info->move_energy;
 
-	/* Apply confusion */
+	/* Aplicar confusión */
 	if (player_confuse_dir(player, &dir, false)) {
-		/* Get location */
+		/* Obtener ubicación */
 		grid = loc_sum(player->grid, ddgrid[dir]);
 
-		/* Check for chests */
+		/* Buscar cofres */
 		obj = chest_check(player, grid, CHEST_TRAPPED);
 	}
 
 
-	/* Monster */
+	/* Monstruo */
 	mon = square_monster(cave, grid);
 	if (mon) {
 		if (monster_is_camouflaged(mon)) {
@@ -918,34 +918,34 @@ void do_cmd_disarm(struct command *cmd)
 
 			monster_wake(mon, false, 100);
 		} else {
-			msg("There is a monster in the way!");
+			msg("¡Hay un monstruo en medio!");
 			py_attack(player, grid);
 		}
 	} else if (obj)
-		/* Chest */
+		/* Cofre */
 		more = do_cmd_disarm_chest(obj);
 	else if (square_iscloseddoor(cave, grid) &&
 			 !square_islockeddoor(cave, grid))
-		/* Door to lock */
+		/* Puerta para cerrar con llave */
 		more = do_cmd_lock_door(grid);
 	else
-		/* Disarm trap */
+		/* Desarmar trampa */
 		more = do_cmd_disarm_aux(grid);
 
-	/* Cancel repeat unless told not to */
+	/* Cancelar repetición a menos que se indique lo contrario */
 	if (!more) disturb(player);
 }
 
 /**
- * Manipulate an adjacent grid in some way
+ * Manipular una casilla adyacente de alguna manera
  *
- * Attack monsters, tunnel through walls, disarm traps, open doors.
+ * Atacar monstruos, excavar paredes, desarmar trampas, abrir puertas.
  *
- * This command must always take energy, to prevent free detection
- * of invisible monsters.
+ * Este comando siempre debe gastar energía, para prevenir detección gratuita
+ * de monstruos invisibles.
  *
- * The "semantics" of this command must be chosen before the player
- * is confused, and it must be verified against the new grid.
+ * La "semántica" de este comando debe ser elegida antes de que el jugador
+ * esté confundido, y debe ser verificada contra la nueva casilla.
  */
 static void do_cmd_alter_aux(int dir)
 {
@@ -954,51 +954,51 @@ static void do_cmd_alter_aux(int dir)
 	struct object *o_chest_closed;
 	struct object *o_chest_trapped;
 
-	/* Get location */
+	/* Obtener ubicación */
 	grid = loc_sum(player->grid, ddgrid[dir]);
 
-	/* Take a turn */
+	/* Gastar un turno */
 	player->upkeep->energy_use = z_info->move_energy;
 
-	/* Apply confusion */
+	/* Aplicar confusión */
 	if (player_confuse_dir(player, &dir, false)) {
-		/* Get location */
+		/* Obtener ubicación */
 		grid = loc_sum(player->grid, ddgrid[dir]);
 	}
 
-	/* Check for closed chest */
+	/* Buscar cofre cerrado */
 	o_chest_closed = chest_check(player, grid, CHEST_OPENABLE);
-	/* Check for trapped chest */
+	/* Buscar cofre atrapado */
 	o_chest_trapped = chest_check(player, grid, CHEST_TRAPPED);
 
-	/* Action depends on what's there */
+	/* La acción depende de lo que haya */
 	if (square(cave, grid)->mon > 0) {
-		/* Attack monster */
+		/* Atacar monstruo */
 		py_attack(player, grid);
 	} else if (square_isdiggable(cave, grid)) {
-		/* Tunnel through walls and rubble */
+		/* Excavar paredes y escombros */
 		more = do_cmd_tunnel_aux(grid);
 	} else if (square_iscloseddoor(cave, grid)) {
-		/* Open closed doors */
+		/* Abrir puertas cerradas */
 		more = do_cmd_open_aux(grid);
 	} else if (square_isdisarmabletrap(cave, grid)) {
-		/* Disarm traps */
+		/* Desarmar trampas */
 		more = do_cmd_disarm_aux(grid);
 	} else if (o_chest_trapped) {
-        	/* Trapped chest */
+        	/* Cofre atrapado */
         	more = do_cmd_disarm_chest(o_chest_trapped);
     	} else if (o_chest_closed) {
-        	/* Open chest */
+        	/* Abrir cofre */
         	more = do_cmd_open_chest(grid, o_chest_closed);
 	} else if (square_isopendoor(cave, grid)) {
-		/* Close door */
+		/* Cerrar puerta */
         	more = do_cmd_close_aux(grid);
 	} else {
-		/* Oops */
-		msg("You spin around.");
+		/* Ups */
+		msg("Das una vuelta sobre ti mismo.");
 	}
 
-	/* Cancel repetition unless we can continue */
+	/* Cancelar repetición a menos que podamos continuar */
 	if (!more) disturb(player);
 }
 
@@ -1006,7 +1006,7 @@ void do_cmd_alter(struct command *cmd)
 {
 	int dir;
 
-	/* Get arguments */
+	/* Obtener argumentos */
 	if (cmd_get_direction(cmd, "direction", &dir, false) != CMD_OK)
 		return;
 
@@ -1015,24 +1015,24 @@ void do_cmd_alter(struct command *cmd)
 
 static void do_cmd_steal_aux(int dir)
 {
-	/* Get location */
+	/* Obtener ubicación */
 	struct loc grid = loc_sum(player->grid, ddgrid[dir]);
 
-	/* Take a turn */
+	/* Gastar un turno */
 	player->upkeep->energy_use = z_info->move_energy;
 
-	/* Apply confusion */
+	/* Aplicar confusión */
 	if (player_confuse_dir(player, &dir, false)) {
-		/* Get location */
+		/* Obtener ubicación */
 		grid = loc_sum(player->grid, ddgrid[dir]);
 	}
 
-	/* Attack or steal from monsters */
+	/* Atacar o robar de monstruos */
 	if ((square(cave, grid)->mon > 0) && player_has(player, PF_STEAL)) {
 		steal_monster_item(square_monster(cave, grid), -1);
 	} else {
-		/* Oops */
-		msg("You spin around.");
+		/* Ups */
+		msg("Das una vuelta sobre ti mismo.");
 	}
 }
 
@@ -1040,7 +1040,7 @@ void do_cmd_steal(struct command *cmd)
 {
 	int dir;
 
-	/* Get arguments */
+	/* Obtener argumentos */
 	if (cmd_get_direction(cmd, "direction", &dir, false) != CMD_OK)
 		return;
 
@@ -1048,12 +1048,12 @@ void do_cmd_steal(struct command *cmd)
 }
 
 /**
- * Move player in the given direction.
+ * Mover al jugador en la dirección dada.
  *
- * This routine should only be called when energy has been expended.
+ * Esta rutina solo debe ser llamada cuando se ha gastado energía.
  *
- * Note that this routine handles monsters in the destination grid,
- * and also handles attempting to move into walls/doors/rubble/etc.
+ * Nótese que esta rutina maneja monstruos en la casilla de destino,
+ * y también maneja intentos de moverse a paredes/puertas/escombros/etc.
  */
 void move_player(int dir, bool disarm)
 {
@@ -1065,62 +1065,62 @@ void move_player(int dir, bool disarm)
 	bool trap = square_isdisarmabletrap(cave, grid);
 	bool door = square_iscloseddoor(cave, grid);
 
-	/* Many things can happen on movement */
+	/* Pueden pasar muchas cosas al moverse */
 	if (m_idx > 0) {
-		/* Attack monsters */
+		/* Atacar monstruos */
 		if (monster_is_camouflaged(mon)) {
 			become_aware(cave, mon);
 
-			/* Camouflaged monster wakes up and becomes aware */
+			/* El monstruo camuflado se despierta y se da cuenta */
 			monster_wake(mon, false, 100);
 		} else {
 			py_attack(player, grid);
 		}
 	} else if (((trap && disarm) || door) && square_isknown(cave, grid)) {
-		/* Auto-repeat if not already repeating */
+		/* Auto-repetir si aún no se está repitiendo */
 		if (cmd_get_nrepeats() == 0)
 			cmd_set_repeat(99);
 		do_cmd_alter_aux(dir);
 	} else if (trap && player->upkeep->running && !trapsafe) {
-		/* Stop running before known traps */
+		/* Dejar de correr antes de trampas conocidas */
 		disturb(player);
-		/* No move made so no energy spent. */
+		/* No se ha movido, así que no se gasta energía. */
 		player->upkeep->energy_use = 0;
 	} else if (!square_ispassable(cave, grid)) {
 		disturb(player);
 
-		/* Notice unknown obstacles, mention known obstacles */
+		/* Notificar obstáculos desconocidos, mencionar obstáculos conocidos */
 		if (!square_isknown(cave, grid)) {
 			if (square_isrubble(cave, grid)) {
 				msgt(MSG_HITWALL,
-					 "You feel a pile of rubble blocking your way.");
+					 "Sientes un montón de escombros bloqueando tu camino.");
 				square_memorize(cave, grid);
 				square_light_spot(cave, grid);
 			} else if (square_iscloseddoor(cave, grid)) {
-				msgt(MSG_HITWALL, "You feel a door blocking your way.");
+				msgt(MSG_HITWALL, "Sientes una puerta bloqueando tu camino.");
 				square_memorize(cave, grid);
 				square_light_spot(cave, grid);
 			} else {
-				msgt(MSG_HITWALL, "You feel a wall blocking your way.");
+				msgt(MSG_HITWALL, "Sientes una pared bloqueando tu camino.");
 				square_memorize(cave, grid);
 				square_light_spot(cave, grid);
 			}
 		} else {
 			if (square_isrubble(cave, grid)) {
 				msgt(MSG_HITWALL,
-					 "There is a pile of rubble blocking your way.");
+					 "Hay un montón de escombros bloqueando tu camino.");
 				if (!square_isrubble(player->cave, grid)) {
 					square_memorize(cave, grid);
 					square_light_spot(cave, grid);
 				}
 			} else if (square_iscloseddoor(cave, grid)) {
-				msgt(MSG_HITWALL, "There is a door blocking your way.");
+				msgt(MSG_HITWALL, "Hay una puerta bloqueando tu camino.");
 				if (!square_iscloseddoor(player->cave, grid)) {
 					square_memorize(cave, grid);
 					square_light_spot(cave, grid);
 				}
 			} else {
-				msgt(MSG_HITWALL, "There is a wall blocking your way.");
+				msgt(MSG_HITWALL, "Hay una pared bloqueando tu camino.");
 				if (square_ispassable(player->cave, grid)
 						|| square_isrubble(player->cave, grid)
 						|| square_iscloseddoor(player->cave, grid)) {
@@ -1130,32 +1130,32 @@ void move_player(int dir, bool disarm)
 			}
 		}
 		/*
-		 * No move but do not refund energy:  primarily so that
-		 * confused moves while blind or without light take energy.
+		 * No hay movimiento pero no se reembolsa la energía: principalmente para que
+		 * los movimientos confundidos mientras se está ciego o sin luz gasten energía.
 		 */
 	} else {
-		/* See if trap detection status will change */
+		/* Ver si el estado de detección de trampas va a cambiar */
 		bool old_dtrap = square_isdtrap(cave, player->grid);
 		bool new_dtrap = square_isdtrap(cave, grid);
 		bool step = true;
 
-		/* Note the change in the detect status */
+		/* Notar el cambio en el estado de detección */
 		if (old_dtrap != new_dtrap)
 			player->upkeep->redraw |= (PR_DTRAP);
 
-		/* Disturb player if the player is about to leave the area */
+		/* Molestar al jugador si está a punto de dejar el área */
 		if (player->upkeep->running
 				&& !player->upkeep->running_firststep
 				&& old_dtrap && !new_dtrap) {
 			disturb(player);
-			/* No move made so no energy spent. */
+			/* No se ha movido, así que no se gasta energía. */
 			player->upkeep->energy_use = 0;
 			return;
 		}
 
 		/*
-		 * If not confused, allow check before moving into damaging
-		 * terrain.
+		 * Si no está confundido, permitir verificar antes de moverse a terreno
+		 * dañino.
 		 */
 		if (square_isdamaging(cave, grid)
 				&& !player->timed[TMD_CONFUSED]) {
@@ -1164,8 +1164,8 @@ void move_player(int dir, bool disarm)
 				grid, false);
 
 			/*
-			 * Check if running, or going to cost more than a
-			 * third of hp.
+			 * Verificar si está corriendo, o si va a costar más de un
+			 * tercio de los ph.
 			 */
 			if (player->upkeep->running && dam_taken) {
 				if (!get_check(feat->run_msg)) {
@@ -1180,20 +1180,19 @@ void move_player(int dir, bool disarm)
 		}
 
 		if (step) {
-			/* Move player */
+			/* Mover jugador */
 			monster_swap(player->grid, grid);
 			player_handle_post_move(player, true, false);
 			cmdq_push(CMD_AUTOPICKUP);
 			/*
-			 * The autopickup is a side effect of the move:
-			 * whatever command triggered the move will be the
-			 * target for CMD_REPEAT rather than repeating the
-			 * autopickup, and the autopickup won't trigger
-			 * bloodlust.
+			 * La recogida automática es un efecto secundario del movimiento:
+			 * cualquier comando que desencadenara el movimiento será el
+			 * objetivo de CMD_REPEAT en lugar de repetir la recogida automática,
+			 * y la recogida automática no activará la sed de sangre.
 			 */
 			cmdq_peek()->background_command = 2;
 		} else {
-			/* No move made so no energy spent. */
+			/* No se ha movido, así que no se gasta energía. */
 			player->upkeep->energy_use = 0;
 		}
 	}
@@ -1202,55 +1201,55 @@ void move_player(int dir, bool disarm)
 }
 
 /**
- * Determine if a given grid may be "walked"
+ * Determina si una casilla dada puede ser "caminada"
  */
 static bool do_cmd_walk_test(struct player *p, struct loc grid)
 {
 	int m_idx = square(cave, grid)->mon;
 	struct monster *mon = cave_monster(cave, m_idx);
 
-	/* Allow attack on obvious monsters if unafraid */
+	/* Permitir atacar monstruos obvios si no se tiene miedo */
 	if (m_idx > 0 && monster_is_obvious(mon)) {
-		/* Handle player fear */
+		/* Manejar el miedo del jugador */
 		if (player_of_has(p, OF_AFRAID)) {
-			/* Extract monster name (or "it") */
+			/* Extraer nombre del monstruo (o "eso") */
 			char m_name[80];
 			monster_desc(m_name, sizeof(m_name), mon, MDESC_DEFAULT);
 
-			/* Message */
-			msgt(MSG_AFRAID, "You are too afraid to attack %s!", m_name);
+			/* Mensaje */
+			msgt(MSG_AFRAID, "¡Tienes demasiado miedo para atacar a %s!", m_name);
 			equip_learn_flag(p, OF_AFRAID);
 
-			/* Nope */
+			/* No */
 			return (false);
 		}
 
 		return (true);
 	}
 
-	/* If we don't know the grid, allow attempts to walk into it */
+	/* Si no conocemos la casilla, permitir intentos de caminar hacia ella */
 	if (!square_isknown(cave, grid))
 		return true;
 
 	/*
-	 * Require open space; if the messaging indicates what is there and
-	 * that does not agree with the player's memory then update the
-	 * player's memory
+	 * Requiere espacio abierto; si el mensaje indica lo que hay y eso
+	 * no coincide con la memoria del jugador, entonces actualizar la
+	 * memoria del jugador
 	 */
 	if (!square_ispassable(cave, grid)) {
 		if (square_isrubble(cave, grid)) {
-			/* Rubble */
-			msgt(MSG_HITWALL, "There is a pile of rubble in the way!");
+			/* Escombros */
+			msgt(MSG_HITWALL, "¡Hay un montón de escombros en el camino!");
 			if (!square_isrubble(p->cave, grid)) {
 				square_memorize(cave, grid);
 				square_light_spot(cave, grid);
 			}
 		} else if (square_iscloseddoor(cave, grid)) {
-			/* Door */
+			/* Puerta */
 			return true;
 		} else {
-			/* Wall */
-			msgt(MSG_HITWALL, "There is a wall in the way!");
+			/* Pared */
+			msgt(MSG_HITWALL, "¡Hay una pared en el camino!");
 			if (square_ispassable(p->cave, grid)
 					|| square_isrubble(p->cave, grid)
 					|| square_iscloseddoor(p->cave, grid)) {
@@ -1259,20 +1258,20 @@ static bool do_cmd_walk_test(struct player *p, struct loc grid)
 			}
 		}
 
-		/* Cancel repeat */
+		/* Cancelar repetición */
 		disturb(p);
 
-		/* Nope */
+		/* No */
 		return (false);
 	}
 
-	/* Okay */
+	/* Ok */
 	return (true);
 }
 
 
 /**
- * Walk in the given direction.
+ * Caminar en la dirección dada.
  */
 void do_cmd_walk(struct command *cmd)
 {
@@ -1280,68 +1279,68 @@ void do_cmd_walk(struct command *cmd)
 	int dir;
 	bool trapsafe = player_is_trapsafe(player) ? true : false;
 
-	/* Get arguments */
+	/* Obtener argumentos */
 	if (cmd_get_direction(cmd, "direction", &dir, false) != CMD_OK)
 		return;
 
-	/* If we're in a web, deal with that */
+	/* Si estamos en una telaraña, lidiar con eso */
 	if (square_iswebbed(cave, player->grid)) {
-		/* Clear the web, finish turn */
+		/* Limpiar la telaraña, terminar turno */
 		struct trap_kind *web = lookup_trap("web");
 
-		msg("You clear the web.");
+		msg("Limpias la telaraña.");
 		assert(web);
 		square_remove_all_traps_of_type(cave, player->grid, web->tidx);
 		player->upkeep->energy_use = z_info->move_energy;
 		return;
 	}
 
-	/* Apply confusion if necessary */
-	/* Confused movements use energy no matter what */
+	/* Aplicar confusión si es necesario */
+	/* Los movimientos confundidos usan energía pase lo que pase */
 	if (player_confuse_dir(player, &dir, false))
 		player->upkeep->energy_use = z_info->move_energy;
 	
-	/* Verify walkability */
+	/* Verificar si se puede caminar */
 	grid = loc_sum(player->grid, ddgrid[dir]);
 	if (!do_cmd_walk_test(player, grid))
 		return;
 
 	player->upkeep->energy_use = energy_per_move(player);
 
-	/* Attempt to disarm unless it's a trap and we're trapsafe */
+	/* Intentar desarmar a menos que sea una trampa y estemos a salvo de trampas */
 	move_player(dir, !(square_isdisarmabletrap(cave, grid) && trapsafe));
 }
 
 
 /**
- * Walk into a trap.
+ * Caminar hacia una trampa.
  */
 void do_cmd_jump(struct command *cmd)
 {
 	struct loc grid;
 	int dir;
 
-	/* Get arguments */
+	/* Obtener argumentos */
 	if (cmd_get_direction(cmd, "direction", &dir, false) != CMD_OK)
 		return;
 
-	/* If we're in a web, deal with that */
+	/* Si estamos en una telaraña, lidiar con eso */
 	if (square_iswebbed(cave, player->grid)) {
-		/* Clear the web, finish turn */
+		/* Limpiar la telaraña, terminar turno */
 		struct trap_kind *web = lookup_trap("web");
 
-		msg("You clear the web.");
+		msg("Limpias la telaraña.");
 		assert(web);
 		square_remove_all_traps_of_type(cave, player->grid, web->tidx);
 		player->upkeep->energy_use = z_info->move_energy;
 		return;
 	}
 
-	/* Apply confusion if necessary */
+	/* Aplicar confusión si es necesario */
 	if (player_confuse_dir(player, &dir, false))
 		player->upkeep->energy_use = z_info->move_energy;
 
-	/* Verify walkability */
+	/* Verificar si se puede caminar */
 	grid = loc_sum(player->grid, ddgrid[dir]);
 	if (!do_cmd_walk_test(player, grid))
 		return;
@@ -1352,25 +1351,25 @@ void do_cmd_jump(struct command *cmd)
 }
 
 /**
- * Start running.
+ * Empezar a correr.
  *
- * Note that running while confused is not allowed.
+ * Nótese que no se permite correr mientras se está confundido.
  */
 void do_cmd_run(struct command *cmd)
 {
 	struct loc grid;
 	int dir;
 
-	/* Get arguments */
+	/* Obtener argumentos */
 	if (cmd_get_direction(cmd, "direction", &dir, false) != CMD_OK)
 		return;
 
-	/* If we're in a web, deal with that */
+	/* Si estamos en una telaraña, lidiar con eso */
 	if (square_iswebbed(cave, player->grid)) {
-		/* Clear the web, finish turn */
+		/* Limpiar la telaraña, terminar turno */
 		struct trap_kind *web = lookup_trap("web");
 
-		msg("You clear the web.");
+		msg("Limpias la telaraña.");
 		assert(web);
 		square_remove_all_traps_of_type(cave, player->grid, web->tidx);
 		player->upkeep->energy_use = z_info->move_energy;
@@ -1380,13 +1379,13 @@ void do_cmd_run(struct command *cmd)
 	if (player_confuse_dir(player, &dir, true))
 		return;
 
-	/* Get location */
+	/* Obtener ubicación */
 	if (dir) {
 		grid = loc_sum(player->grid, ddgrid[dir]);
 		if (!do_cmd_walk_test(player, grid))
 			return;
 			
-		/* Hack: convert repeat count to running count */
+		/* Hack: convertir el contador de repeticiones en contador de carrera */
 		if (cmd->nrepeats > 0) {
 			player->upkeep->running = cmd->nrepeats;
 			cmd->nrepeats = 0;
@@ -1396,37 +1395,37 @@ void do_cmd_run(struct command *cmd)
 		}
 	}
 
-	/* Start run */
+	/* Empezar a correr */
 	run_step(dir);
 }
 
 /**
- * Automatically navigate to the nearest downstairs location.
+ * Navegar automáticamente a la ubicación de escaleras abajo más cercana.
  *
- * Note that navigating while confused is not allowed.
+ * Nótese que no se permite navegar mientras se está confundido.
  */
 void do_cmd_navigate_down(struct command *cmd)
 {
-	/* cancel if confused */
+	/* cancelar si está confundido */
 	if (player->timed[TMD_CONFUSED]) {
-		msg("You cannot explore while confused.");
+		msg("No puedes explorar mientras estás confundido.");
 		return;
 	}
 
 
-	/* If we're in a web, deal with that */
+	/* Si estamos en una telaraña, lidiar con eso */
 	if (square_iswebbed(cave, player->grid)) {
-		/* Clear the web, finish turn */
-		msg("You clear the web.");
+		/* Limpiar la telaraña, terminar turno */
+		msg("Limpias la telaraña.");
 		square_destroy_trap(cave, player->grid);
 		player->upkeep->energy_use = z_info->move_energy;
 		return;
 	}
 
 
-	/* Screen for visible monsters */
+	/* Filtrar monstruos visibles */
 	if (player_has_monster_in_view(player)) {
-		msg("Something is here.");
+		msg("Algo está aquí.");
 		return;
 	}
 
@@ -1437,42 +1436,42 @@ void do_cmd_navigate_down(struct command *cmd)
 	if (player->upkeep->step_count > 0) {
 		player->upkeep->running_firststep = true;
 		player->upkeep->running = player->upkeep->step_count;
-		/* Calculate torch radius */
+		/* Calcular radio de la antorcha */
 		player->upkeep->update |= (PU_TORCH);
 		run_step(0);
 		return;
 	}
 
-	msg("No known path to downstairs.");
+	msg("No hay camino conocido a escaleras abajo.");
 }
 
 /**
- * Automatically navigate to the nearest upstairs location.
+ * Navegar automáticamente a la ubicación de escaleras arriba más cercana.
  *
- * Note that navigating while confused is not allowed.
+ * Nótese que no se permite navegar mientras se está confundido.
  */
 void do_cmd_navigate_up(struct command *cmd)
 {
-	/* cancel if confused */
+	/* cancelar si está confundido */
 	if (player->timed[TMD_CONFUSED]) {
-		msg("You cannot explore while confused.");
+		msg("No puedes explorar mientras estás confundido.");
 		return;
 	}
 
 
-	/* If we're in a web, deal with that */
+	/* Si estamos en una telaraña, lidiar con eso */
 	if (square_iswebbed(cave, player->grid)) {
-		/* Clear the web, finish turn */
-		msg("You clear the web.");
+		/* Limpiar la telaraña, terminar turno */
+		msg("Limpias la telaraña.");
 		square_destroy_trap(cave, player->grid);
 		player->upkeep->energy_use = z_info->move_energy;
 		return;
 	}
 
 
-	/* Screen for visible monsters */
+	/* Filtrar monstruos visibles */
 	if (player_has_monster_in_view(player)) {
-		msg("Something is here.");
+		msg("Algo está aquí.");
 		return;
 	}
 
@@ -1483,47 +1482,47 @@ void do_cmd_navigate_up(struct command *cmd)
 	if (player->upkeep->step_count > 0) {
 		player->upkeep->running_firststep = true;
 		player->upkeep->running = player->upkeep->step_count;
-		/* Calculate torch radius */
+		/* Calcular radio de la antorcha */
 		player->upkeep->update |= (PU_TORCH);
 		run_step(0);
 		return;
 	}
 
-	msg("No known path to upstairs.");
+	msg("No hay camino conocido a escaleras arriba.");
 }
 
 /**
- * Start exploring.
+ * Empezar a explorar.
  *
- * Note that exploring while confused is not allowed.
+ * Nótese que no se permite explorar mientras se está confundido.
  */
 void do_cmd_explore(struct command *cmd)
 {
-	/* Do nothing if autoexplore commands disabled. */
+	/* No hacer nada si los comandos de autoexploración están deshabilitados. */
 	if (!OPT(player, autoexplore_commands)) {
 		return;
 	}
 
-	/* cancel if confused */
+	/* cancelar si está confundido */
 	if (player->timed[TMD_CONFUSED]) {
-		msg("You cannot explore while confused.");
+		msg("No puedes explorar mientras estás confundido.");
 		return;
 	}
 
 
-	/* If we're in a web, deal with that */
+	/* Si estamos en una telaraña, lidiar con eso */
 	if (square_iswebbed(cave, player->grid)) {
-		/* Clear the web, finish turn */
-		msg("You clear the web.");
+		/* Limpiar la telaraña, terminar turno */
+		msg("Limpias la telaraña.");
 		square_destroy_trap(cave, player->grid);
 		player->upkeep->energy_use = z_info->move_energy;
 		return;
 	}
 
 
-	/* Screen for visible monsters */
+	/* Filtrar monstruos visibles */
 	if (player_has_monster_in_view(player)) {
-		msg("Something is here.");
+		msg("Algo está aquí.");
 		return;
 	}
 
@@ -1533,26 +1532,26 @@ void do_cmd_explore(struct command *cmd)
 	if (player->upkeep->step_count > 0) {
 		player->upkeep->running_firststep = true;
 		player->upkeep->running = player->upkeep->step_count;
-		/* Calculate torch radius */
+		/* Calcular radio de la antorcha */
 		player->upkeep->update |= (PU_TORCH);
 		run_step(0);
 		return;
 	}
 
-	msg("No apparent path for exploration.");
+	msg("No hay camino aparente para explorar.");
 }
 
 
 /**
- * Start running with pathfinder.
+ * Empezar a correr con el buscador de caminos.
  *
- * Note that running while confused is not allowed.
+ * Nótese que no se permite correr mientras se está confundido.
  */
 void do_cmd_pathfind(struct command *cmd)
 {
 	struct loc grid;
 
-	/* XXX-AS Add better arg checking */
+	/* XXX-AS Añadir mejor comprobación de argumentos */
 	cmd_get_arg_point(cmd, "point", &grid);
 
 	if (player->timed[TMD_CONFUSED])
@@ -1565,7 +1564,7 @@ void do_cmd_pathfind(struct command *cmd)
 		player->upkeep->path_dest = grid;
 		player->upkeep->running_firststep = true;
 		player->upkeep->running = player->upkeep->step_count;
-		/* Calculate torch radius */
+		/* Calcular radio de la antorcha */
 		player->upkeep->update |= (PU_TORCH);
 		run_step(0);
 	}
@@ -1574,25 +1573,25 @@ void do_cmd_pathfind(struct command *cmd)
 
 
 /**
- * Stay still.  Search.  Enter stores.
- * Pick up treasure if "pickup" is true.
+ * Quedarse quieto. Buscar. Entrar a tiendas.
+ * Recoger tesoro si "pickup" es true.
  */
 void do_cmd_hold(struct command *cmd)
 {
-	/* Take a turn */
+	/* Gastar un turno */
 	player->upkeep->energy_use = z_info->move_energy;
 
-	/* Searching (probably not necessary - NRM)*/
+	/* Buscar (probablemente no necesario - NRM)*/
 	search(player);
 
-	/* Pick things up, not using extra energy */
+	/* Recoger cosas, sin usar energía extra */
 	do_autopickup(player);
 
-	/* Enter a store if we are on one, otherwise look at the floor */
+	/* Entrar a una tienda si estamos en una, si no mirar al suelo */
 	if (square_isshop(cave, player->grid)) {
 		if (player_is_shapechanged(player)) {
 			if (square(cave, player->grid)->feat != FEAT_HOME) {
-				msg("There is a scream and the door slams shut!");
+				msg("¡Se oye un grito y la puerta se cierra de golpe!");
 			}
 			return;
 		}
@@ -1604,7 +1603,7 @@ void do_cmd_hold(struct command *cmd)
 		event_signal(EVENT_LEAVE_STORE);
 		event_remove_handler_type(EVENT_LEAVE_STORE);
 
-		/* Turn will be taken exiting the shop */
+		/* Se gastará un turno al salir de la tienda */
 		player->upkeep->energy_use = 0;
 	} else {
 		event_signal(EVENT_SEEFLOOR);
@@ -1614,47 +1613,47 @@ void do_cmd_hold(struct command *cmd)
 
 
 /**
- * Rest (restores hit points and mana and such)
+ * Descansar (restaura puntos de golpe y maná y tal)
  */
 void do_cmd_rest(struct command *cmd)
 {
 	int n;
 
-	/* XXX-AS need to insert UI here */
+	/* XXX-AS necesito insertar UI aquí */
 	if (cmd_get_arg_choice(cmd, "choice", &n) != CMD_OK)
 		return;
 
 	/* 
-	 * A little sanity checking on the input - only the specified negative 
-	 * values are valid. 
+	 * Un poco de verificación de cordura en la entrada - solo los valores
+	 * negativos especificados son válidos. 
 	 */
 	if (n < 0 && !player_resting_is_special(n))
 		return;
 
-	/* Do some upkeep on the first turn of rest */
+	/* Hacer algo de mantenimiento en el primer turno de descanso */
 	if (!player_is_resting(player)) {
 		player->upkeep->update |= (PU_BONUS);
 
-		/* If a number of turns was entered, remember it */
+		/* Si se ingresó un número de turnos, recordarlo */
 		if (n > 1)
 			player_set_resting_repeat_count(player, n);
 		else if (n == 1)
-			/* If we're repeating the command, use the same count */
+			/* Si estamos repitiendo el comando, usar el mismo contador */
 			n = player_get_resting_repeat_count(player);
 	}
 
-	/* Set the counter, and stop if told to */
+	/* Establecer el contador, y parar si se indica */
 	player_resting_set_count(player, n);
 	if (!player_is_resting(player))
 		return;
 
-	/* Take a turn */
+	/* Gastar un turno */
 	player_resting_step_turn(player);
 
-	/* Redraw the state if requested */
+	/* Redibujar el estado si se solicita */
 	handle_stuff(player);
 
-	/* Prepare to continue, or cancel and clean up */
+	/* Prepararse para continuar, o cancelar y limpiar */
 	if (player_resting_count(player) > 0) {
 		cmdq_push(CMD_REST);
 		cmd_set_arg_choice(cmdq_peek(), "choice", n - 1);
@@ -1670,61 +1669,61 @@ void do_cmd_rest(struct command *cmd)
 
 
 /**
- * Spend a turn doing nothing
+ * Pasar un turno sin hacer nada
  */
 void do_cmd_sleep(struct command *cmd)
 {
-	/* Take a turn */
+	/* Gastar un turno */
 	player->upkeep->energy_use = z_info->move_energy;
 }
 
 
 /**
- * Array of feeling strings for object feelings.
- * Keep strings at 36 or less characters to keep the
- * combined feeling on one row.
+ * Matriz de cadenas de sensaciones para sensaciones de objetos.
+ * Mantener las cadenas en 36 caracteres o menos para mantener la
+ * sensación combinada en una sola línea.
  */
 static const char *obj_feeling_text[] =
 {
-	"Looks like any other level.",
-	"you sense an item of wondrous power!",
-	"there are superb treasures here.",
-	"there are excellent treasures here.",
-	"there are very good treasures here.",
-	"there are good treasures here.",
-	"there may be something worthwhile here.",
-	"there may not be much interesting here.",
-	"there aren't many treasures here.",
-	"there are only scraps of junk here.",
-	"there is naught but cobwebs here."
+	"Parece un nivel cualquiera.",
+	"¡sientes un objeto de poder maravilloso!",
+	"hay tesoros soberbios aquí.",
+	"hay tesoros excelentes aquí.",
+	"hay tesoros muy buenos aquí.",
+	"hay tesoros buenos aquí.",
+	"puede haber algo que valga la pena aquí.",
+	"puede que no haya mucho interesante aquí.",
+	"no hay muchos tesoros aquí.",
+	"solo hay restos de basura aquí.",
+	"no hay más que telarañas aquí."
 };
 
 /**
- * Array of feeling strings for monster feelings.
- * Keep strings at 36 or less characters to keep the
- * combined feeling on one row.
+ * Matriz de cadenas de sensaciones para sensaciones de monstruos.
+ * Mantener las cadenas en 36 caracteres o menos para mantener la
+ * sensación combinada en una sola línea.
  */
 static const char *mon_feeling_text[] =
 {
-	/* first string is just a place holder to 
-	 * maintain symmetry with obj_feeling.
+	/* la primera cadena es solo un marcador de posición para
+	 * mantener la simetría con obj_feeling.
 	 */
-	"You are still uncertain about this place",
-	"Omens of death haunt this place",
-	"This place seems murderous",
-	"This place seems terribly dangerous",
-	"You feel anxious about this place",
-	"You feel nervous about this place",
-	"This place does not seem too risky",
-	"This place seems reasonably safe",
-	"This seems a tame, sheltered place",
-	"This seems a quiet, peaceful place"
+	"Aún no estás seguro sobre este lugar",
+	"Augurios de muerte acechan este lugar",
+	"Este lugar parece asesino",
+	"Este lugar parece terriblemente peligroso",
+	"Te sientes ansioso sobre este lugar",
+	"Te sientes nervioso sobre este lugar",
+	"Este lugar no parece demasiado arriesgado",
+	"Este lugar parece razonablemente seguro",
+	"Este parece un lugar manso y resguardado",
+	"Este parece un lugar tranquilo y pacífico"
 };
 
 /**
- * Display the feeling.  Players always get a monster feeling.
- * Object feelings are delayed until the player has explored some
- * of the level.
+ * Mostrar la sensación. Los jugadores siempre reciben una sensación de monstruos.
+ * Las sensaciones de objetos se retrasan hasta que el jugador haya explorado algo
+ * del nivel.
  */
 void display_feeling(bool obj_only)
 {
@@ -1732,43 +1731,43 @@ void display_feeling(bool obj_only)
 	uint16_t mon_feeling = cave->feeling - (10 * obj_feeling);
 	const char *join;
 
-	/* Don't show feelings for cold-hearted characters */
+	/* No mostrar sensaciones para personajes de corazón frío */
 	if (!OPT(player, birth_feelings)) return;
 
-	/* No useful feeling in town */
+	/* Sin sensación útil en la ciudad */
 	if (!player->depth) {
-		msg("Looks like a typical town.");
+		msg("Parece una ciudad típica.");
 		return;
 	}
 
-	/* Display only the object feeling when it's first discovered. */
+	/* Mostrar solo la sensación de objetos cuando se descubre por primera vez. */
 	if (obj_only) {
 		disturb(player);
-		msg("You feel that %s", obj_feeling_text[obj_feeling]);
+		msg("Sientes que %s", obj_feeling_text[obj_feeling]);
 		return;
 	}
 
-	/* Players automatically get a monster feeling. */
+	/* Los jugadores obtienen automáticamente una sensación de monstruos. */
 	if (cave->feeling_squares < z_info->feeling_need) {
 		msg("%s.", mon_feeling_text[mon_feeling]);
 		return;
 	}
 
-	/* Verify the feelings */
+	/* Verificar las sensaciones */
 	if (obj_feeling >= N_ELEMENTS(obj_feeling_text))
 		obj_feeling = N_ELEMENTS(obj_feeling_text) - 1;
 
 	if (mon_feeling >= N_ELEMENTS(mon_feeling_text))
 		mon_feeling = N_ELEMENTS(mon_feeling_text) - 1;
 
-	/* Decide the conjunction */
+	/* Decidir la conjunción */
 	if ((mon_feeling <= 5 && obj_feeling > 6) ||
 			(mon_feeling > 5 && obj_feeling <= 6))
-		join = ", yet";
+		join = ", sin embargo";
 	else
-		join = ", and";
+		join = ", y";
 
-	/* Display the feeling */
+	/* Mostrar la sensación */
 	msg("%s%s %s", mon_feeling_text[mon_feeling], join,
 		obj_feeling_text[obj_feeling]);
 }
@@ -1780,10 +1779,10 @@ void do_cmd_feeling(void)
 }
 
 /**
- * Make a monster perform an action.
+ * Hacer que un monstruo realice una acción.
  *
- * Currently possible actions are cast a random spell, drop a random item,
- * stand still, or move (attacking any intervening monster).
+ * Actualmente las acciones posibles son lanzar un hechizo aleatorio, soltar un objeto aleatorio,
+ * quedarse quieto, o moverse (atacando a cualquier monstruo que intervenga).
  */
 void do_cmd_mon_command(struct command *cmd)
 {
@@ -1794,13 +1793,13 @@ void do_cmd_mon_command(struct command *cmd)
 	assert(mon);
 	lore = get_lore(mon->race);
 
-	/* Get the monster name */
+	/* Obtener el nombre del monstruo */
 	monster_desc(m_name, sizeof(m_name), mon,
 		MDESC_CAPITAL | MDESC_IND_HID | MDESC_COMMA);
 
 	switch (cmd->code) {
 		case CMD_READ_SCROLL: {
-			/* Actually 'r'elease monster */
+			/* En realidad 'l'iberar monstruo */
 			mon_clear_timed(mon, MON_TMD_COMMAND, MON_TMD_FLG_NOTIFY);
 			player_clear_timed(player, TMD_COMMAND, true, false);
 			break;
@@ -1812,34 +1811,34 @@ void do_cmd_mon_command(struct command *cmd)
 			bool seen = player->timed[TMD_BLIND] ? false : true;
 			int spell_index;
 
-			/* Choose a target monster */
+			/* Elegir un monstruo objetivo */
 			target_set_monster(NULL);
 			get_aim_dir(&dir);
 			t_mon = target_get_monster();
 			if (!t_mon) {
-				msg("No target monster selected!");
+				msg("¡No se ha seleccionado ningún monstruo objetivo!");
 				return;
 			}
 			mon->target.midx = t_mon->midx;
 
-			/* Pick a random spell and cast it */
+			/* Elegir un hechizo aleatorio y lanzarlo */
 			rsf_copy(f, mon->race->spell_flags);
 			spell_index = choose_attack_spell(f, true, true);
 			if (!spell_index) {
-				msg("This monster has no spells!");
+				msg("¡Este monstruo no tiene hechizos!");
 				return;
 			}
 			do_mon_spell(spell_index, mon, seen);
 
-			/* Remember what the monster did */
+			/* Recordar lo que hizo el monstruo */
 			if (seen) {
 				rsf_on(lore->spell_flags, spell_index);
 				if (mon_spell_is_innate(spell_index)) {
-					/* Innate spell */
+					/* Hechizo innato */
 					if (lore->cast_innate < UCHAR_MAX)
 						lore->cast_innate++;
 				} else {
-					/* Bolt or Ball, or Special spell */
+					/* Hechizo de proyectil o de área, o especial */
 					if (lore->cast_spell < UCHAR_MAX)
 						lore->cast_spell++;
 				}
@@ -1861,13 +1860,13 @@ void do_cmd_mon_command(struct command *cmd)
 			object_desc(o_name, sizeof(o_name), obj,
 				ODESC_PREFIX | ODESC_FULL, player);
 			if (!ignore_item_ok(player, obj)) {
-				msg("%s drops %s.", m_name, o_name);
+				msg("%s suelta %s.", m_name, o_name);
 			}
 
 			break;
 		}
 		case CMD_HOLD: {
-			/* Do nothing */
+			/* No hacer nada */
 			break;
 		}
 		case CMD_WALK: {
@@ -1877,50 +1876,50 @@ void do_cmd_mon_command(struct command *cmd)
 			bool has_hit = false;
 			struct monster *t_mon = NULL;
 
-			/* Get arguments */
+			/* Obtener argumentos */
 			if (cmd_get_direction(cmd, "direction", &dir, false) != CMD_OK)
 				return;
 			grid = loc_sum(mon->grid, ddgrid[dir]);
 
-			/* Don't let immobile monsters be moved */
+			/* No permitir que monstruos inmóviles se muevan */
 			if (rf_has(mon->race->flags, RF_NEVER_MOVE)) {
-				msg("The monster can not move.");
+				msg("El monstruo no puede moverse.");
 				return;
 			}
 
-			/* Monster there - attack */
+			/* Hay monstruo - atacar */
 			t_mon = square_monster(cave, grid);
 			if (t_mon) {
-				/* Attack the monster */
+				/* Atacar al monstruo */
 				if (monster_attack_monster(mon, t_mon)) {
 					has_hit = true;
 				} else {
 					can_move = false;
 				}
 			} else if (square_ispassable(cave, grid)) {
-				/* Floor is open? */
+				/* ¿El suelo está despejado? */
 				can_move = true;
 			} else if (square_isperm(cave, grid)) {
-				/* Permanent wall in the way */
+				/* Pared permanente en el camino */
 				can_move = false;
 			} else {
-				/* There's some kind of feature in the way, so learn about
-				 * kill-wall and pass-wall now */
+				/* Hay algún tipo de característica en el camino, así que aprender sobre
+				 * kill-wall y pass-wall ahora */
 				if (monster_is_visible(mon)) {
 					rf_on(lore->flags, RF_PASS_WALL);
 					rf_on(lore->flags, RF_KILL_WALL);
 					rf_on(lore->flags, RF_SMASH_WALL);
 				}
 
-				/* Monster may be able to deal with walls and doors */
+				/* El monstruo puede ser capaz de lidiar con paredes y puertas */
 				if (rf_has(mon->race->flags, RF_PASS_WALL)) {
 					can_move = true;
 				} else if (rf_has(mon->race->flags, RF_KILL_WALL)) {
-					/* Remove the wall */
+					/* Eliminar la pared */
 					square_destroy_wall(cave, grid);
 					can_move = true;
 				} else if (rf_has(mon->race->flags, RF_SMASH_WALL)) {
-					/* Remove everything */
+					/* Eliminar todo */
 					square_smash_wall(cave, grid);
 					can_move = true;
 				} else if (square_iscloseddoor(cave, grid) ||
@@ -1928,36 +1927,36 @@ void do_cmd_mon_command(struct command *cmd)
 					bool can_open = rf_has(mon->race->flags, RF_OPEN_DOOR);
 					bool can_bash = rf_has(mon->race->flags, RF_BASH_DOOR);
 
-					/* Learn about door abilities */
+					/* Aprender sobre habilidades con puertas */
 					if (monster_is_visible(mon)) {
 						rf_on(lore->flags, RF_OPEN_DOOR);
 						rf_on(lore->flags, RF_BASH_DOOR);
 					}
 
-					/* If the monster can deal with doors, prefer to bash */
+					/* Si el monstruo puede lidiar con puertas, preferir derribar */
 					if (can_bash || can_open) {
-						/* Now outcome depends on type of door */
+						/* El resultado depende del tipo de puerta */
 						if (square_islockeddoor(cave, grid)) {
-							/* Test strength against door strength */
+							/* Probar fuerza contra resistencia de la puerta */
 							int k = square_door_power(cave, grid);
 							if (randint0(mon->hp / 10) > k) {
 								if (can_bash) {
-									msg("%s slams against the door.", m_name);
+									msg("%s se estrella contra la puerta.", m_name);
 								} else {
-									msg("%s fiddles with the lock.", m_name);
+									msg("%s manipula la cerradura.", m_name);
 								}
 
-								/* Reduce the power of the door by one */
+								/* Reducir la resistencia de la puerta en uno */
 								square_set_door_lock(cave, grid, k - 1);
 							}
 						} else {
-							/* Closed or secret door -- always open or bash */
+							/* Puerta cerrada o secreta -- siempre abrir o derribar */
 							if (can_bash) {
 								square_smash_door(cave, grid);
 
-								msg("You hear a door burst open!");
+								msg("¡Escuchas una puerta abrirse de golpe!");
 
-								/* Fall into doorway */
+								/* Caer en la puerta */
 								can_move = true;
 							} else {
 								square_open_door(cave, grid);
@@ -1974,17 +1973,17 @@ void do_cmd_mon_command(struct command *cmd)
 				monster_swap(mon->grid, grid);
 				player->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 			} else {
-				msg("The way is blocked.");
+				msg("El camino está bloqueado.");
 			}
 			break;
 		}
 		default: {
-			msg("Valid commands: move, stand still, 'd'rop, 'm'agic, or 'r'elease.");
+			msg("Comandos válidos: mover, quedarse quieto, 's'oltar, 'm'agia, o 'l'iberar.");
 			return;
 		}
 	}
 
 
-	/* Take a turn */
+	/* Gastar un turno */
 	player->upkeep->energy_use = z_info->move_energy;
 }

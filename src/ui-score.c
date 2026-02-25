@@ -1,6 +1,6 @@
 /**
  * \file ui-score.c
- * \brief Highscore display for Angband
+ * \brief Visualización de puntuaciones altas para Angband
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
@@ -25,14 +25,14 @@
 #include "ui-term.h"
 
 /**
- * Display a page of scores
+ * Mostrar una página de puntuaciones
  */
 static void display_score_page(const struct high_score scores[], int start,
 							   int count, int highlight)
 {
 	int n;
 
-	/* Dump 5 entries */
+	/* Volcar 5 entradas */
 	for (n = 0; start < count && n < 5; start++, n++) {
 		const struct high_score *score = &scores[start];
 		uint8_t attr;
@@ -43,76 +43,76 @@ static void display_score_page(const struct high_score scores[], int start,
 		char out_val[160];
 		char tmp_val[160];
 
-		/* Indicate death in yellow */
+		/* Indicar muerte en amarillo */
 		attr = (start == highlight) ? COLOUR_L_GREEN : COLOUR_WHITE;
 
 		c = player_id2class(atoi(score->p_c));
 		r = player_id2race(atoi(score->p_r));
 
-		/* Extract the level info */
+		/* Extraer información de nivel */
 		clev = atoi(score->cur_lev);
 		mlev = atoi(score->max_lev);
 		cdun = atoi(score->cur_dun);
 		mdun = atoi(score->max_dun);
 
-		/* Extract the gold and such */
+		/* Extraer el oro y demás */
 		for (user = score->uid; isspace((unsigned char)*user); user++)
-			/* loop */;
+			/* bucle */;
 		for (when = score->day; isspace((unsigned char)*when); when++)
-			/* loop */;
+			/* bucle */;
 		for (gold = score->gold; isspace((unsigned char)*gold); gold++)
-			/* loop */;
+			/* bucle */;
 		for (aged = score->turns; isspace((unsigned char)*aged); aged++)
-			/* loop */;
+			/* bucle */;
 
-		/* Dump some info */
+		/* Volcar algo de información */
 		strnfmt(out_val, sizeof(out_val),
-				"%3d.%9s  %s the %s %s, level %d",
+				"%3d.%9s  %s %s %s, nivel %d",
 				start + 1, score->pts, score->who,
-				r ? r->name : "<none>", c ? c->name : "<none>",
+				r ? r->name : "<ninguna>", c ? c->name : "<ninguna>",
 				clev);
 
-		/* Append a "maximum level" */
+		/* Añadir un "nivel máximo" */
 		if (mlev > clev)
-			my_strcat(out_val, format(" (Max %d)", mlev), sizeof(out_val));
+			my_strcat(out_val, format(" (Máx %d)", mlev), sizeof(out_val));
 
-		/* Dump the first line */
+		/* Volcar la primera línea */
 		c_put_str(attr, out_val, n * 4 + 2, 0);
 
 
-		/* Died where? */
+		/* ¿Dónde murió? */
 		if (!cdun)
-			strnfmt(out_val, sizeof(out_val), "Killed by %s in the town",
+			strnfmt(out_val, sizeof(out_val), "Matado por %s en la ciudad",
 					score->how);
 		else
 			strnfmt(out_val, sizeof(out_val),
-					"Killed by %s on dungeon level %d", score->how, cdun);
+					"Matado por %s en el nivel de mazmorra %d", score->how, cdun);
 
-		/* Append a "maximum level" */
+		/* Añadir un "nivel máximo" */
 		if (mdun > cdun)
-			my_strcat(out_val, format(" (Max %d)", mdun), sizeof(out_val));
+			my_strcat(out_val, format(" (Máx %d)", mdun), sizeof(out_val));
 
-		/* Dump the info */
+		/* Volcar la información */
 		c_put_str(attr, out_val, n * 4 + 3, 15);
 
 
-		/* Clean up standard encoded form of "when" */
+		/* Limpiar la forma codificada estándar de "cuándo" */
 		if ((*when == '@') && strlen(when) == 9) {
 			strnfmt(tmp_val, sizeof(tmp_val), "%.4s-%.2s-%.2s", when + 1,
 					when + 5, when + 7);
 			when = tmp_val;
 		}
 
-		/* And still another line of info */
+		/* Y otra línea más de información */
 		strnfmt(out_val, sizeof(out_val),
-				"(User %s, Date %s, Gold %s, Turn %s).",
+				"(Usuario %s, Fecha %s, Oro %s, Turno %s).",
 				user, when, gold, aged);
 		c_put_str(attr, out_val, n * 4 + 4, 15);
 	}
 }
 
 /**
- * Display the scores in a given range.
+ * Mostrar las puntuaciones en un rango dado.
  */
 static void display_scores_aux(const struct high_score scores[], int from,
 							   int to, int highlight, bool allow_scrolling)
@@ -120,43 +120,43 @@ static void display_scores_aux(const struct high_score scores[], int from,
 	struct keypress ch;
 	int k, count;
 
-	/* Assume we will show the first 10 */
+	/* Asumir que mostraremos las primeras 10 */
 	if (from < 0) from = 0;
 	if (to < 0) to = allow_scrolling ? 5 : 10;
 	if (to > MAX_HISCORES) to = MAX_HISCORES;
 
-	/* Count the high scores */
+	/* Contar las puntuaciones altas */
 	for (count = 0; count < MAX_HISCORES; count++)
 		if (!scores[count].what[0])
 			break;
 
-	/* Forget about the last entries */
+	/* Olvidar las últimas entradas */
 	if ((count > to) && !allow_scrolling) count = to;
 
 	/*
-	 * Move 5 entries at a time.  Unless scrolling is allowed, only
-	 * move forward and stop once the end is reached.
+	 * Mover 5 entradas a la vez. A menos que se permita desplazamiento, solo
+	 * avanzar y detenerse una vez que se alcanza el final.
 	 */
 	k = from;
 	while (1) {
-		/* Clear screen */
+		/* Limpiar pantalla */
 		Term_clear();
 
-		/* Title */
+		/* Título */
 		if (k > 0) {
-			put_str(format("%s Hall of Fame (from position %d)",
+			put_str(format("%s Salón de la Fama (desde la posición %d)",
 				VERSION_NAME, k + 1), 0, 21);
 		} else {
-			put_str(format("%s Hall of Fame", VERSION_NAME), 0, 30);
+			put_str(format("%s Salón de la Fama", VERSION_NAME), 0, 30);
 		}
 
 		display_score_page(scores, k, count, highlight);
 
-		/* Wait for response; prompt centered on 80 character line */
+		/* Esperar respuesta; mensaje centrado en línea de 80 caracteres */
 		if (allow_scrolling) {
-			prt("[Press ESC to exit, up for prior page, any other key for next page.]", 23, 6);
+			prt("[Pulsa ESC para salir, arriba para página anterior, otra tecla para página sgte.]", 23, 6);
 		} else {
-			prt("[Press ESC to exit, any other key to page forward till done.]", 23, 9);
+			prt("[Pulsa ESC para salir, otra tecla para av. página hasta salir.]", 23, 9);
 		}
 		ch = inkey();
 		prt("", 23, 0);
@@ -188,7 +188,7 @@ static void display_scores_aux(const struct high_score scores[], int from,
 }
 
 /**
- * Predict the players location, and display it.
+ * Predecir la ubicación del jugador y mostrarla.
  */
 void predict_score(bool allow_scrolling)
 {
@@ -197,16 +197,16 @@ void predict_score(bool allow_scrolling)
 	struct high_score scores[MAX_HISCORES];
 
 
-	/* Read scores, place current score */
+	/* Leer puntuaciones, colocar puntuación actual */
 	highscore_read(scores, N_ELEMENTS(scores));
-	build_score(&the_score, player, "nobody (yet!)", NULL);
+	build_score(&the_score, player, "nadie (¡todavía!)", NULL);
 
 	if (player->is_dead)
 		j = highscore_where(&the_score, scores, N_ELEMENTS(scores));
 	else
 		j = highscore_add(&the_score, scores, N_ELEMENTS(scores));
 
-	/* Top fifteen scores if on the top ten, otherwise ten surrounding */
+	/* Quince mejores puntuaciones si está entre los diez primeros, si no diez alrededor */
 	if (j < 10) {
 		display_scores_aux(scores, 0, 15, j, allow_scrolling);
 	} else {
@@ -216,18 +216,18 @@ void predict_score(bool allow_scrolling)
 
 
 /**
- * Show scores.
+ * Mostrar puntuaciones.
  */
 void show_scores(void)
 {
 	screen_save();
 
-	/* Display the scores */
+	/* Mostrar las puntuaciones */
 	if (character_generated) {
 		predict_score(true);
 	} else {
-		/* Currently unused, but leaving in in case we re-implement looking
-		 * at the scores without loading a character */
+		/* Actualmente no usado, pero se deja por si reimplementamos mirar
+		 * las puntuaciones sin cargar un personaje */
 		struct high_score scores[MAX_HISCORES];
 		highscore_read(scores, N_ELEMENTS(scores));
 		display_scores_aux(scores, 0, MAX_HISCORES, -1, true);
@@ -235,7 +235,6 @@ void show_scores(void)
 
 	screen_load();
 
-	/* Hack - Flush it */
+	/* Hack - Refrescar */
 	Term_fresh();
 }
-

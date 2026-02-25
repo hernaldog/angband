@@ -1,6 +1,6 @@
 /**
  * \file ui-command.c
- * \brief Deal with UI only command processing.
+ * \brief Manejar el procesamiento de comandos solo de la interfaz de usuario.
  *
  * Copyright (c) 1997-2014 Angband developers
  *
@@ -50,58 +50,58 @@
 
 
 /**
- * Redraw the screen
+ * Redibujar la pantalla
  *
- * This command performs various low level updates, clears all the "extra"
- * windows, does a total redraw of the main window, and requests all of the
- * interesting updates and redraws that I can think of.
+ * Este comando realiza varias actualizaciones de bajo nivel, limpia todas las ventanas
+ * "extra", hace un redibujado total de la ventana principal, y solicita todas las
+ * actualizaciones y redibujados interesantes que se me ocurren.
  *
- * This command is also used to "instantiate" the results of the user
- * selecting various things, such as graphics mode, so it must call
- * the "TERM_XTRA_REACT" hook before redrawing the windows.
+ * Este comando también se usa para "instanciar" los resultados de que el usuario
+ * seleccione varias cosas, como el modo gráfico, por lo que debe llamar
+ * al gancho "TERM_XTRA_REACT" antes de redibujar las ventanas.
  *
  */
 void do_cmd_redraw(void)
 {
-	/* Low level flush */
+	/* Vaciar de bajo nivel */
 	Term_flush();
 
-	/* Reset "inkey()" */
+	/* Reiniciar "inkey()" */
 	event_signal(EVENT_INPUT_FLUSH);
 
 	if (character_dungeon)
 		verify_panel();
 
-	/* React to changes */
+	/* Reaccionar a los cambios */
 	Term_xtra(TERM_XTRA_REACT, 0);
 
 	if (character_dungeon) {
-		/* Combine the pack (later) */
+		/* Combinar la mochila (más tarde) */
 		player->upkeep->notice |= (PN_COMBINE);
 
-		/* Update torch, gear */
+		/* Actualizar antorcha, equipo */
 		player->upkeep->update |= (PU_TORCH | PU_INVEN);
 
-		/* Update stuff */
+		/* Actualizar cosas */
 		player->upkeep->update |= (PU_BONUS | PU_HP | PU_SPELLS);
 
-		/* Fully update the visuals */
+		/* Actualizar completamente lo visual */
 		player->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 
-		/* Redraw everything */
+		/* Redibujar todo */
 		player->upkeep->redraw |= (PR_BASIC | PR_EXTRA | PR_MAP | PR_INVEN |
 								   PR_EQUIP | PR_MESSAGE | PR_MONSTER |
 								   PR_OBJECT | PR_MONLIST | PR_ITEMLIST);
 	}
 
-	/* Clear screen */
+	/* Limpiar pantalla */
 	Term_clear();
 
 	if (character_dungeon) {
-		/* Update */
+		/* Actualizar */
 		handle_stuff(player);
 
-		/* Place the cursor on the player */
+		/* Colocar el cursor sobre el jugador */
 		if ((0 != character_dungeon) && OPT(player, show_target) &&
 			target_sighted()) {
 			struct loc target;
@@ -112,14 +112,14 @@ void do_cmd_redraw(void)
 		}
 	}
 
-	/* Redraw every window */
+	/* Redibujar cada ventana */
 	(void) Term_redraw_all();
 }
 
 
 
 /**
- * Display the options and redraw afterward.
+ * Mostrar las opciones y redibujar después.
  */
 void do_cmd_xxx_options(void)
 {
@@ -129,16 +129,16 @@ void do_cmd_xxx_options(void)
 
 
 /**
- * Invoked when the command isn't recognised.
+ * Invocado cuando el comando no es reconocido.
  */
 void do_cmd_unknown(void)
 {
-	prt("Type '?' for help.", 0, 0);
+	prt("Presiona '?' para ayuda.", 0, 0);
 }
 
 
 /**
- * Print the version and copyright notice.
+ * Imprimir la versión y el aviso de derechos de autor.
  */
 void do_cmd_version(void)
 {
@@ -148,7 +148,7 @@ void do_cmd_version(void)
 	region local_area = { 0, 0, 0, 0 };
 
 	my_strcpy(header_buf,
-			  format("You are playing %s.  Type '?' for more info.", buildver),
+			  format("Estás jugando a %s. Escribe '?' para más información.", buildver),
 			  sizeof(header_buf));
 	textblock_append(tb, "\n");
 	textblock_append(tb, "%s", copyright);
@@ -157,25 +157,25 @@ void do_cmd_version(void)
 }
 
 /**
- * Verify the retire command
+ * Verificar el comando de retiro
  */
 void textui_cmd_retire(void)
 {
-	/* Flush input */
+	/* Vaciar entrada */
 	event_signal(EVENT_INPUT_FLUSH);
 
-	/* Verify */
+	/* Verificar */
 	if (player->total_winner) {
-		if (!get_check("Do you want to retire? "))
+		if (!get_check("¿Quieres retirarte? "))
 			return;
 	} else {
 		struct keypress ch;
 
-		if (!get_check("Do you really want to retire?"))
+		if (!get_check("¿Realmente quieres retirarte?"))
 			return;
 
-		/* Special Verification for retirement */
-		prt("Please verify RETIRING THIS CHARACTER by typing the '@' sign: ", 0, 0);
+		/* Verificación especial para el retiro */
+		prt("Por favor, verifica QUE TE RETIRAS DE ESTE PERSONAJE escribiendo el símbolo '@': ", 0, 0);
 		event_signal(EVENT_INPUT_FLUSH);
 		ch = inkey();
 		prt("", 0, 0);
@@ -186,32 +186,32 @@ void textui_cmd_retire(void)
 }
 
 /**
- * Get input for the rest command
+ * Obtener entrada para el comando descansar
  */
 void textui_cmd_rest(void)
 {
-	const char *p = "Rest (0-9999, '!' for HP or SP, '*' for HP and SP, '&' as needed): ";
+	const char *p = "Descansar (0-9999, '!' para PG o PM, '*' para PG y PM, '&' hasta terminar): ";
 
 	char out_val[5] = "& ";
 
-	/* Ask for duration */
+	/* Preguntar por duración */
 	if (!get_string(p, out_val, sizeof(out_val))) return;
 
-	/* Rest... */
+	/* Descansar... */
 	if (out_val[0] == '&') {
-		/* ...until done */
+		/* ...hasta terminar */
 		cmdq_push(CMD_REST);
 		cmd_set_arg_choice(cmdq_peek(), "choice", REST_COMPLETE);
 	} else if (out_val[0] == '*') {
-		/* ...a lot */
+		/* ...mucho */
 		cmdq_push(CMD_REST);
 		cmd_set_arg_choice(cmdq_peek(), "choice", REST_ALL_POINTS);
 	} else if (out_val[0] == '!') {
-		/* ...until HP or SP filled */
+		/* ...hasta que PG o PM se llenen */
 		cmdq_push(CMD_REST);
 		cmd_set_arg_choice(cmdq_peek(), "choice", REST_SOME_POINTS);
 	} else {
-		/* ...some */
+		/* ...algunos */
 		int turns = atoi(out_val);
 		if (turns <= 0) return;
 		if (turns > 9999) turns = 9999;
@@ -223,7 +223,7 @@ void textui_cmd_rest(void)
 
 
 /**
- * Quit the game.
+ * Salir del juego.
  */
 void textui_quit(void)
 {
@@ -233,7 +233,7 @@ void textui_quit(void)
 
 /**
  * ------------------------------------------------------------------------
- * Screenshot loading/saving code
+ * Código para guardar/cargar capturas de pantalla
  * ------------------------------------------------------------------------ */
 
 static void write_html_escape_char(ang_file *fp, char *mbbuf, wchar_t c)
@@ -269,12 +269,12 @@ static void write_html_escape_char(ang_file *fp, char *mbbuf, wchar_t c)
 static void screenshot_term_query(int wid, int hgt, int x, int y, int *a, wchar_t *c)
 {
 	if (y < ROW_MAP || y >= hgt - ROW_BOTTOM_MAP || x < COL_MAP) {
-		/* Record everything outside the map. */
+		/* Registrar todo fuera del mapa. */
 		(void) Term_what(x, y, a, c);
 	} else {
 		/*
-		 * In the map, skip over the padding for scaled up tiles.  As
-		 * necessary, pad trailing columns and rows with blanks.
+		 * En el mapa, saltarse el relleno para mosaicos escalados. Según sea
+		 * necesario, rellenar las columnas y filas finales con espacios en blanco.
 		 */
 		int srcx = (x - COL_MAP) * tile_width + COL_MAP;
 		int srcy = (y - ROW_MAP) * tile_height + ROW_MAP;
@@ -290,11 +290,11 @@ static void screenshot_term_query(int wid, int hgt, int x, int y, int *a, wchar_
 
 
 /**
- * Take an html screenshot
+ * Tomar una captura de pantalla en html
  */
 void html_screenshot(const char *path, int mode, term *other_term)
 {
-	/* Put the contents of the other terminal on the right by default. */
+	/* Poner el contenido de la otra terminal a la derecha por defecto. */
 	bool other_left = false;
 	int y, x;
 	int main_wid, main_hgt, other_wid, other_hgt, wid, hgt;
@@ -318,14 +318,14 @@ void html_screenshot(const char *path, int mode, term *other_term)
 	mbbuf = mem_alloc(text_wcsz() + 1);
 	fp = file_open(path, MODE_WRITE, FTYPE_TEXT);
 
-	/* Oops */
+	/* Ups */
 	if (!fp) {
 		mem_free(mbbuf);
-		plog_fmt("Cannot write the '%s' file!", path);
+		plog_fmt("¡No se puede escribir el archivo '%s'!", path);
 		return;
 	}
 
-	/* Retrieve current screen size */
+	/* Obtener el tamaño actual de la pantalla */
 	Term_get_size(&main_wid, &main_hgt);
 	if (other_term) {
 		Term_activate(other_term);
@@ -369,10 +369,10 @@ void html_screenshot(const char *path, int mode, term *other_term)
 			angband_color_table[COLOUR_WHITE][3]);
 	}
 
-	/* Dump the screen */
+	/* Volcar la pantalla */
 	for (y = 0; y < hgt; y++) {
 		for (x = 0; x < wid; x++) {
-			/* Get the attr/char */
+			/* Obtener el atributo/carácter */
 			if (x >= main_xst && x < main_xst + main_wid
 					&& y < main_hgt) {
 				screenshot_term_query(wid, hgt, x - main_xst, y,
@@ -391,7 +391,7 @@ void html_screenshot(const char *path, int mode, term *other_term)
 				c = ' ';
 			}
 
-			/* Set the foreground and background */
+			/* Establecer el primer plano y el fondo */
 			fg_colour = a % MAX_COLORS;
 			switch (a / MULT_BG)
 			{
@@ -410,13 +410,13 @@ void html_screenshot(const char *path, int mode, term *other_term)
 			}
 
 			/*
-			 * Color change (for forum text, ignore changes if the character is
-			 * a space since the forum software strips [COLOR][/COLOR] elements that
-			 * only contain whitespace)
+			 * Cambio de color (para texto de foro, ignorar cambios si el carácter es
+			 * un espacio ya que el software del foro elimina los elementos [COLOR][/COLOR] que
+			 * solo contienen espacios en blanco)
 			 */
 			if (oa != a && (mode == 0 || c != L' ')) {
 				if (oa == COLOUR_WHITE && mode == 0) {
-					/* From the default white to another color */
+					/* Del blanco por defecto a otro color */
 					file_putf(fp, new_color_fmt,
 							  angband_color_table[fg_colour][1],
 							  angband_color_table[fg_colour][2],
@@ -427,10 +427,10 @@ void html_screenshot(const char *path, int mode, term *other_term)
 				} else if (fg_colour == COLOUR_WHITE
 						&& bg_colour == COLOUR_DARK
 						&& mode == 0) {
-					/* From another color to the default white */
+					/* De otro color al blanco por defecto */
 					file_putf(fp, "%s", close_color_str);
 				} else {
-					/* Change colors */
+					/* Cambiar colores */
 					file_putf(fp, change_color_fmt,
 							  angband_color_table[fg_colour][1],
 							  angband_color_table[fg_colour][2],
@@ -440,11 +440,11 @@ void html_screenshot(const char *path, int mode, term *other_term)
 							  angband_color_table[bg_colour][3]);
 				}
 
-				/* Remember the last color */
+				/* Recordar el último color */
 				oa = a;
 			}
 
-			/* Write the character and escape special HTML characters */
+			/* Escribir el carácter y escapar los caracteres HTML especiales */
 			if (mode == 0) write_html_escape_char(fp, mbbuf, c);
 			else {
 				int nc = text_wctomb(mbbuf, c);
@@ -459,11 +459,11 @@ void html_screenshot(const char *path, int mode, term *other_term)
 			}
 		}
 
-		/* End the row */
+		/* Terminar la fila */
 		file_putf(fp, "\n");
 	}
 
-	/* Close the last font-color tag if necessary */
+	/* Cerrar la última etiqueta font-color si es necesario */
 	if (oa != COLOUR_WHITE && mode == 0) file_putf(fp, "%s", close_color_str);
 
 	if (mode == 0) {
@@ -474,7 +474,7 @@ void html_screenshot(const char *path, int mode, term *other_term)
 		file_putf(fp, "[/COLOR][/BC][/TT][/CODE]\n");
 	}
 
-	/* Close it */
+	/* Cerrarlo */
 	file_close(fp);
 
 	mem_free(mbbuf);
@@ -483,7 +483,7 @@ void html_screenshot(const char *path, int mode, term *other_term)
 
 
 /**
- * Save a screen dump to a file in html format
+ * Guardar un volcado de pantalla en un archivo en formato html
  */
 static void do_cmd_save_screen_html(int mode, term *other_term)
 {
@@ -497,49 +497,49 @@ static void do_cmd_save_screen_html(int mode, term *other_term)
 	dump_func dump_visuals [] = { dump_monsters, dump_features, dump_objects,
 								  dump_flavors, dump_colors };
 
-	/* Ask for a file */
+	/* Preguntar por un archivo */
 	if (!get_file(mode == 0 ? "dump.html" : "dump.txt",
 				  tmp_val, sizeof(tmp_val))) return;
 
-	/* Save current preferences */
+	/* Guardar preferencias actuales */
 	path_build(file_name, sizeof(file_name), ANGBAND_DIR_USER, "dump.prf");
 	fff = file_open(file_name, MODE_WRITE, FTYPE_TEXT);
 
-	/* Check for failure */
+	/* Comprobar si hubo fallo */
 	if (!fff) {
-		msg("Screen dump failed.");
+		msg("El volcado de pantalla falló.");
 		event_signal(EVENT_MESSAGE_FLUSH);
 		return;
 	}
 
-	/* Dump all the visuals */
+	/* Volcar todos los visuales */
 	for (i = 0; i < N_ELEMENTS(dump_visuals); i++)
 		dump_visuals[i](fff);
 
 	file_close(fff);
 
-	/* Dump the screen with raw character attributes */
+	/* Volcar la pantalla con atributos de carácter sin procesar */
 	reset_visuals(false);
 	do_cmd_redraw();
 	html_screenshot(tmp_val, mode, other_term);
 
-	/* Recover current graphics settings */
+	/* Recuperar la configuración gráfica actual */
 	reset_visuals(true);
 	process_pref_file(file_name, true, false);
 	file_delete(file_name);
 	do_cmd_redraw();
 
-	msg("%s screen dump saved.", mode ? "Forum text" : "HTML");
+	msg("Volcado de pantalla %s guardado.", mode ? "texto de foro" : "HTML");
 	event_signal(EVENT_MESSAGE_FLUSH);
 }
 
 
 /**
- * Save a screen dump to a file
+ * Guardar un volcado de pantalla en un archivo
  */
 void do_cmd_save_screen(void)
 {
-	char ch = get_char("Dump as (H)TML or (F)orum text? ", "hf", 2, ' ');
+	char ch = get_char("¿Volcar como (H)TML o texto de (F)oro? ", "hf", 2, ' ');
 	int mode = 0;
 	term *ml_term;
 
@@ -555,7 +555,7 @@ void do_cmd_save_screen(void)
 	}
 	ml_term = find_first_subwindow(PW_MONLIST);
 	if (ml_term) {
-		if (!get_check("Include monster list? ")) ml_term = NULL;
+		if (!get_check("¿Incluir lista de monstruos? ")) ml_term = NULL;
 	}
 	do_cmd_save_screen_html(mode, ml_term);
 }

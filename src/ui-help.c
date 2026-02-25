@@ -1,6 +1,6 @@
 /**
  * \file ui-help.c
- * \brief In-game help
+ * \brief Ayuda dentro del juego
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
@@ -24,25 +24,25 @@
 #include "ui-term.h"
 
 /**
- * Make a string lower case.
+ * Convertir una cadena a minúsculas.
  */
 static void string_lower(char *buf)
 {
 	char *s;
 
-	/* Lowercase the string */
+	/* Convertir la cadena a minúsculas */
 	for (s = buf; *s != 0; s++) *s = tolower((unsigned char)*s);
 }
 
 
 /**
- * Recursive file perusal.
+ * Lectura recursiva de archivos.
  *
- * Return false on "?", otherwise true.
+ * Devuelve falso en "?", si no, verdadero.
  *
- * This function could be made much more efficient with the use of "seek"
- * functionality, especially when moving backwards through a file, or
- * forwards through a file by less than a page at a time.  XXX XXX XXX
+ * Esta función podría ser mucho más eficiente con el uso de la funcionalidad "seek",
+ * especialmente cuando se retrocede en un archivo, o se avanza en un archivo
+ * menos de una página a la vez. XXX XXX XXX
  */
 bool show_file(const char *name, const char *what, int line, int mode)
 {
@@ -50,73 +50,73 @@ bool show_file(const char *name, const char *what, int line, int mode)
 
 	struct keypress ch = KEYPRESS_NULL;
 
-	/* Number of "real" lines passed by */
+	/* Número de líneas "reales" pasadas */
 	int next = 0;
 
-	/* Number of "real" lines in the file */
+	/* Número de líneas "reales" en el archivo */
 	int size;
 
-	/* Backup value for "line" */
+	/* Valor de respaldo para "line" */
 	int back = 0;
 
-	/* This screen has sub-screens */
+	/* Esta pantalla tiene subpantallas */
 	bool menu = false;
 
-	/* Case sensitive search */
+	/* Búsqueda sensible a mayúsculas */
 	bool case_sensitive = false;
 
-	/* Current help file */
+	/* Archivo de ayuda actual */
 	ang_file *fff = NULL;
 
-	/* Find this string (if any) */
+	/* Encontrar esta cadena (si la hay) */
 	char *find = NULL;
 
-	/* Jump to this tag */
+	/* Saltar a esta etiqueta */
 	const char *tag = NULL;
 
-	/* Hold a string to find */
+	/* Contener una cadena a buscar */
 	char finder[80] = "";
 
-	/* Hold a string to show */
+	/* Contener una cadena a mostrar */
 	char shower[80] = "";
 
-	/* Filename */
+	/* Nombre de archivo */
 	char filename[1024];
 
-	/* Describe this thing */
+	/* Describir esta cosa */
 	char caption[128] = "";
 
-	/* Path buffer */
+	/* Búfer de ruta */
 	char path[1024];
 
-	/* General buffer */
+	/* Búfer general */
 	char buf[1024];
 
-	/* Lower case version of the buffer, for searching */
+	/* Versión en minúsculas del búfer, para buscar */
 	char lc_buf[1024];
 
-	/* Sub-menu information */
+	/* Información del submenú */
 	char hook[26][32];
 
 	int wid, hgt;
 	
-	/* true if we are inside a RST block that should be skipped */
+	/* verdadero si estamos dentro de un bloque RST que debe omitirse */
 	bool skip_lines = false;
 
 
 
-	/* Wipe the hooks */
+	/* Limpiar los ganchos */
 	for (i = 0; i < 26; i++) hook[i][0] = '\0';
 
-	/* Get size */
+	/* Obtener tamaño */
 	Term_get_size(&wid, &hgt);
 
-	/* Copy the filename */
+	/* Copiar el nombre del archivo */
 	my_strcpy(filename, name, sizeof(filename));
 
 	n = strlen(filename);
 
-	/* Extract the tag from the filename */
+	/* Extraer la etiqueta del nombre del archivo */
 	for (i = 0; i < n; i++) {
 		if (filename[i] == '#') {
 			filename[i] = '\0';
@@ -125,10 +125,10 @@ bool show_file(const char *name, const char *what, int line, int mode)
 		}
 	}
 
-	/* Redirect the name */
+	/* Redirigir el nombre */
 	name = filename;
 
-	/* Currently unused facility to show and describe arbitrary files */
+	/* Facilidad actualmente no utilizada para mostrar y describir archivos arbitrarios */
 	if (what) {
 		my_strcpy(caption, what, sizeof(caption));
 
@@ -136,190 +136,190 @@ bool show_file(const char *name, const char *what, int line, int mode)
 		fff = file_open(path, MODE_READ, FTYPE_TEXT);
 	}
 
-	/* Look in "help" */
+	/* Buscar en "help" */
 	if (!fff) {
-		strnfmt(caption, sizeof(caption), "Help file '%s'", name);
+		strnfmt(caption, sizeof(caption), "Archivo de ayuda '%s'", name);
 
 		path_build(path, sizeof(path), ANGBAND_DIR_HELP, name);
 		fff = file_open(path, MODE_READ, FTYPE_TEXT);
 	}
 
-	/* Oops */
+	/* Ups */
 	if (!fff) {
-		/* Message */
-		msg("Cannot open '%s'.", name);
+		/* Mensaje */
+		msg("No se puede abrir '%s'.", name);
 		event_signal(EVENT_MESSAGE_FLUSH);
 
-		/* Oops */
+		/* Ups */
 		return (true);
 	}
 
 
-	/* Pre-Parse the file */
+	/* Pre-Analizar el archivo */
 	while (true) {
-		/* Read a line or stop */
+		/* Leer una línea o detenerse */
 		if (!file_getl(fff, buf, sizeof(buf))) break;
 
-		/* Skip lines if we are inside a RST directive */
+		/* Omitir líneas si estamos dentro de una directiva RST */
 		if (skip_lines){
 			if (contains_only_spaces(buf))
 				skip_lines = false;
 			continue;
 		}
 
-		/* Parse a very small subset of RST */
-		/* TODO: should be more flexible */
+		/* Analizar un subconjunto muy pequeño de RST */
+		/* TODO: debería ser más flexible */
 		if (prefix(buf, ".. ")) {
-			/* parse ".. menu:: [x] filename.txt" (with exact spacing)*/
+			/* analizar ".. menu:: [x] filename.txt" (con espaciado exacto) */
 			if (prefix(buf+strlen(".. "), "menu:: [") && 
                            buf[strlen(".. menu:: [x")]==']') {
-				/* This is a menu file */
+				/* Este es un archivo de menú */
 				menu = true;
 
-				/* Extract the menu item */
+				/* Extraer el elemento del menú */
 				k = A2I(buf[strlen(".. menu:: [")]);
 
-				/* Store the menu item (if valid) */
+				/* Almacenar el elemento del menú (si es válido) */
 				if ((k >= 0) && (k < 26))
 					my_strcpy(hook[k], buf + strlen(".. menu:: [x] "),
 							  sizeof(hook[0]));
 			} else if (buf[strlen(".. ")] == '_') {
-				/* parse ".. _some_hyperlink_target:" */
+				/* analizar ".. _some_hyperlink_target:" */
 				if (tag) {
-					/* Remove the closing '>' of the tag */
+					/* Eliminar el '>' final de la etiqueta */
 					buf[strlen(buf) - 1] = '\0';
 
-					/* Compare with the requested tag */
+					/* Comparar con la etiqueta solicitada */
 					if (streq(buf + strlen(".. _"), tag)) {
-						/* Remember the tagged line */
+						/* Recordar la línea etiquetada */
 						line = next;
 					}
 				}
 			}
 
-			/* Skip this and enter skip mode*/
+			/* Omitir esto y entrar en modo de omisión */
 			skip_lines = true;
 			continue;
 		}
 
-		/* Count the "real" lines */
+		/* Contar las líneas "reales" */
 		next++;
 	}
 
-	/* Save the number of "real" lines */
+	/* Guardar el número de líneas "reales" */
 	size = next;
 
 
-	/* Display the file */
+	/* Mostrar el archivo */
 	while (true) {
-		/* Clear screen */
+		/* Limpiar pantalla */
 		Term_clear();
 
 
-		/* Restrict the visible range */
+		/* Restringir el rango visible */
 		if (line > (size - (hgt - 4))) line = size - (hgt - 4);
 		if (line < 0) line = 0;
 
 		skip_lines = false;
 
-		/* Re-open the file if needed */
+		/* Reabrir el archivo si es necesario */
 		if (next > line) {
-			/* Close it */
+			/* Cerrarlo */
 			file_close(fff);
 
-			/* Re-Open the file */
+			/* Reabrir el archivo */
 			fff = file_open(path, MODE_READ, FTYPE_TEXT);
 			if (!fff) return (true);
 
-			/* File has been restarted */
+			/* El archivo se ha reiniciado */
 			next = 0;
 		}
 
 
-		/* Goto the selected line */
+		/* Ir a la línea seleccionada */
 		while (next < line) {
-			/* Get a line */
+			/* Obtener una línea */
 			if (!file_getl(fff, buf, sizeof(buf))) break;
 
-			/* Skip lines if we are inside a RST directive*/
+			/* Omitir líneas si estamos dentro de una directiva RST */
 			if (skip_lines) {
 				if (contains_only_spaces(buf))
 					skip_lines=false;
 				continue;
 			}
 
-			/* Skip RST directives */
+			/* Omitir directivas RST */
 			if (prefix(buf, ".. ")) {
 				skip_lines=true;
 				continue;
 			}
 
-			/* Count the lines */
+			/* Contar las líneas */
 			next++;
 		}
 
 
-		/* Dump the next lines of the file */
+		/* Volcar las siguientes líneas del archivo */
 		for (i = 0; i < hgt - 4; ) {
-			/* Track the "first" line */
+			/* Rastrear la "primera" línea */
 			if (!i) line = next;
 
-			/* Get a line of the file or stop */
+			/* Obtener una línea del archivo o detenerse */
 			if (!file_getl(fff, buf, sizeof(buf))) break;
 
-			/* Skip lines if we are inside a RST directive */
+			/* Omitir líneas si estamos dentro de una directiva RST */
 			if (skip_lines) {
 				if (contains_only_spaces(buf))
 					skip_lines = false;
 				continue;
 			}
 
-			/* Skip RST directives */
+			/* Omitir directivas RST */
 			if (prefix(buf, ".. ")) {
 				skip_lines=true;
 				continue;
 			}
 
-			/* Count the "real" lines */
+			/* Contar las líneas "reales" */
 			next++;
 
-			/* Make a copy of the current line for searching */
+			/* Hacer una copia de la línea actual para buscar */
 			my_strcpy(lc_buf, buf, sizeof(lc_buf));
 
-			/* Make the line lower case */
+			/* Convertir la línea a minúsculas */
 			if (!case_sensitive) string_lower(lc_buf);
 
-			/* Keep searching */
+			/* Seguir buscando */
 			if (find && !i && !strstr(lc_buf, find)) continue;
 
-			/* Stop searching */
+			/* Dejar de buscar */
 			find = NULL;
 
-			/* Dump the line */
+			/* Volcar la línea */
 			Term_putstr(0, i+2, -1, COLOUR_WHITE, buf);
 
-			/* Highlight "shower" */
+			/* Resaltar "shower" */
 			if (strlen(shower)) {
 				const char *str = lc_buf;
 
-				/* Display matches */
+				/* Mostrar coincidencias */
 				while ((str = strstr(str, shower)) != NULL) {
 					int len = strlen(shower);
 
-					/* Display the match */
+					/* Mostrar la coincidencia */
 					Term_putstr(str-lc_buf, i+2, len, COLOUR_YELLOW,
 								&buf[str-lc_buf]);
 
-					/* Advance */
+					/* Avanzar */
 					str += len;
 				}
 			}
 
-			/* Count the printed lines */
+			/* Contar las líneas impresas */
 			i++;
 		}
 
-		/* Failed search */
+		/* Búsqueda fallida */
 		if (find) {
 			bell();
 			line = back;
@@ -328,71 +328,71 @@ bool show_file(const char *name, const char *what, int line, int mode)
 		}
 
 
-		/* Show a general "title" */
-		prt(format("[%s, %s, Line %d-%d/%d]", buildid,
+		/* Mostrar un "título" general */
+		prt(format("[%s, %s, Línea %d-%d/%d]", buildid,
 		           caption, line, line + hgt - 4, size), 0, 0);
 
 
-		/* Prompt */
+		/* Mensaje */
 		if (menu) {
-			/* Menu screen */
-			prt("[Press a Letter, or ESC to exit.]", hgt - 1, 0);
+			/* Pantalla de menú */
+			prt("[Pulsa una Letra, o ESC para salir.]", hgt - 1, 0);
 		} else if (size <= hgt - 4) {
-			/* Small files */
-			prt("[Press ESC to exit.]", hgt - 1, 0);
+			/* Archivos pequeños */
+			prt("[Pulsa ESC para salir.]", hgt - 1, 0);
 		} else {
-			/* Large files */
-			prt("[Press Space to advance, or ESC to exit.]", hgt - 1, 0);
+			/* Archivos grandes */
+			prt("[Pulsa Espacio para avanzar, o ESC para salir.]", hgt - 1, 0);
 		}
 
-		/* Get a keypress */
+		/* Obtener una pulsación de tecla */
 		ch = inkey();
 
-		/* Exit the help */
+		/* Salir de la ayuda */
 		if (ch.code == '?') break;
 
-		/* Toggle case sensitive on/off */
+		/* Activar/desactivar sensibilidad a mayúsculas */
 		if (ch.code == '!')
 			case_sensitive = !case_sensitive;
 
-		/* Try showing */
+		/* Intentar mostrar */
 		if (ch.code == '&') {
-			/* Get "shower" */
-			prt("Show: ", hgt - 1, 0);
+			/* Obtener "shower" */
+			prt("Mostrar: ", hgt - 1, 0);
 			(void)askfor_aux(shower, sizeof(shower), NULL);
 
-			/* Make the "shower" lowercase */
+			/* Convertir "shower" a minúsculas */
 			if (!case_sensitive) string_lower(shower);
 		}
 
-		/* Try finding */
+		/* Intentar buscar */
 		if (ch.code == '/') {
-			/* Get "finder" */
-			prt("Find: ", hgt - 1, 0);
+			/* Obtener "finder" */
+			prt("Buscar: ", hgt - 1, 0);
 			if (askfor_aux(finder, sizeof(finder), NULL)) {
-				/* Find it */
+				/* Encontrarlo */
 				find = finder;
 				back = line;
 				line = line + 1;
 
-				/* Make the "finder" lowercase */
+				/* Convertir "finder" a minúsculas */
 				if (!case_sensitive) string_lower(finder);
 
-				/* Show it */
+				/* Mostrarlo */
 				my_strcpy(shower, finder, sizeof(shower));
 			}
 		}
 
-		/* Go to a specific line */
+		/* Ir a una línea específica */
 		if (ch.code == '#') {
 			char tmp[80] = "0";
 
-			prt("Goto Line: ", hgt - 1, 0);
+			prt("Ir a Línea: ", hgt - 1, 0);
 			if (askfor_aux(tmp, sizeof(tmp), NULL))
 				line = atoi(tmp);
 		}
 
-		/* Go to a specific file */
+		/* Ir a un archivo específico */
 		if (ch.code == '%') {
 			char ftmp[80];
 
@@ -402,7 +402,7 @@ bool show_file(const char *name, const char *what, int line, int mode)
 				my_strcpy(ftmp, "index.txt", sizeof(ftmp));
 			}
 
-			prt("Goto File: ", hgt - 1, 0);
+			prt("Ir a Archivo: ", hgt - 1, 0);
 			if (askfor_aux(ftmp, sizeof(ftmp), NULL)) {
 				if (!show_file(ftmp, NULL, 0, mode))
 					ch.code = ESCAPE;
@@ -410,74 +410,72 @@ bool show_file(const char *name, const char *what, int line, int mode)
 		}
 
 		switch (ch.code) {
-			/* up a line */
+			/* subir una línea */
 			case ARROW_UP:
 			case 'k':
 			case '8': line--; break;
 
-			/* up a page */
+			/* subir una página */
 			case KC_PGUP:
 			case '9':
 			case '-': line -= (hgt - 4); break;
 
-			/* home */
+			/* inicio */
 			case KC_HOME:
 			case '7': line = 0; break;
 
-			/* down a line */
+			/* bajar una línea */
 			case ARROW_DOWN:
 			case '2':
 			case 'j':
 			case KC_ENTER: line++; break;
 
-			/* down a page */
+			/* bajar una página */
 			case KC_PGDOWN:
 			case '3':
 			case ' ': line += hgt - 4; break;
 
-			/* end */
+			/* fin */
 			case KC_END:
 			case '1': line = size; break;
 		}
 
-		/* Recurse on letters */
+		/* Recurrir en letras */
 		if (menu && isalpha((unsigned char)ch.code)) {
-			/* Extract the requested menu item */
+			/* Extraer el elemento de menú solicitado */
 			k = A2I(ch.code);
 
-			/* Verify the menu item */
+			/* Verificar el elemento de menú */
 			if ((k >= 0) && (k <= 25) && hook[k][0]) {
-				/* Recurse on that file */
+				/* Recurrir en ese archivo */
 				if (!show_file(hook[k], NULL, 0, mode)) ch.code = ESCAPE;
 			}
 		}
 
-		/* Exit on escape */
+		/* Salir con escape */
 		if (ch.code == ESCAPE) break;
 	}
 
-	/* Close the file */
+	/* Cerrar el archivo */
 	file_close(fff);
 
-	/* Done */
+	/* Hecho */
 	return (ch.code != '?');
 }
 
 
 /**
- * Peruse the On-Line-Help
+ * Consultar la ayuda en línea
  */
 void do_cmd_help(void)
 {
-	/* Save screen */
+	/* Guardar pantalla */
 	screen_save();
 
-	/* Peruse the main help file */
+	/* Consultar el archivo de ayuda principal */
 	(void)show_file((OPT(player, rogue_like_commands)) ?
 		"r_index.txt" : "index.txt", NULL, 0, 0);
 
-	/* Load screen */
+	/* Cargar pantalla */
 	screen_load();
 }
-
-

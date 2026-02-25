@@ -1,6 +1,6 @@
 /**
  * \file main-win.c
- * \brief Provide a front end for Microsoft Windows
+ * \brief Proporciona una interfaz para Microsoft Windows
  *
  * Copyright (c) 1997 Ben Harrison, Skirmantas Kligys, Robert Ruehlmann,
  * and others
@@ -16,42 +16,42 @@
  *    and not for profit purposes provided that this copyright and statement
  *    are included in all such copies.  Other copyrights may also apply.
  *
- * This file helps Angband work with Windows computers.
+ * Este archivo permite que Angband funcione en ordenadores con Windows.
  *
- * To use this file, use an appropriate "Makefile" or "Project File",
- * make sure that "WINDOWS" and/or "WIN32" are defined somewhere, and
- * make sure to obtain various extra files as described below.
+ * Para usar este archivo, utiliza un "Makefile" o "Project File" apropiado,
+ * asegúrate de que "WINDOWS" y/o "WIN32" estén definidos en algún lugar, y
+ * asegúrate de obtener varios archivos adicionales como se describe a continuación.
  *
- * The Windows version has been tested to compile with Visual C++ 5.0
- * and 6.0, Cygwin 1.0, Borland C++ 5.5 command line tools, and lcc-win32.
- *
- *
- * The "lib/customize/font-win.prf" contains attr/char mappings for use with the
- * normal "*.fon" font files in the "lib/fonts/" directory.
- *
- * The "lib/customize/graf-win.prf" contains attr/char mappings for use with the
- * special "*.png" graphics files in the "lib/tiles/" directory, which
- * are activated by a menu item.
+ * La versión de Windows ha sido probada con Visual C++ 5.0
+ * y 6.0, Cygwin 1.0, las herramientas de línea de comandos de Borland C++ 5.5, y lcc-win32.
  *
  *
- * The "Term_xtra_win_clear()" function should probably do a low-level
- * clear of the current window, and redraw the borders and other things,
- * if only for efficiency.  XXX XXX XXX
+ * El archivo "lib/customize/font-win.prf" contiene mappings de attr/char para usar con los
+ * archivos de fuente normales "*.fon" en el directorio "lib/fonts/".
  *
- * A simpler method is needed for selecting the "tile size" for windows.
+ * El archivo "lib/customize/graf-win.prf" contiene mappings de attr/char para usar con los
+ * archivos gráficos especiales "*.png" en el directorio "lib/tiles/", los cuales
+ * se activan mediante un elemento del menú.
+ *
+ *
+ * La función "Term_xtra_win_clear()" probablemente debería realizar una limpieza
+ * de bajo nivel de la ventana actual, y redibujar los bordes y otras cosas,
+ * aunque solo sea por eficiencia.  XXX XXX XXX
+ *
+ * Se necesita un método más sencillo para seleccionar el "tamaño de tile" para las ventanas.
  * XXX XXX XXX
  *
- * ToDo: The screensaver mode should implement ScreenSaverConfigureDialog,
- * DefScreenSaverProc, and ScreenSaverProc.
+ * Pendiente: El modo salvapantallas debería implementar ScreenSaverConfigureDialog,
+ * DefScreenSaverProc, y ScreenSaverProc.
  *
- * Initial framework (and most code) by Ben Harrison (benh@phial.com).
+ * Estructura inicial (y la mayor parte del código) por Ben Harrison (benh@phial.com).
  *
- * Original code by Skirmantas Kligys (kligys@scf.usc.edu).
+ * Código original por Skirmantas Kligys (kligys@scf.usc.edu).
  *
- * Additional code by Ross E Becker (beckerr@cis.ohio-state.edu),
- * and Chris R. Martin (crm7479@tam2000.tamu.edu).
+ * Código adicional por Ross E Becker (beckerr@cis.ohio-state.edu),
+ * y Chris R. Martin (crm7479@tam2000.tamu.edu).
  *
- * Additional code by Robert Ruehlmann <rr9@thangorodrim.net>.
+ * Código adicional por Robert Ruehlmann <rr9@thangorodrim.net>.
  */
 
 #include "angband.h"
@@ -538,7 +538,7 @@ static void validate_file(const char *s)
 {
 	/* Verify or fail */
 	if (!file_exists(s))
-		quit_fmt("Cannot find required file:\n%s", s);
+		quit_fmt("No se puede encontrar el archivo requerido:\n%s", s);
 }
 
 
@@ -549,7 +549,7 @@ static void validate_dir(const char *s)
 {
 	/* Verify or fail */
 	if (!check_dir(s))
-		quit_fmt("Cannot find required directory:\n%s", s);
+		quit_fmt("No se puede encontrar el directorio requerido:\n%s", s);
 }
 
 
@@ -966,7 +966,7 @@ static int new_palette(void)
 		nEntries = GetPaletteEntries(hBmPal, 0, 255, lppe);
 		if ((nEntries == 0) || (nEntries > 220)) {
 			/* Warn the user */
-			plog("Please switch to high- or true-color mode.");
+			plog("Por favor, cambia al modo de color alto o color verdadero.");
 
 			/* Cleanup */
 			mem_free(lppe);
@@ -1021,7 +1021,7 @@ static int new_palette(void)
 
 	/* Create a new palette, or fail */
 	hNewPal = CreatePalette(pLogPal);
-	if (!hNewPal) quit("Cannot create palette!");
+	if (!hNewPal) quit("¡No se puede crear la paleta de colores!");
 
 	/* Free the palette */
 	mem_free(pLogPal);
@@ -1034,7 +1034,7 @@ static int new_palette(void)
 	SelectPalette(hdc, hNewPal, 0);
 	i = RealizePalette(hdc);
 	ReleaseDC(td->w, hdc);
-	if (i == 0) quit("Cannot realize palette!");
+	if (i == 0) quit("¡No se puede activar la paleta de colores!");
 
 	/* Sub-windows */
 	for (i = 1; i < MAX_TERM_DATA; i++) {
@@ -1076,13 +1076,13 @@ static bool init_graphics(void)
 	}
 	if (mode) {
 		if (!mode->pref[0]) {
-			plog_fmt("invalid tile prefname '%s'", mode->menuname);
+			plog_fmt("nombre de preferencia de tile inválido '%s'", mode->menuname);
 			return false;
 		}
 		wid = mode->cell_width;
 		hgt = mode->cell_height;
 		if ((wid < 2) || (hgt < 2)) {
-			plog_fmt("invalid tile dimensions in tileset: '%s'",
+			plog_fmt("dimensiones de tile inválidas en el conjunto de tiles: '%s'",
 					 mode->menuname);
 			return false;
 		}
@@ -1096,7 +1096,7 @@ static bool init_graphics(void)
 
 		current_graphics_mode = mode;
 	} else {
-		plog("could not find graphics mode");
+		plog("no se pudo encontrar el modo gráfico");
 		return false;
 	}
 
@@ -1109,7 +1109,7 @@ static bool init_graphics(void)
 		if (strstr(name, "_pre")) {
 			/* if so, just load it */
 			if (!ReadDIB2_PNG(data[0].w, buf, &infGraph, NULL, false)) {
-				plog_fmt("Cannot read file '%s'", name);
+				plog_fmt("No se puede leer el archivo '%s'", name);
 				return false;
 			}
 		} else {
@@ -1139,14 +1139,14 @@ static bool init_graphics(void)
 			if (ext && have_space) {
 				/* at this point we know the file exists, so load it */
 				if (!ReadDIB2_PNG(data[0].w, modname, &infGraph, NULL, false)) {
-					plog_fmt("Cannot read premultiplied version of file '%s'",
+					plog_fmt("No se puede leer la versión premultiplicada del archivo '%s'",
 							 name);
 					return false;
 				}
 			} else {
 				/* if not, load the base file and premultiply it */
 				if (!ReadDIB2_PNG(data[0].w, buf, &infGraph, NULL, true)) {
-					plog_fmt("Cannot read file '%s'", name);
+					plog_fmt("No se puede leer el archivo '%s'", name);
 					return false;
 				}
 				/* save the premultiplied file */
@@ -1155,13 +1155,13 @@ static bool init_graphics(void)
 				   infGraph.hBitmap,infGraph.hPalette,
 				   1, NULL,
 				   infGraph.ImageWidth, infGraph.ImageHeight, false) < 0) {
-				   plog_fmt("Cannot write premultiplied version of file '%s'", name);
+				   plog_fmt("No se puede escribir la versión premultiplicada del archivo '%s'", name);
 				   }*/
 			}
 		}
 	} else {
 		if (!ReadDIB2_PNG(data[0].w, buf, &infGraph, &infMask, false)) {
-			plog_fmt("Cannot read file '%s'", name);
+			plog_fmt("No se puede leer el archivo '%s'", name);
 			return false;
 		}
 	}
@@ -1175,7 +1175,7 @@ static bool init_graphics(void)
 		/* Free bitmap XXX XXX XXX */
 
 		/* Oops */
-		plog("Cannot activate palette!");
+		plog("¡No se puede activar la paleta de colores!");
 		return (false);
 	}
 
@@ -1250,7 +1250,7 @@ static bool load_sound_win(const char *filename, int ftyp,
 			break;
 
 		default:
-			plog_fmt("Sound: Oops - Unsupported file type");
+			plog_fmt("Sonido: Error - Tipo de archivo no compatible");
 			break;
 	}
 
@@ -1525,7 +1525,7 @@ static void term_change_font(term_data *td)
 	memset(&ofn, 0, sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = data[0].w;
-	ofn.lpstrFilter = "Angband Font Files (*.fon)\0*.fon\0";
+	ofn.lpstrFilter = "Archivos de Fuente Angband (*.fon)\0*.fon\0";
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFile = tmp;
 	ofn.nMaxFile = 128;
@@ -1730,7 +1730,7 @@ static errr Term_xtra_win_react(void)
 		/* Initialize (if needed) */
 		if (arg_graphics && !init_graphics()) {
 			/* Warning */
-			plog("Cannot initialize graphics!");
+			plog("¡No se pueden inicializar los gráficos!");
 
 			/* Cannot enable */
 			arg_graphics = GRAPHICS_NONE;
@@ -2816,7 +2816,7 @@ static void init_windows(void)
 		                       td->size_wid, td->size_hgt,
 		                       HWND_DESKTOP, NULL, hInstance, NULL);
 		my_td = NULL;
-		if (!td->w) quit("Failed to create sub-window");
+		if (!td->w) quit("Error al crear la subventana");
 
 		term_data_link(td);
 		angband_term[i] = &td->t;
@@ -2852,7 +2852,7 @@ static void init_windows(void)
 	                       td->size_wid, td->size_hgt,
 	                       HWND_DESKTOP, NULL, hInstance, NULL);
 	my_td = NULL;
-	if (!td->w) quit_fmt("Failed to create %s window", VERSION_NAME);
+	if (!td->w) quit_fmt("Error al crear la ventana %s", VERSION_NAME);
 
 	term_data_link(td);
 	term_screen = &td->t;
@@ -3453,9 +3453,9 @@ static void process_menus(WORD wCmd)
 		case IDM_FILE_NEW:
 		{
 			if (!initialized) {
-				plog("You cannot do that yet...");
+				plog("Todavía no puedes hacer eso...");
 			} else if (game_in_progress) {
-				plog("You can't start a new game while you're still playing!");
+				plog("No puedes iniciar una nueva partida mientras sigues jugando.");
 			} else {
 				/* Start game */
 				game_in_progress = true;
@@ -3470,14 +3470,14 @@ static void process_menus(WORD wCmd)
 		case IDM_FILE_OPEN:
 		{
 			if (!initialized) {
-				plog("You cannot do that yet...");
+				plog("Todavía no puedes hacer eso...");
 			} else if (game_in_progress) {
-				plog("You can't open a new game while you're still playing!");
+				plog("No puedes abrir una nueva partida mientras sigues jugando.");
 			} else {
 				memset(&ofn, 0, sizeof(ofn));
 				ofn.lStructSize = sizeof(ofn);
 				ofn.hwndOwner = data[0].w;
-				ofn.lpstrFilter = "Save Files (*.)\0*\0";
+				ofn.lpstrFilter = "Archivos de Partida (*.)\0*\0";
 				ofn.nFilterIndex = 1;
 				ofn.lpstrFile = savefile;
 				ofn.nMaxFile = 1024;
@@ -3511,7 +3511,7 @@ static void process_menus(WORD wCmd)
 				save_game();
 			} else {
 				/* Paranoia */
-				plog("You may not do that right now.");
+				plog("No puedes hacer eso en este momento.");
 			}
 			break;
 		}
@@ -3522,7 +3522,7 @@ static void process_menus(WORD wCmd)
 			if (game_in_progress && character_generated) {
 				/* Paranoia */
 				if (!inkey_flag) {
-					plog("You may not do that right now.");
+					plog("No puedes hacer eso en este momento.");
 					break;
 				}
 
@@ -3539,7 +3539,7 @@ static void process_menus(WORD wCmd)
 
 		case IDM_WINDOW_VIS_0:
 		{
-			plog("You are not allowed to do that!");
+			plog("¡No tienes permiso para hacer eso!");
 
 			break;
 		}
@@ -3582,7 +3582,7 @@ static void process_menus(WORD wCmd)
 		case IDM_WINDOW_FONT_7:
 		{
 			if ((use_graphics_nice) && (!inkey_flag || !initialized)) {
-				plog("You may not do that right now.");
+				plog("No puedes hacer eso en este momento.");
 				break;
 			}
                   
@@ -3733,13 +3733,13 @@ static void process_menus(WORD wCmd)
 		case IDM_WINDOW_RESET: {
 			/* Paranoia */
 			if (!inkey_flag || !initialized) {
-				plog("You may not do that right now.");
+				plog("No puedes hacer eso en este momento.");
 				break;
 			}
 			
 			
 			if (MessageBox(NULL,
-					"This will reset the size and layout of the angband windows\n based on your screen size. Do you want to continue?",
+					"Esto restablecerá el tamaño y la disposición de las ventanas de Angband\n según el tamaño de tu pantalla. ¿Deseas continuar?",
 					VERSION_NAME, MB_YESNO|MB_ICONWARNING) == IDYES) {
 				term *old = Term;
 				RECT rc;
@@ -3810,7 +3810,7 @@ static void process_menus(WORD wCmd)
 		case IDM_OPTIONS_GRAPHICS_NICE: {
 			/* Paranoia */
 			if (!inkey_flag || !initialized) {
-				plog("You may not do that right now.");
+				plog("No puedes hacer eso en este momento.");
 				break;
 			}
 
@@ -3842,7 +3842,7 @@ static void process_menus(WORD wCmd)
 		{
 			/* Paranoia */
 			if (!inkey_flag || !initialized) {
-				plog("You may not do that right now.");
+				plog("No puedes hacer eso en este momento.");
 				break;
 			}
 			switch (wCmd)
@@ -3953,7 +3953,7 @@ static void process_menus(WORD wCmd)
 		{
 			/* Paranoia */
 			if (!inkey_flag || !initialized) {
-				plog("You may not do that right now.");
+				plog("No puedes hacer eso en este momento.");
 				break;
 			}
 			td = &data[0];
@@ -4053,7 +4053,7 @@ static void process_menus(WORD wCmd)
 				/* Create a screen saver window */
 				hwndSaver = CreateWindowEx(WS_EX_TOPMOST,
 										   "WindowsScreenSaverClass",
-				                           "Angband Screensaver",
+				                           "Salvapantallas de Angband",
 				                           WS_POPUP | WS_MAXIMIZE | WS_VISIBLE,
 				                           0, 0, GetSystemMetrics(SM_CXSCREEN),
 				                           GetSystemMetrics(SM_CYSCREEN),
@@ -4079,7 +4079,7 @@ static void process_menus(WORD wCmd)
 
 					screensaver_active = true;
 				} else {
-					plog("Failed to create saver window");
+					plog("Error al crear la ventana del salvapantallas");
 				}
 			}
 
@@ -4126,7 +4126,7 @@ static void process_menus(WORD wCmd)
 			path_build(path, sizeof(path), ANGBAND_DIR_USER, filename);
 			td = &data[0];
 			if (!SaveWindow_PNG(td->w, path)) {
-				plog("Screenshot Save Failed.");
+				plog("Error al guardar la captura de pantalla.");
 			}
 			break;
 		}
@@ -4139,7 +4139,7 @@ static void process_menus(WORD wCmd)
 
 				/* Paranoia */
 				if (!inkey_flag || !initialized) {
-					plog("You may not do that right now.");
+					plog("No puedes hacer eso en este momento.");
 					break;
 				}
 
@@ -4518,7 +4518,7 @@ static LRESULT FAR PASCAL AngbandWndProc(HWND hWnd, UINT uMsg,
 		case WM_QUIT: {
 			if (game_in_progress && character_generated) {
 				if (uMsg == WM_QUERYENDSESSION && !inkey_flag) {
-					plog("Please exit any open menus before closing the game.");
+					plog("Por favor, cierra todos los menus abiertos antes de salir del juego.");
 					return false;
 				}
 
@@ -4536,7 +4536,7 @@ static LRESULT FAR PASCAL AngbandWndProc(HWND hWnd, UINT uMsg,
 		{
 			if (game_in_progress && character_generated) {
 				if (!inkey_flag) {
-					plog("Please exit any open menus before closing the game.");
+					plog("Por favor, cierra todos los menus abiertos antes de salir del juego.");
 					return 0;
 				}
 
@@ -4999,7 +4999,7 @@ static void hack_plog(const char *str)
 {
 	/* Give a warning */
 	if (str)
-		MessageBox(NULL, str, "Warning", MB_ICONEXCLAMATION | MB_OK);
+		MessageBox(NULL, str, "Advertencia", MB_ICONEXCLAMATION | MB_OK);
 }
 
 
@@ -5051,7 +5051,7 @@ static void hook_plog(const char *str)
 
 	/* Warning */
 	if (str)
-		MessageBox(data[0].w, str, "Warning", MB_ICONEXCLAMATION | MB_OK);
+		MessageBox(data[0].w, str, "Advertencia", MB_ICONEXCLAMATION | MB_OK);
 }
 
 
@@ -5379,7 +5379,7 @@ int FAR PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,
 
 	/* load the possible graphics modes */
 	if (!init_graphics_modes()) {
-		plog_fmt("Graphics list load failed");
+		plog_fmt("Error al cargar la lista de modos gráficos");
 	}
 
 	/* Prepare the windows */
@@ -5424,7 +5424,7 @@ int FAR PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,
 	check_for_save_file(lpCmdLine);
 
 	/* Prompt the user */
-	prt("[Choose 'New' or 'Open' from the 'File' menu]",
+	prt("[Selecciona 'Nuevo' o 'Abrir' desde el menú 'Archivo']",
 		(Term->hgt - 23) / 5 + 23, (Term->wid - 45) / 2);
 	Term_fresh();
 
@@ -5469,7 +5469,7 @@ static bool create_savefile_tracking_file(bool message_on_failure)
 	if (multapp_file == INVALID_HANDLE_VALUE) {
 		result = false;
 		if (message_on_failure) {
-			plog_fmt("Another instance of the game appears to using that savefile.  If that's incorrect, delete %s and retry.", name);
+			plog_fmt("Otra instancia del juego parece estar usando ese archivo de partida. Si eso es incorrecto, elimina %s e intentalo de nuevo.", name);
 		}
 	}
 
