@@ -131,6 +131,9 @@ Contenido del script shell:
     echo "Eliminando carpeta game"
     rm -rf game
     
+    echo "Eliminando carpeta CMakeFiles"
+    rm -rf CMakeFiles
+    
     echo "Compilando..."
     cmake -G Ninja -DSUPPORT_WINDOWS_FRONTEND=ON \
         -DSUPPORT_STATIC_LINKING=ON \
