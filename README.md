@@ -190,3 +190,4 @@ Contenido del script shell:
 | src\ui-player.c                          | 100      |
 | src\list-options.h                       | 100      |
 | src\ui-options.c                         | 100      |  
+| src\ui-display.c                         | 100      |  

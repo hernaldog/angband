@@ -1151,7 +1151,7 @@ void close_game(bool prompt_failed_save)
 		if (Term->mapped_flag) {
 			struct keypress ch;
 
-			prt("Pulsa Retorno (o Escape).", 0, 40);
+			prt("Pulsa Return (o Escape).", 0, 40);
 			ch = inkey();
 			if (ch.code != ESCAPE)
 				predict_score(false);
