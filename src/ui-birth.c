@@ -620,7 +620,7 @@ static void clear_question(void)
 
 
 #define BIRTH_MENU_HELPTEXT \
-	"{light blue}Por favor, selecciona los rasgos de tu personaje en los menús de abajo:{/}\n\n" \
+	"{light blue}Por favor, selecciona los rasgos de tu personaje:{/}\n\n" \
 	"Usa las {light green}teclas de movimiento{/} para desplazarte por el menú, " \
 	"{light green}Enter{/} para seleccionar el elemento, '{light green}*{/}' " \
 	"para usar una opción aleatoria, '{light green}@{/}' para armar el personaje completo de forma aleatoria, " \

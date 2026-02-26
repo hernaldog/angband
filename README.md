@@ -22,9 +22,17 @@ tengo algo de experiencia en traducciones y quise aplicar lo aprendido allí. Es
 - https://angband.readthedocs.io/en/latest/index.html Manual
 
 ## Licencia
-GNU GPL v2
+Se mantienen las mismas dos licencias originales:
 
+- Licencia GNU GPL v2
+- Licencia Angand
 
+## Capturas
+Algunas capturas del estado actual:
+
+![Intro](captura1.png)
+![Selección de personaje](captura2.png)
+![Inventario](captura3.png)
 
 ## Pasos para la compilación si quieres colaborar
 
@@ -196,3 +204,4 @@ Contenido del script shell:
 | src\ui-options.c                         | 100      |
 | src\ui-display.c                         | 100      |
 | src\ui-context.c                         | 100      | 
+| src\mon-lore.c                           | 10       | 
