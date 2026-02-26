@@ -167,7 +167,7 @@ Contenido del script shell:
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
 - Cambios de lb por kg
 - Cambios de ft por mt (infravisión)
-- Mejoras en traducciones como con tecla d "Soltar qué objeto", por "¿Qué objeto tirar?" o con k "¿Ingorar que objeto?"
+- Mejoras en traducciones como con tecla d "Soltar qué objeto", por "¿Qué objeto tirar?" o con k "¿Ingorar que objeto?", o el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
 - Traduc de pantallas con teclas V, l, S
 
 ## Detalle de la traducción por archivo
@@ -186,7 +186,7 @@ Contenido del script shell:
 | src\mon-util.c                           | 100      |
 | src\cmd-cave.c                           | 100      |
 | src\borg\borg-item-val.c                 | 100      |
-| src\ui-mon-list.c                        | 100      | Corregir traducción "Puedes ver ningún monstruo.|
+| src\ui-mon-list.c                        | 100      | Corregir traducción "Puedes ver ningún monstruo".|
 | src\ui-knowledge.c                       | 100      |
 | src\ui-game.c                            | 100      |
 | src\ui-score.c                           | 100      |
@@ -206,4 +206,4 @@ Contenido del script shell:
 | src\ui-options.c                         | 100      |
 | src\ui-display.c                         | 100      |
 | src\ui-context.c                         | 100      | 
-| src\mon-lore.c                           | 10       | 
+| src\mon-lore.c                           | 100      | Corregir frases varias |
