@@ -17,3 +17,6 @@ echo "Compiando archivo a exe..."
 cp -f /c/juegos/angband-src-esp/src/game/angband.exe /c/juegos/angband-bin-esp/angband.exe
 
 echo "Compilacion terminada..."
+
+echo "Abriendo jueggo..."
+c:/juegos/angband-bin-esp/angband.exe
