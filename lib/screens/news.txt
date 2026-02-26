@@ -11,12 +11,12 @@
 {mud}         ^^^^  {/}{red}/_/   \_\_| |_|\__, |_.__/ \__,_|_| |_|\__,_| {/}{mud}^^^^^^^^{/}
 {mud}        ^^^^^                {/}{red} |___/{/}  $VERSION
 {mud}       ^^^^^^^^^^^^^^^^^^                     ^^^^  ^^^^^^^^^^^^^^^^^^^ {/}
-{light slate}         "When the world is old and the Powers grow weary, then Morgoth,{/}
-{light slate}          seeing that the guard sleepeth, shall come back through the   {/}
-{light slate}          Door of Night out of the Timeless Void.  Then shall the Last  {/}
-{light slate}          Battle be gathered..."                                        {/}
+{light slate}         "Cuando el mundo sea viejo y los Poderes se cansen, entonces Morgoth,{/}
+{light slate}          al ver que el guardián duerme, volverá a través de la             {/}
+{light slate}          Puerta de la Noche desde el Vacío Intemporal. Entonces se librará {/}
+{light slate}          la Última Batalla..."                                             {/}
 
-{light slate}                         Website: http://rephial.org/           {/}
-{light slate}                     Forums: https://angband.live/forums/       {/}
-              
-                           For help press '?' in-game
+{light slate}                         Sitio web: http://rephial.org/           {/}
+{light slate}                     Foros: https://angband.live/forums/          {/}
+            {blue}Traducido por Hernaldo González hernaldog@gmail.com{/}
+                  Para obtener ayuda, pulsa '?' en el juego

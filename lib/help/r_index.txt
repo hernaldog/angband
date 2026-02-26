@@ -1,22 +1,22 @@
-This is a short in-game reference to available commands and the symbols
-you might encounter in-game.  For more detailed help, please see:
+Esta es una breve referencia dentro del juego sobre los comandos disponibles y 
+los símbolos que puedes encontrar en el juego. Para más ayuda, consulta:
 
-   https://angband.readthedocs.io/en/latest/
-
-
-Please choose one of the following help files:
-
-    (a) Available commands
-    (b) Available symbols
+   https://angband.readthedocs.io/es/latest/
 
 
+Por favor, elige uno de los siguientes archivos de ayuda:
+
+    (a) Comandos disponibles
+    (b) Símbolos disponibles
 
 
-Browser/help commands:
-  #     go to line         %  go to file         ?  go to last file/main menu
-  SPACE advance 1 page     -  back up 1 page     /  search for text
-  RET   advance 1 line     =  back up 1 line     &  show (highlight) some text
-  +     advance 1/2 page   _  back up 1/2 page   !  toggle case sensitivity
+
+
+Comandos del navegador/ayuda:
+  #     ir a línea           %  ir a archivo        ?  ir al últ archivo/menú
+  SPACE avanzar 1 página     -  retroceder 1 página /  buscar texto
+  RET   avanzar 1 línea      =  retroceder 1 línea  &  mostrar (resaltar) texto
+  +     avanzar 1/2 página   _  retroceder 1/2 página !  alternar sensiv a mayús
 
 .. menu:: [a] r_comm.txt
 

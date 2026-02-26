@@ -1,91 +1,90 @@
-Symbols On Your Map
+Símbolos en Tu Mapa
 ===================
 
-Symbols on your map can be broken down into three categories: Features of
-the dungeon such as walls, floor, doors, and traps; Objects which can be
-picked up such as treasure, weapons, magical devices, etc; and creatures
-which may or may not move about the dungeon, but are mostly harmful to your
-character's well being.
+Los símbolos en tu mapa se pueden dividir en tres categorías: Características de
+la mazmorra como paredes, suelo, puertas y trampas; Objetos que se pueden
+recoger como tesoros, armas, dispositivos mágicos, etc.; y criaturas
+que pueden moverse o no por la mazmorra, pero que en su mayoría son dañinas para
+el bienestar de tu personaje.
 
-Some symbols are used to represent more than one type of entity, and some
-symbols are used to represent entities in more than one category. The "@"
-symbol (by default) is used to represent the character.
+Algunos símbolos se usan para representar más de un tipo de entidad, y algunos
+símbolos se usan para representar entidades en más de una categoría. El símbolo
+"@" (por defecto) se usa para representar al personaje.
 
-It will not be necessary to remember all of the symbols and their meanings.
-The "slash" command ('/') will identify any character appearing on your
-map (see 'commands.txt').
+No será necesario recordar todos los símbolos y sus significados.
+El comando "barra" ('/') identificará cualquier carácter que aparezca en tu
+mapa (consulta 'commands.txt').
 
-Note that you can use a "user pref file" to change any of these symbols to
-something you are more comfortable with.
-
-
-
-Features that do not block line of sight
-----------------------------------------
-
-.  A floor space                 1  Entrance to General Store
-.  A trap (hidden)               2  Entrance to Armoury
-^  A trap (known)                3  Entrance to Weapon Smith
-;  A glyph of warding            4  Entrance to Bookseller
-'  An open door                  5  Entrance to Alchemy Shop
-'  A broken door                 6  Entrance to Magic Shop
-<  A staircase up                7  Entrance to the Black Market
->  A staircase down              8  Entrance to your Home
-#  A pool of lava
+Ten en cuenta que puedes usar un "archivo de preferencias de usuario" para cambiar 
+cualquiera de estos símbolos a algo con lo que te sientas más cómodo.
 
 
-Features that block line of sight
----------------------------------
 
-#  A secret door                 #  A wall
-+  A closed door                 %  A mineral vein
-+  A locked door                 *  A mineral vein with treasure
-:  A pile of rubble              :  A pile of passable rubble
+Características que no bloquean la línea de visión
+--------------------------------------------------
+
+.  Un espacio de suelo           1  Entrada a la Tienda General
+.  Una trampa (oculta)            2  Entrada a la Armería
+^  Una trampa (conocida)          3  Entrada al Herrero de Armas
+;  Un glifo de protección         4  Entrada al Vendedor de Libros
+'  Una puerta abierta             5  Entrada a la Tienda de Alquimia
+'  Una puerta rota                6  Entrada a la Tienda Mágica
+<  Una escalera arriba            7  Entrada al Mercado Negro
+>  Una escalera abajo             8  Entrada a tu Hogar
+#  Una piscina de lava
 
 
-Objects
+Características que bloquean la línea de visión
+-----------------------------------------------
+
+#  Una puerta secreta             #  Una pared
++  Una puerta cerrada             %  Una veta mineral
++  Una puerta con llave           *  Una veta mineral con tesoro
+:  Un montón de escombros         :  Un montón de escombros transitable
+
+
+Objetos
 -------
 
-!  A potion (or flask)           /  A pole-arm
-?  A scroll (or book)            |  An edged weapon
-,  A mushroom (or food)          \  A hafted weapon
--  A wand or rod                 }  A sling, bow, or x-bow
-_  A staff                       {  A shot, arrow, or bolt
-=  A ring                        (  Soft armour
-"  An amulet                     [  Hard armour
-$  Gold or gems                  ]  Misc. armour
-~  Lights, Tools, Chests, etc    )  A shield
-&  Multiple items
+!  Una poción (o frasco)          /  Un arma de asta
+?  Un pergamino (o libro)         |  Un arma de filo
+,  Una seta (o comida)            \  Un arma embrazada
+-  Una varita o vara              }  Una honda, arco o ballesta
+_  Un báculo                      {  Un perdigón, flecha o virote
+=  Un anillo                      (  Armadura flexible
+"  Un amuleto                     [  Armadura rígida
+$  Oro o gemas                    ]  Armadura miscelánea
+~  Luces, Herramientas, Cofres, etc )  Un escudo
+&  Múltiples objetos
 
 
-Monsters
---------
+Monstruos
+---------
 
-$  Creeping Coins             ,  Mushroom Patch
-a  Giant Ant                  A  Ainu
-b  Giant Bat                  B  Bird
-c  Giant Centipede            C  Canine (Dog)
-d  Dragon                     D  Ancient Dragon
-e  Floating Eye               E  Elemental
-f  Feline (Cat)               F  Dragon Fly
-g  Golem                      G  Ghost
-h  Humanoid                   H  Hybrid
-i  Icky-Thing                 I  Insect
-j  Jelly                      J  Snake
-k  Kobold                     K  Killer Beetle
-l  Tree/Ent                   L  Lich
-m  Mold                       M  Multi-Headed Hydra
-n  Naga                       N  -
-o  Orc                        O  Ogre
-p  Human "person"             P  Giant "person"
-q  Quadruped                  Q  Quylthulg (Pulsing Flesh Mound)
-r  Rodent                     R  Reptile/Amphibian
-s  Skeleton                   S  Spider/Scorpion/Tick
-t  Townsperson                T  Troll
-u  Minor Demon                U  Major Demon
-v  Vortex                     V  Vampire
-w  Worm or Worm Mass          W  Wight/Wraith
-x  -                          X  Xorn/Xaren
-y  Yeek                       Y  Yeti
-z  Zombie/Mummy               Z  Zephyr Hound
-
+$  Monedas Repta            ,  Parche de Setas
+a  Hormiga Gigante          A  Ainu
+b  Murciélago Gigante       B  Ave
+c  Ciempiés Gigante         C  Canino (Perro)
+d  Dragón                   D  Dragón Antiguo
+e  Ojo Flotante             E  Elemental
+f  Felino (Gato)            F  Libélula
+g  Golem                    G  Fantasma
+h  Humanoide                H  Híbrido
+i  Cosa Pegajosa            I  Insecto
+j  Gelatina                 J  Serpiente
+k  Kobold                   K  Escarabajo Asesino
+l  Árbol/Ent                L  Licántropo
+m  Moho                     M  Hidra de Múltiples Cabezas
+n  Naga                     N  -
+o  Orco                     O  Ogro
+p  Humano "persona"         P  Gigante "persona"
+q  Cuadrúpedo               Q  Quylthulg (Montículo de Carne Palpitante)
+r  Roedor                   R  Reptil/Anfibio
+s  Esqueleto                S  Araña/Escorpio/Garrapata
+t  Ciudadano                T  Troll
+u  Demonio Menor            U  Demonio Mayor
+v  Vórtice                  V  Vampiro
+w  Gusano o Masa de Gusanos W  Espectro/Ente
+x  -                        X  Xorn/Xaren
+y  Yeek                     Y  Yeti
+z  Zombi/Momia              Z  Sabueso del Céfiro

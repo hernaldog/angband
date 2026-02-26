@@ -1,73 +1,72 @@
+Resumen de Comandos del Conjunto de Teclas Original
+====================================================
 
-Original Keyset Command Summary
-===============================
+^ seguido de una letra es una abreviación para presionar y soltar
+la tecla de esa letra con la tecla Control también presionada. También puedes
+presionar y soltar ^ y luego presionar y soltar la tecla de letra para activar
+el mismo comando, en caso de que tu sistema intercepte la combinación de
+Control + tecla y no la transmita. La opción autoexplore_commands modifica
+los comandos '<', '>' y 'p'. Cuando esa opción está desactivada (valor
+predeterminado), los comandos actúan como se describe a continuación. Cuando
+esa opción está activada, '<' o '>' usarán la escalera en la ubicación del
+jugador si es del tipo correcto, o se moverán a la escalera conocida más
+cercana del tipo apropiado si el jugador no está en ese tipo de escalera.
+'p' se moverá a la ubicación inexplorada más cercana cuando la opción
+autoexplore_commands está activada.
 
-^ followed by a letter is an abbreviation for pressing and releasing
-the letter key with the control key also depressed.  You may also press
-and release ^ and then press and release the letter key to activate the
-same command in case your system intercepts the control plus key
-combination and does not pass it on.  The autoexplore_commands option
-modifies the '<', '>', and 'p' commands.  When that option is off (that
-is the default), the commands act as described below.  When that option
-is on, '<' or '>' will use the staircase at the player's location if it
-is the appropriate kind of staircase or will move to the nearest known
-staircase of the appropriate kind if the player is not already at that
-kind of staircase.  'p' will move to the nearest unexplored location
-when the autoexplore_commands option is on.
-
-  a    Aim a wand                      A    Activate an object
-  b    Browse a book                   B    -
-  c    Close a door                    C    Character description
-  d    Drop an item                    D    Disarm a trap or lock a door
-  e    List equipped items             E    Eat some food
-  f    Fire an item                    F    Fuel your lantern/torch
-  g    Get objects on floor            G    Gain new spells/prayers
-  h    Fire default ammo at target     H    -
-  i    List contents of pack           I    Inspect an item
-  j    -                               J    -
-  k    Ignore an item                  K    Toggle ignore
-  l    Look around                     L    Locate player on map
-  m    Cast a spell                    M    Display map of entire level
-  n    Repeat previous command         N    -
-  o    Open a door or chest            O    -
-  p    - (see above)                   P    -
-  q    Quaff a potion                  Q    Retire character & quit
-  r    Read a scroll                   R    Rest for a period
-  s    Steal from a monster (rogues)   S    See abilities
-  t    Take off equipment              T    Dig a tunnel
-  u    Use a staff                     U    Use an item
-  v    Throw an item                   V    Display version info
-  w    Wear/wield equipment            W    Walk into a trap
-  x    -                               X    -
-  y    -                               Y    -
-  z    Zap a rod                       Z    -
-  !    -                               ^a   (special - debug command)
-  @    -                               ^b   -
-  #    -                               ^c   (special - break)
-  $    -                               ^d   -
-  %    -                               ^e   Toggle inven/equip window
-  ^    (special - control key)         ^f   Repeat level feeling
-  &    -                               ^g   Do autopickup
-  *    Target monster or location      ^h   -
-  (    -                               ^i   (special - tab)
-  )    Dump screen to a file           ^j   (special - linefeed)
-  {    Inscribe an object              ^k   -
-  }    Uninscribe an object            ^l   Center map
-  [    Display visible monster list    ^m   (special - return)
-  ]    Display visible object list     ^n   -
-  -    -                               ^o   Show previous message
-  _    -                               ^p   Show previous messages
-  +    Alter grid                      ^q   -
-  =    Set options                     ^r   Redraw the screen
-  ;    Walk (with pickup)              ^s   Save and don't quit
-  :    Take notes                      ^t   -
-  '    Target closest monster          ^u   -
-  "    Enter a user pref command       ^v   -
-  ,    Stay still (with pickup)        ^w   (special - wizard mode)
-  <    Go up staircase (see above)     ^x   Save and quit
-  .    Run                             ^y   -
-  >    Go down staircase (see above)   ^z   (special - borg command)
-  \    (special - bypass keymap)        ~   Check knowledge
-  `    (special - escape)               ?   Display help
-  /    Identify symbol
-  |    List contents of quiver
+  a    Apuntar con una varita           A    Activar un objeto
+  b    Hojear un libro                  B    -
+  c    Cerrar una puerta                C    Descripción del personaje
+  d    Soltar un objeto                 D    Desactivar trampa o cerrar puerta
+  e    Listar objetos equipados         E    Comer alimentos
+  f    Lanzar un objeto                 F    Reabastecer linterna/antorcha
+  g    Recoger objetos del suelo        G    Aprender nuevos hechizos/oraciones
+  h    Disparar munición por defecto    H    -
+  i    Listar contenido de la mochila   I    Inspeccionar un objeto
+  j    -                                J    -
+  k    Ignorar un objeto                K    Alternar ignorar
+  l    Mirar alrededor                  L    Localizar jugador en el mapa
+  m    Lanzar un hechizo                M    Mostrar mapa completo del nivel
+  n    Repetir comando anterior         N    -
+  o    Abrir puerta o cofre             O    -
+  p    - (ver arriba)                   P    -
+  q    Beber una poción                 Q    Retirar personaje y salir
+  r    Leer un pergamino                R    Descansar un período
+  s    Robar a un monstruo (pícaros)    S    Ver habilidades
+  t    Quitarse equipamiento            T    Excavar un túnel
+  u    Usar un bastón                   U    Usar un objeto
+  v    Arrojar un objeto                V    Mostrar info de versión
+  w    Vestir/empuñar equipamiento      W    Caminar hacia una trampa
+  x    -                                X    -
+  y    -                                Y    -
+  z    Usar una vara mágica             Z    -
+  !    -                                ^a   (especial - comando de depuración)
+  @    -                                ^b   -
+  #    -                                ^c   (especial - interrumpir)
+  $    -                                ^d   -
+  %    -                                ^e   Alternar ventana inv/equip
+  ^    (especial - tecla control)       ^f   Repetir sensación del nivel
+  &    -                                ^g   Hacer recogida automática
+  *    Seleccionar monstruo/ubicación   ^h   -
+  (    -                                ^i   (especial - tabulador)
+  )    Volcar pantalla a archivo        ^j   (especial - salto de línea)
+  {    Inscribir un objeto              ^k   -
+  }    Borrar inscripción de objeto     ^l   Centrar mapa
+  [    Mostrar lista de monstruos       ^m   (especial - intro)
+  ]    Mostrar lista de objetos         ^n   -
+  -    -                                ^o   Mostrar mensaje anterior
+  _    -                                ^p   Mostrar mensajes anteriores
+  +    Alterar cuadrícula               ^q   -
+  =    Configurar opciones              ^r   Redibujar la pantalla
+  ;    Caminar (recogiendo)             ^s   Guardar sin salir
+  :    Tomar notas                      ^t   -
+  '    Apuntar al monstruo más cercano  ^u   -
+  "    Introducir comando de usuario    ^v   -
+  ,    Quedarse quieto (recogiendo)     ^w   (especial - modo mago)
+  <    Subir escalera (ver arriba)      ^x   Guardar y salir
+  .    Correr                           ^y   -
+  >    Bajar escalera (ver arriba)      ^z   (especial - comando borg)
+  \    (especial - omitir mapa teclas)   ~   Consultar conocimientos
+  `    (especial - escape)               ?   Mostrar ayuda
+  /    Identificar símbolo
+  |    Listar contenido del carcaj
