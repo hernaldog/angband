@@ -18,5 +18,5 @@
 
 {light slate}                         Sitio web: http://rephial.org/           {/}
 {light slate}                     Foros: https://angband.live/forums/          {/}
-            {blue}Traducido por Hernaldo González hernaldog@gmail.com{/}
+
                   Para obtener ayuda, pulsa '?' en el juego
