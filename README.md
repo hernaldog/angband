@@ -28,13 +28,15 @@ Se mantienen las mismas dos licencias originales:
 - Licencia Angand
 
 ## Capturas
-Algunas capturas del estado actual:
+Algunas capturas del estado actual de la traducción:
 
 ![Intro](captura1.png)
 ![Selección de personaje](captura2.png)
 ![Inventario](captura3.png)
 
 ## Pasos para la compilación si quieres colaborar
+
+Lo primero es comunicarte conmigo al correo indicado más arriba para coordinar acciones.
 
 Bajar **MSYS2**  https://www.msys2.org/
 Instalarlo sin nada particular, todo Siguiente, Siguiente.
