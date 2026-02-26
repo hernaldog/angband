@@ -150,7 +150,7 @@ Contenido del script shell:
     
     echo "Compilacion terminada..."
     
-    echo "Abriendo jueggo..."
+    echo "Abriendo juego..."
     c:/juegos/angband-bin-esp/angband.exe
 
 ## Pendientes de traducción

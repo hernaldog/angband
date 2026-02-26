@@ -18,5 +18,5 @@ cp -f /c/juegos/angband-src-esp/src/game/angband.exe /c/juegos/angband-bin-esp/a
 
 echo "Compilacion terminada..."
 
-echo "Abriendo jueggo..."
+echo "Abriendo juego..."
 c:/juegos/angband-bin-esp/angband.exe
