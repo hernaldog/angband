@@ -158,6 +158,7 @@ Contenido del script shell:
 - Cambios de lb por kg
 - Cambios de ft por mt (infravisión)
 - Mejoras en traducciones como con tecla d "Soltar qué objeto", por "¿Qué objeto tirar?" o con k "¿Ingorar que objeto?"
+- Traduc de pantallas con teclas V, l, S
 
 ## Detalle de la traducción por archivo
 
