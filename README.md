@@ -149,6 +149,9 @@ Contenido del script shell:
     cp -f /c/juegos/angband-src-esp/src/game/angband.exe /c/juegos/angband-bin-esp/angband.exe
     
     echo "Compilacion terminada..."
+    
+    echo "Abriendo jueggo..."
+    c:/juegos/angband-bin-esp/angband.exe
 
 ## Pendientes de traducción
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
