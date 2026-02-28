@@ -214,3 +214,4 @@ Contenido del script shell:
 | src\score.c                              | 100      |
 | src\ui-target.c                          | 100      |
 | src\cmd-pickup.c                         | 100      |
+| src\ui-death.c                           | 100      |
