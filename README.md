@@ -181,6 +181,7 @@ Contenido del script shell:
 | lib\help\index.txt                       | 100      |
 | lib\help\r_index.txt                     | 100      |
 | lib\help\symbols.txt                     | 100      |
+| lib\gamedata\terrain.txt                 | 100      |
 | src\main-win.c                           | 100      |
 | src\borg\borg-messages.c                 | 100      |
 | src\mon-util.c                           | 100      |
@@ -206,4 +207,5 @@ Contenido del script shell:
 | src\ui-options.c                         | 100      |
 | src\ui-display.c                         | 100      |
 | src\ui-context.c                         | 100      | 
-| src\mon-lore.c                           | 100      | Corregir frases varias |
+| src\mon-lore.c                           | 100      | Corregir frases varias 
+
