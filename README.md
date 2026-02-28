@@ -208,4 +208,5 @@ Contenido del script shell:
 | src\ui-display.c                         | 100      |
 | src\ui-context.c                         | 100      | 
 | src\mon-lore.c                           | 100      | Corregir frases varias 
-
+| src\player-calcs.c                       | 100      |
+| src\player-spell.c                       | 100      |

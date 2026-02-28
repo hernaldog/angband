@@ -38,376 +38,375 @@
 
 
 chart:1:2:10
-phrase:You are the illegitimate and unacknowledged child 
+phrase:Eres el hijo ilegítimo y no reconocido 
 chart:1:2:20
-phrase:You are the illegitimate but acknowledged child 
+phrase:Eres el hijo ilegítimo pero reconocido 
 chart:1:2:95
-phrase:You are one of several children 
+phrase:Eres uno de varios hijos 
 chart:1:2:100
-phrase:You are the first child 
+phrase:Eres el primer hijo 
 
 chart:2:3:40
-phrase:of a Serf.  
+phrase:de un Siervo.  
 chart:2:3:65
-phrase:of a Yeoman.  
+phrase:de un Propietario.  
 chart:2:3:80
-phrase:of a Townsman.  
+phrase:de un Ciudadano.  
 chart:2:3:90
-phrase:of a Guildsman.  
+phrase:de un Gremialista.  
 chart:2:3:96
-phrase:of a Landed Knight.  
+phrase:de un Caballero con Tierras.  
 chart:2:3:99
-phrase:of a Titled Noble.  
+phrase:de un Noble Titulado.  
 chart:2:3:100
-phrase:of a Royal Blood Line.  
+phrase:de un Linaje Real.  
 
 chart:3:50:20
-phrase:You are the black sheep of the family.  
+phrase:Eres la oveja negra de la familia.  
 chart:3:50:80
-phrase:You are a credit to the family.  
+phrase:Eres un orgullo para la familia.  
 chart:3:50:100
-phrase:You are a well liked child.  
+phrase:Eres un niño querido.  
 
 chart:4:1:15
-phrase:Your mother was of the Avari. 
+phrase:Tu madre era de los Avari. 
 chart:4:1:30
-phrase:Your father was of the Avari. 
+phrase:Tu padre era de los Avari. 
 chart:4:1:50
-phrase:Your mother was of the Nandor. 
+phrase:Tu madre era de los Nandor. 
 chart:4:1:70
-phrase:Your father was of the Nandor.  
+phrase:Tu padre era de los Nandor.  
 chart:4:1:85
-phrase:Your mother was of the Sindar.  
+phrase:Tu madre era de los Sindar.  
 chart:4:1:95
-phrase:Your father was of the Sindar.  
+phrase:Tu padre era de los Sindar.  
 chart:4:1:98
-phrase:Your mother was of the Noldor.  
+phrase:Tu madre era de los Noldor.  
 chart:4:1:100
-phrase:Your father was of the Noldor.  
+phrase:Tu padre era de los Noldor.  
 
 chart:5:6:60
-phrase:You are one of several children 
+phrase:Eres uno de varios hijos 
 chart:5:6:100
-phrase:You are the only child 
+phrase:Eres el hijo único 
 
 chart:6:9:40
-phrase:of an Avarin 
+phrase:de un Avarin 
 chart:6:9:70
-phrase:of a Nandorin 
+phrase:de un Nandorin 
 chart:6:9:100
-phrase:of a Sindarin 
+phrase:de un Sindarin 
 
 chart:7:8:60
-phrase:You are one of several children 
+phrase:Eres uno de varios hijos 
 chart:7:8:100
-phrase:You are the only child 
+phrase:Eres el hijo único 
 
 chart:8:9:75
-phrase:of a Telerin 
+phrase:de un Telerin 
 chart:8:9:95
-phrase:of a Noldorin 
+phrase:de un Noldorin 
 chart:8:9:100
-phrase:of a Vanyarin 
+phrase:de un Vanyarin 
 
 chart:9:54:40
-phrase:Ranger.  
+phrase:Guardabosques.  
 chart:9:54:70
-phrase:Archer.  
+phrase:Arquero.  
 chart:9:54:87
-phrase:Warrior.  
+phrase:Guerrero.  
 chart:9:54:95
-phrase:Mage.  
+phrase:Mago.  
 chart:9:54:99
-phrase:Prince.  
+phrase:Príncipe.  
 chart:9:54:100
-phrase:King.  
+phrase:Rey.  
 
 chart:10:11:85
-phrase:You are one of several children of a Hobbit 
+phrase:Eres uno de varios hijos de un Hobbit 
 chart:10:11:100
-phrase:You are the only child of a Hobbit 
+phrase:Eres el hijo único de un Hobbit 
 
 chart:11:3:20
-phrase:Burglar.  
+phrase:Burglés.  
 chart:11:3:30
-phrase:Miller.  
+phrase:Moliner.  
 chart:11:3:40
-phrase:Tavern Owner.  
+phrase:Tabernero.  
 chart:11:3:50
-phrase:Archer.  
+phrase:Arquero.  
 chart:11:3:80
-phrase:Warrior.  
+phrase:Guerrero.  
 chart:11:3:95
-phrase:Shirriff.  
+phrase:Alguacil.  
 chart:11:3:99
-phrase:Mayor.  
+phrase:Alcalde.  
 chart:11:3:100
-phrase:Clan Elder.  
+phrase:Anciano del Clan.  
 
 chart:13:14:85
-phrase:You are one of several children of a Gnome 
+phrase:Eres uno de varios hijos de un Gnomo 
 chart:13:14:100
-phrase:You are the only child of a Gnome 
+phrase:Eres el hijo único de un Gnomo 
 
 chart:14:3:20
-phrase:Beggar.  
+phrase:Mendigo.  
 chart:14:3:50
-phrase:Braggart.  
+phrase:Fanfarrón.  
 chart:14:3:75
-phrase:Prankster.  
+phrase:Bromista.  
 chart:14:3:95
-phrase:Warrior.  
+phrase:Guerrero.  
 chart:14:3:100
-phrase:Mage.  
+phrase:Mago.  
 
 chart:16:17:25
-phrase:You are one of two children of a Dwarven 
+phrase:Eres uno de dos hijos de un Enano 
 chart:16:17:100
-phrase:You are the only child of a Dwarven 
+phrase:Eres el hijo único de un Enano 
 
 chart:17:18:10
-phrase:Thief.  
+phrase:Ladrón.  
 chart:17:18:25
-phrase:Prison Guard.  
+phrase:Guardia de Prisión.  
 chart:17:18:75
-phrase:Miner.  
+phrase:Minero.  
 chart:17:18:90
-phrase:Warrior.  
+phrase:Guerrero.  
 chart:17:18:99
-phrase:Priest.  
+phrase:Sacerdote.  
 chart:17:18:100
-phrase:King.  
+phrase:Rey.  
 
 chart:18:57:15
-phrase:You are the black sheep of the family.  
+phrase:Eres la oveja negra de la familia.  
 chart:18:57:85
-phrase:You are a credit to the family.  
+phrase:Eres un orgullo para la familia.  
 chart:18:57:100
-phrase:You are a well liked child.  
+phrase:Eres un niño querido.  
 
 chart:19:20:25
-phrase:Your mother was an Orc, 
+phrase:Tu madre era un Orco, 
 chart:19:20:100
-phrase:Your father was an Orc, 
+phrase:Tu padre era un Orco, 
 
 chart:20:2:20
-phrase:and it is acknowledged. You are the adopted child 
+phrase:y es reconocido. Eres el hijo adoptado 
 chart:20:2:100
-phrase:but it is unacknowledged. You are the adopted child 
+phrase:pero no es reconocido. Eres el hijo adoptado 
 
 chart:21:22:30
-phrase:Your mother was a Stone-Troll 
+phrase:Tu madre era un Troll de Piedra 
 chart:21:22:60
-phrase:Your father was a Stone-Troll 
+phrase:Tu padre era un Troll de Piedra 
 chart:21:22:75
-phrase:Your mother was a Cave-Troll 
+phrase:Tu madre era un Troll de Cueva 
 chart:21:22:90
-phrase:Your father was a Cave-Troll 
+phrase:Tu padre era un Troll de Cueva 
 chart:21:22:95
-phrase:Your mother was a Water-Troll 
+phrase:Tu madre era un Troll de Agua 
 chart:21:22:100
-phrase:Your father was a Water-Troll 
+phrase:Tu padre era un Troll de Agua 
 
 chart:22:62:5
-phrase:Cook.  
+phrase:Cocinero.  
 chart:22:62:95
-phrase:Warrior.  
+phrase:Guerrero.  
 chart:22:62:99
-phrase:Shaman.  
+phrase:Chamán.  
 chart:22:62:100
-phrase:Clan Chief.  
+phrase:Jefe del Clan.  
 
 chart:23:24:20
-phrase:You are the runt of 
+phrase:Eres el más pequeño de 
 chart:23:24:80
-phrase:You come from 
+phrase:Procedes de 
 chart:23:24:100
-phrase:You are the largest of 
+phrase:Eres el más grande de 
 
 chart:24:25:15
-phrase:a litter of 3 pups. 
+phrase:una camada de 3 cachorros. 
 chart:24:25:40
-phrase:a litter of 4 pups. 
+phrase:una camada de 4 cachorros. 
 chart:24:25:70
-phrase:a litter of 5 pups. 
+phrase:una camada de 5 cachorros. 
 chart:24:25:85
-phrase:a litter of 6 pups. 
+phrase:una camada de 6 cachorros. 
 chart:24:25:95
-phrase:a litter of 7 pups. 
+phrase:una camada de 7 cachorros. 
 chart:24:25:100
-phrase:a litter of 8 pups. 
+phrase:una camada de 8 cachorros. 
 
 chart:25:26:25
-phrase:Your father was a fungus farmer, 
+phrase:Tu padre era un granjero de hongos, 
 chart:25:26:50
-phrase:Your father was a hunter, 
+phrase:Tu padre era un cazador, 
 chart:25:26:75
-phrase:Your father was a warrior, 
+phrase:Tu padre era un guerrero, 
 chart:25:26:95
-phrase:Your father was a shaman, 
+phrase:Tu padre era un chamán, 
 chart:25:26:100
-phrase:Your father was the tribal chief, 
+phrase:Tu padre era el jefe tribal, 
 
 chart:26:67:20
-phrase:and your mother was a prisoner of war. 
+phrase:y tu madre era una prisionera de guerra. 
 chart:26:67:95
-phrase:and your mother was a cook. 
+phrase:y tu madre era una cocinera. 
 chart:26:67:100
-phrase:and your mother was one of the Chief's harem. 
+phrase:y tu madre era una del harén del Jefe. 
 
 chart:50:51:20
-phrase:You have dark brown eyes, 
+phrase:Tienes ojos marrón oscuro, 
 chart:50:51:60
-phrase:You have brown eyes, 
+phrase:Tienes ojos marrones, 
 chart:50:51:70
-phrase:You have hazel eyes, 
+phrase:Tienes ojos avellana, 
 chart:50:51:80
-phrase:You have green eyes, 
+phrase:Tienes ojos verdes, 
 chart:50:51:90
-phrase:You have blue eyes, 
+phrase:Tienes ojos azules, 
 chart:50:51:100
-phrase:You have blue-gray eyes, 
+phrase:Tienes ojos azul grisáceo, 
 
 chart:51:52:70
-phrase:straight 
+phrase:liso 
 chart:51:52:90
-phrase:wavy 
+phrase:ondulado 
 chart:51:52:100
-phrase:curly 
+phrase:rizado 
 
 chart:52:53:30
-phrase:black hair, 
+phrase:pelo negro, 
 chart:52:53:70
-phrase:brown hair, 
+phrase:pelo castaño, 
 chart:52:53:80
-phrase:auburn hair, 
+phrase:pelo cobrizo, 
 chart:52:53:90
-phrase:red hair, 
+phrase:pelo rojo, 
 chart:52:53:100
-phrase:blond hair, 
+phrase:pelo rubio, 
 
 chart:53:0:10
-phrase:and a very dark complexion.
+phrase:y una tez muy oscura.
 chart:53:0:30
-phrase:and a dark complexion.
+phrase:y una tez oscura.
 chart:53:0:80
-phrase:and an average complexion.
+phrase:y una tez normal.
 chart:53:0:90
-phrase:and a fair complexion.
+phrase:y una tez clara.
 chart:53:0:100
-phrase:and a very fair complexion.
+phrase:y una tez muy clara.
 
 chart:54:55:85
-phrase:You have light grey eyes, 
+phrase:Tienes ojos gris claro, 
 chart:54:55:95
-phrase:You have light blue eyes, 
+phrase:Tienes ojos azul claro, 
 chart:54:55:100
-phrase:You have light green eyes, 
+phrase:Tienes ojos verde claro, 
 
 chart:55:56:75
-phrase:straight 
+phrase:liso 
 chart:55:56:100
-phrase:wavy 
+phrase:ondulado 
 
 chart:56:0:75
-phrase:black hair, and a fair complexion.
+phrase:pelo negro, y una tez clara.
 chart:56:0:85
-phrase:brown hair, and a fair complexion.
+phrase:pelo castaño, y una tez clara.
 chart:56:0:95
-phrase:blond hair, and a fair complexion.
+phrase:pelo rubio, y una tez clara.
 chart:56:0:100
-phrase:silver hair, and a fair complexion.
+phrase:pelo plateado, y una tez clara.
 
 chart:57:58:99
-phrase:You have dark brown eyes, 
+phrase:Tienes ojos marrón oscuro, 
 chart:57:58:100
-phrase:You have glowing red eyes, 
+phrase:Tienes ojos rojos brillantes, 
 
 chart:58:59:90
-phrase:straight 
+phrase:liso 
 chart:58:59:100
-phrase:wavy 
+phrase:ondulado 
 
 chart:59:60:75
-phrase:black hair, 
+phrase:pelo negro, 
 chart:59:60:100
-phrase:brown hair, 
+phrase:pelo castaño, 
 
 chart:60:61:25
-phrase:a one foot beard, 
+phrase:barba de un pie, 
 chart:60:61:60
-phrase:a two foot beard, 
+phrase:barba de dos pies, 
 chart:60:61:90
-phrase:a three foot beard, 
+phrase:barba de tres pies, 
 chart:60:61:100
-phrase:a four foot beard, 
+phrase:barba de cuatro pies, 
 
 chart:61:0:100
-phrase:and a dark complexion.
+phrase:y una tez oscura.
 
 chart:62:63:60
-phrase:You have slime-green eyes, 
+phrase:Tienes ojos verde babosa, 
 chart:62:63:85
-phrase:You have puke-yellow eyes, 
+phrase:Tienes ojos amarillo vómito, 
 chart:62:63:99
-phrase:You have blue-bloodshot eyes, 
+phrase:Tienes ojos azul inyectados en sangre, 
 chart:62:63:100
-phrase:You have glowing red eyes, 
+phrase:Tienes ojos rojos brillantes, 
 
 chart:63:64:33
-phrase:dirty 
+phrase:sucio 
 chart:63:64:66
-phrase:mangy 
+phrase:sarnoso 
 chart:63:64:100
-phrase:oily 
+phrase:grasiento 
 
 chart:64:65:33
-phrase:sea-weed green hair, 
+phrase:pelo verde alga, 
 chart:64:65:66
-phrase:bright red hair, 
+phrase:pelo rojo brillante, 
 chart:64:65:100
-phrase:dark purple hair, 
+phrase:pelo púrpura oscuro, 
 
 chart:65:66:25
-phrase:and green 
+phrase:y piel verde 
 chart:65:66:50
-phrase:and blue 
+phrase:y piel azul 
 chart:65:66:75
-phrase:and white 
+phrase:y piel blanca 
 chart:65:66:100
-phrase:and black 
+phrase:y piel negra 
 
 chart:66:0:33
-phrase:ulcerous skin.
+phrase:ulcerosa.
 chart:66:0:66
-phrase:scabby skin.
+phrase:costrosa.
 chart:66:0:100
-phrase:leprous skin.
+phrase:leprosa.
 
 chart:67:68:10
-phrase:You have black eyes, 
+phrase:Tienes ojos negros, 
 chart:67:68:40
-phrase:You have dark brown eyes, 
+phrase:Tienes ojos marrón oscuro, 
 chart:67:68:80
-phrase:You have brown eyes, 
+phrase:Tienes ojos marrones, 
 chart:67:68:99
-phrase:You have light brown eyes, 
+phrase:Tienes ojos marrón claro, 
 chart:67:68:100
-phrase:You have glowing red eyes, 
+phrase:Tienes ojos rojos brillantes, 
 
 chart:68:69:40
-phrase:a dark brown hide, 
+phrase:una piel marrón oscura, 
 chart:68:69:60
-phrase:a reddish-brown hide, 
+phrase:una piel marrón rojiza, 
 chart:68:69:95
-phrase:an olive green hide, 
+phrase:una piel verde oliva, 
 chart:68:69:100
-phrase:a deep blue hide, 
+phrase:una piel azul profundo, 
 
 chart:69:0:10
-phrase:and large, flat teeth.
+phrase:y dientes grandes y planos.
 chart:69:0:90
-phrase:and small, sharp teeth.
+phrase:y dientes pequeños y afilados.
 chart:69:0:100
-phrase:and large, sharp teeth.
-
+phrase:y dientes grandes y afilados.

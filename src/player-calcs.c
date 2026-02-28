@@ -1,7 +1,7 @@
 /**
  * \file player-calcs.c
- * \brief Player status calculation, signalling ui events based on 
- *	status changes.
+ * \brief Cálculo del estado del jugador, señalando eventos de la interfaz de usuario
+ *	basados en cambios de estado.
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2014 Nick McConnell
@@ -40,7 +40,7 @@
 #include "player-util.h"
 
 /**
- * Stat Table (INT) -- Magic devices
+ * Tabla de Estadísticas (INT) -- Dispositivos mágicos
  */
 static const int adj_int_dev[STAT_RANGE] =
 {
@@ -85,7 +85,7 @@ static const int adj_int_dev[STAT_RANGE] =
 };
 
 /**
- * Stat Table (WIS) -- Saving throw
+ * Tabla de Estadísticas (SAB) -- Tirada de salvación
  */
 static const int adj_wis_sav[STAT_RANGE] =
 {
@@ -131,7 +131,7 @@ static const int adj_wis_sav[STAT_RANGE] =
 
 
 /**
- * Stat Table (DEX) -- disarming
+ * Tabla de Estadísticas (DES) -- desarme
  */
 static const int adj_dex_dis[STAT_RANGE] =
 {
@@ -177,7 +177,7 @@ static const int adj_dex_dis[STAT_RANGE] =
 
 
 /**
- * Stat Table (INT) -- disarming
+ * Tabla de Estadísticas (INT) -- desarme
  */
 static const int adj_int_dis[STAT_RANGE] =
 {
@@ -222,7 +222,7 @@ static const int adj_int_dis[STAT_RANGE] =
 };
 
 /**
- * Stat Table (DEX) -- bonus to ac
+ * Tabla de Estadísticas (DES) -- bonificación a CA
  */
 static const int adj_dex_ta[STAT_RANGE] =
 {
@@ -267,7 +267,7 @@ static const int adj_dex_ta[STAT_RANGE] =
 };
 
 /**
- * Stat Table (STR) -- bonus to dam
+ * Tabla de Estadísticas (FUE) -- bonificación a daño
  */
 const int adj_str_td[STAT_RANGE] =
 {
@@ -313,7 +313,7 @@ const int adj_str_td[STAT_RANGE] =
 
 
 /**
- * Stat Table (DEX) -- bonus to hit
+ * Tabla de Estadísticas (DES) -- bonificación a golpear
  */
 const int adj_dex_th[STAT_RANGE] =
 {
@@ -359,7 +359,7 @@ const int adj_dex_th[STAT_RANGE] =
 
 
 /**
- * Stat Table (STR) -- bonus to hit
+ * Tabla de Estadísticas (FUE) -- bonificación a golpear
  */
 static const int adj_str_th[STAT_RANGE] =
 {
@@ -405,7 +405,7 @@ static const int adj_str_th[STAT_RANGE] =
 
 
 /**
- * Stat Table (STR) -- weight limit in deca-pounds
+ * Tabla de Estadísticas (FUE) -- límite de peso en deca-libras
  */
 static const int adj_str_wgt[STAT_RANGE] =
 {
@@ -451,7 +451,7 @@ static const int adj_str_wgt[STAT_RANGE] =
 
 
 /**
- * Stat Table (STR) -- weapon weight limit in pounds
+ * Tabla de Estadísticas (FUE) -- límite de peso del arma en libras
  */
 const int adj_str_hold[STAT_RANGE] =
 {
@@ -497,7 +497,7 @@ const int adj_str_hold[STAT_RANGE] =
 
 
 /**
- * Stat Table (STR) -- digging value
+ * Tabla de Estadísticas (FUE) -- valor de excavación
  */
 static const int adj_str_dig[STAT_RANGE] =
 {
@@ -543,7 +543,7 @@ static const int adj_str_dig[STAT_RANGE] =
 
 
 /**
- * Stat Table (STR) -- help index into the "blow" table
+ * Tabla de Estadísticas (FUE) -- índice de ayuda para la tabla de "golpes"
  */
 const int adj_str_blow[STAT_RANGE] =
 {
@@ -589,7 +589,7 @@ const int adj_str_blow[STAT_RANGE] =
 
 
 /**
- * Stat Table (DEX) -- index into the "blow" table
+ * Tabla de Estadísticas (DES) -- índice para la tabla de "golpes"
  */
 static const int adj_dex_blow[STAT_RANGE] =
 {
@@ -635,7 +635,7 @@ static const int adj_dex_blow[STAT_RANGE] =
 
 
 /**
- * Stat Table (DEX) -- chance of avoiding "theft" and "falling"
+ * Tabla de Estadísticas (DES) -- probabilidad de evitar "robo" y "caída"
  */
 const int adj_dex_safe[STAT_RANGE] =
 {
@@ -681,7 +681,7 @@ const int adj_dex_safe[STAT_RANGE] =
 
 
 /**
- * Stat Table (CON) -- base regeneration rate
+ * Tabla de Estadísticas (CON) -- tasa de regeneración base
  */
 const int adj_con_fix[STAT_RANGE] =
 {
@@ -727,7 +727,7 @@ const int adj_con_fix[STAT_RANGE] =
 
 
 /**
- * Stat Table (CON) -- extra 1/100th hitpoints per level
+ * Tabla de Estadísticas (CON) -- puntos de golpe extra 1/100 por nivel
  */
 static const int adj_con_mhp[STAT_RANGE] =
 {
@@ -814,7 +814,7 @@ static const int adj_mag_study[STAT_RANGE] =
 };
 
 /**
- * Stat Table (INT/WIS) -- extra 1/100 mana-points per level
+ * Tabla de Estadísticas (INT/SAB) -- puntos de maná extra 1/100 por nivel
  */
 static const int adj_mag_mana[STAT_RANGE] =
 {
@@ -859,38 +859,38 @@ static const int adj_mag_mana[STAT_RANGE] =
 };
 
 /**
- * This table is used to help calculate the number of blows the player can
- * make in a single round of attacks (one player turn) with a normal weapon.
+ * Esta tabla se utiliza para ayudar a calcular el número de golpes que el jugador puede
+ * realizar en una sola ronda de ataques (un turno de jugador) con un arma normal.
  *
- * This number ranges from a single blow/round for weak players to up to six
- * blows/round for powerful warriors.
+ * Este número va desde un solo golpe/ronda para jugadores débiles hasta hasta seis
+ * golpes/ronda para guerreros poderosos.
  *
- * Note that certain artifacts and ego-items give "bonus" blows/round.
+ * Nótese que ciertos artefactos y objetos de égida dan golpes extra/ronda.
  *
- * First, from the player class, we extract some values:
+ * Primero, de la clase del jugador, extraemos algunos valores:
  *
- *    Warrior --> num = 6; mul = 5; div = MAX(30, weapon_weight);
- *    Mage    --> num = 4; mul = 2; div = MAX(40, weapon_weight);
- *    Priest  --> num = 4; mul = 3; div = MAX(35, weapon_weight);
- *    Rogue   --> num = 5; mul = 4; div = MAX(30, weapon_weight);
- *    Ranger  --> num = 5; mul = 4; div = MAX(35, weapon_weight);
- *    Paladin --> num = 5; mul = 5; div = MAX(30, weapon_weight);
- * (all specified in class.txt now)
+ *    Guerrero --> num = 6; mul = 5; div = MAX(30, peso_arma);
+ *    Mago    --> num = 4; mul = 2; div = MAX(40, peso_arma);
+ *    Sacerdote --> num = 4; mul = 3; div = MAX(35, peso_arma);
+ *    Pícaro   --> num = 5; mul = 4; div = MAX(30, peso_arma);
+ *    Guardabosques --> num = 5; mul = 4; div = MAX(35, peso_arma);
+ *    Paladín --> num = 5; mul = 5; div = MAX(30, peso_arma);
+ * (todo especificado en class.txt ahora)
  *
- * To get "P", we look up the relevant "adj_str_blow[]" (see above),
- * multiply it by "mul", and then divide it by "div", rounding down.
+ * Para obtener "P", buscamos el "adj_str_blow[]" relevante (ver arriba),
+ * lo multiplicamos por "mul", y luego lo dividimos por "div", redondeando hacia abajo.
  *
- * To get "D", we look up the relevant "adj_dex_blow[]" (see above).
+ * Para obtener "D", buscamos el "adj_dex_blow[]" relevante (ver arriba).
  *
- * Then we look up the energy cost of each blow using "blows_table[P][D]".
- * The player gets blows/round equal to 100/this number, up to a maximum of
- * "num" blows/round, plus any "bonus" blows/round.
+ * Luego buscamos el coste de energía de cada golpe usando "blows_table[P][D]".
+ * El jugador obtiene golpes/ronda igual a 100/este número, hasta un máximo de
+ * "num" golpes/ronda, más cualquier golpe/ronda "extra".
  */
 static const int blows_table[12][12] =
 {
 	/* P */
    /* D:   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,   10,  11+ */
-   /* DEX: 3,   10,  17,  /20, /40, /60, /80, /100,/120,/150,/180,/200 */
+   /* DES: 3,   10,  17,  /20, /40, /60, /80, /100,/120,/150,/180,/200 */
 
 	/* 0  */
 	{  100, 100, 95,  85,  75,  60,  50,  42,  35,  30,  25,  23 },
@@ -927,30 +927,30 @@ static const int blows_table[12][12] =
 
 	/* 11+ */
 	{  33,  29,  26,  24,  22,  21,  20,  19,  18,  17,  16,  15 },
-   /* DEX: 3,   10,  17,  /20, /40, /60, /80, /100,/120,/150,/180,/200 */
+   /* DES: 3,   10,  17,  /20, /40, /60, /80, /100,/120,/150,/180,/200 */
 };
 
 /**
- * Decide which object comes earlier in the standard inventory listing,
- * defaulting to the first if nothing separates them.
+ * Decidir qué objeto aparece antes en la lista de inventario estándar,
+ * por defecto el primero si nada los separa.
  *
- * \return whether to replace the original object with the new one
+ * \return si reemplazar el objeto original con el nuevo
  */
 bool earlier_object(struct object *orig, struct object *new, bool store)
 {
-	/* Check we have actual objects */
+	/* Verificar que tenemos objetos reales */
 	if (!new) return false;
 	if (!orig) return true;
 
 	if (!store) {
-		/* Readable books always come first */
+		/* Los libros legibles siempre van primero */
 		if (obj_can_browse(orig) && !obj_can_browse(new)) return false;
 		if (!obj_can_browse(orig) && obj_can_browse(new)) return true;
 	}
 
-	/* Usable ammo is before other ammo */
+	/* La munición utilizable va antes que otra munición */
 	if (tval_is_ammo(orig) && tval_is_ammo(new)) {
-		/* First favour usable ammo */
+		/* Primero favorecer la munición utilizable */
 		if ((player->state.ammo_tval == orig->tval) &&
 			(player->state.ammo_tval != new->tval))
 			return false;
@@ -959,33 +959,33 @@ bool earlier_object(struct object *orig, struct object *new, bool store)
 			return true;
 	}
 
-	/* Objects sort by decreasing type */
+	/* Los objetos se ordenan por tipo decreciente */
 	if (orig->tval > new->tval) return false;
 	if (orig->tval < new->tval) return true;
 
 	if (!store) {
-		/* Non-aware (flavored) items always come last (default to orig) */
+		/* Los objetos no identificados (con sabor) siempre van al final (por defecto orig) */
 		if (!object_flavor_is_aware(new)) return false;
 		if (!object_flavor_is_aware(orig)) return true;
 	}
 
-	/* Objects sort by increasing sval */
+	/* Los objetos se ordenan por sval creciente */
 	if (orig->sval < new->sval) return false;
 	if (orig->sval > new->sval) return true;
 
 	if (!store) {
-		/* Unaware objects always come last (default to orig) */
+		/* Los objetos no identificados siempre van al final (por defecto orig) */
 		if (new->kind->flavor && !object_flavor_is_aware(new)) return false;
 		if (orig->kind->flavor && !object_flavor_is_aware(orig)) return true;
 
-		/* Lights sort by decreasing fuel */
+		/* Las luces se ordenan por combustible decreciente */
 		if (tval_is_light(orig)) {
 			if (orig->pval > new->pval) return false;
 			if (orig->pval < new->pval) return true;
 		}
 	}
 
-	/* Objects sort by decreasing value, except ammo */
+	/* Los objetos se ordenan por valor decreciente, excepto la munición */
 	if (tval_is_ammo(orig)) {
 		if (object_value(orig, 1) < object_value(new, 1))
 			return false;
@@ -998,7 +998,7 @@ bool earlier_object(struct object *orig, struct object *new, bool store)
 			return true;
 	}
 
-	/* No preference */
+	/* Sin preferencia */
 	return false;
 }
 
@@ -1008,17 +1008,17 @@ int equipped_item_slot(struct player_body body, struct object *item)
 
 	if (item == NULL) return body.count;
 
-	/* Look for an equipment slot with this item */
+	/* Buscar una ranura de equipo con este objeto */
 	for (i = 0; i < body.count; i++)
 		if (item == body.slots[i].obj) break;
 
-	/* Correct slot, or body.count if not equipped */
+	/* Ranura correcta, o body.count si no está equipado */
 	return i;
 }
 
 /**
- * Put the player's inventory and quiver into easily accessible arrays.  The
- * pack may be overfull by one item
+ * Poner el inventario y carcaj del jugador en matrices fácilmente accesibles. La
+ * mochila puede tener un objeto de más
  */
 void calc_inventory(struct player *p)
 {
@@ -1036,8 +1036,8 @@ void calc_inventory(struct player *p)
 	int i, j;
 
 	/*
-	 * Equipped items are already taken care of.  Only the others need
-	 * to be tested for assignment to the quiver or pack.
+	 * Los objetos equipados ya están atendidos. Solo los demás necesitan
+	 * ser probados para su asignación al carcaj o a la mochila.
 	 */
 	for (current = p->gear, j = 0; current; current = current->next, ++j) {
 		assert(j < n_max);
@@ -1047,10 +1047,10 @@ void calc_inventory(struct player *p)
 		assigned[j] = false;
 	}
 
-	/* Prepare to fill the quiver */
+	/* Prepararse para llenar el carcaj */
 	p->upkeep->quiver_cnt = 0;
 
-	/* Copy the current quiver and then leave it empty. */
+	/* Copiar el carcaj actual y luego dejarlo vacío. */
 	for (i = 0; i < z_info->quiver_size; i++) {
 		if (p->upkeep->quiver[i]) {
 			old_quiver[i] = p->upkeep->quiver[i];
@@ -1060,20 +1060,20 @@ void calc_inventory(struct player *p)
 		}
 	}
 
-	/* Fill quiver.  First, allocate inscribed items. */
+	/* Llenar carcaj. Primero, asignar objetos inscritos. */
 	for (current = p->gear, j = 0; current; current = current->next, ++j) {
 		int prefslot;
 
-		/* Skip already assigned (i.e. equipped) items. */
+		/* Saltar objetos ya asignados (ej. equipados). */
 		if (assigned[j]) continue;
 
 		prefslot  = preferred_quiver_slot(current);
 		if (prefslot >= 0 && prefslot < z_info->quiver_size
 				&& !p->upkeep->quiver[prefslot]) {
 			/*
-			 * The preferred slot is empty.  Split the stack if
-			 * necessary.  Don't allow splitting if it could
-			 * result in overfilling the pack by more than one slot.
+			 * La ranura preferida está vacía. Dividir el montón si
+			 * es necesario. No permitir división si pudiera resultar
+			 * en sobrellenar la mochila en más de una ranura.
 			 */
 			int mult = tval_is_ammo(current) ?
 				1 : z_info->thrown_quiver_mult;
@@ -1089,12 +1089,12 @@ void calc_inventory(struct player *p)
 				if (nsplit > 0 && n_stack_split
 						<= n_pack_remaining) {
 					/*
-					 * Split off the portion that goes to
-					 * the pack.  Since the stack in the
-					 * quiver is earlier in the gear list it
-					 * will prefer to remain in the quiver
-					 * in future calls to calc_inventory()
-					 * and will be the preferred target for
+					 * Separar la parte que va a la
+					 * mochila. Como el montón en el
+					 * carcaj está antes en la lista de equipo,
+					 * preferirá permanecer en el carcaj
+					 * en futuras llamadas a calc_inventory()
+					 * y será el objetivo preferido para
 					 * combine_pack().
 					 */
 					to_quiver = current;
@@ -1110,21 +1110,21 @@ void calc_inventory(struct player *p)
 				p->upkeep->quiver[prefslot] = to_quiver;
 				p->upkeep->quiver_cnt += to_quiver->number * mult;
 
-				/* That part of the gear has been dealt with. */
+				/* Esa parte del equipo ha sido tratada. */
 				assigned[j] = true;
 			}
 		}
 	}
 
-	/* Now fill the rest of the slots in order. */
+	/* Ahora llenar el resto de las ranuras en orden. */
 	for (i = 0; i < z_info->quiver_size; ++i) {
 		struct object *first = NULL;
 		int jfirst = -1;
 
-		/* If the slot is full, move on. */
+		/* Si la ranura está llena, continuar. */
 		if (p->upkeep->quiver[i]) continue;
 
-		/* Find the quiver object that should go there. */
+		/* Encontrar el objeto de carcaj que debería ir allí. */
 		j = 0;
 		current = p->gear;
 		while (1) {
@@ -1132,9 +1132,9 @@ void calc_inventory(struct player *p)
 			assert(j < n_max);
 
 			/*
-			 * Only try to assign if not assigned, ammo, and,
-			 * if necessary to split, have room for the split
-			 * stacks.
+			 * Solo intentar asignar si no está asignado, es munición, y,
+			 * si es necesario dividir, hay espacio para los montones
+			 * divididos.
 			 */
 			if (!assigned[j] && tval_is_ammo(current)
 					&& (current->number
@@ -1142,7 +1142,7 @@ void calc_inventory(struct player *p)
 					|| (z_info->quiver_slot_size > 0
 					&& n_stack_split
 					<= n_pack_remaining))) {
-				/* Choose the first in order. */
+				/* Elegir el primero en orden. */
 				if (earlier_object(first, current, false)) {
 					first = current;
 					jfirst = j;
@@ -1153,56 +1153,56 @@ void calc_inventory(struct player *p)
 			++j;
 		}
 
-		/* Stop looking if there's nothing left in the gear. */
+		/* Dejar de buscar si no queda nada en el equipo. */
 		if (!first) break;
 
-		/* Put the item in the slot, splitting (if needed) to fit. */
+		/* Poner el objeto en la ranura, dividiendo (si es necesario) para que quepa. */
 		if (first->number > z_info->quiver_slot_size) {
 			assert(z_info->quiver_slot_size > 0
 				&& n_stack_split <= n_pack_remaining);
-			/* As above, split off the portion going to the pack. */
+			/* Como arriba, separar la parte que va a la mochila. */
 			gear_insert_end(p, object_split(first,
 				first->number - z_info->quiver_slot_size));
 		}
 		p->upkeep->quiver[i] = first;
 		p->upkeep->quiver_cnt += first->number;
 
-		/* That part of the gear has been dealt with. */
+		/* Esa parte del equipo ha sido tratada. */
 		assigned[jfirst] = true;
 	}
 
-	/* Note reordering */
+	/* Notar reordenamiento */
 	if (character_dungeon) {
 		for (i = 0; i < z_info->quiver_size; i++) {
 			if (old_quiver[i] && p->upkeep->quiver[i] != old_quiver[i]) {
-				msg("You re-arrange your quiver.");
+				msg("Reorganizas tu carcaj.");
 				break;
 			}
 		}
 	}
 
-	/* Copy the current pack */
+	/* Copiar la mochila actual */
 	for (i = 0; i < z_info->pack_size; i++) {
 		old_pack[i] = p->upkeep->inven[i];
 	}
 
-	/* Prepare to fill the inventory */
+	/* Prepararse para llenar el inventario */
 	p->upkeep->inven_cnt = 0;
 
 	for (i = 0; i <= z_info->pack_size; i++) {
 		struct object *first = NULL;
 		int jfirst = -1;
 
-		/* Find the object that should go there. */
+		/* Encontrar el objeto que debería ir allí. */
 		j = 0;
 		current = p->gear;
 		while (1) {
 			if (!current) break;
 			assert(j < n_max);
 
-			/* Consider it if it hasn't already been handled. */
+			/* Considerarlo si aún no ha sido tratado. */
 			if (!assigned[j]) {
-				/* Choose the first in order. */
+				/* Elegir el primero en orden. */
 				if (earlier_object(first, current, false)) {
 					first = current;
 					jfirst = j;
@@ -1213,7 +1213,7 @@ void calc_inventory(struct player *p)
 			++j;
 		}
 
-		/* Allocate */
+		/* Asignar */
 		p->upkeep->inven[i] = first;
 		if (first) {
 			++p->upkeep->inven_cnt;
@@ -1221,12 +1221,12 @@ void calc_inventory(struct player *p)
 		}
 	}
 
-	/* Note reordering */
+	/* Notar reordenamiento */
 	if (character_dungeon && p->upkeep->inven_cnt == old_inven_cnt) {
 		for (i = 0; i < z_info->pack_size; i++) {
 			if (old_pack[i] && p->upkeep->inven[i] != old_pack[i]
 					 && !object_is_equipped(p->body, old_pack[i])) {
-				msg("You re-arrange your pack.");
+				msg("Reorganizas tu mochila.");
 				break;
 			}
 		}
@@ -1238,11 +1238,11 @@ void calc_inventory(struct player *p)
 }
 
 /**
- * Average of the player's spell stats across all the realms they can cast
- * from, rounded up
+ * Promedio de las estadísticas de hechizo del jugador en todos los reinos desde los que puede lanzar,
+ * redondeado hacia arriba
  *
- * If the player can only cast from a single realm, this is simple the stat
- * for that realm
+ * Si el jugador solo puede lanzar desde un único reino, esto es simplemente la estadística
+ * para ese reino
  */
 static int average_spell_stat(struct player *p, struct player_state *state)
 {
@@ -1259,11 +1259,11 @@ static int average_spell_stat(struct player *p, struct player_state *state)
 }
 
 /**
- * Calculate number of spells player should have, and forget,
- * or remember, spells until that number is properly reflected.
+ * Calcular el número de hechizos que el jugador debería tener, y olvidar,
+ * o recordar, hechizos hasta que ese número se refleje adecuadamente.
  *
- * Note that this function induces various "status" messages,
- * which must be bypasses until the character is created.
+ * Nótese que esta función induce varios mensajes de "estado",
+ * que deben ser omitidos hasta que el personaje sea creado.
  */
 static void calc_spells(struct player *p)
 {
@@ -1275,163 +1275,163 @@ static void calc_spells(struct player *p)
 
 	int16_t old_spells;
 
-	/* Must be literate */
+	/* Debe ser alfabetizado */
 	if (!p->class->magic.total_spells) return;
 
-	/* Wait for creation */
+	/* Esperar a la creación */
 	if (!character_generated) return;
 
-	/* Handle partial mode */
+	/* Manejar modo parcial */
 	if (p->upkeep->only_partial) return;
 
-	/* Save the new_spells value */
+	/* Guardar el valor de new_spells */
 	old_spells = p->upkeep->new_spells;
 
-	/* Determine the number of spells allowed */
+	/* Determinar el número de hechizos permitidos */
 	levels = p->lev - p->class->magic.spell_first + 1;
 
-	/* No negative spells */
+	/* Sin hechizos negativos */
 	if (levels < 0) levels = 0;
 
-	/* Number of 1/100 spells per level (or something - needs clarifying) */
+	/* Número de 1/100 hechizos por nivel (o algo - necesita aclaración) */
 	percent_spells = adj_mag_study[average_spell_stat(p, &p->state)];
 
-	/* Extract total allowed spells (rounded up) */
+	/* Extraer total de hechizos permitidos (redondeado hacia arriba) */
 	num_allowed = (((percent_spells * levels) + 50) / 100);
 
-	/* Assume none known */
+	/* Asumir ninguno conocido */
 	num_known = 0;
 
-	/* Count the number of spells we know */
+	/* Contar el número de hechizos que conocemos */
 	for (j = 0; j < num_total; j++)
 		if (p->spell_flags[j] & PY_SPELL_LEARNED)
 			num_known++;
 
-	/* See how many spells we must forget or may learn */
+	/* Ver cuántos hechizos debemos olvidar o podemos aprender */
 	p->upkeep->new_spells = num_allowed - num_known;
 
-	/* Forget spells which are too hard */
+	/* Olvidar hechizos que son demasiado difíciles */
 	for (i = num_total - 1; i >= 0; i--) {
-		/* Get the spell */
+		/* Obtener el hechizo */
 		j = p->spell_order[i];
 
-		/* Skip non-spells */
+		/* Saltar no-hechizos */
 		if (j >= 99) continue;
 
-		/* Get the spell */
+		/* Obtener el hechizo */
 		spell = spell_by_index(p, j);
 
-		/* Skip spells we are allowed to know */
+		/* Saltar hechizos que tenemos permitido conocer */
 		if (spell->slevel <= p->lev) continue;
 
-		/* Is it known? */
+		/* ¿Es conocido? */
 		if (p->spell_flags[j] & PY_SPELL_LEARNED) {
-			/* Mark as forgotten */
+			/* Marcar como olvidado */
 			p->spell_flags[j] |= PY_SPELL_FORGOTTEN;
 
-			/* No longer known */
+			/* Ya no es conocido */
 			p->spell_flags[j] &= ~PY_SPELL_LEARNED;
 
-			/* Message */
-			msg("You have forgotten the %s of %s.", spell->realm->spell_noun,
+			/* Mensaje */
+			msg("Has olvidado %s de %s.", spell->realm->spell_noun,
 				spell->name);
 
-			/* One more can be learned */
+			/* Uno más puede ser aprendido */
 			p->upkeep->new_spells++;
 		}
 	}
 
-	/* Forget spells if we know too many spells */
+	/* Olvidar hechizos si sabemos demasiados */
 	for (i = num_total - 1; i >= 0; i--) {
-		/* Stop when possible */
+		/* Parar cuando sea posible */
 		if (p->upkeep->new_spells >= 0) break;
 
-		/* Get the (i+1)th spell learned */
+		/* Obtener el (i+1)º hechizo aprendido */
 		j = p->spell_order[i];
 
-		/* Skip unknown spells */
+		/* Saltar hechizos desconocidos */
 		if (j >= 99) continue;
 
-		/* Get the spell */
+		/* Obtener el hechizo */
 		spell = spell_by_index(p, j);
 
-		/* Forget it (if learned) */
+		/* Olvidarlo (si fue aprendido) */
 		if (p->spell_flags[j] & PY_SPELL_LEARNED) {
-			/* Mark as forgotten */
+			/* Marcar como olvidado */
 			p->spell_flags[j] |= PY_SPELL_FORGOTTEN;
 
-			/* No longer known */
+			/* Ya no es conocido */
 			p->spell_flags[j] &= ~PY_SPELL_LEARNED;
 
-			/* Message */
-			msg("You have forgotten the %s of %s.", spell->realm->spell_noun,
+			/* Mensaje */
+			msg("Has olvidado %s de %s.", spell->realm->spell_noun,
 				spell->name);
 
-			/* One more can be learned */
+			/* Uno más puede ser aprendido */
 			p->upkeep->new_spells++;
 		}
 	}
 
-	/* Check for spells to remember */
+	/* Comprobar hechizos para recordar */
 	for (i = 0; i < num_total; i++) {
-		/* None left to remember */
+		/* Ninguno más que recordar */
 		if (p->upkeep->new_spells <= 0) break;
 
-		/* Get the next spell we learned */
+		/* Obtener el siguiente hechizo que aprendimos */
 		j = p->spell_order[i];
 
-		/* Skip unknown spells */
+		/* Saltar hechizos desconocidos */
 		if (j >= 99) break;
 
-		/* Get the spell */
+		/* Obtener el hechizo */
 		spell = spell_by_index(p, j);
 
-		/* Skip spells we cannot remember */
+		/* Saltar hechizos que no podemos recordar */
 		if (spell->slevel > p->lev) continue;
 
-		/* First set of spells */
+		/* Primer conjunto de hechizos */
 		if (p->spell_flags[j] & PY_SPELL_FORGOTTEN) {
-			/* No longer forgotten */
+			/* Ya no está olvidado */
 			p->spell_flags[j] &= ~PY_SPELL_FORGOTTEN;
 
-			/* Known once more */
+			/* Conocido de nuevo */
 			p->spell_flags[j] |= PY_SPELL_LEARNED;
 
-			/* Message */
-			msg("You have remembered the %s of %s.", spell->realm->spell_noun,
+			/* Mensaje */
+			msg("Has recordado %s de %s.", spell->realm->spell_noun,
 				spell->name);
 
-			/* One less can be learned */
+			/* Uno menos puede ser aprendido */
 			p->upkeep->new_spells--;
 		}
 	}
 
-	/* Assume no spells available */
+	/* Asumir que no hay hechizos disponibles */
 	k = 0;
 
-	/* Count spells that can be learned */
+	/* Contar hechizos que pueden ser aprendidos */
 	for (j = 0; j < num_total; j++) {
-		/* Get the spell */
+		/* Obtener el hechizo */
 		spell = spell_by_index(p, j);
 
-		/* Skip spells we cannot remember or don't exist */
+		/* Saltar hechizos que no podemos recordar o que no existen */
 		if (!spell) continue;
 		if (spell->slevel > p->lev || spell->slevel == 0) continue;
 
-		/* Skip spells we already know */
+		/* Saltar hechizos que ya conocemos */
 		if (p->spell_flags[j] & PY_SPELL_LEARNED)
 			continue;
 
-		/* Count it */
+		/* Contarlo */
 		k++;
 	}
 
-	/* Cannot learn more spells than exist */
+	/* No se pueden aprender más hechizos de los que existen */
 	if (p->upkeep->new_spells > k) p->upkeep->new_spells = k;
 
-	/* Spell count changed */
+	/* El contador de hechizos cambió */
 	if (old_spells != p->upkeep->new_spells) {
-		/* Message if needed */
+		/* Mensaje si es necesario */
 		if (p->upkeep->new_spells) {
 			int count;
 			struct magic_realm *r = class_magic_realms(p->class, &count), *r1;
@@ -1450,7 +1450,7 @@ static void calc_spells(struct player *p)
 					if (count) {
 						my_strcat(buf, ", ", sizeof(buf));
 					} else {
-						my_strcat(buf, " or ", sizeof(buf));
+						my_strcat(buf, " o ", sizeof(buf));
 					}
 					my_strcat(buf, r->spell_noun, sizeof(buf));
 					if (p->upkeep->new_spells > 1) {
@@ -1461,27 +1461,27 @@ static void calc_spells(struct player *p)
 					r = r1;
 				}
 			}
-			/* Message */
-			msg("You can learn %d more %s.", p->upkeep->new_spells, buf);
+			/* Mensaje */
+			msg("Puedes aprender %d %s más.", p->upkeep->new_spells, buf);
 		}
 
-		/* Redraw Study Status */
+		/* Redibujar Estado de Estudio */
 		p->upkeep->redraw |= (PR_STUDY | PR_OBJECT);
 	}
 }
 
 
 /**
- * Calculate maximum mana.  You do not need to know any spells.
- * Note that mana is lowered by heavy (or inappropriate) armor.
+ * Calcular el maná máximo. No necesitas conocer ningún hechizo.
+ * Nótese que el maná se reduce por armadura pesada (o inapropiada).
  *
- * This function induces status messages.
+ * Esta función induce mensajes de estado.
  */
 static void calc_mana(struct player *p, struct player_state *state, bool update)
 {
 	int i, msp, levels, cur_wgt, max_wgt; 
 
-	/* Must be literate */
+	/* Debe ser alfabetizado */
 	if (!p->class->magic.total_spells) {
 		p->msp = 0;
 		p->csp = 0;
@@ -1489,7 +1489,7 @@ static void calc_mana(struct player *p, struct player_state *state, bool update)
 		return;
 	}
 
-	/* Extract "effective" player level */
+	/* Extraer nivel "efectivo" del jugador */
 	levels = (p->lev - p->class->magic.spell_first) + 1;
 	if (levels > 0) {
 		msp = 1;
@@ -1499,128 +1499,128 @@ static void calc_mana(struct player *p, struct player_state *state, bool update)
 		msp = 0;
 	}
 
-	/* Assume player not encumbered by armor */
+	/* Asumir que el jugador no está agobiado por la armadura */
 	state->cumber_armor = false;
 
-	/* Weigh the armor */
+	/* Pesar la armadura */
 	cur_wgt = 0;
 	for (i = 0; i < p->body.count; i++) {
 		struct object *obj_local = slot_object(p, i);
 
-		/* Ignore non-armor */
+		/* Ignorar no-armadura */
 		if (slot_type_is(p, i, EQUIP_WEAPON)) continue;
 		if (slot_type_is(p, i, EQUIP_BOW)) continue;
 		if (slot_type_is(p, i, EQUIP_RING)) continue;
 		if (slot_type_is(p, i, EQUIP_AMULET)) continue;
 		if (slot_type_is(p, i, EQUIP_LIGHT)) continue;
 
-		/* Add weight */
+		/* Añadir peso */
 		if (obj_local)
 			cur_wgt += object_weight_one(obj_local);
 	}
 
-	/* Determine the weight allowance */
+	/* Determinar la tolerancia de peso */
 	max_wgt = p->class->magic.spell_weight;
 
-	/* Heavy armor penalizes mana */
+	/* La armadura pesada penaliza el maná */
 	if (((cur_wgt - max_wgt) / 10) > 0) {
-		/* Encumbered */
+		/* Agobiado */
 		state->cumber_armor = true;
 
-		/* Reduce mana */
+		/* Reducir maná */
 		msp -= ((cur_wgt - max_wgt) / 10);
 	}
 
-	/* Mana can never be negative */
+	/* El maná nunca puede ser negativo */
 	if (msp < 0) msp = 0;
 
-	/* Return if no updates */
+	/* Regresar si no hay actualizaciones */
 	if (!update) return;
 
-	/* Maximum mana has changed */
+	/* El maná máximo ha cambiado */
 	if (p->msp != msp) {
-		/* Save new limit */
+		/* Guardar nuevo límite */
 		p->msp = msp;
 
-		/* Enforce new limit */
+		/* Aplicar nuevo límite */
 		if (p->csp >= msp) {
 			p->csp = msp;
 			p->csp_frac = 0;
 		}
 
-		/* Display mana later */
+		/* Mostrar maná después */
 		p->upkeep->redraw |= (PR_MANA);
 	}
 }
 
 
 /**
- * Calculate the players (maximal) hit points
+ * Calcular los puntos de golpe (máximos) del jugador
  *
- * Adjust current hitpoints if necessary
+ * Ajustar los puntos de golpe actuales si es necesario
  */
 static void calc_hitpoints(struct player *p)
 {
 	long bonus;
 	int mhp;
 
-	/* Get "1/100th hitpoint bonus per level" value */
+	/* Obtener el valor de "bonificación de 1/100 de punto de golpe por nivel" */
 	bonus = adj_con_mhp[p->state.stat_ind[STAT_CON]];
 
-	/* Calculate hitpoints */
+	/* Calcular puntos de golpe */
 	mhp = p->player_hp[p->lev-1] + (bonus * p->lev / 100);
 
-	/* Always have at least one hitpoint per level */
+	/* Siempre tener al menos un punto de golpe por nivel */
 	if (mhp < p->lev + 1) mhp = p->lev + 1;
 
-	/* New maximum hitpoints */
+	/* Nuevos puntos de golpe máximos */
 	if (p->mhp != mhp) {
-		/* Save new limit */
+		/* Guardar nuevo límite */
 		p->mhp = mhp;
 
-		/* Enforce new limit */
+		/* Aplicar nuevo límite */
 		if (p->chp >= mhp) {
 			p->chp = mhp;
 			p->chp_frac = 0;
 		}
 
-		/* Display hitpoints (later) */
+		/* Mostrar puntos de golpe (después) */
 		p->upkeep->redraw |= (PR_HP);
 	}
 }
 
 
 /**
- * Calculate and set the current light radius.
+ * Calcular y establecer el radio de luz actual.
  *
- * The light radius will be the total of all lights carried.
+ * El radio de luz será el total de todas las luces llevadas.
  */
 static void calc_light(struct player *p, struct player_state *state,
 					   bool update)
 {
 	int i;
 
-	/* Assume no light */
+	/* Asumir sin luz */
 	state->cur_light = 0;
 
-	/* Ascertain lightness if in the town */
+	/* Determinar luminosidad si en la ciudad */
 	if (!p->depth && is_daytime() && update) {
-		/* Update the visuals if necessary*/
+		/* Actualizar los visuales si es necesario */
 		if (p->state.cur_light != state->cur_light)
 			p->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 
 		return;
 	}
 
-	/* Examine all wielded objects, use the brightest */
+	/* Examinar todos los objetos usados, usar el más brillante */
 	for (i = 0; i < p->body.count; i++) {
 		int amt = 0;
 		struct object *obj = slot_object(p, i);
 
-		/* Skip empty slots */
+		/* Saltar ranuras vacías */
 		if (!obj) continue;
 
-		/* Light radius - innate plus modifier */
+		/* Radio de luz - innato más modificador */
 		if (of_has(obj->flags, OF_LIGHT_2)) {
 			amt = 2;
 		} else if (of_has(obj->flags, OF_LIGHT_3)) {
@@ -1628,25 +1628,25 @@ static void calc_light(struct player *p, struct player_state *state,
 		}
 		amt += obj->modifiers[OBJ_MOD_LIGHT];
 
-		/* Adjustment to allow UNLIGHT players to use +1 LIGHT gear */
+		/* Ajuste para permitir que los jugadores SINLUZ usen equipo +1 LUZ */
 		if ((obj->modifiers[OBJ_MOD_LIGHT] > 0) && pf_has(state->pflags, PF_UNLIGHT)) {
 			amt--;
 		}
 
-		/* Examine actual lights */
+		/* Examinar luces reales */
 		if (tval_is_light(obj) && !of_has(obj->flags, OF_NO_FUEL) &&
 				obj->timeout == 0)
-			/* Lights without fuel provide no light */
+			/* Las luces sin combustible no proporcionan luz */
 			amt = 0;
 
-		/* Alter p->state.cur_light if reasonable */
+		/* Alterar p->state.cur_light si es razonable */
 	    state->cur_light += amt;
 	}
 }
 
 /**
- * Populates `chances` with the player's chance of digging through
- * the diggable terrain types in one turn out of 1600.
+ * Llena `chances` con la probabilidad del jugador de excavar a través de
+ * los tipos de terreno excavable en un turno de 1600.
  */
 void calc_digging_chances(struct player_state *state, int chances[DIGGING_MAX])
 {
@@ -1656,22 +1656,22 @@ void calc_digging_chances(struct player_state *state, int chances[DIGGING_MAX])
 	chances[DIGGING_MAGMA] = (state->skills[SKILL_DIGGING] - 10) * 4;
 	chances[DIGGING_QUARTZ] = (state->skills[SKILL_DIGGING] - 20) * 2;
 	chances[DIGGING_GRANITE] = (state->skills[SKILL_DIGGING] - 40) * 1;
-	/* Approximate a 1/1200 chance per skill point over 30 */
+	/* Aproximadamente una probabilidad de 1/1200 por punto de habilidad sobre 30 */
 	chances[DIGGING_DOORS] = (state->skills[SKILL_DIGGING] * 4 - 119) / 3;
 
-	/* Don't let any negative chances through */
+	/* No permitir que ninguna probabilidad negativa pase */
 	for (i = 0; i < DIGGING_MAX; i++)
 		chances[i] = MAX(0, chances[i]);
 }
 
 /*
- * Return the chance, out of 100, for unlocking a locked door with the given
- * lock power.
+ * Devolver la probabilidad, de 100, de abrir una puerta cerrada con la
+ * potencia de cerradura dada.
  *
- * \param p is the player trying to unlock the door.
- * \param lock_power is the power of the lock.
- * \param lock_unseen, if true, assumes the player does not have sufficient
- * light to work with the lock.
+ * \param p es el jugador que intenta abrir la puerta.
+ * \param lock_power es la potencia de la cerradura.
+ * \param lock_unseen, si es true, asume que el jugador no tiene suficiente
+ * luz para trabajar con la cerradura.
  */
 int calc_unlocking_chance(const struct player *p, int lock_power,
 		bool lock_unseen)
@@ -1685,20 +1685,20 @@ int calc_unlocking_chance(const struct player *p, int lock_power,
 		skill /= 10;
 	}
 
-	/* Always allow some chance of unlocking. */
+	/* Siempre permitir alguna probabilidad de abrir. */
 	return MAX(2, skill - 4 * lock_power);
 }
 
 /**
- * Calculate the blows a player would get.
+ * Calcular los golpes que obtendría un jugador.
  *
- * \param p is the player of interest
- * \param obj is the object for which we are calculating blows
- * \param state is the player state for which we are calculating blows
- * \param extra_blows is the number of +blows available from this object and
- * this state
+ * \param p es el jugador de interés
+ * \param obj es el objeto para el cual estamos calculando los golpes
+ * \param state es el estado del jugador para el cual estamos calculando los golpes
+ * \param extra_blows es el número de +golpes disponibles de este objeto y
+ * este estado
  *
- * N.B. state->num_blows is now 100x the number of blows.
+ * N.B. state->num_blows ahora es 100x el número de golpes.
  */
 int calc_blows(struct player *p, const struct object *obj,
 			   struct player_state *state, int extra_blows)
@@ -1711,72 +1711,72 @@ int calc_blows(struct player *p, const struct object *obj,
 	int weight = (obj == NULL) ? 0 : object_weight_one(obj);
 	int min_weight = p->class->min_weight;
 
-	/* Enforce a minimum "weight" (tenth pounds) */
+	/* Aplicar un "peso" mínimo (décimas de libra) */
 	div = (weight < min_weight) ? min_weight : weight;
 
-	/* Get the strength vs weight */
+	/* Obtener la fuerza contra el peso */
 	str_index = adj_str_blow[state->stat_ind[STAT_STR]] *
 			p->class->att_multiply / div;
 
-	/* Maximal value */
+	/* Valor máximo */
 	if (str_index > 11) str_index = 11;
 
-	/* Index by dexterity */
+	/* Índice por destreza */
 	dex_index = MIN(adj_dex_blow[state->stat_ind[STAT_DEX]], 11);
 
-	/* Use the blows table to get energy per blow */
+	/* Usar la tabla de golpes para obtener energía por golpe */
 	blow_energy = blows_table[str_index][dex_index];
 
 	blows = MIN((10000 / blow_energy), (100 * p->class->max_attacks));
 
-	/* Require at least one blow, two for O-combat */
+	/* Requerir al menos un golpe, dos para combate O */
 	return MAX(blows + (100 * extra_blows),
 			   OPT(p, birth_percent_damage) ? 200 : 100);
 }
 
 
 /**
- * Computes current weight limit.
+ * Calcula el límite de peso actual.
  */
 static int weight_limit(struct player_state *state)
 {
 	int i;
 
-	/* Weight limit based only on strength */
+	/* Límite de peso basado solo en la fuerza */
 	i = adj_str_wgt[state->stat_ind[STAT_STR]] * 100;
 
-	/* Return the result */
+	/* Devolver el resultado */
 	return (i);
 }
 
 
 /**
- * Computes weight remaining before burdened.
+ * Calcula el peso restante antes de estar agobiado.
  */
 int weight_remaining(struct player *p)
 {
 	int i;
 
-	/* Weight limit based only on strength */
+	/* Límite de peso basado solo en la fuerza */
 	i = 60 * adj_str_wgt[p->state.stat_ind[STAT_STR]]
 		- p->upkeep->total_weight - 1;
 
-	/* Return the result */
+	/* Devolver el resultado */
 	return (i);
 }
 
 
 /**
- * Adjust a value by a relative factor of the absolute value.  Mimics the
- * inline calculations of value = (value * (den + num)) / num when value is
- * positive.
- * \param v Is a pointer to the value to adjust.
- * \param num Is the numerator of the relative factor.  Use a negative value
- * for a decrease in the value, and a positive value for an increase.
- * \param den Is the denominator for the relative factor.  Must be positive.
- * \param minv Is the minimum absolute value of v to use when computing the
- * adjustment; use zero for this to get a pure relative adjustment.  Must be
- * be non-negative.
+ * Ajustar un valor por un factor relativo del valor absoluto. Imita los
+ * cálculos en línea de valor = (valor * (den + num)) / den cuando el valor es
+ * positivo.
+ * \param v Es un puntero al valor a ajustar.
+ * \param num Es el numerador del factor relativo. Usar un valor negativo
+ * para una disminución en el valor, y un valor positivo para un aumento.
+ * \param den Es el denominador del factor relativo. Debe ser positivo.
+ * \param minv Es el valor absoluto mínimo de v a usar al calcular el
+ * ajuste; usar cero para esto para obtener un ajuste puramente relativo. Debe ser
+ * no negativo.
  */
 static void adjust_skill_scale(int *v, int num, int den, int minv)
 {
@@ -1784,8 +1784,8 @@ static void adjust_skill_scale(int *v, int num, int den, int minv)
 		*v += (MAX(minv, ABS(*v)) * num) / den;
 	} else {
 		/*
-		 * To mimic what (value * (den + num)) / den would give for
-		 * positive value, need to round up the adjustment.
+		 * Para imitar lo que daría (valor * (den + num)) / den para
+		 * valor positivo, necesitamos redondear hacia arriba el ajuste.
 		 */
 		*v -= (MAX(minv, ABS(*v)) * -num + den - 1) / den;
 	}
@@ -1793,7 +1793,7 @@ static void adjust_skill_scale(int *v, int num, int den, int minv)
 
 
 /**
- * Calculate the effect of a shapechange on player state
+ * Calcular el efecto de un cambio de forma en el estado del jugador
  */
 static void calc_shapechange(struct player_state *state, bool vuln[ELEM_MAX],
 							 struct player_shape *shape,
@@ -1801,28 +1801,28 @@ static void calc_shapechange(struct player_state *state, bool vuln[ELEM_MAX],
 {
 	int i;
 
-	/* Combat stats */
+	/* Estadísticas de combate */
 	state->to_a += shape->to_a;
 	state->to_h += shape->to_h;
 	state->to_d += shape->to_d;
 
-	/* Skills */
+	/* Habilidades */
 	for (i = 0; i < SKILL_MAX; i++) {
 		state->skills[i] += shape->skills[i];
 	}
 
-	/* Object flags */
+	/* Banderas de objeto */
 	of_union(state->flags, shape->flags);
 
-	/* Player flags */
+	/* Banderas de jugador */
 	pf_union(state->pflags, shape->pflags);
 
-	/* Stats */
+	/* Estadísticas */
 	for (i = 0; i < STAT_MAX; i++) {
 		state->stat_add[i] += shape->modifiers[i];
 	}
 
-	/* Other modifiers */
+	/* Otros modificadores */
 	state->skills[SKILL_STEALTH] += shape->modifiers[OBJ_MOD_STEALTH];
 	state->skills[SKILL_SEARCH] += (shape->modifiers[OBJ_MOD_SEARCH] * 5);
 	state->see_infra += shape->modifiers[OBJ_MOD_INFRA];
@@ -1834,17 +1834,17 @@ static void calc_shapechange(struct player_state *state, bool vuln[ELEM_MAX],
 	*might += shape->modifiers[OBJ_MOD_MIGHT];
 	*moves += shape->modifiers[OBJ_MOD_MOVES];
 
-	/* Resists and vulnerabilities */
+	/* Resistencias y vulnerabilidades */
 	for (i = 0; i < ELEM_MAX; i++) {
 		if (shape->el_info[i].res_level == -1) {
-			/* Remember vulnerabilities for application later. */
+			/* Recordar vulnerabilidades para aplicación posterior. */
 			vuln[i] = true;
 		} else if (shape->el_info[i].res_level
 				> state->el_info[i].res_level) {
 			/*
-			 * Otherwise apply the shape's resistance level if it
-			 * is better; this is okay because any vulnerabilities
-			 * have not been included in the state's res_level yet.
+			 * De lo contrario, aplicar el nivel de resistencia de la forma si
+			 * es mejor; esto está bien porque cualquier vulnerabilidad
+			 * no ha sido incluida aún en el nivel de resistencia del estado.
 			 */
 			state->el_info[i].res_level =
 				shape->el_info[i].res_level;
@@ -1853,26 +1853,26 @@ static void calc_shapechange(struct player_state *state, bool vuln[ELEM_MAX],
 }
 
 /**
- * Calculate the players current "state", taking into account
- * not only race/class intrinsics, but also objects being worn
- * and temporary spell effects.
+ * Calcular el "estado" actual del jugador, teniendo en cuenta
+ * no solo las características innatas de raza/clase, sino también los objetos que se llevan puestos
+ * y los efectos de hechizos temporales.
  *
- * See also calc_mana() and calc_hitpoints().
+ * Ver también calc_mana() y calc_hitpoints().
  *
- * Take note of the new "speed code", in particular, a very strong
- * player will start slowing down as soon as he reaches 150 pounds,
- * but not until he reaches 450 pounds will he be half as fast as
- * a normal kobold.  This both hurts and helps the player, hurts
- * because in the old days a player could just avoid 300 pounds,
- * and helps because now carrying 300 pounds is not very painful.
+ * Tomar nota del nuevo "código de velocidad", en particular, un jugador muy
+ * fuerte comenzará a ralentizarse tan pronto como alcance las 150 libras,
+ * pero no hasta que alcance las 450 libras será la mitad de rápido que
+ * un kobold normal. Esto perjudica y ayuda al jugador, perjudica
+ * porque en los viejos tiempos un jugador podía simplemente evitar 300 libras,
+ * y ayuda porque ahora llevar 300 libras no es muy doloroso.
  *
- * The "weapon" and "bow" do *not* add to the bonuses to hit or to
- * damage, since that would affect non-combat things.  These values
- * are actually added in later, at the appropriate place.
+ * El "arma" y el "arco" *no* añaden a las bonificaciones para golpear o para
+ * daño, ya que eso afectaría a cosas no relacionadas con el combate. Estos valores
+ * se añaden después, en el lugar apropiado.
  *
- * If known_only is true, calc_bonuses() will only use the known
- * information of objects; thus it returns what the player _knows_
- * the character state to be.
+ * Si known_only es true, calc_bonuses() solo usará la información conocida
+ * de los objetos; por lo tanto, devuelve lo que el jugador _sabe_ que es
+ * el estado del personaje.
  */
 void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 				  bool update)
@@ -1888,18 +1888,18 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 	bitflag collect_f[OF_SIZE];
 	bool vuln[ELEM_MAX];
 
-	/* Hack to allow calculating hypothetical blows for extra STR, DEX - NRM */
+	/* Truco para permitir calcular golpes hipotéticos para FUE, DES extra - NRM */
 	int str_ind = state->stat_ind[STAT_STR];
 	int dex_ind = state->stat_ind[STAT_DEX];
 
-	/* Reset */
+	/* Reiniciar */
 	memset(state, 0, sizeof *state);
 
-	/* Set various defaults */
+	/* Establecer varios valores por defecto */
 	state->speed = 110;
 	state->num_blows = 100;
 
-	/* Extract race/class info */
+	/* Extraer información de raza/clase */
 	state->see_infra = p->race->infra;
 	for (i = 0; i < SKILL_MAX; i++) {
 		state->skills[i] = p->race->r_skills[i]	+ p->class->c_skills[i];
@@ -1913,15 +1913,15 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 		}
 	}
 
-	/* Base pflags */
+	/* Pflags base */
 	pf_wipe(state->pflags);
 	pf_copy(state->pflags, p->race->pflags);
 	pf_union(state->pflags, p->class->pflags);
 
-	/* Extract the player flags */
+	/* Extraer las banderas del jugador */
 	player_flags(p, collect_f);
 
-	/* Analyze equipment */
+	/* Analizar equipo */
 	for (i = 0; i < p->body.count; i++) {
 		int index = 0;
 		struct object *obj = slot_object(p, i);
@@ -1930,7 +1930,7 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 		while (obj) {
 			int dig = 0;
 
-			/* Extract the item flags */
+			/* Extraer las banderas del objeto */
 			if (known_only) {
 				object_flags_known(obj, f);
 			} else {
@@ -1938,7 +1938,7 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 			}
 			of_union(collect_f, f);
 
-			/* Apply modifiers */
+			/* Aplicar modificadores */
 			state->stat_add[STAT_STR] += obj->modifiers[OBJ_MOD_STR]
 				* p->obj_k->modifiers[OBJ_MOD_STR];
 			state->stat_add[STAT_INT] += obj->modifiers[OBJ_MOD_INT]
@@ -1980,19 +1980,19 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 			extra_moves += obj->modifiers[OBJ_MOD_MOVES]
 				* p->obj_k->modifiers[OBJ_MOD_MOVES];
 
-			/* Apply element info, noting vulnerabilites for later processing */
+			/* Aplicar información de elemento, notando vulnerabilidades para procesamiento posterior */
 			for (j = 0; j < ELEM_MAX; j++) {
 				if (!known_only || obj->known->el_info[j].res_level) {
 					if (obj->el_info[j].res_level == -1)
 						vuln[j] = true;
 
-					/* OK because res_level hasn't included vulnerability yet */
+					/* OK porque el nivel de resistencia aún no ha incluido la vulnerabilidad */
 					if (obj->el_info[j].res_level > state->el_info[j].res_level)
 						state->el_info[j].res_level = obj->el_info[j].res_level;
 				}
 			}
 
-			/* Apply combat bonuses */
+			/* Aplicar bonificaciones de combate */
 			state->ac += obj->ac;
 			if (!known_only || obj->known->to_a)
 				state->to_a += obj->to_a;
@@ -2006,7 +2006,7 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 				}
 			}
 
-			/* Move to any unprocessed curse object */
+			/* Moverse a cualquier objeto de maldición no procesado */
 			if (curse) {
 				index++;
 				obj = NULL;
@@ -2024,34 +2024,34 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 		}
 	}
 
-	/* Apply the collected flags */
+	/* Aplicar las banderas recogidas */
 	of_union(state->flags, collect_f);
 
-	/* Add shapechange info */
+	/* Añadir información de cambio de forma */
 	calc_shapechange(state, vuln, p->shape, &extra_blows, &extra_shots,
 		&extra_might, &extra_moves);
 
-	/* Now deal with vulnerabilities */
+	/* Ahora lidiar con las vulnerabilidades */
 	for (i = 0; i < ELEM_MAX; i++) {
 		if (vuln[i] && (state->el_info[i].res_level < 3))
 			state->el_info[i].res_level--;
 	}
 
-	/* Calculate light */
+	/* Calcular luz */
 	calc_light(p, state, update);
 
-	/* Unlight - needs change if anything but resist is introduced for dark */
+	/* Sinluz - necesita cambio si se introduce algo que no sea resistencia a la oscuridad */
 	if (pf_has(state->pflags, PF_UNLIGHT) && character_dungeon) {
 		state->el_info[ELEM_DARK].res_level = 1;
 	}
 
-	/* Evil */
+	/* Malvado */
 	if (pf_has(state->pflags, PF_EVIL) && character_dungeon) {
 		state->el_info[ELEM_NETHER].res_level = 1;
 		state->el_info[ELEM_HOLY_ORB].res_level = -1;
 	}
 
-	/* Calculate the various stat values */
+	/* Calcular los diversos valores de estadísticas */
 	for (i = 0; i < STAT_MAX; i++) {
 		int add, use, ind;
 
@@ -2062,19 +2062,19 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 
 		state->stat_use[i] = use;
 
-		if (use <= 3) {/* Values: n/a */
+		if (use <= 3) {/* Valores: n/a */
 			ind = 0;
-		} else if (use <= 18) {/* Values: 3, 4, ..., 18 */
+		} else if (use <= 18) {/* Valores: 3, 4, ..., 18 */
 			ind = (use - 3);
-		} else if (use <= 18+219) {/* Ranges: 18/00-18/09, ..., 18/210-18/219 */
+		} else if (use <= 18+219) {/* Rangos: 18/00-18/09, ..., 18/210-18/219 */
 			ind = (15 + (use - 18) / 10);
-		} else {/* Range: 18/220+ */
+		} else {/* Rango: 18/220+ */
 			ind = (37);
 		}
 
 		assert((0 <= ind) && (ind < STAT_RANGE));
 
-		/* Hack for hypothetical blows - NRM */
+		/* Truco para golpes hipotéticos - NRM */
 		if (!update) {
 			if (i == STAT_STR) {
 				ind += str_ind;
@@ -2087,23 +2087,23 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 			}
 		}
 
-		/* Save the new index */
+		/* Guardar el nuevo índice */
 		state->stat_ind[i] = ind;
 	}
 
-	/* Effects of food outside the "Fed" range */
-	if (!player_timed_grade_eq(p, TMD_FOOD, "Fed")) {
+	/* Efectos de la comida fuera del rango "Alimentado" */
+	if (!player_timed_grade_eq(p, TMD_FOOD, "Alimentado")) {
 		int excess = p->timed[TMD_FOOD] - PY_FOOD_FULL;
 		int lack = PY_FOOD_HUNGRY - p->timed[TMD_FOOD];
 		if ((excess > 0) && !p->timed[TMD_ATT_VAMP]) {
-			/* Scale to units 1/10 of the range and subtract from speed */
+			/* Escalar a unidades 1/10 del rango y restar de la velocidad */
 			excess = (excess * 10) / (PY_FOOD_MAX - PY_FOOD_FULL);
 			state->speed -= excess;
 		} else if (lack > 0) {
-			/* Scale to units 1/20 of the range */
+			/* Escalar a unidades 1/20 del rango */
 			lack = (lack * 20) / PY_FOOD_HUNGRY;
 
-			/* Apply effects progressively */
+			/* Aplicar efectos progresivamente */
 			state->to_h -= lack;
 			state->to_d -= lack;
 			if ((lack > 10) && (lack <= 15)) {
@@ -2131,17 +2131,17 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 		}
 	}
 
-	/* Other timed effects */
+	/* Otros efectos temporales */
 	player_flags_timed(p, state->flags);
 
-	if (player_timed_grade_eq(p, TMD_STUN, "Heavy Stun")) {
+	if (player_timed_grade_eq(p, TMD_STUN, "Aturdimiento Fuerte")) {
 		state->to_h -= 20;
 		state->to_d -= 20;
 		adjust_skill_scale(&state->skills[SKILL_DEVICE], -1, 5, 0);
 		if (update) {
 			p->timed[TMD_FASTCAST] = 0;
 		}
-	} else if (player_timed_grade_eq(p, TMD_STUN, "Stun")) {
+	} else if (player_timed_grade_eq(p, TMD_STUN, "Aturdimiento")) {
 		state->to_h -= 5;
 		state->to_d -= 5;
 		adjust_skill_scale(&state->skills[SKILL_DEVICE], -1, 10, 0);
@@ -2212,14 +2212,14 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 		state->skills[SKILL_STEALTH] += 10;
 	}
 
-	/* Analyze flags - check for fear */
+	/* Analizar banderas - comprobar miedo */
 	if (of_has(state->flags, OF_AFRAID)) {
 		state->to_h -= 20;
 		state->to_a += 8;
 		adjust_skill_scale(&state->skills[SKILL_DEVICE], -1, 20, 0);
 	}
 
-	/* Analyze weight */
+	/* Analizar peso */
 	j = p->upkeep->total_weight;
 	i = weight_limit(state);
 	if (j > i / 2)
@@ -2229,14 +2229,14 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 	if (state->speed > 199)
 		state->speed = 199;
 
-	/* Apply modifier bonuses (Un-inflate stat bonuses) */
+	/* Aplicar bonificaciones de modificador (desinflar bonificaciones de estadísticas) */
 	state->to_a += adj_dex_ta[state->stat_ind[STAT_DEX]];
 	state->to_d += adj_str_td[state->stat_ind[STAT_STR]];
 	state->to_h += adj_dex_th[state->stat_ind[STAT_DEX]];
 	state->to_h += adj_str_th[state->stat_ind[STAT_STR]];
 
 
-	/* Modify skills */
+	/* Modificar habilidades */
 	state->skills[SKILL_DISARM_PHYS] += adj_dex_dis[state->stat_ind[STAT_DEX]];
 	state->skills[SKILL_DISARM_MAGIC] += adj_int_dis[state->stat_ind[STAT_INT]];
 	state->skills[SKILL_DEVICE] += adj_int_dev[state->stat_ind[STAT_INT]];
@@ -2251,7 +2251,7 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 	hold = adj_str_hold[state->stat_ind[STAT_STR]];
 
 
-	/* Analyze launcher */
+	/* Analizar lanzador */
 	state->heavy_shoot = false;
 	if (launcher) {
 		int16_t launcher_weight = object_weight_one(launcher);
@@ -2263,7 +2263,7 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 
 		state->num_shots = 10;
 
-		/* Type of ammo */
+		/* Tipo de munición */
 		if (kf_has(launcher->kind->kind_flags, KF_SHOOTS_SHOTS))
 			state->ammo_tval = TV_SHOT;
 		else if (kf_has(launcher->kind->kind_flags, KF_SHOOTS_ARROWS))
@@ -2271,10 +2271,10 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 		else if (kf_has(launcher->kind->kind_flags, KF_SHOOTS_BOLTS))
 			state->ammo_tval = TV_BOLT;
 
-		/* Multiplier */
+		/* Multiplicador */
 		state->ammo_mult = launcher->pval;
 
-		/* Apply special flags */
+		/* Aplicar banderas especiales */
 		if (!state->heavy_shoot) {
 			state->num_shots += extra_shots;
 			state->ammo_mult += extra_might;
@@ -2283,30 +2283,30 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 			}
 		}
 
-		/* Require at least one shot */
+		/* Requerir al menos un disparo */
 		if (state->num_shots < 10) state->num_shots = 10;
 	}
 
 
-	/* Analyze weapon */
+	/* Analizar arma */
 	state->heavy_wield = false;
 	state->bless_wield = false;
 	if (weapon) {
 		int16_t weapon_weight = object_weight_one(weapon);
 
-		/* It is hard to hold a heavy weapon */
+		/* Es difícil sostener un arma pesada */
 		if (hold < weapon_weight / 10) {
 			state->to_h += 2 * (hold - weapon_weight / 10);
 			state->heavy_wield = true;
 		}
 
-		/* Normal weapons */
+		/* Armas normales */
 		if (!state->heavy_wield) {
 			state->num_blows = calc_blows(p, weapon, state, extra_blows);
 			state->skills[SKILL_DIGGING] += weapon_weight / 10;
 		}
 
-		/* Divine weapon bonus for blessed weapons */
+		/* Bonificación de arma divina para armas benditas */
 		if (pf_has(state->pflags, PF_BLESS_WEAPON)
 				&& (weapon->tval == TV_HAFTED
 				|| of_has(state->flags, OF_BLESSED))) {
@@ -2314,24 +2314,24 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 			state->bless_wield = true;
 		}
 	} else {
-		/* Unarmed */
+		/* Sin armas */
 		state->num_blows = calc_blows(p, NULL, state, extra_blows);
 	}
 
-	/* Mana */
+	/* Maná */
 	calc_mana(p, state, update);
 	if (!p->msp) {
 		pf_on(state->pflags, PF_NO_MANA);
 	}
 
-	/* Movement speed */
+	/* Velocidad de movimiento */
 	state->num_moves = extra_moves;
 
 	return;
 }
 
 /**
- * Calculate bonuses, and print various things on changes.
+ * Calcular bonificaciones e imprimir varias cosas al cambiar.
  */
 static void update_bonuses(struct player *p)
 {
@@ -2342,7 +2342,7 @@ static void update_bonuses(struct player *p)
 
 
 	/* ------------------------------------
-	 * Calculate bonuses
+	 * Calcular bonificaciones
 	 * ------------------------------------ */
 
 	calc_bonuses(p, &state, false, true);
@@ -2350,105 +2350,105 @@ static void update_bonuses(struct player *p)
 
 
 	/* ------------------------------------
-	 * Notice changes
+	 * Notar cambios
 	 * ------------------------------------ */
 
-	/* Analyze stats */
+	/* Analizar estadísticas */
 	for (i = 0; i < STAT_MAX; i++) {
-		/* Notice changes */
+		/* Notar cambios */
 		if (state.stat_top[i] != p->state.stat_top[i])
-			/* Redisplay the stats later */
+			/* Redibujar las estadísticas después */
 			p->upkeep->redraw |= (PR_STATS);
 
-		/* Notice changes */
+		/* Notar cambios */
 		if (state.stat_use[i] != p->state.stat_use[i])
-			/* Redisplay the stats later */
+			/* Redibujar las estadísticas después */
 			p->upkeep->redraw |= (PR_STATS);
 
-		/* Notice changes */
+		/* Notar cambios */
 		if (state.stat_ind[i] != p->state.stat_ind[i]) {
-			/* Change in CON affects Hitpoints */
+			/* El cambio en CON afecta a los Puntos de Golpe */
 			if (i == STAT_CON)
 				p->upkeep->update |= (PU_HP);
 
-			/* Change in stats may affect Mana/Spells */
+			/* El cambio en estadísticas puede afectar Maná/Hechizos */
 			p->upkeep->update |= (PU_MANA | PU_SPELLS);
 		}
 	}
 
 
-	/* Telepathy Change */
+	/* Cambio de Telepatía */
 	if (of_has(state.flags, OF_TELEPATHY) !=
 		of_has(p->state.flags, OF_TELEPATHY))
-		/* Update monster visibility */
+		/* Actualizar visibilidad de monstruos */
 		p->upkeep->update |= (PU_MONSTERS);
-	/* See Invis Change */
+	/* Cambio de Ver Invisible */
 	if (of_has(state.flags, OF_SEE_INVIS) !=
 		of_has(p->state.flags, OF_SEE_INVIS))
-		/* Update monster visibility */
+		/* Actualizar visibilidad de monstruos */
 		p->upkeep->update |= (PU_MONSTERS);
 
-	/* Redraw speed (if needed) */
+	/* Redibujar velocidad (si es necesario) */
 	if (state.speed != p->state.speed)
 		p->upkeep->redraw |= (PR_SPEED);
 
-	/* Redraw armor (if needed) */
+	/* Redibujar armadura (si es necesario) */
 	if ((known_state.ac != p->known_state.ac) || 
 		(known_state.to_a != p->known_state.to_a))
 		p->upkeep->redraw |= (PR_ARMOR);
 
-	/* Notice changes in the "light radius" */
+	/* Notar cambios en el "radio de luz" */
 	if (p->state.cur_light != state.cur_light) {
-		/* Update the visuals */
+		/* Actualizar los visuales */
 		p->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 	}
 
-	/* Notice changes to the weight limit. */
+	/* Notar cambios en el límite de peso. */
 	if (weight_limit(&p->state) != weight_limit(&state)) {
 		p->upkeep->redraw |= (PR_INVEN);
 	}
 
-	/* Handle partial mode */
+	/* Manejar modo parcial */
 	if (!p->upkeep->only_partial) {
-		/* Take note when "heavy bow" changes */
+		/* Tomar nota cuando cambia "arco pesado" */
 		if (p->state.heavy_shoot != state.heavy_shoot) {
-			/* Message */
+			/* Mensaje */
 			if (state.heavy_shoot)
-				msg("You have trouble wielding such a heavy bow.");
+				msg("Tienes problemas para usar un arco tan pesado.");
 			else if (equipped_item_by_slot_name(p, "shooting"))
-				msg("You have no trouble wielding your bow.");
+				msg("No tienes problemas para usar tu arco.");
 			else
-				msg("You feel relieved to put down your heavy bow.");
+				msg("Te sientes aliviado al dejar tu arco pesado.");
 		}
 
-		/* Take note when "heavy weapon" changes */
+		/* Tomar nota cuando cambia "arma pesada" */
 		if (p->state.heavy_wield != state.heavy_wield) {
-			/* Message */
+			/* Mensaje */
 			if (state.heavy_wield)
-				msg("You have trouble wielding such a heavy weapon.");
+				msg("Tienes problemas para empuñar un arma tan pesada.");
 			else if (equipped_item_by_slot_name(p, "weapon"))
-				msg("You have no trouble wielding your weapon.");
+				msg("No tienes problemas para empuñar tu arma.");
 			else
-				msg("You feel relieved to put down your heavy weapon.");	
+				msg("Te sientes aliviado al dejar tu arma pesada.");	
 		}
 
-		/* Take note when "illegal weapon" changes */
+		/* Tomar nota cuando cambia "arma bendita" */
 		if (p->state.bless_wield != state.bless_wield) {
-			/* Message */
+			/* Mensaje */
 			if (state.bless_wield) {
-				msg("You feel attuned to your weapon.");
+				msg("Te sientes en sintonía con tu arma.");
 			} else if (equipped_item_by_slot_name(p, "weapon")) {
-				msg("You feel less attuned to your weapon.");
+				msg("Te sientes menos en sintonía con tu arma.");
 			}
 		}
 
-		/* Take note when "armor state" changes */
+		/* Tomar nota cuando cambia "estado de armadura" */
 		if (p->state.cumber_armor != state.cumber_armor) {
-			/* Message */
+			/* Mensaje */
 			if (state.cumber_armor)
-				msg("The weight of your armor reduces your maximum SP.");
+				msg("El peso de tu armadura reduce tus PM máximos.");
 			else
-				msg("Your maximum SP is no longer reduced by armor weight.");
+				msg("Tus PM máximos ya no se ven reducidos por el peso de la armadura.");
 		}
 	}
 
@@ -2461,11 +2461,11 @@ static void update_bonuses(struct player *p)
 
 /**
  * ------------------------------------------------------------------------
- * Monster and object tracking functions
+ * Funciones de rastreo de monstruos y objetos
  * ------------------------------------------------------------------------ */
 
 /**
- * Track the given monster
+ * Rastrear el monstruo dado
  */
 void health_track(struct player_upkeep *upkeep, struct monster *mon)
 {
@@ -2474,19 +2474,19 @@ void health_track(struct player_upkeep *upkeep, struct monster *mon)
 }
 
 /**
- * Track the given monster race
+ * Rastrear la raza de monstruo dada
  */
 void monster_race_track(struct player_upkeep *upkeep, struct monster_race *race)
 {
-	/* Save this monster ID */
+	/* Guardar este ID de monstruo */
 	upkeep->monster_race = race;
 
-	/* Window stuff */
+	/* Cosas de ventana */
 	upkeep->redraw |= (PR_MONSTER);
 }
 
 /**
- * Track the given object
+ * Rastrear el objeto dado
  */
 void track_object(struct player_upkeep *upkeep, struct object *obj)
 {
@@ -2496,7 +2496,7 @@ void track_object(struct player_upkeep *upkeep, struct object *obj)
 }
 
 /**
- * Track the given object kind
+ * Rastrear el tipo de objeto dado
  */
 void track_object_kind(struct player_upkeep *upkeep, struct object_kind *kind)
 {
@@ -2506,7 +2506,7 @@ void track_object_kind(struct player_upkeep *upkeep, struct object_kind *kind)
 }
 
 /**
- * Cancel all object tracking
+ * Cancelar todo el rastreo de objetos
  */
 void track_object_cancel(struct player_upkeep *upkeep)
 {
@@ -2516,7 +2516,7 @@ void track_object_cancel(struct player_upkeep *upkeep)
 }
 
 /**
- * Is the given item tracked?
+ * ¿Es el objeto dado el rastreado?
  */
 bool tracked_object_is(struct player_upkeep *upkeep, struct object *obj)
 {
@@ -2527,44 +2527,44 @@ bool tracked_object_is(struct player_upkeep *upkeep, struct object *obj)
 
 /**
  * ------------------------------------------------------------------------
- * Generic "deal with" functions
+ * Funciones genéricas de "lidiar con"
  * ------------------------------------------------------------------------ */
 
 /**
- * Handle "player->upkeep->notice"
+ * Manejar "player->upkeep->notice"
  */
 void notice_stuff(struct player *p)
 {
-	/* Notice stuff */
+	/* Cosas a notar */
 	if (!p->upkeep->notice) return;
 
-	/* Deal with ignore stuff */
+	/* Lidiar con cosas de ignorar */
 	if (p->upkeep->notice & PN_IGNORE) {
 		p->upkeep->notice &= ~(PN_IGNORE);
 		ignore_drop(p);
 	}
 
-	/* Combine the pack */
+	/* Combinar la mochila */
 	if (p->upkeep->notice & PN_COMBINE) {
 		p->upkeep->notice &= ~(PN_COMBINE);
 		combine_pack(p);
 	}
 
-	/* Dump the monster messages */
+	/* Volcar los mensajes de monstruos */
 	if (p->upkeep->notice & PN_MON_MESSAGE) {
 		p->upkeep->notice &= ~(PN_MON_MESSAGE);
 
-		/* Make sure this comes after all of the monster messages */
+		/* Asegurarse de que esto viene después de todos los mensajes de monstruos */
 		show_monster_messages();
 	}
 }
 
 /**
- * Handle "player->upkeep->update"
+ * Manejar "player->upkeep->update"
  */
 void update_stuff(struct player *p)
 {
-	/* Update stuff */
+	/* Cosas a actualizar */
 	if (!p->upkeep->update) return;
 
 
@@ -2600,10 +2600,10 @@ void update_stuff(struct player *p)
 		}
 	}
 
-	/* Character is not ready yet, no map updates */
+	/* El personaje aún no está listo, no hay actualizaciones de mapa */
 	if (!character_generated) return;
 
-	/* Map is not shown, no map updates */
+	/* El mapa no se muestra, no hay actualizaciones de mapa */
 	if (!map_is_visible()) return;
 
 	if (p->upkeep->update & (PU_UPDATE_VIEW)) {
@@ -2640,7 +2640,7 @@ struct flag_event_trigger
 
 
 /**
- * Events triggered by the various flags.
+ * Eventos desencadenados por las diversas banderas.
  */
 static const struct flag_event_trigger redraw_events[] =
 {
@@ -2673,29 +2673,29 @@ static const struct flag_event_trigger redraw_events[] =
 };
 
 /**
- * Handle "player->upkeep->redraw"
+ * Manejar "player->upkeep->redraw"
  */
 void redraw_stuff(struct player *p)
 {
 	size_t i;
 	uint32_t redraw = p->upkeep->redraw;
 
-	/* Redraw stuff */
+	/* Cosas a redibujar */
 	if (!redraw) return;
 
-	/* Character is not ready yet, no screen updates */
+	/* El personaje aún no está listo, no hay actualizaciones de pantalla */
 	if (!character_generated) return;
 
-	/* Map is not shown, subwindow updates only */
+	/* El mapa no se muestra, solo actualizaciones de subventanas */
 	if (!map_is_visible()) 
 		redraw &= PR_SUBWINDOW;
 
-	/* Hack - rarely update while resting or running, makes it over quicker */
+	/* Truco - raramente actualizar mientras descansas o corres, lo hace más rápido */
 	if (((player_resting_count(p) % 100) || (p->upkeep->running % 100))
 		&& !(redraw & (PR_MESSAGE | PR_MAP)))
 		return;
 
-	/* For each listed flag, send the appropriate signal to the UI */
+	/* Para cada bandera listada, enviar la señal apropiada a la UI */
 	for (i = 0; i < N_ELEMENTS(redraw_events); i++) {
 		const struct flag_event_trigger *hnd = &redraw_events[i];
 
@@ -2703,31 +2703,30 @@ void redraw_stuff(struct player *p)
 			event_signal(hnd->event);
 	}
 
-	/* Then the ones that require parameters to be supplied. */
+	/* Luego las que requieren que se proporcionen parámetros. */
 	if (redraw & PR_MAP) {
-		/* Mark the whole map to be redrawn */
+		/* Marcar todo el mapa para ser redibujado */
 		event_signal_point(EVENT_MAP, -1, -1);
 	}
 
 	p->upkeep->redraw &= ~redraw;
 
-	/* Map is not shown, subwindow updates only */
+	/* El mapa no se muestra, solo actualizaciones de subventanas */
 	if (!map_is_visible()) return;
 
 	/*
-	 * Do any plotting, etc. delayed from earlier - this set of updates
-	 * is over.
+	 * Hacer cualquier trazado, etc., retrasado de antes - este conjunto de actualizaciones
+	 * ha terminado.
 	 */
 	event_signal(EVENT_END);
 }
 
 
 /**
- * Handle "player->upkeep->update" and "player->upkeep->redraw"
+ * Manejar "player->upkeep->update" y "player->upkeep->redraw"
  */
 void handle_stuff(struct player *p)
 {
 	if (p->upkeep->update) update_stuff(p);
 	if (p->upkeep->redraw) redraw_stuff(p);
 }
-
