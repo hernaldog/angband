@@ -1,6 +1,6 @@
 /**
  * \file cave.c
- * \brief chunk allocation and utility functions
+ * \brief Asignación de fragmentos y funciones de utilidad
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
@@ -37,13 +37,13 @@ struct feature *f_info;
 struct chunk *cave = NULL;
 
 /**
- * Global array for looping through the "keypad directions".
+ * Matriz global para iterar a través de las "direcciones del teclado numérico".
  */
 const int16_t ddd[9] =
 { 2, 8, 6, 4, 3, 1, 9, 7, 5 };
 
 /**
- * Global arrays for converting "keypad direction" into "offsets".
+ * Matrices globales para convertir la "dirección del teclado numérico" en "desplazamientos".
  */
 const int16_t ddx[10] =
 { 0, -1, 0, 1, -1, 0, 1, -1, 0, 1 };
@@ -57,11 +57,11 @@ const struct loc ddgrid[10] =
   {1, -1} };
 
 /**
- * Global arrays for optimizing "ddx[ddd[i]]", "ddy[ddd[i]]" and
+ * Matrices globales para optimizar "ddx[ddd[i]]", "ddy[ddd[i]]" y
  * "loc(ddx[ddd[i]], ddy[ddd[i]])".
  *
- * This means that each entry in this array corresponds to the direction
- * with the same array index in ddd[].
+ * Esto significa que cada entrada en esta matriz corresponde a la dirección
+ * con el mismo índice de matriz en ddd[].
  */
 const int16_t ddx_ddd[9] =
 { 0, 0, 1, -1, 1, -1, 1, -1, 0 };
@@ -72,7 +72,7 @@ const int16_t ddy_ddd[9] =
 const struct loc ddgrid_ddd[9] =
 {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {-1, 1}, {1, -1}, {-1, -1}, {0, 0}};
 
-/* Can mult these by 45 deg or 1.5 o'clock e.g. [6] -> 270 deg or 9 o'clock */
+/* Se pueden multiplicar estos por 45° o 1.5 en el reloj, ej. [6] -> 270° o las 9 en punto */
 const int16_t clockwise_ddd[9] =
 { 8, 9, 6, 3, 2, 1, 4, 7, 5 };
 
@@ -80,19 +80,19 @@ const struct loc clockwise_grid[9] =
 {{0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}, {0, 0}};
 
 /**
- * Precompute a bunch of calls to distance().
+ * Precalcular un montón de llamadas a distance().
  *
- * The pair of arrays dist_offsets_y[n] and dist_offsets_x[n] contain the
- * offsets of all the locations with a distance of n from a central point,
- * with an offset of (0,0) indicating no more offsets at this distance.
+ * El par de matrices dist_offsets_y[n] y dist_offsets_x[n] contienen los
+ * desplazamientos de todas las ubicaciones con una distancia de n desde un punto central,
+ * con un desplazamiento de (0,0) indicando que no hay más desplazamientos a esta distancia.
  *
- * This is, of course, fairly unreadable, but it eliminates multiple loops
- * from the previous version.
+ * Esto es, por supuesto, bastante ilegible, pero elimina múltiples bucles
+ * de la versión anterior.
  *
- * It is probably better to replace these arrays with code to compute
- * the relevant arrays, even if the storage is pre-allocated in hard
- * coded sizes.  At the very least, code should be included which is
- * able to generate and dump these arrays (ala "los()").  XXX XXX XXX
+ * Probablemente sea mejor reemplazar estas matrices con código para calcular
+ * las matrices relevantes, incluso si el almacenamiento está preasignado en tamaños
+ * fijos. Como mínimo, se debería incluir código que sea
+ * capaz de generar y volcar estas matrices (ala "los()").  XXX XXX XXX
  */
 
 
@@ -209,17 +209,17 @@ const int *dist_offsets_x[10] =
 
 
 /**
- * Given a central direction at position [dir #][0], return a series
- * of directions radiating out on both sides from the central direction
- * all the way back to its rear.
+ * Dada una dirección central en la posición [nº de dir][0], devuelve una serie
+ * de direcciones que irradian a ambos lados desde la dirección central
+ * todo el camino de vuelta a su parte trasera.
  *
- * Side directions come in pairs; for example, directions '1' and '3'
- * flank direction '2'.  The code should know which side to consider
- * first.  If the left, it must add 10 to the central direction to
- * access the second part of the table.
+ * Las direcciones laterales vienen en pares; por ejemplo, las direcciones '1' y '3'
+ * flanquean la dirección '2'. El código debería saber qué lado considerar
+ * primero. Si es el izquierdo, debe sumar 10 a la dirección central para
+ * acceder a la segunda parte de la tabla.
  */
 const uint8_t side_dirs[20][8] = {
-	{0, 0, 0, 0, 0, 0, 0, 0},	/* bias right */
+	{0, 0, 0, 0, 0, 0, 0, 0},	/* sesgo derecho */
 	{1, 4, 2, 7, 3, 8, 6, 9},
 	{2, 1, 3, 4, 6, 7, 9, 8},
 	{3, 2, 6, 1, 9, 4, 8, 7},
@@ -230,7 +230,7 @@ const uint8_t side_dirs[20][8] = {
 	{8, 9, 7, 6, 4, 3, 1, 2},
 	{9, 6, 8, 3, 7, 2, 4, 1},
 
-	{0, 0, 0, 0, 0, 0, 0, 0},	/* bias left */
+	{0, 0, 0, 0, 0, 0, 0, 0},	/* sesgo izquierdo */
 	{1, 2, 4, 3, 7, 6, 8, 9},
 	{2, 3, 1, 6, 4, 9, 7, 8},
 	{3, 6, 2, 9, 1, 8, 4, 7},
@@ -243,28 +243,28 @@ const uint8_t side_dirs[20][8] = {
 };
 
 /**
- * Given a "start" and "finish" location, extract a "direction",
- * which will move one step from the "start" towards the "finish".
+ * Dadas una ubicación de "inicio" y "final", extraer una "dirección",
+ * que moverá un paso desde el "inicio" hacia el "final".
  *
- * Note that we use "diagonal" motion whenever possible.
+ * Nótese que usamos movimiento "diagonal" siempre que sea posible.
  *
- * We return DIR_NONE if no motion is needed.
+ * Devolvemos DIR_NONE si no se necesita movimiento.
  */
 int motion_dir(struct loc start, struct loc finish)
 {
-	/* No movement required */
+	/* No se requiere movimiento */
 	if (loc_eq(start, finish)) return (DIR_NONE);
 
-	/* South or North */
+	/* Sur o Norte */
 	if (start.x == finish.x) return ((start.y < finish.y) ? DIR_S : DIR_N);
 
-	/* East or West */
+	/* Este u Oeste */
 	if (start.y == finish.y) return ((start.x < finish.x) ? DIR_E : DIR_W);
 
-	/* South-east or South-west */
+	/* Sureste o Suroeste */
 	if (start.y < finish.y) return ((start.x < finish.x) ? DIR_SE : DIR_SW);
 
-	/* North-east or North-west */
+	/* Noreste o Noroeste */
 	if (start.y > finish.y) return ((start.x < finish.x) ? DIR_NE : DIR_NW);
 
 	/* Paranoia */
@@ -272,7 +272,7 @@ int motion_dir(struct loc start, struct loc finish)
 }
 
 /**
- * Given a grid and a direction, extract the adjacent grid in that direction
+ * Dada una casilla y una dirección, extraer la casilla adyacente en esa dirección
  */
 struct loc next_grid(struct loc grid, int dir)
 {
@@ -280,25 +280,25 @@ struct loc next_grid(struct loc grid, int dir)
 }
 
 /**
- * Find a terrain feature index by its printable name.
+ * Encontrar un índice de característica del terreno por su nombre imprimible.
  */
 int lookup_feat(const char *name)
 {
 	int i;
 
-	/* Look for it */
+	/* Buscarlo */
 	for (i = 0; i < FEAT_MAX; i++) {
 		struct feature *feat = &f_info[i];
 		if (!feat->name)
 			continue;
 
-		/* Test for equality */
+		/* Probar igualdad */
 		if (streq(name, feat->name))
 			return i;
 	}
 
-	/* Fail horribly */
-	quit_fmt("Failed to find terrain feature %s", name);
+	/* Fallar horriblemente */
+	quit_fmt("Fallo al encontrar la caracteristica de terreno %s", name);
 	return -1;
 }
 
@@ -310,7 +310,7 @@ static const char *feat_code_list[] = {
 };
 
 /**
- * Find a terrain feature by its code name.
+ * Encontrar una característica del terreno por su nombre de código.
  */
 int lookup_feat_code(const char *code)
 {
@@ -330,8 +330,8 @@ int lookup_feat_code(const char *code)
 }
 
 /**
- * Return the code name of feature, specified as an index.  Will return NULL
- * if the index is invalid.
+ * Devolver el nombre de código de la característica, especificado como un índice.
+ * Devolverá NULL si el índice es inválido.
  */
 const char *get_feat_code_name(int idx)
 {
@@ -339,7 +339,7 @@ const char *get_feat_code_name(int idx)
 }
 
 /**
- * Allocate a new chunk of the world
+ * Asignar un nuevo fragmento del mundo
  */
 struct chunk *cave_new(int height, int width) {
 	int y, x;
@@ -376,7 +376,7 @@ struct chunk *cave_new(int height, int width) {
 }
 
 /**
- * Free a linked list of cave connections.
+ * Liberar una lista enlazada de conexiones de cueva.
  */
 void cave_connectors_free(struct connector *join)
 {
@@ -390,7 +390,7 @@ void cave_connectors_free(struct connector *join)
 }
 
 /**
- * Free a chunk
+ * Liberar un fragmento
  */
 void cave_free(struct chunk *c) {
 	struct chunk *p_c = (c == cave && player) ? player->cave : NULL;
@@ -398,7 +398,7 @@ void cave_free(struct chunk *c) {
 
 	cave_connectors_free(c->join);
 
-	/* Look for orphaned objects and delete them. */
+	/* Buscar objetos huérfanos y eliminarlos. */
 	for (i = 1; i < c->obj_max; i++) {
 		if (c->objects[i] && loc_is_zero(c->objects[i]->grid)) {
 			object_delete(c, p_c, &c->objects[i]);
@@ -432,27 +432,27 @@ void cave_free(struct chunk *c) {
 
 
 /**
- * Enter an object in the list of objects for the current level/chunk.  This
- * function is robust against listing of duplicates or non-objects
+ * Introducir un objeto en la lista de objetos para el nivel/fragmento actual.
+ * Esta función es robusta contra la inclusión de duplicados o no-objetos.
  */
 void list_object(struct chunk *c, struct object *obj)
 {
 	int i, newsize;
 
-	/* Check for duplicates and objects already deleted or combined */
+	/* Verificar duplicados y objetos ya eliminados o combinados */
 	if (!obj) return;
 	for (i = 1; i < c->obj_max; i++)
 		if (c->objects[i] == obj)
 			return;
 
-	/* Put objects in holes in the object list */
+	/* Poner objetos en los huecos de la lista de objetos */
 	for (i = 1; i < c->obj_max; i++) {
-		/* If there is a known object, skip this slot */
+		/* Si hay un objeto conocido, saltar esta ranura */
 		if ((c == cave) && player->cave && player->cave->objects[i]) {
 			continue;
 		}
 
-		/* Put the object in a hole */
+		/* Poner el objeto en un hueco */
 		if (c->objects[i] == NULL) {
 			c->objects[i] = obj;
 			obj->oidx = i;
@@ -460,7 +460,7 @@ void list_object(struct chunk *c, struct object *obj)
 		}
 	}
 
-	/* Extend the list */
+	/* Extender la lista */
 	newsize = (c->obj_max + OBJECT_LIST_INCR + 1) * sizeof(struct object*);
 	c->objects = mem_realloc(c->objects, newsize);
 	c->objects[c->obj_max] = obj;
@@ -469,7 +469,7 @@ void list_object(struct chunk *c, struct object *obj)
 		c->objects[i] = NULL;
 	c->obj_max += OBJECT_LIST_INCR;
 
-	/* If we're on the current level, extend the known list */
+	/* Si estamos en el nivel actual, extender la lista conocida */
 	if ((c == cave) && player->cave) {
 		player->cave->objects = mem_realloc(player->cave->objects, newsize);
 		for (i = player->cave->obj_max; i <= c->obj_max; i++)
@@ -479,15 +479,15 @@ void list_object(struct chunk *c, struct object *obj)
 }
 
 /**
- * Remove an object from the list of objects for the current level/chunk.  This
- * function is robust against delisting of unlisted objects.
+ * Eliminar un objeto de la lista de objetos para el nivel/fragmento actual.
+ * Esta función es robusta contra la eliminación de objetos no listados.
  */
 void delist_object(struct chunk *c, struct object *obj)
 {
 	if (!obj->oidx) return;
 	assert(c->objects[obj->oidx] == obj);
 
-	/* Don't delist an actual object if it still has a listed known object */
+	/* No eliminar un objeto real si todavía tiene un objeto conocido listado */
 	if ((c == cave) && player->cave->objects[obj->oidx]) return;
 
 	c->objects[obj->oidx] = NULL;
@@ -495,10 +495,10 @@ void delist_object(struct chunk *c, struct object *obj)
 }
 
 /**
- * Check consistency of an object list or a pair of object lists
+ * Verificar la consistencia de una lista de objetos o un par de listas de objetos
  *
- * If one list, check the listed objects relate to locations of
- * objects correctly
+ * Si es una lista, verificar que los objetos listados se relacionan correctamente
+ * con las ubicaciones de los objetos.
  */
 void object_lists_check_integrity(struct chunk *c, struct chunk *c_k)
 {
@@ -537,15 +537,15 @@ void object_lists_check_integrity(struct chunk *c, struct chunk *c_k)
 }
 
 /**
- * Standard "find me a location" function, now with all legal outputs!
+ * Función estándar "encuéntrame una ubicación", ¡ahora con todas las salidas legales!
  *
- * Obtains a legal location within the given distance of the initial
- * location, and with "los()" from the source to destination location.
+ * Obtiene una ubicación legal dentro de la distancia dada de la ubicación inicial,
+ * y con "los()" desde la ubicación de origen a la ubicación de destino.
  *
- * This function is often called from inside a loop which searches for
- * locations while increasing the "d" distance.
+ * Esta función a menudo se llama desde un bucle que busca
+ * ubicaciones mientras aumenta la distancia "d".
  *
- * need_los determines whether line of sight is needed
+ * need_los determina si se necesita línea de visión
  */
 void scatter(struct chunk *c, struct loc *place, struct loc grid, int d,
 			 bool need_los)
@@ -555,36 +555,36 @@ void scatter(struct chunk *c, struct loc *place, struct loc grid, int d,
 
 
 /**
- * Try to find a given number of distinct, randomly selected, locations that
- * are within a given distance of a grid, fully in bounds, and, optionally,
- * are in the line of sight of the given grid and satisfy an additional
- * condition.
- * \param c Is the chunk to search.
- * \param places Points to the storage for the locations found.  That storage
- * must have space for at least n grids.
- * \param n Is the number of locations to find.
- * \param grid Is the location to use as the origin for the search.
- * \param d Is the maximum distance, in grids, that a location can be from
- * grid and still be accepted.
- * \param need_los If true, any locations found will also be in the line of
- * sight from grid.
- * \param pred If not NULL, evaluating that function at a found location, lct,
- * will return true, i.e. (*pred)(c, lct) will be true.
- * \return Return the number of locations found.  That number will be less
- * than or equal to n if n is not negative and will be zero if n is negative.
+ * Intentar encontrar un número dado de ubicaciones distintas, seleccionadas
+ * aleatoriamente, que estén dentro de una distancia dada de una casilla,
+ * completamente dentro de los límites y, opcionalmente, estén en la línea de
+ * visión de la casilla dada y cumplan una condición adicional.
+ * \param c Es el fragmento a buscar.
+ * \param places Apunta al almacenamiento para las ubicaciones encontradas. Ese almacenamiento
+ * debe tener espacio para al menos n casillas.
+ * \param n Es el número de ubicaciones a encontrar.
+ * \param grid Es la ubicación a usar como origen para la búsqueda.
+ * \param d Es la distancia máxima, en casillas, que una ubicación puede estar de
+ * grid y aún ser aceptada.
+ * \param need_los Si es true, cualquier ubicación encontrada también estará en la línea de
+ * visión desde grid.
+ * \param pred Si no es NULL, evaluar esa función en una ubicación encontrada, lct,
+ * devolverá true, ej. (*pred)(c, lct) será true.
+ * \return Devolver el número de ubicaciones encontradas. Ese número será menor
+ * o igual que n si n no es negativo y será cero si n es negativo.
  */
 int scatter_ext(struct chunk *c, struct loc *places, int n, struct loc grid,
 		int d, bool need_los, bool (*pred)(struct chunk *, struct loc))
 {
 	int result = 0;
-	/* Stores feasible locations. */
+	/* Almacena ubicaciones factibles. */
 	struct loc *feas = mem_alloc(MIN(c->width, (1 + 2 * MAX(0, d)))
 			* (size_t) MIN(c->height, (1 + 2 * MAX(0, d)))
 			* sizeof(*feas));
 	int nfeas = 0;
 	struct loc g;
 
-	/* Get the feasible locations. */
+	/* Obtener las ubicaciones factibles. */
 	for (g.y = grid.y - d; g.y <= grid.y + d; ++g.y) {
 		for (g.x = grid.x - d; g.x <= grid.x + d; ++g.x) {
 			if (!square_in_bounds_fully(c, g)) continue;
@@ -596,14 +596,14 @@ int scatter_ext(struct chunk *c, struct loc *places, int n, struct loc grid,
 		}
 	}
 
-	/* Assemble the result. */
+	/* Ensamblar el resultado. */
 	while (result < n && nfeas > 0) {
-		/* Choose one at random and append it to the outgoing list. */
+		/* Elegir uno al azar y añadirlo a la lista de salida. */
 		int choice = randint0(nfeas);
 
 		places[result] = feas[choice];
 		++result;
-		/* Shift the last feasible one to replace the one selected. */
+		/* Desplazar el último factible para reemplazar el seleccionado. */
 		--nfeas;
 		feas[choice] = feas[nfeas];
 	}
@@ -613,7 +613,7 @@ int scatter_ext(struct chunk *c, struct loc *places, int n, struct loc grid,
 }
 
 /**
- * Get a monster on the current level by its index.
+ * Obtener un monstruo en el nivel actual por su índice.
  */
 struct monster *cave_monster(struct chunk *c, int idx) {
 	if (idx <= 0) return NULL;
@@ -621,98 +621,98 @@ struct monster *cave_monster(struct chunk *c, int idx) {
 }
 
 /**
- * The maximum number of monsters allowed in the level.
+ * El número máximo de monstruos permitidos en el nivel.
  */
 int cave_monster_max(struct chunk *c) {
 	return c->mon_max;
 }
 
 /**
- * The current number of monsters present on the level.
+ * El número actual de monstruos presentes en el nivel.
  */
 int cave_monster_count(struct chunk *c) {
 	return c->mon_cnt;
 }
 
 /**
- * Return the number of matching grids around (or under) the character.
- * \param grid If not NULL, *grid is set to the location of the last match.
- * \param test Is the predicate to use when testing for a match.
- * \param under If true, the character's grid is tested as well.
- * Only tests grids that are known and fully in bounds.
+ * Devolver el número de casillas coincidentes alrededor (o debajo) del personaje.
+ * \param grid Si no es NULL, *grid se establece en la ubicación de la última coincidencia.
+ * \param test Es el predicado a usar al probar una coincidencia.
+ * \param under Si es true, la casilla del personaje también se prueba.
+ * Solo prueba casillas que son conocidas y están completamente dentro de los límites.
  */
 int count_feats(struct loc *grid,
 				bool (*test)(struct chunk *c, struct loc grid), bool under)
 {
 	int d;
 	struct loc grid1;
-	int count = 0; /* Count how many matches */
+	int count = 0; /* Contar cuántas coincidencias */
 
-	/* Check around (and under) the character */
+	/* Verificar alrededor (y debajo) del personaje */
 	for (d = 0; d < 9; d++) {
-		/* if not searching under player continue */
+		/* si no se busca debajo del jugador continuar */
 		if ((d == 8) && !under) continue;
 
-		/* Extract adjacent (legal) location */
+		/* Extraer ubicación (legal) adyacente */
 		grid1 = loc_sum(player->grid, ddgrid_ddd[d]);
 
 		/* Paranoia */
 		if (!square_in_bounds_fully(cave, grid1)) continue;
 
-		/* Must have knowledge */
+		/* Debe tener conocimiento */
 		if (!square_isknown(cave, grid1)) continue;
 
-		/* Not looking for this feature; test against player's memory */
+		/* No se busca esta característica; probar contra la memoria del jugador */
 		if (!((*test)(player->cave, grid1))) continue;
 
-		/* Count it */
+		/* Contarlo */
 		++count;
 
-		/* Remember the location of the last match */
+		/* Recordar la ubicación de la última coincidencia */
 		if (grid) {
 			*grid = grid1;
 		}
 	}
 
-	/* All done */
+	/* Todo hecho */
 	return count;
 }
 
 /**
- * Return the number of matching grids around a location.
- * \param match If not NULL, *match is set to the location of the last match.
- * \param c Is the chunk to use.
- * \param grid Is the location whose neighbors will be tested.
- * \param test Is the predicate to use when testing for a match.
- * \param under If true, grid is tested as well.
+ * Devolver el número de casillas coincidentes alrededor de una ubicación.
+ * \param match Si no es NULL, *match se establece en la ubicación de la última coincidencia.
+ * \param c Es el fragmento a usar.
+ * \param grid Es la ubicación cuyos vecinos serán probados.
+ * \param test Es el predicado a usar al probar una coincidencia.
+ * \param under Si es true, grid también se prueba.
  */
 int count_neighbors(struct loc *match, struct chunk *c, struct loc grid,
 	bool (*test)(struct chunk *c, struct loc grid), bool under)
 {
 	int dlim = (under) ? 9 : 8;
-	int count = 0; /* Count how many matches */
+	int count = 0; /* Contar cuántas coincidencias */
 	int d;
 	struct loc grid1;
 
-	/* Check the grid's neighbors and, if under is true, grid */
+	/* Verificar los vecinos de la casilla y, si under es true, la casilla */
 	for (d = 0; d < dlim; d++) {
-		/* Extract adjacent (legal) location */
+		/* Extraer ubicación (legal) adyacente */
 		grid1 = loc_sum(grid, ddgrid_ddd[d]);
 		if (!square_in_bounds(c, grid1)) continue;
 
-		/* Reject those that don't match */
+		/* Rechazar aquellos que no coinciden */
 		if (!((*test)(c, grid1))) continue;
 
-		/* Count it */
+		/* Contarlo */
 		++count;
 
-		/* Remember the location of the last match */
+		/* Recordar la ubicación de la última coincidencia */
 		if (match) {
 			*match = grid1;
 		}
 	}
 
-	/* All done */
+	/* Todo hecho */
 	return count;
 }
 

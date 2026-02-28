@@ -220,3 +220,4 @@ Contenido del script shell:
 | src\mon-desc.c                           | 100      |
 | src\list-mon-message.h                   | 100      |
 | src\ui-store.c                           | 100      |
+| src\cave.c                               | 100      |
