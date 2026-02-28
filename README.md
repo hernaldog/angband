@@ -207,6 +207,7 @@ Contenido del script shell:
 | src\ui-options.c                         | 100      |
 | src\ui-display.c                         | 100      |
 | src\ui-context.c                         | 100      | 
-| src\mon-lore.c                           | 100      | Corregir frases varias 
+| src\mon-lore.c                           | 100      | Corregir frases varias |
 | src\player-calcs.c                       | 100      |
 | src\player-spell.c                       | 100      |
+| src\ui-spell.c                           | 100      | Corregir "Estudiar qué libro?"|
