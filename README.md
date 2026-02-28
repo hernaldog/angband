@@ -215,3 +215,4 @@ Contenido del script shell:
 | src\ui-target.c                          | 100      |
 | src\cmd-pickup.c                         | 100      |
 | src\ui-death.c                           | 100      |
+| src\player.c                             | 100      |

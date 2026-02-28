@@ -302,7 +302,7 @@ static void prt_ac(int row, int col)
 {
 	char tmp[32];
 
-	put_str("CA Act ", row, col);
+	put_str("AC Act ", row, col);
 	strnfmt(tmp, sizeof(tmp), "%5d", 
 			player->known_state.ac + player->known_state.to_a);
 	c_put_str(COLOUR_L_GREEN, tmp, row, col + 7);
@@ -316,7 +316,7 @@ static void prt_hp(int row, int col)
 	char cur_hp[32], max_hp[32];
 	uint8_t color = player_hp_attr(player);
 
-	put_str("PG ", row, col);
+	put_str("HP ", row, col);
 
 	strnfmt(max_hp, sizeof(max_hp), "%4d", player->mhp);
 	strnfmt(cur_hp, sizeof(cur_hp), "%4d", player->chp);
