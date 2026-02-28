@@ -218,3 +218,4 @@ Contenido del script shell:
 | src\player.c                             | 100      |
 | src\mon-move.c                           | 100      |
 | src\mon-desc.c                           | 100      |
+| src\list-mon-message.h                   | 100      |
