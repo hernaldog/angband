@@ -1,39 +1,40 @@
-# File: player_property.txt
+# Archivo: player_property.txt
 
-# Used in conjunction with list-player-flags.h, list-object-flags.h and
+# Utilizado en conjunto con list-player-flags.h, list-object-flags.h y
 # list-elements.h
-# Player properties
+# Propiedades del jugador
 
-# Descriptions and names can be edited without bad effects.
-# Changing the code, or type will severely disrupt the game, and should only
-# be done when the associated list-*.h files (and other code) are also
-# being changed, and the game recompiled.
-# Adding new entries will have no effect without further datafile and code
-# changes
+# Las descripciones y los nombres se pueden editar sin malos efectos.
+# Cambiar el código o el tipo alterará gravemente el juego, y solo debe
+# hacerse cuando los archivos list-*.h asociados (y otro código) también
+# se estén cambiando, y el juego sea recompilado.
+# Añadir nuevas entradas no tendrá ningún efecto sin más cambios en los archivos
+# de datos y el código.
 
-# Fields:
-# type - the type of player property.  Valid types are
-#    player  - special player flag from list-player-flags.h
-#    object  - object flag from list-object-flags.h
-#    element - resistance, immunity or vulnerability to an element
-# code - the property name used by the game. Element codes are templates, and
-#        one is made for each element
-# bindui - Binds the property to a user interface element in ui_entry.txt.
-#          When binding an element property, the name will be parameterized
-#          with the element name.  Takes two parameters.  The first is an
-#          integer, which if nonzero, says the value is passed to the user
-#          interface element as an auxiliary one (used on some to indicate a
-#          sustain, for instance).  The second is the value to pass.  That can
-#          be an integer or "special" where the latter indicates that the
-#          value passed will be determined internally.  bindui currently only
-#          affects parts of the second character screen and the equippable
-#          comparison.  It can appear multiple times for the same entry to
-#          bind it to multiple user interface elements.
-# name - the name of the property
-# desc - the description of the property
-# value - value for elements; -1 (vulnerability), 1 (resistance) or 3 (immunity)
+# Campos:
+# type - el tipo de propiedad del jugador. Los tipos válidos son
+#    player  - bandera especial de jugador de list-player-flags.h
+#    object  - bandera de objeto de list-object-flags.h
+#    element - resistencia, inmunidad o vulnerabilidad a un elemento
+# code - el nombre de la propiedad utilizado por el juego. Los códigos de elemento son plantillas, y
+#        se crea una para cada elemento
+# bindui - Vincula la propiedad a un elemento de la interfaz de usuario en ui_entry.txt.
+#          Al vincular una propiedad de elemento, el nombre se parametrizará
+#          con el nombre del elemento. Toma dos parámetros. El primero es un
+#          entero, que si es distinto de cero, indica que el valor se pasa al elemento
+#          de la interfaz de usuario como auxiliar (usado en algunos para indicar un
+#          sostenimiento, por ejemplo). El segundo es el valor a pasar. Puede ser
+#          un entero o "special", donde esto último indica que el valor pasado
+#          se determinará internamente. bindui actualmente solo afecta a partes de la
+#          segunda pantalla de personaje y a la comparación de equipables. Puede aparecer
+#          varias veces para la misma entrada para vincularla a múltiples elementos de
+#          la interfaz de usuario.
+# name - el nombre de la propiedad
+# desc - la descripción de la propiedad
+# value - valor para elementos; -1 (vulnerabilidad), 1 (resistencia) o 3 (inmunidad)
 
-## Shapechange player flags
+## Banderas de jugador por cambio de forma
+
 
 type:player
 code:ROCK

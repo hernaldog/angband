@@ -1,39 +1,40 @@
-# File: history.txt
+# Archivo: history.txt
 
 
-# This file is used to initialize the "player history" information for 
-# the Angband game.
+# Este archivo se utiliza para inicializar la información de la "historia del jugador" para
+# el juego Angband.
 
-# Do not modify this file unless you know exactly what you are doing,
-# unless you wish to risk possible system crashes and broken savefiles.
+# No modifiques este archivo a menos que sepas exactamente lo que estás haciendo,
+# a menos que quieras arriesgarte a posibles fallos del sistema y archivos guardados corruptos.
 
-# Background information:
-# Pieces of player backstory are chosen from "charts", which are lists of
-# phrases or sentences with similar general meaning.
+# Información de fondo:
+# Las piezas de la historia del jugador se eligen de "tablas", que son listas de
+# frases u oraciones con un significado general similar.
 
-# 'chart' lines give the number of the current chart, the number of the chart
-# that will be used next (or 0 if the last chart), and a cutoff for choosing
-# the current line.  If the first field in two chart lines is the same, the
-# second should be as well, to maintain consistent choices and end up with
-# something readable.
+# Las líneas 'chart' dan el número de la tabla actual, el número de la tabla
+# que se usará a continuación (o 0 si es la última tabla), y un punto de corte para elegir
+# la línea actual. Si el primer campo en dos líneas de tabla es el mismo, el
+# segundo también debería serlo, para mantener elecciones consistentes y terminar con
+# algo legible.
 
-# 'phrase' lines are the actual chart entries which make up the history.
+# Las líneas 'phrase' son las entradas reales de la tabla que componen la historia.
 
-# Chart progression by race:
-#   Human/Dunadan -->  1 -->  2 -->  3 --> 50 --> 51 --> 52 --> 53
-#   Half-Elf      -->  4 -->  1 -->  2 -->  3 --> 50 --> 51 --> 52 --> 53
-#   Elf           -->  5 -->  6 -->  9 --> 54 --> 55 --> 56
-#   High-Elf      -->  7 -->  8 -->  9 --> 54 --> 55 --> 56
-#   Hobbit        --> 10 --> 11 -->  3 --> 50 --> 51 --> 52 --> 53
-#   Gnome         --> 13 --> 14 -->  3 --> 50 --> 51 --> 52 --> 53
-#   Dwarf         --> 16 --> 17 --> 18 --> 57 --> 58 --> 59 --> 60 --> 61
-#   Half-Orc      --> 19 --> 20 -->  2 -->  3 --> 50 --> 51 --> 52 --> 53
-#   Half-Troll    --> 21 --> 22 --> 62 --> 63 --> 64 --> 65 --> 66
-#   Kobold        --> 23 --> 24 --> 25 --> 26 --> 67 --> 68 --> 69
+# Progresión de tablas por raza:
+#   Humano/Dúnadan -->  1 -->  2 -->  3 --> 50 --> 51 --> 52 --> 53
+#   Semi-Elfo      -->  4 -->  1 -->  2 -->  3 --> 50 --> 51 --> 52 --> 53
+#   Elfo           -->  5 -->  6 -->  9 --> 54 --> 55 --> 56
+#   Alto Elfo      -->  7 -->  8 -->  9 --> 54 --> 55 --> 56
+#   Hobbit         --> 10 --> 11 -->  3 --> 50 --> 51 --> 52 --> 53
+#   Gnomo          --> 13 --> 14 -->  3 --> 50 --> 51 --> 52 --> 53
+#   Enano          --> 16 --> 17 --> 18 --> 57 --> 58 --> 59 --> 60 --> 61
+#   Semi-Orco      --> 19 --> 20 -->  2 -->  3 --> 50 --> 51 --> 52 --> 53
+#   Semi-Troll     --> 21 --> 22 --> 62 --> 63 --> 64 --> 65 --> 66
+#   Kobold         --> 23 --> 24 --> 25 --> 26 --> 67 --> 68 --> 69
 
-# This table *must* be correct or the history may look very silly.
+# Esta tabla *debe* ser correcta o la historia puede parecer muy tonta.
 
-# Note that the "spacing" in the "description" lines is very important!
+# Nótese que el "espaciado" en las líneas de "descripción" es muy importante.
+
 
 
 
