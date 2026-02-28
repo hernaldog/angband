@@ -217,3 +217,4 @@ Contenido del script shell:
 | src\ui-death.c                           | 100      |
 | src\player.c                             | 100      |
 | src\mon-move.c                           | 100      |
+| src\mon-desc.c                           | 100      |
