@@ -1,112 +1,112 @@
-# File: hints.txt
+# Archivo: hints.txt
 
-# This file is used to initialize the hints for the game.
+# Este archivo se utiliza para inicializar las pistas del juego.
 
-# Do not modify this file unless you know exactly what you are doing
-# unless you wish to risk possible system crashes and broken savefiles.
+# No modifiques este archivo a menos que sepas exactamente lo que estás haciendo,
+# a menos que quieras arriesgarte a posibles fallos del sistema y archivos guardados corruptos.
 
-# That said, it isn't difficult. Just keep each hint on one line, less than 80
-# characters, and start each line with H:
+# Dicho esto, no es difícil. Solo mantén cada pista en una línea, de menos de 80
+# caracteres, y comienza cada línea con H:
 
-# Format: 
-# H:Hint text.
+# Formato:
+# H:Texto de la pista.
 
-H:Cure Critical Wounds potions will cure blindness and confusion; carry lots.
-H:Staves can be used even when confused and blinded.
-H:Potions of Heroism or Berserk Strength will protect you from being scared. 
-H:Monsters that breathe fire, acid, electricity, or cold can deal big damage.
-H:Resistances cut damage to 1/3rd for the four basic elements.
-H:The more hitpoints a monster has, the more damage its breath will do.
-H:You can combine equipment of Resist Fire and a potion of the same name.
-H:You can combine equipment of Resist Cold and a potion of the same name.
-H:You can combine equipment of Resist Poison and a potion of the same name.
-H:If you don't know what a monster can do, use a rod of probing on it.
-H:Never underestimate the value of constitution. Hitpoints keep you alive. 
-H:Inscribe items with the '{' command.
-H:Inscribe an item with "!s" to get confirmation before selling it.
-H:Inscribe an item with "!d" to get confirmation before dropping it.
-H:Inscribe an item with "!k" to get confirmation before destroying it.
-H:Inscribe an item with "!v" to get confirmation before throwing it.
-H:Inscribe an item with "!*" to get confirmation before doing anything to it.
-H:You can use the 'I' command to inspect items and get details on them.
-H:Use '=' to check out the options and customize your game.
-H:Be sure to set your hitpoint warning in the options menu ('=').
-H:Flasks of oil make a good throwing weapon early on.
-H:Word of Recall will send you to and from the dungeon.
-H:You can never teleport into a vault, even if you're already standing in it. 
-H:The only way to protect your inventory from damage is through immunities.
-H:+10 speed means you move twice as fast as normal. 
-H:Too much stunning will knock you out! This is to be avoided if possible.
-H:The stores change their stock every so often.
-H:If acid hits your armor, you take less damage from it.
-H:Nexus attacks can swap your stats. Smart, weak warriors don't do well.
-H:Regeneration improves your recovery of both hitpoints and mana.
-H:Never be too afraid to run away.
-H:He who fights and runs away lives to fight another day.
-H:Never go exploring without an escape option.
-H:Pay attention to how your enemies move - some are erratic, some can blink.
-H:Even among the same type, some enemies will be faster or slower than others.
-H:Monsters' breath weapons grow less dangerous as they lose hitpoints.
-H:A wounded enemy's spells are as strong as a healthy one's.
-H:Don't worry about using up your potions, wands, and staves to stay alive.
-H:If you're in a bad situation, take a breather and "I"nspect all your gear.
-H:When a character dies, memories of monsters she has fought are passed on.
-H:Even the most powerful characters can be made useless by blindness.
-H:Even the most powerful characters can be made useless by confusion.
-H:Finding a way to resist blindness and confusion is critical to survival.
-H:Probing an enemy to learn its abilities is always useful.
-H:Buy at least one scroll of phase door before you enter the dungeon.
-H:Buy at least one potion of cure light wounds before you enter the dungeon.
-H:Acid can destroy your stuff - watch out for water hounds and water vortices.
-H:Never underestimate monsters you haven't fought before.
-H:Quivers can hold different types of ammo in one inventory slot (max. 40).
-H:If you have more than 40 items in your quiver, it will take up more slots.
-H:Try inscribing thrown weapons, "@v0" for example.
-H:Many items are bad, but few are cursed to the point of needing magic.
-H:A bigger weapon isn't always better - check your damage using 'I'nspect
-H:Can't keep track of all the information on the screen? Add extra windows.
-H:You can use subwindows to display messages, monsters, items and more.
-H:If you teleport away a tough monster, beware of teleporting afterwards!
-H:Resistance to higher elements protects you from 33% to 50% of the damage.
-H:Hold life will not block all experience drain, just most of it.
-H:Fire damage can destroy scrolls, books, and staves in your inventory.
-H:Cold damage can destroy potions in your inventory.
-H:Electrical damage can destroy wands, rods and rings in your inventory.
-H:Immunity to an element prevents inventory destruction from that element.
-H:Phase door is a good escape if the terrain is appropriate.
-H:In open rooms Phase Door may well keep you in the line of fire.
-H:In a vault, any form of teleportation will always teleport you outside.
-H:Identical resistances on different pieces of equipment do not stack.
-H:Curing potions and spells can reduce or eliminate cuts, stunning and poison.
-H:Nexus attacks can teleport to, teleport away, teleport level, or swap stats.
-H:Time attacks are not mitigated by sustains.
-H:Drain charge attacks remove charges from your items and heal the monster!
-H:You cannot cast spells or fire missiles at monsters in walls, but they can.
-H:You can attack a monster in a wall with your melee weapon.
-H:Acquirement scrolls produce better items if you read them deeper down.
-H:In truly desperate times, use Teleport Level or Destruction to escape.
-H:You always get the first move when entering a level. 
-H:Regeneration makes you hungry more quickly.
-H:If you're in extreme need of food, curing potions might do you good.
-H:Under great weights of loot, you'll be less quick of foot.
-H:You're never invincible. Never forget that.
-H:Always carry around an escape that you can use while blind and confused.
-H:Staying on a level too long can cause awake random monsters to spawn.
-H:Wands and staves sell for a good price even with 0 charges.
-H:Walking around with lots of heavy weapons is not necessarily a good idea.
-H:Carry around extra copies of town spellbooks in case one gets burned.
-H:You don't have to cover every resist all the time - carry swap items.
-H:The better fed you are, the faster you recover hitpoints.
-H:The food indicator at the bottom of the screen shows how well fed you are.
-H:The light meter at the bottom of the screen shows your light radius.
-H:If stores will not buy your items, check your birth options.
-H:Blackguards can use Rings of Open Wounds without slowing their recovery.
-H:Stunned monsters deal less damage in melee and sometimes miss a turn.
-H:Confused monsters cannot cast spells reliably and may misstep.
-H:Scared monsters suffer penalties and may freeze in terror if cornered!
-H:Held monsters will take no action until it wears off or they take damage.
-H:Melee attacks, damage, and some effects will wake sleeping monsters.
-H:Time spent within sight or hearing range will eventually wake sleepers.
-H:Stealth is very helpful against sleeping monsters but not against alert ones.
-H:Inspect your racial and class abilities with the S command.
-H:When shapechanged inspect items with I. Resume your shape with m or p.
+H:Las pociones de Curar Heridas Críticas curan la ceguera y la confusión; lleva muchas.
+H:Los báculos se pueden usar incluso cuando estás confundido y cegado.
+H:Las pociones de Heroísmo o Fuerza Berserker te protegerán de tener miedo.
+H:Los monstruos que exhalan fuego, ácido, electricidad o frío pueden hacer mucho daño.
+H:Las resistencias reducen el daño a 1/3 para los cuatro elementos básicos.
+H:Cuantos más puntos de golpe tenga un monstruo, más daño hará su aliento.
+H:Puedes combinar equipo de Resistir Fuego y una poción del mismo nombre.
+H:Puedes combinar equipo de Resistir Frío y una poción del mismo nombre.
+H:Puedes combinar equipo de Resistir Veneno y una poción del mismo nombre.
+H:Si no sabes lo que puede hacer un monstruo, usa una vara de sondeo sobre él.
+H:Nunca subestimes el valor de la constitución. Los puntos de golpe te mantienen con vida.
+H:Inscribe objetos con el comando '{'.
+H:Inscribe un objeto con "!v" para obtener confirmación antes de venderlo.
+H:Inscribe un objeto con "!d" para obtener confirmación antes de soltarlo.
+H:Inscribe un objeto con "!k" para obtener confirmación antes de destruirlo.
+H:Inscribe un objeto con "!t" para obtener confirmación antes de lanzarlo.
+H:Inscribe un objeto con "!*" para obtener confirmación antes de hacer cualquier cosa con él.
+H:Puedes usar el comando 'I' para inspeccionar objetos y obtener detalles sobre ellos.
+H:Usa '=' para ver las opciones y personalizar tu juego.
+H:Asegúrate de establecer tu advertencia de puntos de golpe en el menú de opciones ('=').
+H:Los frascos de aceite son una buena arma arrojadiza al principio.
+H:Palabra de Retorno te enviará a la mazmorra y de vuelta.
+H:Nunca puedes teletransportarte dentro de una cámara acorazada, incluso si ya estás dentro.
+H:La única forma de proteger tu inventario del daño es a través de inmunidades.
+H:+10 de velocidad significa que te mueves el doble de rápido de lo normal.
+H:¡Demasiado aturdimiento te dejará inconsciente! Esto debe evitarse si es posible.
+H:Las tiendas cambian su mercancía de vez en cuando.
+H:Si el ácido golpea tu armadura, recibes menos daño de él.
+H:Los ataques de nexo pueden intercambiar tus estadísticas. Los guerreros débiles e inteligentes no lo hacen bien.
+H:La regeneración mejora tu recuperación tanto de puntos de golpe como de maná.
+H:Nunca tengas demasiado miedo para huir.
+H:El que lucha y huye vivirá para luchar otro día.
+H:Nunca explores sin una opción de escape.
+H:Presta atención a cómo se mueven tus enemigos: algunos son erráticos, algunos pueden parpadear.
+H:Incluso entre el mismo tipo, algunos enemigos serán más rápidos o más lentos que otros.
+H:Las armas de aliento de los monstruos se vuelven menos peligrosas a medida que pierden puntos de golpe.
+H:Los hechizos de un enemigo herido son tan fuertes como los de uno sano.
+H:No te preocupes por usar tus pociones, varitas y báculos para mantenerte con vida.
+H:Si estás en una mala situación, tómate un respiro e "I"nspecciona todo tu equipo.
+H:Cuando un personaje muere, los recuerdos de los monstruos contra los que luchó se transmiten.
+H:Incluso los personajes más poderosos pueden ser inutilizados por la ceguera.
+H:Incluso los personajes más poderosos pueden ser inutilizados por la confusión.
+H:Encontrar una manera de resistir la ceguera y la confusión es fundamental para la supervivencia.
+H:Sondear a un enemigo para aprender sus habilidades siempre es útil.
+H:Compra al menos un pergamino de Puerta de Fase antes de entrar en la mazmorra.
+H:Compra al menos una poción de Curar Heridas Leves antes de entrar en la mazmorra.
+H:El ácido puede destruir tus cosas: cuidado con los sabuesos y vórtices de agua.
+H:Nunca subestimes a los monstruos contra los que no has luchado antes.
+H:Los carcajes pueden contener diferentes tipos de munición en una sola ranura de inventario (máx. 40).
+H:Si tienes más de 40 objetos en tu carcaj, ocupará más ranuras.
+H:Intenta inscribir armas arrojadizas, por ejemplo "@t0".
+H:Muchos objetos son malos, pero pocos están malditos hasta el punto de necesitar magia.
+H:Un arma más grande no siempre es mejor: verifica tu daño usando 'I'nspect.
+H:¿No puedes seguir toda la información en la pantalla? Añade ventanas extra.
+H:Puedes usar subventanas para mostrar mensajes, monstruos, objetos y más.
+H:¡Si teletransportas a un monstruo duro, ten cuidado al teletransportarte después!
+H:La resistencia a los elementos superiores te protege del 33% al 50% del daño.
+H:Mantener Vida no bloqueará todo el drenaje de experiencia, solo la mayor parte.
+H:El daño de fuego puede destruir pergaminos, libros y báculos en tu inventario.
+H:El daño de frío puede destruir pociones en tu inventario.
+H:El daño eléctrico puede destruir varitas, varas y anillos en tu inventario.
+H:La inmunidad a un elemento evita la destrucción del inventario por parte de ese elemento.
+H:Puerta de Fase es una buena escapatoria si el terreno es apropiado.
+H:En habitaciones abiertas, Puerta de Fase puede mantenerte en la línea de fuego.
+H:En una cámara acorazada, cualquier forma de teletransporte siempre te sacará.
+H:Las resistencias idénticas en diferentes piezas de equipo no se acumulan.
+H:Las pociones y hechizos curativos pueden reducir o eliminar cortes, aturdimiento y veneno.
+H:Los ataques de nexo pueden teletransportarte hacia, alejarte, teletransportar de nivel o intercambiar estadísticas.
+H:Los ataques de tiempo no son mitigados por los sostenimientos.
+H:Los ataques de drenar cargas eliminan cargas de tus objetos y curan al monstruo.
+H:No puedes lanzar hechizos o disparar proyectiles a monstruos en las paredes, pero ellos sí.
+H:Puedes atacar a un monstruo en una pared con tu arma cuerpo a cuerpo.
+H:Los pergaminos de Adquisición producen mejores objetos si los lees más profundo.
+H:En momentos verdaderamente desesperados, usa Teletransporte de Nivel o Destrucción para escapar.
+H:Siempre tienes el primer movimiento al entrar en un nivel.
+H:La regeneración te hace tener hambre más rápidamente.
+H:Si tienes una necesidad extrema de comida, las pociones curativas podrían hacerte bien.
+H:Bajo grandes pesos de botín, serás menos rápido de pies.
+H:Nunca eres invencible. Nunca lo olvides.
+H:Lleva siempre un escape que puedas usar mientras estés ciego y confundido.
+H:Permanecer demasiado tiempo en un nivel puede hacer que aparezcan monstruos aleatorios despiertos.
+H:Las varitas y báculos se venden a buen precio incluso con 0 cargas.
+H:Caminar con muchas armas pesadas no es necesariamente una buena idea.
+H:Lleva copias extra de los libros de hechizos de la ciudad en caso de que uno se queme.
+H:No tienes que cubrir todas las resistencias todo el tiempo: lleva objetos para intercambiar.
+H:Cuanto mejor alimentado estés, más rápido recuperarás puntos de golpe.
+H:El indicador de comida en la parte inferior de la pantalla muestra lo bien alimentado que estás.
+H:El medidor de luz en la parte inferior de la pantalla muestra tu radio de luz.
+H:Si las tiendas no quieren comprar tus objetos, revisa tus opciones de nacimiento.
+H:Los guardias negros pueden usar Anillos de Heridas Abiertas sin ralentizar su recuperación.
+H:Los monstruos aturdidos infligen menos daño cuerpo a cuerpo y a veces pierden un turno.
+H:Los monstruos confundidos no pueden lanzar hechizos de manera fiable y pueden dar un paso en falso.
+H:Los monstruos asustados sufren penalizaciones y pueden congelarse de terror si están acorralados.
+H:Los monstruos paralizados no actuarán hasta que se les pase o reciban daño.
+H:Los ataques cuerpo a cuerpo, el daño y algunos efectos despertarán a los monstruos dormidos.
+H:El tiempo pasado dentro del alcance visual o auditivo eventualmente despertará a los durmientes.
+H:El sigilo es muy útil contra monstruos dormidos, pero no contra los alerta.
+H:Inspecciona tus habilidades raciales y de clase con el comando S.
+H:Cuando cambies de forma, inspecciona los objetos con I. Vuelve a tu forma con m o p.

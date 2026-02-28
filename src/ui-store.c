@@ -924,7 +924,7 @@ static int context_menu_store(struct store_context *ctx, const int oid, int mx, 
 	menu_dynamic_calc_location(m, mx, my);
 	region_erase_bordered(&m->boundary);
 
-	prt("(Enter para seleccionar, ESC) Comando:", 0, 0);
+	prt("(Enter seleccionar, ESC) Comando:", 0, 0);
 	selected = menu_dynamic_select(m);
 
 	menu_dynamic_free(m);
@@ -1006,7 +1006,7 @@ static bool context_menu_store_item(struct store_context *ctx, const int oid, in
 	menu_dynamic_calc_location(m, mx, my);
 	region_erase_bordered(&m->boundary);
 
-	prt(format("(Enter para seleccionar, ESC) Comando para %s:", header), 0, 0);
+	prt(format("(Enter seleccionar, ESC) Comando para %s:", header), 0, 0); /* tienda piso 1 */
 	selected = menu_dynamic_select(m);
 
 	menu_dynamic_free(m);
@@ -1104,10 +1104,10 @@ static bool store_menu_handle(struct menu *m, const ui_event *event, int oid)
 				/* usar la forma antigua de comprar objetos */
 				msg_flag = false;
 				if (store->feat != FEAT_HOME) {
-					prt("¿Comprar qué objeto? (ESC para cancelar, Enter para seleccionar)",
+					prt("¿Comprar qué objeto? (ESC para cancelar, Enter seleccionar)",
 						0, 0);
 				} else {
-					prt("¿Coger qué objeto? (ESC para cancelar, Enter para seleccionar)",
+					prt("¿Coger qué objeto? (ESC cancelar, Enter seleccionar)",
 						0, 0);
 				}
 				oid = store_get_stock(m, oid);
@@ -1120,7 +1120,7 @@ static bool store_menu_handle(struct menu *m, const ui_event *event, int oid)
 			case 'x':
 				/* usar la forma antigua de examinar objetos */
 				msg_flag = false;
-				prt("¿Examinar qué objeto? (ESC para cancelar, Enter para seleccionar)",
+				prt("¿Examinar qué objeto? (ESC cancelar, Enter seleccionar)",
 					0, 0);
 				oid = store_get_stock(m, oid);
 				prt("", 0, 0);
