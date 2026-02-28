@@ -1,6 +1,6 @@
 /**
  * \file cmd-pickup.c
- * \brief Pickup code
+ * \brief Código de recogida de objetos
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke,
  * Copyright (c) 2007 Leon Marrick
@@ -40,7 +40,7 @@
 #include "trap.h"
 
 /**
- * Pick up all gold at the player's current location.
+ * Recoger todo el oro en la ubicación actual del jugador.
  */
 static void player_pickup_gold(struct player *p)
 {
@@ -53,34 +53,34 @@ static void player_pickup_gold(struct player *p)
 	bool verbal = false;
 	bool at_most_one = true;
 
-	/* Pick up all the ordinary gold objects */
+	/* Recoger todos los objetos de oro ordinarios */
 	while (obj) {
 		struct object_kind *kind = NULL;
 
-		/* Get next object */
+		/* Obtener siguiente objeto */
 		next = obj->next;
 
-		/* Ignore if not legal treasure */
+		/* Ignorar si no es tesoro legal */
 		kind = lookup_kind(obj->tval, obj->sval);
 		if (!tval_is_money(obj) || !kind) {
 			obj = next;
 			continue;
 		}
 
-		/* Multiple types if we have a second name, otherwise record the name */
+		/* Múltiples tipos si tenemos un segundo nombre, de lo contrario registrar el nombre */
 		if (total_gold && !streq(kind->name, name))
 			at_most_one = false;
 		else
 			my_strcpy(name, kind->name, sizeof(name));
 
-		/* Remember whether feedback message is in order */
+		/* Recordar si el mensaje de retroalimentación es apropiado */
 		if (!ignore_item_ok(p, obj))
 			verbal = true;
 
-		/* Increment total value */
+		/* Incrementar valor total */
 		total_gold += (int32_t)obj->pval;
 
-		/* Delete the gold */
+		/* Eliminar el oro */
 		if (obj->known) {
 			square_delete_object(p->cave, p->grid, obj->known, false, false);
 		}
@@ -88,42 +88,42 @@ static void player_pickup_gold(struct player *p)
 		obj = next;
 	}
 
-	/* Pick up the gold, if present */
+	/* Recoger el oro, si está presente */
 	if (total_gold) {
 		char buf[100];
 
-		/* Build a message */
+		/* Construir un mensaje */
 		(void)strnfmt(buf, sizeof(buf),
-			"You have found %ld gold pieces worth of ", (long)total_gold);
+			"Has encontrado %ld piezas de oro en ", (long)total_gold);
 
-		/* One treasure type.. */
+		/* Un tipo de tesoro.. */
 		if (at_most_one)
 			my_strcat(buf, name, sizeof(buf));
-		/* ... or more */
+		/* ... o más */
 		else
-			my_strcat(buf, "treasures", sizeof(buf));
+			my_strcat(buf, "tesoros", sizeof(buf));
 		my_strcat(buf, ".", sizeof(buf));
 
-		/* Determine which sound to play */
+		/* Determinar qué sonido reproducir */
 		if      (total_gold < 200) sound_msg = MSG_MONEY1;
 		else if (total_gold < 600) sound_msg = MSG_MONEY2;
 		else                       sound_msg = MSG_MONEY3;
 
-		/* Display the message */
+		/* Mostrar el mensaje */
 		if (verbal)
 			msgt(sound_msg, "%s", buf);
 
-		/* Add gold to purse */
+		/* Añadir oro al monedero */
 		p->au += total_gold;
 
-		/* Redraw gold */
+		/* Redibujar oro */
 		p->upkeep->redraw |= (PR_GOLD);
 	}
 }
 
 
 /**
- * Find the specified object in the inventory (not equipment)
+ * Encontrar el objeto especificado en el inventario (no equipo)
  */
 static const struct object *find_stack_object_in_inventory(const struct object *obj, const struct object *start)
 {
@@ -131,7 +131,7 @@ static const struct object *find_stack_object_in_inventory(const struct object *
 	for (gear_obj = (start) ? start : player->gear; gear_obj; gear_obj = gear_obj->next) {
 		if (!object_is_equipped(player->body, gear_obj) &&
 				object_similar(gear_obj, obj, OSTACK_PACK)) {
-			/* We found the object */
+			/* Encontramos el objeto */
 			return gear_obj;
 		}
 	}
@@ -141,31 +141,31 @@ static const struct object *find_stack_object_in_inventory(const struct object *
 
 
 /**
- * Determine if an object can be picked up automatically and return the
- * number to pick up.
+ * Determinar si un objeto puede ser recogido automáticamente y devolver el
+ * número a recoger.
  */
 static int auto_pickup_okay(const struct object *obj)
 {
         /*
-	 * Use the following inscriptions to guide pickup with the last one
-	 * borrowed from Unangband:
+	 * Usar las siguientes inscripciones para guiar la recogida, siendo la última
+	 * tomada prestada de Unangband:
 	 *
-	 * !g     don't pickup
-	 * =g     pickup
-	 * =g<n>  (i.e. =g5) pick up if have less than n
+	 * !g     no recoger
+	 * =g     recoger
+	 * =g<n>  (ej. =g5) recoger si se tiene menos de n
 	 *
-	 * !g takes precedence over any of the others if an object is
-	 * inscribed with it and any of the others.  =g with no value takes
-	 * precedence over =g<n> if an object is inscribed with both.  In
-	 * general, inscriptions on the item on the floor are examined first
-	 * and the ones on a matching item in the pack will only come into
-	 * consideration if those on the item on the floor do not force or
-	 * reject pickup.  When examining inscriptions in the pack, only
-	 * use those on the first stack.
+	 * !g tiene prioridad sobre cualquiera de las otras si un objeto está
+	 * inscrito con ella y cualquiera de las otras. =g sin valor tiene
+	 * prioridad sobre =g<n> si un objeto está inscrito con ambas. En
+	 * general, las inscripciones en el objeto en el suelo se examinan primero
+	 * y las de un objeto coincidente en la mochila solo se tendrán en
+	 * cuenta si las del objeto en el suelo no fuerzan o
+	 * rechazan la recogida. Al examinar inscripciones en la mochila, solo
+	 * usar las del primer montón.
 	 *
-	 * The player option to always pick up overrides all of those
-	 * inscriptions.  The player option to pickup if in the inventory
-	 * honors those inscriptions.
+	 * La opción del jugador de recoger siempre anula todas esas
+	 * inscripciones. La opción del jugador de recoger si está en el inventario
+	 * respeta esas inscripciones.
 	 */
 	int num = inven_carry_num(player, obj);
 	unsigned obj_has_auto, obj_has_maxauto;
@@ -199,10 +199,10 @@ static int auto_pickup_okay(const struct object *obj)
 				return num;
 			}
 			if (obj_has_maxauto || gear_has_maxauto) {
-				/* Use the pack inscription if have both. */
+				/* Usar la inscripción de la mochila si se tienen ambas. */
 				int max_num = (gear_has_maxauto) ?
 					gear_maxauto : obj_maxauto;
-				/* Determine the total number in the pack. */
+				/* Determinar el número total en la mochila. */
 				int pack_num = gear_obj->number;
 
 				while (1) {
@@ -230,27 +230,27 @@ static int auto_pickup_okay(const struct object *obj)
 
 
 /**
- * Move an object from a floor pile to the player's gear, checking first
- * whether partial pickup is needed
+ * Mover un objeto de un montón del suelo al equipo del jugador, comprobando primero
+ * si se necesita recogida parcial
  */
 static void player_pickup_aux(struct player *p, struct object *obj,
 							  int auto_max, bool domsg)
 {
 	int max = inven_carry_num(p, obj);
 
-	/* Confirm at least some of the object can be picked up */
+	/* Confirmar que al menos parte del objeto puede ser recogida */
 	if (max == 0)
-		quit_fmt("Failed pickup of %s", obj->kind->name);
+		quit_fmt("Recogida fallida de %s", obj->kind->name);
 
-	/* Set ignore status */
+	/* Establecer estado de ignorar */
 	p->upkeep->notice |= PN_IGNORE;
 
-	/* Allow auto-pickup to limit the number if it wants to */
+	/* Permitir que la recogida automática limite el número si quiere */
 	if (auto_max && max > auto_max) {
 		max = auto_max;
 	}
 
-	/* Carry the object, prompting for number if necessary */
+	/* Llevar el objeto, solicitando número si es necesario */
 	if (max == obj->number) {
 		if (obj->known) {
 			square_excise_object(p->cave, p->grid, obj->known);
@@ -275,31 +275,31 @@ static void player_pickup_aux(struct player *p, struct object *obj,
 }
 
 /**
- * Pick up objects and treasure on the floor.  -LM-
+ * Recoger objetos y tesoro del suelo.  -LM-
  *
- * Scan the list of objects in that floor grid. Pick up gold automatically.
- * Pick up objects automatically until backpack space is full if
- * auto-pickup option is on, otherwise, store objects on
- * floor in an array, and tally both how many there are and can be picked up.
+ * Escanear la lista de objetos en esa casilla del suelo. Recoger oro automáticamente.
+ * Recoger objetos automáticamente hasta que el espacio de la mochila esté lleno si
+ * la opción de recogida automática está activada; de lo contrario, almacenar objetos en
+ * el suelo en una matriz, y contar tanto cuántos hay como cuántos se pueden recoger.
  *
- * If not picking up anything, indicate objects on the floor.  Do the same
- * thing if we don't have room for anything.
+ * Si no se recoge nada, indicar objetos en el suelo. Hacer lo mismo
+ * si no tenemos espacio para nada.
  *
- * Pick up multiple objects using Tim Baker's menu system.   Recursively
- * call this function (forcing menus for any number of objects) until
- * objects are gone, backpack is full, or player is satisfied.
+ * Recoger múltiples objetos usando el sistema de menús de Tim Baker. Llamar recursivamente
+ * a esta función (forzando menús para cualquier número de objetos) hasta que
+ * los objetos se hayan ido, la mochila esté llena, o el jugador esté satisfecho.
  *
- * We keep track of number of objects picked up to calculate time spent.
- * This tally is incremented even for automatic pickup, so we are careful
- * (in "dungeon.c" and elsewhere) to handle pickup as either a separate
- * automated move or a no-cost part of the stay still or 'g'et command.
+ * Llevamos la cuenta del número de objetos recogidos para calcular el tiempo empleado.
+ * Este recuento se incrementa incluso para la recogida automática, por lo que tenemos cuidado
+ * (en "dungeon.c" y en otros lugares) de manejar la recogida como un movimiento
+ * automatizado separado o una parte sin coste del comando de quedarse quieto o 'g'et.
  *
- * Note the lack of chance for the character to be disturbed by unmarked
- * objects.  They are truly "unknown".
+ * Notar la falta de oportunidad de que el personaje sea molestado por objetos
+ * no marcados. Son verdaderamente "desconocidos".
  *
- * \param p is the player picking up the item.
- * \param obj is the object to pick up.
- * \param menu is whether to present a menu to the player.
+ * \param p es el jugador que recoge el objeto.
+ * \param obj es el objeto a recoger.
+ * \param menu es si se debe presentar un menú al jugador.
  */
 static uint8_t player_pickup_item(struct player *p, struct object *obj, bool menu)
 {
@@ -315,22 +315,22 @@ static uint8_t player_pickup_item(struct player *p, struct object *obj, bool men
 
 	bool domsg = true;
 
-	/* Objects picked up.  Used to determine time cost of command. */
+	/* Objetos recogidos. Se usa para determinar el coste de tiempo del comando. */
 	uint8_t objs_picked_up = 0;
 
-	/* Always know what's on the floor */
+	/* Siempre saber lo que hay en el suelo */
 	square_know_pile(cave, p->grid, NULL);
 
-	/* Always pickup gold, effortlessly */
+	/* Siempre recoger oro, sin esfuerzo */
 	player_pickup_gold(p);
 
-	/* Nothing else to pick up -- return */
+	/* Nada más que recoger -- regresar */
 	if (!square_object(cave, p->grid)) {
 		mem_free(floor_list);
 		return objs_picked_up;
 	}
 
-	/* We're given an object - pick it up */
+	/* Se nos da un objeto - recogerlo */
 	if (obj) {
 		mem_free(floor_list);
 		if (inven_carry_num(p, obj) > 0) {
@@ -340,7 +340,7 @@ static uint8_t player_pickup_item(struct player *p, struct object *obj, bool men
 		return objs_picked_up;
 	}
 
-	/* Tally objects that can be at least partially picked up.*/
+	/* Contar objetos que pueden ser al menos parcialmente recogidos. */
 	floor_num = scan_floor(floor_list, floor_max, p, OFLOOR_VISIBLE, NULL);
 	for (i = 0; i < floor_num; i++)
 	    if (inven_carry_num(p, floor_list[i]) > 0)
@@ -352,7 +352,7 @@ static uint8_t player_pickup_item(struct player *p, struct object *obj, bool men
 	    return objs_picked_up;
 	}
 
-	/* Use a menu interface for multiple objects, or pickup single objects */
+	/* Usar una interfaz de menú para múltiples objetos, o recoger objetos individuales */
 	if (!menu && !current) {
 		if (floor_num > 1)
 			menu = true;
@@ -360,14 +360,14 @@ static uint8_t player_pickup_item(struct player *p, struct object *obj, bool men
 			current = floor_list[0];
 	}
 
-	/* Display a list if requested. */
+	/* Mostrar una lista si se solicita. */
 	if (menu && !current) {
 		const char *q, *s;
 		struct object *obj_local = NULL;
 
-		/* Get an object or exit. */
-		q = "Get which item?";
-		s = "You see nothing there.";
+		/* Obtener un objeto o salir. */
+		q = "¿Coger qué objeto?";
+		s = "No ves nada ahí.";
 		if (!get_item(&obj_local, q, s, CMD_PICKUP, inven_carry_okay, USE_FLOOR)) {
 			mem_free(floor_list);
 			return (objs_picked_up);
@@ -376,63 +376,63 @@ static uint8_t player_pickup_item(struct player *p, struct object *obj, bool men
 		current = obj_local;
 		call_function_again = true;
 
-		/* With a list, we do not need explicit pickup messages */
+		/* Con una lista, no necesitamos mensajes de recogida explícitos */
 		domsg = true;
 	}
 
-	/* Pick up object, if legal */
+	/* Recoger objeto, si es legal */
 	if (current) {
-		/* Pick up the object */
+		/* Recoger el objeto */
 		player_pickup_aux(p, current, 0, domsg);
 
-		/* Indicate an object picked up. */
+		/* Indicar un objeto recogido. */
 		objs_picked_up = 1;
 	}
 
 	/*
-	 * If requested, call this function recursively.  Count objects picked
-	 * up.  Force the display of a menu in all cases.
+	 * Si se solicita, llamar a esta función recursivamente. Contar objetos recogidos.
+	 * Forzar la visualización de un menú en todos los casos.
 	 */
 	if (call_function_again)
 		objs_picked_up += player_pickup_item(p, NULL, true);
 
 	mem_free(floor_list);
 
-	/* Indicate how many objects have been picked up. */
+	/* Indicar cuántos objetos han sido recogidos. */
 	return (objs_picked_up);
 }
 
 /**
- * Pick up everything on the floor that requires no player action
+ * Recoger todo en el suelo que no requiera acción del jugador
  */
 int do_autopickup(struct player *p)
 {
 	struct object *obj, *next;
 	uint8_t objs_picked_up = 0;
 
-	/* Nothing to pick up -- return */
+	/* Nada que recoger -- regresar */
 	if (!square_object(cave, p->grid))
 		return 0;
 
-	/* Always pickup gold, effortlessly */
+	/* Siempre recoger oro, sin esfuerzo */
 	player_pickup_gold(p);
 
-	/* Scan the remaining objects */
+	/* Escanear los objetos restantes */
 	obj = square_object(cave, p->grid);
 	while (obj) {
 		next = obj->next;
 
-		/* Ignore all hidden objects and non-objects */
+		/* Ignorar todos los objetos ocultos y no-objetos */
 		if (!ignore_item_ok(p, obj)) {
 			int auto_num;
 
-			/* Disturb */
+			/* Molestar */
 			disturb(p);
 
-			/* Automatically pick up items into the backpack */
+			/* Recoger automáticamente objetos en la mochila */
 			auto_num = auto_pickup_okay(obj);
 			if (auto_num) {
-				/* Pick up the object (as much as possible) with message */
+				/* Recoger el objeto (tanto como sea posible) con mensaje */
 				player_pickup_aux(p, obj, auto_num, true);
 				objs_picked_up++;
 			}
@@ -444,46 +444,46 @@ int do_autopickup(struct player *p)
 }
 
 /**
- * Pick up objects at the player's request
+ * Recoger objetos a petición del jugador
  */
 void do_cmd_pickup(struct command *cmd)
 {
 	int energy_cost = 0;
 	struct object *obj = NULL;
 
-	/* See if we have an item already */
+	/* Ver si ya tenemos un objeto */
 	(void) cmd_get_arg_item(cmd, "item", &obj);
 
-	/* Pick up floor objects with a menu for multiple objects */
+	/* Recoger objetos del suelo con un menú para múltiples objetos */
 	energy_cost += player_pickup_item(player, obj, false)
 		* z_info->move_energy / 10;
 
-	/* Limit */
+	/* Límite */
 	if (energy_cost > z_info->move_energy) energy_cost = z_info->move_energy;
 
-	/* Charge this amount of energy. */
+	/* Cobrar esta cantidad de energía. */
 	player->upkeep->energy_use = energy_cost;
 
-	/* Redraw the object list using the upkeep flag so that the update can be
-	 * somewhat coalesced. Use event_signal(EVENT_ITEMLIST to force update. */
+	/* Redibujar la lista de objetos usando la bandera de mantenimiento para que la actualización
+	 * pueda ser algo coalescente. Usar event_signal(EVENT_ITEMLIST) para forzar la actualización. */
 	player->upkeep->redraw |= (PR_ITEMLIST);
 }
 
 /**
- * Pick up or look at objects on a square when the player steps onto it
+ * Recoger o mirar objetos en una casilla cuando el jugador pisa sobre ella
  */
 void do_cmd_autopickup(struct command *cmd)
 {
-	/* Get the obvious things */
+	/* Obtener las cosas obvias */
 	player->upkeep->energy_use = do_autopickup(player)
 		* z_info->move_energy / 10;
 	if (player->upkeep->energy_use > z_info->move_energy)
 		player->upkeep->energy_use = z_info->move_energy;
 
-	/* Look at or feel what's left */
+	/* Mirar o sentir lo que queda */
 	event_signal(EVENT_SEEFLOOR);
 
-	/* Redraw the object list using the upkeep flag so that the update can be
-	 * somewhat coalesced. Use event_signal(EVENT_ITEMLIST to force update. */
+	/* Redibujar la lista de objetos usando la bandera de mantenimiento para que la actualización
+	 * pueda ser algo coalescente. Usar event_signal(EVENT_ITEMLIST) para forzar la actualización. */
 	player->upkeep->redraw |= (PR_ITEMLIST);
 }
