@@ -190,7 +190,7 @@ void textui_cmd_retire(void)
  */
 void textui_cmd_rest(void)
 {
-	const char *p = "Descansar (0-9999, '!' para PG o PM, '*' para PG y PM, '&' hasta terminar): ";
+	const char *p = "Descansar (0-9999, '!' HP o PM, '*' HP y PM, '&' hasta terminar): ";
 
 	char out_val[5] = "& ";
 

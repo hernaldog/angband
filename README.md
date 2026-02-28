@@ -216,3 +216,4 @@ Contenido del script shell:
 | src\cmd-pickup.c                         | 100      |
 | src\ui-death.c                           | 100      |
 | src\player.c                             | 100      |
+| src\mon-move.c                           | 100      |
