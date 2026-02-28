@@ -212,3 +212,4 @@ Contenido del script shell:
 | src\player-spell.c                       | 100      |
 | src\ui-spell.c                           | 100      | Corregir "Estudiar qué libro?"|
 | src\score.c                              | 100      |
+| src\ui-target.c                          | 100      |
