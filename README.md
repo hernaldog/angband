@@ -177,6 +177,7 @@ Contenido del script shell:
 | lib\screens\news.txt                     | 100      |
 | lib\gamedata\player_property.txt         | 100      |
 | lib\gamedata\history.txt                 | 100      |
+| lib\gamedata\hints.txt                   | 100      |
 | lib\help\commands.txt                    | 100      |
 | lib\help\index.txt                       | 100      |
 | lib\help\r_index.txt                     | 100      |
