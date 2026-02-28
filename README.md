@@ -219,3 +219,4 @@ Contenido del script shell:
 | src\mon-move.c                           | 100      |
 | src\mon-desc.c                           | 100      |
 | src\list-mon-message.h                   | 100      |
+| src\ui-store.c                           | 100      |
