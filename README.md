@@ -163,6 +163,9 @@ Contenido del script shell:
     echo "Abriendo juego..."
     c:/juegos/angband-bin-esp/angband.exe
 
+## Encoding
+Todos los archivo deben traducirse usando encoding **UTF-8**.
+
 ## Pendientes de traducción
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
 - Cambios de lb por kg
@@ -178,6 +181,7 @@ Contenido del script shell:
 | lib\gamedata\player_property.txt         | 100      |
 | lib\gamedata\history.txt                 | 100      |
 | lib\gamedata\hints.txt                   | 100      |
+| lib\gamedata\player_timed.txt            | 100      |
 | lib\help\commands.txt                    | 100      |
 | lib\help\index.txt                       | 100      |
 | lib\help\r_index.txt                     | 100      |
