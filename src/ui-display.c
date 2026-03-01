@@ -2624,7 +2624,7 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 
 		/* Mensaje */
 		event_signal(EVENT_MESSAGE_FLUSH);
-		msg("%s %s %s.", (can_pickup && !blind) ? "Ves" : p, p, o_name);
+		msg("Tu %s %s.", p, o_name);
 	} else {
 		ui_event e;
 
