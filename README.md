@@ -182,6 +182,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | lib\gamedata\history.txt                 | 100      |
 | lib\gamedata\hints.txt                   | 100      |
 | lib\gamedata\player_timed.txt            | 100      |
+| lib\gamedata\object.txt                  | 70       | Textos como Name no se pueden traducir indica error de Parse, revisar|
 | lib\help\commands.txt                    | 100      |
 | lib\help\index.txt                       | 100      |
 | lib\help\r_index.txt                     | 100      |
