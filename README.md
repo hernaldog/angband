@@ -155,13 +155,11 @@ Contenido del script shell:
         ..
     ninja
     
-    echo "Compiando archivo a exe..."
-    cp -f /c/juegos/angband-src-esp/src/game/angband.exe /c/juegos/angband-bin-esp/angband.exe
-    
     echo "Compilacion terminada..."
     
-    echo "Abriendo juego..."
-    c:/juegos/angband-bin-esp/angband.exe
+    echo "Abriendo juego C:/juegos/angband-src-esp/src/game/angband.exe"
+    
+    C:/juegos/angband-src-esp/src/game/angband.exe
 
 ## Encoding
 Todos los archivo deben traducirse usando encoding **UTF-8**.

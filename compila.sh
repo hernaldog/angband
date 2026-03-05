@@ -13,10 +13,8 @@ cmake -G Ninja -DSUPPORT_WINDOWS_FRONTEND=ON \
     ..
 ninja
 
-echo "Compiando archivo de c/juegos/angband-src-esp/src/game/angband.exe a c/juegos/angband-bin-esp/angband.exe..."
-cp -f /c/juegos/angband-src-esp/src/game/angband.exe /c/juegos/angband-bin-esp/angband.exe
-
 echo "Compilacion terminada..."
 
-echo "Abriendo juego c:/juegos/angband-bin-esp/angband.exe..."
-c:/juegos/angband-bin-esp/angband.exe
+echo "Abriendo juego C:/juegos/angband-src-esp/src/game/angband.exe"
+
+C:/juegos/angband-src-esp/src/game/angband.exe
