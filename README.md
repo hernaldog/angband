@@ -229,3 +229,4 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\cave.c                               | 100      |
 | src\list-origins.h                       | 100      |
 | src\obj-info.c                           | 100      |
+| src\effects-info.c                       | 100      |

@@ -1,6 +1,6 @@
 /**
  * \file effects-info.c
- * \brief Implement interfaces for displaying information about effects
+ * \brief Implementa interfaces para mostrar información sobre efectos
  *
  * Copyright (c) 2020 Eric Branlund
  * Copyright (c) 2010 Andi Sidwell
@@ -46,7 +46,7 @@ static struct {
 
 
 /**
- * Get the possible dice strings.
+ * Obtiene las cadenas de dados posibles.
  */
 static void format_dice_string(const random_value *v, int multiplier,
 	size_t len, char* dice_string)
@@ -74,22 +74,22 @@ static void format_dice_string(const random_value *v, int multiplier,
 
 
 /**
- * Appends a message describing the magical device skill bonus and the average
- * damage. Average damage is only displayed if there is variance or a magical
- * device bonus.
+ * Añade un mensaje describiendo la bonificación de habilidad de dispositivo mágico
+ * y el daño medio. El daño medio solo se muestra si hay variación o una bonificación
+ * de dispositivo mágico.
  */
 static void append_damage(char *buffer, size_t buffer_size, random_value value,
 	int dev_skill_boost)
 {
 	if (dev_skill_boost != 0) {
-		my_strcat(buffer, format(", which your device skill increases by %d%%",
+		my_strcat(buffer, format(", que tu habilidad con dispositivos aumenta en un %d%%",
 			dev_skill_boost), buffer_size);
 	}
 
 	if (randcalc_varies(value) || dev_skill_boost > 0) {
-		// Ten times the average damage, for 1 digit of precision
+		// Diez veces el daño medio, para 1 dígito de precisión
 		int dam = (100 + dev_skill_boost) * randcalc(value, 0, AVERAGE) / 10;
-		my_strcat(buffer, format(" for an average of %d.%d damage", dam / 10,
+		my_strcat(buffer, format(" para un promedio de %d.%d de daño", dam / 10,
 			dam % 10), buffer_size);
 	}
 }
@@ -109,25 +109,26 @@ static void copy_to_textblock_with_coloring(textblock *tb, const char *s)
 
 
 /**
- * Creates a description of the random or select effect which chooses from the
- * next count effects in the linked list starting with e.  The description is
- * prefaced with the contents of *prefix if prefix is not NULL.  It is also
- * prefaced with the contents of *type_prefix which would normally be
- * "randomly " for a random effect and NULL for a select effect.
- * dev_skill_boost is the percent increase in damage to report for the device
- * skill.  Sets *nexte to point to the element in the linked list or NULL that
- * is immediately after the count effects.  Returns a non-NULL value if there
- * was at least one effect that could be described.  Otherwise, returns NULL.
+ * Crea una descripción del efecto aleatorio o select que elige entre los
+ * siguientes count efectos en la lista enlazada que comienza con e. La
+ * descripción tiene como prefijo el contenido de *prefix si prefix no es NULL.
+ * También tiene como prefijo el contenido de *type_prefix que normalmente sería
+ * "aleatoriamente " para un efecto aleatorio y NULL para un efecto select.
+ * dev_skill_boost es el aumento porcentual de daño a reportar por la habilidad
+ * de dispositivo. Establece *nexte para que apunte al elemento en la lista
+ * enlazada o NULL que está inmediatamente después de los count efectos.
+ * Devuelve un valor no NULL si hubo al menos un efecto que pudo ser descrito.
+ * De lo contrario, devuelve NULL.
  */
 static textblock *create_nested_effect_description(const struct effect *e,
 	int count, const char *prefix, const char *type_prefix,
 	int dev_skill_boost, const struct effect **nexte)
 {
 	/*
-	 * Do one pass through the effects to determine if they are of all the
-	 * the same basic type.  That is used to condense the description in
-	 * the case where all are breaths.  Ignore random nested effects since
-	 * they will do nothing when the outer random effect is processed with
+	 * Hacer una pasada a través de los efectos para determinar si son todos
+	 * del mismo tipo básico. Esto se usa para condensar la descripción en
+	 * el caso de que todos sean alientos. Ignorar efectos anidados aleatorios
+	 * ya que no harán nada cuando el efecto aleatorio externo se procese con
 	 * effect_do().
 	 */
 	textblock *res = NULL;
@@ -139,12 +140,12 @@ static textblock *create_nested_effect_description(const struct effect *e,
 	int irand, jrand;
 	int nvalid;
 
-	/* Find the first effect that's valid and not random nor select. */
+	/* Encontrar el primer efecto que sea válido y no aleatorio ni select. */
 	irand = 0;
 	while (1) {
 		if (!e || irand >= count) {
 			/*
-			 * There's no valid or non-random effects; do nothing.
+			 * No hay efectos válidos o no aleatorios; no hacer nada.
 			 */
 			*nexte = e;
 			return false;
@@ -205,7 +206,7 @@ static textblock *create_nested_effect_description(const struct effect *e,
 
 	if (same_ind && base_descs[first_ind].efinfo_flag == EFINFO_BREATH &&
 		same_dice && same_other) {
-		/* Concatenate the list of possible elements. */
+		/* Concatenar la lista de elementos posibles. */
 		char breaths[120], dice_string[20], desc[200];
 		int ivalid;
 
@@ -221,7 +222,7 @@ static textblock *create_nested_effect_description(const struct effect *e,
 			}
 			if (ivalid == nvalid - 1) {
 				my_strcat(breaths,
-					(nvalid > 2) ? ", or " : " or ",
+					(nvalid > 2) ? ", o " : " o ",
 					sizeof(breaths));
 			} else {
 				my_strcat(breaths, ", ", sizeof(breaths));
@@ -231,7 +232,7 @@ static textblock *create_nested_effect_description(const struct effect *e,
 			++ivalid;
 		}
 
-		/* Then use that in the effect description. */
+		/* Luego usar eso en la descripción del efecto. */
 		format_dice_string(&first_rv, 1, sizeof(dice_string),
 			dice_string);
 		strnfmt(desc, sizeof(desc), effect_desc(efirst), breaths,
@@ -248,7 +249,7 @@ static textblock *create_nested_effect_description(const struct effect *e,
 		}
 		copy_to_textblock_with_coloring(res, desc);
 	} else {
-		/* Concatenate the effect descriptions. */
+		/* Concatenar las descripciones de los efectos. */
 		textblock *tb;
 		int ivalid;
 		
@@ -291,7 +292,7 @@ static textblock *create_nested_effect_description(const struct effect *e,
 				if (ivalid > 0) {
 					textblock_append(res,
 						(ivalid == nvalid - 1) ?
-						" or " : ", ");
+						" o " : ", ");
 				}
 				textblock_append_textblock(res, tb);
 				textblock_free(tb);
@@ -307,14 +308,15 @@ static textblock *create_nested_effect_description(const struct effect *e,
 
 
 /**
- * Creates a new textblock which has a description of the effect in *e (and
- * any linked to it because e->index == EF_RANDOM or e->index == EF_SELECT) if
- * only_first is true or has a description of *e and all the subsequent effects
- * if only_first is false.  If none of the effects has a description, will
- * return NULL.  If there is at least one effect with a description and prefix
- * is not NULL, the string pointed to by prefix will be added to the textblock
- * before the descriptions.  dev_skill_boost is the percent increase from the
- * device skill to show in the descriptions.
+ * Crea un nuevo textblock que tiene una descripción del efecto en *e (y
+ * cualquier efecto enlazado a él porque e->index == EF_RANDOM o
+ * e->index == EF_SELECT) si only_first es true, o tiene una descripción de
+ * *e y todos los efectos subsiguientes si only_first es false. Si ninguno de
+ * los efectos tiene una descripción, devolverá NULL. Si hay al menos un efecto
+ * con una descripción y prefix no es NULL, la cadena apuntada por prefix se
+ * añadirá al textblock antes de las descripciones. dev_skill_boost es el
+ * aumento porcentual de la habilidad de dispositivo para mostrar en las
+ * descripciones.
  */
 textblock *effect_describe(const struct effect *e, const char *prefix,
 	int dev_skill_boost, bool only_first)
@@ -330,7 +332,7 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 		int roll = 0;
 		char dice_string[20];
 
-		/* Deal with special clear value effect. */
+		/* Manejar el efecto especial de borrar valor. */
 		if (e->index == EF_CLEAR_VALUE) {
 			assert(value_set);
 			value_set = false;
@@ -338,7 +340,7 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 			continue;
 		}
 
-		/* Deal with special set value effect. */
+		/* Manejar el efecto especial de establecer valor. */
 		if (e->index == EF_SET_VALUE) {
 			assert(e->dice != NULL);
 			roll = dice_roll(e->dice, &value);
@@ -351,19 +353,19 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 			roll = dice_roll(e->dice, &value);
 		}
 
-		/* Deal with special random or select effects. */
+		/* Manejar efectos especiales aleatorios o select. */
 		if (e->index == EF_RANDOM || e->index == EF_SELECT) {
 			const struct effect *nexte;
 			textblock *tbe = create_nested_effect_description(
 				e->next, roll, (nadded == 0) ? prefix : NULL,
-				(e->index == EF_RANDOM) ? "randomly " : NULL,
+				(e->index == EF_RANDOM) ? "aleatoriamente " : NULL,
 				dev_skill_boost, &nexte);
 
 			e = (only_first) ? NULL : nexte;
 			if (tbe) {
 				if (tb) {
 					textblock_append(tb,
-						e ? ", " : " and ");
+						e ? ", " : " y ");
 					textblock_append_textblock(tb, tbe);
 					textblock_free(tbe);
 				} else {
@@ -381,20 +383,20 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 
 		format_dice_string(&value, 1, sizeof(dice_string), dice_string);
 
-		/* Check all the possible types of description format. */
+		/* Verificar todos los tipos posibles de formato de descripción. */
 		switch (base_descs[e->index].efinfo_flag) {
 		case EFINFO_DICE:
 			strnfmt(desc, sizeof(desc), edesc, dice_string);
 			break;
 
 		case EFINFO_HEAL:
-			/* Healing sometimes has a minimum percentage. */
+			/* La curación a veces tiene un porcentaje mínimo. */
 			{
 				char min_string[50];
 
 				if (value.m_bonus) {
 					strnfmt(min_string, sizeof(min_string),
-						" (or %d%%, whichever is greater)",
+						" (o %d%%, lo que sea mayor)",
 						value.m_bonus);
 				} else {
 					strnfmt(min_string, sizeof(min_string),
@@ -412,8 +414,8 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 		case EFINFO_FOOD:
 			{
 				const char *fed = e->subtype ?
-					(e->subtype == 1 ? "uses enough food value" : 
-					 "leaves you nourished") : "feeds you";
+					(e->subtype == 1 ? "usa suficiente valor alimenticio" : 
+					 "te deja nutrido") : "te alimenta";
 				char turn_dice_string[20];
 
 				format_dice_string(&value, z_info->food_value,
@@ -457,21 +459,21 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 
 		case EFINFO_TELE:
 			/*
-			 * Only currently used for the player, but can handle
-			 * monsters.
+			 * Actualmente solo se usa para el jugador, pero puede
+			 * manejar monstruos.
 			 */
 			{
 				char dist[32];
 
 				if (value.m_bonus) {
 					strnfmt(dist, sizeof(dist),
-						"a level-dependent distance");
+						"una distancia dependiente del nivel");
 				} else {
 					strnfmt(dist, sizeof(dist),
-						"%d grids", value.base);
+						"%d casillas", value.base);
 				}
 				strnfmt(desc, sizeof(desc), edesc,
-					(e->subtype) ? "a monster" : "you",
+					(e->subtype) ? "un monstruo" : "a ti",
 					dist);
 			}
 			break;
@@ -520,13 +522,13 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 			break;
 
 		case EFINFO_BOLT:
-			/* Bolt that inflict status */
+			/* Proyectil que inflige estado */
 			strnfmt(desc, sizeof(desc), edesc,
 				projections[e->subtype].desc);
 			break;
 
 		case EFINFO_BOLTD:
-			/* Bolts and beams that damage */
+			/* Proyectiles y rayos que dañan */
 			strnfmt(desc, sizeof(desc), edesc,
 				projections[e->subtype].desc, dice_string);
 			append_damage(desc, sizeof(desc), value, dev_skill_boost);
@@ -543,7 +545,7 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 
 		default:
 			strnfmt(desc, sizeof(desc), "%s", "");
-			msg("Bad effect description passed to effect_info().  Please report this bug.");
+			msg("Se pasó una descripción de efecto incorrecta a effect_info(). Por favor, informa de este error.");
 			break;
 		}
 
@@ -554,7 +556,7 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 				if (e) {
 					textblock_append(tb, ", ");
 				} else {
-					textblock_append(tb, " and ");
+					textblock_append(tb, " y ");
 				}
 			} else {
 				tb = textblock_new();
@@ -572,13 +574,13 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 }
 
 /**
- * Fills a buffer with a short description, suitable for use a menu entry, of
- * an effect.
- * \param buf is the buffer to fill.
- * \param max is the maximum number of characters the buffer can hold.
- * \param e is the effect to describe.
- * \return the number of characters written to the buffer; will be zero if
- * the effect is invalid
+ * Llena un búfer con una descripción corta, adecuada para usar como entrada
+ * de menú, de un efecto.
+ * \param buf es el búfer a llenar.
+ * \param max es el número máximo de caracteres que puede contener el búfer.
+ * \param e es el efecto a describir.
+ * \return el número de caracteres escritos en el búfer; será cero si el
+ * efecto no es válido
  */
 size_t effect_get_menu_name(char *buf, size_t max, const struct effect *e)
 {
@@ -607,35 +609,35 @@ size_t effect_get_menu_name(char *buf, size_t max, const struct effect *e)
 
 			switch (e->subtype) {
 			case 0: /* INC_BY */
-				actstr = "feed";
-				actarg = "yourself";
+				actstr = "alimentar";
+				actarg = "a ti mismo";
 				break;
 			case 1: /* DEC_BY */
-				actstr = "increase";
-				actarg = "hunger";
+				actstr = "aumentar";
+				actarg = "hambre";
 				break;
 			case 2: /* SET_TO */
 				avg = (e->dice) ?
 					dice_evaluate(e->dice, 1, AVERAGE, NULL) : 0;
-				actstr = "become";
+				actstr = "convertirte en";
 				if (avg > PY_FOOD_FULL) {
-					actarg = "bloated";
+					actarg = "hinchado";
 				} else if (avg > PY_FOOD_HUNGRY) {
-					actarg = "satisfied";
+					actarg = "satisfecho";
 				} else {
-					actarg = "hungry";
+					actarg = "hambriento";
 				}
 				break;
 			case 3: /* INC_TO */
 				avg = (e->dice) ?
 					dice_evaluate(e->dice, 1, AVERAGE, NULL): 0;
-				actstr = "leave";
+				actstr = "dejarte";
 				if (avg > PY_FOOD_FULL) {
-					actarg = "bloated";
+					actarg = "hinchado";
 				} else if (avg > PY_FOOD_HUNGRY) {
-					actarg = "nourished";
+					actarg = "nutrido";
 				} else {
-					actarg = "hungry";
+					actarg = "hambriento";
 				}
 				break;
 			default:
@@ -684,12 +686,12 @@ size_t effect_get_menu_name(char *buf, size_t max, const struct effect *e)
 					&value);
 			}
 			if (value.m_bonus) {
-				strnfmt(dist, sizeof(dist), "some distance");
+				strnfmt(dist, sizeof(dist), "cierta distancia");
 			} else {
-				strnfmt(dist, sizeof(dist), "%d grids", avg);
+				strnfmt(dist, sizeof(dist), "%d casillas", avg);
 			}
 			len = strnfmt(buf, max, fmt,
-				(e->subtype) ? "other" : "you", dist);
+				(e->subtype) ? "a otro" : "a ti", dist);
 		}
 		break;
 
@@ -707,7 +709,7 @@ size_t effect_get_menu_name(char *buf, size_t max, const struct effect *e)
 
 	default:
 		len = strnfmt(buf, max, "%s", "");
-		msg("Bad effect description passed to effect_get_menu_name().  Please report this bug.");
+		msg("Se pasó una descripción de efecto incorrecta a effect_get_menu_name(). Por favor, informa de este error.");
 		break;
 	}
 
@@ -715,8 +717,8 @@ size_t effect_get_menu_name(char *buf, size_t max, const struct effect *e)
 }
 
 /**
- * Returns a pointer to the next effect in the effect stack, skipping over
- * all the sub-effects from random or select effects
+ * Devuelve un puntero al siguiente efecto en la pila de efectos, saltando
+ * todos los subefectos de efectos aleatorios o select.
  */
 struct effect *effect_next(struct effect *effect)
 {
@@ -724,7 +726,7 @@ struct effect *effect_next(struct effect *effect)
 		struct effect *e = effect;
 		int num_subeffects = MAX(0,
 			dice_evaluate(effect->dice, 0, AVERAGE, NULL));
-		// Skip all the sub-effects, plus one to advance beyond current
+		// Saltar todos los subefectos, más uno para avanzar más allá del actual
 		for (int i = 0; e != NULL && i < num_subeffects + 1; i++) {
 			e = e->next;
 		}
@@ -735,18 +737,18 @@ struct effect *effect_next(struct effect *effect)
 }
 
 /**
- * Checks if the effect deals damage, by checking the effect's info string.
- * Random or select effects are considered to deal damage if any sub-effect
- * deals damage.
+ * Comprueba si el efecto inflige daño, verificando la cadena de información del efecto.
+ * Los efectos aleatorios o select se consideran que infligen daño si algún subefecto
+ * inflige daño.
  */
 bool effect_damages(const struct effect *effect)
 {
 	if (effect->index == EF_RANDOM || effect->index == EF_SELECT) {
-		// Random or select effect
+		// Efecto aleatorio o select
 		struct effect *e = effect->next;
 		int num_subeffects = dice_evaluate(effect->dice, 0, AVERAGE, NULL);
 
-		// Check if any of the subeffects do damage
+		// Verificar si alguno de los subefectos hace daño
 		for (int i = 0; e != NULL && i < num_subeffects; i++) {
 			if (effect_damages(e)) {
 				return true;
@@ -755,26 +757,26 @@ bool effect_damages(const struct effect *effect)
 		}
 		return false;
 	} else {
-		// Not a random or select effect, check the info string for
-		// damage
+		// No es un efecto aleatorio o select, verificar la cadena de información
+		// para daño
 		return effect_info(effect) != NULL &&
 			streq(effect_info(effect), "dam");
 	}
 }
 
 /**
- * Calculates the average damage of the effect. Random effects and select
- * effects return an average of all sub-effect averages.
+ * Calcula el daño medio del efecto. Los efectos aleatorios y select devuelven
+ * un promedio de todos los promedios de los subefectos.
  *
- * \param effect is the effect to evaluate.
- * \param shared_dice is the dice set by a prior SET_VALUE effect.  Use
- * NULL if there wasn't a prior SET_VALUE effect to set the dice.
+ * \param effect es el efecto a evaluar.
+ * \param shared_dice son los dados establecidos por un efecto SET_VALUE previo.
+ * Usar NULL si no hubo un efecto SET_VALUE previo para establecer los dados.
  */
 int effect_avg_damage(const struct effect *effect, const dice_t *shared_dice)
 {
 	if (effect->index == EF_RANDOM || effect->index == EF_SELECT) {
-		// Random or select effect, check the sub-effects to
-		// accumulate damage
+		// Efecto aleatorio o select, verificar los subefectos para
+		// acumular daño
 		int total = 0;
 		struct effect *e = effect->next;
 		int n_stated = dice_evaluate((shared_dice) ?
@@ -786,10 +788,10 @@ int effect_avg_damage(const struct effect *effect, const dice_t *shared_dice)
 			++n_actual;
 			e = e->next;
 		}
-		// Return an average of the sub-effects' average damages
+		// Devolver un promedio de los daños medios de los subefectos
 		return (n_actual > 0) ? total / n_actual : 0;
 	} else if (effect_damages(effect)) {
-		// Non-random effect, calculate the average damage
+		// Efecto no aleatorio, calcular el daño medio
 		return dice_evaluate((shared_dice) ?
 			shared_dice : effect->dice, 0, AVERAGE, NULL);
 	}
@@ -797,20 +799,20 @@ int effect_avg_damage(const struct effect *effect, const dice_t *shared_dice)
 }
 
 /**
- * Returns the projection of the effect, or an empty string if it has none.
- * Random or select effects only return a projection if all sub-effects have
- * the same projection.
+ * Devuelve la proyección del efecto, o una cadena vacía si no tiene ninguna.
+ * Los efectos aleatorios o select solo devuelven una proyección si todos los
+ * subefectos tienen la misma proyección.
  */
 const char *effect_projection(const struct effect *effect)
 {
 	if (effect->index == EF_RANDOM || effect->index == EF_SELECT) {
-		// Random or select effect
+		// Efecto aleatorio o select
 		int num_subeffects = dice_evaluate(effect->dice, 0, AVERAGE, NULL);
 		struct effect *e;
 		const char *subeffect_proj;
 
-		// Check if all subeffects have the same projection, and if
-		// not just give up on it
+		// Verificar si todos los subefectos tienen la misma proyección,
+		// y si no, simplemente renunciar a ello
 		if (num_subeffects <= 0 || !effect->next) {
 			return "";
 		}
@@ -826,7 +828,7 @@ const char *effect_projection(const struct effect *effect)
 
 		return subeffect_proj;
 	} else if (projections[effect->subtype].player_desc != NULL) {
-		// Non-random effect, extract the projection if there is one
+		// Efecto no aleatorio, extraer la proyección si la hay
 		switch (base_descs[effect->index].efinfo_flag) {
 			case EFINFO_BALL:
 			case EFINFO_BOLTD:
@@ -841,8 +843,8 @@ const char *effect_projection(const struct effect *effect)
 }
 
 /**
- * Help effect_summarize_properties() and summarize_cure():  add one element
- * to the linked list of object properties.
+ * Ayuda a effect_summarize_properties() y summarize_cure(): añadir un elemento
+ * a la lista enlazada de propiedades de objeto.
  */
 static void add_to_summaries(struct effect_object_property **summaries,
 		int idx, int reslevel_min, int reslevel_max,
@@ -859,11 +861,11 @@ static void add_to_summaries(struct effect_object_property **summaries,
 }
 
 /**
- * Help effect_summarize_properties():  update the summaries for an effect that
- * acts like a cure.
- * \param tmd Is the TMD_* index for the timed effect being cured.
- * \param summaries Is the pointer to the linked list of summaries.
- * \param unsummarized_count Is the count of unsummarized effects.
+ * Ayuda a effect_summarize_properties(): actualizar los resúmenes para un
+ * efecto que actúa como una cura.
+ * \param tmd Es el índice TMD_* para el efecto temporal que se está curando.
+ * \param summaries Es el puntero a la lista enlazada de resúmenes.
+ * \param unsummarized_count Es el recuento de efectos no resumidos.
  */
 static void summarize_cure(int tmd, struct effect_object_property **summaries,
 		int *unsummarized_count)
@@ -885,15 +887,15 @@ static void summarize_cure(int tmd, struct effect_object_property **summaries,
 }
 
 /**
- * Return a summary of the object properties that match up with the effects in
- * an effect chain.
- * \param ef Is the pointer to the first effect in the chain.
- * \param unsummarized_count If not NULL, *unsummarized_count will be set to
- * the count of effects in the chain that do something which can't be summarized
- * by an object property.
- * \return Return a pointer to a linked list of the object properties implied
- * by the effect chain.  When no longer needed, each element of that linked
- * list should be released with mem_free().
+ * Devuelve un resumen de las propiedades de objeto que coinciden con los
+ * efectos en una cadena de efectos.
+ * \param ef Es el puntero al primer efecto en la cadena.
+ * \param unsummarized_count Si no es NULL, *unsummarized_count se establecerá
+ * al recuento de efectos en la cadena que hacen algo que no se puede resumir
+ * mediante una propiedad de objeto.
+ * \return Devuelve un puntero a una lista enlazada de las propiedades de objeto
+ * implícitas por la cadena de efectos. Cuando ya no se necesite, cada elemento
+ * de esa lista enlazada debe liberarse con mem_free().
  */
 struct effect_object_property *effect_summarize_properties(
 		const struct effect *ef, int *unsummarized_count)
@@ -909,26 +911,26 @@ struct effect_object_property *effect_summarize_properties(
 		case EF_RANDOM:
 		case EF_SELECT:
 			/*
-			 * For random or select effects, summarize all of the
-			 * subeffects since any of them is possible.  That's
-			 * equivalent to simply skipping over the random or
-			 * select effect and stepping one by one through what
-			 * follows.
+			 * Para efectos aleatorios o select, resumir todos los
+			 * subefectos ya que cualquiera de ellos es posible.
+			 * Eso es equivalente a simplemente saltarse el efecto
+			 * aleatorio o select y avanzar uno por uno a través de
+			 * lo que sigue.
 			 */
 			break;
 
 		case EF_SET_VALUE:
 			/*
-			 * Remember the value.  Does nothing that should be
-			 * remembered in the summaries or unsummarized count.
+			 * Recordar el valor. No hace nada que deba ser
+			 * recordado en los resúmenes o el recuento de no resumidos.
 			 */
 			remembered_dice = ef->dice;
 			break;
 
 		case EF_CLEAR_VALUE:
 			/*
-			 * Forget the value.  Does nothing that should be
-			 * remembered in the summaries or unsummarized count.
+			 * Olvidar el valor. No hace nada que deba ser
+			 * recordado en los resúmenes o el recuento de no resumidos.
 			 */
 			remembered_dice = NULL;
 			break;
@@ -947,7 +949,7 @@ struct effect_object_property *effect_summarize_properties(
 				dice_evaluate(ef->dice, 0, MAXIMISE, NULL) : 0);
 			if (value_this <= 0 && ef->subtype >= 0 &&
 					ef->subtype < TMD_MAX) {
-				/* It's equivalent to a cure. */
+				/* Es equivalente a una cura. */
 				summarize_cure(ef->subtype, &summaries,
 					&unsummarized);
 				break;
@@ -1024,7 +1026,7 @@ struct effect_object_property *effect_summarize_properties(
 						break;
 
 					default:
-						/* Nothing special is needed. */
+						/* No se necesita nada especial. */
 						break;
 					}
 					f = f->next;
@@ -1050,7 +1052,7 @@ struct effect_object_property *effect_summarize_properties(
 				dice_evaluate(remembered_dice, 0, MAXIMISE, NULL) :
 				((ef->dice) ?
 				dice_evaluate(ef->dice, 0, MAXIMISE, NULL) : 0);
-			/* If it decreases the duration, it's a partial cure. */
+			/* Si disminuye la duración, es una cura parcial. */
 			if (value_this > 0) {
 				summarize_cure(ef->subtype, &summaries,
 					&unsummarized);
@@ -1065,17 +1067,17 @@ struct effect_object_property *effect_summarize_properties(
 			break;
 
 		/*
-		 * There's other effects that have limited utility when the
-		 * object already has some flags:
-		 * DISABLE_TRAPS with OF_TRAP_IMMUNE is only good for unlocking
-		 * DETECT_INVISIBLE with OF_SEE_INVISIBLE or OF_TELEPATHY
-		 * RESTORE_x with OF_SUST_x
-		 * RESTORE_EXP with OF_HOLD_LIFE
-		 * For now, don't try to flag those.
+		 * Hay otros efectos que tienen utilidad limitada cuando el
+		 * objeto ya tiene algunos indicadores:
+		 * DISABLE_TRAPS con OF_TRAP_IMMUNE solo es bueno para desbloquear
+		 * DETECT_INVISIBLE con OF_SEE_INVISIBLE o OF_TELEPATHY
+		 * RESTORE_x con OF_SUST_x
+		 * RESTORE_EXP con OF_HOLD_LIFE
+		 * Por ahora, no intentar marcar esos.
 		 */
 		default:
 			/*
-			 * Everything else isn't related to an object property.
+			 * Todo lo demás no está relacionado con una propiedad de objeto.
 			 */
 			++unsummarized;
 			break;
