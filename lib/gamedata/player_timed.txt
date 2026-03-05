@@ -277,7 +277,7 @@ desc:alimentación
 grade:R:1:Muriendo de Hambre: :¡Te estás muriendo de hambre!!
 grade:r:4:Desmayo:Todavía te sientes débil.:¡Te estás desmayando de hambre!
 grade:o:8:Débil:Todavía estás débil.:¡Te estás debilitando por el hambre!
-grade:y:15:Hambriento:Todavía tienes hambre.:Empiezas a tener hambre.
+grade:y:15:Hungry:Todavía tienes hambre.:Empiezas a tener hambre.
 grade:G:90:Alimentado:Ya no tienes hambre.:Ya no estás lleno.
 grade:g:100:Lleno:¡Estás lleno!:
 msgt:HUNGRY
@@ -320,7 +320,7 @@ on-increase:El escudo místico se fortalece.
 msgt:SHIELD
 
 name:BLESSED
-desc:tu CA y bonificación para-golpear
+desc:tu AC y bonus para-golpear
 grade:G:10000:Bendito:¡Te sientes justo!
 on-end:La plegaria ha expirado.
 on-increase:¡Te sientes más justo!
