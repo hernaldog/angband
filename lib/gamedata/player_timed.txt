@@ -274,12 +274,12 @@ fail:1:PROT_STUN
 # Nota: los grados de comida están en porcentajes aquí, y se traducen al analizar
 name:FOOD
 desc:alimentación
-grade:R:1:Muriendo de Hambre: :¡Te estás muriendo de hambre!!
-grade:r:4:Desmayo:Todavía te sientes débil.:¡Te estás desmayando de hambre!
-grade:o:8:Débil:Todavía estás débil.:¡Te estás debilitando por el hambre!
+grade:R:1:Starving: :¡Te estás muriendo de hambre!!
+grade:r:4:Faint:Todavía te sientes débil.:¡Te estás desmayando de hambre!
+grade:o:8:Weak:Todavía estás débil.:¡Te estás debilitando por el hambre!
 grade:y:15:Hungry:Todavía tienes hambre.:Empiezas a tener hambre.
-grade:G:90:Alimentado:Ya no tienes hambre.:Ya no estás lleno.
-grade:g:100:Lleno:¡Estás lleno!:
+grade:G:90:Fed:Ya no tienes hambre.:Ya no estás lleno.
+grade:g:100:Full:¡Estás lleno!:
 msgt:HUNGRY
 lower-bound:1
 

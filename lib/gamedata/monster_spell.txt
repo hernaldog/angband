@@ -1,140 +1,143 @@
-# Monster spells
-# Used in conjunction with list-mon-spells.h.
+# Hechizos de monstruos
+# Usado junto con list-mon-spells.h.
 
-# name - sets the spell name; must match the first argument (other than NONE or
-#        MAX) to one of the RSF() macros in list-mon-spells.h
-# msgt - sets the message type to use for message-vis, message-invis, and
-#        message-miss messages of the current spell; the type must either
-#        match (case-insensitive) the first argument to one of the MSG()
-#        macros in list-message.h or be an unsigned integer less than MSG_MAX
-#        which is the index of the message type to use within list-message.h;
-#        for the textui interface, the message type affects the message color
-#        (configured globally by lib/customize/message.prf; also configurable
-#        by preferences in the user's files) and the sound played when the
-#        message is displayed (configured globally by lib/customize/sound.prf;
-#        also configurable by preferences in the user's files)
-# hit - sets the base to-hit chance (100 = always, 0 = never) for the current
-#       spell; the base chance  will be adjusted by the monster level and by
-#       timed effects affecting the monster
-# effect - adds an effect to the current spell; may be specified multiple
-#          times to apply multiple effects from the same spell; when the spell
-#          is cast, the effects are applied in the order they are given
-#          param one: is the name of the builtin effect to use; the name
-#              must match the first argument to one of the EFFECT() macros in
-#              list-effects.h
-#          param two: is the subtype of the given effect to use; can be
-#              omitted (along with the third and fourth parameters) if not
-#              needed by the effect
-#          param three: is the value to use for the effect's radius parameter;
-#              must be an integer; can be omitted (along with the fourth
-#              parameter) if not needed by the effect
-#          param four: is the value to use for the effect's "other" parameter;
-#              must be an integer; can be omitted if not needed by the effect
-# effect-yx sets the y and x parameters for the previous effect in the
-#           current spell; can be omitted if the effect does not use those
-#           parameters
-#           param one: is the value for the y parameter of the effect
-#           param two: is the value for the x parameter of the effect
-# dice - sets damage dice string for the previous effect in the current spell;
-#        can be omitted if the effect does not need it
-# expr - defines an expression for the dice tied to the previous effect in
-#        the current spell; will be ignored if the previous effect in the
-#        current spell has not had a dice string specified
-#        param one: is the name of the variable in the dice string to
-#            substitute with the value of the expression; variable names
-#            must be all capital letters and a reference to a variable in
-#            a dice string starts with a $; if the dice string does not contain
-#            a reference to the given variable, parsing of the game's data
-#            files will stop with an error
-#        param two: set the name of the base value to modify with the operations
-#            in the third parameter; the name can be one of those listed below;
-#            if it does not match any in the list, the base value will be zero
-#              SPELL_POWER - the monster's spell power
-#              PLAYER_LEVEL - the player's level
-#              DUNGEON_LEVEL - the dungeon's level
-#              MAX_SIGHT - the maximum sight range, in grids
-#              WEAPON_DAMAGE - a random roll for the base damage (only the
-#                  weapon's dice and damage modifier are included; no damage
-#                  modifiers from the player or equipment other than the
-#                  weapon are used) of the player's equipped weapon; if the
-#                  player has no equipped weapon, the value of this is zero
-#              PLAYER_HP - the player's current number of hit points
-#              MONSTER_PERCENT_HP_GONE - ((maximum hit points for the player's
-#                  targeted monster - current hit points for the player's
-#                  targeted monster) * 100) / maximum hit points for the
-#                  player's targeted monster or 0 if the player doesn't
-#                  currently have a targeted monster
-#        param three: sets the operations to perform on the base value to
-#            get the value substituted into the dice expression; for instance,
-#            "* 2 / 3" would multiply the base value by 2 then divide that
-#            result by three, discarding any remainder; operators that are
-#            allowed are '+' (addition), '-' (subtraction), '*'
-#            (multiplication), '/' (integer division; discards remainder),
-#            and 'n' or 'N' (either negate the result from before the operator);
-#            integer constants in the operations must be between -32768 and
-#            32767; operators and integer constants in the operations should be
-#            separated by single spaces
-# power-cutoff - sets a monster spell power at which we move to a new set of
-#                lore, lore-color-base, lore-color-resist, lore-color-immune,
-#                message-save, message-vis, message-invis and message-miss
-#                settings for the current spell; to work properly, the cutoff
-#                specified must be greater than zero and greater than any
-#                previously specified power cutoffs for the same spell; a
-#                monster's spell power is, by default, equal to its depth
-#                (i.e. the value for the "depth:" directive for the monster
-#                in monster.txt) but that can be overridden by a
-#                "spell-power:" directive for the monster in monster.txt
-# lore - set the description printed in monster recall after "It can" for the
-#        current spell, e.g. "cause critical wounds"; the descriptions from
-#        multiple lore lines in the same spell without an intervening
-#        power-cutoff line will be concatenated
-# lore-color-base - set the base color for lore; may be a single character color
-#                   code or the full name (case-insensitive) for the color
-# lore-color-resist - set the color for lore when the spell is resisted; may
-#                     be a single character color code or the full name (case-
-#                     insensitive) for the color
-# lore-color-immune - set the color for lore when the spell is resisted
-#                     strongly; may be a single character color code or the
-#                     full name (case-insensitive for the color)
-# message-save - sets the message displayed if the player makes a successful
-#                save against the spell; must be supplied to allow the player
-#                a save against the spell; the messages from multiple
-#                message-save lines in the same spell without an intervening
-#                power-cutoff line will be concatenated
-# message-vis - sets the message printed when the spell is cast by a visible
-#               monster, e.g. "{name} points at you, incanting terribly!"; the
-#               messages from multiple message-vis lines in the same spell
-#               without an intervening power-cutoff line will be concatenated
-# message-invis - sets the message printed when the spell is cast by an unseen
-#                 monster, e.g. "Something utters a terrible incantation!";
-#                 the messages from multiple message-invis lines in the same
-#                 spell without an intervening power-cutoff line will be
-#                 concatenated
-# message-miss - sets the message printed when a known/visible monster misses
-#                the spell attack against the player; the messages from
-#                multiple message-miss lines in the same spell without an
-#                intervening power-cutoff line will be concatenated
+# name - establece el nombre del hechizo; debe coincidir con el primer argumento
+#        (distinto de NONE o MAX) de una de las macros RSF() en list-mon-spells.h
+# msgt - establece el tipo de mensaje a usar para los mensajes message-vis,
+#        message-invis y message-miss del hechizo actual; el tipo debe coincidir
+#        (sin distinción de mayúsculas/minúsculas) con el primer argumento de una
+#        de las macros MSG() en list-message.h o ser un entero sin signo menor que
+#        MSG_MAX que sea el índice del tipo de mensaje a usar dentro de list-message.h;
+#        para la interfaz de texto, el tipo de mensaje afecta al color del mensaje
+#        (configurado globalmente por lib/customize/message.prf; también configurable
+#        mediante preferencias en los archivos del usuario) y el sonido reproducido
+#        cuando se muestra el mensaje (configurado globalmente por
+#        lib/customize/sound.prf; también configurable mediante preferencias en los
+#        archivos del usuario)
+# hit - establece la probabilidad base de acertar (100 = siempre, 0 = nunca) para el
+#       hechizo actual; la probabilidad base se ajustará por el nivel del monstruo y
+#       por los efectos temporales que afectan al monstruo
+# effect - añade un efecto al hechizo actual; puede especificarse múltiples veces
+#          para aplicar múltiples efectos del mismo hechizo; cuando se lanza el
+#          hechizo, los efectos se aplican en el orden en que se dan
+#          parámetro uno: es el nombre del efecto incorporado a usar; el nombre
+#              debe coincidir con el primer argumento de una de las macros EFFECT()
+#              en list-effects.h
+#          parámetro dos: es el subtipo del efecto dado a usar; puede omitirse
+#              (junto con el tercer y cuarto parámetro) si no es necesario para el
+#              efecto
+#          parámetro tres: es el valor a usar para el parámetro de radio del efecto;
+#              debe ser un entero; puede omitirse (junto con el cuarto parámetro)
+#              si no es necesario para el efecto
+#          parámetro cuatro: es el valor a usar para el parámetro "other" del efecto;
+#              debe ser un entero; puede omitirse si no es necesario para el efecto
+# effect-yx establece los parámetros y y x para el efecto anterior en el hechizo
+#           actual; puede omitirse si el efecto no usa esos parámetros
+#           parámetro uno: es el valor para el parámetro y del efecto
+#           parámetro dos: es el valor para el parámetro x del efecto
+# dice - establece la cadena de dados de daño para el efecto anterior en el hechizo
+#        actual; puede omitirse si el efecto no la necesita
+# expr - define una expresión para los dados vinculados al efecto anterior en el
+#        hechizo actual; se ignorará si el efecto anterior en el hechizo actual no
+#        ha tenido una cadena de dados especificada
+#        parámetro uno: es el nombre de la variable en la cadena de dados a
+#            sustituir con el valor de la expresión; los nombres de las variables
+#            deben ser totalmente en mayúsculas y una referencia a una variable en
+#            una cadena de dados comienza con $; si la cadena de dados no contiene
+#            una referencia a la variable dada, el análisis de los archivos de
+#            datos del juego se detendrá con un error
+#        parámetro dos: establece el nombre del valor base a modificar con las
+#            operaciones en el tercer parámetro; el nombre puede ser uno de los
+#            enumerados a continuación; si no coincide con ninguno de la lista,
+#            el valor base será cero
+#              SPELL_POWER - el poder de hechizo del monstruo
+#              PLAYER_LEVEL - el nivel del jugador
+#              DUNGEON_LEVEL - el nivel de la mazmorra
+#              MAX_SIGHT - el alcance máximo de visión, en casillas
+#              WEAPON_DAMAGE - una tirada aleatoria para el daño base (solo se
+#                  incluyen los dados del arma y el modificador de daño; no se
+#                  utilizan modificadores de daño del jugador o equipo aparte del
+#                  arma) del arma equipada del jugador; si el jugador no tiene
+#                  arma equipada, el valor de esto es cero
+#              PLAYER_HP - el número actual de puntos de vida del jugador
+#              MONSTER_PERCENT_HP_GONE - ((puntos de vida máximos del monstruo
+#                  objetivo del jugador - puntos de vida actuales del monstruo
+#                  objetivo del jugador) * 100) / puntos de vida máximos del
+#                  monstruo objetivo del jugador o 0 si el jugador no tiene
+#                  actualmente un monstruo objetivo
+#        parámetro tres: establece las operaciones a realizar sobre el valor base
+#            para obtener el valor sustituido en la expresión de dados; por ejemplo,
+#            "* 2 / 3" multiplicaría el valor base por 2 y luego dividiría ese
+#            resultado por tres, descartando cualquier resto; los operadores que
+#            están permitidos son '+' (suma), '-' (resta), '*'
+#            (multiplicación), '/' (división entera; descarta el resto),
+#            y 'n' o 'N' (niega el resultado anterior al operador);
+#            las constantes enteras en las operaciones deben estar entre -32768 y
+#            32767; los operadores y constantes enteras en las operaciones deben
+#            estar separados por un solo espacio
+# power-cutoff - establece un poder de hechizo de monstruo en el cual pasamos a un
+#                nuevo conjunto de configuraciones de lore, lore-color-base,
+#                lore-color-resist, lore-color-immune, message-save, message-vis,
+#                message-invis y message-miss para el hechizo actual; para que
+#                funcione correctamente, el corte especificado debe ser mayor que
+#                cero y mayor que cualquier corte de poder especificado previamente
+#                para el mismo hechizo; el poder de hechizo de un monstruo es, por
+#                defecto, igual a su profundidad (es decir, el valor de la directiva
+#                "depth:" para el monstruo en monster.txt) pero eso puede ser
+#                anulado por una directiva "spell-power:" para el monstruo en
+#                monster.txt
+# lore - establece la descripción impresa en el recuerdo del monstruo después de
+#        "Puede" para el hechizo actual, p.ej. "causar heridas críticas"; las
+#        descripciones de múltiples líneas lore en el mismo hechizo sin una línea
+#        power-cutoff intermedia se concatenarán
+# lore-color-base - establece el color base para lore; puede ser un código de color
+#                   de un solo carácter o el nombre completo (sin distinción de
+#                   mayúsculas/minúsculas) del color
+# lore-color-resist - establece el color para lore cuando el hechizo es resistido;
+#                     puede ser un código de color de un solo carácter o el nombre
+#                     completo (sin distinción de mayúsculas/minúsculas) del color
+# lore-color-immune - establece el color para lore cuando el hechizo es resistido
+#                     fuertemente; puede ser un código de color de un solo carácter
+#                     o el nombre completo (sin distinción de mayúsculas/minúsculas
+#                     del color)
+# message-save - establece el mensaje mostrado si el jugador realiza una tirada de
+#                salvación exitosa contra el hechizo; debe proporcionarse para
+#                permitir al jugador una tirada de salvación contra el hechizo; los
+#                mensajes de múltiples líneas message-save en el mismo hechizo sin
+#                una línea power-cutoff intermedia se concatenarán
+# message-vis - establece el mensaje impreso cuando el hechizo es lanzado por un
+#               monstruo visible, p.ej. "{name} te señala, ¡recitando terriblemente!";
+#               los mensajes de múltiples líneas message-vis en el mismo hechizo
+#               sin una línea power-cutoff intermedia se concatenarán
+# message-invis - establece el mensaje impreso cuando el hechizo es lanzado por un
+#                 monstruo invisible, p.ej. "Algo profiere una terrible invocación!";
+#                 los mensajes de múltiples líneas message-invis en el mismo
+#                 hechizo sin una línea power-cutoff intermedia se concatenarán
+# message-miss - establece el mensaje impreso cuando un monstruo conocido/visible
+#                falla el ataque de hechizo contra el jugador; los mensajes de
+#                múltiples líneas message-miss en el mismo hechizo sin una línea
+#                power-cutoff intermedia se concatenarán
 
-# Remember that lore, lore-color-base, lore-color-resist, lore-color-immune,
-# message-save, message-vis, message-invis, message-miss apply to a specific
-# range of monster spell powers.  The lower limit for the spell powers a
-# given line will affect is either -infinity (if the line in question does not
-# have a power-cutoff line before it in the same spell) or one more
-# than the cutoff specified in the last power-cutoff line in the same spell
-# before the line in question.  The upper limit for the spell powers a given
-# line will affect is either +infinity (if the line in question does not have
-# a power-cutoff line after it in the same spell) or the cutoff specified in
-# the first power-cutoff line in the same spell after the line in question.
+# Recuerda que lore, lore-color-base, lore-color-resist, lore-color-immune,
+# message-save, message-vis, message-invis, message-miss se aplican a un rango
+# específico de poderes de hechizo de monstruo. El límite inferior para los poderes
+# de hechizo que afectará una línea dada es -infinito (si la línea en cuestión no
+# tiene una línea power-cutoff antes de ella en el mismo hechizo) o uno más
+# que el corte especificado en la última línea power-cutoff en el mismo hechizo
+# antes de la línea en cuestión. El límite superior para los poderes de hechizo que
+# afectará una línea dada es +infinito (si la línea en cuestión no tiene una línea
+# power-cutoff después de ella en el mismo hechizo) o el corte especificado en la
+# primera línea power-cutoff en el mismo hechizo después de la línea en cuestión.
 
-# Text in braces {} will be replaced with the appropriate word when the
-# messages supplied by message-vis, message-invis, or message-miss are
-# displayed; no replacements are made in the message supplied by message-save.
-# The strings that will be replaced are:
-# - {name} is the acting monster's name
-# - {pronoun} is his/her/its
-# - {type} is the projection type being used
-# - {oftype} is like {type}, but with "of" added - e.g. "a whip of fire"
-# - {target} is the target of the spell - player or (rarely) another monster
+# El texto entre llaves {} se reemplazará con la palabra apropiada cuando se
+# muestren los mensajes proporcionados por message-vis, message-invis o message-miss;
+# no se realizan reemplazos en el mensaje proporcionado por message-save.
+# Las cadenas que se reemplazarán son:
+# - {name} es el nombre del monstruo actuante
+# - {pronoun} es su/su/su (pronombre posesivo)
+# - {type} es el tipo de proyección que se está utilizando
+# - {oftype} es como {type}, pero con "de" añadido - p.ej. "un látigo de fuego"
+# - {target} es el objetivo del hechizo - jugador o (rara vez) otro monstruo
 
 name:SHRIEK
 msgt:SHRIEK
@@ -142,131 +145,131 @@ hit:100
 effect:WAKE
 effect:PROJECT_LOS:MON_SPEED
 dice:25
-lore:shriek for help
+lore:chillar pidiendo ayuda
 lore-color-base:Orange
-message-vis:{name} makes a high-pitched shriek.
-message-invis:Something makes a high-pitched shriek.
+message-vis:{name} emite un chillido agudo.
+message-invis:Algo emite un chillido agudo.
 
 name:WHIP
 hit:100
 effect:LASH:MISSILE:2
-lore:lash you if nearby
+lore:azotarte si estás cerca
 lore-color-base:Orange
-message-vis:{name} lashes at you with a whip{oftype}.
-message-invis:You hear a crack.
+message-vis:{name} te azota con un látigo{oftype}.
+message-invis:Escuchas un chasquido.
 
 name:SPIT
 hit:100
 effect:LASH:MISSILE:3
-lore:spit at you from a distance
+lore:escupirte a distancia
 lore-color-base:Orange
-message-vis:{name} spits {type} at you.
-message-invis:You hear a soft sound.
+message-vis:{name} te escupe {type}.
+message-invis:Escuchas un sonido suave.
 
 name:SHOT
 hit:50
 effect:BOLT:ARROW
 dice:$Dd5
 expr:D:SPELL_POWER:/ 8 + 1
-lore:fling pebbles
+lore:lanzar piedrecitas
 lore-color-base:Yellow
-message-vis:{name} slings a pebble at {target}.
-message-invis:You hear something fly through the air.
-message-miss:{name} slings a pebble, but misses.
+message-vis:{name} lanza una piedrecita con una honda a {target}.
+message-invis:Escuchas algo volar por el aire.
+message-miss:{name} lanza una piedrecita, pero falla.
 power-cutoff:25
-lore:sling lead shots
+lore:lanzar perdigones de plomo
 lore-color-base:Yellow
-message-vis:{name} slings a leaden pellet at {target}.
-message-invis:You hear something whirl through the air.
-message-miss:{name} slings a leaden pellet, but misses.
+message-vis:{name} lanza un perdigón de plomo con una honda a {target}.
+message-invis:Escuchas algo zumbar por el aire.
+message-miss:{name} lanza un perdigón de plomo, pero falla.
 power-cutoff:50
-lore:sling seeker shots
+lore:lanzar proyectiles buscadores
 lore-color-base:Yellow
-message-vis:{name} slings a seeker shot at {target}.
-message-invis:You hear something heavy whirl through the air.
-message-miss:{name} slings a seeker shot, but misses.
+message-vis:{name} lanza un proyectil buscador con una honda a {target}.
+message-invis:Escuchas algo pesado zumbar por el aire.
+message-miss:{name} lanza un proyectil buscador, pero falla.
 
 name:ARROW
 hit:50
 effect:BOLT:ARROW
 dice:$Dd6
 expr:D:SPELL_POWER:/ 8 + 1
-lore:fire small arrows
+lore:disparar flechas pequeñas
 lore-color-base:Yellow
-message-vis:{name} fires a small arrow.
-message-invis:You hear a soft twang.
-message-miss:{name} fires a small arrow, but misses.
+message-vis:{name} dispara una flecha pequeña.
+message-invis:Escuchas un suave zumbido.
+message-miss:{name} dispara una flecha pequeña, pero falla.
 power-cutoff:16
-lore:fire arrows
+lore:disparar flechas
 lore-color-base:Yellow
-message-vis:{name} fires an arrow.
-message-invis:You hear a twang.
-message-miss:{name} fires an arrow, but misses.
+message-vis:{name} dispara una flecha.
+message-invis:Escuchas un zumbido.
+message-miss:{name} dispara una flecha, pero falla.
 power-cutoff:32
-lore:fire large arrows
+lore:disparar flechas grandes
 lore-color-base:Yellow
-message-vis:{name} fires a large arrow.
-message-invis:You hear a loud twang.
-message-miss:{name} fires a large arrow, but misses.
+message-vis:{name} dispara una flecha grande.
+message-invis:Escuchas un fuerte zumbido.
+message-miss:{name} dispara una flecha grande, pero falla.
 power-cutoff:48
-lore:fire seeker arrows
+lore:disparar flechas buscadoras
 lore-color-base:Yellow
-message-vis:{name} fires a seeker arrow.
-message-invis:You hear a loud thwang.
-message-miss:{name} fires a seeker arrow, but misses.
+message-vis:{name} dispara una flecha buscadora.
+message-invis:Escuchas un fuerte zumbido metálico.
+message-miss:{name} dispara una flecha buscadora, pero falla.
 
 name:BOLT
 hit:50
 effect:BOLT:ARROW
 dice:$Dd7
 expr:D:SPELL_POWER:/ 8 + 1
-lore:fire small bolts
+lore:disparar virotes pequeños
 lore-color-base:Yellow
-message-vis:{name} fires a little bolt.
-message-invis:You hear a soft twung.
-message-miss:{name} fires a little bolt, but misses.
+message-vis:{name} dispara un virote pequeño.
+message-invis:Escuchas un suave zumbido grave.
+message-miss:{name} dispara un virote pequeño, pero falla.
 power-cutoff:25
-lore:fire bolts
+lore:disparar virotes
 lore-color-base:Yellow
-message-vis:{name} fires a crossbow bolt.
-message-invis:You hear a twung.
-message-miss:{name} fires a crossbow bolt, but misses.
+message-vis:{name} dispara un virote de ballesta.
+message-invis:Escuchas un zumbido grave.
+message-miss:{name} dispara un virote de ballesta, pero falla.
 power-cutoff:50
-lore:fire seeker bolts
+lore:disparar virotes buscadores
 lore-color-base:Yellow
-message-vis:{name} fires a seeker bolt.
-message-invis:You hear a loud thwung.
-message-miss:{name} fires a seeker bolt, but misses.
+message-vis:{name} dispara un virote buscador.
+message-invis:Escuchas un fuerte zumbido grave metálico.
+message-miss:{name} dispara un virote buscador, pero falla.
 
 name:BR_ACID
 msgt:BR_ACID
 hit:100
 effect:BREATH:ACID:0:30
-lore:acid
+lore:ácido
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} breathes acid.
-message-invis:You hear an acrid roar.
+message-vis:{name} exhala ácido.
+message-invis:Escuchas un rugido acre.
 
 name:BR_ELEC
 msgt:BR_ELEC
 hit:100
 effect:BREATH:ELEC:0:30
-lore:lightning
+lore:relámpago
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} breathes lightning.
-message-invis:You hear a crackling roar.
+message-vis:{name} exhala un relámpago.
+message-invis:Escuchas un rugido crepitante.
 
 name:BR_FIRE
 msgt:BR_FIRE
 hit:100
 effect:BREATH:FIRE:0:30
-message-vis:{name} breathes fire.
-message-invis:You hear a scorching roar.
-lore:fire
+message-vis:{name} exhala fuego.
+message-invis:Escuchas un rugido abrasador.
+lore:fuego
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
@@ -275,132 +278,132 @@ name:BR_COLD
 msgt:BR_FROST
 hit:100
 effect:BREATH:COLD:0:30
-lore:frost
+lore:escarcha
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} breathes frost.
-message-invis:You hear a whooshing roar.
+message-vis:{name} exhala escarcha.
+message-invis:Escuchas un rugido silbante.
 
 name:BR_POIS
 msgt:BR_GAS
 hit:100
 effect:BREATH:POIS:0:30
-lore:poison
+lore:veneno
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} breathes poison.
-message-invis:You hear a sickening roar.
+message-vis:{name} exhala veneno.
+message-invis:Escuchas un rugido nauseabundo.
 
 name:BR_NETH
 msgt:BR_NETHER
 hit:100
 effect:BREATH:NETHER:0:30
-lore:nether
+lore:éter
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} breathes nether.
-message-invis:You hear an eerie roar.
+message-vis:{name} exhala éter.
+message-invis:Escuchas un rugido espeluznante.
 
 name:BR_LIGHT
 msgt:BR_LIGHT
 hit:100
 effect:BREATH:LIGHT:0:30
-lore:light
+lore:luz
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} breathes light.
-message-invis:You hear a humming roar.
+message-vis:{name} exhala luz.
+message-invis:Escuchas un rugido vibrante.
 
 name:BR_DARK
 msgt:BR_DARK
 hit:100
 effect:BREATH:DARK:0:30
-lore:darkness
+lore:oscuridad
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} breathes darkness.
-message-invis:You hear a hushing roar.
+message-vis:{name} exhala oscuridad.
+message-invis:Escuchas un rugido silencioso.
 
 name:BR_SOUN
 msgt:BR_SOUND
 hit:100
 effect:BREATH:SOUND:0:30
-lore:sound
+lore:sonido
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} breathes sound.
-message-invis:You hear an echoing roar.
+message-vis:{name} exhala sonido.
+message-invis:Escuchas un rugido resonante.
 
 name:BR_CHAO
 msgt:BR_CHAOS
 hit:100
 effect:BREATH:CHAOS:0:30
-lore:chaos
+lore:caos
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} breathes chaos.
-message-invis:You hear a cacophonous roar.
+message-vis:{name} exhala caos.
+message-invis:Escuchas un rugido cacofónico.
 
 name:BR_DISE
 msgt:BR_DISEN
 hit:100
 effect:BREATH:DISEN:0:30
-lore:disenchantment
+lore:desencantamiento
 lore-color-base:Light Red
 lore-color-resist:Light Green
-message-vis:{name} breathes disenchantment.
-message-invis:You hear a dissipating roar.
+message-vis:{name} exhala desencantamiento.
+message-invis:Escuchas un rugido que se disipa.
 
 name:BR_NEXU
 msgt:BR_NEXUS
 hit:100
 effect:BREATH:NEXUS:0:30
-lore:nexus
+lore:nexo
 lore-color-base:Light Red
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} breathes nexus.
-message-invis:You hear a tearing roar.
+message-vis:{name} exhala nexo.
+message-invis:Escuchas un rugido desgarrador.
 
 name:BR_TIME
 msgt:BR_TIME
 hit:100
 effect:BREATH:TIME:0:30
-lore:time
+lore:tiempo
 lore-color-base:Light Red
-message-vis:{name} breathes time.
-message-invis:You remember hearing a roar.
+message-vis:{name} exhala tiempo.
+message-invis:Recuerdas haber oído un rugido.
 
 name:BR_INER
 msgt:BR_INERTIA
 hit:100
 effect:BREATH:INERTIA:0:30
-lore:inertia
+lore:inercia
 lore-color-base:Orange
-message-vis:{name} breathes inertia.
-message-invis:You hear a thrumming roar.
+message-vis:{name} exhala inercia.
+message-invis:Escuchas un rugido vibrante grave.
 
 name:BR_GRAV
 msgt:BR_GRAVITY
 hit:100
 effect:BREATH:GRAVITY:0:30
-lore:gravity
+lore:gravedad
 lore-color-base:Light Red
-message-vis:{name} breathes gravity.
-message-invis:You hear a heavy roar.
+message-vis:{name} exhala gravedad.
+message-invis:Escuchas un rugido pesado.
 
 name:BR_SHAR
 msgt:BR_SHARDS
 hit:100
 effect:BREATH:SHARD:0:30
-lore:shards
+lore:esquirlas
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} breathes shards.
-message-invis:You hear a shattering roar.
+message-vis:{name} exhala esquirlas.
+message-invis:Escuchas un rugido fragmentado.
 
 name:BR_PLAS
 msgt:BR_PLASMA
@@ -409,225 +412,225 @@ effect:BREATH:PLASMA:0:30
 lore:plasma
 lore-color-base:Orange
 lore-color-resist:Yellow
-message-vis:{name} breathes plasma.
-message-invis:You hear a hissing roar.
+message-vis:{name} exhala plasma.
+message-invis:Escuchas un rugido sibilante.
 
 name:BR_WALL
 msgt:BR_FORCE
 hit:100
 effect:BREATH:FORCE:0:30
-lore:force
+lore:fuerza
 lore-color-base:Orange
 lore-color-resist:Yellow
-message-vis:{name} breathes force.
-message-invis:You hear a staccato roar.
+message-vis:{name} exhala fuerza.
+message-invis:Escuchas un rugido entrecortado.
 
 name:BR_MANA
 hit:100
 effect:BREATH:MANA:0:30
-lore:mana
+lore:maná
 lore-color-base:Light Red
-message-vis:{name} breathes raw magic.
-message-invis:You hear a scintillating roar.
+message-vis:{name} exhala magia pura.
+message-invis:Escuchas un rugido centelleante.
 
 name:BOULDER
 hit:60
 effect:BOLT:ARROW
 dice:$Dd12
 expr:D:SPELL_POWER:/ 7 + 1
-lore:throw boulders
+lore:lanzar peñascos
 lore-color-base:Yellow
-message-vis:{name} hurls a boulder.
-message-invis:You hear a grunt of exertion.
-message-miss:{name} hurls a boulder, but misses.
+message-vis:{name} arroja un peñasco.
+message-invis:Escuchas un gruñido de esfuerzo.
+message-miss:{name} arroja un peñasco, pero falla.
 
 name:WEAVE
 msgt:CREATE_TRAP
 hit:100
 effect:WEB
-lore:weave webs
+lore:tejer telarañas
 lore-color-base:Yellow
-message-vis:{name} weaves a web.
-message-invis:You hear soft rustling.
+message-vis:{name} teje una telaraña.
+message-invis:Escuchas un suave crujido.
 
 name:BA_ACID
 hit:100
 effect:BALL:ACID:2
 dice:15+1d$S
 expr:S:SPELL_POWER:* 3
-lore:produce acid balls
+lore:producir esferas de ácido
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} casts a ball of acid.
-message-invis:Something mumbles.
+message-vis:{name} lanza una esfera de ácido.
+message-invis:Algo murmura.
 
 name:BA_ELEC
 hit:100
 effect:BALL:ELEC:2
 dice:8+1d$S
 expr:S:SPELL_POWER:* 3 / 2
-lore:produce lightning balls
+lore:producir esferas de relámpago
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} casts a ball of lightning.
-message-invis:Something mumbles.
+message-vis:{name} lanza una esfera de relámpago.
+message-invis:Algo murmura.
 
 name:BA_FIRE
 hit:100
 effect:BALL:FIRE:2
 dice:10+1d$S
 expr:S:SPELL_POWER:* 7 / 2
-lore:produce fire balls
+lore:producir esferas de fuego
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} casts a ball of fire.
-message-invis:Something mumbles.
+message-vis:{name} lanza una esfera de fuego.
+message-invis:Algo murmura.
 power-cutoff:80
-lore:produce firestorms
+lore:producir tormentas de fuego
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} conjures up a firestorm.
-message-invis:Something murmurs deeply.
+message-vis:{name} conjura una tormenta de fuego.
+message-invis:Algo murmura profundamente.
 
 name:BA_COLD
 hit:100
 effect:BALL:COLD:2
 dice:10+1d$S
 expr:S:SPELL_POWER:* 3 / 2
-lore:produce balls of cold
+lore:producir esferas de frío
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} casts a ball of frost.
-message-invis:Something mumbles.
+message-vis:{name} lanza una esfera de escarcha.
+message-invis:Algo murmura.
 power-cutoff:80
-lore:produce blizzards
+lore:producir ventiscas
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} calls up a blizzard.
-message-invis:Something chants coldly.
+message-vis:{name} invoca una ventisca.
+message-invis:Algo canta fríamente.
 
 name:BA_POIS
 hit:100
 effect:BALL:POIS:2
 dice:$Dd4
 expr:D:SPELL_POWER:/ 2 + 3
-lore:produce poison balls
+lore:producir esferas de veneno
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} casts a venomous cloud.
-message-invis:Something mumbles.
+message-vis:{name} lanza una nube venenosa.
+message-invis:Algo murmura.
 power-cutoff:60
-lore:produce storms of poison
+lore:producir tormentas de veneno
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} unleashes a storm of corrosive toxins.
-message-invis:Something murmurs viciously.
+message-vis:{name} desata una tormenta de toxinas corrosivas.
+message-invis:Algo murmura con maldad.
 
 name:BA_SHAR
 hit:100
 effect:BALL:SHARD:2
 dice:10+1d$S
 expr:S:SPELL_POWER:* 3 / 2
-lore:produce shardstorms
+lore:producir tormentas de esquirlas
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} calls up a whirlwind of shards.
-message-invis:Something mumbles.
+message-vis:{name} invoca un torbellino de esquirlas.
+message-invis:Algo murmura.
 power-cutoff:70
-lore:invoke storms of knives
+lore:invocar tormentas de cuchillos
 lore-color-base:Light Red
 lore-color-resist:Light Green
-message-vis:{name} invokes a storm of knives!
-message-invis:Something chants powerfully.
+message-vis:{name} invoca una tormenta de cuchillos.
+message-invis:Algo canta poderosamente.
 
 name:BA_NETH
 hit:100
 effect:BALL:NETHER:2
 dice:$B+10d10
 expr:B:SPELL_POWER:* 4
-lore:produce nether balls
+lore:producir esferas de éter
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} casts a ball of nether.
-message-invis:Something whispers nastily.
+message-vis:{name} lanza una esfera de éter.
+message-invis:Algo susurra desagradablemente.
 power-cutoff:80
-lore:produce nether storms
+lore:producir tormentas de éter
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} creates a storm of nether magics.
-message-invis:Something intones with deadly menace.
+message-vis:{name} crea una tormenta de magia etérea.
+message-invis:Algo entona con amenaza mortal.
 
 name:BA_WATE
 hit:100
 effect:BALL:WATER:2
 dice:50+1d$S
 expr:S:SPELL_POWER:* 5 / 2
-lore:produce water balls
+lore:producir esferas de agua
 lore-color-base:Light Red
 lore-color-resist:Orange
-message-vis:{name} creates a whirlpool of water.
-message-invis:Something gurgles.
+message-vis:{name} crea un remolino de agua.
+message-invis:Algo gorgotea.
 
 name:BA_MANA
 hit:100
 effect:BALL:MANA:2
 dice:$B+10d10
 expr:B:SPELL_POWER:* 5
-lore:invoke mana storms
+lore:invocar tormentas de maná
 lore-color-base:Light Red
-message-vis:{name} invokes a storm of raw magic.
-message-invis:Something screams loudly.
+message-vis:{name} invoca una tormenta de magia pura.
+message-invis:Algo grita fuerte.
 
 name:BA_HOLY
 hit:100
 effect:BALL:HOLY_ORB:2
 dice:10+1d$S
 expr:S:SPELL_POWER:* 3 / 2
-lore:cast orbs of draining
+lore:lanzar orbes de drenaje
 lore-color-base:Orange
-message-vis:{name} casts an orb of draining.
-message-invis:Something chants.
+message-vis:{name} lanza un orbe de drenaje.
+message-invis:Algo canta.
 
 name:BA_DARK
 hit:100
 effect:BALL:DARK:2
 dice:$B+10d10
 expr:B:SPELL_POWER:* 4
-lore:produce balls of darkness
+lore:producir esferas de oscuridad
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} casts a ball of darkness.
-message-invis:Something mumbles loudly.
+message-vis:{name} lanza una esfera de oscuridad.
+message-invis:Algo murmura fuerte.
 power-cutoff:70
-lore:invoke darkness storms
+lore:invocar tormentas de oscuridad
 lore-color-base:Light Red
 lore-color-resist:Light Green
-message-vis:{name} invokes a storm of darkness.
-message-invis:Something chants powerfully.
+message-vis:{name} invoca una tormenta de oscuridad.
+message-invis:Algo canta poderosamente.
 
 name:BA_LIGHT
 hit:100
 effect:BALL:LIGHT:2
 dice:10+1d$S
 expr:S:SPELL_POWER:* 3 / 2
-lore:produce balls of light
+lore:producir esferas de luz
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} casts a ball of light.
-message-invis:Something mumbles.
+message-vis:{name} lanza una esfera de luz.
+message-invis:Algo murmura.
 power-cutoff:70
-lore:invoke starbursts
+lore:invocar estallidos estelares
 lore-color-base:Light Red
 lore-color-resist:Light Green
-message-vis:{name} invokes a starburst.
-message-invis:Something chants powerfully.
+message-vis:{name} invoca un estallido estelar.
+message-invis:Algo canta poderosamente.
 
 name:STORM
 hit:100
@@ -640,27 +643,27 @@ expr:D:SPELL_POWER:/ 3
 effect:BALL:ICE:3
 dice:20+$Dd5
 expr:D:SPELL_POWER:/ 3
-lore:create storms
+lore:crear tormentas
 lore-color-base:Light Red
 lore-color-resist:Orange
-message-vis:{name} creates a little storm.
-message-invis:Something gurgles.
+message-vis:{name} crea una pequeña tormenta.
+message-invis:Algo gorgotea.
 power-cutoff:80
-lore:create tempests
+lore:crear tempestades
 lore-color-base:Light Red
 lore-color-resist:Orange
-message-vis:{name} creates a tempest of wind and water.
-message-invis:Something chants fluidly.
+message-vis:{name} crea una tempestad de viento y agua.
+message-invis:Algo canta fluidamente.
 
 name:DRAIN_MANA
 hit:100
 effect:DRAIN_MANA
 dice:d$S
 expr:S:SPELL_POWER:/ 2 + 1
-lore:drain mana
+lore:drenar maná
 lore-color-base:Yellow
-message-vis:{name} drains your mana away.
-message-invis:Something moans.
+message-vis:{name} drena tu maná.
+message-invis:Algo gime.
 
 name:MIND_BLAST
 hit:100
@@ -668,13 +671,13 @@ effect:DAMAGE
 dice:8d8
 effect:TIMED_INC:CONFUSED
 dice:3+1d4
-lore:cause mind blasting
+lore:causar explosión mental
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} gazes at {target} with psionic energy.
-message-invis:Something focuses on your mind.
-message-save:You shake off a pounding headache.
+message-vis:{name} mira fijamente a {target} con energía psiónica.
+message-invis:Algo se enfoca en tu mente.
+message-save:Te sacudes un fuerte dolor de cabeza.
 
 name:BRAIN_SMASH
 hit:100
@@ -688,13 +691,13 @@ effect:TIMED_INC:PARALYZED
 dice:3+1d4
 effect:TIMED_INC:BLIND
 dice:7+1d8
-lore:cause brain smashing
+lore:causar aplastamiento cerebral
 lore-color-base:Light Red
 lore-color-resist:Orange
 lore-color-immune:Light Green
-message-vis:{name} smashes {target} with psionic energy.
-message-invis:Something focuses on your mind.
-message-save:You shake off a splitting migraine.
+message-vis:{name} aplasta a {target} con energía psiónica.
+message-invis:Algo se enfoca en tu mente.
+message-save:Te sacudes una migraña punzante.
 
 name:WOUND
 hit:100
@@ -704,531 +707,531 @@ expr:D:SPELL_POWER:/ 3 * 2
 effect:TIMED_INC:CUT
 dice:$Dd10
 expr:D:SPELL_POWER:/ 5 - 10
-lore:cause light wounds
+lore:causar heridas leves
 lore-color-base:Yellow
 lore-color-resist:Light Green
-message-vis:{name} points at {target} and curses!
-message-invis:Something curses!
-message-save:Your body tingles briefly.
+message-vis:{name} te señala y maldice.
+message-invis:Algo maldice.
+message-save:Tu cuerpo hormiguea brevemente.
 power-cutoff:16
-lore:cause medium wounds
+lore:causar heridas moderadas
 lore-color-base:Yellow
 lore-color-resist:Light Green
-message-vis:{name} points at {target} and curses horribly!
-message-invis:Something curses horribly!
-message-save:Your body pulsates briefly.
+message-vis:{name} te señala y maldice horriblemente.
+message-invis:Algo maldice horriblemente.
+message-save:Tu cuerpo palpita brevemente.
 power-cutoff:32
-lore:cause serious wounds
+lore:causar heridas graves
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} points at {target} and incants terribly!
-message-invis:Something incants terribly!
-message-save:Your body shakes briefly.
+message-vis:{name} te señala y recita terriblemente.
+message-invis:Algo recita terriblemente.
+message-save:Tu cuerpo se sacude brevemente.
 power-cutoff:50
-lore:cause critical wounds
+lore:causar heridas críticas
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} points at {target}, screaming words of peril!
-message-invis:Something cries out wrathfully!
-message-save:Your body shudders briefly.
+message-vis:{name} te señala, gritando palabras de peligro.
+message-invis:Algo clama con ira.
+message-save:Tu cuerpo se estremece brevemente.
 power-cutoff:80
-lore:cause mortal wounds
+lore:causar heridas mortales
 lore-color-base:Light Red
 lore-color-resist:Light Green
-message-vis:{name} points at {target} and screams the word 'DIE!'
-message-invis:Something screams the word 'DIE!'
-message-save:Your body spasms briefly.
+message-vis:{name} te señala y grita la palabra 'MUERE'.
+message-invis:Algo grita la palabra 'MUERE'.
+message-save:Tu cuerpo se convulsiona brevemente.
 
 name:BO_ACID
 hit:100
 effect:BOLT:ACID
 dice:$B+7d8
 expr:B:SPELL_POWER:/ 3
-lore:produce acid bolts
+lore:producir proyectiles de ácido
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} casts a bolt of acid.
-message-invis:Something mumbles.
+message-vis:{name} lanza un proyectil de ácido.
+message-invis:Algo murmura.
 
 name:BO_ELEC
 hit:100
 effect:BOLT:ELEC
 dice:$B+4d8
 expr:B:SPELL_POWER:/ 3
-lore:produce lightning bolts
+lore:producir proyectiles de relámpago
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} casts a bolt of lightning.
-message-invis:Something mumbles.
+message-vis:{name} lanza un proyectil de relámpago.
+message-invis:Algo murmura.
 
 name:BO_FIRE
 hit:100
 effect:BOLT:FIRE
 dice:$B+9d8
 expr:B:SPELL_POWER:/ 3
-lore:produce fire bolts
+lore:producir proyectiles de fuego
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} casts a bolt of fire.
-message-invis:Something mumbles.
+message-vis:{name} lanza un proyectil de fuego.
+message-invis:Algo murmura.
 
 name:BO_COLD
 hit:100
 effect:BOLT:COLD
 dice:$B+6d8
 expr:B:SPELL_POWER:/ 3
-lore:produce frost bolts
+lore:producir proyectiles de escarcha
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} casts a bolt of frost.
-message-invis:Something mumbles.
+message-vis:{name} lanza un proyectil de escarcha.
+message-invis:Algo murmura.
 
 name:BO_POIS
 hit:100
 effect:BOLT:POIS
 dice:$B+9d8
 expr:B:SPELL_POWER:/ 3
-lore:produce poison bolts
+lore:producir proyectiles de veneno
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} spews a stream of poison.
-message-invis:Something retches.
+message-vis:{name} escupe un chorro de veneno.
+message-invis:Algo vomita.
 
 name:BO_NETH
 hit:100
 effect:BOLT:NETHER
 dice:$B+5d5
 expr:B:SPELL_POWER:* 3 / 2 + 30
-lore:produce nether bolts
+lore:producir proyectiles de éter
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} casts a bolt of nether.
-message-invis:Something mumbles.
+message-vis:{name} lanza un proyectil de éter.
+message-invis:Algo murmura.
 
 name:BO_WATE
 hit:100
 effect:BOLT:WATER
 dice:$B+10d10
 expr:B:SPELL_POWER:+ 0
-lore:produce water bolts
+lore:producir proyectiles de agua
 lore-color-base:Light Red
 lore-color-resist:Orange
-message-vis:{name} fires a jet of water.
-message-invis:Something gurgles.
+message-vis:{name} dispara un chorro de agua.
+message-invis:Algo gorgotea.
 
 name:BO_MANA
 hit:100
 effect:BOLT:MANA
 dice:50+1d$S
 expr:S:SPELL_POWER:* 5 / 2
-lore:produce mana bolts
+lore:producir proyectiles de maná
 lore-color-base:Light Red
-message-vis:{name} casts a bolt of raw magic.
-message-invis:Something screams.
+message-vis:{name} lanza un proyectil de magia pura.
+message-invis:Algo grita.
 
 name:BO_PLAS
 hit:100
 effect:BOLT:PLASMA
 dice:$B+8d7
 expr:B:SPELL_POWER:+ 10
-lore:produce plasma bolts
+lore:producir proyectiles de plasma
 lore-color-base:Orange
 lore-color-resist:Yellow
-message-vis:{name} casts a bolt of plasma.
-message-invis:Something screams.
+message-vis:{name} lanza un proyectil de plasma.
+message-invis:Algo grita.
 
 name:BO_ICE
 hit:100
 effect:BOLT:ICE
 dice:$B+6d6
 expr:B:SPELL_POWER:+ 0
-lore:produce ice bolts
+lore:producir proyectiles de hielo
 lore-color-base:Orange
 lore-color-resist:Yellow
-message-vis:{name} shoots a spear of ice.
-message-invis:Something mumbles.
+message-vis:{name} lanza una lanza de hielo.
+message-invis:Algo murmura.
 
 name:MISSILE
 hit:100
 effect:BOLT:MISSILE
 dice:$B+2d6
 expr:B:SPELL_POWER:/ 3
-lore:produce magic missiles
+lore:producir proyectiles mágicos
 lore-color-base:Yellow
-message-vis:{name} fires a magic missile.
-message-invis:Something mumbles.
+message-vis:{name} dispara un proyectil mágico.
+message-invis:Algo murmura.
 
 name:BE_ELEC
 hit:100
 effect:SHORT_BEAM:ELEC:5
 dice:$B+5d5
 expr:B:SPELL_POWER:* 2 + 30
-lore:shoot sparks of lightning
+lore:disparar chispas de relámpago
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} shoots a spark of lightning at {target}.
-message-invis:You feel a crackling in the air.
+message-vis:{name} dispara una chispa de relámpago a {target}.
+message-invis:Sientes un crepitar en el aire.
 
 name:BE_NETH
 hit:100
 effect:SHORT_BEAM:NETHER:10
 dice:$B+5d5
 expr:B:SPELL_POWER:* 2 + 30
-lore:hurl lances of nether
+lore:arrojar lanzas de éter
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} hurls a lance of nether.
-message-invis:Something murmurs a deadly word.
+message-vis:{name} arroja una lanza de éter.
+message-invis:Algo murmura una palabra mortal.
 power-cutoff:80
-lore:shoot rays of death
+lore:disparar rayos de muerte
 lore-color-base:Light Red
 lore-color-resist:Light Green
-message-vis:{name} unleashes a ray of death.
-message-invis:Something intones with deadly menace.
+message-vis:{name} desata un rayo de muerte.
+message-invis:Algo entona con amenaza mortal.
 
 name:SCARE
 msgt:CAST_FEAR
 hit:100
 effect:TIMED_INC:AFRAID
 dice:3+1d4
-lore:terrify
+lore:aterrorizar
 lore-color-base:Yellow
 lore-color-resist:Light Green
-message-vis:{name} conjures up scary horrors.
-message-invis:Something makes scary noises.
-message-save:You fight off a sense of dread.
+message-vis:{name} conjura horrores espeluznantes.
+message-invis:Algo hace ruidos de miedo.
+message-save:Repeles una sensación de pavor.
 
 name:BLIND
 hit:100
 effect:TIMED_INC:BLIND
 dice:11+1d4
-lore:blind
+lore:cegar
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} sets off a blinding flash.
-message-invis:Something mumbles.
-message-save:You repel a sudden bleariness.
+message-vis:{name} provoca un destello cegador.
+message-invis:Algo murmura.
+message-save:Repeles una repentina somnolencia.
 
 name:CONF
 hit:100
 effect:TIMED_INC:CONFUSED
 dice:3+1d4
-lore:confuse
+lore:confundir
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} conjures up weird things.
-message-invis:Something messes with your mind.
-message-save:You retain your presence of mind.
+message-vis:{name} conjura cosas extrañas.
+message-invis:Algo altera tu mente.
+message-save:Mantienes tu presencia de ánimo.
 
 name:SLOW
 hit:100
 effect:TIMED_INC:SLOW
 dice:3+1d4
-lore:slow
+lore:ralentizar
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} tries to make {target} move slowly.
-message-invis:Something mumbles.
-message-save:You fight off a sense of sluggishness.
+message-vis:{name} intenta hacer que {target} se mueva lentamente.
+message-invis:Algo murmura.
+message-save:Combates una sensación de lentitud.
 
 name:HOLD
 hit:100
 effect:TIMED_INC:PARALYZED
 dice:3+1d4
-lore:paralyze
+lore:paralizar
 lore-color-base:Light Red
 lore-color-resist:Light Green
-message-vis:{name} tries to make {target} stop moving.
-message-invis:Something mumbles.
-message-save:You fight off a sense of torpidity.
+message-vis:{name} intenta hacer que {target} deje de moverse.
+message-invis:Algo murmura.
+message-save:Combates una sensación de torpor.
 
 name:HASTE
 hit:100
 effect:MON_TIMED_INC:FAST
 dice:50
-lore:haste-self
+lore:auto-rapidez
 lore-color-base:Yellow
-message-vis:{name} concentrates on {pronoun} body.
-message-invis:Something mutters.
+message-vis:{name} se concentra en su cuerpo.
+message-invis:Algo murmura.
 
 name:HEAL
 hit:100
 effect:MON_HEAL_HP
 dice:$B
 expr:B:SPELL_POWER:* 6
-lore:heal-self
+lore:auto-curación
 lore-color-base:Yellow
-message-vis:{name} magically starts closing wounds.
-message-invis:Something mutters.
+message-vis:{name} mágicamente comienza a cerrar sus heridas.
+message-invis:Algo murmura.
 
 name:HEAL_KIN
 hit:100
 effect:MON_HEAL_KIN
 dice:$B
 expr:B:SPELL_POWER:* 6
-lore:heal kin
+lore:curar a sus congéneres
 lore-color-base:Yellow
-message-vis:{name} tries to heal {pronoun} comrades.
-message-invis:Something mutters.
+message-vis:{name} intenta curar a sus compañeros.
+message-invis:Algo murmura.
 
 name:BLINK
 hit:100
 effect:TELEPORT
 dice:10
-lore:blink-self
+lore:auto-parpadeo
 lore-color-base:Light Green
-message-vis:{name} blinks.
-message-invis:Something mutters.
+message-vis:{name} parpadea.
+message-invis:Algo murmura.
 
 name:TPORT
 hit:100
 effect:TELEPORT
 dice:$B
 expr:B:MAX_SIGHT:* 2 + 5
-lore:teleport-self
+lore:auto-teletransporte
 lore-color-base:Light Green
-message-vis:{name} teleports away.
-message-invis:Something makes a soft 'pop'.
+message-vis:{name} se teletransporta lejos.
+message-invis:Algo hace un suave 'pop'.
 
 name:TELE_TO
 msgt:TELEPORT
 hit:100
 effect:TELEPORT_TO
-lore:teleport to
+lore:teletransportar hacia sí
 lore-color-base:Yellow
-message-vis:{name} commands {target} to return.
-message-invis:Something commands you to return.
+message-vis:{name} ordena a {target} que regrese.
+message-invis:Algo te ordena que regreses.
 
 name:TELE_SELF_TO
 msgt:TELEPORT
 hit:100
 effect:TELEPORT_TO:SELF
-lore:teleport toward
+lore:teletransportarse hacia
 lore-color-base:Yellow
-message-vis:{name} blinks toward {target}.
-message-invis:Something mutters.
+message-vis:{name} parpadea hacia {target}.
+message-invis:Algo murmura.
 
 name:TELE_AWAY
 msgt:TELEPORT
 hit:100
 effect:TELEPORT:AWAY
 dice:100
-lore:teleport away
+lore:teletransportar lejos
 lore-color-base:Yellow
-message-vis:{name} commands {target} to go away.
-message-invis:Something commands you to go away.
+message-vis:{name} ordena a {target} que se vaya.
+message-invis:Algo te ordena que te vayas.
 
 name:TELE_LEVEL
 msgt:TPLEVEL
 hit:100
 effect:TELEPORT_LEVEL
-lore:teleport level
+lore:teletransportar de nivel
 lore-color-base:Yellow
 lore-color-resist:Light Green
-message-vis:{name} commands {target} to go far away.
-message-invis:Something commands you to go far away.
-message-save:You feel unstable for a second, but it passes.
+message-vis:{name} ordena a {target} que se vaya muy lejos.
+message-invis:Algo te ordena que te vayas muy lejos.
+message-save:Te sientes inestable por un segundo, pero pasa.
 
 name:DARKNESS
 hit:100
 effect:DARKEN_AREA
 effect:BALL:DARK_WEAK:3
 dice:10
-lore:create darkness
+lore:crear oscuridad
 lore-color-base:Light Green
-message-vis:{name} surrounds {target} in darkness.
-message-invis:Something mumbles.
+message-vis:{name} envuelve a {target} en oscuridad.
+message-invis:Algo murmura.
 
 name:TRAPS
 msgt:CREATE_TRAP
 hit:100
 effect:TOUCH:MAKE_TRAP:3
-lore:create traps
+lore:crear trampas
 lore-color-base:Yellow
-message-vis:{name} cackles evilly about traps.
-message-invis:Something cackles evilly.
+message-vis:{name} cacarea malvadamente sobre trampas.
+message-invis:Algo cacarea malvadamente.
 
 name:FORGET
 hit:100
 effect:TIMED_INC:AMNESIA
 dice:3
-lore:cause amnesia
+lore:causar amnesia
 lore-color-base:Yellow
 lore-color-resist:Light Green
-message-vis:{name} tries to make {target} forget things.
-message-invis:Something messes with your mind.
-message-save:You retain your presence of mind.
+message-vis:{name} intenta hacer que {target} olvide cosas.
+message-invis:Algo altera tu mente.
+message-save:Mantienes tu presencia de ánimo.
 
 name:SHAPECHANGE
 hit:100
 effect:MON_TIMED_INC:CHANGED
 dice:5+d10
-lore:change shape
+lore:cambiar de forma
 lore-color-base:Orange
-message-vis:{name} intones strange words.
-message-invis:Something mutters.
+message-vis:{name} entona palabras extrañas.
+message-invis:Algo murmura.
 
 name:S_KIN
 msgt:SUM_MONSTER
 hit:100
 effect:SUMMON:KIN
 dice:8
-lore:summon similar monsters
+lore:invocar monstruos similares
 lore-color-base:Orange
-message-vis:{name} summons {pronoun} kin.
-message-invis:You hear some things appear nearby!
+message-vis:{name} invoca a sus congéneres.
+message-invis:¡Escuchas que algunas cosas aparecen cerca!
 
 name:S_MONSTER
 msgt:SUM_MONSTER
 hit:100
 effect:SUMMON:MONSTER
 dice:1
-lore:summon a monster
+lore:invocar un monstruo
 lore-color-base:Orange
-message-vis:{name} summons a companion.
-message-invis:You hear something appear nearby!
+message-vis:{name} invoca a un compañero.
+message-invis:¡Escuchas que algo aparece cerca!
 
 name:S_MONSTERS
 msgt:SUM_MONSTER
 hit:100
 effect:SUMMON:MONSTERS
 dice:8
-lore:summon monsters
+lore:invocar monstruos
 lore-color-base:Orange
-message-vis:{name} summons some friends.
-message-invis:You hear some things appear nearby!
+message-vis:{name} invoca a algunos amigos.
+message-invis:¡Escuchas que algunas cosas aparecen cerca!
 
 name:S_ANIMAL
 msgt:SUM_ANIMAL
 hit:100
 effect:SUMMON:ANIMAL
 dice:12
-lore:summon animals
+lore:invocar animales
 lore-color-base:Orange
-message-vis:{name} summons animals.
-message-invis:You hear some things appear nearby!
+message-vis:{name} invoca animales.
+message-invis:¡Escuchas que algunas cosas aparecen cerca!
 
 name:S_SPIDER
 msgt:SUM_SPIDER
 hit:100
 effect:SUMMON:SPIDER
 dice:12
-lore:summon spiders
+lore:invocar arañas
 lore-color-base:Orange
-message-vis:{name} summons spiders.
-message-invis:You hear chittering things appear nearby!
+message-vis:{name} invoca arañas.
+message-invis:¡Escuchas cosas que castañetean aparecer cerca!
 
 name:S_HOUND
 msgt:SUM_HOUND
 hit:100
 effect:SUMMON:HOUND
 dice:12
-lore:summon hounds
+lore:invocar sabuesos
 lore-color-base:Orange
-message-vis:{name} summons hounds.
-message-invis:You hear barking things appear nearby!
+message-vis:{name} invoca sabuesos.
+message-invis:¡Escuchas cosas que ladran aparecer cerca!
 
 name:S_HYDRA
 msgt:SUM_HYDRA
 hit:100
 effect:SUMMON:HYDRA
 dice:6
-lore:summon hydras
+lore:invocar hidras
 lore-color-base:Orange
-message-vis:{name} summons hydras.
-message-invis:You hear some things appear nearby!
+message-vis:{name} invoca hidras.
+message-invis:¡Escuchas que algunas cosas aparecen cerca!
 
 name:S_AINU
 msgt:SUM_AINU
 hit:100
 effect:SUMMON:AINU
 dice:1
-lore:summon an ainu
+lore:invocar un ainu
 lore-color-base:Orange
-message-vis:{name} summons an ainu.
-message-invis:You hear something appear nearby!
+message-vis:{name} invoca a un ainu.
+message-invis:¡Escuchas que algo aparece cerca!
 
 name:S_DEMON
 msgt:SUM_DEMON
 hit:100
 effect:SUMMON:DEMON
 dice:1
-lore:summon a demon
+lore:invocar un demonio
 lore-color-base:Orange
-message-vis:{name} summons a demon.
-message-invis:You hear something evil appear nearby!
+message-vis:{name} invoca a un demonio.
+message-invis:¡Escuchas que algo maligno aparece cerca!
 
 name:S_UNDEAD
 msgt:SUM_UNDEAD
 hit:100
 effect:SUMMON:UNDEAD
 dice:1
-lore:summon an undead
+lore:invocar un no muerto
 lore-color-base:Orange
-message-vis:{name} summons the undead.
-message-invis:You hear something creepy appear nearby!
+message-vis:{name} invoca a los no muertos.
+message-invis:¡Escuchas que algo espeluznante aparece cerca!
 
 name:S_DRAGON
 msgt:SUM_DRAGON
 hit:100
 effect:SUMMON:DRAGON
 dice:1
-lore:summon a dragon
+lore:invocar un dragón
 lore-color-base:Orange
-message-vis:{name} summons a dragon.
-message-invis:You hear something appear nearby!
+message-vis:{name} invoca a un dragón.
+message-invis:¡Escuchas que algo aparece cerca!
 
 name:S_HI_DEMON
 msgt:SUM_HI_DEMON
 hit:100
 effect:SUMMON:HI_DEMON
 dice:8
-lore:summon greater demons
+lore:invocar demonios mayores
 lore-color-base:Light Red
-message-vis:{name} summons major demons.
-message-invis:You hear evil things appear nearby!
+message-vis:{name} invoca demonios mayores.
+message-invis:¡Escuchas que cosas malignas aparecen cerca!
 
 name:S_HI_UNDEAD
 msgt:SUM_HI_UNDEAD
 hit:100
 effect:SUMMON:HI_UNDEAD
 dice:8
-lore:summon greater undead
+lore:invocar no muertos mayores
 lore-color-base:Light Red
-message-vis:{name} summons fiends of darkness.
-message-invis:You hear creepy things appear nearby!
+message-vis:{name} invoca entes de la oscuridad.
+message-invis:¡Escuchas que cosas espeluznantes aparecen cerca!
 
 name:S_HI_DRAGON
 msgt:SUM_HI_DRAGON
 hit:100
 effect:SUMMON:HI_DRAGON
 dice:8
-lore:summon ancient dragons
+lore:invocar dragones antiguos
 lore-color-base:Light Red
-message-vis:{name} summons ancient dragons.
-message-invis:You hear powerful things appear nearby!
+message-vis:{name} invoca dragones antiguos.
+message-invis:¡Escuchas que cosas poderosas aparecen cerca!
 
 name:S_WRAITH
 msgt:SUM_WRAITH
 hit:100
 effect:SUMMON:WRAITH
 dice:8
-lore:summon ringwraiths
+lore:invocar espectros del anillo
 lore-color-base:Light Red
-message-vis:{name} summons ringwraiths.
-message-invis:You hear powerful things appear nearby!
+message-vis:{name} invoca espectros del anillo.
+message-invis:¡Escuchas que cosas poderosas aparecen cerca!
 
 name:S_UNIQUE
 msgt:SUM_UNIQUE
 hit:100
 effect:SUMMON:UNIQUE
 dice:8
-lore:summon uniques
+lore:invocar únicos
 lore-color-base:Light Red
-message-vis:{name} summons {pronoun} servants.
-message-invis:You hear powerful things appear nearby!
+message-vis:{name} invoca a sus sirvientes.
+message-invis:¡Escuchas que cosas poderosas aparecen cerca!
