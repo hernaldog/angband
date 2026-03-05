@@ -181,6 +181,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | lib\gamedata\hints.txt                   | 100      |
 | lib\gamedata\player_timed.txt            | 70       | No traducir :Hungry: afecta a new game, hay que revisar todo el texto|
 | lib\gamedata\object.txt                  | 70       | Textos como Name no se pueden traducir indica error de Parse, revisar|
+| lib\gamedata\monster_spell.txt           | 100      |
 | lib\help\commands.txt                    | 100      |
 | lib\help\index.txt                       | 100      |
 | lib\help\r_index.txt                     | 100      |
