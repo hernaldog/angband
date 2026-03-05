@@ -227,3 +227,4 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\list-mon-message.h                   | 100      |
 | src\ui-store.c                           | 100      |
 | src\cave.c                               | 100      |
+| src\list-origins.h                       | 100      |
