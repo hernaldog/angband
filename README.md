@@ -173,7 +173,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
   - nuevo personaje unidades peso ok
   - nuevo personaje carga y sobrepeso ok
   - nuevo personaje altura a cms ok
-- Cambios de ft por mt (infravisión)
+  - nuevo personaje ft por mt (infravisión) ok
 - Mejoras en traducciones como con tecla d "Soltar qué objeto", por "¿Qué objeto tirar?" o con k "¿Ingorar que objeto?", o el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
 - Traduc de pantallas con teclas V, l, S
 
