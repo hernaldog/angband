@@ -1084,7 +1084,7 @@ static void point_based_points(game_event_type type, game_event_data *data,
 
 static void point_based_start(void)
 {
-	const char *prompt = "[arriba/abajo mover, izq/der modificar, 'r' reiniciar, 'Enter' aceptar]";
+	const char *prompt = "[arr/aba mover, izq/der cambiar, 'r' reiniciar, 'Enter' aceptar]";
 	int i;
 
 	/* Limpiar */
