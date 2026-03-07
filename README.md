@@ -166,13 +166,13 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 
 ## Pendientes de traducción
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
-- Cambios de st o lb por kg, ft pot mt y pies+pulgadas por cm
+- Cambios de st o lb por kg, ft pot mt y pies+pulgadas por cm:
   - menú superior derecho ok
-  - listado de items menú superior pendiente
+  - peso de listado de items menú superior pendiente
   - lista de items inventario i pendiente
   - nuevo personaje unidades peso ok
-  - nuevo personaje carga y sobrepeso pendiente
-  - nuevo personaje altura a cms
+  - nuevo personaje carga y sobrepeso ok
+  - nuevo personaje altura a cms ok
 - Cambios de ft por mt (infravisión)
 - Mejoras en traducciones como con tecla d "Soltar qué objeto", por "¿Qué objeto tirar?" o con k "¿Ingorar que objeto?", o el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
 - Traduc de pantallas con teclas V, l, S
@@ -213,7 +213,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\player-attack.c                      | 100      |
 | src\player-util.c                        | 100      |
 | src\ui-command.c                         | 100      |
-| src\ui-player.c                          | 100      |
+| src\ui-player.c                          | 100      | Nuevo personaje, cambiado peso a st+lb a kg, altura pies+pulgadas a cm|
 | src\list-options.h                       | 100      |
 | src\ui-options.c                         | 100      |
 | src\ui-display.c                         | 100      |

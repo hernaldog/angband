@@ -458,11 +458,11 @@ void display_player_stat_info(void)
 	col = 42;
 
 	/* Print out the labels for the columns */
-	c_put_str(COLOUR_WHITE, "  Self", row-1, col+5);
+	c_put_str(COLOUR_WHITE, "  Prop", row-1, col+5);
 	c_put_str(COLOUR_WHITE, " RB", row-1, col+12);
 	c_put_str(COLOUR_WHITE, " CB", row-1, col+16);
 	c_put_str(COLOUR_WHITE, " EB", row-1, col+20);
-	c_put_str(COLOUR_WHITE, "  Best", row-1, col+24);
+	c_put_str(COLOUR_WHITE, "  Mejo", row-1, col+24);
 
 	/* Display the stats */
 	for (i = 0; i < STAT_MAX; i++) {
@@ -702,10 +702,13 @@ static struct panel *get_panel_topleft(void) {
 	return p;
 }
 
+
 static struct panel *get_panel_midleft(void) {
 	struct panel *p = panel_allocate(9);
 	int diff = weight_remaining(player);
 	uint8_t attr = diff < 0 ? COLOUR_L_RED : COLOUR_L_GREEN;
+	int carga_kg_x10 = (int)((long)player->upkeep->total_weight * 4536 / 10000);
+	int diff_kg_x10  = (int)((long)diff * 4536 / 10000);
 
 	panel_line(p, max_color(player->lev, player->max_lev),
 			"Nivel", "%d", player->lev);
@@ -715,11 +718,12 @@ static struct panel *get_panel_midleft(void) {
 	panel_line(p, COLOUR_L_GREEN, "Sig Exp", "%s", show_adv_exp());
 	panel_space(p);
 	panel_line(p, COLOUR_L_GREEN, "Oro", "%d", player->au);
-	panel_line(p, attr, "Carga", "%.1f lb",
-			   player->upkeep->total_weight / 10.0F);
-	panel_line(p, attr, "Sobrepeso", "%d.%d lb", -diff / 10, abs(diff) % 10);
+	/* en kilos kg*/
+	panel_line(p, attr, "Carga",     "%d.%d kg",
+			   carga_kg_x10 / 10, carga_kg_x10 % 10);
+	panel_line(p, attr, "Sobrepeso", "%d.%d kg",
+			   -diff_kg_x10 / 10, abs(diff_kg_x10) % 10);
 	panel_line(p, COLOUR_L_GREEN, "Prof Máxima", "%s", show_depth());
-
 	return p;
 }
 
