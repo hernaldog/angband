@@ -170,6 +170,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
   - menú superior derecho lb a kg -> ok
   - peso de listado de items menú superior de lb a kg -> pendiente
   - lista de items inventario i lb a kg -> pendiente
+  - lista de items usar w lb a kg -> pendiente
   - nuevo personaje unidades peso de st lb a kg -> ok
   - nuevo personaje carga y sobrepeso de lb a kg -> ok
   - nuevo personaje altura de pies y pulgadas a cms -> ok

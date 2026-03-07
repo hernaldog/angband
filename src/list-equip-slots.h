@@ -12,7 +12,7 @@
  */
 /* ranura			acid_v	nombre	mencion				desc_pesado		descripcion */
 EQUIP(NONE,			false,	false,	"",					"",				"")
-EQUIP(WEAPON,		false,	false,	"Empuñando",		"solo levantando",	"atacar monstruos con")
+EQUIP(WEAPON,		false,	false,	"Empuñado",		"solo levantando",	"atacar monstruos con")
 EQUIP(BOW,			false,	false,	"A distancia",		"solo sujetando",	"disparar proyectiles con")
 EQUIP(RING,			false,	true,	"En %s",			"",				"llevar puesto en tu %s")
 EQUIP(AMULET,		false,	true,	"Alrededor de %s",	"",				"llevar alrededor de tu %s")
