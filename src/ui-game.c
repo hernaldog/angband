@@ -1050,7 +1050,7 @@ bool save_game_checked(void)
 
 	/* Guardar el jugador */
 	if (savefile_save(savefile)) {
-		prt("Guardando partida... hecho.", 0, 0);
+		prt("Guardando partida... listo.", 0, 0);
 		result = true;
 	} else {
 		prt("¡Guardando partida... falló!", 0, 0);
