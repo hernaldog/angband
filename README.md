@@ -238,3 +238,4 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\obj-info.c                           | 100      |
 | src\effects-info.c                       | 100      |
 | src\list-effects.h                       | 100      |
+| src\ui-output.c                          | 100      |
