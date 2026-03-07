@@ -165,6 +165,7 @@ Contenido del script shell:
 Todos los archivo deben traducirse usando encoding **UTF-8**.
 
 ## Pendientes de traducción
+- Cambios de imágenes gráficas General Store, Armory, Magic Items, Black Market, Temple.
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
 - Cambios de unidades
   - menú superior derecho lb a kg -> ok
