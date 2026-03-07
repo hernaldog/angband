@@ -483,20 +483,7 @@ void show_inven(int mode, item_tester tester)
 	/* Inicializar */
 	wipe_obj_list();
 
-	/* Incluir carga para ventanas de terminal */
-	/*
-	if (in_term) {
-		strnfmt(items[num_obj].label, sizeof(items[num_obj].label),
-		        "Carga %d.%d lb (%d.%d lb %s) ",
-		        player->upkeep->total_weight / 10,
-				player->upkeep->total_weight % 10,
-		        abs(diff) / 10, abs(diff) % 10,
-		        (diff < 0 ? "sobrecargado" : "restante"));
-
-		items[num_obj].object = NULL;
-		num_obj++;
-	}*/
-	
+	/* Incluir carga para ventanas de terminal */	
 	if (in_term) {
 	    /* Conversión de décimas de libra a kg con 1 decimal
 	     * 1 lb = 0.4536 kg  →  1 décima de lb = 0.04536 kg
