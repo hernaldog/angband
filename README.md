@@ -168,9 +168,8 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
 - Cambios de unidades
   - menú superior derecho lb a kg -> ok
-  - peso de listado de items menú superior de lb a kg -> pendiente
-  - lista de items inventario i lb a kg -> pendiente
-  - lista de items usar w lb a kg -> pendiente
+  - peso de listado de items menú superior de lb a kg -> ok
+  - lista de items al usar i inventario, w usar o d drop de lb a kg -> ok
   - nuevo personaje unidades peso de st lb a kg -> ok
   - nuevo personaje carga y sobrepeso de lb a kg -> ok
   - nuevo personaje altura de pies y pulgadas a cms -> ok
@@ -210,7 +209,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\ui-birth.c                           | 100      |
 | src\ui-help                              | 100      |
 | src\cmd-obj.c                            | 100      |
-| src\ui-object.c                          | 100      |
+| src\ui-object.c                          | 100      | Peso de inventario menú superior derecho, comando i y comando w|
 | src\ui-input.c                           | 100      |
 | src\player-attack.c                      | 100      |
 | src\player-util.c                        | 100      |

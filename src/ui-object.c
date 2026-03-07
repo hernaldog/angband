@@ -234,7 +234,9 @@ static void show_obj(int obj_num, int row, int col, bool cursor,
 	/* Peso */
 	if (mode & OLIST_WEIGHT) {
 		int weight = obj->number * object_weight_one(obj);
-		strnfmt(buf, sizeof(buf), "%4d.%1d lb", weight / 10, weight % 10);
+		/* en kilos kg */
+		int weight_kg_x10 = (int)((long)weight * 4536 / 10000);
+		strnfmt(buf, sizeof(buf), "%4d.%1d kg", weight_kg_x10 / 10, weight_kg_x10 % 10);
 		put_str(buf, row + obj_num, col + ex_offset_ctr);
 	}
 }
