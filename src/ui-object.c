@@ -484,6 +484,7 @@ void show_inven(int mode, item_tester tester)
 	wipe_obj_list();
 
 	/* Incluir carga para ventanas de terminal */
+	/*
 	if (in_term) {
 		strnfmt(items[num_obj].label, sizeof(items[num_obj].label),
 		        "Carga %d.%d lb (%d.%d lb %s) ",
@@ -494,6 +495,25 @@ void show_inven(int mode, item_tester tester)
 
 		items[num_obj].object = NULL;
 		num_obj++;
+	}*/
+	
+	if (in_term) {
+	    /* Conversión de décimas de libra a kg con 1 decimal
+	     * 1 lb = 0.4536 kg  →  1 décima de lb = 0.04536 kg
+	     * peso_kg_x10 = total_weight * 4536 / 10000  (da décimas de kg)
+	     */
+	    int peso_kg_x10  = (int)((long)player->upkeep->total_weight * 4536 / 10000);
+	    int diff_kg_x10  = (int)((long)abs(diff) * 4536 / 10000);
+	
+	    strnfmt(items[num_obj].label, sizeof(items[num_obj].label),
+	            "Carga %d.%d kg (%d.%d kg %s) ",
+	            peso_kg_x10 / 10,
+	            peso_kg_x10 % 10,
+	            diff_kg_x10 / 10,
+	            diff_kg_x10 % 10,
+	            (diff < 0 ? "sobrecargado" : "restantes"));
+	    items[num_obj].object = NULL;
+	    num_obj++;
 	}
 
 	/* Encontrar la última ranura de inventario ocupada */
