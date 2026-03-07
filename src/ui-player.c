@@ -821,6 +821,8 @@ static struct panel *get_panel_skills(void) {
 	return p;
 }
 
+
+/*
 static struct panel *get_panel_misc(void) {
 	struct panel *p = panel_allocate(7);
 	uint8_t attr = COLOUR_L_BLUE;
@@ -833,6 +835,22 @@ static struct panel *get_panel_misc(void) {
 	panel_line(p, attr, "Estándar", "%d", player->total_energy / 100);
 	panel_line(p, attr, "Descansando", "%d", player->resting_turn);
 
+	return p;
+}*/
+
+static struct panel *get_panel_misc(void) {
+	struct panel *p = panel_allocate(7);
+	uint8_t attr = COLOUR_L_BLUE;
+	int ht_cm     = (int)((long)player->ht * 254 / 100);
+	int wt_kg_x10 = (int)((long)player->wt * 4536 / 1000);
+
+	panel_line(p, attr, "Edad",    "%d",       player->age);
+	panel_line(p, attr, "Altura",  "%d cm",    ht_cm);
+	panel_line(p, attr, "Peso",    "%d.%d kg", wt_kg_x10 / 10, wt_kg_x10 % 10);
+	panel_line(p, attr, "Turnos usados:", "");
+	panel_line(p, attr, "Juego",       "%d", turn);
+	panel_line(p, attr, "Estándar",    "%d", player->total_energy / 100);
+	panel_line(p, attr, "Descansando", "%d", player->resting_turn);
 	return p;
 }
 
