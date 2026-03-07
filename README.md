@@ -167,7 +167,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 ## Pendientes de traducción
 - Cambios de imágenes gráficas General Store, Armory, Magic Items, Black Market, Temple.
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
-- Cambios de unidades
+- Cambios de unidades a Sistema métrico decimal:
   - menú superior derecho lb a kg -> ok
   - peso de listado de items menú superior de lb a kg -> ok
   - lista de items al usar i inventario, w usar o d drop de lb a kg -> ok
