@@ -166,14 +166,14 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 
 ## Pendientes de traducción
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
-- Cambios de st o lb por kg, ft pot mt y pies+pulgadas por cm:
-  - menú superior derecho ok
-  - peso de listado de items menú superior pendiente
-  - lista de items inventario i pendiente
-  - nuevo personaje unidades peso ok
-  - nuevo personaje carga y sobrepeso ok
-  - nuevo personaje altura a cms ok
-  - nuevo personaje ft por mt (infravisión) ok
+- Cambios de unidades
+  - menú superior derecho lb a kg -> ok
+  - peso de listado de items menú superior de lb a kg -> pendiente
+  - lista de items inventario i lb a kg -> pendiente
+  - nuevo personaje unidades peso de st lb a kg -> ok
+  - nuevo personaje carga y sobrepeso de lb a kg -> ok
+  - nuevo personaje altura de pies y pulgadas a cms -> ok
+  - nuevo personaje de ft a mt (infravisión) -> ok
 - Mejoras en traducciones como con tecla d "Soltar qué objeto", por "¿Qué objeto tirar?" o con k "¿Ingorar que objeto?", o el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
 - Traduc de pantallas con teclas V, l, S
 
