@@ -784,6 +784,8 @@ static struct panel *get_panel_skills(void) {
 	uint8_t attr;
 	const char *desc;
 	int depth = cave ? cave->depth : 0;
+	
+	int infra_mt_x10 = (int)((long)player->state.see_infra * 3048 / 1000);
 
 #define BOUND(x, min, max)		MIN(max, MAX(min, x))
 
@@ -811,9 +813,11 @@ static struct panel *get_panel_skills(void) {
 	skill = BOUND(player->state.skills[SKILL_SEARCH], 0, 100);
 	panel_line(p, colour_table[skill / 10], "Búsqueda", "%d%%", skill);
 
-	/* Infravision */
-	panel_line(p, COLOUR_L_GREEN, "Infravisón", "%d ft",
-			player->state.see_infra * 10);
+	/* Infravision en metros mt*/
+	panel_line(p, COLOUR_L_GREEN, "Infravisión", "%d.%d mt",
+        infra_mt_x10 / 10, infra_mt_x10 % 10);
+        
+	/*panel_line(p, COLOUR_L_GREEN, "Infravisón", "%d ft",	player->state.see_infra * 10);*/
 
 	/* Speed */
 	skill = player->state.speed;
