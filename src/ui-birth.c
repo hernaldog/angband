@@ -103,12 +103,12 @@ bool arg_force_name;
 static enum birth_stage textui_birth_quickstart(void)
 //cambios de nombre fantasma
 {
-	const char *prompt = "['S': usar tal cual; 'N': rehacer; 'C': cambiar nombre/historia; '=': establecer opciones de nacimiento]";
+	const char *prompt = "['S': usar; 'N': rehacer; 'C': cambiar nombre/historia; '=': opciones nacimiento]";
 
 	enum birth_stage next = BIRTH_QUICKSTART;
 
 	/* Preguntar por ello */
-	prt("¿Nuevo personaje basado en el anterior?:", 0, 0);
+	prt("¿Nuevo personaje basado en anterior?:", 0, 0);
 	prt(prompt, Term->hgt - 1, Term->wid / 2 - strlen(prompt) / 2);
 
 	do {

@@ -175,7 +175,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
   - nuevo personaje carga y sobrepeso de lb a kg -> ok
   - nuevo personaje altura de pies y pulgadas a cms -> ok
   - nuevo personaje de ft a mt (infravisión) -> ok
-  - tienda pesos de items de lb a kg -> pendiente
+  - tiendas de ciudad pesos de items de lb a kg -> ok
 - Mejoras en traducciones como con tecla d "Soltar qué objeto", por "¿Qué objeto tirar?" o con k "¿Ingorar que objeto?", o el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
 - Traduc de pantallas con teclas V, l, S
 

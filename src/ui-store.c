@@ -296,8 +296,10 @@ static void store_display_entry(struct menu *menu, int oid, bool cursor, int row
 	/* Mostrar pesos */
 	colour = curs_attrs[CURS_KNOWN][(int)cursor];
 	obj_weight = object_weight_one(obj);
-	strnfmt(out_val, sizeof out_val, "%3d.%d lb", obj_weight / 10,
-			obj_weight % 10);
+	int obj_weight_kg_x10 = (int)((long)obj_weight * 4536 / 10000);
+	
+	strnfmt(out_val, sizeof out_val, "%3d.%d kg", obj_weight_kg_x10 / 10, obj_weight_kg_x10 % 10);
+	
 	c_put_str(colour, out_val, row, ctx->scr_places_x[LOC_WEIGHT]);
 
 	/* Describir un objeto (completamente) en una tienda */
