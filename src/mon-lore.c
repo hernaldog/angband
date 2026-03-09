@@ -1111,7 +1111,7 @@ void lore_append_exp(textblock *tb, const struct monster_race *race,
 					 const struct monster_lore *lore,
 					 bitflag known_flags[RF_SIZE])
 {
-	const char *ordinal, *article;
+	const char /*ordinal, fix de traducción no se usa ordinal*/ *article;
 	char buf[20] = "";
 	long exp_integer, exp_fraction;
 	int16_t level;
@@ -1147,13 +1147,15 @@ void lore_append_exp(textblock *tb, const struct monster_race *race,
 		PLURAL((exp_integer == 1) && (exp_fraction == 0)));
 
 	/* Tener en cuenta el molesto inglés */
-	ordinal = "º";
-	level = player->lev % 10;
-	if ((player->lev / 10) == 1) /* nada */;
+	/*ordinal = "º";
+	level = player->lev % 10;*/
+	//if ((player->lev / 10) == 1) /* nada */;
+	
+	/*
 	else if (level == 1) ordinal = "er";
 	else if (level == 2) ordinal = "do";
 	else if (level == 3) ordinal = "er";
-	else if (level == 7) ordinal = "mo";
+	else if (level == 7) ordinal = "mo";*/
 
 	/* Tener en cuenta las "vocales iniciales" en los números */
 	article = "un";
@@ -1161,8 +1163,8 @@ void lore_append_exp(textblock *tb, const struct monster_race *race,
 	if ((level == 8) || (level == 11) || (level == 18)) article = "un";
 
 	/* Mencionar la dependencia del nivel del jugador */
-	textblock_append(tb, " para %s personaje de nivel %u%s.  ", article,
-					 level, ordinal);
+	textblock_append(tb, " para %s personaje de nivel %u.  ", article, //fin de traduccion personaje de nuevel 3er, por nivel 3 solamente, sin el ordinal
+					 level);
 }
 
 /**
