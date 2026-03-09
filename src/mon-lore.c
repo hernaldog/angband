@@ -1655,8 +1655,8 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 
 	/* Describir la falta de conocimiento */
 	if (known_attacks == 0) {
-		textblock_append_c(tb, COLOUR_ORANGE, "No se sabe nada sobre el ataque de %s.  ",
-						 lore_pronoun_possessive(msex, false));
+		textblock_append_c(tb, COLOUR_ORANGE, "No sabes nada acerca de su ataque.  "
+						 );
 		return;
 	}
 
