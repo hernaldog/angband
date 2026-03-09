@@ -1001,7 +1001,7 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 		else
 			textblock_append(tb, " normalmente se encuentra ");
 
-		textblock_append(tb, "a profundidades de ");
+		textblock_append(tb, "a una profundidad de ");
 		textblock_append_c(tb, colour, "%d", race->level * 50);
 		textblock_append(tb, " pies (nivel ");
 		textblock_append_c(tb, colour, "%d", race->level);
