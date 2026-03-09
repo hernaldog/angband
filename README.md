@@ -177,8 +177,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
   - nuevo personaje de ft a mt (infravisión) -> ok
   - tiendas de ciudad pesos de items de lb a kg -> ok
 - Mejoras en traducciones varias:
-  - Mejorar "Este parece ser un lugar manso y resguardado
-  - Mejorar "Puedes ver ningún objeto"
+  - Mejorar "Este parece ser un lugar manso y resguardado  
   - Con tecla d "Soltar qué objeto", por "¿Qué objeto tirar?"
   - Con k "¿Ingorar que objeto?"
   - En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
@@ -186,6 +185,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
   - Mejorar "Puedes ver ningún monstuo" -> ok
   - Tecla S "Race and class abilities" -> ok
   - Tecla V información de licencia -> ok
+  - Mejorar "Puedes ver ningún objeto" -> ok
 
 ## Detalle de la traducción por archivo
 

@@ -70,8 +70,8 @@ static void object_list_format_section(const object_list_t *list,
 	total = list->distinct_entries;
 
 	if (list->total_entries[section] == 0) {
-		max_line_length = strnfmt(line_buffer, sizeof(line_buffer),
-								  "%s ningún objeto.\n", prefix);
+		max_line_length = strnfmt(line_buffer, sizeof(line_buffer),								 
+								 "No hay objetos a la vista.\n", prefix); //mejora de traducción, no se usa prefix
 
 		if (tb != NULL)
 			textblock_append(tb, "%s", line_buffer);
