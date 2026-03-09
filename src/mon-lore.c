@@ -608,7 +608,7 @@ static const char *lore_describe_speed(uint8_t speed)
 		{120,	"muy rápido"},
 		{115,	"rápido"},
 		{110,	"bastante rápido"},
-		{109,	"a velocidad normal"}, /* 110 es velocidad normal */
+		{109,	"velocidad normal"}, /* 110 es velocidad normal */
 		{99,	"lento"},
 		{89,	"muy lento"},
 		{0,		"increíblemente lento"},
