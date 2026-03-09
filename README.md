@@ -183,6 +183,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
   - Con k "¿Ingorar que objeto?"
   - En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
   - Tecla l "Estás on a suelo abierto"
+  - Mejorar "Puedes ver ningún monstuo" -> ok
   - Tecla S "Race and class abilities" -> ok
   - Tecla V información de licencia -> ok
 
