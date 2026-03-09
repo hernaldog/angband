@@ -176,8 +176,14 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
   - nuevo personaje altura de pies y pulgadas a cms -> ok
   - nuevo personaje de ft a mt (infravisión) -> ok
   - tiendas de ciudad pesos de items de lb a kg -> ok
-- Mejoras en traducciones como con tecla d "Soltar qué objeto", por "¿Qué objeto tirar?" o con k "¿Ingorar que objeto?", o el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
-- Traduc de pantallas con teclas V, l, S
+- Mejoras en traducciones varias:
+  - "Puedes ver ningún objeto"
+  - Con tecla d "Soltar qué objeto", por "¿Qué objeto tirar?"
+  - Con k "¿Ingorar que objeto?"
+  - En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
+  - Tecla l "Estás on a suelo abierto"
+  - Tecla S "Race and class abilities"
+  - Tecla V información de licencia
 
 ## Detalle de la traducción por archivo
 
@@ -239,3 +245,4 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\effects-info.c                       | 100      |
 | src\list-effects.h                       | 100      |
 | src\ui-output.c                          | 100      |
+| src\buildid.c                            | 100      | información de la versión con comando V| 

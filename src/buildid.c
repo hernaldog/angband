@@ -1,6 +1,6 @@
 /**
  * \file buildid.c
- * \brief Compile in build details
+ * \brief Incorporar detalles de compilación
  *
  * Copyright (c) 2011 Andi Sidwell
  *
@@ -19,9 +19,10 @@
 #include "buildid.h"
 
 /*
- * Allow the build system to generate version.h (and define
- * the HAVE_VERSION_H preprocessor macro) or get the version via the BUILD_ID
- * preprocessor macro.  If neither is available, use a sensible default.
+ * Permitir que el sistema de compilación genere version.h (y definir
+ * la macro de preprocesador HAVE_VERSION_H) u obtener la versión mediante la macro
+ * de preprocesador BUILD_ID. Si ninguna está disponible, usar un valor por defecto
+ * razonable.
  */
 #ifdef HAVE_VERSION_H
 #include "version.h"
@@ -38,18 +39,19 @@ const char *buildid = VERSION_NAME " " VERSION_STRING;
 const char *buildver = VERSION_STRING;
 
 /**
- * Link a copyright message into the executable
+ * Incluir un mensaje de copyright en el ejecutable
  */
 const char *copyright =
-	"Copyright (c) 1987-2022 Angband contributors.\n"
+	"Copyright (c) 1987-2022 Colaboradores de Angband.\n"
 	"\n"
-	"This work is free software; you can redistribute it and/or modify it\n"
-	"under the terms of either:\n"
+	"Este trabajo es software libre; puedes redistribuirlo y/o modificarlo\n"
+	"bajo los términos de cualquiera de las siguientes licencias:\n"
 	"\n"
-	"a) the GNU General Public License as published by the Free Software\n"
-	"   Foundation, version 2, or\n"
+	"a) Licencia Pública General de GNU publicada por la Free Software\n"
+	"   Foundation, versión 2, o\n"
 	"\n"
-	"b) the Angband licence:\n"
-	"   This software may be copied and distributed for educational, research,\n"
-	"   and not for profit purposes provided that this copyright and statement\n"
-	"   are included in all such copies.  Other copyrights may also apply.\n";
+	"b) Licencia de Angband:\n"
+	"   Este software puede ser copiado y distribuido con fines educativos, de\n"
+	"   investigación y sin ánimo de lucro, siempre que este copyright y la\n"
+	"   declaración se incluyan en todas esas copias. Pueden aplicarse otros\n"
+	"   copyrights.\n";
