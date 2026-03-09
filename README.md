@@ -182,7 +182,10 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
   - Con k "¿Ingorar que objeto?"
   - En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
   - Tecla l "Estás on a suelo abierto"
-  - Mejorar "Puedes ver ningún monstuo" -> ok
+  - Mejorar: The fruit bat (offscreen) se despertan.
+  - Mejorar: "You have 7 Rations of Food (a)."
+  - Mejorar: "Ves un fruit bat (unhurt, hasted)
+  - Mejorar: "Puedes ver ningún monstuo" -> ok
   - Tecla S "Race and class abilities" -> ok
   - Tecla V información de licencia -> ok
   - Mejorar "Puedes ver ningún objeto" -> ok
@@ -198,6 +201,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | lib\gamedata\player_timed.txt            | 70       | No traducir :Hungry: afecta a new game, hay que revisar todo el texto|
 | lib\gamedata\object.txt                  | 70       | Textos como Name no se pueden traducir indica error de Parse, revisar|
 | lib\gamedata\monster_spell.txt           | 100      |
+| lib\gamedata\monster.txt                 | 100      | Revisar textos se pueden mejorar|
 | lib\help\commands.txt                    | 100      |
 | lib\help\index.txt                       | 100      |
 | lib\help\r_index.txt                     | 100      |

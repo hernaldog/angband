@@ -67,7 +67,7 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 
 	if (list->total_monsters[section] == 0) {
 		max_line_length = strnfmt(line_buffer, sizeof(line_buffer),								  
-								  "No hay monstruos a la vista.\n", prefix); //mejora de traducción, prefix no se usa acá
+								  "No hay monstruos a la vista.\n"); //mejora de traducción, prefix no se usa acá
 
 		if (tb != NULL)
 			textblock_append(tb, "%s", line_buffer);
