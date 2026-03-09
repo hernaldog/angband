@@ -1061,18 +1061,18 @@ void lore_append_toughness(textblock *tb, const struct monster_race *race,
 						   const struct monster_lore *lore,
 						   bitflag known_flags[RF_SIZE])
 {
-	monster_sex_t msex = MON_SEX_NEUTER;
+	//monster_sex_t msex = MON_SEX_NEUTER; // no usado por fix de traducción
 	struct object *weapon = equipped_item_by_slot_name(player, "weapon");
 
 	assert(tb && race && lore);
 
 	/* Extraer un género (si corresponde) */
-	msex = lore_monster_sex(race);
+	//msex = lore_monster_sex(race); // no se usa ahora con fix de traducción
 
 	/* Describir la "resistencia" del monstruo */
 	if (lore->armour_known) {
 		/* Puntos de golpe */
-		textblock_append(tb, "%s tiene una", lore_pronoun_nominative(msex, true));
+		textblock_append(tb, "Tiene una");  //Fin de traducción Ella tiene se saca el Ella
 
 		if (!rf_has(known_flags, RF_UNIQUE))
 			textblock_append(tb, " media");
@@ -1293,7 +1293,8 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 	/* Extraer un género (si corresponde) y obtener un pronombre para el inicio de
 	 * las oraciones */
 	msex = lore_monster_sex(race);
-	initial_pronoun = lore_pronoun_nominative(msex, true);
+	initial_pronoun = "La criatura"; //lore_pronoun_nominative(msex, true);
+	
 
 	/* Describir habilidades que moldean el entorno. */
 	create_mon_flag_mask(current_flags, RFT_ALTER, RFT_MAX);
@@ -1522,7 +1523,7 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 	create_mon_spell_mask(test_flags, RST_BREATH, RST_NONE);
 	rsf_diff(current_flags, test_flags);
 	if (!rsf_is_empty(current_flags)) {
-		textblock_append(tb, "%s puede ", initial_pronoun);
+		textblock_append(tb, "%s puede2 ", initial_pronoun);
 		lore_append_spell_clause(tb, current_flags, know_hp, race, "o", "");
 		innate = true;
 	}

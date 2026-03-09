@@ -256,3 +256,4 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\ui-output.c                          | 100      |
 | src\buildid.c                            | 100      |
 | src\ui-player-properties.c               | 100      |
+| src\src\list-mon-race-flags.h            | 100      |
