@@ -182,8 +182,8 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
   - Con k "¿Ingorar que objeto?"
   - En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
   - Tecla l "Estás on a suelo abierto"
-  - Tecla S "Race and class abilities"
-  - Tecla V información de licencia
+  - Tecla S "Race and class abilities" -> ok
+  - Tecla V información de licencia -> ok
 
 ## Detalle de la traducción por archivo
 
@@ -245,4 +245,5 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\effects-info.c                       | 100      |
 | src\list-effects.h                       | 100      |
 | src\ui-output.c                          | 100      |
-| src\buildid.c                            | 100      | información de la versión con comando V| 
+| src\buildid.c                            | 100      |
+| src\ui-player-properties.c               | 100      |
