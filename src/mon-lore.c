@@ -968,13 +968,7 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 	assert(tb && race && lore);
 
 	textblock_append(tb, "Esta");
-
-	/* Obtener adjetivos */
-	create_mon_flag_mask(flags, RFT_RACE_A, RFT_MAX);
-	rf_inter(flags, race->flags);
-	for (f = rf_next(flags, FLAG_START); f; f = rf_next(flags, f + 1)) {
-		textblock_append_c(tb, COLOUR_L_BLUE, " %s", describe_race_flag(f));
-	}
+	
 
 	/* Obtener sustantivo */
 	create_mon_flag_mask(flags, RFT_RACE_N, RFT_MAX);
@@ -984,6 +978,15 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 		textblock_append_c(tb, COLOUR_L_BLUE, " %s", describe_race_flag(f));
 	} else {
 		textblock_append_c(tb, COLOUR_L_BLUE, " criatura");
+	}
+
+	// mejora de traducción se inverte sustantivo antes de adjetivo, en español es así
+	 
+	/* Obtener adjetivos */
+	create_mon_flag_mask(flags, RFT_RACE_A, RFT_MAX);
+	rf_inter(flags, race->flags);
+	for (f = rf_next(flags, FLAG_START); f; f = rf_next(flags, f + 1)) {
+		textblock_append_c(tb, COLOUR_L_BLUE, " %s", describe_race_flag(f));
 	}
 
 	/* Describir ubicación */
