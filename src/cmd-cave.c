@@ -1716,7 +1716,7 @@ static const char *mon_feeling_text[] =
 	"Te sientes nervioso sobre este lugar",
 	"Este lugar no parece demasiado arriesgado",
 	"Este lugar parece razonablemente seguro",
-	"Este parece un lugar manso y resguardado",
+	"Este parece un lugar tranquilo y protegido",
 	"Este parece un lugar tranquilo y pacífico"
 };
 
