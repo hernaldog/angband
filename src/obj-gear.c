@@ -1118,7 +1118,7 @@ void inven_drop(struct object *obj, int amt)
 		player);
 
 	/* Message */
-	msg("You drop %s (%c).", name, label);
+	msg("Soltaste %s (%c).", name, label);
 
 	/* Describe what's left */
 	if (dropped->artifact) {

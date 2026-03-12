@@ -180,7 +180,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 - Mejoras en traducciones varias:
   
   - No se pueden traducir nombres de monstruos (monster.txt) si se hace indica error al cargar partida
-  - Con tecla d "Soltar qué objeto", por "¿Qué objeto tirar?"
+  - Con tecla d "Soltar qué objeto", por "¿Qué objeto soltar?" Luego dice You drop, debe decir "Soltaste x objeto"
   - En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
   - Has detectado X objetos: 6 Light Teal Pocións. Acá o inglés o español y la s está rara. Archivo "obj-desc.c"
   - The flotating eye se despiertan. Y es uno solo. Está demás la "n"

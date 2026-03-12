@@ -2585,7 +2585,7 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 	int floor_num = 0;
 	bool blind = ((player->timed[TMD_BLIND]) || (no_light(player)));
 
-	const char *p = "ves";
+	const char *p = "Ves"; //fix traduc ves por Ves ya que no hay un Tu ves
 	bool can_pickup = false;
 	int i;
 
@@ -2624,7 +2624,7 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 
 		/* Mensaje */
 		event_signal(EVENT_MESSAGE_FLUSH);
-		msg("Tu %s %s.", p, o_name);
+		msg("%s %s.", p, o_name);  //Fix traduc Tu ves un Pergamino... se saca Tu, queda Ves un Pergamino
 	} else {
 		ui_event e;
 
