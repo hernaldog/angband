@@ -118,6 +118,8 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 		case TV_LIGHT:
 		case TV_FOOD:
 			return obj->kind->name;
+			
+		/* show_flavor: te dice un poco más de lo básico si tienes buen conocimiento */
 
 		case TV_AMULET:
 			return (show_flavor ? "& # Amuleto~" : "& Amuleto~");
@@ -135,7 +137,7 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 			return (show_flavor ? "& # Vara~" : "& Vara~");
 
 		case TV_POTION:
-			return (show_flavor ? "& # Poción~" : "& Poción~");
+			return (show_flavor ? "& # Poción~" : "& Poción~");  /* TODO funciona con "# Pociones" : "& Poción~"); pero hay que ver que pasa cuando es 1 sola*/
 
 		case TV_SCROLL:
 			return (show_flavor ? "& Pergamino~ titulado #" : "& Pergamino~");
