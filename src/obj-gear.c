@@ -1126,7 +1126,6 @@ void inven_drop(struct object *obj, int amt)
 		msg("Soltaste %s (%c).", name, label);  // Texto normal: Soltaste 7 Rations of ....
 	}
 
-
 	/* Describir lo que queda */
 	if (dropped->artifact) {
 		object_desc(name, sizeof(name), dropped,
@@ -1167,14 +1166,14 @@ void inven_drop(struct object *obj, int amt)
 			
 			// Si encontramos "no más", ignoramos el "Tienes" y lanzamos el mensaje corregido
             // Saltamos el "no más " para obtener solo el nombre del objeto
-            msg("No te quedan %s (%c).", pos + 8, label);            
+            msg("No te quedan %s (%c).", pos + 8, label);  // es 8 ya que son la cantidad de caracteres de "no más  "          
             //msg("Tienes %s (%c).", name, label); //resp
 		} else {
 			label = gear_to_label(player, first);
 			if (total > first->number) {
 				msg("Tienes2 %s (1er %c).", name, label);
 			} else {
-				msg("Tienes3 %s (%c).", name, label);
+				msg("Te quedan %s (%c).", name, label);  // fix traduc. Cuando soltaste 3 de 4 Rations of Food ahora dice "Te quedan 4 Rations..."
 			}
 		}
 	}
