@@ -177,6 +177,8 @@ y no
 
 Al momento de compilar se traspasa de forma automática del lugar 1 al lugar 2. Así que no debes traducir desde el lugar 2 directamente.
 
+**NOTA:** El campo "Name" de estos txt, ejemplo monster.txt, no se pueden traducir, se corrompe el Programa. Esto impacta en que los enemigos tendrán nombre en inglés. Es un pendiente por revisar.
+
 ## Encoding
 Todos los archivo deben traducirse usando encoding **UTF-8**.
 
