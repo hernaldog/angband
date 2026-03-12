@@ -17,7 +17,7 @@ Como fui traductor de ROMS de la vieja escena de SNES o NES por los años 2000 e
 tengo algo de experiencia en traducciones y quise aplicar lo aprendido allí. Espero terminar lo empezado, no es una tarea fácil.
 
 ## Objetivo del juego
-Por si no lo sabías, como este juego es una "rama" del juego Moria, donde hay que bajar al nivel 50 de profunidad a derrotar al Balrog. 
+Por si no lo sabías, como este juego es una "rama" del juego [UMoria](https://umoria.org), donde hay que bajar al nivel 50 de profunidad a derrotar al Balrog. 
 En este case, hay las cosas se ponen mejor aún, y hay que bajar al nivel 100 y derrotar nada más y nada menos que a a Morgoth.
 
 ## Sitio base y Git de Angband
