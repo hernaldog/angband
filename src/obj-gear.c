@@ -621,12 +621,12 @@ struct object *gear_object_for_use(struct player *p, struct object *obj,
 	/* Imprimir un mensaje si se desea */
 	if (message) {
 		if (artifact) {
-			msg("Ya no tienes %s (%c).", name, label);
+			msg("Ya no tienes6 %s (%c).", name, label);
 		} else if (first_remainder) {
 			label = gear_to_label(p, first_remainder);
-			msg("Tienes %s (1er %c).", name, label);
+			msg("Tienes4 %s (1er %c).", name, label);
 		} else {
-			msg("Tienes %s (%c).", name, label);
+			msg("Tienes5 %s (%c).", name, label);
 		}
 	}
 
@@ -913,10 +913,10 @@ void inven_carry(struct player *p, struct object *obj, bool absorb,
 			(total << 16), p);
 		label = gear_to_label(p, first);
 		if (total > first->number) {
-			msg("Tienes %s (1er %c).", o_name, label);
+			msg("Recogiste %s (1er %c).", o_name, label);
 		} else {
 			assert(first == obj);
-			msg("Tienes %s (%c).", o_name, label);
+			msg("Recogiste %s (%c).", o_name, label);
 		}
 	}
 
@@ -1154,13 +1154,13 @@ void inven_drop(struct object *obj, int amt)
 			ODESC_PREFIX | ODESC_FULL | ODESC_ALTNUM |
 			(total << 16), player);
 		if (!first) {
-			msg("Tienes %s (%c).", name, label);
+			msg("Tienes1 %s (%c).", name, label);  // TODO Fix traduc debe decir Ya no tienes...
 		} else {
 			label = gear_to_label(player, first);
 			if (total > first->number) {
-				msg("Tienes %s (1er %c).", name, label);
+				msg("Tienes2 %s (1er %c).", name, label);
 			} else {
-				msg("Tienes %s (%c).", name, label);
+				msg("Tienes3 %s (%c).", name, label);
 			}
 		}
 	}
