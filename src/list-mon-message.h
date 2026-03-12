@@ -21,7 +21,7 @@ MON_MSG(UNAFFECTED,			MSG_GENERIC,	false,	"¡[está|están] intacto[s]!")
 MON_MSG(SPAWN,				MSG_GENERIC,	false,	"¡[engendra|engendran]!")
 MON_MSG(HEALTHIER,			MSG_GENERIC,	false,	"parece[n] más saludable[s].")
 MON_MSG(FALL_ASLEEP,		MSG_GENERIC,	false,	"¡[se] duerme[n]!")
-MON_MSG(WAKES_UP,			MSG_GENERIC,	false,	"[se] despierta[n].")
+MON_MSG(WAKES_UP,			MSG_GENERIC,	false,	"se despierta.")  /* fix traduc resp "[se] despierta[n]." */
 MON_MSG(CRINGE_LIGHT,		MSG_GENERIC,	false,	"¡[se] encoge[n] ante la luz!")
 MON_MSG(SHRIVEL_LIGHT,		MSG_KILL,		false,	"¡[se] marchita[n] en la luz!")
 MON_MSG(LOSE_SKIN,			MSG_GENERIC,	false,	"¡[pierde|pierden] algo de piel!")
@@ -44,7 +44,7 @@ MON_MSG(MORE_HASTED,		MSG_GENERIC,	false,	"¡parece[n] incluso más rápido[s]!"
 MON_MSG(HASTED,				MSG_GENERIC,	false,	"[empieza|empiezan] a moverse más rápido.")
 MON_MSG(NOT_HASTED,			MSG_GENERIC,	false,	"[reduce|reducen] la velocidad.")
 MON_MSG(MORE_AFRAID,		MSG_GENERIC,	false,	"¡parece[n] más aterrorizado[s]!")
-MON_MSG(FLEE_IN_TERROR,		MSG_FLEE,		false,	"¡huye aterrorizado!")   /*"fix traduc, respaldo ¡[huye|huyen] aterrorizado[s]!")*/
+MON_MSG(FLEE_IN_TERROR,		MSG_FLEE,		false,	"¡huye aterrorizado!")   /*"fix traduc, resp ¡[huye|huyen] aterrorizado[s]!")*/
 MON_MSG(NOT_AFRAID,			MSG_GENERIC,	false,	"ya no [tiene|tienen] miedo.")
 MON_MSG(HELD,				MSG_GENERIC,    false,  "¡[está|están] paralizado[s] en el lugar!")
 MON_MSG(NOT_HELD,			MSG_GENERIC,    false,  "puede[n] moverse de nuevo.")
