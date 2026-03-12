@@ -1118,8 +1118,14 @@ void inven_drop(struct object *obj, int amt)
 		player);
 
 	/* Mensaje soltar objeto "Soltaste Pergamino" si el "un" */
-	char *pos = strstr(name, "un ");
-	msg("Soltaste %s (%c).", pos + 3, label);  //Fix traduc. Saltamos 3 caracteres de "un "  resp: msg("Soltaste %s (%c).", name, label);
+	char *pos = strstr(name, "un "); //fix traduc
+	if (pos != NULL) {
+		msg("Soltaste %s (%c).", pos + 3, label);  //Fix traduc. Saltamos 3 caracteres de "un "  
+	}
+	else {		
+		msg("Soltaste %s (%c).", name, label);  // Texto normal: Soltaste 7 Rations of ....
+	}
+
 
 	/* Describir lo que queda */
 	if (dropped->artifact) {
@@ -1162,7 +1168,7 @@ void inven_drop(struct object *obj, int amt)
 			// Si encontramos "no más", ignoramos el "Tienes" y lanzamos el mensaje corregido
             // Saltamos el "no más " para obtener solo el nombre del objeto
             msg("No te quedan %s (%c).", pos + 8, label);            
-            //Respaldo msg("Tienes %s (%c).", name, label);
+            //msg("Tienes %s (%c).", name, label); //resp
 		} else {
 			label = gear_to_label(player, first);
 			if (total > first->number) {
