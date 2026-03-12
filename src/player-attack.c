@@ -737,7 +737,7 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 	int j, b, s, weight, dmg;
 
 	/* Por defecto, puñetazo */
-	my_strcpy(verb, "golpeas", sizeof(verb));
+	my_strcpy(verb, "Golpeas", sizeof(verb));
 
 	/* Extraer nombre del monstruo (o "eso") */
 	monster_desc(m_name, sizeof(m_name), mon, MDESC_TARG);
@@ -776,9 +776,9 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 	}
 
 	if (obj) {
-		/* Manejar arma normal */
+		/* arma normal */
 		weight = object_weight_one(obj);
-		my_strcpy(verb, "golpeas", sizeof(verb));
+		my_strcpy(verb, "Aciertas", sizeof(verb));
 	} else {
 		weight = 0;
 	}
@@ -841,7 +841,7 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 	if (dmg <= 0) {
 		dmg = 0;
 		msg_type = MSG_MISS;
-		my_strcpy(verb, "no logras herir", sizeof(verb));
+		my_strcpy(verb, "No logras herir", sizeof(verb));
 	}
 
 	for (i = 0; i < N_ELEMENTS(melee_hit_types); i++) {
