@@ -2636,7 +2636,7 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		/* Mostrar objetos en el suelo */
 		screen_save();
 		show_floor(floor_list, floor_num, OLIST_WEIGHT, NULL);
-		prt(format("Tú %s: ", p), 0, 0);
+		prt(format("Aquí se ve: "), 0, 0);  //fix traduc
 
 		/* Esperar. Usar tecla como siguiente comando. */
 		e = inkey_ex();

@@ -184,9 +184,9 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
   - Has detectado X objetos: 6 Light Teal Pocións. Acá o inglés o español y la s está rara. Archivo "obj-desc.c"
   - The flotating eye se despiertan. Y es uno solo. Está demás la "n"
   - Mejorar: The fruit bat (offscreen) se despertan.
-  - Mejorar: "You have 7 Rations of Food (a)."
   - Mejorar: "Ves un fruit bat (unhurt, hasted)
   - Mejorar: "Puedes aprender 2 rituals más."
+  - Mejorar: "You have 7 Rations of Food (a).": ok
   - Con tecla d "Soltar qué objeto", por "¿Qué objeto soltar?": ok
   - You drop, debe decir "Soltaste x objeto": ok
   - The cutpurse ¡huye aterrorizados!. Dice con "s" y es uno solo: ok se dejó sin s fijo por ahora

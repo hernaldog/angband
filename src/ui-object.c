@@ -1836,7 +1836,7 @@ void textui_cmd_ignore(void)
 	struct object *obj;
 
 	/* Obtener un objeto */
-	const char *q = "¿Ignorar qué objeto? ";
+	const char *q = "¿Qué objeto ignorar? ";
 	const char *s = "No tienes nada que ignorar.";
 	if (!get_item(&obj, q, s, CMD_IGNORE, NULL,
 				  USE_INVEN | USE_QUIVER | USE_EQUIP | USE_FLOOR))
