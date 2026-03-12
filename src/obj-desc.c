@@ -194,23 +194,25 @@ static size_t obj_desc_name_prefix(char *buf, size_t max, size_t end,
 	} else if (object_is_known_artifact(obj)) {
 		strnfcat(buf, max, &end, "el ");
 	} else if (*basename == '&') {
-		bool an = false;
+		//bool an = false;  //fix traduc
 		const char *lookahead = basename + 1;
 
 		while (*lookahead == ' ') lookahead++;
 
-		if (*lookahead == '#') {
-			if (modstr && is_a_vowel(*modstr))
-				an = true;
-		} else if (is_a_vowel(*lookahead)) {
-			an = true;
-		}
+		//if (*lookahead == '#') {
+			//if (modstr && is_a_vowel(*modstr))
+				//an = true;
+		//} //else if (is_a_vowel(*lookahead)) {
+			//an = true;
+		//}
 
-		if (!terse) {
-			if (an)
-				strnfcat(buf, max, &end, "un ");
-			else
-				strnfcat(buf, max, &end, "un ");			
+		if (!terse) { //fix traduc TODO mejorar
+			//if (an) //Dice "un manzana" an o a en ingles es un o una. Se sacan mejor
+				//strnfcat(buf, max, &end, "un "); //resp
+				strnfcat(buf, max, &end, "un1 ");
+			//else
+				//strnfcat(buf, max, &end, "un "); //resp
+			//	strnfcat(buf, max, &end, "un(a) ");
 		}
 	}
 

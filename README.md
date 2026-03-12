@@ -206,6 +206,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
   - Mejorar: The fruit bat (offscreen) se despertan.
   - Mejorar: "Ves un fruit bat (unhurt, hasted)
   - Mejorar: "Puedes aprender 2 rituals más."
+  - Mejorar lista de items: un Apple
   - Mejorar: "You have 7 Rations of Food (a).": ok
   - Con tecla d "Soltar qué objeto", por "¿Qué objeto soltar?": ok
   - You drop, debe decir "Soltaste x objeto": ok
