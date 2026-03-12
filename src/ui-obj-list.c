@@ -269,7 +269,7 @@ static void object_list_format_textblock(const object_list_t *list,
 
          object_list_format_section(list, tb, OBJECT_LIST_SECTION_NO_LOS,
 									no_los_lines_to_display, max_width,
-									"Eres consciente de", show_others,
+									"Has detectado", show_others,
 									&max_no_los_line);
 	}
 

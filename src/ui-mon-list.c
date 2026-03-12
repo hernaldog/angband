@@ -284,7 +284,7 @@ static void monster_list_format_textblock(const monster_list_t *list, textblock 
 
 		monster_list_format_section(list, tb, MONSTER_LIST_SECTION_ESP,
 									esp_lines_to_display, max_width,
-									"Eres consciente de", show_others,
+									"Has detectado", show_others,
 									&max_esp_line);
 	}
 

@@ -1072,12 +1072,13 @@ void lore_append_toughness(textblock *tb, const struct monster_race *race,
 	/* Describir la "resistencia" del monstruo */
 	if (lore->armour_known) {
 		/* Puntos de golpe */
-		textblock_append(tb, "Tiene una");  //Fin de traducción Ella tiene se saca el Ella
+		textblock_append(tb, "Tiene un nivel");  //Fin de traducción Ella tiene se saca el Ella
 
+        // fix traducción, orden en español con otra lectura
 		if (!rf_has(known_flags, RF_UNIQUE))
-			textblock_append(tb, " media");
+			textblock_append(tb, " promedio");
 
-		textblock_append(tb, " valoración de vida de ");
+		textblock_append(tb, " de vida de ");
 		textblock_append_c(tb, COLOUR_L_BLUE, "%d", race->avg_hp);
 
 		/* Armadura */
@@ -1124,7 +1125,7 @@ void lore_append_exp(textblock *tb, const struct monster_race *race,
 	if (rf_has(known_flags, RF_UNIQUE))
 		textblock_append(tb, "Matar");
 	else
-		textblock_append(tb, "Una muerte de");
+		textblock_append(tb, "Eliminar a");
 
 	textblock_append(tb, " esta criatura");
 
@@ -1142,7 +1143,7 @@ void lore_append_exp(textblock *tb, const struct monster_race *race,
 		my_strcat(buf, format(".%02ld", exp_fraction), sizeof(buf));
 
 	/* Mencionar la experiencia */
-	textblock_append(tb, " vale ");
+	textblock_append(tb, " equivale a ");
 	textblock_append_c(tb, COLOUR_BLUE, "%s punto%s", buf,
 		PLURAL((exp_integer == 1) && (exp_fraction == 0)));
 
@@ -1334,7 +1335,7 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 	/* Recoger susceptibilidades */
 	create_mon_flag_mask(current_flags, RFT_VULN, RFT_VULN_I, RFT_MAX);
 	rf_inter(current_flags, known_flags);
-	strnfmt(start, sizeof(start), "%s es herido por ", initial_pronoun);
+	strnfmt(start, sizeof(start), "%s tiene debilidad por el ", initial_pronoun); //fix traducción
 	lore_append_clause(tb, current_flags, COLOUR_VIOLET, start, "y", "");
 	if (!rf_is_empty(current_flags)) {
 		prev = true;
