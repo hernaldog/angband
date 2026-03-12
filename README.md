@@ -169,11 +169,13 @@ Contenido del script shell:
 
 Al momento de traducir, hay muchos archivos txt en una carpeta llamada "gamedata". La que tiene el fuente es esta de la raiz:
 
-    fuente\lib\gamedata
+    1. fuente\lib\gamedata
 
 y no 
 
-    fuente\src\game\lib\gamedata
+    2. fuente\src\game\lib\gamedata
+
+Al momento de compilar se traspasa de forma automática del lugar 1 al lugar 2. Así que no debes traducir desde el lugar 2 directamente.
 
 ## Encoding
 Todos los archivo deben traducirse usando encoding **UTF-8**.
