@@ -246,7 +246,7 @@ void do_cmd_takeoff(struct command *cmd)
 
 	/* Obtener argumentos */
 	if (cmd_get_item(cmd, "item", &obj,
-			/* Mensaje */ "¿Quitarte o soltar qué objeto?",
+			/* Mensaje */ "¿Qué objeto quitarte o soltar?",
 			/* Error  */ "No tienes nada que quitarte o soltar.",
 			/* Filtro */ obj_can_takeoff,
 			/* Elección */ USE_EQUIP) != CMD_OK)
@@ -368,7 +368,7 @@ void do_cmd_drop(struct command *cmd)
 
 	/* Obtener argumentos */
 	if (cmd_get_item(cmd, "item", &obj,
-			/* Mensaje */ "¿Soltar qué objeto?",
+			/* Mensaje */ "¿Qué objeto soltar?",
 			/* Error  */ "No tienes nada que soltar.",
 			/* Filtro */ NULL,
 			/* Elección */ USE_EQUIP | USE_INVEN | USE_QUIVER) != CMD_OK)
