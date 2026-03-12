@@ -1109,7 +1109,7 @@ static bool store_menu_handle(struct menu *m, const ui_event *event, int oid)
 					prt("¿Comprar qué objeto? (ESC para cancelar, Enter seleccionar)",
 						0, 0);
 				} else {
-					prt("¿Coger qué objeto? (ESC cancelar, Enter seleccionar)",
+					prt("¿Qué objeto tomar? (ESC cancelar, Enter seleccionar)",  //fix traduc
 						0, 0);
 				}
 				oid = store_get_stock(m, oid);

@@ -16,6 +16,10 @@ Lo he jugado un par de veces solo en inglés y siempre he pensado que más gente
 Como fui traductor de ROMS de la vieja escena de SNES o NES por los años 2000 en "RomHack Hispanio.org", 
 tengo algo de experiencia en traducciones y quise aplicar lo aprendido allí. Espero terminar lo empezado, no es una tarea fácil.
 
+## Objetivo del juego
+Por si no lo sabías, como este juego es una "rama" del juego Moria, donde hay que bajar al nivel 50 de profunidad a derrotar al Balrog. 
+En este case, hay las cosas se ponen mejor aún, y hay que bajar al nivel 100 y derrotar nada más y nada menos que a a Morgoth.
+
 ## Sitio base y Git de Angband
 - https://github.com/angband/angband
 - https://rephial.org Sitio con último release y código fuente para Windows, Linux y Mac

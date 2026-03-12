@@ -366,7 +366,7 @@ static uint8_t player_pickup_item(struct player *p, struct object *obj, bool men
 		struct object *obj_local = NULL;
 
 		/* Obtener un objeto o salir. */
-		q = "¿Coger qué objeto?";
+		q = "¿Qué objeto recoger?";  //fix traduc
 		s = "No ves nada ahí.";
 		if (!get_item(&obj_local, q, s, CMD_PICKUP, inven_carry_okay, USE_FLOOR)) {
 			mem_free(floor_list);
