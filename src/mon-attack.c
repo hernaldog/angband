@@ -1,10 +1,10 @@
 /**
  * \file mon-attack.c
- * \brief Monster attacks
+ * \brief Ataques de monstruos
  *
- * Monster ranged attacks - choosing an attack spell or shot and making it.
- * Monster melee attacks - monster critical blows, whether a monster 
- * attack hits, what happens when a monster attacks an adjacent player.
+ * Ataques a distancia de monstruos - elegir un hechizo de ataque o disparo y realizarlo.
+ * Ataques cuerpo a cuerpo de monstruos - golpes críticos de monstruos, si un ataque
+ * de monstruo golpea, qué sucede cuando un monstruo ataca a un jugador adyacente.
  *
  * Copyright (c) 1997 Ben Harrison, David Reeve Sward, Keldon Jones.
  *
@@ -39,28 +39,28 @@
 #include "project.h"
 
 /**
- * This file deals with monster attacks (including spells) as follows:
+ * Este archivo trata sobre los ataques de monstruos (incluyendo hechizos) de la siguiente manera:
  *
- * Give monsters more intelligent attack/spell selection based on
- * observations of previous attacks on the player, and/or by allowing
- * the monster to "cheat" and know the player status.
+ * Dar a los monstruos una selección de ataques/hechizos más inteligente basada en
+ * observaciones de ataques previos al jugador, y/o permitiendo
+ * que el monstruo "haga trampa" y conozca el estado del jugador.
  *
- * Maintain an idea of the player status, and use that information
- * to occasionally eliminate "ineffective" spell attacks.  We could
- * also eliminate ineffective normal attacks, but there is no reason
- * for the monster to do this, since he gains no benefit.
- * Note that MINDLESS monsters are not allowed to use this code.
- * And non-INTELLIGENT monsters only use it partially effectively.
+ * Mantener una idea del estado del jugador, y usar esa información
+ * para eliminar ocasionalmente ataques de hechizos "ineficaces". Podríamos
+ * también eliminar ataques normales ineficaces, pero no hay razón
+ * para que el monstruo haga esto, ya que no obtiene ningún beneficio.
+ * Nótese que los monstruos MINDLESS no pueden usar este código.
+ * Y los monstruos no-INTELIGENTES solo lo usan parcialmente de forma efectiva.
  *
- * Actually learn what the player resists, and use that information
- * to remove attacks or spells before using them. 
+ * Aprender realmente lo que el jugador resiste, y usar esa información
+ * para eliminar ataques o hechizos antes de usarlos.
  */
 
 /**
- * Given the monster, *mon, and cave *c, set *dist to the distance to the
- * monster's target and *grid to the target's location.  Accounts for a player
- * decoy, if present.  Either dist or grid may be NULL if that value is not
- * needed.
+ * Dados el monstruo, *mon, y la cueva *c, establecer *dist a la distancia al
+ * objetivo del monstruo y *grid a la ubicación del objetivo. Tiene en cuenta un señuelo
+ * del jugador, si está presente. Tanto dist como grid pueden ser NULL si ese valor no es
+ * necesario.
  */
 static void monster_get_target_dist_grid(struct monster *mon, int *dist,
 										 struct loc *grid)
@@ -84,7 +84,7 @@ static void monster_get_target_dist_grid(struct monster *mon, int *dist,
 }
 
 /**
- * Check if a monster has a chance of casting a spell this turn
+ * Verificar si un monstruo tiene posibilidad de lanzar un hechizo este turno
  */
 static bool monster_can_cast(struct monster *mon, bool innate)
 {
@@ -94,33 +94,33 @@ static bool monster_can_cast(struct monster *mon, bool innate)
 
 	monster_get_target_dist_grid(mon, &tdist, &tgrid);
 
-	/* Cannot cast spells when nice */
+	/* No puede lanzar hechizos cuando es amable */
 	if (mflag_has(mon->mflag, MFLAG_NICE)) return false;
 
-	/* Not allowed to cast spells */
+	/* No se le permite lanzar hechizos */
 	if (!chance) return false;
 
-	/* Taunted monsters are likely just to attack */
+	/* Es más probable que los monstruos provocados solo ataquen */
 	if (player->timed[TMD_TAUNT]) {
 		chance /= 2;
 	}
 
-	/* Monsters at their preferred range are more likely to cast */
+	/* Los monstruos en su rango preferido tienen más probabilidades de lanzar */
 	if (tdist == mon->best_range) {
 		chance *= 2;
 	}
 
-	/* Only do spells occasionally */
+	/* Solo hacer hechizos ocasionalmente */
 	if (randint0(100) >= chance) return false;
 
-	/* Check range */
+	/* Verificar rango */
 	if (tdist > z_info->max_range) return false;
 
-	/* Check path */
+	/* Verificar trayectoria */
 	if (!projectable(cave, mon->grid, tgrid, PROJECT_SHORT))
 		return false;
 
-	/* If the target isn't the player, only cast if the player can witness */
+	/* Si el objetivo no es el jugador, solo lanzar si el jugador puede presenciarlo */
 	if ((tgrid.x != player->grid.x || tgrid.y != player->grid.y) &&
 		!square_isview(cave, mon->grid) &&
 		!square_isview(cave, tgrid)) {
@@ -132,7 +132,7 @@ static bool monster_can_cast(struct monster *mon, bool innate)
 		ipath = 0;
 		while (1) {
 			if (ipath >= npath) {
-				/* No point on path visible.  Don't cast. */
+				/* Ningún punto en la trayectoria visible. No lanzar. */
 				mem_free(path);
 				return false;
 			}
@@ -148,7 +148,7 @@ static bool monster_can_cast(struct monster *mon, bool innate)
 }
 
 /**
- * Remove the "bad" spells from a spell list
+ * Eliminar los hechizos "malos" de una lista de hechizos
  */
 static void remove_bad_spells(struct monster *mon, bitflag f[RSF_SIZE])
 {
@@ -157,31 +157,31 @@ static void remove_bad_spells(struct monster *mon, bitflag f[RSF_SIZE])
 
 	monster_get_target_dist_grid(mon, &tdist, NULL);
 
-	/* Take working copy of spell flags */
+	/* Tomar copia de trabajo de las banderas de hechizo */
 	rsf_copy(f2, f);
 
-	/* Don't heal if full */
+	/* No curarse si está lleno */
 	if (mon->hp >= mon->maxhp) {
 		rsf_off(f2, RSF_HEAL);
 	}
 
-	/* Don't heal others if no injuries */
+	/* No curar a otros si no hay heridos */
 	if (rsf_has(f2, RSF_HEAL_KIN) && !find_any_nearby_injured_kin(cave, mon)) {
 		rsf_off(f2, RSF_HEAL_KIN);
 	}
 
-	/* Don't haste if hasted with time remaining */
+	/* No apresurarse si ya está apresurado con tiempo restante */
 	if (mon->m_timed[MON_TMD_FAST] > 10) {
 		rsf_off(f2, RSF_HASTE);
 	}
 
-	/* Don't teleport to if the player is already next to us */
+	/* No teletransportarse hacia si el jugador ya está al lado */
 	if (tdist == 1) {
 		rsf_off(f2, RSF_TELE_TO);
 		rsf_off(f2, RSF_TELE_SELF_TO);
 	}
 
-	/* Don't use the lash effect if the player is too far away */
+	/* No usar el efecto de látigo si el jugador está demasiado lejos */
 	if (tdist > 2) {
 		rsf_off(f2, RSF_WHIP);
 	}
@@ -189,14 +189,14 @@ static void remove_bad_spells(struct monster *mon, bitflag f[RSF_SIZE])
 		rsf_off(f2, RSF_SPIT);
 	}
 
-	/* Update acquired knowledge */
+	/* Actualizar el conocimiento adquirido */
 	if (OPT(player, birth_ai_learn)) {
 		size_t i;
 		bitflag ai_flags[OF_SIZE], ai_pflags[PF_SIZE];
 		struct element_info el[ELEM_MAX];
 		bool know_something = false;
 
-		/* Occasionally forget player status */
+		/* Olvidar el estado del jugador ocasionalmente */
 		if (one_in_(20)) {
 			of_wipe(mon->known_pstate.flags);
 			pf_wipe(mon->known_pstate.pflags);
@@ -204,7 +204,7 @@ static void remove_bad_spells(struct monster *mon, bitflag f[RSF_SIZE])
 				mon->known_pstate.el_info[i].res_level = 0;
 		}
 
-		/* Use the memorized info */
+		/* Usar la información memorizada */
 		of_wipe(ai_flags);
 		pf_wipe(ai_pflags);
 		of_copy(ai_flags, mon->known_pstate.flags);
@@ -220,43 +220,43 @@ static void remove_bad_spells(struct monster *mon, bitflag f[RSF_SIZE])
 			}
 		}
 
-		/* Cancel out certain flags based on knowledge */
+		/* Cancelar ciertas banderas basadas en el conocimiento */
 		if (know_something) {
 			unset_spells(f2, ai_flags, ai_pflags, el, mon);
 		}
 	}
 
-	/* Use working copy of spell flags */
+	/* Usar copia de trabajo de las banderas de hechizo */
 	rsf_copy(f, f2);
 }
 
 
 /**
- * Determine if there is a space near the selected spot in which
- * a summoned creature can appear
+ * Determinar si hay un espacio cerca del lugar seleccionado en el que
+ * pueda aparecer una criatura invocada
  */
 static bool summon_possible(struct loc grid)
 {
 	int y, x;
 
-	/* No summons in arenas */
+	/* Sin invocaciones en niveles de arena */
 	if (player->upkeep->arena_level) return false;
 
-	/* Start at the location, and check 2 grids in each dir */
+	/* Comenzar en la ubicación y verificar 2 casillas en cada dirección */
 	for (y = grid.y - 2; y <= grid.y + 2; y++) {
 		for (x = grid.x - 2; x <= grid.x + 2; x++) {
 			struct loc near = loc(x, y);
 
-			/* Ignore illegal locations */
+			/* Ignorar ubicaciones ilegales */
 			if (!square_in_bounds(cave, near)) continue;
 
-			/* Only check a circular area */
+			/* Solo verificar un área circular */
 			if (distance(grid, near) > 2) continue;
 
-			/* Hack: no summon on glyph of warding */
+			/* Truco: no invocar sobre glifo de protección */
 			if (square_iswarded(cave, near)) continue;
 
-			/* If it's empty floor grid in line of sight, we're good */
+			/* Si es una casilla de suelo vacía en la línea de visión, estamos bien */
 			if (square_isempty(cave, near) && los(cave, grid, near))
 				return (true);
 		}
@@ -267,16 +267,16 @@ static bool summon_possible(struct loc grid)
 
 
 /**
- * Have a monster choose a spell to cast.
+ * Hacer que un monstruo elija un hechizo para lanzar.
  *
- * Note that the monster's spell list has already had "useless" spells
- * (bolts that won't hit the player, summons without room, etc.) removed.
- * Perhaps that should be done by this function.
+ * Nótese que la lista de hechizos del monstruo ya ha tenido los hechizos "inútiles"
+ * (rayos que no golpearán al jugador, invocaciones sin espacio, etc.) eliminados.
+ * Quizás eso debería hacerlo esta función.
  *
- * Stupid monsters will just pick a spell randomly.  Smart monsters
- * will choose more "intelligently".
+ * Los monstruos estúpidos simplemente elegirán un hechizo al azar. Los monstruos inteligentes
+ * elegirán de manera más "inteligente".
  *
- * This function could be an efficiency bottleneck.
+ * Esta función podría ser un cuello de botella de eficiencia.
  */
 int choose_attack_spell(bitflag *f, bool innate, bool non_innate)
 {
@@ -285,40 +285,40 @@ int choose_attack_spell(bitflag *f, bool innate, bool non_innate)
 
 	int i;
 
-	/* Paranoid initialization */
+	/* Inicialización paranoica */
 	for (i = 0; i < RSF_MAX; i++) {
 		spells[i] = 0;
 	}
 
-	/* Extract spells, filtering as necessary */
+	/* Extraer hechizos, filtrando según sea necesario */
 	for (i = FLAG_START, num = 0; i < RSF_MAX; i++) {
 		if (!innate && mon_spell_is_innate(i)) continue;
 		if (!non_innate && !mon_spell_is_innate(i)) continue;
 		if (rsf_has(f, i)) spells[num++] = i;
 	}
 
-	/* Pick at random */
+	/* Elegir al azar */
 	return (spells[randint0(num)]);
 }
 
 /**
- * Failure rate of a monster's spell, based on spell power and current status
+ * Tasa de fallo del hechizo de un monstruo, basada en el poder del hechizo y el estado actual
  */
 static int monster_spell_failrate(struct monster *mon)
 {
 	int power = MIN(mon->race->spell_power, 1);
 	int failrate = 0;
 
-	/* Stupid monsters will never fail (for jellies and such) */
+	/* Los monstruos estúpidos nunca fallarán (para gelatinas y similares) */
 	if (!monster_is_stupid(mon)) {
-		/* Base failrate */
+		/* Tasa de fallo base */
 		failrate = 25 - (power + 3) / 4;
 
-		/* Fear adds 20% */
+		/* El miedo añade 20% */
 		if (mon->m_timed[MON_TMD_FEAR])
 			failrate += 20;
 
-		/* Confusion and diesnchantment add 50% */
+		/* La confusión y el desencantamiento añaden 50% */
 		if (mon->m_timed[MON_TMD_CONF] || mon->m_timed[MON_TMD_DISEN])
 			failrate += 50;
 	}
@@ -327,11 +327,11 @@ static int monster_spell_failrate(struct monster *mon)
 }
 
 /**
- * Calculate the base to-hit value for a monster attack based on race only.
- * See also: chance_of_spell_hit_base
+ * Calcular el valor base de probabilidad de golpe para un ataque de monstruo basado solo en la raza.
+ * Ver también: chance_of_spell_hit_base
  *
- * \param race The monster race
- * \param effect The attack
+ * \param race La raza del monstruo
+ * \param effect El ataque
  */
 int chance_of_monster_hit_base(const struct monster_race *race,
 	const struct blow_effect *effect)
@@ -340,17 +340,17 @@ int chance_of_monster_hit_base(const struct monster_race *race,
 }
 
 /**
- * Calculate the to-hit value of a monster attack for a specific monster
+ * Calcular el valor de probabilidad de golpe de un ataque de monstruo para un monstruo específico
  *
- * \param mon The monster
- * \param effect The attack
+ * \param mon El monstruo
+ * \param effect El ataque
  */
 static int chance_of_monster_hit(const struct monster *mon,
 	const struct blow_effect *effect)
 {
 	int to_hit = chance_of_monster_hit_base(mon->race, effect);
 
-	/* Apply stun hit reduction if applicable */
+	/* Aplicar reducción de golpe por aturdimiento si corresponde */
 	if (mon->m_timed[MON_TMD_STUN]) {
 		to_hit = to_hit * (100 - STUN_HIT_REDUCTION) / 100;
 	}
@@ -359,37 +359,37 @@ static int chance_of_monster_hit(const struct monster *mon,
 }
 
 /**
- * Creatures can cast spells, shoot missiles, and breathe.
+ * Las criaturas pueden lanzar hechizos, disparar proyectiles y respirar.
  *
- * Returns "true" if a spell (or whatever) was (successfully) cast.
+ * Devuelve "true" si se lanzó un hechizo (o lo que sea) (con éxito).
  *
- * Perhaps monsters should breathe at locations *near* the player,
- * since this would allow them to inflict "partial" damage.
+ * Quizás los monstruos deberían respirar en ubicaciones *cercanas* al jugador,
+ * ya que esto les permitiría infligir daño "parcial".
  *
- * It will not be possible to "correctly" handle the case in which a
- * monster attempts to attack a location which is thought to contain
- * the player, but which in fact is nowhere near the player, since this
- * might induce all sorts of messages about the attack itself, and about
- * the effects of the attack, which the player might or might not be in
- * a position to observe.  Thus, for simplicity, it is probably best to
- * only allow "faulty" attacks by a monster if one of the important grids
- * (probably the initial or final grid) is in fact in view of the player.
- * It may be necessary to actually prevent spell attacks except when the
- * monster actually has line of sight to the player.  Note that a monster
- * could be left in a bizarre situation after the player ducked behind a
- * pillar and then teleported away, for example.
+ * No será posible manejar "correctamente" el caso en el que un
+ * monstruo intenta atacar una ubicación que se cree que contiene
+ * al jugador, pero que de hecho no está cerca del jugador, ya que esto
+ * podría inducir todo tipo de mensajes sobre el ataque en sí mismo, y sobre
+ * los efectos del ataque, que el jugador podría o no estar en
+ * posición de observar. Por lo tanto, para simplificar, probablemente sea mejor
+ * solo permitir ataques "erróneos" por parte de un monstruo si una de las casillas importantes
+ (probablemente la casilla inicial o final) está de hecho a la vista del jugador.
+ * Puede ser necesario evitar realmente los ataques de hechizos excepto cuando el
+ * monstruo realmente tiene línea de visión hacia el jugador. Nótese que un monstruo
+ * podría quedar en una situación extraña después de que el jugador se agazapara detrás de un
+ * pilar y luego se teletransportara, por ejemplo.
  *
- * Note that this function attempts to optimize the use of spells for the
- * cases in which the monster has no spells, or has spells but cannot use
- * them, or has spells but they will have no "useful" effect.  Note that
- * this function has been an efficiency bottleneck in the past.
+ * Nótese que esta función intenta optimizar el uso de hechizos para los
+ * casos en los que el monstruo no tiene hechizos, o tiene hechizos pero no puede usarlos,
+ * o tiene hechizos pero no tendrán ningún efecto "útil". Nótese que
+ * esta función ha sido un cuello de botella de eficiencia en el pasado.
  *
- * Note the special "MFLAG_NICE" flag, which prevents a monster from using
- * any spell attacks until the player has had a single chance to move.
+ * Nótese la bandera especial "MFLAG_NICE", que evita que un monstruo use
+ * cualquier ataque de hechizo hasta que el jugador haya tenido una sola oportunidad de moverse.
  *
- * Note the interaction between innate attacks and non-innate attacks (true
- * spells).  Because the check for spells is done first, actual innate attack
- * frequencies are affected by the spell frequency.
+ * Nótese la interacción entre ataques innatos y ataques no innatos (hechizos
+ * verdaderos). Debido a que la verificación de hechizos se realiza primero, las frecuencias
+ * de ataque innato reales se ven afectadas por la frecuencia de hechizos.
  */
 bool make_ranged_attack(struct monster *mon)
 {
@@ -400,80 +400,80 @@ bool make_ranged_attack(struct monster *mon)
 	bool seen = (player->timed[TMD_BLIND] == 0) && monster_is_visible(mon);
 	bool innate = false;
 
-	/* Check for cast this turn, non-innate and then innate */
+	/* Verificar si puede lanzar este turno, primero no innato y luego innato */
 	if (!monster_can_cast(mon, false)) {
 		if (!monster_can_cast(mon, true)) {
 			return false;
 		} else {
-			/* We're casting an innate "spell" */
+			/* Lanzaremos un "hechizo" innato */
 			innate = true;
 		}
 	}
 
-	/* Extract the racial spell flags */
+	/* Extraer las banderas de hechizo raciales */
 	rsf_copy(f, mon->race->spell_flags);
 
-	/* Smart monsters can use "desperate" spells */
+	/* Los monstruos inteligentes pueden usar hechizos "desesperados" */
 	if (monster_is_smart(mon) && mon->hp < mon->maxhp / 10 && one_in_(2)) {
 		ignore_spells(f, RST_DAMAGE);
 	}
 
-	/* Non-stupid monsters do some filtering */
+	/* Los monstruos no estúpidos hacen algo de filtrado */
 	if (!monster_is_stupid(mon)) {
 		struct loc tgrid;
 
-		/* Remove the "ineffective" spells */
+		/* Eliminar los hechizos "ineficaces" */
 		remove_bad_spells(mon, f);
 
-		/* Check for a clean bolt shot */
+		/* Verificar si hay un disparo de rayo limpio */
 		monster_get_target_dist_grid(mon, NULL, &tgrid);
 		if (test_spells(f, RST_BOLT) &&
 			!projectable(cave, mon->grid, tgrid, PROJECT_STOP)) {
 			ignore_spells(f, RST_BOLT);
 		}
 
-		/* Check for a possible summon */
+		/* Verificar si hay una invocación posible */
 		if (!summon_possible(mon->grid)) {
 			ignore_spells(f, RST_SUMMON);
 		}
 	}
 
-	/* No spells left */
+	/* No quedan hechizos */
 	if (rsf_is_empty(f)) return false;
 
-	/* Choose a spell to cast */
+	/* Elegir un hechizo para lanzar */
 	thrown_spell = choose_attack_spell(f, innate, !innate);
 
-	/* Abort if no spell was chosen */
+	/* Abortar si no se eligió ningún hechizo */
 	if (!thrown_spell) return false;
 
-	/* There will be at least an attempt now, so get the monster's name */
+	/* Ahora habrá al menos un intento, así que obtener el nombre del monstruo */
 	monster_desc(m_name, sizeof(m_name), mon, MDESC_STANDARD);
 
-	/* If we see a hidden monster try to cast a spell, become aware of it */
+	/* Si vemos a un monstruo oculto intentar lanzar un hechizo, tomar conciencia de él */
 	if (monster_is_camouflaged(mon))
 		become_aware(cave, mon);
 
-	/* Check for spell failure (innate attacks never fail) */
+	/* Verificar fallo de hechizo (los ataques innatos nunca fallan) */
 	failrate = monster_spell_failrate(mon);
 	if (!mon_spell_is_innate(thrown_spell) && (randint0(100) < failrate)) {
-		msg("%s tries to cast a spell, but fails.", m_name);
+		msg("%s intenta lanzar un hechizo, pero falla.", m_name);
 		return true;
 	}
 
-	/* Cast the spell. */
+	/* Lanzar el hechizo. */
 	disturb(player);
 	do_mon_spell(thrown_spell, mon, seen);
 
-	/* Remember what the monster did */
+	/* Recordar lo que hizo el monstruo */
 	if (seen) {
 		rsf_on(lore->spell_flags, thrown_spell);
 		if (mon_spell_is_innate(thrown_spell)) {
-			/* Innate spell */
+			/* Hechizo innato */
 			if (lore->cast_innate < UCHAR_MAX)
 				lore->cast_innate++;
 		} else {
-			/* Bolt or Ball, or Special spell */
+			/* Hechizo de rayo o bola, o especial */
 			if (lore->cast_spell < UCHAR_MAX)
 				lore->cast_spell++;
 		}
@@ -483,36 +483,36 @@ bool make_ranged_attack(struct monster *mon)
 	}
 	lore_update(mon->race, lore);
 
-	/* A spell was cast */
+	/* Se lanzó un hechizo */
 	return true;
 }
 
 
 
 /**
- * Critical blow.  All hits that do 95% of total possible damage,
- * and which also do at least 20 damage, or, sometimes, N damage.
- * This is used only to determine "cuts" and "stuns".
+ * Golpe crítico. Todos los golpes que hacen el 95% del daño total posible,
+ * y que además hacen al menos 20 de daño, o, a veces, N de daño.
+ * Esto se usa solo para determinar "cortes" y "aturdimientos".
  */
 static int monster_critical(random_value dice, int rlev, int dam)
 {
 	int max = 0;
 	int total = randcalc(dice, rlev, MAXIMISE);
 
-	/* Must do at least 95% of perfect */
+	/* Debe hacer al menos el 95% del perfecto */
 	if (dam < total * 19 / 20) return (0);
 
-	/* Weak blows rarely work */
+	/* Los golpes débiles rara vez funcionan */
 	if ((dam < 20) && (randint0(100) >= dam)) return (0);
 
-	/* Perfect damage */
+	/* Daño perfecto */
 	if (dam == total) max++;
 
-	/* Super-charge */
+	/* Sobre-carga */
 	if (dam >= 20)
 		while (randint0(100) < 2) max++;
 
-	/* Critical damage */
+	/* Daño crítico */
 	if (dam > 45) return (6 + max);
 	if (dam > 33) return (5 + max);
 	if (dam > 25) return (4 + max);
@@ -522,20 +522,20 @@ static int monster_critical(random_value dice, int rlev, int dam)
 }
 
 /**
- * Determine if an attack against the player succeeds.
+ * Determinar si un ataque contra el jugador tiene éxito.
  */
 bool check_hit(struct player *p, int to_hit)
 {
-	/* If anything checks vs ac, the player learns ac bonuses */
+	/* Si algo verifica contra la CA, el jugador aprende bonificaciones de CA */
 	equip_learn_on_defend(p);
 
-	/* Check if the player was hit */
+	/* Verificar si el jugador fue golpeado */
 	return test_hit(to_hit, p->state.ac + p->state.to_a);
 }
 
 /**
- * Calculate how much damage remains after armor is taken into account
- * (does for a physical attack what adjust_dam does for an elemental attack).
+ * Calcular cuánto daño queda después de tener en cuenta la armadura
+ * (hace para un ataque físico lo que adjust_dam hace para un ataque elemental).
  */
 int adjust_dam_armor(int damage, int ac)
 {
@@ -543,7 +543,7 @@ int adjust_dam_armor(int damage, int ac)
 }
 
 /**
- * Attack the player via physical attacks.
+ * Atacar al jugador mediante ataques físicos.
  */
 bool make_attack_normal(struct monster *mon, struct player *p)
 {
@@ -554,16 +554,16 @@ bool make_attack_normal(struct monster *mon, struct player *p)
 	char ddesc[80];
 	bool blinked = false;
 
-	/* Not allowed to attack */
+	/* No se le permite atacar */
 	if (rf_has(mon->race->flags, RF_NEVER_BLOW)) return (false);
 
-	/* Get the monster name (or "it") */
+	/* Obtener el nombre del monstruo (o "eso") */
 	monster_desc(m_name, sizeof(m_name), mon, MDESC_STANDARD);
 
-	/* Get the "died from" information (i.e. "a kobold") */
+	/* Obtener la información de "murió por" (ej. "un kobold") */
 	monster_desc(ddesc, sizeof(ddesc), mon, MDESC_SHOW | MDESC_IND_VIS);
 
-	/* Scan through all blows */
+	/* Escanear todos los golpes */
 	for (ap_cnt = 0; ap_cnt < z_info->mon_blows_max; ap_cnt++) {
 		struct loc pgrid = p->grid;
 		bool visible = monster_is_visible(mon) || (mon->race->light > 0);
@@ -573,38 +573,38 @@ bool make_attack_normal(struct monster *mon, struct player *p)
 		bool do_cut = false;
 		bool do_stun = false;
 
-		/* Extract the attack infomation */
+		/* Extraer la información del ataque */
 		struct blow_effect *effect = mon->race->blow[ap_cnt].effect;
 		struct blow_method *method = mon->race->blow[ap_cnt].method;
 		random_value dice = mon->race->blow[ap_cnt].dice;
 
-		/* No more attacks */
+		/* No hay más ataques */
 		if (!method) break;
 
-		/* Handle "leaving" */
+		/* Manejar "salida" */
 		if (p->is_dead || p->upkeep->generate_level) break;
 
-		/* Monster hits player */
+		/* El monstruo golpea al jugador */
 		assert(effect);
 		if (streq(effect->name, "NONE") ||
 			check_hit(p, chance_of_monster_hit(mon, effect))) {
 			melee_effect_handler_f effect_handler;
 
-			/* Always disturbing */
+			/* Siempre molesto */
 			disturb(p);
 
-			/* Apply "protection from evil" */
+			/* Aplicar "protección contra el mal" */
 			if (p->timed[TMD_PROTEVIL] > 0) {
-				/* Learn about the evil flag */
+				/* Aprender sobre la bandera de maldad */
 				if (monster_is_visible(mon))
 					rf_on(lore->flags, RF_EVIL);
 
 				if (monster_is_evil(mon) && p->lev >= rlev &&
 				    randint0(100) + p->lev > 50) {
-					/* Message */
-					msg("%s is repelled.", m_name);
+					/* Mensaje */
+					msg("%s es repelido.", m_name);
 
-					/* Next attack */
+					/* Siguiente ataque */
 					continue;
 				}
 			}
@@ -612,18 +612,18 @@ bool make_attack_normal(struct monster *mon, struct player *p)
 			do_cut = method->cut;
 			do_stun = method->stun;
 
-			/* Assume all attacks are obvious */
+			/* Asumir que todos los ataques son obvios */
 			obvious = true;
 
-			/* Roll dice */
+			/* Tirar dados */
 			damage = randcalc(dice, rlev, RANDOMISE);
 
-			/* Reduce damage when stunned */
+			/* Reducir daño cuando está aturdido */
 			if (mon->m_timed[MON_TMD_STUN]) {
 				damage = (damage * (100 - STUN_DAM_REDUCTION)) / 100;
 			}
 
-			/* Perform the actual effect. */
+			/* Realizar el efecto real. */
 			effect_handler = melee_handler_for_blow_effect(effect->name);
 			if (effect_handler != NULL) {
 				melee_effect_handler_context_t context = {
@@ -642,37 +642,37 @@ bool make_attack_normal(struct monster *mon, struct player *p)
 
 				effect_handler(&context);
 
-				/* Save any changes made in the handler for later use. */
+				/* Guardar cualquier cambio realizado en el manejador para uso posterior. */
 				obvious = context.obvious;
 				blinked = context.blinked;
 				damage = context.damage;
 			} else {
-				msg("ERROR: Effect handler not found for %s.", effect->name);
+				msg("ERROR: Manejador de efecto no encontrado para %s.", effect->name);
 			}
 
-			/* Don't cut or stun if player is dead */
+			/* No cortar o aturdir si el jugador está muerto */
 			if (p->is_dead) {
 				do_cut = false;
 				do_stun = false;
 			}
 
-			/* Only one of cut or stun */
+			/* Solo uno de corte o aturdimiento */
 			if (do_cut && do_stun) {
-				/* Cancel cut */
+				/* Cancelar corte */
 				if (randint0(100) < 50)
 					do_cut = false;
 
-				/* Cancel stun */
+				/* Cancelar aturdimiento */
 				else
 					do_stun = false;
 			}
 
-			/* Handle cut */
+			/* Manejar corte */
 			if (do_cut) {
-				/* Critical hit (zero if non-critical) */
+				/* Golpe crítico (cero si no es crítico) */
 				int amt, tmp = monster_critical(dice, rlev, damage);
 
-				/* Roll for damage */
+				/* Tirar para daño */
 				switch (tmp) {
 					case 0: amt = 0; break;
 					case 1: amt = randint1(5); break;
@@ -684,19 +684,19 @@ bool make_attack_normal(struct monster *mon, struct player *p)
 					default: amt = 500; break;
 				}
 
-				/* Apply the cut */
+				/* Aplicar el corte */
 				if (amt) {
 					(void)player_inc_timed(p, TMD_CUT, amt,
 						true, true, true);
 				}
 			}
 
-			/* Handle stun */
+			/* Manejar aturdimiento */
 			if (do_stun) {
-				/* Critical hit (zero if non-critical) */
+				/* Golpe crítico (cero si no es crítico) */
 				int amt, tmp = monster_critical(dice, rlev, damage);
 
-				/* Roll for damage */
+				/* Tirar para daño */
 				switch (tmp) {
 					case 0: amt = 0; break;
 					case 1: amt = randint1(5); break;
@@ -708,36 +708,36 @@ bool make_attack_normal(struct monster *mon, struct player *p)
 					default: amt = 200; break;
 				}
 
-				/* Apply the stun */
+				/* Aplicar el aturdimiento */
 				if (amt) {
 					(void)player_inc_timed(p, TMD_STUN, amt,
 						true, true, true);
 				}
 			}
 		} else {
-			/* Visible monster missed player, so notify if appropriate. */
+			/* El monstruo visible falló al jugador, así que notificar si corresponde. */
 			if (monster_is_visible(mon) &&	method->miss) {
-				/* Disturbing */
+				/* Molesto */
 				disturb(p);
-				msg("%s misses you.", m_name);
+				msg("%s falla contra ti.", m_name);
 			}
 		}
 
-		/* Analyze "visible" monsters only */
+		/* Analizar solo monstruos "visibles" */
 		if (visible) {
-			/* Count "obvious" attacks (and ones that cause damage) */
+			/* Contar ataques "obvios" (y aquellos que causan daño) */
 			if (obvious || damage || (lore->blows[ap_cnt].times_seen > 10)) {
-				/* Count attacks of this type */
+				/* Contar ataques de este tipo */
 				if (lore->blows[ap_cnt].times_seen < UCHAR_MAX)
 					lore->blows[ap_cnt].times_seen++;
 			}
 		}
 
-		/* Skip the other blows if the player has moved */
+		/* Saltar los otros golpes si el jugador se ha movido */
 		if (!loc_eq(p->grid, pgrid)) break;
 	}
 
-	/* Blink away */
+	/* Parpadear */
 	if (blinked) {
 		char dice[5];
 
@@ -748,19 +748,19 @@ bool make_attack_normal(struct monster *mon, struct player *p)
 		effect_simple(EF_TELEPORT, source_monster(mon->midx), dice, 0, 0, 0, 0, 0, NULL);
 	}
 
-	/* Always notice cause of death */
+	/* Siempre notificar la causa de la muerte */
 	if (p->is_dead && (lore->deaths < SHRT_MAX))
 		lore->deaths++;
 
-	/* Learn lore */
+	/* Aprender conocimiento */
 	lore_update(mon->race, lore);
 
-	/* Assume we attacked */
+	/* Asumir que atacamos */
 	return (true);
 }
 
 /**
- * Attack another monster via physical attacks.
+ * Atacar a otro monstruo mediante ataques físicos.
  */
 bool monster_attack_monster(struct monster *mon, struct monster *t_mon)
 {
@@ -771,14 +771,14 @@ bool monster_attack_monster(struct monster *mon, struct monster *t_mon)
 	char t_name[80];
 	bool blinked = false;
 
-	/* Not allowed to attack */
+	/* No se le permite atacar */
 	if (rf_has(mon->race->flags, RF_NEVER_BLOW)) return (false);
 
-	/* Get the monster names (or "it") */
+	/* Obtener los nombres de los monstruos (o "eso") */
 	monster_desc(m_name, sizeof(m_name), mon, MDESC_STANDARD);
 	monster_desc(t_name, sizeof(t_name), t_mon, MDESC_TARG);
 
-	/* Scan through all blows */
+	/* Escanear todos los golpes */
 	for (ap_cnt = 0; ap_cnt < z_info->mon_blows_max; ap_cnt++) {
 		struct loc grid = t_mon->grid;
 		bool visible = monster_is_visible(mon) || (mon->race->light > 0);
@@ -787,15 +787,15 @@ bool monster_attack_monster(struct monster *mon, struct monster *t_mon)
 		int damage = 0;
 		bool do_stun = false;
 
-		/* Extract the attack infomation */
+		/* Extraer la información del ataque */
 		struct blow_effect *effect = mon->race->blow[ap_cnt].effect;
 		struct blow_method *method = mon->race->blow[ap_cnt].method;
 		random_value dice = mon->race->blow[ap_cnt].dice;
 
-		/* No more attacks */
+		/* No hay más ataques */
 		if (!method) break;
 
-		/* Monster hits monster */
+		/* El monstruo golpea al monstruo */
 		assert(effect);
 		if (streq(effect->name, "NONE") ||
 			test_hit(chance_of_monster_hit(mon, effect), t_mon->race->ac)) {
@@ -803,18 +803,18 @@ bool monster_attack_monster(struct monster *mon, struct monster *t_mon)
 
 			do_stun = method->stun;
 
-			/* Assume all attacks are obvious */
+			/* Asumir que todos los ataques son obvios */
 			obvious = true;
 
-			/* Roll dice */
+			/* Tirar dados */
 			damage = randcalc(dice, rlev, RANDOMISE);
 
-			/* Reduce damage when stunned */
+			/* Reducir daño cuando está aturdido */
 			if (mon->m_timed[MON_TMD_STUN]) {
 				damage = (damage * (100 - STUN_DAM_REDUCTION)) / 100;
 			}
 
-			/* Perform the actual effect. */
+			/* Realizar el efecto real. */
 			effect_handler = melee_handler_for_blow_effect(effect->name);
 			if (effect_handler != NULL) {
 				melee_effect_handler_context_t context = {
@@ -833,20 +833,20 @@ bool monster_attack_monster(struct monster *mon, struct monster *t_mon)
 
 				effect_handler(&context);
 
-				/* Save any changes made in the handler for later use. */
+				/* Guardar cualquier cambio realizado en el manejador para uso posterior. */
 				obvious = context.obvious;
 				blinked = context.blinked;
 				damage = context.damage;
 			} else {
-				msg("ERROR: Effect handler not found for %s.", effect->name);
+				msg("ERROR: Manejador de efecto no encontrado para %s.", effect->name);
 			}
 
-			/* Handle stun */
+			/* Manejar aturdimiento */
 			if (do_stun && square_monster(cave, grid)) {
-				/* Critical hit (zero if non-critical) */
+				/* Golpe crítico (cero si no es crítico) */
 				int amt, tmp = monster_critical(dice, rlev, damage);
 
-				/* Roll for damage */
+				/* Tirar para daño */
 				switch (tmp) {
 					case 0: amt = 0; break;
 					case 1: amt = randint1(5); break;
@@ -858,32 +858,32 @@ bool monster_attack_monster(struct monster *mon, struct monster *t_mon)
 					default: amt = 200; break;
 				}
 
-				/* Apply the stun */
+				/* Aplicar el aturdimiento */
 				if (amt)
 					(void)mon_inc_timed(t_mon, MON_TMD_STUN, amt, 0);
 			}
 		} else {
-			/* Visible monster missed monster, so notify if appropriate. */
+			/* El monstruo visible falló al monstruo, así que notificar si corresponde. */
 			if (monster_is_visible(mon) && method->miss) {
-				msg("%s misses %s.", m_name, t_name);
+				msg("%s falla contra %s.", m_name, t_name);
 			}
 		}
 
-		/* Analyze "visible" monsters only */
+		/* Analizar solo monstruos "visibles" */
 		if (visible) {
-			/* Count "obvious" attacks (and ones that cause damage) */
+			/* Contar ataques "obvios" (y aquellos que causan daño) */
 			if (obvious || damage || (lore->blows[ap_cnt].times_seen > 10)) {
-				/* Count attacks of this type */
+				/* Contar ataques de este tipo */
 				if (lore->blows[ap_cnt].times_seen < UCHAR_MAX)
 					lore->blows[ap_cnt].times_seen++;
 			}
 		}
 
-		/* Skip the other blows if the target has moved or died */
+		/* Saltar los otros golpes si el objetivo se ha movido o muerto */
 		if (!square_monster(cave, grid)) break;
 	}
 
-	/* Blink away */
+	/* Parpadear */
 	if (blinked) {
 		char dice[5];
 
@@ -894,9 +894,9 @@ bool monster_attack_monster(struct monster *mon, struct monster *t_mon)
 		effect_simple(EF_TELEPORT, source_monster(mon->midx), dice, 0, 0, 0, 0, 0, NULL);
 	}
 
-	/* Learn lore */
+	/* Aprender conocimiento */
 	lore_update(mon->race, lore);
 
-	/* Assume we attacked */
+	/* Asumir que atacamos */
 	return (true);
 }

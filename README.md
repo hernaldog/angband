@@ -183,6 +183,8 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
   
 - Mejoras en traducciones varias:
   
+  - Has encontrado 18 piezas de oro en gold, buscar mejor traducción
+  - enemigo bites you, enemigo misses you, etc
   - No se pueden traducir nombres de monstruos (monster.txt) si se hace indica error al cargar partida
   - En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
   - Has detectado X objetos: 6 Light Teal Pocións. Acá o inglés o español y la s está rara. Archivo "obj-desc.c"
@@ -265,3 +267,4 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\ui-player-properties.c               | 100      |
 | src\src\list-mon-race-flags.h            | 100      |
 | src\obj-gear.c                           | 100      |
+| src\mon-attack.c                         | 100      |
