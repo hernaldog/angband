@@ -854,10 +854,14 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 			dmg_text = format(" (%d)", dmg);
 
 		if (melee_hit_types[i].text)
-			msgt(msg_type, "%s a %s%s. %s", verb, m_name, dmg_text,
+			msgt(msg_type, "%s a1 %s%s. %s", verb, m_name, dmg_text,
 					melee_hit_types[i].text);
-		else
+		else 
+			{
+			//Aca se imprime Aciertas a mushrom...
 			msgt(msg_type, "%s a %s%s.", verb, m_name, dmg_text);
+			}
+		
 	}
 
 	/* Efectos secundarios previos al daño */

@@ -201,7 +201,8 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 				my_strcpy(desc, is_a_vowel(mon->race->name[0]) ? "un " : "un ", max);
 			} else {
 				/* Los monstruos definidos necesitan un artículo definido */
-				my_strcpy(desc, "el ", max);
+				//my_strcpy(desc, "el ", max); //fix traduc. Se le saca "el " a "el mushrom xxxxx", ahora solo se usa mushrom
+				my_strcpy(desc, "", max);
 			}
 
 			/*
