@@ -1117,8 +1117,9 @@ void inven_drop(struct object *obj, int amt)
 	object_desc(name, sizeof(name), dropped, ODESC_PREFIX | ODESC_FULL,
 		player);
 
-	/* Mensaje */
-	msg("Soltaste %s (%c).", name, label);
+	/* Mensaje soltar objeto "Soltaste Pergamino" si el "un" */
+	char *pos = strstr(name, "un ");
+	msg("Soltaste %s (%c).", pos + 3, label);  //Fix traduc. Saltamos 3 caracteres de "un "  resp: msg("Soltaste %s (%c).", name, label);
 
 	/* Describir lo que queda */
 	if (dropped->artifact) {
@@ -1150,14 +1151,10 @@ void inven_drop(struct object *obj, int amt)
 			desc_target = (total) ? obj : dropped;
 		}
 
-	    msg("naldo: %s", name);
-	
 		object_desc(name, sizeof(name), desc_target,
 			ODESC_PREFIX | ODESC_FULL | ODESC_ALTNUM |
 			(total << 16), player);
 			
-		msg("naldo2: %s", name);
-		
 		if (!first) {
 		    // Fix traduc. Truco para poner una frase más entendible
 			char *pos = strstr(name, "no más");
