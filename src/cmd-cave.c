@@ -1692,7 +1692,7 @@ static const char *obj_feeling_text[] =
 	"hay tesoros muy buenos aquí.",
 	"hay tesoros buenos aquí.",
 	"puede haber algo que valga la pena aquí.",
-	"puede que no haya mucho interesante aquí.",
+	"no parece haber nada interesante por aquí.",
 	"no hay muchos tesoros aquí.",
 	"solo hay restos de basura aquí.",
 	"no hay más que telarañas aquí."

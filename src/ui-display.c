@@ -1026,7 +1026,7 @@ static const uint8_t obj_feeling_color[] =
 	COLOUR_YELLOW, /* "hay tesoros muy buenos aquí." */
 	COLOUR_YELLOW, /* "hay tesoros buenos aquí." */
 	COLOUR_L_GREEN, /* "puede haber algo que valga la pena aquí." */
-	COLOUR_L_GREEN, /* "puede que no haya mucho interesante aquí." */
+	COLOUR_L_GREEN, /* "no parece haber nada interesante por aquí." */
 	COLOUR_L_GREEN, /* "no hay muchos tesoros aquí." */
 	COLOUR_L_BLUE, /* "solo hay restos de basura aquí." */
 	COLOUR_L_BLUE  /* "no hay más que telarañas aquí. */

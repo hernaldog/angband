@@ -168,7 +168,7 @@ static const char *suffix_feeling_stuff[] = {
     "hay muy buenos tesoros aquí.", 
     "hay buenos tesoros aquí.",
     "puede haber algo que valga la pena aquí.",
-    "puede que no haya mucho interesante aquí.",
+    "no parece haber nada interesante por aquí.",
     "no hay muchos tesoros aquí.", 
     "solo hay fragmentos de basura aquí.",
     "no hay más que telarañas aquí.", 
