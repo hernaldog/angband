@@ -165,6 +165,16 @@ Contenido del script shell:
     
     C:/juegos/angband-src-esp/src/game/angband.exe
 
+## Gamedata y txt
+
+Al momento de traducir, hay muchos archivos txt en una carpeta llamada "gamedata". La que tiene el fuente es esta de la raiz:
+
+    fuente\lib\gamedata
+
+y no 
+
+    fuente\src\game\lib\gamedata
+
 ## Encoding
 Todos los archivo deben traducirse usando encoding **UTF-8**.
 
@@ -214,6 +224,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | lib\gamedata\object.txt                  | 70       | Textos como Name no se pueden traducir indica error de Parse, revisar|
 | lib\gamedata\monster_spell.txt           | 100      |
 | lib\gamedata\monster.txt                 | 100      | Revisar textos se pueden mejorar|
+| lib\gamedata\blow_methods.txt            | 100      |
 | lib\help\commands.txt                    | 100      |
 | lib\help\index.txt                       | 100      |
 | lib\help\r_index.txt                     | 100      |

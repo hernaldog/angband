@@ -1,15 +1,15 @@
-# File blow_methods.txt
+# Archivo blow_methods.txt
 
-# Methods for monster blows
+# Métodos de ataque de los monstruos
 
-# name: blow method code
-# cut: 1 if the method can cut, 0 if not
-# stun: 1 if the method can stun, 0 if not
-# miss: 1 if the player is told when the blow misses, 0 if not
-# phys: 1 if the method does physical damage, 0 if not
-# msg: message type to display
-# act: action string to append
-# desc: monster lore description
+# name: código del método de golpe
+# cut: 1 si el método puede causar cortes, 0 si no
+# stun: 1 si el método puede aturdir, 0 si no
+# miss: 1 si se informa al jugador cuando el golpe falla, 0 si no
+# phys: 1 si el método inflige daño físico, 0 si no
+# msg: tipo de mensaje a mostrar
+# act: cadena de acción a añadir
+# desc: descripción del conocimiento del monstruo (lore)
 
 name:HIT
 cut:1
@@ -17,8 +17,8 @@ stun:1
 miss:1
 phys:1
 msg:MON_HIT
-act:hits {target}
-desc:hit
+act:golpea a {target}
+desc:golpear
 
 name:TOUCH
 cut:0
@@ -26,8 +26,8 @@ stun:0
 miss:1
 phys:0
 msg:MON_TOUCH
-act:touches {target}
-desc:touch
+act:toca a {target}
+desc:tocar
 
 name:PUNCH
 cut:0
@@ -35,8 +35,8 @@ stun:1
 miss:1
 phys:1
 msg:MON_PUNCH
-act:punches {target}
-desc:punch
+act:da un puñetazo a {target}
+desc:puñetazo
 
 name:KICK
 cut:0
@@ -44,8 +44,8 @@ stun:1
 miss:1
 phys:1
 msg:MON_KICK
-act:kicks {target}
-desc:kick
+act:patea a {target}
+desc:patada
 
 name:CLAW
 cut:1
@@ -53,8 +53,8 @@ stun:0
 miss:1
 phys:1
 msg:MON_CLAW
-act:claws {target}
-desc:claw
+act:araña a {target}
+desc:garra
 
 name:BITE
 cut:1
@@ -62,8 +62,8 @@ stun:0
 miss:1
 phys:1
 msg:MON_BITE
-act:bites {target}
-desc:bite
+act:muerde a {target}
+desc:mordisco
 
 name:STING
 cut:0
@@ -71,8 +71,8 @@ stun:0
 miss:1
 phys:1
 msg:MON_STING
-act:stings {target}
-desc:sting
+act:pica a {target}
+desc:aguijón
 
 name:BUTT
 cut:0
@@ -80,8 +80,8 @@ stun:1
 miss:1
 phys:1
 msg:MON_BUTT
-act:butts {target}
-desc:butt
+act:da un cabezazo a {target}
+desc:testarazo
 
 name:CRUSH
 cut:0
@@ -89,8 +89,8 @@ stun:1
 miss:1
 phys:1
 msg:MON_CRUSH
-act:crushes {target}
-desc:crush
+act:aplasta a {target}
+desc:aplastar
 
 name:ENGULF
 cut:0
@@ -98,8 +98,8 @@ stun:0
 miss:1
 phys:0
 msg:MON_ENGULF
-act:engulfs {target}
-desc:engulf
+act:envuelve a {target}
+desc:envolver
 
 name:CRAWL
 cut:0
@@ -107,8 +107,8 @@ stun:0
 miss:0
 phys:0
 msg:MON_CRAWL
-act:crawls on {target}
-desc:crawl on you
+act:se arrastra sobre {target}
+desc:arrastrarse sobre ti
 
 name:DROOL
 cut:0
@@ -116,8 +116,8 @@ stun:0
 miss:0
 phys:0
 msg:MON_DROOL
-act:drools on {target}
-desc:drool on you
+act:baba sobre {target}
+desc:babear sobre ti
 
 name:SPIT
 cut:0
@@ -125,8 +125,8 @@ stun:0
 miss:0
 phys:0
 msg:MON_SPIT
-act:spits on {target}
-desc:spit
+act:escupe a {target}
+desc:escupir
 
 name:GAZE
 cut:0
@@ -134,8 +134,8 @@ stun:0
 miss:0
 phys:0
 msg:MON_GAZE
-act:gazes at {target}
-desc:gaze
+act:mira fijamente a {target}
+desc:mirada
 
 name:WAIL
 cut:0
@@ -143,8 +143,8 @@ stun:0
 miss:0
 phys:0
 msg:MON_WAIL
-act:wails at {target}
-desc:wail
+act:se lamenta ante {target}
+desc:lamento
 
 name:SPORE
 cut:0
@@ -152,8 +152,8 @@ stun:0
 miss:0
 phys:0
 msg:MON_SPORE
-act:releases spores at {target}
-desc:release spores
+act:lanza esporas a {target}
+desc:lanzar esporas
 
 name:BEG
 cut:0
@@ -161,8 +161,8 @@ stun:0
 miss:0
 phys:0
 msg:MON_BEG
-act:begs {target} for money
-desc:beg
+act:suplica dinero a {target}
+desc:suplicar
 
 name:INSULT
 cut:0
@@ -170,15 +170,15 @@ stun:0
 miss:0
 phys:0
 msg:MON_INSULT
-act:insults {target}!
-act:insults {oftarget} mother!
-act:gives {target} the finger!
-act:humiliates {target}!
-act:defiles {target}!
-act:dances around {target}!
-act:makes obscene gestures!
-act:moons {target}!!!
-desc:insult
+act:¡insulta a {target}!
+act:¡insulta a la madre de {oftarget}!
+act:¡le hace un gesto obsceno a {target}!
+act:¡humilla a {target}!
+act:¡mancilla a {target}!
+act:¡baila alrededor de {target}!
+act:¡hace gestos obscenos!
+act:¡le enseña el trasero a {target}!!!
+desc:insultar
 
 name:MOAN
 cut:0
@@ -186,13 +186,12 @@ stun:0
 miss:0
 phys:0
 msg:MON_MOAN
-act:wants his mushrooms back
-act:tells {target} to get off his land
-act:looks for his dogs
-act:says 'Did you kill my Fang?'
-act:asks 'Do you want to buy any mushrooms?'
-act:seems sad about something
-act:asks if {target} {has} seen his dogs
-act:mumbles something about mushrooms
-desc:moan
-
+act:quiere que le devuelvan sus setas
+act:le dice a {target} que salga de sus tierras
+act:busca a sus perros
+act:dice '¿Has matado a mi Colmillo?'
+act:pregunta '¿Quieres comprar setas?'
+act:parece triste por algo
+act:pregunta si {target} {has} visto a sus perros
+act:murmura algo sobre setas
+desc:gemir
