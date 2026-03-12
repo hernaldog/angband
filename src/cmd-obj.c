@@ -689,7 +689,7 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 				-1 : 0)) << 16), player);
 			if (from_floor) {
 				/* Imprimir un mensaje */
-				msg("Ves %s.", name);
+				msg("Ves1 %s.", name);
 			} else if (first_remainder) {
 				label = gear_to_label(player, first_remainder);
 				msg("Tienes %s (1er %c).", name, label);
