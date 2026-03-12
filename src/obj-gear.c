@@ -1150,11 +1150,22 @@ void inven_drop(struct object *obj, int amt)
 			desc_target = (total) ? obj : dropped;
 		}
 
+	    msg("naldo: %s", name);
+	
 		object_desc(name, sizeof(name), desc_target,
 			ODESC_PREFIX | ODESC_FULL | ODESC_ALTNUM |
 			(total << 16), player);
+			
+		msg("naldo2: %s", name);
+		
 		if (!first) {
-			msg("Tienes1 %s (%c).", name, label);  // TODO Fix traduc debe decir Ya no tienes...
+		    // Fix traduc. Truco para poner una frase más entendible
+			char *pos = strstr(name, "no más");
+			
+			// Si encontramos "no más", ignoramos el "Tienes" y lanzamos el mensaje corregido
+            // Saltamos el "no más " para obtener solo el nombre del objeto
+            msg("No te quedan %s (%c).", pos + 8, label);            
+            //Respaldo msg("Tienes %s (%c).", name, label);
 		} else {
 			label = gear_to_label(player, first);
 			if (total > first->number) {
