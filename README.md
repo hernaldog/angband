@@ -286,3 +286,4 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\obj-gear.c                           | 100      |
 | src\mon-attack.c                         | 100      |
 | src\mon-init.c                           | 100      |
+| src\mon-blows.h                          | 100      |

@@ -1,6 +1,6 @@
 /**
- * \file mon-blows.h
- * \brief Functions for managing monster melee.
+ * \archivo mon-blows.h
+ * \brief Funciones para manejar el combate cuerpo a cuerpo de monstruos.
  *
  * Copyright (c) 1997 Ben Harrison, David Reeve Sward, Keldon Jones.
  *               2013 Ben Semmler
@@ -24,71 +24,72 @@
 #include "monster.h"
 
 struct blow_message {
-	char *act_msg;
-	struct blow_message *next;
+    char *act_msg;
+    struct blow_message *next;
 };
 
 struct blow_method {
-	char *name;
-	bool cut;
-	bool stun;
-	bool miss;
-	bool phys;
-	int msgt;
-	struct blow_message *messages;
-	int num_messages;
-	char *desc;
-	struct blow_method *next;
+    char *name;
+    bool cut;
+    bool stun;
+    bool miss;
+    bool phys;
+    int msgt;
+    struct blow_message *messages;
+    int num_messages;
+    char *desc;
+    struct blow_method *next;
 };
 
 extern struct blow_method *blow_methods;
 
 /**
- * Storage for context information for effect handlers called in
- * make_attack_normal().
+ * Almacenamiento para información de contexto para los manejadores de efectos
+ * llamados en make_attack_normal().
  *
- * The members of this struct are initialized in an order-dependent way
- * (to be more cross-platform). If the members change, make sure to change
- * any initializers. Ideally, this should eventually used named initializers.
+ * Los miembros de esta estructura se inicializan en un orden dependiente
+ * (para ser más multiplataforma). Si los miembros cambian, asegúrate de
+ * cambiar cualquier inicializador. Idealmente, esto debería usar inicializadores
+ * con nombre en el futuro.
  */
 typedef struct melee_effect_handler_context_s {
-	struct player * const p;	/* Target (if player) */
-	struct monster * const mon;	/* Attacker */
-	struct monster * const t_mon;	/* Target (if other monster) */
-	const int rlev;
-	const struct blow_method *method;
-	const int ac;
-	const char *ddesc;		/* short monster name for death
-						messages; unused if target is
-						not the player */
-	bool obvious;
-	bool blinked;
-	int damage;
-	const char *m_name;		/* monster name for messaging */
+    struct player * const p;    /* Objetivo (si es jugador) */
+    struct monster * const mon; /* Atacante */
+    struct monster * const t_mon;   /* Objetivo (si es otro monstruo) */
+    const int rlev;
+    const struct blow_method *method;
+    const int ac;
+    const char *ddesc;      /* nombre corto del monstruo para mensajes
+                        de muerte; sin uso si el objetivo no
+                        es el jugador */
+    bool obvious;
+    bool blinked;
+    int damage;
+    const char *m_name;     /* nombre del monstruo para mensajes */
 } melee_effect_handler_context_t;
 
 /**
- * Melee blow effect handler.
+ * Manejador de efectos de golpes cuerpo a cuerpo.
  */
 typedef void (*melee_effect_handler_f)(melee_effect_handler_context_t *);
 
 struct blow_effect {
-	char *name;
-	int power;
-	int eval;
-	char *desc;
-	uint8_t lore_attr;		/* Color of the attack used in lore text */
-	uint8_t lore_attr_resist;	/* Color used in lore text when resisted */
-	uint8_t lore_attr_immune;	/* Color used in lore text when resisted strongly */
-	char *effect_type;
-	int resist;
-	int lash_type;
-	struct blow_effect *next;
+    char *name;
+    int power;
+    int eval;
+    char *desc;
+    uint8_t lore_attr;      /* Color del ataque usado en el texto de lore */
+    uint8_t lore_attr_resist;   /* Color usado en el texto de lore cuando es resistido */
+    uint8_t lore_attr_immune;   /* Color usado en el texto de lore cuando es resistido fuertemente */
+    char *effect_type;
+    int resist;
+    int lash_type;
+    struct blow_effect *next;
 };
 
 extern struct blow_effect *blow_effects;
 
-/* Functions */
+/* Funciones */
 int blow_index(const char *name);
 char *monster_blow_method_action(const struct blow_method *method, int midx);
 extern melee_effect_handler_f melee_handler_for_blow_effect(const char *name);
