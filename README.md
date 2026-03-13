@@ -236,6 +236,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | lib\help\symbols.txt                     | 100      |
 | lib\gamedata\terrain.txt                 | 100      |
 | src\main-win.c                           | 100      |
+| src\init.h                               | 100      |
 | src\borg\borg-messages.c                 | 100      |
 | src\mon-util.c                           | 100      |
 | src\cmd-cave.c                           | 100      |
