@@ -285,3 +285,4 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\src\list-mon-race-flags.h            | 100      |
 | src\obj-gear.c                           | 100      |
 | src\mon-attack.c                         | 100      |
+| src\mon-init.c                           | 100      |
