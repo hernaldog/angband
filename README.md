@@ -177,7 +177,8 @@ y no esta:
 
 Al momento de compilar se traspasa de forma automática del lugar 1 al lugar 2. Así que no debes traducir desde el lugar 2 directamente.
 
-**NOTA:** El campo "Name" de estos txt, ejemplo monster.txt, no se pueden traducir, se corrompe el Programa. Esto impacta en que los enemigos tendrán nombre en inglés. Es un pendiente por revisar.
+**NOTA:** La forma de leer estos txt, como object.txt, se hace por medio de un archivo llamado obj-init.c y un sistema de "parser". Los campos como "name" tienen un index que si cambias los valores por ejemplo, "Apple"
+y dejas "Manzana" ese index cambia, y si luego cargas una salvada de partida vieja, se rompe el juego. Por lo tanto, en esta traducción, las salvadas no serán compatible con otras versiones del juego en inglés.
 
 ## Encoding
 Todos los archivo deben traducirse usando encoding **UTF-8**.
