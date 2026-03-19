@@ -1,6 +1,6 @@
 /**
- * \file player.h
- * \brief Player implementation
+ * \archivo player.h
+ * \brief Implementación del jugador
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2011 elly+angband@leptoquark.net. See COPYING.
@@ -27,7 +27,7 @@
 #include "option.h"
 
 /**
- * Indexes of the player stats (hard-coded by savefiles).
+ * Índices de las estadísticas del jugador (fijados por los archivos guardados).
  */
 enum {
 	#define STAT(a) STAT_##a,
@@ -38,7 +38,7 @@ enum {
 };
 
 /**
- * Player race and class flags
+ * Banderas de raza y clase del jugador
  */
 enum
 {
@@ -68,29 +68,29 @@ enum
 #define pf_diff(f1, f2)        flag_diff(f1, f2, PF_SIZE)
 
 /**
- * The range of possible indexes into tables based upon stats.
- * Currently things range from 3 to 18/220 = 40.
+ * El rango de posibles índices en tablas basadas en estadísticas.
+ * Actualmente las cosas van de 3 a 18/220 = 40.
  */
 #define STAT_RANGE 38
 
 /**
- * Player constants
+ * Constantes del jugador
  */
-#define PY_MAX_EXP		99999999L	/* Maximum exp */
-#define PY_KNOW_LEVEL	30			/* Level to know all runes */
-#define PY_MAX_LEVEL	50			/* Maximum level */
+#define PY_MAX_EXP		99999999L	/* Exp máxima */
+#define PY_KNOW_LEVEL	30			/* Nivel para conocer todas las runas */
+#define PY_MAX_LEVEL	50			/* Nivel máximo */
 
 /**
- * Flags for player.spell_flags[]
+ * Banderas para player.spell_flags[]
  */
-#define PY_SPELL_LEARNED    0x01 	/* Spell has been learned */
-#define PY_SPELL_WORKED     0x02 	/* Spell has been successfully tried */
-#define PY_SPELL_FORGOTTEN  0x04 	/* Spell has been forgotten */
+#define PY_SPELL_LEARNED    0x01 	/* El hechizo ha sido aprendido */
+#define PY_SPELL_WORKED     0x02 	/* El hechizo se ha probado con éxito */
+#define PY_SPELL_FORGOTTEN  0x04 	/* El hechizo ha sido olvidado */
 
-#define BTH_PLUS_ADJ    	3 		/* Adjust BTH per plus-to-hit */
+#define BTH_PLUS_ADJ    	3 		/* Ajustar BTH por bonificación para golpear */
 
 /**
- * Ways in which players can be marked as cheaters
+ * Formas en que los jugadores pueden ser marcados como tramposos
  */
 #define NOSCORE_WIZARD		0x0002
 #define NOSCORE_DEBUG		0x0008
@@ -100,7 +100,7 @@ enum
 #endif
 
 /**
- * Terrain that the player has a chance of digging through
+ * Terreno que el jugador tiene probabilidad de excavar
  */
 enum {
 	DIGGING_RUBBLE = 0,
@@ -113,39 +113,39 @@ enum {
 };
 
 /**
- * Skill indexes
+ * Índices de habilidades
  */
 enum {
-	SKILL_DISARM_PHYS,		/* Disarming - physical */
-	SKILL_DISARM_MAGIC,		/* Disarming - magical */
-	SKILL_DEVICE,			/* Magic Devices */
-	SKILL_SAVE,				/* Saving throw */
-	SKILL_SEARCH,			/* Searching ability */
-	SKILL_STEALTH,			/* Stealth factor */
-	SKILL_TO_HIT_MELEE,		/* To hit (normal) */
-	SKILL_TO_HIT_BOW,		/* To hit (shooting) */
-	SKILL_TO_HIT_THROW,		/* To hit (throwing) */
-	SKILL_DIGGING,			/* Digging */
+	SKILL_DISARM_PHYS,		/* Desarme - físico */
+	SKILL_DISARM_MAGIC,		/* Desarme - mágico */
+	SKILL_DEVICE,			/* Dispositivos Mágicos */
+	SKILL_SAVE,				/* Tirada de salvación */
+	SKILL_SEARCH,			/* Capacidad de búsqueda */
+	SKILL_STEALTH,			/* Factor de sigilo */
+	SKILL_TO_HIT_MELEE,		/* Probabilidad de golpe (normal) */
+	SKILL_TO_HIT_BOW,		/* Probabilidad de golpe (disparo) */
+	SKILL_TO_HIT_THROW,		/* Probabilidad de golpe (lanzar) */
+	SKILL_DIGGING,			/* Excavar */
 
 	SKILL_MAX
 };
 
 /**
- * Structure for the "quests"
+ * Estructura para las "misiones"
  */
 struct quest
 {
 	struct quest *next;
 	uint8_t index;
 	char *name;
-	uint8_t level;			/* Dungeon level */
-	struct monster_race *race;	/* Monster race */
-	int cur_num;			/* Number killed (unused) */
-	int max_num;			/* Number required (unused) */
+	uint8_t level;			/* Nivel de la mazmorra */
+	struct monster_race *race;	/* Raza del monstruo */
+	int cur_num;			/* Número asesinado (sin usar) */
+	int max_num;			/* Número requerido (sin usar) */
 };
 
 /**
- * A single equipment slot
+ * Una sola ranura de equipo
  */
 struct equip_slot {
 	struct equip_slot *next;
@@ -156,7 +156,7 @@ struct equip_slot {
 };
 
 /**
- * A player 'body'
+ * Un 'cuerpo' de jugador
  */
 struct player_body {
 	struct player_body *next;
@@ -167,7 +167,7 @@ struct player_body {
 };
 
 /**
- * Player race info
+ * Información de raza del jugador
  */
 struct player_race {
 	struct player_race *next;
@@ -175,35 +175,35 @@ struct player_race {
 
 	unsigned int ridx;
 
-	int r_mhp;		/**< Hit-dice modifier */
-	int r_exp;		/**< Experience factor */
+	int r_mhp;		/**< Modificador de dados de vida */
+	int r_exp;		/**< Factor de experiencia */
 
-	int b_age;		/**< Base age */
-	int m_age;		/**< Mod age */
+	int b_age;		/**< Edad base */
+	int m_age;		/**< Edad modificada */
 
-	int base_hgt;	/**< Base height */
-	int mod_hgt;	/**< Mod height */
-	int base_wgt;	/**< Base weight */
-	int mod_wgt;	/**< Mod weight */
+	int base_hgt;	/**< Altura base */
+	int mod_hgt;	/**< Altura modificada */
+	int base_wgt;	/**< Peso base */
+	int mod_wgt;	/**< Peso modificado */
 
-	int infra;		/**< Infra-vision range */
+	int infra;		/**< Rango de infravisión */
 
-	int body;		/**< Race body */
+	int body;		/**< Cuerpo de la raza */
 
-	int r_adj[STAT_MAX];		/**< Stat bonuses */
+	int r_adj[STAT_MAX];		/**< Bonificaciones de estadísticas */
 
-	int r_skills[SKILL_MAX];	/**< Skills */
+	int r_skills[SKILL_MAX];	/**< Habilidades */
 
-	bitflag flags[OF_SIZE];		/**< Racial (object) flags */
-	bitflag pflags[PF_SIZE];	/**< Racial (player) flags */
+	bitflag flags[OF_SIZE];		/**< Banderas raciales (de objeto) */
+	bitflag pflags[PF_SIZE];	/**< Banderas raciales (de jugador) */
 
 	struct history_chart *history;
 
-	struct element_info el_info[ELEM_MAX]; /**< Resists */
+	struct element_info el_info[ELEM_MAX]; /**< Resistencias */
 };
 
 /**
- * Blow names for shapechanged players
+ * Nombres de golpes para jugadores transformados
  */
 struct player_blow {
 	struct player_blow *next;
@@ -211,7 +211,7 @@ struct player_blow {
 };
 
 /**
- * Player shapechange shape info
+ * Información de forma de cambio de forma del jugador
  */
 struct player_shape {
 	struct player_shape *next;
@@ -219,37 +219,37 @@ struct player_shape {
 
 	int sidx;
 
-	int to_a;				/**< Plusses to AC */
-	int to_h;				/**< Plusses to hit */
-	int to_d;				/**< Plusses to damage */
+	int to_a;				/**< Bonificaciones a CA */
+	int to_h;				/**< Bonificaciones para golpear */
+	int to_d;				/**< Bonificaciones para daño */
 
-	int skills[SKILL_MAX];  /**< Skills */
-	bitflag flags[OF_SIZE];		/**< Shape (object) flags */
-	bitflag pflags[PF_SIZE];	/**< Shape (player) flags */
-	int modifiers[OBJ_MOD_MAX];	/**< Stat and other modifiers*/
-	struct element_info el_info[ELEM_MAX]; /**< Resists */
+	int skills[SKILL_MAX];  /**< Habilidades */
+	bitflag flags[OF_SIZE];		/**< Banderas de forma (de objeto) */
+	bitflag pflags[PF_SIZE];	/**< Banderas de forma (de jugador) */
+	int modifiers[OBJ_MOD_MAX];	/**< Modificadores de estadísticas y otros */
+	struct element_info el_info[ELEM_MAX]; /**< Resistencias */
 
-	struct effect *effect;	/**< Effect on taking this shape (effects.c) */
+	struct effect *effect;	/**< Efecto al tomar esta forma (effects.c) */
 
 	struct player_blow *blows;
 	int num_blows;
 };
 
 /**
- * Items the player starts with.  Used in player_class and specified in
+ * Objetos con los que el jugador comienza. Usado en player_class y especificado en
  * class.txt.
  */
 struct start_item {
-	int tval;	/**< General object type (see TV_ macros) */
-	int sval;	/**< Object sub-type  */
-	int min;	/**< Minimum starting amount */
-	int max;	/**< Maximum starting amount */
-	int *eopts;     /**< Indices (zero terminated array) for birth options which can exclude item */
+	int tval;	/**< Tipo general de objeto (ver macros TV_) */
+	int sval;	/**< Subtipo de objeto */
+	int min;	/**< Cantidad mínima inicial */
+	int max;	/**< Cantidad máxima inicial */
+	int *eopts;     /**< Índices (array terminado en cero) para opciones de nacimiento que pueden excluir el objeto */
 	struct start_item *next;
 };
 
 /**
- * Structure for magic realms
+ * Estructura para reinos mágicos
  */
 struct magic_realm {
 	struct magic_realm *next;
@@ -262,111 +262,111 @@ struct magic_realm {
 };
 
 /**
- * A structure to hold class-dependent information on spells.
+ * Una estructura para contener información dependiente de la clase sobre hechizos.
  */
 struct class_spell {
 	char *name;
 	char *text;
 
-	struct effect *effect;	/**< The spell's effect */
-	const struct magic_realm *realm;	/**< The magic realm of this spell */
+	struct effect *effect;	/**< El efecto del hechizo */
+	const struct magic_realm *realm;	/**< El reino mágico de este hechizo */
 
-	int sidx;				/**< The index of this spell for this class */
-	int bidx;				/**< The index into the player's books array */
-	int slevel;				/**< Required level (to learn) */
-	int smana;				/**< Required mana (to cast) */
-	int sfail;				/**< Base chance of failure */
-	int sexp;				/**< Encoded experience bonus */
+	int sidx;				/**< El índice de este hechizo para esta clase */
+	int bidx;				/**< El índice en el array de libros del jugador */
+	int slevel;				/**< Nivel requerido (para aprender) */
+	int smana;				/**< Maná requerido (para lanzar) */
+	int sfail;				/**< Probabilidad base de fallo */
+	int sexp;				/**< Bonificación de experiencia codificada */
 };
 
 /**
- * A structure to hold class-dependent information on spell books.
+ * Una estructura para contener información dependiente de la clase sobre libros de hechizos.
  */
 struct class_book {
-	int tval;							/**< Item type of the book */
-	int sval;							/**< Item sub-type for book */
-	bool dungeon;						/**< Whether this is a dungeon book */
-	int num_spells;						/**< Number of spells in this book */
-	const struct magic_realm *realm;	/**< The magic realm of this book */
-	struct class_spell *spells;			/**< Spells in the book*/
+	int tval;							/**< Tipo de objeto del libro */
+	int sval;							/**< Subtipo de objeto del libro */
+	bool dungeon;						/**< Si este es un libro de mazmorra */
+	int num_spells;						/**< Número de hechizos en este libro */
+	const struct magic_realm *realm;	/**< El reino mágico de este libro */
+	struct class_spell *spells;			/**< Hechizos en el libro */
 };
 
 /**
- * Information about class magic knowledge
+ * Información sobre el conocimiento mágico de la clase
  */
 struct class_magic {
-	int spell_first;			/**< Level of first spell */
-	int spell_weight;			/**< Max armor weight to avoid mana penalties */
-	int num_books;				/**< Number of spellbooks */
-	struct class_book *books;	/**< Details of spellbooks */
-	int total_spells;			/**< Number of spells for this class */
+	int spell_first;			/**< Nivel del primer hechizo */
+	int spell_weight;			/**< Peso máximo de armadura para evitar penalizaciones de maná */
+	int num_books;				/**< Número de libros de hechizos */
+	struct class_book *books;	/**< Detalles de los libros de hechizos */
+	int total_spells;			/**< Número de hechizos para esta clase */
 };
 
 /**
- * Player class info
+ * Información de clase del jugador
  */
 struct player_class {
 	struct player_class *next;
 	const char *name;
 	unsigned int cidx;
 
-	const char *title[10];		/**< Titles */
+	const char *title[10];		/**< Títulos */
 
-	int c_adj[STAT_MAX];		/**< Stat modifier */
+	int c_adj[STAT_MAX];		/**< Modificador de estadísticas */
 
-	int c_skills[SKILL_MAX];	/**< Class skills */
-	int x_skills[SKILL_MAX];	/**< Extra skills */
+	int c_skills[SKILL_MAX];	/**< Habilidades de clase */
+	int x_skills[SKILL_MAX];	/**< Habilidades extra */
 
-	int c_mhp;					/**< Hit-dice adjustment */
-	int c_exp;					/**< Experience factor */
+	int c_mhp;					/**< Ajuste de dados de vida */
+	int c_exp;					/**< Factor de experiencia */
 
-	bitflag flags[OF_SIZE];		/**< (Object) flags */
-	bitflag pflags[PF_SIZE];	/**< (Player) flags */
+	bitflag flags[OF_SIZE];		/**< Banderas (de objeto) */
+	bitflag pflags[PF_SIZE];	/**< Banderas (de jugador) */
 
-	int max_attacks;			/**< Maximum possible attacks */
-	int min_weight;				/**< Minimum weapon weight for calculations */
-	int att_multiply;			/**< Multiplier for attack calculations */
+	int max_attacks;			/**< Ataques máximos posibles */
+	int min_weight;				/**< Peso mínimo del arma para cálculos */
+	int att_multiply;			/**< Multiplicador para cálculos de ataque */
 
-	struct start_item *start_items; /**< Starting inventory */
+	struct start_item *start_items; /**< Inventario inicial */
 
-	struct class_magic magic;	/**< Magic spells */
+	struct class_magic magic;	/**< Hechizos mágicos */
 };
 
 /**
- * Info for player abilities
+ * Información para habilidades del jugador
  */
 struct player_ability {
 	struct player_ability *next;
-	uint16_t index;			/* PF_*, OF_* or element index */
-	char *type;			/* Ability type */
-	char *name;			/* Ability name */
-	char *desc;			/* Ability description */
-	int group;			/* Ability group (set locally when viewing) */
-	int value;			/* Resistance value for elements */
+	uint16_t index;			/* PF_*, OF_* o índice de elemento */
+	char *type;			/* Tipo de habilidad */
+	char *name;			/* Nombre de la habilidad */
+	char *desc;			/* Descripción de la habilidad */
+	int group;			/* Grupo de habilidad (establecido localmente al ver) */
+	int value;			/* Valor de resistencia para elementos */
 };
 
 /**
- * Histories are a graph of charts; each chart contains a set of individual
- * entries for that chart, and each entry contains a text description and a
- * successor chart to move history generation to.
- * For example:
- * 	chart 1 {
- * 		entry {
- * 			desc "You are the illegitimate and unacknowledged child";
+ * Las historias son un grafo de tablas; cada tabla contiene un conjunto de entradas
+ * individuales para esa tabla, y cada entrada contiene una descripción de texto y una
+ * tabla sucesora para mover la generación de la historia.
+ * Por ejemplo:
+ * 	tabla 1 {
+ * 		entrada {
+ * 			desc "Eres el hijo ilegítimo y no reconocido";
  * 			next 2;
  * 		};
- * 		entry {
- * 			desc "You are the illegitimate but acknowledged child";
+ * 		entrada {
+ * 			desc "Eres el hijo ilegítimo pero reconocido";
  * 			next 2;
  * 		};
- * 		entry {
- * 			desc "You are one of several children";
+ * 		entrada {
+ * 			desc "Eres uno de varios hijos";
  * 			next 3;
  * 		};
  * 	};
  *
- * History generation works by walking the graph from the starting chart for
- * each race, picking a random entry (with weighted probability) each time.
+ * La generación de la historia funciona recorriendo el grafo desde la tabla inicial para
+ * cada raza, eligiendo una entrada aleatoria (con probabilidad ponderada) cada vez.
  */
 struct history_entry {
 	struct history_entry *next;
@@ -383,232 +383,230 @@ struct history_chart {
 };
 
 /**
- * Player history information
+ * Información del historial del jugador
  *
- * See player-history.c/.h
+ * Ver player-history.c/.h
  */
 struct player_history {
-	struct history_info *entries;	/**< List of entries */
-	size_t next;					/**< First unused entry */
-	size_t length;					/**< Current length */
+	struct history_info *entries;	/**< Lista de entradas */
+	size_t next;					/**< Primera entrada no utilizada */
+	size_t length;					/**< Longitud actual */
 };
 
 /**
- * All the variable state that changes when you put on/take off equipment.
- * Player flags are not currently variable, but useful here so monsters can
- * learn them.
+ * Todo el estado variable que cambia cuando te pones/te quitas equipo.
+ * Las banderas del jugador no son actualmente variables, pero son útiles aquí para que los
+ * monstruos puedan aprenderlas.
  */
 struct player_state {
-	int stat_add[STAT_MAX];	/**< Equipment stat bonuses */
-	int stat_ind[STAT_MAX];	/**< Indexes into stat tables */
-	int stat_use[STAT_MAX];	/**< Current modified stats */
-	int stat_top[STAT_MAX];	/**< Maximal modified stats */
+	int stat_add[STAT_MAX];	/**< Bonificaciones de estadísticas del equipo */
+	int stat_ind[STAT_MAX];	/**< Índices en las tablas de estadísticas */
+	int stat_use[STAT_MAX];	/**< Estadísticas modificadas actuales */
+	int stat_top[STAT_MAX];	/**< Estadísticas modificadas máximas */
 
-	int skills[SKILL_MAX];		/**< Skills */
+	int skills[SKILL_MAX];		/**< Habilidades */
 
-	int speed;			/**< Current speed */
+	int speed;			/**< Velocidad actual */
 
-	int num_blows;		/**< Number of blows x100 */
-	int num_shots;		/**< Number of shots x10 */
-	int num_moves;		/**< Number of extra movement actions */
+	int num_blows;		/**< Número de golpes x100 */
+	int num_shots;		/**< Número de disparos x10 */
+	int num_moves;		/**< Número de acciones de movimiento extra */
 
-	int ammo_mult;		/**< Ammo multiplier */
-	int ammo_tval;		/**< Ammo variety */
+	int ammo_mult;		/**< Multiplicador de munición */
+	int ammo_tval;		/**< Variedad de munición */
 
-	int ac;				/**< Base ac */
-	int dam_red;		/**< Damage reduction */
-	int perc_dam_red;	/**< Percentage damage reduction */
-	int to_a;			/**< Bonus to ac */
-	int to_h;			/**< Bonus to hit */
-	int to_d;			/**< Bonus to dam */
+	int ac;				/**< CA base */
+	int dam_red;		/**< Reducción de daño */
+	int perc_dam_red;	/**< Porcentaje de reducción de daño */
+	int to_a;			/**< Bonificación a CA */
+	int to_h;			/**< Bonificación para golpear */
+	int to_d;			/**< Bonificación para daño */
 
-	int see_infra;		/**< Infravision range */
+	int see_infra;		/**< Rango de infravisión */
 
-	int cur_light;		/**< Radius of light (if any) */
+	int cur_light;		/**< Radio de luz (si la hay) */
 
-	bool heavy_wield;	/**< Heavy weapon */
-	bool heavy_shoot;	/**< Heavy shooter */
-	bool bless_wield;	/**< Blessed (or blunt) weapon */
+	bool heavy_wield;	/**< Arma pesada */
+	bool heavy_shoot;	/**< Disparador pesado */
+	bool bless_wield;	/**< Arma bendecida (o contundente) */
 
-	bool cumber_armor;	/**< Mana draining armor */
+	bool cumber_armor;	/**< Armadura que drena maná */
 
-	bitflag flags[OF_SIZE];					/**< Status flags from race and items */
-	bitflag pflags[PF_SIZE];				/**< Player intrinsic flags */
-	struct element_info el_info[ELEM_MAX];	/**< Resists from race and items */
+	bitflag flags[OF_SIZE];					/**< Banderas de estado de raza y objetos */
+	bitflag pflags[PF_SIZE];				/**< Banderas intrínsecas del jugador */
+	struct element_info el_info[ELEM_MAX];	/**< Resistencias de raza y objetos */
 };
 
 #define player_has(p, flag)       (pf_has(p->state.pflags, (flag)))
 
 /**
- * Temporary, derived, player-related variables used during play but not saved
+ * Variables temporales, derivadas y relacionadas con el jugador usadas durante el juego pero no guardadas
  *
- * XXX Some of these probably should go to the UI
+ * XXX Algunas de estas probablemente deberían ir a la interfaz de usuario
  */
 struct player_upkeep {
-	bool playing;			/* True if player is playing */
-	bool autosave;			/* True if autosave is pending */
-	bool generate_level;	/* True if level needs regenerating */
-	bool only_partial;		/* True if only partial updates are needed */
-	bool dropping;			/* True if auto-drop is in progress */
+	bool playing;			/* Verdadero si el jugador está jugando */
+	bool autosave;			/* Verdadero si el autoguardado está pendiente */
+	bool generate_level;	/* Verdadero si el nivel necesita regenerarse */
+	bool only_partial;		/* Verdadero si solo se necesitan actualizaciones parciales */
+	bool dropping;			/* Verdadero si el autosoltar está en progreso */
 
-	int energy_use;			/* Energy use this turn */
-	int new_spells;			/* Number of spells available */
+	int energy_use;			/* Uso de energía este turno */
+	int new_spells;			/* Número de hechizos disponibles */
 
-	struct monster *health_who;			/* Health bar trackee */
-	struct monster_race *monster_race;	/* Monster race trackee */
-	struct object *object;				/* Object trackee */
-	struct object_kind *object_kind;	/* Object kind trackee */
+	struct monster *health_who;			/* Objetivo de la barra de salud */
+	struct monster_race *monster_race;	/* Objetivo de raza de monstruo */
+	struct object *object;				/* Objetivo de objeto */
+	struct object_kind *object_kind;	/* Objetivo de tipo de objeto */
 
-	uint32_t notice;		/* Bit flags for pending actions such as
-							 * reordering inventory, ignoring, etc. */
-	uint32_t update;		/* Bit flags for recalculations needed
-							 * such as HP, or visible area */
-	uint32_t redraw;		/* Bit flags for things that /have/ changed,
-							 * and just need to be redrawn by the UI,
-							 * such as HP, Speed, etc.*/
+	uint32_t notice;		/* Banderas de bits para acciones pendientes como
+							 * reordenar inventario, ignorar, etc. */
+	uint32_t update;		/* Banderas de bits para recálculos necesarios
+							 * como PV, o área visible */
+	uint32_t redraw;		/* Banderas de bits para cosas que /han/ cambiado,
+							 * y solo necesitan ser redibujadas por la interfaz de usuario,
+							 * como PV, Velocidad, etc. */
 
-	int command_wrk;		/* Used by the UI to decide whether
-							 * to start off showing equipment or
-							 * inventory listings when offering
-							 * a choice.  See obj-ui.c */
+	int command_wrk;		/* Usado por la interfaz de usuario para decidir si
+							 * comenzar mostrando equipo o
+							 * listados de inventario al ofrecer
+							 * una elección. Ver obj-ui.c */
 
-	bool create_up_stair;	/* Create up stair on next level */
-	bool create_down_stair;	/* Create down stair on next level */
-	bool light_level;		/* Level is to be lit on creation */
-	bool arena_level;		/* Current level is an arena */
+	bool create_up_stair;	/* Crear escalera ascendente en el siguiente nivel */
+	bool create_down_stair;	/* Crear escalera descendente en el siguiente nivel */
+	bool light_level;		/* El nivel debe iluminarse al crearse */
+	bool arena_level;		/* El nivel actual es una arena */
 
-	int resting;			/* Resting counter */
+	int resting;			/* Contador de descanso */
 
-	int running;			/* Running counter */
-	bool running_firststep;		/* Is this our first step running or following a precomputed path? */
+	int running;			/* Contador de carrera */
+	bool running_firststep;		/* ¿Es este nuestro primer paso corriendo o siguiendo una ruta precalculada? */
 
-	struct object **quiver;	/* Quiver objects */
-	struct object **inven;	/* Inventory objects */
-	int total_weight;		/* Total weight being carried */
-	int inven_cnt;			/* Number of items in inventory */
-	int equip_cnt;			/* Number of items in equipment */
-	int quiver_cnt;			/* Number of items in the quiver */
-	int recharge_pow;		/* Power of recharge effect */
-	int step_count;			/* Pathfinding: number of steps left */
-	int16_t *steps;			/* Pathfinding: steps in reverse order */
-	struct loc path_dest;		/* Pathfinding: destination grid */
+	struct object **quiver;	/* Objetos de la aljaba */
+	struct object **inven;	/* Objetos del inventario */
+	int total_weight;		/* Peso total que se lleva */
+	int inven_cnt;			/* Número de objetos en el inventario */
+	int equip_cnt;			/* Número de objetos en el equipo */
+	int quiver_cnt;			/* Número de objetos en la aljaba */
+	int recharge_pow;		/* Poder del efecto de recarga */
+	int step_count;			/* Búsqueda de camino: número de pasos restantes */
+	int16_t *steps;			/* Búsqueda de camino: pasos en orden inverso */
+	struct loc path_dest;		/* Búsqueda de camino: casilla de destino */
 };
 
 /**
- * Most of the "player" information goes here.
+ * La mayor parte de la información del "jugador" va aquí.
  *
- * This stucture gives us a large collection of player variables.
+ * Esta estructura nos da una gran colección de variables del jugador.
  *
- * This entire structure is wiped when a new character is born.
+ * Esta estructura completa se borra cuando nace un nuevo personaje.
  *
- * This structure is more or less laid out so that the information
- * which must be saved in the savefile precedes all the information
- * which can be recomputed as needed.
+ * Esta estructura está más o menos dispuesta de manera que la información
+ * que debe guardarse en el archivo de guardado precede a toda la información
+ * que puede ser recalculada según sea necesario.
  */
 struct player {
 	const struct player_race *race;
 	const struct player_class *class;
 
-	struct loc grid;	/* Player location */
-	struct loc old_grid;/* Player location before leaving for an arena */
+	struct loc grid;	/* Ubicación del jugador */
+	struct loc old_grid;/* Ubicación del jugador antes de irse a una arena */
 
-	uint8_t hitdie;		/* Hit dice (sides) */
-	uint8_t expfact;	/* Experience factor */
+	uint8_t hitdie;		/* Dados de vida (caras) */
+	uint8_t expfact;	/* Factor de experiencia */
 
-	int16_t age;		/* Characters age */
-	int16_t ht;		/* Height */
-	int16_t wt;		/* Weight */
+	int16_t age;		/* Edad del personaje */
+	int16_t ht;		/* Altura */
+	int16_t wt;		/* Peso */
 
-	int32_t au;		/* Current Gold */
+	int32_t au;		/* Oro actual */
 
-	int16_t max_depth;	/* Max depth */
-	int16_t recall_depth;	/* Recall depth */
-	int16_t depth;		/* Cur depth */
+	int16_t max_depth;	/* Profundidad máxima */
+	int16_t recall_depth;	/* Profundidad de retorno */
+	int16_t depth;		/* Profundidad actual */
 
-	int16_t max_lev;	/* Max level */
-	int16_t lev;		/* Cur level */
+	int16_t max_lev;	/* Nivel máximo */
+	int16_t lev;		/* Nivel actual */
 
-	int32_t max_exp;	/* Max experience */
-	int32_t exp;		/* Cur experience */
-	uint16_t exp_frac;	/* Cur exp frac (times 2^16) */
+	int32_t max_exp;	/* Experiencia máxima */
+	int32_t exp;		/* Experiencia actual */
+	uint16_t exp_frac;	/* Fracción de exp actual (veces 2^16) */
 
-	int16_t mhp;		/* Max hit pts */
-	int16_t chp;		/* Cur hit pts */
-	uint16_t chp_frac;	/* Cur hit frac (times 2^16) */
+	int16_t mhp;		/* Puntos de vida máximos */
+	int16_t chp;		/* Puntos de vida actuales */
+	uint16_t chp_frac;	/* Fracción de PV actual (veces 2^16) */
 
-	int16_t msp;		/* Max mana pts */
-	int16_t csp;		/* Cur mana pts */
-	uint16_t csp_frac;	/* Cur mana frac (times 2^16) */
+	int16_t msp;		/* Puntos de maná máximos */
+	int16_t csp;		/* Puntos de maná actuales */
+	uint16_t csp_frac;	/* Fracción de maná actual (veces 2^16) */
 
-	int16_t stat_max[STAT_MAX];	/* Current "maximal" stat values */
-	int16_t stat_cur[STAT_MAX];	/* Current "natural" stat values */
-	int16_t stat_map[STAT_MAX];	/* Tracks remapped stats from temp stat swap */
+	int16_t stat_max[STAT_MAX];	/* Valores estadísticos "máximos" actuales */
+	int16_t stat_cur[STAT_MAX];	/* Valores estadísticos "naturales" actuales */
+	int16_t stat_map[STAT_MAX];	/* Rastrea estadísticas reasignadas por intercambio temporal de estadísticas */
 
-	int16_t *timed;				/* Timed effects */
+	int16_t *timed;				/* Efectos temporizados */
 
-	int16_t word_recall;			/* Word of recall counter */
-	int16_t deep_descent;			/* Deep Descent counter */
+	int16_t word_recall;			/* Contador de Palabra de Retorno */
+	int16_t deep_descent;			/* Contador de Descenso Profundo */
 
-	int16_t energy;				/* Current energy */
-	uint32_t total_energy;			/* Total energy used (including resting) */
-	uint32_t resting_turn;			/* Number of player turns spent resting */
+	int16_t energy;				/* Energía actual */
+	uint32_t total_energy;			/* Energía total usada (incluyendo descanso) */
+	uint32_t resting_turn;			/* Número de turnos de jugador pasados descansando */
 
-	int16_t food;				/* Current nutrition */
+	int16_t food;				/* Nutrición actual */
 
-	uint8_t unignoring;			/* Unignoring */
+	uint8_t unignoring;			/* Dejando de ignorar */
 
-	uint8_t skip_cmd_coercion;		/* True if bloodlust check
-							should be skipped on
-							the next command
-							(previous command
-							successfully passed
-							the bloodlust check
-							but then was canceled
-							by the user) */
-	uint8_t *spell_flags;			/* Spell flags */
-	uint8_t *spell_order;			/* Spell order */
+	uint8_t skip_cmd_coercion;		/* Verdadero si la comprobación de sed de sangre
+							debe omitirse en el siguiente comando
+							(el comando anterior pasó con éxito
+							la comprobación de sed de sangre
+							pero luego fue cancelado
+							por el usuario) */
+	uint8_t *spell_flags;			/* Banderas de hechizo */
+	uint8_t *spell_order;			/* Orden de hechizos */
 
-	char full_name[PLAYER_NAME_LEN];	/* Full name */
-	char died_from[80];					/* Cause of death */
-	char *history;						/* Player history */
-	struct quest *quests;				/* Quest history */
-	uint16_t total_winner;			/* Total winner */
+	char full_name[PLAYER_NAME_LEN];	/* Nombre completo */
+	char died_from[80];					/* Causa de la muerte */
+	char *history;						/* Historial del jugador */
+	struct quest *quests;				/* Historial de misiones */
+	uint16_t total_winner;			/* Ganador total */
 
-	uint16_t noscore;			/* Cheating flags */
+	uint16_t noscore;			/* Banderas de trampa */
 
-	bool is_dead;				/* Player is dead */
+	bool is_dead;				/* El jugador está muerto */
 
-	bool wizard;				/* Player is in wizard mode */
+	bool wizard;				/* El jugador está en modo mago */
 
-	int16_t player_hp[PY_MAX_LEVEL];	/* HP gained per level */
+	int16_t player_hp[PY_MAX_LEVEL];	/* PV ganados por nivel */
 
-	/* Saved values for quickstart */
-	int32_t au_birth;			/* Birth gold when option birth_money is false */
-	int16_t stat_birth[STAT_MAX];		/* Birth "natural" stat values */
-	int16_t ht_birth;			/* Birth Height */
-	int16_t wt_birth;			/* Birth Weight */
+	/* Valores guardados para inicio rápido */
+	int32_t au_birth;			/* Oro de nacimiento cuando la opción birth_money es falsa */
+	int16_t stat_birth[STAT_MAX];		/* Valores estadísticos "naturales" de nacimiento */
+	int16_t ht_birth;			/* Altura de nacimiento */
+	int16_t wt_birth;			/* Peso de nacimiento */
 
-	struct player_options opts;			/* Player options */
-	struct player_history hist;			/* Player history (see player-history.c) */
+	struct player_options opts;			/* Opciones del jugador */
+	struct player_history hist;			/* Historial del jugador (ver player-history.c) */
 
-	struct player_body body;			/* Equipment slots available */
-	struct player_shape *shape;			/* Current player shape */
+	struct player_body body;			/* Ranuras de equipo disponibles */
+	struct player_shape *shape;			/* Forma actual del jugador */
 
-	struct object *gear;				/* Real gear */
-	struct object *gear_k;				/* Known gear */
+	struct object *gear;				/* Equipo real */
+	struct object *gear_k;				/* Equipo conocido */
 
-	struct object *obj_k;				/* Object knowledge ("runes") */
-	struct chunk *cave;					/* Known version of current level */
+	struct object *obj_k;				/* Conocimiento de objetos ("runas") */
+	struct chunk *cave;					/* Versión conocida del nivel actual */
 
-	struct player_state state;			/* Calculatable state */
-	struct player_state known_state;	/* What the player can know of the above */
-	struct player_upkeep *upkeep;		/* Temporary player-related values */
+	struct player_state state;			/* Estado calculable */
+	struct player_state known_state;	/* Lo que el jugador puede saber de lo anterior */
+	struct player_upkeep *upkeep;		/* Valores temporales relacionados con el jugador */
 };
 
 
 /**
  * ------------------------------------------------------------------------
- * Externs
+ * Externos
  * ------------------------------------------------------------------------ */
 
 extern struct player_body *bodies;
