@@ -230,6 +230,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | lib\gamedata\monster_spell.txt           | 100      |
 | lib\gamedata\monster.txt                 | 100      | Revisar textos se pueden mejorar|
 | lib\gamedata\blow_methods.txt            | 100      |
+| docs\hacking\modifying.rst               | 100      |
 | lib\help\commands.txt                    | 100      |
 | lib\help\index.txt                       | 100      |
 | lib\help\r_index.txt                     | 100      |

@@ -1,424 +1,421 @@
 =================
-Modifying Angband
+Modificando Angband
 =================
 
-Angband is not just a great game in its own right, it is really easy to modify.
-Much of the detail of the game is contained in text data files.  These can be
-changed using nothing more than a text editor for an immediate change to how
-the game works.
+Angband no solo es un gran juego por derecho propio, sino que también es muy fácil de modificar.
+Gran parte de los detalles del juego están contenidos en archivos de datos de texto. Estos pueden
+cambiarse usando nada más que un editor de texto para un cambio inmediato en la forma en que
+funciona el juego.
 
-These data files are in lib/gamedata.
+Estos archivos de datos están en lib/gamedata.
 
-Each file has a header which describes the lines which make up entries of the
-file, and for the most part this will make it clear what needs to be done to
-make changes to the files.  Below is brief description of each of the files.
+Cada archivo tiene un encabezado que describe las líneas que componen las entradas del
+archivo, y en su mayor parte esto dejará claro lo que se debe hacer para
+realizar cambios en los archivos. A continuación se muestra una breve descripción de cada uno de los archivos.
 
-Those who want to change the game more than is allowed just by varying the
-data files will need the source code.  Below the data file descriptions is a
-brief discussion of where to start on such an endeavour.
+Aquellos que quieran cambiar el juego más de lo que permite simplemente variar los
+archivos de datos necesitarán el código fuente. Debajo de las descripciones de los archivos de datos hay una
+breve discusión sobre por dónde empezar en tal empresa.
 
 
-The data files
-==============
+Los archivos de datos
+======================
 
 constants.txt
-  This file contains game values such as carried item capacity, visual range
-  and dungeon level and town dimensions.
+  Este archivo contiene valores del juego como la capacidad de carga de objetos, el rango visual
+  y las dimensiones del nivel de mazmorra y la ciudad.
 
 object_base.txt
-  This file contains the names and common properties of the basic object
-  classes - scroll, sword, ring, and so on.  All objects have an object base.
-  Each object base is assigned a 'tval' - a numeric index.  The tvals are
-  defined in src/list-tvals.h.  While adding new object bases is possible,
-  it is unlikely to do much without deeper changes to the game.
+  Este archivo contiene los nombres y propiedades comunes de las clases básicas de
+  objetos: pergamino, espada, anillo, etc. Todos los objetos tienen una base de objeto.
+  A cada base de objeto se le asigna un 'tval', un índice numérico. Los tvals están
+  definidos en src/list-tvals.h. Aunque es posible añadir nuevas bases de objeto,
+  es poco probable que hagan mucho sin cambios más profundos en el juego.
 
 object.txt
-  This file contains the names, properties and description of all the object
-  types that appear in Angband.  New object kinds can easily be added to this
-  file, or existing ones edited.  Each object defined by this file has an
-  object base, and is also allocated another numeric index called an 'sval'.
-  A tval-sval pair completely identifies an object - since the tval and sval
-  are saved to savefiles, removing or adding objects is likely to render
-  existing save files unusable.
+  Este archivo contiene los nombres, propiedades y descripción de todos los tipos
+  de objetos que aparecen en Angband. Se pueden añadir fácilmente nuevos tipos de objetos
+  a este archivo, o editar los existentes. Cada objeto definido por este archivo tiene una
+  base de objeto, y también se le asigna otro índice numérico llamado 'sval'.
+  Un par tval-sval identifica completamente un objeto; dado que el tval y el sval
+  se guardan en los archivos de guardado, eliminar o añadir objetos probablemente hará
+  que los archivos de guardado existentes sean inutilizables.
 
 ego_item.txt
-  This file contains the names, properties and description of ego items, which
-  are magically enhanced weapons and armour.  New ego items can be added or
-  removed at will, although removing or changing one with an instance currently
-  in the game might cause problems.
+  Este archivo contiene los nombres, propiedades y descripción de los objetos de ego, que
+  son armas y armaduras mejoradas mágicamente. Se pueden añadir o eliminar nuevos objetos de ego
+  a voluntad, aunque eliminar o cambiar uno con una instancia actualmente
+  en el juego podría causar problemas.
 
 artifact.txt
-  This file contains the names, properties and description of artifacts, which
-  are unique items - only one of each will ever be generated.  If you are
-  considering major changes, new artifacts are one of the most visible signs of
-  a change of theme.  Regardless, new artifacts are easy and fun to design.
+  Este archivo contiene los nombres, propiedades y descripción de los artefactos, que
+  son objetos únicos; solo se generará uno de cada. Si estás
+  considerando cambios importantes, los nuevos artefactos son uno de los signos más visibles de
+  un cambio de tema. Independientemente, los nuevos artefactos son fáciles y divertidos de diseñar.
 
 names.txt
-  This file contains lists of words which are used to generate names for
-  random character names, random artifacts and scrolls.  Again, in the case
-  of a change of theme, this is a good way of displaying the new theme.
+  Este archivo contiene listas de palabras que se usan para generar nombres para
+  nombres de personajes aleatorios, artefactos aleatorios y pergaminos. De nuevo, en el caso
+  de un cambio de tema, esta es una buena manera de mostrar el nuevo tema.
 
 activation.txt
-  Activations are used for artifacts and some regular objects, and could be
-  used for ego items (although none currently are).  Some standard artifacts
-  from artifact.txt have activations, and random artifacts may have any
-  activation from this file chosen for them.  Activations can be made up of
-  any effects (see list-effects.h and effect-handler-*something*.c).
+  Las activaciones se usan para artefactos y algunos objetos normales, y podrían
+  usarse para objetos de ego (aunque actualmente ninguno lo hace). Algunos artefactos estándar
+  de artifact.txt tienen activaciones, y los artefactos aleatorios pueden tener cualquier
+  activación de este archivo elegida para ellos. Las activaciones pueden estar compuestas de
+  cualquier efecto (ver list-effects.h y effect-handler-*algo*.c).
 
 flavor.txt
-  Items such as potions and wands are assigned a flavor per object kind,
-  different in each game.  There need to be at least as many flavors for each
-  flavored object base as objects with that base.
+  A objetos como pociones y varitas se les asigna un sabor por tipo de objeto,
+  diferente en cada partida. Debe haber al menos tantos sabores para cada
+  base de objeto con sabor como objetos con esa base.
 
 monster_base.txt
-  Monster bases are the monster equivalent of object bases - classes of monster
-  like orc, troll or vampire.  This file contains the properties common across
-  all monsters in each of these classes.
+  Las bases de monstruos son el equivalente a las bases de objeto para monstruos: clases de monstruo
+  como orco, troll o vampiro. Este archivo contiene las propiedades comunes a
+  todos los monstruos en cada una de estas clases.
 
 monster.txt
-  This contains the detail of all monster races, each of which will have its
-  monster base properties plus additional ones.  Some monsters are unique, and
-  once killed will never reappear.
+  Esto contiene los detalles de todas las razas de monstruos, cada una de las cuales tendrá sus
+  propiedades de base de monstruo más otras adicionales. Algunos monstruos son únicos, y
+  una vez muertos nunca reaparecerán.
 
 monster_spell.txt
-  All the spells that can be cast by monsters (and are referred to in the
-  'spells:' lines in monster.txt) are defined in this file.  As with
-  activations, monster spells are built up from effects.
+  Todos los hechizos que pueden ser lanzados por monstruos (y a los que se hace referencia en las
+  líneas 'spells:' en monster.txt) se definen en este archivo. Al igual que con
+  las activaciones, los hechizos de monstruo se construyen a partir de efectos.
 
 pain.txt
-  This file contains the various messages that are given to describe how a
-  monster responds to attack.
+  Este archivo contiene los diversos mensajes que se dan para describir cómo un
+  monstruo responde a un ataque.
 
 pit.txt
-  Dungeon levels can contain pits - rooms full of a particular selection of
-  monsters.  This file defines these selections.  They can also be used, for
-  example, to generate partial or complete dungeon levels with themed monsters.
+  Los niveles de mazmorra pueden contener fosos: salas llenas de una selección particular de
+  monstruos. Este archivo define estas selecciones. También se pueden usar, por
+  ejemplo, para generar niveles de mazmorra parciales o completos con monstruos temáticos.
 
 class.txt
-  This file completely defines how player classes work, including all details
-  of castable spells.  There are some class-specific properties hard-coded,
-  which are referred to via the 'flags:' lines, and appear in
+  Este archivo define completamente cómo funcionan las clases de jugador, incluyendo todos los detalles
+  de los hechizos lanzables. Hay algunas propiedades específicas de clase codificadas,
+  a las que se hace referencia a través de las líneas 'flags:', y aparecen en
   list-player-flags.h.
 
 p_race.txt
-  This file defines all player race characteristics.  Race-specific code is
-  handled as for classes.
+  Este archivo define todas las características de las razas de jugador. El código específico de raza se
+  maneja como para las clases.
 
 body.txt
-  Every player race has a body, which defines what equipment they can use.
-  Currently there is only one body, which all races use, but this is easily
-  changeable for significant effect.
+  Cada raza de jugador tiene un cuerpo, que define qué equipo pueden usar.
+  Actualmente solo hay un cuerpo, que todas las razas usan, pero esto se puede cambiar
+  fácilmente para obtener un efecto significativo.
 
 history.txt
-  This file is for creating the player background found on the character
-  screen.  If a new race is introduced, a selection of background information
-  for it will need to be added.
+  Este archivo es para crear los antecedentes del jugador que se encuentran en la pantalla
+  de personaje. Si se introduce una nueva raza, será necesario añadir una selección de información
+  de antecedentes para ella.
 
 hints.txt
-  This is simply a list of general pieces of advice that shopkeepers will give
-  to their customers.
+  Esto es simplemente una lista de consejos generales que los tenderos darán
+  a sus clientes.
 
 quest.txt
-  This file defines the quest monsters (Sauron and Morgoth) and where they
-  appear.  This currently can't easily be changed, as there are still
-  hard-coded aspects of the quests.
+  Este archivo define los monstruos de misión (Sauron y Morgoth) y dónde
+  aparecen. Actualmente esto no se puede cambiar fácilmente, ya que todavía hay
+  aspectos de las misiones codificados.
 
 shape.txt
-  Defines alternate shapes that player can assume through spells or magic
-  items.  Such a spell or magic item would include
-  "SHAPECHANGE:*name of shape to assume*" in its list of effects.
+  Define formas alternativas que el jugador puede asumir a través de hechizos u objetos
+  mágicos. Tal hechizo u objeto mágico incluiría
+  "SHAPECHANGE:*nombre de la forma a asumir*" en su lista de efectos.
 
 terrain.txt
-  This file defines the kind of terrain which can appear in Angband, and its
-  properties.  Current terrain can be changed (with possibly large effects),
-  but removing it without code changes is likely to break the game.  Adding
-  new terrain will have no effect by itself, because there is no mechanism
-  for it to appear.
+  Este archivo define el tipo de terreno que puede aparecer en Angband y sus
+  propiedades. El terreno actual se puede cambiar (con efectos posiblemente grandes),
+  pero eliminarlo sin cambios en el código probablemente romperá el juego. Añadir
+  nuevo terreno no tendrá efecto por sí mismo, porque no hay ningún mecanismo
+  para que aparezca.
 
 trap.txt
-  This defines all floor traps, door locks, webs, player decoys, and
-  glyphs of warding.  Traps that can appear on chests are defined elsewhere,
-  chest_trap.txt.  Actual trap effects appear in list-effects.h and
-  effect-handler-*something*.c.
+  Esto define todas las trampas de suelo, cerraduras de puertas, telarañas, señuelos de jugador y
+  glifos de protección. Las trampas que pueden aparecer en cofres se definen en otro lugar,
+  chest_trap.txt. Los efectos reales de las trampas aparecen en list-effects.h y
+  effect-handler-*algo*.c.
 
 chest_trap.txt
-  This defines the traps and locks that can appear on chests.  Floor traps
-  are defined in trap.txt.  Actual trap effects appear in list-effects.h
-  and effect-handler-*something*.c.
+  Esto define las trampas y cerraduras que pueden aparecer en los cofres. Las trampas de suelo
+  se definen en trap.txt. Los efectos reales de las trampas aparecen en list-effects.h
+  y effect-handler-*algo*.c.
 
 room_template.txt
-  This is a list of templates for interesting-shaped rooms which appear in the
-  dungeon.  These can easily be changed and new ones added.
+  Esta es una lista de plantillas para salas con formas interesantes que aparecen en la
+  mazmorra. Estas se pueden cambiar fácilmente y se pueden añadir nuevas.
 
 vault.txt
-  Similar to room_template.txt, this handles vaults, which are very dangerous
-  and lucrative rooms.
+  Similar a room_template.txt, esto maneja las bóvedas, que son salas muy peligrosas
+  y lucrativas.
 
 visuals.txt
-  Configures the sequences of colors used by monsters with the ATTR_FLICKER
-  flag.
+  Configura las secuencias de colores utilizadas por los monstruos con la bandera ATTR_FLICKER.
 
 dungeon_profile.txt
-  This file contains fairly technical details about the different types of
-  dungeon level which can be generated.  The actual generation routines are in
-  gen-cave.c; the information here consists of parameters for generating
-  individual levels, and for how often given level types appear.
+  Este archivo contiene detalles bastante técnicos sobre los diferentes tipos de
+  nivel de mazmorra que se pueden generar. Las rutinas de generación reales están en
+  gen-cave.c; la información aquí consiste en parámetros para generar
+  niveles individuales, y para la frecuencia con la que aparecen los tipos de nivel dados.
 
 world.txt
-  This defines how the levels of the dungeon are linked.  It is very much a
-  stub.  If what you want is much like Angband with a single dungeon and a
-  fixed number of levels linked sequentially, then all you would change here
-  are the names and ensure that there is configuration for each level up to
-  one less than what's set by world:max-depth in constants.txt.  Anything
-  else likely requires changes to struct level in game-world.h,
-  level generation, and how the player interacts with the terrain (staircases
-  in Angband) that links levels.  Depending on what aspects of that world
-  layout you want to be configurable, the contents of world.txt and how it is
-  parsed in init.c probably will be nothing like what is in Angband.
+  Esto define cómo se enlazan los niveles de la mazmorra. Es muy un
+  esqueleto. Si lo que quieres es muy parecido a Angband con una sola mazmorra y un
+  número fijo de niveles enlazados secuencialmente, entonces todo lo que cambiarías aquí
+  son los nombres y asegurarte de que haya configuración para cada nivel hasta
+  uno menos de lo que se establece en world:max-depth en constants.txt. Cualquier
+  otra cosa probablemente requiere cambios en struct level en game-world.h,
+  en la generación de niveles, y en cómo el jugador interactúa con el terreno (escaleras
+  en Angband) que enlaza los niveles. Dependiendo de qué aspectos de ese diseño de mundo
+  quieras que sean configurables, el contenido de world.txt y cómo se analiza
+  en init.c probablemente no se parecerá en nada a lo que hay en Angband.
 
 store.txt
-  This details the shop owners and their relative generosity.
+  Esto detalla a los dueños de las tiendas y su relativa generosidad.
 
 blow_effects.txt
-  This defines effects to the player caused by monster attacks.  The simplest
-  monster attacks just deal damage, but others can affect the player's status,
-  stats or inventory.
+  Esto define los efectos sobre el jugador causados por los ataques de monstruos. Los ataques
+  de monstruo más simples solo infligen daño, pero otros pueden afectar el estado,
+  las estadísticas o el inventario del jugador.
 
 blow_methods.txt
-  This details the different ways monsters can attack (hit, claw, etc.).  It
-  affects the messages the player gets, and also whether the blow can stun
-  or cut the player.
+  Esto detalla las diferentes formas en que los monstruos pueden atacar (golpear, arañar, etc.). Afecta
+  a los mensajes que recibe el jugador, y también si el golpe puede aturdir
+  o cortar al jugador.
 
 brand.txt
-  This details how weapon brands work.
+  Esto detalla cómo funcionan las marcas elementales de las armas.
 
 slay.txt
-  This details how weapons can be more effective against certain monsters.
+  Esto detalla cómo las armas pueden ser más efectivas contra ciertos monstruos.
 
 curse.txt
-  This file contains all the different curses that can be applied to objects.
-  It includes what type of object they can be applied to, random effects they
-  can cause, and how they change an object's properties.
+  Este archivo contiene todas las diferentes maldiciones que se pueden aplicar a los objetos.
+  Incluye a qué tipo de objeto se pueden aplicar, los efectos aleatorios que
+  pueden causar, y cómo cambian las propiedades de un objeto.
 
 object_property.txt
-  This file gives details about what properties an object can have (apart from
-  basic combat and armor class).  Every property has a code which is used
-  in the game to refer to that property in some way. This means it is not
-  possible to add new properties to this file and expect to have any effect,
-  but it is possible to change how existing properties work.
+  Este archivo proporciona detalles sobre qué propiedades puede tener un objeto (aparte de
+  combate básico y clase de armadura). Cada propiedad tiene un código que se utiliza
+  en el juego para referirse a esa propiedad de alguna manera. Esto significa que no es
+  posible añadir nuevas propiedades a este archivo y esperar que tengan algún efecto,
+  pero es posible cambiar cómo funcionan las propiedades existentes.
 
 player_property.txt
-  Configures properties the player can get from the player's race, class, or
-  shape.  Some of those can come from no other sources and are tied to
-  entries in list-player-flags.h.  Others overlap with what the player can
-  get from equipment and are tied to entries in list-object-flags.h or
-  list-elements.h.  Sets the names and descriptions used by the birth
-  screens and the See abilities command, ``S``.  Sets up links to the column
-  in the character screen's resistances panel and the line in the
-  equippable comparison that summarize the player's state.
+  Configura las propiedades que el jugador puede obtener de la raza, clase o
+  forma del jugador. Algunas de ellas no pueden provenir de otras fuentes y están vinculadas a
+  entradas en list-player-flags.h. Otras se superponen con lo que el jugador puede
+  obtener del equipo y están vinculadas a entradas en list-object-flags.h o
+  list-elements.h. Establece los nombres y descripciones utilizados por las
+  pantallas de creación y el comando Ver habilidades, ``S``. Configura enlaces a la columna
+  en el panel de resistencias de la pantalla de personaje y a la línea en la
+  comparación de equipo que resume el estado del jugador.
 
 player_timed.txt
-  This file defines some of the properties of timed effects (such as haste and
-  confusion) that can apply to the player.  It chiefly contains the messages
-  on changes in these effects, links a timed effect to a resistance or
-  object flag, and specifies player attributes which prevent the effects.
-  To add new timed effects or change the way existing ones operate beyond
-  what can be specified in player_timed.txt, you will have to alter
-  src/list-player-timed.h and probably other files, and re-compile the game.
+  Este archivo define algunas de las propiedades de los efectos temporizados (como la velocidad y la
+  confusión) que pueden aplicarse al jugador. Contiene principalmente los mensajes
+  sobre cambios en estos efectos, vincula un efecto temporizado a una resistencia o
+  bandera de objeto, y especifica los atributos del jugador que previenen los efectos.
+  Para añadir nuevos efectos temporizados o cambiar la forma en que funcionan los existentes más allá
+  de lo que se puede especificar en player_timed.txt, tendrás que alterar
+  src/list-player-timed.h y probablemente otros archivos, y recompilar el juego.
 
 projection.txt
-  This file contains a lot of the defining information about projections -
-  effects which can be produced at a distance by player or monsters, and
-  affecting player, monsters, objects, and/or terrain.  In particular, this
-  file defines details of the effects of elemental attacks (such as fire or
-  shards) and the effectiveness of corresponding player resistance.  New
-  projections have to be either included in src/list-elements.h (for elemental
-  attacks) or included in src/list-projections.h (for all other projections),
-  and the code to implement their effects put in other source files -
-  src/project-obj.c for effects on objects, and other similarly-named files.
+  Este archivo contiene gran parte de la información definitoria sobre las proyecciones:
+  efectos que pueden ser producidos a distancia por el jugador o los monstruos, y que
+  afectan al jugador, monstruos, objetos y/o terreno. En particular, este
+  archivo define detalles de los efectos de los ataques elementales (como fuego o
+  fragmentos) y la efectividad de la resistencia correspondiente del jugador. Las nuevas
+  proyecciones deben ser incluidas en src/list-elements.h (para ataques elementales)
+  o incluidas en src/list-projections.h (para todas las demás proyecciones),
+  y el código para implementar sus efectos debe ser puesto en otros archivos fuente:
+  src/project-obj.c para efectos en objetos, y otros archivos con nombres similares.
 
 realm.txt
-  This contains a small amount of information about the four current magic
-  realms.
+  Esto contiene una pequeña cantidad de información sobre los cuatro reinos mágicos
+  actuales.
 
 summon.txt
-  This contains definitions for the types of monsters that can be summoned.
-  Adding a new summon type is not yet possible, because the summon spells are
-  hard-coded in src/list-mon-spells.h.
+  Esto contiene definiciones para los tipos de monstruos que pueden ser invocados.
+  Añadir un nuevo tipo de invocación aún no es posible, porque los hechizos de invocación están
+  codificados en src/list-mon-spells.h.
 
 ui_entry.txt
-  Defines entries that will be displayed in the second part of the character
-  sheet and in the knowledge menu's equippable comparison.  You can modify
-  properties in object_property.txt and project_property.txt to bind them to
-  those entries.  The intent is to make it possible to add or remove a property
-  without having to update ui-player.c or ui-equipcmp.c in addition to the
-  changes necessary to have that property affect core gameplay.
+  Define entradas que se mostrarán en la segunda parte de la hoja
+  de personaje y en la comparación de equipo del menú de conocimiento. Puedes modificar
+  propiedades en object_property.txt y project_property.txt para vincularlas a
+  esas entradas. La intención es hacer posible añadir o eliminar una propiedad
+  sin tener que actualizar ui-player.c o ui-equipcmp.c además de los
+  cambios necesarios para que esa propiedad afecte al juego principal.
 
 ui_entry_base.txt
-  Provides templates for use by ui_entry.txt.
+  Proporciona plantillas para usar con ui_entry.txt.
 
 ui_entry_renderer.txt
-  Defines techniques, referenced in ui_entry.txt, for rendering a property in
-  the character sheet or equippable comparison.  While it is possible to add
-  something that simply uses different palettes of symbols or colors than
-  one of the current renderers, the basic rendering techniques are hard-coded
-  in list-ui-entry-renderers.h.
+  Define técnicas, referenciadas en ui_entry.txt, para representar una propiedad en
+  la hoja de personaje o en la comparación de equipo. Si bien es posible añadir
+  algo que simplemente use diferentes paletas de símbolos o colores que
+  uno de los renderizadores actuales, las técnicas de renderizado básicas están codificadas
+  en list-ui-entry-renderers.h.
 
 ui_knowledge.txt
-  Handles some configuration of the knowledge menus, namely the layout of
-  the monster categories.
+  Maneja algo de configuración de los menús de conocimiento, concretamente el diseño de
+  las categorías de monstruos.
 
-Making Graphical Tilesets
-=========================
+Haciendo Conjuntos de Gráficos (Tilesets)
+==========================================
 
-You can make new graphical tilesets for Angband or customize existing ones. In
-this section we'll dive into how tilesets are defined and describe how to set
-one up from scratch. First, we'll enumerate the steps required and then we'll
-break down each step in detail.
+Puedes crear nuevos conjuntos de gráficos para Angband o personalizar los existentes. En
+esta sección profundizaremos en cómo se definen los tilesets y describiremos cómo configurar
+uno desde cero. Primero, enumeraremos los pasos requeridos y luego
+desglosaremos cada paso en detalle.
 
-1. Create a directory to contain the tileset's files: (ex. ``lib/tiles/mytileset``)
-2. Register the tileset in ``lib/tiles/list.txt``
-3. Create an empty bitmap image large enough to hold your tileset
-4. Store the empty bitmap image in your tileset folder
-5. Author one or more ``.prf`` files to inform Angband how to use your tileset
-6. Create a Makefile in your tileset folder
+1. Crear un directorio para contener los archivos del tileset: (ej. ``lib/tiles/mitileset``)
+2. Registrar el tileset en ``lib/tiles/list.txt``
+3. Crear una imagen de mapa de bits vacía lo suficientemente grande para contener tu tileset
+4. Guardar la imagen de mapa de bits vacía en tu carpeta de tileset
+5. Crear uno o más archivos ``.prf`` para informar a Angband cómo usar tu tileset
+6. Crear un Makefile en tu carpeta de tileset
 
-First you need to create a directory to contain your tileset's files. Put the
-directory in lib/tiles and choose a name for the directory that is lower-case
-and generally matches the naming convention of the other tilesets you see
-there. Once the directory has been created, the next step is to decide how big
-the tiles will be in pixels and then create a blank PNG image large enough to
-hold all of the tiles (be sure to enable alpha transparency). As an example,
-Shockbolt's tileset uses 64x64 pixel tiles. It also uses the special alpha
-blending flag so it can use double-height tiles (64x128) for large or tall
-monsters. Its dimensions are 8192x2048 but the tileset is not completely
-full. More tiles can be added without increasing the size of the image as new
-objects are added to future releases of Angband. This should be kept in mind as
-packing your tileset into the smallest possible image size may not be the most
-maintainable solution. Be sure to name the image file after the tile size, for
-example 64x64.png. Use the base size even if you are enabling double-height
-tiles.
+Primero necesitas crear un directorio para contener los archivos de tu tileset. Pon el
+directorio en lib/tiles y elige un nombre para el directorio que esté en minúsculas
+y que generalmente coincida con la convención de nomenclatura de los otros tilesets que veas
+allí. Una vez que se haya creado el directorio, el siguiente paso es decidir qué tan grandes
+serán los mosaicos en píxeles y luego crear una imagen PNG en blanco lo suficientemente grande para
+contener todos los mosaicos (asegúrate de habilitar la transparencia alfa). Como ejemplo,
+el tileset de Shockbolt usa mosaicos de 64x64 píxeles. También usa la bandera especial
+de combinación alfa para poder usar mosaicos de doble altura (64x128) para monstruos grandes o altos.
+Sus dimensiones son 8192x2048, pero el tileset no está completamente
+lleno. Se pueden añadir más mosaicos sin aumentar el tamaño de la imagen a medida que se añadan
+nuevos objetos en futuras versiones de Angband. Esto debe tenerse en cuenta, ya que
+empaquetar tu tileset en el tamaño de imagen más pequeño posible puede no ser la solución
+más fácil de mantener. Asegúrate de nombrar el archivo de imagen según el tamaño del mosaico,
+por ejemplo 64x64.png. Usa el tamaño base incluso si estás habilitando mosaicos de doble altura.
 
-The only file you'll need to edit outside of your tileset's directory is
-lib/tiles/list.txt. list.txt contains a registry of which tilesets to load as
-well as some information about the size of the tiles and any special flags to
-set. The format of the file is documented in list.txt's header. Specifically,
-you will be defining the name of the tileset, which directory contains the
-tileset's files, how big the tiles are in pixels (i.e. 64x64), the name of the
-main preference file for the tileset and some additional flags which have to do
-with alpha blending. Not all tilesets need to set extra flags.
+El único archivo que necesitarás editar fuera del directorio de tu tileset es
+lib/tiles/list.txt. list.txt contiene un registro de qué tilesets cargar, así
+como algo de información sobre el tamaño de los mosaicos y cualquier bandera especial a
+establecer. El formato del archivo está documentado en el encabezado de list.txt. Específicamente,
+definirás el nombre del tileset, qué directorio contiene los
+archivos del tileset, qué tan grandes son los mosaicos en píxeles (ej. 64x64), el nombre del
+archivo de preferencias principal para el tileset y algunas banderas adicionales que tienen que ver
+con la combinación alfa. No todos los tilesets necesitan establecer banderas adicionales.
 
-Now that the basic setup is complete you need to tell Angband how to interpret
-your tileset image. You need to map each tile in your image to a specific
-element in the game so that Angband knows which tiles to show for which ASCII
-characters. This process can be done incrementally because Angband will
-continue to show the default character symbols in-game for objects that have
-not yet been mapped. This is especially helpful for verifying that your tileset
-has been setup correctly before beginning to map things out in earnest. It also
-means that if new objects are added to the game that you have not mapped into
-your tileset, the game will still be playable with your tileset, albeit the
-displayed ASCII character may appear incongruous with your styling. Mapping
-tiles to game elements is done in text files called preference files which have
-the extension '.prf'.
+Ahora que la configuración básica está completa, necesitas decirle a Angband cómo interpretar
+la imagen de tu tileset. Necesitas mapear cada mosaico en tu imagen a un elemento
+específico en el juego para que Angband sepa qué mosaicos mostrar para qué
+caracteres ASCII. Este proceso se puede hacer de forma incremental porque Angband
+seguirá mostrando los símbolos de caracteres predeterminados en el juego para los objetos que
+aún no se han mapeado. Esto es especialmente útil para verificar que tu tileset
+se haya configurado correctamente antes de comenzar a mapear las cosas en serio. También
+significa que si se añaden nuevos objetos al juego que no has mapeado en
+tu tileset, el juego seguirá siendo jugable con tu tileset, aunque el
+carácter ASCII mostrado pueda parecer incongruente con tu estilo. El mapeo de
+mosaicos a elementos del juego se realiza en archivos de texto llamados archivos de preferencia que tienen
+la extensión '.prf'.
 
-The first thing to understand about mapping game elements in preference files
-is that everything that can be displayed in the game has a name, or in the case
-of flavors, an ID number. The names for each type of thing can be referenced
-from the data files as mentioned above. The table below is a quick reference
-for where to find names of things and how to form IDs correctly to reference
-them.
+Lo primero que hay que entender sobre el mapeo de elementos del juego en archivos de preferencia
+es que todo lo que se puede mostrar en el juego tiene un nombre, o en el caso
+de los sabores, un número de ID. Los nombres para cada tipo de cosa se pueden consultar
+desde los archivos de datos mencionados anteriormente. La siguiente tabla es una referencia rápida
+sobre dónde encontrar nombres de cosas y cómo formar ID correctamente para referenciarlas.
 
 ============= ================== ====================
-Type          Data File          Example
+Tipo          Archivo de Datos   Ejemplo
 ============= ================== ====================
-Terrain       terrain.txt        ``feat:FLOOR``
-Trap          trap.txt           ``trap:pit``
-Object        object.txt         ``object:light``
-Monster       monster.txt        ``monster:Kobold``
-Spell Effect  monster_spell.txt  ``GF:METEOR``
-Player        <see below>        ``monster:<player>``
+Terreno       terrain.txt        ``feat:FLOOR``
+Trampa        trap.txt           ``trap:pit``
+Objeto        object.txt         ``object:light``
+Monstruo      monster.txt        ``monster:Kobold``
+Efecto Hechizo monster_spell.txt  ``GF:METEOR``
+Jugador       <ver abajo>        ``monster:<player>``
 ============= ================== ====================
 
-Player pictures are referenced differently than other types of objects. They
-use a special query syntax that checks to see what kind class the player is as
-well as the gender in order to determine which picture to show. The query to
-select which tile to show for a female elf ranger would be::
+Las imágenes del jugador se referencian de manera diferente a otros tipos de objetos. Usan
+una sintaxis de consulta especial que verifica qué clase es el jugador, así
+como el género, para determinar qué imagen mostrar. La consulta para
+seleccionar qué mosaico mostrar para una montaraz elfa hembra sería::
 
   ?:[AND [EQU $CLASS Ranger] [EQU $RACE Elf]  [EQU $GENDER Female] ]
 
-Here, the query is checking to see if the player is a female Half-Elf and would
-use the assignment on the next line of the preference file only if this is
-true.
+Aquí, la consulta está verificando si el jugador es una Semielfa hembra y
+usaría la asignación en la siguiente línea del archivo de preferencia solo si esto es
+verdadero.
 
-Some types of objects such as terrain can use different tiles based on their
-state. In the case of terrain, the terrain can have different images for when
-it is lit by a torch, or dark. these are selected by appending another colon
-and a specifier to the name. For example, this would be the name of a torch-lit
-up staircase::
+Algunos tipos de objetos, como el terreno, pueden usar diferentes mosaicos según su
+estado. En el caso del terreno, puede tener diferentes imágenes para cuando
+está iluminado por una antorcha o está oscuro. Estos se seleccionan añadiendo otro
+signo de dos puntos y un especificador al nombre. Por ejemplo, este sería el nombre de una
+escalera ascendente iluminada por una antorcha::
 
   feat:LESS:torch
 
-It is possible to specify the same tile be used for all possible states of a
-terrain feature by using an asterisk. This example identifies any unknown
-terrain tile (a tile the player hasn't lit or otherwise seen yet)::
+Es posible especificar que se use el mismo mosaico para todos los estados posibles de una
+característica del terreno usando un asterisco. Este ejemplo identifica cualquier casilla de
+terreno desconocida (una casilla que el jugador no ha iluminado o visto de otra manera)::
 
   feat:NONE:*
 
-Given the full name of an object the last thing to do is to specify which tile
-from the tileset to use. Tile locations are given in a coordinate system using
-pairs of hexadecimal numbers. The coordinates start from 0x80:0x80 and
-increment from there. The pairs translate directly to the top and left most
-pixel of the corresponding tile from the graphics file, so the top left pixel
-of the first tile on the top left of the graphics file would be specified as
-0x80:0x80 (the pixel at x:0 y:0). The next tile immediately to the right of the
-that one would be 0x80:0x81. The tilesheet is sliced into rows and columns
-based on the tile size you specified in list.txt. So given a tile size of 64x64
-pixels, the tile at 0x80:0x81 would be located in the graphics file at pixel
-x:64 y:0. Remember, the coordinates in the preference files are in hexadecimal,
-so the next number after 0x89 would be 0x8A. The next number after 0x8F would
-be 0x90 and so on. To map an object to your tileset you will add one complete
-line to the file per object. This example maps the tile at 0x81:0x81 to the
-terrain feature 'quartz vein' when the quartz vein is lit by torch light::
+Dado el nombre completo de un objeto, lo último que hay que hacer es especificar qué mosaico
+del tileset usar. Las ubicaciones de los mosaicos se dan en un sistema de coordenadas usando
+pares de números hexadecimales. Las coordenadas comienzan desde 0x80:0x80 y se
+incrementan a partir de ahí. Los pares se traducen directamente al píxel superior e izquierdo
+del mosaico correspondiente del archivo gráfico, por lo que el píxel superior izquierdo
+del primer mosaico en la parte superior izquierda del archivo gráfico se especificaría como
+0x80:0x80 (el píxel en x:0 y:0). El siguiente mosaico inmediatamente a la derecha de
+ese sería 0x80:0x81. La hoja de mosaicos se divide en filas y columnas
+basadas en el tamaño de mosaico que especificaste en list.txt. Así que, dado un tamaño de mosaico de 64x64
+píxeles, el mosaico en 0x80:0x81 se ubicaría en el archivo gráfico en el píxel
+x:64 y:0. Recuerda, las coordenadas en los archivos de preferencia están en hexadecimal,
+por lo que el siguiente número después de 0x89 sería 0x8A. El siguiente número después de 0x8F sería
+0x90 y así sucesivamente. Para mapear un objeto a tu tileset, añadirás una línea completa
+al archivo por objeto. Este ejemplo mapea el mosaico en 0x81:0x81 a la
+característica del terreno 'vena de cuarzo' cuando la vena de cuarzo está iluminada por la luz de una antorcha::
 
   feat:QUARTZ:torch:0x81:0x81
 
-Before going any further, it is advisable to map a single object in your
-preference file, then start the game up, select your tileset and make sure you
-see your mapped tile in game. If this worked, then you are ready to design and
-map the rest of your tiles. A quick example would be to map a tile for your
-home in the town to the first tile position in your graphics file::
+Antes de continuar, es recomendable mapear un solo objeto en tu
+archivo de preferencia, luego iniciar el juego, seleccionar tu tileset y asegurarte de que ves
+tu mosaico mapeado en el juego. Si esto funcionó, entonces estás listo para diseñar y mapear
+el resto de tus mosaicos. Un ejemplo rápido sería mapear un mosaico para tu casa
+en la ciudad a la primera posición de mosaico en tu archivo gráfico::
 
   feat:HOME:*:0x80:0x80
 
-It's possible to have more than one preference file by using a sort of include
-syntax that causes other preference files referenced from your main preference
-file to also be read. It is also possible to place comments in your preference
-files to help you keep track of where different kinds of objects are
-mapped. Any text on a line after a ``#`` symbol is ignored. Shockbolt's tiles
-make great use of this and define a well organized set of mappings using three
-files with comments for each logical section of objects to be mapped::
+Es posible tener más de un archivo de preferencia usando una especie de sintaxis de
+inclusión que hace que también se lean otros archivos de preferencia referenciados desde tu archivo
+de preferencia principal. También es posible poner comentarios en tus archivos de
+preferencia para ayudarte a llevar un registro de dónde están mapeados diferentes tipos de
+objetos. Cualquier texto en una línea después de un símbolo ``#`` se ignora. Los mosaicos
+de Shockbolt hacen un gran uso de esto y definen un conjunto de mapeos bien organizado usando
+tres archivos con comentarios para cada sección lógica de objetos a mapear::
 
-  # This is a comment
-  %:other-stuff.prf  # Load another preference file
+  # Esto es un comentario
+  %:other-stuff.prf  # Carga otro archivo de preferencia
 
-The last step to take is to make sure your tileset will be packaged with
-Angband when it is compiled for distribution and that it can be installed
-alongside the other tilesets. to do this you will need to add a file called
-'Makefile' to your tileset directory. Copy and paste an existing Makefile from
-one of the other tileset directories and update the DATA and PACKAGE lines to
-match the filenames you chose for your tileset.
+El último paso a seguir es asegurarse de que tu tileset se empaquetará con
+Angband cuando se compile para su distribución y que se pueda instalar
+junto con los otros tilesets. Para hacer esto, necesitarás añadir un archivo llamado
+'Makefile' a tu directorio de tileset. Copia y pega un Makefile existente de
+uno de los otros directorios de tilesets y actualiza las líneas DATA y PACKAGE para
+que coincidan con los nombres de archivo que elegiste para tu tileset.
 
-Once you have a working tileset and functional understanding of how tilesets
-are managed and organized, it would be a good idea to study Shockbolt's tileset
-and follow the examples there in order to produce a high-quality tileset that
-you will be proud to share with others.
+Una vez que tengas un tileset funcional y una comprensión práctica de cómo se gestionan
+y organizan los tilesets, sería una buena idea estudiar el tileset de Shockbolt
+y seguir los ejemplos allí para producir un tileset de alta calidad
+del que estés orgulloso de compartir con otros.
 
-Larger changes
-==============
+Cambios más grandes
+====================
 
-If changing data files is not enough for you, you will need to change actual
-game code and recompile it.  The first place to look is in the compiled data
-files, some of which have already been mentioned:
+Si cambiar los archivos de datos no es suficiente para ti, necesitarás cambiar el código
+real del juego y recompilarlo. El primer lugar para buscar es en los archivos
+de datos compilados, algunos de los cuales ya se han mencionado:
 
 =====================  =========================  =========================
 list-dun-profiles.h    list-mon-temp-flags.h      list-rooms.h
@@ -434,10 +431,10 @@ list-mon-race-flags.h  list-projections.h
 list-mon-spells.h      list-randart-properties.h
 =====================  =========================  =========================
 
-Beyond this, you will have to have some knowledge of the C programming
-language, and can start making changes to the way the game runs or appears.
-Many people have done this - there are over 100 variants of Angband:
+Más allá de esto, tendrás que tener algo de conocimiento del lenguaje de programación
+C, y puedes comenzar a hacer cambios en la forma en que el juego funciona o aparece.
+Muchas personas han hecho esto: hay más de 100 variantes de Angband:
 https://nickmcconnell.github.io/AngbandPlus/
-Should you get to this point, the best thing to do is to discuss your ideas on
-the Angband forums at https://live/angband.live/forums/.  The people there are
-typically keen to hear new ideas and ways to play.
+Si llegas a este punto, lo mejor que puedes hacer es discutir tus ideas en
+los foros de Angband en https://live/angband.live/forums/. Las personas allí
+suelen estar ansiosas por escuchar nuevas ideas y formas de jugar.
