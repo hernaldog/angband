@@ -192,7 +192,7 @@ graphics:*:v
 
 ##### Luces #####
 
-name:& Wooden Torch~
+name:& Antorcha de Madera~
 type:light
 graphics:~:u
 level:1

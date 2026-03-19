@@ -149,7 +149,7 @@ max-attacks:6
 min-weight:30
 strength-multiplier:5
 equip:food:Ration of Food:1:3:none
-equip:light:Wooden Torch:1:3:none
+equip:light:Antorcha de Madera:1:3:none
 equip:potion:Berserk Strength:1:1:none
 equip:sword:Dagger:1:1:none
 equip:soft armour:Soft Leather Armour:1:1:none
@@ -185,7 +185,7 @@ max-attacks:4
 min-weight:40
 strength-multiplier:2
 equip:food:Ration of Food:1:3:none
-equip:light:Wooden Torch:1:3:none
+equip:light:Antorcha de Madera:1:3:none
 equip:sword:Rapier:1:1:none
 equip:scroll:Word of Recall:1:1:birth_no_recall
 player-flags:ZERO_FAIL | BEAM | CHOOSE_SPELLS
@@ -463,7 +463,7 @@ min-weight:35
 strength-multiplier:3
 equip:food:Ration of Food:1:3:none
 equip:hafted:Whip:1:1:none
-equip:light:Wooden Torch:1:3:none
+equip:light:Antorcha de Madera:1:3:none
 equip:scroll:Word of Recall:1:1:birth_no_recall
 player-flags:ZERO_FAIL | CHOOSE_SPELLS | CHARM
 title:Errante
@@ -700,7 +700,7 @@ max-attacks:4
 min-weight:35
 strength-multiplier:3
 equip:food:Ration of Food:1:3:none
-equip:light:Wooden Torch:1:3:none
+equip:light:Antorcha de Madera:1:3:none
 equip:hafted:Mace:1:1:none
 equip:potion:Cure Serious Wounds:2:2:none
 equip:scroll:Word of Recall:1:1:birth_no_recall
@@ -1226,7 +1226,7 @@ max-attacks:5
 min-weight:30
 strength-multiplier:5
 equip:food:Ration of Food:1:3:none
-equip:light:Wooden Torch:1:3:none
+equip:light:Antorcha de Madera:1:3:none
 equip:sword:Main Gauche:1:1:none
 equip:scroll:Protection from Evil:1:1:none
 equip:scroll:Word of Recall:1:1:birth_no_recall
@@ -1388,7 +1388,7 @@ max-attacks:5
 min-weight:20
 strength-multiplier:4
 equip:food:Ration of Food:1:3:none
-equip:light:Wooden Torch:1:3:none
+equip:light:Antorcha de Madera:1:3:none
 equip:sword:Dagger:1:1:none
 equip:soft armour:Soft Leather Armour:1:1:none
 equip:scroll:Word of Recall:1:1:birth_no_recall
@@ -1494,7 +1494,7 @@ max-attacks:5
 min-weight:35
 strength-multiplier:4
 equip:food:Ration of Food:1:3:none
-equip:light:Wooden Torch:1:3:none
+equip:light:Antorcha de Madera:1:3:none
 equip:sword:Main Gauche:1:1:none
 equip:bow:Short Bow:1:1:none
 equip:arrow:Arrow:15:20:none
@@ -1605,7 +1605,7 @@ min-weight:100
 strength-multiplier:5
 equip:shadow book:[Into the Shadows]:1:1:none
 equip:food:Ration of Food:1:3:none
-equip:light:Wooden Torch:1:3:none
+equip:light:Antorcha de Madera:1:3:none
 equip:sword:Tulwar:1:1:none
 equip:shield:Leather Shield:1:1:none
 equip:scroll:Word of Recall:1:1:birth_no_recall

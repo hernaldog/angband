@@ -27,7 +27,7 @@ slots:0:4
 turnover:2
 always:cloak:Cloak
 always:food:Ration of Food
-always:light:Wooden Torch
+always:light:Antorcha de Madera
 always:flask:Flask of Oil
 always:digger:Shovel
 always:digger:Pick

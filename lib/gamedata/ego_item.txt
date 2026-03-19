@@ -133,7 +133,7 @@ min-values:STEALTH[0] | LIGHT[-4]
 name:of Brightness
 info:2000:10
 alloc:50:1 to 30
-item:light:Wooden Torch
+item:light:Antorcha de Madera
 item:light:Lantern
 values:LIGHT[1]
 min-values:LIGHT[1]
