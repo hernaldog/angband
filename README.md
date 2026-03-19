@@ -300,4 +300,5 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\obj-list.c                           | 100      |
 | src\obj-util.c                           | 100      |
 | src\obj-init.h                           | 100      |
+| src\obj-init.c                           | 100      |
 | src\player.h                             | 100      |
