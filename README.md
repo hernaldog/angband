@@ -293,3 +293,4 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\object.h                             | 100      |
 | src\obj-desc.h                           | 100      |
 | src\obj-tval.h                           | 100      |
+| src\obj-list.c                           | 100      |

@@ -1,6 +1,6 @@
 /**
  * \file obj-list.c
- * \brief Object list construction.
+ * \brief Construcción de listas de objetos.
  *
  * Copyright (c) 1997-2007 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2013 Ben Semmler
@@ -28,7 +28,7 @@
 #include "project.h"
 
 /**
- * Allocate a new object list.
+ * Asignar una nueva lista de objetos.
  */
 object_list_t *object_list_new(void)
 {
@@ -51,7 +51,7 @@ object_list_t *object_list_new(void)
 }
 
 /**
- * Free an object list.
+ * Liberar una lista de objetos.
  */
 void object_list_free(object_list_t *list)
 {
@@ -67,12 +67,12 @@ void object_list_free(object_list_t *list)
 }
 
 /**
- * Share object list instance.
+ * Instancia compartida de la lista de objetos.
  */
 static object_list_t *object_list_subwindow = NULL;
 
 /**
- * Initialize the object list module.
+ * Inicializar el módulo de listas de objetos.
  */
 void object_list_init(void)
 {
@@ -80,7 +80,7 @@ void object_list_init(void)
 }
 
 /**
- * Tear down the object list module.
+ * Finalizar el módulo de listas de objetos.
  */
 void object_list_finalize(void)
 {
@@ -88,7 +88,7 @@ void object_list_finalize(void)
 }
 
 /**
- * Return a common object list instance.
+ * Devuelve una instancia común de la lista de objetos.
  */
 object_list_t *object_list_shared_instance(void)
 {
@@ -100,19 +100,19 @@ object_list_t *object_list_shared_instance(void)
 }
 
 /**
- * Return true if the list needs to be updated. Usually this is each turn.
+ * Devuelve verdadero si la lista necesita ser actualizada. Normalmente esto es cada turno.
  */
 static bool object_list_needs_update(const object_list_t *list)
 {
 	if (list == NULL || list->entries == NULL)
 		return false;
 
-	/* For now, always update when requested. */
+	/* Por ahora, siempre actualizar cuando se solicite. */
 	return true;
 }
 
 /**
- * Zero out the contents of an object list.
+ * Vaciar el contenido de una lista de objetos.
  */
 void object_list_reset(object_list_t *list)
 {
@@ -131,7 +131,7 @@ void object_list_reset(object_list_t *list)
 }
 
 /**
- * Return true if the object should be omitted from the object list.
+ * Devuelve verdadero si el objeto debe omitirse de la lista de objetos.
  */
 static bool object_list_should_ignore_object(const struct player *p,
 		const struct object *obj)
@@ -151,7 +151,7 @@ static bool object_list_should_ignore_object(const struct player *p,
 }
 
 /**
- * Collect object information from the current cave.
+ * Recopilar información de objetos de la cueva actual.
  */
 void object_list_collect(object_list_t *list)
 {
@@ -164,7 +164,7 @@ void object_list_collect(object_list_t *list)
 	if (!object_list_needs_update(list))
 		return;
 
-	/* Scan each object in the dungeon. */
+	/* Escanear cada objeto en la mazmorra. */
 	for (i = 1; i < player->cave->obj_max; i++) {
 		object_list_entry_t *entry = NULL;
 		int entry_index;
@@ -175,7 +175,7 @@ void object_list_collect(object_list_t *list)
 		bool los = false;
 		struct object *obj = player->cave->objects[i];
 
-		/* Skip unfilled entries, unknown objects and monster-held objects */
+		/* Saltar entradas vacías, objetos desconocidos y objetos sostenidos por monstruos */
 		if (!obj) continue;
 		if (loc_is_zero(obj->grid)) {
 			continue;
@@ -183,21 +183,21 @@ void object_list_collect(object_list_t *list)
 			grid = obj->grid;
 		}
 
-		/* Determine which section of the list the object entry is in */
+		/* Determinar en qué sección de la lista debe estar la entrada del objeto */
 		los = projectable(cave, pgrid, grid, PROJECT_NONE) ||
 			loc_eq(grid, pgrid);
 		field = (los) ? OBJECT_LIST_SECTION_LOS : OBJECT_LIST_SECTION_NO_LOS;
 
 		if (object_list_should_ignore_object(player, obj)) continue;
 
-		/* Find or add a list entry. */
+		/* Encontrar o añadir una entrada en la lista. */
 		for (entry_index = 0; entry_index < (int)list->entries_size;
 			 entry_index++) {
 			int j;
 			struct object *list_obj = list->entries[entry_index].object;
 
 			if (list_obj == NULL) {
-				/* We found an empty slot, so add this object here. */
+				/* Encontramos un espacio vacío, así que añadimos este objeto aquí. */
 				list->entries[entry_index].object = obj;
 				for (j = 0; j < OBJECT_LIST_SECTION_MAX; j++)
 					list->entries[entry_index].count[j] = 0;
@@ -211,14 +211,14 @@ void object_list_collect(object_list_t *list)
 		if (entry == NULL)
 			return;
 
-		/* We only know the number of objects we've actually seen */
+		/* Solo sabemos el número de objetos que realmente hemos visto */
 		if (obj->kind == cave->objects[obj->oidx]->kind)
 			entry->count[field] += obj->number;
 		else
 			entry->count[field] = 1;
 
-		/* Store the distance to the object in the stack that is
-		 * closest to the player. */
+		/* Almacenar la distancia al objeto en la pila que está
+		 * más cerca del jugador. */
 		current_distance = (grid.y - pgrid.y) * (grid.y - pgrid.y) +
 			(grid.x - pgrid.x) * (grid.x - pgrid.x);
 		entry_distance = entry->dy * entry->dy + entry->dx * entry->dx;
@@ -229,7 +229,7 @@ void object_list_collect(object_list_t *list)
 		}
 	}
 
-	/* Collect totals for easier calculations of the list. */
+	/* Recopilar totales para cálculos más fáciles de la lista. */
 	for (i = 0; i < (int)list->entries_size; i++) {
 		if (list->entries[i].object == NULL)
 			continue;
@@ -252,7 +252,7 @@ void object_list_collect(object_list_t *list)
 }
 
 /**
- * Object distance comparator: nearest to farthest.
+ * Comparador de distancia de objetos: más cercano a más lejano.
  */
 static int object_list_distance_compare(const void *a, const void *b)
 {
@@ -270,7 +270,7 @@ static int object_list_distance_compare(const void *a, const void *b)
 }
 
 /**
- * Standard comparison function for the object list. Uses compare_items().
+ * Función de comparación estándar para la lista de objetos. Usa compare_items().
  */
 int object_list_standard_compare(const void *a, const void *b)
 {
@@ -278,13 +278,13 @@ int object_list_standard_compare(const void *a, const void *b)
 	const struct object *ao = cave->objects[(((object_list_entry_t *)a)->object)->oidx];
 	const struct object *bo = cave->objects[(((object_list_entry_t *)b)->object)->oidx];
 
-	/* If this happens, something might be wrong in the collect function. */
+	/* Si esto sucede, algo podría estar mal en la función de recopilación. */
 	if (ao == NULL || bo == NULL)
 		return 1;
 
 	result = compare_items(ao, bo);
 
-	/* If the objects are equivalent, sort nearest to farthest. */
+	/* Si los objetos son equivalentes, ordenar del más cercano al más lejano. */
 	if (result == 0)
 		result = object_list_distance_compare(a, b);
 
@@ -292,7 +292,7 @@ int object_list_standard_compare(const void *a, const void *b)
 }
 
 /**
- * Sort the object list with the given sort function.
+ * Ordenar la lista de objetos con la función de ordenación dada.
  */
 void object_list_sort(object_list_t *list,
 					  int (*compare)(const void *, const void *))
@@ -315,10 +315,10 @@ void object_list_sort(object_list_t *list,
 }
 
 /**
- * Return an attribute to display a particular list entry with.
+ * Devuelve un atributo con el que mostrar una entrada de lista particular.
  *
- * \param entry is the object list entry to display.
- * \return a term attribute for the object entry.
+ * \param entry es la entrada de la lista de objetos a mostrar.
+ * \return un atributo de terminal para la entrada del objeto.
  */
 uint8_t object_list_entry_line_attribute(const object_list_entry_t *entry)
 {
@@ -331,35 +331,35 @@ uint8_t object_list_entry_line_attribute(const object_list_entry_t *entry)
 	base_obj = cave->objects[entry->object->oidx];
 
 	if (is_unknown(base_obj))
-		/* unknown object */
+		/* objeto desconocido */
 		attr = COLOUR_RED;
 	else if (base_obj->known->artifact)
-		/* known artifact */
+		/* artefacto conocido */
 		attr = COLOUR_VIOLET;
 	else if (!object_flavor_is_aware(base_obj))
-		/* unaware of kind */
+		/* no se conoce el tipo */
 		attr = COLOUR_L_RED;
 	else if (base_obj->kind->cost == 0)
-		/* worthless */
+		/* sin valor */
 		attr = COLOUR_SLATE;
 	else
-		/* default */
+		/* predeterminado */
 		attr = COLOUR_WHITE;
 
 	return attr;
 }
 
 /**
- * Format the object name so that the prefix is right aligned to a common
- * column.
+ * Formatear el nombre del objeto para que el prefijo esté alineado a la derecha en una
+ * columna común.
  *
- * This uses the default logic of object_desc() in order to handle flavors,
- * artifacts, vowels and so on. It was easier to do this and then use strtok()
- * to break it up than to do anything else.
+ * Esto usa la lógica predeterminada de object_desc() para manejar sabores,
+ * artefactos, vocales, etc. Fue más fácil hacer esto y luego usar strtok()
+ * para dividirlo que hacer cualquier otra cosa.
  *
- * \param entry is the object list entry that has a name to be formatted.
- * \param line_buffer is the buffer to format into.
- * \param size is the size of line_buffer.
+ * \param entry es la entrada de la lista de objetos que tiene un nombre a formatear.
+ * \param line_buffer es el búfer donde formatear.
+ * \param size es el tamaño de line_buffer.
  */
 void object_list_format_name(const object_list_entry_t *entry,
 							 char *line_buffer, size_t size)
@@ -382,8 +382,8 @@ void object_list_format_name(const object_list_entry_t *entry,
 	grid = entry->object->grid;
 	object_is_recognized_artifact = object_is_known_artifact(base_obj);
 
-	/* Hack - these don't have a prefix when there is only one, so just pad
-	 * with a space. */
+	/* Truco: estos no tienen un prefijo cuando solo hay uno, así que simplemente rellenar
+	 * con un espacio. */
 	switch (entry->object->kind->tval) {
 		case TV_SOFT_ARMOR:
 			if (object_is_recognized_artifact)
@@ -408,19 +408,19 @@ void object_list_format_name(const object_list_entry_t *entry,
 	if (entry->object->kind != base_obj->kind)
 		has_singular_prefix = true;
 
-	/* Work out if the object is in view */
+	/* Determinar si el objeto está a la vista */
 	los = projectable(cave, pgrid, grid, PROJECT_NONE) || loc_eq(grid, pgrid);
 	field = los ? OBJECT_LIST_SECTION_LOS : OBJECT_LIST_SECTION_NO_LOS;
 
 	/*
-	 * Pass the accumulated number via object_desc()'s ODESC_ALTNUM
-	 * mechanism:  it's in the high 16 bits of the mode.
+	 * Pasar el número acumulado a través del mecanismo ODESC_ALTNUM
+	 * de object_desc(): está en los 16 bits superiores del modo.
 	 */
 	object_desc(name, sizeof(name), base_obj, ODESC_PREFIX | ODESC_FULL |
 		ODESC_ALTNUM | (entry->count[field] << 16), player);
 
-	/* The source string for strtok() needs to be set properly, depending on
-	 * when we use it. */
+	/* La cadena fuente para strtok() debe establecerse correctamente, dependiendo de
+	 * cuándo la usamos. */
 	if (!has_singular_prefix && entry->count[field] == 1) {
 		chunk = " ";
 		source = name;
@@ -430,11 +430,10 @@ void object_list_format_name(const object_list_entry_t *entry,
 		source = NULL;
 	}
 
-	/* Right alight the prefix and clip. */
+	/* Alinear a la derecha el prefijo y recortar. */
 	strnfmt(line_buffer, size, "%3.3s ", chunk);
 
-	/* Get the rest of the name and clip it to fit the max width. */
+	/* Obtener el resto del nombre y recortarlo para que quepa en el ancho máximo. */
 	chunk = strtok(source, "\0");
 	my_strcat(line_buffer, chunk, size);
 }
-
