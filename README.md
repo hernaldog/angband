@@ -167,11 +167,11 @@ Contenido del script shell:
 
 ## Gamedata y txt
 
-Al momento de traducir, hay muchos archivos txt en una carpeta llamada "gamedata". La que tiene el fuente es esta de la raiz:
+Al momento de traducir, hay muchos archivos txt en una carpeta llamada "gamedata". La que tiene el código fuente es esta ruta de la raiz:
 
     1. fuente\lib\gamedata
 
-y no 
+y no esta:
 
     2. fuente\src\game\lib\gamedata
 
