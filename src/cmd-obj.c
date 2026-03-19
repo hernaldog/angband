@@ -234,7 +234,7 @@ void do_cmd_autoinscribe(struct command *cmd)
  */
 
 /**
- * Quitar un objeto
+ * Desequiparte un objeto
  */
 void do_cmd_takeoff(struct command *cmd)
 {
@@ -246,8 +246,8 @@ void do_cmd_takeoff(struct command *cmd)
 
 	/* Obtener argumentos */
 	if (cmd_get_item(cmd, "item", &obj,
-			/* Mensaje */ "¿Qué objeto quitarte o soltar?",
-			/* Error  */ "No tienes nada que quitarte o soltar.",
+			/* Mensaje */ "¿Qué objeto desequipar?",
+			/* Error  */ "No tienes nada que desequiparte.",
 			/* Filtro */ obj_can_takeoff,
 			/* Elección */ USE_EQUIP) != CMD_OK)
 		return;
