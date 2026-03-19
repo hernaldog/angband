@@ -1,17 +1,17 @@
-# File: object_base.txt
+# Archivo: object_base.txt
 #
-# This file is used to initialize object base information for Angband.
-# Object bases correspond to tvals as defined in src/list-tvals.h.
+# Este archivo se utiliza para inicializar la información de la base de objetos para Angband.
+# Las bases de objetos corresponden a los tvals definidos en src/list-tvals.h.
 
-# === Understanding object_base.txt ===
+# === Entendiendo object_base.txt ===
 
-# default: lines are default values for any object base
+# default: las líneas son valores predeterminados para cualquier base de objeto
 
-# name: tval:name
-# graphics: default attr for inventory display
-# break: breakage chance when thrown
-# max-stack: maximum number that can appear in a stack
-# flags: default flags
+# name: tval:nombre
+# graphics: atributo predeterminado para la visualización en el inventario
+# break: probabilidad de romperse al ser lanzado
+# max-stack: número máximo que puede aparecer en una pila
+# flags: banderas predeterminadas
 
 default:break-chance:10
 default:max-stack:40
