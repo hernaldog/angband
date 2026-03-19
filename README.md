@@ -289,3 +289,4 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\mon-blows.h                          | 100      |
 | src\mon-blows.c                          | 100      |
 | src\borg\borg.txt                        | 100      |
+| src\obj-tval.c                           | 100      |
