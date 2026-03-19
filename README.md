@@ -180,7 +180,7 @@ Al momento de compilar se traspasa de forma automática del lugar 1 al lugar 2. 
 **NOTA:** La forma de leer estos txt, como object.txt, se hace por medio de un archivo llamado obj-init.c y un sistema de "parser". Los campos como "name" tienen un index que si cambias los valores por ejemplo, "Apple"
 y dejas "Manzana" ese index cambia, y si luego cargas una salvada de partida vieja, se rompe el juego. Por lo tanto, en esta traducción, las salvadas no serán compatible con otras versiones del juego en inglés.
 
-- Cuidado con los textos "anidados": Al cambiar el "name" de un item en object.txt, ejemplo "Wooden Torch" port "Antorcha de Madera", debes colocar el mismo nombre en class.txt -> ego_item.txt y store.txt 
+- Cuidado con los textos "anidados": Al cambiar el "name" de un item en object.txt, ejemplo "Wooden Torch" port "Antorcha de Madera", debes colocar el mismo nombre en class.txt -> ego_item.txt y store.txt
 
 ## Encoding
 Todos los archivo deben traducirse usando encoding **UTF-8**.

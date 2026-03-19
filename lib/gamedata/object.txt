@@ -192,7 +192,7 @@ graphics:*:v
 
 ##### Luces #####
 
-name:& Antorcha de Madera~
+name:& Antorcha~ de Madera
 type:light
 graphics:~:u
 level:1
