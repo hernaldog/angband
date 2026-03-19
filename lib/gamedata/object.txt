@@ -255,7 +255,7 @@ cost:3
 alloc:40:0 to 20
 pile:10:1d2
 power:0
-msg:That tastes good.
+msg:Sabe bien.
 effect:NOURISH:INC_BY
 dice:10
 desc:Arrugada, pero sana y dulce.
@@ -268,7 +268,7 @@ weight:3
 cost:3
 alloc:40:0 to 50
 power:0
-msg:That tastes good.
+msg:Sabe bien.
 effect:NOURISH:INC_BY
 dice:15
 desc:Fruta troceada y secada al sol, preparada como ración de marcha para los
@@ -283,7 +283,7 @@ cost:2
 alloc:40:30 to 100
 pile:100:2d3
 power:0
-msg:That tastes better than nothing.
+msg:Sabe mejor que nada.
 effect:NOURISH:INC_BY
 dice:15
 desc:Un extraño crecimiento de hongos, propenso a moverse si no se observa. No muy sabroso,
@@ -298,7 +298,7 @@ cost:3
 alloc:40:0 to 50
 pile:100:1d5
 power:0
-msg:That tastes good.
+msg:Sabe bien.
 effect:NOURISH:INC_BY
 dice:30
 desc:Este alimento nutritivo pero bastante insípido, llamado "cram" por los Hombres del Lago que lo
@@ -314,7 +314,7 @@ cost:0
 alloc:30:50 to 100
 pile:50:1d3
 power:0
-msg:That tastes disgusting.
+msg:Sabe asqueroso.
 effect:RANDOM
 dice:5
 effect:NOURISH:INC_BY
@@ -340,7 +340,7 @@ cost:3
 alloc:30:10 to 50
 pile:50:1d3
 power:0
-msg:That tastes good.
+msg:Sabe bien.
 effect:NOURISH:INC_BY
 dice:40
 desc:Una gruesa loncha de cerdo, salada para que no se estropee. Es muy
@@ -355,7 +355,7 @@ cost:10
 alloc:30:20 to 70
 pile:40:1d3
 power:1
-msg:Delicious!
+msg:¡Delicioso!
 effect:NOURISH:INC_TO
 dice:60
 desc:Los Beórnidas son famosos como los mejores panaderos entre los hombres, y sus
@@ -371,7 +371,7 @@ cost:10
 alloc:20:30 to 100
 pile:10:1d3
 power:4
-msg:That tastes great.
+msg:Sabe genial.
 effect:NOURISH:INC_TO
 dice:75
 effect:CURE:POISONED
@@ -387,7 +387,7 @@ level:0
 weight:5
 cost:1
 power:0
-msg:That tastes great!
+msg:¡Sabe genial!
 effect:NOURISH:INC_BY
 dice:3
 effect:TIMED_INC:CONFUSED
@@ -401,7 +401,7 @@ level:0
 weight:10
 cost:2
 power:0
-msg:That tastes great!  A fine vintage.
+msg:¡Sabe genial! Una buena cosecha.
 effect:NOURISH:INC_BY
 dice:3
 effect:TIMED_INC:BOLD
@@ -416,7 +416,7 @@ weight:2
 cost:100
 alloc:20:10 to 50
 power:0
-msg:You feel your heart warm.
+msg:Sientes que tu corazón se calienta.
 effect:NOURISH:INC_BY
 dice:3
 effect:RESTORE_STAT:STR
@@ -433,7 +433,7 @@ cost:1
 alloc:20:20 to 100
 pile:10:1d3
 power:0
-msg:It burns your throat.
+msg:Te quema la garganta.
 effect:NOURISH:INC_BY
 dice:5
 effect:TIMED_SET:STUN
@@ -450,7 +450,7 @@ weight:10
 cost:2000
 alloc:10:60 to 100
 power:0
-msg:Refreshing!
+msg:¡Refrescante!
 effect:NOURISH:INC_TO
 dice:60
 effect:RESTORE_STAT:STR
@@ -633,7 +633,7 @@ cost:60
 alloc:1:15 to 100
 pile:70:1d4
 power:5
-msg:Your stomach heaves.
+msg:Tu estómago se revuelve.
 effect:NOURISH:SET_TO
 dice:5
 effect:RESTORE_STAT:STR
@@ -2964,7 +2964,7 @@ cost:0
 alloc:10:5 to 70
 pile:70:1d3
 power:0
-msg:There is a high pitched humming noise.
+msg:Se oye un zumbido agudo.
 effect:WAKE
 effect:PROJECT_LOS:MON_SPEED
 dice:25
@@ -3013,7 +3013,7 @@ cost:0
 alloc:10:10 to 70
 pile:70:1d3
 power:0
-msg:You hear a low-pitched whistling sound.
+msg:Oyes un silbido agudo.
 effect:TOUCH:MAKE_TRAP:3
 
 
@@ -3221,7 +3221,7 @@ cost:5000
 alloc:20:60 to 100
 attack:1d1:0:0
 armor:0:0
-msg:You feel life flow through your body!
+msg:Sientes que la vida fluye por tu cuerpo.
 power:21
 effect:RESTORE_EXP
 effect:CURE:BLIND
@@ -3624,7 +3624,7 @@ cost:0
 alloc:10:3 to 15
 pile:100:1d2
 power:0
-msg:The potion makes you queasy.
+msg:La poción te da náuseas.
 effect:NOURISH:SET_TO
 dice:2
 effect:CURE:POISONED
@@ -3890,7 +3890,7 @@ alloc:20:3 to 60
 attack:1d1:0:0
 armor:0:0
 charges:6+d10
-vis-msg:A line of shimmering blue light appears.
+vis-msg:Aparece una línea de luz azul brillante.
 power:6
 effect:LINE:LIGHT_WEAK
 dice:6d8
@@ -4852,7 +4852,7 @@ cost:500
 alloc:30:5 to 100
 attack:1d1:0:0
 armor:0:0
-vis-msg:A line of shimmering blue light appears.
+vis-msg:Aparece una línea de luz azul brillante.
 power:6
 effect:LINE:LIGHT_WEAK
 dice:6d8

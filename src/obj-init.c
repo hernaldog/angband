@@ -19,7 +19,7 @@
  * en el juego Angband.
  *
  * Varios de los arreglos para Angband se construyen a partir de archivos de datos en el
- * directorio "lib/gamedata".
+ * directorio "lib/gamedata". Acá se procesa el archivo lib/gamedata/object.txt
  */
 
 
