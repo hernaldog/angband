@@ -1,8 +1,8 @@
 /**
    \file obj-desc.h
-   \brief Create object name descriptions
+   \brief Crear descripciones de nombres de objetos
  *
- * Copyright (c) 1997 - 2007 Angband contributors
+ * Copyright (c) 1997 - 2007 Colaboradores de Angband
  *
  * This work is free software; you can redistribute it and/or modify it
  * under the terms of either:
@@ -20,29 +20,29 @@
 #define OBJECT_DESC_H
 
 /**
- * Modes for object_desc().
+ * Modos para object_desc().
  */
 enum {
-	ODESC_BASE   = 0x00,   /*!< Only describe the base name */
-	ODESC_COMBAT = 0x01,   /*!< Also show combat bonuses */
-	ODESC_EXTRA  = 0x02,   /*!< Show charges/inscriptions/pvals */
+	ODESC_BASE   = 0x00,   /*!< Describir solo el nombre base */
+	ODESC_COMBAT = 0x01,   /*!< Mostrar también las bonificaciones de combate */
+	ODESC_EXTRA  = 0x02,   /*!< Mostrar cargas/inscripciones/pvals */
 
 	ODESC_FULL   = ODESC_COMBAT | ODESC_EXTRA,
-	                       /*!< Show entire description */
+	                       /*!< Mostrar la descripción completa */
 
-	ODESC_STORE  = 0x04,   /*!< This is an in-store description */
-	ODESC_PLURAL = 0x08,   /*!< Always pluralise */
-	ODESC_SINGULAR    = 0x10,    /*!< Always singular */
-	ODESC_SPOIL  = 0x20,    /*!< Display regardless of player knowledge */
+	ODESC_STORE  = 0x04,   /*!< Esta es una descripción en la tienda */
+	ODESC_PLURAL = 0x08,   /*!< Siempre pluralizar */
+	ODESC_SINGULAR    = 0x10,    /*!< Siempre singular */
+	ODESC_SPOIL  = 0x20,    /*!< Mostrar independientemente del conocimiento del jugador */
 	ODESC_PREFIX = 0x40,   /* */
 
-	ODESC_CAPITAL = 0x80,	/*!< Capitalise object name */
-	ODESC_TERSE = 0x100,  	/*!< Make terse names */
-	ODESC_NOEGO = 0x200,  	/*!< Don't show ego names */
-	ODESC_ALTNUM = 0x400	/*!< Use the high 16 bits of mode rather
-					than obj->number as the number
-					of objects; not fully compatible
-					with ODESC_EXTRA */
+	ODESC_CAPITAL = 0x80,	/*!< Poner en mayúscula el nombre del objeto */
+	ODESC_TERSE = 0x100,  	/*!< Usar nombres concisos */
+	ODESC_NOEGO = 0x200,  	/*!< No mostrar nombres de ego */
+	ODESC_ALTNUM = 0x400	/*!< Usar los 16 bits superiores del modo en lugar
+					de obj->number como el número
+					de objetos; no es completamente compatible
+					con ODESC_EXTRA */
 };
 
 
