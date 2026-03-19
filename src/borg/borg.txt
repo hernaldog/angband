@@ -1,39 +1,39 @@
-# This is the configuration file for the Borg. For a high-level overview
-# of the Borg and its features, see the official documentation in
+# Este es el archivo de configuración para el Borg. Para una visión general de alto nivel
+# del Borg y sus características, consulta la documentación oficial en
 # docs/hacking/borg.rst.
 
-# This file will allow you to customize your borg along certain themes.
-# The borg is fairly successful, having won the game several times.
-# However, some players/observers of borgs would like to see it function
-# differently. Some would like to see the borg play more aggressively, or
-# more conservatively. While others would like to value armour class more.
-# Still others would like to see it collect more speed items. With the
-# expressions below, you can influence the borg's behavior and
-# equipment selection choices. To modify, simply set values to TRUE or FALSE,
-# with the exception of a few integers.
+# Este archivo te permitirá personalizar tu borg según ciertos temas.
+# El borg tiene bastante éxito, habiendo ganado el juego varias veces.
+# Sin embargo, algunos jugadores/observadores de borgs quisieran verlo funcionar
+# de manera diferente. A algunos les gustaría ver al borg jugar más agresivamente, o
+# más conservadoramente. Mientras que otros quisieran valorar más la clase de armadura.
+# Otros quisieran verlo recolectar más objetos de velocidad. Con las
+# expresiones a continuación, puedes influir en el comportamiento del borg y
+# en sus elecciones de selección de equipo. Para modificar, simplemente establece los valores en TRUE o FALSE,
+# con la excepción de algunos números enteros.
 
 
-### Worships ###
+### Adoraciones ###
 
-# The 'borg_worship_' variables will influence his equipment selection by
-# adding additional bonuses to items which enhance that attribute. For example:
-# if a borg receives 2000 pts for a single point of armour class, an 'ac
-# worshipping' borg would receive 3000 pts. This bonus would significantly
-# influence equipment choices.
+# Las variables 'borg_worship_' influirán en su selección de equipo al
+# añadir bonificaciones adicionales a los objetos que mejoran ese atributo. Por ejemplo:
+# si un borg recibe 2000 pts por un solo punto de clase de armadura, un
+# borg que 'adora la CA' recibiría 3000 pts. Esta bonificación influiría significativamente
+# en las elecciones de equipo.
 #
-# borg_worships_gold explained:
-# The borg_worships_gold option will greatly impact how the borg treats items
-# which he finds in the dungeon. With this option on, he will return to town
-# whenever he fills up with items then sell those items. This can cause
-# the borg to lose some artifacts, since he will sell them even if not ID'd.
-# Generally speaking the borg will not sell an item unless it is at least
-# pseudo ID'd. The benefit of this option is that the borg will significantly
-# increase his income at the low clevels. This will increase his survivability
-# by allowing him to invest in armour and arrows. With this on,
-# he will not recall to town to sell stuff but climb the stairs instead.
-# He will also not recall into the dungeon until dlevel 8 (instead of 5).
-# This option has no effect after clevel 20. One other downside of this is
-# that the borg will spend more time in town and may have to evade Vets more.
+# borg_worships_gold explicado:
+# La opción borg_worships_gold impactará enormemente en cómo el borg trata los objetos
+# que encuentra en la mazmorra. Con esta opción activada, regresará a la ciudad
+# cada vez que llene su inventario con objetos y luego venderá esos objetos. Esto puede causar
+# que el borg pierda algunos artefactos, ya que los venderá incluso si no están identificados.
+# En términos generales, el borg no venderá un objeto a menos que esté al menos
+# pseudoidentificado. El beneficio de esta opción es que el borg aumentará significativamente
+# sus ingresos en los niveles bajos. Esto aumentará su capacidad de supervivencia
+# al permitirle invertir en armadura y flechas. Con esto activado,
+# no recordará ir a la ciudad para vender cosas, sino que subirá las escaleras en su lugar.
+# Tampoco recordará volver a la mazmorra hasta el nivel 8 (en lugar del 5).
+# Esta opción no tiene efecto después del nivel de personaje 20. Otro inconveniente de esto es
+# que el borg pasará más tiempo en la ciudad y puede tener que evadir más a los Veteranos.
 
 borg_worships_damage = FALSE
 borg_worships_speed = FALSE
@@ -43,137 +43,137 @@ borg_worships_ac = FALSE
 borg_worships_gold = FALSE
 
 
-### Risky ###
+### Arriesgado ###
 
-# A risky borg is one who is not confined by character level requirements
-# in order to dive deeper. It is also more likely to stay in a battle than
-# to teleport out. A risky borg will dive faster but is more likely to die.
-# A risky borg is not concerned with killing uniques before diving deeper.
+# Un borg arriesgado es aquel que no está limitado por los requisitos de nivel de personaje
+# para descender a más profundidad. También es más probable que permanezca en una batalla
+# en lugar de teletransportarse para salir. Un borg arriesgado descenderá más rápido pero tiene más probabilidades de morir.
+# A un borg arriesgado no le preocupa matar a los únicos antes de descender a más profundidad.
 #
-# A borg who scums for uniques will set the auto_scum flag in order to generate
-# more exciting levels and hopefully encounter a unique
+# Un borg que busca únicos activará la bandera auto_scum para generar
+# niveles más emocionantes y con suerte encontrar un único
 # 
-# borgs who kill_uniques will wait for uniques to die before diving deeper
-# into the dungeon. Usually, he will not dive deeper than three uniques.
-# Example, Unique Monsters who normally reside on levels 12, 15, and 18 are
-# still alive so the borg will not dive deeper than level 18 until at least one
-# of those uniques are dead. Setting this to FALSE will allow the borg to dive
-# deeper, faster, not being held up by the uniques. But, he does run the risk
-# of finding 3 or 4 uniques on one level. That can be a bit scary.
+# Los borgs que matan_unicos esperarán a que los únicos mueran antes de descender a más profundidad
+# en la mazmorra. Por lo general, no descenderá más allá de tres únicos.
+# Ejemplo: los Monstruos Únicos que normalmente residen en los niveles 12, 15 y 18 están
+# todavía vivos, por lo que el borg no descenderá más allá del nivel 18 hasta que al menos uno
+# de esos únicos esté muerto. Establecer esto en FALSE permitirá al borg descender
+# más profundo, más rápido, sin ser retenido por los únicos. Pero corre el riesgo
+# de encontrar 3 o 4 únicos en un solo nivel. Eso puede ser un poco aterrador.
 
 borg_plays_risky = FALSE
 borg_kills_uniques = FALSE
 
 
-### Swap Items ###
+### Objetos de Intercambio ###
 
-# The borg is designed to use Swap Items in the inventory. A swap item
-# is an equipment item (like a sword or armour item) which possesses a
-# desirable resistance or trait. If the borg is in danger, then he will
-# consider exchanging his current item for the swap item. A prime example of
-# this is at dungeon level 60. He is required to have several resists in
-# place. If he does not have them then he will not dive deeper. However,
-# with Swaps enabled he will select an item to cover the open resist then
-# dive down. Having Swaps enabled allows the borg to dive deeper, faster.
-# The draw back is the Swap Items take up two inventory slots.
+# El borg está diseñado para usar Objetos de Intercambio en el inventario. Un objeto de intercambio
+# es un objeto de equipo (como una espada o una pieza de armadura) que posee una
+# resistencia o rasgo deseable. Si el borg está en peligro, entonces
+# considerará intercambiar su objeto actual por el objeto de intercambio. Un ejemplo principal de
+# esto es en el nivel de mazmorra 60. Se requiere que tenga varias resistencias
+# activas. Si no las tiene, no descenderá más profundo. Sin embargo,
+# con los Intercambios activados, seleccionará un objeto para cubrir la resistencia abierta y luego
+# descenderá. Tener Intercambios activados permite al borg descender más profundo, más rápido.
+# La desventaja es que los Objetos de Intercambio ocupan dos espacios de inventario.
 
 borg_uses_swaps = TRUE
 
 
-### Strange Opts ###
+### Opciones Extrañas ###
 
-# some birth options don't allow the borg to run well. If you want to allow
-# the borg to run anyways, set this to TRUE and run at your own risk.
+# algunas opciones de nacimiento no permiten que el borg funcione bien. Si quieres permitir
+# que el borg funcione de todos modos, establece esto en TRUE y ejecuta bajo tu propio riesgo.
 
 borg_allow_strange_opts = FALSE
 
 
-### Cheat Death ###
+### Engañar a la Muerte ###
 
-# If borg_cheat_death is set, the option to cheat death will be set and, when
-# the borg dies, he will cheat death and keep going. If this is false and the
-# option to cheat death in the game is true the borg will reincarnate (respawn)
-# as a player using the options below to pick the new player. If the option
-# to cheat death is false and this is false, the borg will stop on death.
+# Si borg_cheat_death está activado, la opción para engañar a la muerte se activará y, cuando
+# el borg muera, engañará a la muerte y continuará. Si esto es falso y la
+# opción para engañar a la muerte en el juego es verdadera, el borg se reencarnará (reaparecerá)
+# como un jugador usando las opciones a continuación para elegir al nuevo jugador. Si la opción
+# para engañar a la muerte es falsa y esto es falso, el borg se detendrá al morir.
 
 borg_cheat_death = FALSE
 
 
-### Respawn ###
+### Reaparición ###
 
-# If the borg is in continual play mode (as with the screen saver),
-# he will respawn a randomly generated character at death. This section
-# allows the user to make certain bias for the type of character generated.
-# You may select the race and or class and or minimal stats for the Borg.
-# You may also select the minimal character level needed before the
-# character dump is created in the game directory.
+# Si el borg está en modo de juego continuo (como con el protector de pantalla),
+# reaparecerá un personaje generado aleatoriamente al morir. Esta sección
+# permite al usuario establecer cierta preferencia por el tipo de personaje generado.
+# Puedes seleccionar la raza y/o clase y/o estadísticas mínimas para el Borg.
+# También puedes seleccionar el nivel de personaje mínimo necesario antes de que se
+# cree el volcado de personaje en el directorio del juego.
 #
-# With regards to race, the borg is programmed to accept the variety of
-# user defined races which may be in the p_info.txt file. So the values
-# given in table below are for the default races. But if you are bright
-# enough to modify the p_info.txt file then you are bright enough to figure
-# out that race 0 does not necessarily equal Human. It's just the first
-# race listed in your p_info.txt file.
+# Con respecto a la raza, el borg está programado para aceptar la variedad de
+# razas definidas por el usuario que puedan estar en el archivo p_info.txt. Por lo tanto, los valores
+# dados en la tabla a continuación son para las razas predeterminadas. Pero si eres lo
+# suficientemente inteligente como para modificar el archivo p_info.txt, entonces eres lo suficientemente inteligente para deducir
+# que la raza 0 no es necesariamente igual a Humano. Es solo la primera
+# raza listada en tu archivo p_info.txt.
 #
-# RACE:-1 Random Race          CLASS:  -1 Random Class
-#       0 Human                         0 Warrior
-#       1 Half Elf                      1 Mage
-#       2 Elf                           2 Druid
-#       3 Hobbit                        3 Priest
-#       4 Gnome                         4 Necromancer
-#       5 Dwarf                         5 Paladin
-#       6 Half Orc                      6 Rogue
-#       7 Half Troll                    7 Ranger
-#       8 Dunadan                       8 Blackguard
-#       9 High Elf
-#	   10 Kobold
+# RAZA: -1 Raza Aleatoria         CLASE: -1 Clase Aleatoria
+#        0 Humano                          0 Guerrero
+#        1 Semielfo                        1 Mago
+#        2 Elfo                            2 Druida
+#        3 Hobbit                           3 Sacerdote
+#        4 Gnomo                           4 Nigromante
+#        5 Enano                           5 Paladín
+#        6 Semiorco                        6 Pícaro
+#        7 Semitrol                         7 Montaraz
+#        8 Dúnadan                          8 Guardia Negra
+#        9 Alto Elfo
+#       10 Kobold
 #
-# With regards to the stats. The minimal stats are rolled by the
-# borg. CON will be 16, the secondary stat (usually DEX) will be 17,
-# The primary stat will be 17. These are the maximal values which
-# can be rolled (racial and class bonuses added after).
-# If the borg can not reach the stats after 500,000 tries the game
-# will just assign you a random stat.
+# Con respecto a las estadísticas. Las estadísticas mínimas se tiran por el
+# borg. CON será 16, la estadística secundaria (generalmente DEX) será 17,
+# La estadística primaria será 17. Estos son los valores máximos que
+# se pueden obtener (las bonificaciones raciales y de clase se añaden después).
+# Si el borg no puede alcanzar las estadísticas después de 500,000 intentos, el juego
+# simplemente te asignará una estadística aleatoria.
 #
-# After killing Morgoth, generally, the borg will stop and allow you
-# to inspect the victory. If you set the respawn_winners then after
-# killing Morgoth,the borg will generate a new character. A map file
-# is created so you can see what the final battle looked like.
+# Después de matar a Morgoth, generalmente, el borg se detendrá y te permitirá
+# inspeccionar la victoria. Si estableces respawn_winners, después de
+# matar a Morgoth, el borg generará un nuevo personaje. Se crea un archivo de mapa
+# para que puedas ver cómo fue la batalla final.
 
 borg_respawn_race = -1
 borg_respawn_class = -1
 borg_respawn_winners = FALSE
 
 
-### Dumps ###
+### Volcados ###
 
-# This variable will determine the minimal character level at which the borg
-# will create a character dump file. That file contains some vital information
-# concerning the status of the borg at the time of his demise. It is placed
-# in the archive directory.
-# The borg_save_death variable will tell the borg to save the game in the
-# archive directory so that it can be examined more closely. The clevel of the
-# borg must at least equal the borg_dump_level in order for the game to save.
+# Esta variable determinará el nivel de personaje mínimo en el que el borg
+# creará un archivo de volcado de personaje. Ese archivo contiene información vital
+# sobre el estado del borg en el momento de su fallecimiento. Se coloca
+# en el directorio de archivo.
+# La variable borg_save_death le indicará al borg que guarde la partida en el
+# directorio de archivo para que pueda ser examinada más de cerca. El nivel de personaje del
+# borg debe ser al menos igual a borg_dump_level para que el juego guarde.
 
 borg_dump_level = 1
 borg_save_death = 1
 
 
-### Autosave ###
+### Autoguardado ###
 
-# This causes the borg to do a (redundant) save at the start of every level and
-# create a backup of that save to the archive directory
+# Esto hace que el borg haga un guardado (redundante) al comienzo de cada nivel y
+# cree una copia de seguridad de ese guardado en el directorio de archivo.
 
 borg_autosave = FALSE
 
 
-### Auto Stops ###
+### Paradas Automáticas ###
 
-# The borg is able to stop when it reaches a certain dungeon depth or character
-# level. He will also stop when he wins the game. If you want him to keep
-# playing, even after Morgoth is dead, then change the borg_stop_king to FALSE.
-# Set the other values to the level at which you want the borg to stop. Set
-# them out of bounds if you do not want him to stop.
+# El borg puede detenerse cuando alcanza cierta profundidad de mazmorra o nivel de personaje
+# También se detendrá cuando gane el juego. Si quieres que siga
+# jugando, incluso después de que Morgoth esté muerto, cambia borg_stop_king a FALSE.
+# Establece los otros valores al nivel en el que quieres que el borg se detenga. Establécelos
+# fuera de los límites si no quieres que se detenga.
 
 borg_stop_dlevel = 128
 borg_stop_clevel = 51
@@ -181,223 +181,223 @@ borg_no_deeper = 127
 borg_stop_king = TRUE
 
 
-### Stop On Bell ###
+### Detenerse en la Campana ###
 
-# If stop on bell is set, the borg will stop when the game plays the bell, 
-# which generally only happens on an error. This is to help debug issues. The
-# message log will contain a list of up to 50 of the latest keypresses.
+# Si la detención en la campana está activada, el borg se detendrá cuando el juego toque la campana,
+# lo que generalmente solo sucede en un error. Esto es para ayudar a depurar problemas. El
+# registro de mensajes contendrá una lista de hasta 50 de las últimas pulsaciones de teclas.
 
 borg_stop_on_bell = FALSE
 
 
-### Chest Tolerance ###
+### Tolerancia a Cofres ###
 
-# The borg is able to search, disarm, and open chests. There is an inherent
-# risk when dealing with chests. The risk of setting off the trap vs the
-# benefit of the loot within the chest. The game uses a straight forward 
-# formula for calculating the success of a chest. It is:
-# randint(100) < the skill of the player minus the difficulty of the chest.
-# Difficulties run from 1 to 63.
+# El borg puede buscar, desarmar y abrir cofres. Existe un riesgo
+# inherente al tratar con cofres. El riesgo de activar la trampa frente al
+# beneficio del botín dentro del cofre. El juego usa una fórmula sencilla
+# para calcular el éxito de un cofre. Es:
+# randint(100) < la habilidad del jugador menos la dificultad del cofre.
+# Las dificultades van de 1 a 63.
 
 borg_chest_fail_tolerance = 7
 
 
-### Speed Of The Borg ###
+### Velocidad del Borg ###
 
-# You can slow the borg down a couple of ways. One way is to set the
-# base game delay factor in the options menu. This will slow down the borg
-# and the visual effects (like missiles shooting, explosions). If using the
-# screensaver, you will need to load angband.exe load the savefile, make the
-# modifications, then save and exit. Another way to slow the borg down is
-# to use the following variable. The formula is:
-# base_game_delay_factor^2 + borg_delay_factor^2.
+Puedes ralentizar al borg de un par de maneras. Una forma es establecer el
+factor de retardo del juego base en el menú de opciones. Esto ralentizará al borg
+y los efectos visuales (como disparos de proyectiles, explosiones). Si usas el
+protector de pantalla, necesitarás cargar angband.exe, cargar el archivo guardado, hacer las
+modificaciones, luego guardar y salir. Otra forma de ralentizar al borg es
+usar la siguiente variable. La fórmula es:
+factor_de_retardo_juego_base^2 + borg_delay_factor^2.
 
 borg_delay_factor = 0
 
 
-### Money Scumming ###
+### Acumulación de Dinero ###
 
-# This started as more of a joke but it does have a useful purpose. If you 
-# find yourself shopping in the BM and you really want that item and its just 
-# out of your price range, then you can set a dollar amount into this variable 
-# and the borg will run around town killing monsters and collecting items for 
-# cash. Once he has reached his monetary goal, it will unhook and stop moving. 
-# The borg will wait on the level, to build up more townspeople, kill them, 
-# buy food when it needs to. But it won't leave the level until the goal
-# is reached. To disengage the money scum, leave this variable at 0 (zero).
-# This will also simulate the borg_worships_gold and allow the borg to sell 
-# non-ID'd items which will be dropped in town. The borg will flee from town 
-# from Scary Guys. So keep this in mind with borgs under clevel 6. The borg 
-# will not scum unless he has a perma light source (phial, or some glowing 
-# artifact). The borg will stop if the General Store runs out of food to buy.
-# It is not recommended for borgs with Regeneration and no Slow 
-# Digestion, since they will spend all their money on food. But if you have a
-# borg with Satisfy Hunger spell, they can stay in town forever.
-# NOTE: if a human wants the borg to scum to a particular amount, turn the 
-# borg_self_scum to FALSE or else he will buy his own gear with that money.
+# Esto comenzó más como una broma, pero tiene un propósito útil. Si te
+# encuentras comprando en el BM y realmente quieres ese objeto y está justo
+# fuera de tu presupuesto, entonces puedes establecer una cantidad de dinero en esta variable
+# y el borg correrá por la ciudad matando monstruos y recolectando objetos para
+# obtener efectivo. Una vez que haya alcanzado su objetivo monetario, se desconectará y dejará de moverse.
+# El borg esperará en el nivel, para que aparezcan más habitantes, los matará,
+# comprará comida cuando sea necesario. Pero no abandonará el nivel hasta que se alcance el objetivo.
+# Para desactivar la acumulación de dinero, deja esta variable en 0 (cero).
+# Esto también simulará borg_worships_gold y permitirá al borg vender
+# objetos no identificados que serán dejados en la ciudad. El borg huirá de la ciudad
+# de los Tipos Espeluznantes. Así que ten esto en cuenta con borgs por debajo del nivel 6. El borg
+# no acumulará a menos que tenga una fuente de luz permanente (frasco, o algún
+# artefacto brillante). El borg se detendrá si la Tienda General se queda sin comida para comprar.
+# No se recomienda para borgs con Regeneración y sin Digestión
+# Lenta, ya que gastarán todo su dinero en comida. Pero si tienes un
+# borg con el hechizo Saciar el Hambre, pueden quedarse en la ciudad para siempre.
+# NOTA: si un humano quiere que el borg acumule hasta una cantidad particular, pon
+# borg_self_scum a FALSE o de lo contrario comprará su propio equipo con ese dinero.
 
 borg_money_scum_amount = 0
 
 
-### Borg Scumming ###
+### Acumulación del Borg ###
 
-# This is a companion to the Money Scum above. The borg will scum town if
-# a stat potion is in the BM. If the borg finds an item in town that he would
-# really like to have, then he will stay in town until he has gathered enough
-# money to buy it. The borg will behave like the borg_money_scum_amount above.
-# If this is TRUE, then the borg is allowed to scum for items that he wants.
-# To forbid this behavior (which can take a very long time) set it FALSE.
-# NOTE: if a human wants the borg to scum to a particular amount, turn the 
-# borg_self_scum to FALSE or else he will buy his own gear with that money.
-# Also, the borg must be at least clevel 10, with a perma light, 
-# a 65% chance to avoid the pick pocket, and lots of food.
+# Esto es un complemento de la Acumulación de Dinero de arriba. El borg acumulará en la ciudad si
+# hay una poción de estadística en el BM. Si el borg encuentra un objeto en la ciudad que realmente
+# le gustaría tener, entonces permanecerá en la ciudad hasta que haya reunido suficiente
+# dinero para comprarlo. El borg se comportará como el borg_money_scum_amount de arriba.
+# Si esto es TRUE, entonces se le permite al borg acumular para objetos que desea.
+# Para prohibir este comportamiento (que puede llevar mucho tiempo) ponlo FALSE.
+# NOTA: si un humano quiere que el borg acumule hasta una cantidad particular, pon
+# borg_self_scum a FALSE o de lo contrario comprará su propio equipo con ese dinero.
+# Además, el borg debe tener al menos nivel 10, con luz permanente,
+# un 65% de probabilidad de evitar el carterista, y mucha comida.
 
 borg_self_scum = TRUE
 
 
-### Lunal Borg ###
+### Modo Lunal Borg ###
 
-# The borg will dive deep in the dungeon, even while he is still
-# low level, bouncing between levels to take nearby down stairs.
-# Once deep, he will gather items, then recall to town. He will not recall
-# back down into the dungeon, but walk all the way down again. If you want
-# a fast win, this is not the option for you. If you want the borg to have
-# maxed stats early on at the expense of game turns, then give this a try.
-# The best way to use this is to have a borg that can cast Satisfy Hunger.
-# This is a one way trip for the borg and he will be getting hungry.
-# The borg should also have a perma light source (like the phial). Again,
-# one way trip. He won't be stopping to restock his fuel source. However,
-# if he has food or fuel, he will use them when appropriate. Having extra
-# speed will help the borg too. Often he will come down the stairs, and 
-# find himself right next to a monster. Sometimes, that monster can get
-# the first hit on a borg, killing him instantly. Even +3 speed would help
-# to avoid this type of instadeath.
+# El borg descenderá a lo profundo de la mazmorra, incluso mientras aún es de
+# bajo nivel, saltando entre niveles para tomar escaleras descendentes cercanas.
+# Una vez profundo, recolectará objetos y luego recordará volver a la ciudad. No recordará
+# volver a bajar a la mazmorra, sino que caminará todo el camino de regreso. Si quieres
+# una victoria rápida, esta no es la opción para ti. Si quieres que el borg tenga
+# estadísticas maximizadas al principio a costa de turnos de juego, entonces pruébalo.
+# La mejor manera de usar esto es tener un borg que pueda lanzar Saciar el Hambre.
+# Este es un viaje de ida para el borg y tendrá hambre.
+# El borg también debería tener una fuente de luz permanente (como el frasco). De nuevo,
+# viaje de ida. No se detendrá a reabastecer su fuente de combustible. Sin embargo,
+# si tiene comida o combustible, los usará cuando sea apropiado. Tener
+# velocidad extra también ayudará al borg. A menudo bajará las escaleras y se
+# encontrará justo al lado de un monstruo. A veces, ese monstruo puede
+# golpear primero a un borg, matándolo instantáneamente. Incluso +3 de velocidad ayudaría
+# a evitar este tipo de muerte instantánea.
 #
-# Self Lunal Mode will allow the borg to use the stair scumming in order to
-# dive deep in the dungeon for his own goals. For example, if the borg has
-# been down to depth 99, and now has no more potions of healing, he will
-# only be prepared for depth 45. He will remain shallow in the dungeon,
-# from depth 1-10 waiting for the shops to cycle. Then he will attempt to 
-# buy a healing potion from the town shops. If none is available, he will
-# return to the shallow dungeon depths and wait for the shops to cycle. He 
-# will repeat this pattern until he gets a potion of healing. If the borg 
-# is allowed to self-lunal, then it will bounce the stairs down to a depth
-# where it feels comfortable. In the case above, it will do this until
-# about depth 40.
+# El Modo Auto-Lunal permitirá al borg usar la acumulación de escaleras para
+# descender profundo en la mazmorra por sus propios objetivos. Por ejemplo, si el borg ha
+# estado en la profundidad 99, y ahora no tiene más pociones de curación, solo
+# estará preparado para la profundidad 45. Permanecerá en zonas poco profundas de la mazmorra,
+# desde la profundidad 1-10 esperando a que las tiendas roten su inventario. Luego intentará
+# comprar una poción de curación en las tiendas de la ciudad. Si no hay ninguna disponible,
+# regresará a las profundidades poco profundas de la mazmorra y esperará a que las tiendas roten. Él
+# repetirá este patrón hasta que consiga una poción de curación. Si se le permite
+# al borg auto-lunal, entonces saltará las escaleras hacia abajo hasta una profundidad
+# donde se sienta cómodo. En el caso anterior, hará esto hasta
+# aproximadamente la profundidad 40.
 
 borg_lunal_mode = FALSE
 borg_self_lunal = FALSE
 
 
-### Borg Verbose ###
+### Borg Verboso ###
 
-# Verbose is default off. It makes the borg give more reports on his actions
-# and thoughts. He still gives reports when verbose is FALSE, but when TRUE, 
-# he really chats up a storm.
+# Verbose está desactivado por defecto. Hace que el borg dé más informes sobre sus acciones
+# y pensamientos. Todavía da informes cuando verbose es FALSE, pero cuando es TRUE,
+# realmente habla sin parar.
 
 borg_verbose = FALSE
 
 
-### Munchkin Start ###
+### Inicio Munchkin ###
 
-# Munchkin start will have the borg stair-scum at depth 5-6, looking for items
-# which he will then sell in town. He will continue this process until about
-# clevel 6 or 7. The advantage is a sizable boost to his early income and
-# he can find some wands early on to assist with monster killing.
+# El inicio Munchkin hará que el borg acumule escaleras en la profundidad 5-6, buscando objetos
+# que luego venderá en la ciudad. Continuará este proceso hasta aproximadamente
+# el nivel 6 o 7. La ventaja es un aumento considerable en sus ingresos tempranos y
+# puede encontrar algunas varitas temprano para ayudar a matar monstruos.
 
 borg_munchkin_start = FALSE
 borg_munchkin_level = 12
 borg_munchkin_depth = 16
 
 
-### Enchant Limit ###
+### Límite de Encantamiento ###
 
-# The borg knows how to enchant his equipment using scrolls and spells.
-# For ammo, he will stop enchanting about +10 or so. If he has access 
-# to the *enchant* spell, he can go up to +15. But the borg will spend
-# a lot of time casting and resting in order to get his item up to +15.
-# The borg has plenty of time, to waste doing this. If you want a fast
-# win, then choose a lower number like +11.
+# El borg sabe cómo encantar su equipo usando pergaminos y hechizos.
+# Para la munición, dejará de encantar alrededor de +10 más o menos. Si tiene acceso
+# al hechizo de *encantar*, puede llegar hasta +15. Pero el borg pasará
+# mucho tiempo lanzando y descansando para subir su objeto a +15.
+# El borg tiene mucho tiempo para perder haciendo esto. Si quieres una victoria
+# rápida, entonces elige un número más bajo como +11.
 
 borg_enchant_limit = 12
 
-# keep the ignore settings from before the borg was run
+# mantener la configuración de ignorar de antes de que se ejecutara el borg
 
 borg_restore_ignore_settings = false
 
 
-### Dynamic Calculations ###
+### Cálculos Dinámicos ###
 
-# Use the FORMULA SECTION below. If false the borg will
-# use the calcs in the C code. Which is recommended since those are honed
-# more frequently than the dynamic calcs. Most borg users will
-# have more successful borgs by leaving this option as FALSE.
-# note: the dynamic calcs are slower than the internal calcs
+# Usa la SECCIÓN DE FÓRMULA a continuación. Si es falso, el borg
+# usará los cálculos en el código C. Lo cual se recomienda ya que esos se perfeccionan
+# con más frecuencia que los cálculos dinámicos. La mayoría de los usuarios de borg
+# tendrán borgs más exitosos dejando esta opción como FALSE.
+# nota: los cálculos dinámicos son más lentos que los cálculos internos
 
 borg_uses_dynamic_calcs = FALSE
 
 
-[BEGIN FORMULA SECTION]
+[INICIO SECCIÓN DE FÓRMULA]
 
-# There are three sections 
-#	Power   - used to calculate the "power" of the borg
-#	Depth   - used to determine what depth a borg feels prepared for (don't go deeper than)
-#	Restock - used to determine if the borg feels it needs to go shopping
-#				this is a subset of being prepared but is also used on its own.
+# Hay tres secciones
+#	Power   - se usa para calcular el "poder" del borg
+#	Depth   - se usa para determinar a qué profundidad se siente preparado el borg (no ir más profundo que)
+#	Restock - se usa para determinar si el borg siente que necesita ir de compras
+#				esto es un subconjunto de estar preparado, pero también se usa por sí solo.
 #
-# special formula:  
-#	depth( n ) - the depth to check for. if condition true, don't go below this depth.
-#	range(from, to) - loop from until to and add value to power each time
-#	value( type, name ) - returns a value dependent on the types
-#		type list:
-#		ACTIVATION: returns the number of items the borg is wearing that use that activation
-#		TRAIT: value from the borg.trait list. This can be dumped by ^zh
-#		CONFIG: value from the configuration as read from borg.txt
-#		CLASS: true/false (1/0) if the borgs current class matches the name
-#		RANGE: index into the range(from, to) above,  returns -1 if no range is given
-#				also used for depth checks as the depth being checked.
-#		type from object.txt with name matching the name from that file. Count of that object that the borg is carrying or wearing.
-#			ex: value(potion, Cure Critical Wounds) is the number of CCW potions
-#				** worth noting value(trait, amt potion ccw) will be a calculated amount of ccw, which might include other healing
-#				such as spells that cure that amount so may not have the same value as value(potion, Cure Critical Wounds)
-#	reward: calculation of what power increase for each, if you have range, or just for having, if you don't
-#	condition: if calculates to zero you don't get the reward. For ranges, is calculated once before the range is processed
+# fórmula especial:
+#	depth( n ) - la profundidad a comprobar. si la condición es verdadera, no bajar de esta profundidad.
+#	range(desde, hasta) - bucle desde hasta hasta y añadir valor al poder cada vez
+#	value( tipo, nombre ) - devuelve un valor dependiente de los tipos
+#		lista de tipos:
+#		ACTIVATION: devuelve el número de objetos que lleva puestos el borg que usan esa activación
+#		TRAIT: valor de la lista borg.trait. Esto se puede volcar con ^zh
+#		CONFIG: valor de la configuración leída de borg.txt
+#		CLASS: verdadero/falso (1/0) si la clase actual del borg coincide con el nombre
+#		RANGE: índice en el rango(desde, hasta) de arriba, devuelve -1 si no se da ningún rango
+#				también se usa para comprobaciones de profundidad como la profundidad que se está comprobando.
+#		tipo de object.txt con nombre que coincida con el nombre de ese archivo. Conteo de ese objeto que el borg lleva o tiene puesto.
+#			ej: value(potion, Cure Critical Wounds) es el número de pociones de CCW
+#				** vale la pena notar que value(trait, amt potion ccw) será una cantidad calculada de ccw, que podría incluir otra curación
+#				tal como hechizos que curan esa cantidad, por lo que puede no tener el mismo valor que value(potion, Cure Critical Wounds)
+#	reward: cálculo de cuánto aumento de poder por cada uno, si tienes rango, o solo por tenerlo, si no lo tienes
+#	condition: si se calcula como cero, no obtienes la recompensa. Para rangos, se calcula una vez antes de que se procese el rango
 #
-# note on calculations: some order of operations are handled, some are not. When in doubt, parentheses are your friend
+# nota sobre los cálculos: algunas órdenes de operaciones se manejan, otras no. En caso de duda, los paréntesis son tus amigos.
 
-#### future enhancement value_home( type, name) - same as above but in the home, HomePower ... 
+#### mejora futura value_home( type, name) - igual que arriba pero en la casa, HomePower ...
 
-# there are some values still done in the code (approximate values given)
-# 1) getting to zero fail on spell casting gives 30,000. fail rate gives 100 per percent success on best spell
-# 2) Reward the borg for carrying a NON-ID items that have random powers (999999)
-# 3) Penalize armor weight (250 per item that is too heavy)
-# 4) Penalize heavy armor for reducing spell points (~400 per point lost)
-# 5) Reward carrying a shovel if low level (5000)
-# 6) books - 15000/spell you can cast from a book (50000 if it is a dungeon book)
-# 7) encumbrance loses ((weight - max carry/2) / max carry / 10) * 10000
+# hay algunos valores que todavía se hacen en el código (valores aproximados dados)
+# 1) llegar a cero de fallo al lanzar hechizos da 30,000. la tasa de fallo da 100 por porcentaje de éxito en el mejor hechizo
+# 2) Recompensar al borg por llevar objetos NO IDENTIFICADOS que tienen poderes aleatorios (999999)
+# 3) Penalizar el peso de la armadura (250 por objeto que es demasiado pesado)
+# 4) Penalizar la armadura pesada por reducir los puntos de hechizo (~400 por punto perdido)
+# 5) Recompensar llevar una pala si es de bajo nivel (5000)
+# 6) libros - 15000/hechizo que puedes lanzar de un libro (50000 si es un libro de mazmorra)
+# 7) el peso transportado pierde ((peso - carga máxima/2) / carga máxima / 10) * 10000
 
 Power
 [
-# weapon stuff	
-# wielding un-ID'd weapon
+# cosas del arma
+# empuñar un arma no identificada
 	condition((value(trait, depth) < 10) and (value(trait, max clevel) < 15) and !value(trait, wep id)): reward(1000000);
-# "damage" and increased blows per round
+# "daño" y golpes adicionales por ronda
 	reward(value(trait, wep damage dice) * value(trait, wep damage sides) * 20 * (value(trait, blows) + 1));
-# "bonus to hit"
+# "bonus para golpear"
 	reward((value(trait, to hit) + value(trait, wep to hit)) * 100);
-# "bonus to dam"
+# "bonus para daño"
 	reward((value(trait, to damage) + value(trait, wep to damage)) * 30);
-# extra damage? for some
+# daño extra para algunos
 	condition(value(config, worships_damage)): reward((value(trait, to hit) + value(trait, wep to hit)) * 15);
-# extra boost for deep dungeon
+# impulso extra para mazmorra profunda
 	condition(value(trait, max depth) >= 75): reward((value(trait, to hit) + value(trait, wep to hit)) * 15);
 	condition(value(trait, max depth)>= 75): reward(value(trait, wep damage dice) * value(trait, wep damage sides) * 40 * value(trait, blows));
-# assume 2x base damage for x% of creatures
+# asumir 2x daño base para x% de criaturas
 	condition(value(trait, wep slay animal)): reward(value(trait, blows) * 2 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20);
 	condition(value(trait, wep slay evil)): reward((((value(trait, blows) * 2 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20) * 7) / 2));
-# extra damage for some 		
+# daño extra para algunos
 	condition(value(config, worships_damage)): reward(value(trait, blows) * 2 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20);
-# assume 3x base damage for x% of creatures 
+# asumir 3x daño base para x% de criaturas
 	condition(value(trait, wep slay undead) and !value(trait, wep kill undead)): reward((((value(trait, blows) * 3 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20) * 5) / 2));
 	condition(value(trait, wep slay demon) and !value(trait, wep kill demon)): reward((((value(trait, blows) * 3 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20) * 3) / 2));
 	condition(value(trait, wep slay dragon) and !value(trait, wep kill dragon)): reward((((value(trait, blows) * 3 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20) * 6) / 2));
@@ -411,40 +411,40 @@ Power
 	condition(value(trait, wep slay orc) and !value(trait, wep slay evil)): reward((value(trait, blows) * 3 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20) / 2);
 	condition(value(trait, wep slay troll) and !value(trait, wep slay evil)): reward((value(trait, blows) * 3 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20) / 2);
 	condition(value(config, worships_damage)): reward(value(trait, blows) * 3 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20);
-# assume 5x base damage for x% of creatures 
+# asumir 5x daño base para x% de criaturas
 	condition(value(trait, wep kill undead)): reward((((value(trait, blows) * 5 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20) * 5) / 2));
 	condition(value(trait, wep kill demon)): reward((((value(trait, blows) * 5 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20) * 5) / 2));
 	condition(value(trait, wep kill dragon)): reward((((value(trait, blows) * 5 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20) * 5) / 2));
 	condition(value(config, worships_damage)): reward(value(trait, blows) * 5 * value(trait, wep damage dice) * value(trait, wep damage sides) * 20);
-# It used to be only on Grond
+# Solía ser solo en Grond
 	condition(value(trait, wep impact)): reward(50);
-# It is hard to hold a heavy weapon
+# Es difícil sostener un arma pesada
 	condition(value(trait, heavy weapon)): reward(-500000);
-# We want low level borgs to have high blows (dagger, whips)
+# Queremos que los borgs de bajo nivel tengan muchos golpes (daga, látigos)
 	condition(value(trait, clevel) <= 10): reward(value(trait, blows) * 45000);
 
-# bow stuff
-# wearing an unID'D bow but not at high level since bow likely to have traits
+# cosas del arco
+# llevar un arco no identificado pero no en nivel alto ya que es probable que el arco tenga rasgos
 	condition((value(trait, depth) < 10) and (value(trait, max clevel) < 15) and !value(trait, bow id)): reward(6000000);
-# bow damage
+# daño del arco
 	condition(((value(trait, bow to damage) > 8) or (value(trait, clevel) < 25)) and value(config, worships_damage)): reward((value(trait, ammo sides) + value(trait, bow to damage)) * value(trait, ammo power) * value(trait, shots) * 11);
 	condition(((value(trait, bow to damage) > 8) or (value(trait, clevel) < 25)) and !value(config, worships_damage)): reward((value(trait, ammo sides) + value(trait, bow to damage)) * value(trait, ammo power) * value(trait, shots) * 9);
 	condition(((value(trait, bow to damage) <= 8) and (value(trait, clevel) >= 25)) and value(config, worships_damage)): reward((value(trait, ammo sides) + 8) * value(trait, ammo power) * value(trait, shots) * 11);
 	condition(((value(trait, bow to damage) <= 8) and (value(trait, clevel) >= 25)) and !value(config, worships_damage)): reward((value(trait, ammo sides) + 8) * value(trait, ammo power) * value(trait, shots) * 9);
-# extra bonus for low levels, they need a ranged weapon 
+# bonificación extra para niveles bajos, necesitan un arma a distancia
 	condition((value(trait, bow to damage) > 8 or value(trait, clevel) < 25) and value(trait, clevel) < 15): reward((value(trait, ammo sides) + value(trait, bow to damage)) * value(trait, ammo power) * value(trait, shots) * 200);
-# slings force you to carry heavy ammo. Penalty for that unless you have lots of str 
+# las hondas te obligan a llevar munición pesada. Penalización por eso a menos que tengas mucha fuerza
 	condition(value(trait, bow is sling) and !value(trait, bow artifact) and (value(trait, str) < 9)): reward(-5000);
 	condition(value(trait, bow is sling) and (value(trait, clevel) = 1) and (value(trait, str) >= 9)): reward(5000);
-# "bonus to hit"
+# "bonus para golpear"
 	reward((value(trait, bow to hit) + value(trait, to hit)) * 100);
-# extra damage for some 
+# daño extra para algunos
 	condition(value(config, worships_damage)): reward((value(trait, bow to hit) + value(trait, to hit)) * 25);
-# this is just rangers !FIX note ugly tval hardcode 
+# esto es solo para montaraces !NOTA código duro de tval feo
 	condition(value(trait, fast shots) and (value(trait, ammo tval) = 3)): reward(30000);
 	condition(value(trait, heavy bow)): reward(-500000);
 
-#light radius
+#radio de luz
 	condition(value(class, necromancer)): reward(value(trait, light) * 10000);
 	condition(value(trait, light) <= 3 and !value(class, necromancer)): reward(value(trait, light) * 10000);
 	condition(value(trait, light) > 3 and ! value(class, necromancer)): reward(value(trait, light) * 1000 + 30000);
@@ -452,7 +452,7 @@ Power
 	reward(value(trait, extra moves) * 3000);
 	reward(value(trait, damage reduction) * 10000);
 
-#speed
+#velocidad
 	condition(value(config, worships_speed) and value(trait, speed) >= 150): reward(((value(trait, speed) - 120) * 1500) + 185000);
 	condition(value(config, worships_speed) and value(trait, speed) >= 145 and value(trait, speed) <= 149): reward(((value(trait, speed) - 120) * 1500) + 180000);
 	condition(value(config, worships_speed) and value(trait, speed) >= 135 and value(trait, speed) <= 144): reward(((value(trait, speed) - 120) * 1500) + 175000);
@@ -472,7 +472,7 @@ Power
 
 	condition(value(trait, speed) < 110): reward((value(trait, speed) - 110) * 2500);
 
-# strength bonus
+# bonificación de fuerza
 	reward(value(trait, str index) * 100);
 
 	condition((value(class, priest) or value(class, druid) or value(class, ranger) or value(class, paladin))): reward(value(trait, wis index) * 500);
@@ -483,9 +483,9 @@ Power
 	condition((value(class, mage) or value(class, necromancer) or value(class, blackguard) or value(class, rogue)) and value(config, worships_mana)): reward((value(trait, sp adj) / 2) * 255);
 	condition((value(class, mage) or value(class, necromancer) or value(class, blackguard) or value(class, rogue)) and !value(config, worships_mana)): reward((value(trait, sp adj) / 2) * 155);
 
-# dex bonus
+# bonificación de destreza
 	condition(value(trait, dex index) <= 37): reward(value(trait, dex index) * 120);
-# con bonus
+# bonificación de constitución
 	condition(value(config, worships_hp) and (value(trait, con index) <= 37)): reward(value(trait, con index) * 250);
 	condition(value(config, worships_hp) and (value(trait, con index) <= 37) and value(trait, hp adj) < 800): reward(value(trait, hp adj) * 450);
 	condition(value(config, worships_hp) and (value(trait, con index) <= 37) and value(trait, hp adj) >= 800): reward(((value(trait, hp adj) - 800) * 100) + 175000);
@@ -493,19 +493,19 @@ Power
 	condition(!value(config, worships_hp) and (value(trait, con index) <= 37) and value(trait, hp adj) < 500): reward(value(trait, hp adj) * 350);
 	condition(!value(config, worships_hp) and (value(trait, con index) <= 37) and value(trait, hp adj) >= 500): reward(((value(trait, hp adj) - 500) * 100) + 175000);
 
-# adjust to stat
+# ajuste a estadística
 	reward(value(trait, str adj));
 	reward(value(trait, int adj));
 	reward(value(trait, wis adj));
 	reward(value(trait, dex adj));
 	reward(value(trait, con adj));
 
-# some extra attributes
+# algunos atributos extra
 	reward(value(trait, disarm ph) * 2);
 	reward(value(trait, disarm mag) * 2);
 	reward(value(trait, use device) * 25);
 	reward(value(trait, save) * 25);
-#  perfect save worth extra
+# la salvación perfecta vale extra
 	condition(value(trait, save) > 99): reward(10000);
 	reward(value(trait, stealth) * 2);
 	reward(value(trait, search));
@@ -532,18 +532,18 @@ Power
 	condition(value(trait, regen)): reward(2000);
 	condition(value(trait, esp)): reward(80000);
 
-# Immunity flags
+# Banderas de Inmunidad
 	condition(value(trait, immune cold)): reward(65000);
 	condition(value(trait, immune elec)): reward(40000);
 	condition(value(trait, immune fire)): reward(80000);
 	condition(value(trait, immune acid)): reward(50000);
 
-# Resistance flags
+# Banderas de Resistencia
 	condition(value(trait, resist cold)): reward(3000);
 	condition(value(trait, resist elec)): reward(4000);
 	condition(value(trait, resist acid)): reward(6000);
 	condition(value(trait, resist fire)): reward(8000);
-# extra bonus for getting all basic resist
+# bonificación extra por conseguir todas las resistencias básicas
 	condition(value(trait, resist cold) and value(trait, resist elec) and value(trait, resist fire) and value(trait, resist acid)): reward(10000);
 	condition(value(trait, resist poison)): reward(20000);
 	condition(value(trait, resist sound)): reward(3500);
@@ -559,7 +559,7 @@ Power
 	condition(value(trait, resist nether)): reward(5500);
 	condition(value(trait, resist fear)): reward(2000);
 
-# Sustain flags
+# Banderas de Sostenimiento
 	condition(value(trait, sust str)): reward(50);
 	condition(value(trait, sust int)): reward(50);
 	condition(value(trait, sust wis)): reward(50);
@@ -567,7 +567,7 @@ Power
 	condition(value(trait, sust dex)): reward(50);
 	condition(value(trait, sust str) and value(trait, sust int) and value(trait, sust wis) and value(trait, sust con) and value(trait, sust dex)): reward(1000);
 
-# "necessary" flags
+# banderas "necesarias"
 	condition((value(trait, see inv) or value(trait, esp)) and (value(trait, max depth) >= 9)): reward(100000);
 	condition(value(trait, free action) and (value(trait, max depth) >= 19)): reward(100000);
 	condition(value(trait, resist fire) and (value(trait, max depth) >= 24)): reward(100000);
@@ -599,7 +599,7 @@ Power
 	condition(!value(config, worships_ac) and (value(trait, armor) >= 15) and (value(trait, armor) < 75)): reward((value(trait, armor) * 500) + 28350);
 	condition(!value(config, worships_ac) and (value(trait, armor) >= 75)): reward((value(trait, armor) * 100) + 73750);
 
-# Penalize various flags
+# Penalizar varias banderas
 	condition(value(trait, aggravate)): reward(-800000);
 	condition(value(trait, impair hp)): reward(-35000);
 	condition(!value(class, warrior) and value(trait, impair hp)): reward(-15000);
@@ -628,13 +628,13 @@ Power
 	condition(value(trait, air swing)): reward(-10000);
 	condition(value(trait, unknown curse)): reward(-9999999);
 
-# something with multiple useful bonuses
+# algo con múltiples bonificaciones útiles
 	reward(value(trait, multi bonus) * 3000);
 
-# wearing something that needs an ID
+# llevar algo que necesita identificación
 	reward(value(trait, worn need id) * 10000);
 
-# activations. 
+# activaciones.
 	condition(value(activation, illumination)): reward(500 * value(activation, illumination));
 	condition(value(activation, mapping)): reward(550 * value(activation, mapping));
 	condition(value(activation, clairvoyance)): reward(600 * value(activation, clairvoyance));
@@ -673,7 +673,7 @@ Power
 	condition(value(activation, missile)): reward(507 * value(activation, missile));
 	condition(value(activation, cure_temp)): reward(500 * value(activation, cure_temp));
 	condition(value(activation, starlight2)): reward(145 * value(activation, starlight2));
-# one ring
+# el anillo único
 	condition(value(activation, bizarre)): reward(999999 * value(activation, bizarre));
 	condition(value(activation, star_ball)): reward(800 * value(activation, star_ball));
 	condition(value(activation, rage_bless_resist)): reward(650 * value(activation, rage_bless_resist));
@@ -759,82 +759,82 @@ Power
 ########################
 
 
-# inventory 
-# fuel
+# inventario
+# combustible
 	value(trait, fuel): range(1, 6): reward(60000);
 	value(trait, fuel): range(7, 10): condition(value(trait, str) >= 15): reward(6000 - (value(range, n) *100));
-# food
+# comida
 	condition(value(trait, food) and (value(trait, is hungry) or value(trait, is weak))): reward(100000);
 	value(trait, food): range(1, 7): reward(50000);
 	value(trait, food): range(8, 10): condition(value(trait, str) >= 15): reward(200);
 	value(trait, food): range(1, 15): condition(value(trait, regen) and value(trait, CLEVEL) <= 15): reward(700);
-# Prefer to buy HiCalorie foods over LowCalorie
+# Prefiere comprar alimentos Altos en Calorías sobre los Bajos en Calorías
 	value(trait, food high): range(1, 7): reward(52);
 	value(trait, food low): range(1, 15): reward(-2);
 
-# Cure Poison and Cuts
+# Curar Veneno y Cortes
 	condition(value(trait, amt potion ccw) and (value(trait, is cut) or value(trait, is poisoned))): reward(100000);
 	condition(value(trait, amt heal) and (value(trait, is cut) or value(trait, is poisoned))): reward(50000);
 	value(trait, amt potion csw): range(1, 5): condition(value(trait, is cut) or value(trait, is poisoned)): reward(25000);
 
 	condition(value(trait, is poisoned) and value(trait, amt cure poison)): reward(15000);
 
-# collect Resistance pots if not immune
+# Recolectar pociones de Resistencia si no es inmune
 	value(trait, amt resist poison): range(1, 4): condition(!value(trait, immune poison) and value(trait, amt cure poison) < 20 and (!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level))): reward(300);
 
-# Resistance Potions for Warriors
+# Pociones de Resistencia para Guerreros
 	value(trait, amt resist heat): range(1, 4): condition((value(class, warrior) and !value(trait, immune fire) and value(trait, max depth) > 20) and (!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level))): reward(500);
 	value(trait, amt resist cold): range(1, 4): condition((value(class, warrior) and !value(trait, immune cold) and value(trait, max depth) > 20) and (!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level))): reward(500);
 	value(trait, amt resist poison): range(1, 4): condition((value(class, warrior) and !value(trait, immune poison) and value(trait, max depth) > 20) and (!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level))): reward(500);
 
-# ident
+# identificación
 	value(trait, amt id): range(1, 5): condition(value(trait, clevel) >= 10): reward(6000);
 	value(trait, amt id): range(6, 15): condition(value(trait, clevel) >= 10): reward(600);
 
-# ID if I am carrying a {magical} or {excellent} item
+# ID si estoy llevando un objeto {mágico} o {excelente}
 	value(trait, amt need id): range(1, 20): condition(value(trait, amt need id) and value(trait, amt need id) <= value(trait, amt id)): reward(6000);
 	value(trait, amt id): range(1, 20): condition(value(trait, amt need id) and value(trait, amt need id) > value(trait, amt id)): reward(6000);
 
-# PFE carry lots of these
+# PFE llevar muchas de estas
 	value(trait, amt prot evil): range(1, 10): condition(!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level)): reward(10000);
 	value(trait, amt prot evil): range(11, 25): condition(!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level)): reward(2000);
 
-# Glyph- Rune of Protection-  carry lots of these
+# Glifo- Runa de Protección- llevar muchas de estas
 	value(trait, amt glyph): range(1, 10): reward(10000);
 	value(trait, amt glyph): range(11, 25): reward(2000);
 	value(trait, amt glyph): range(1, 10): condition(value(trait, max depth) >= 100): reward(10000);
 	value(trait, amt glyph): range(11, 75): condition(value(trait, max depth) >= 100): reward(2000);
 
-# Scroll of Mass Genocide, only when fighting Morgoth
+# Pergamino de Genocidio Masivo, solo cuando se lucha contra Morgoth
 	value(trait, mass banishment): range(1, 99): condition(value(trait, max depth) >= 100): reward(2500);
 
-# recall
+# recuerdo
 	value(trait, recall): range(1, 3): condition(value(trait, clevel) > 7 and (!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level))): reward(50000);
 	value(trait, recall): range(4, 7): condition(value(trait, clevel) > 7 and value(trait, str) >= 15 and (!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level))): reward(5000);
 
-# Deep borgs need the rod to avoid low mana traps
+# Los borgs profundos necesitan la vara para evitar trampas de maná bajo
 	condition(value(trait, max depth) >= 50 and value(rod, recall)): reward(12000);
 
-# phase
+# fase
 	condition(value(trait, amt phase)): reward(50000);
 	value(trait, amt phase): range(2, 8): condition(!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level)): reward(500);
 	value(trait, amt phase): range(9, 15): condition(value(trait, str) >= 15 and (!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level))): reward(500);
 
-# escape (staff of teleport or artifact)
+# escape (bastón de teletransporte o artefacto)
 	value(trait, amt escape): range(1, 2): condition(!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level)): reward(10000);
 	value(trait, amt escape): range(1, 3): condition(value(trait, max depth) > 70 and (!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level))): reward(10000);
 
-# teleport scrolls
+# pergaminos de teletransporte
 	condition(value(trait, amt teleport) and value(trait, clevel) >= 3): reward(10000);
 	value(trait, amt teleport): range(1, 3): condition(value(trait, clevel) >= 7): reward(10000);
 	value(trait, amt teleport): range(4, 10): condition(value(trait, clevel) >= 30): reward(10000);
 
-# Teleport Level scrolls 
+# Pergaminos de Teletransporte de Nivel
 	value(trait, amt teleport level): range(1, 5): condition(value(trait, clevel) >= 15): reward(5000);
 
-# Healing 
+# Curación
 	value(trait, amt heal): range(1, 15): condition(value(class, warrior) or value(class, rogue) or value(class, blackguard)): reward(8000);
-# These guys need to carry the rods more, town runs low on supply.
+# Estos tipos necesitan llevar las varas más, las ciudades se quedan sin suministro.
 	value(rod, healing): range(1, 6): condition(value(class, warrior) or value(class, rogue) or value(class, blackguard)): reward(20000);
 
 	value(trait, amt heal): range(1, 10): condition(value(class, ranger) or value(class, paladin) or value(class, necromancer) or value(class, mage)): reward(4000);
@@ -842,68 +842,68 @@ Power
 	value(potion, healing): range(1, 3): condition(value(class, paladin)): reward(5000);
 	value(rod, healing): range(1, 4): condition(value(class, ranger) or value(class, paladin) or value(class, necromancer) or value(class, mage)): reward(20000);
 
-# Level 1 priests are given a Potion of Healing. It is better for them to sell that potion and buy equipment or several Cure Crits with it.
+# A los sacerdotes de nivel 1 se les da una Poción de Curación. Es mejor para ellos vender esa poción y comprar equipo o varias Curas Críticas con ella.
 	value(potion, healing): range(1, 10): condition((value(class, druid) or value(class, priest)) and value(trait, clevel) = 1): reward(-2000);
 	value(potion, healing): range(1, 5): condition(value(class, druid) or value(class, priest)): reward(2000);
 
 	value(trait, amt ezheal): range(1, 2): condition(value(trait, max depth) >= 46 and !value(trait, prep big fight)): reward(10000);
 	value(trait, amt ezheal): range(1, 1): condition(value(trait, max depth) >= 46 and value(trait, prep big fight)): reward(10000);
 
-# Collecting Potions, prepping for Morgoth/Sauron fight
+# Recolectando Pociones, preparándose para la lucha contra Morgoth/Sauron
 	value(potion, healing): range(1, 99): condition(value(trait, max depth) >= 99 and !value(trait, prep big fight)): reward(8000);
 	value(trait, amt ezheal): range(1, 99): condition(value(trait, max depth) >= 99 and !value(trait, prep big fight)): reward(10000);
 	value(trait, amt speed): range(1, 99): condition(value(trait, max depth) >= 99 and !value(trait, prep big fight)): reward(8000);
 	value(trait, amt life): range(1, 99): condition(value(trait, max depth) >= 99 and !value(trait, prep big fight)): reward(10000);
 	value(potion, restore mana): range(1, 99): condition(value(trait, max depth) >= 99  and !value(trait, prep big fight) and !value(class, warrior)): reward(5000);
 	value(mushroom, stoneskin): range(1, 40): condition(value(trait, max depth) >= 99 and !value(trait, prep big fight)): reward(5000);
-# Scroll of Mass Genocide, only when fighting Morgoth
+# Pergamino de Genocidio Masivo, solo cuando se lucha contra Morgoth
 	value(trait, mass banishment): range(1, 40): condition(value(trait, max depth) >= 99 and value(trait, sauron dead) and !value(trait, prep big fight)): reward(2500);
 
-# Restore Mana
+# Restaurar Maná
 	value(potion, restore mana): range(1, 10): condition(value(trait, max sp) > 100): reward(4000);
 	value(trait, amt staff magi): range(1, 100): condition(value(trait, max sp) > 100): reward(4000);
 
-# Cure Critical
+# Curar Crítico
 	value(trait, amt potion ccw): range(1, 10): condition(value(trait, clevel) < 35 and value(trait, clevel) > 10): reward(5000);
 	value(trait, amt potion ccw): range(1, 10): condition(value(trait, clevel) >= 35): reward(5000);
 	value(trait, amt potion ccw): range(11, 15): condition(value(trait, clevel) >= 35 and value(trait, str) > 15): reward(500);
 
-# Cure serious
+# Curar Grave
 	value(trait, amt potion csw): range(1, 7): condition(value(trait, clevel) < 35 and value(trait, clevel) > 10 and value(trait, amt potion ccw) < 5 and !value(trait, resist conf)): reward(50);
 	value(trait, amt potion csw): range(8, 10): condition(value(trait, clevel) < 35 and value(trait, clevel) > 10 and value(trait, amt potion ccw) < 5 and !value(trait, resist conf) and value(trait, str) > 15): reward(5);
 
-# Cure light 
+# Curar Leve
 	value(trait, amt potion clw): range(1, 5): condition((value(trait, amt potion ccw) + value(trait, amt potion csw)) < 5 and value(trait, clevel) < 10): reward(550);
 
-# Cures
+# Curas
 	value(trait, food cure conf): range(1, 10): condition(!value(trait, resist conf) and (!value(config, munchkin_start) or value(trait, max clevel) >= 10)): reward(400);
 	value(trait, food cure blind): range(1, 10): condition(!value(trait, resist blind) and (!value(config, munchkin_start) or value(trait, max clevel) >= 10)): reward(300);
 	value(trait, amt cure poison): range(1, 5): condition(!value(trait, resist poison) and (!value(config, munchkin_start) or value(trait, max clevel) >= 10)): reward(250);
 
-# detect
+# detectar
 	value(trait, amt detect traps): range(1, 1): reward(4000);
 	value(trait, amt detect door): range(1, 1): reward(2000);
 
-# detect evil 
+# detectar maldad
 	value(trait, amt detect evil): range(1, 1): condition(!value(trait, esp)): reward(1000);
 
-# magic map
+# mapa mágico
 	value(trait, amt magic map): range(1, 1): reward(4000);
 
-# call lite
+# llamar luz
 	value(trait, amt call lite): condition(!value(class, necromancer)): range(1, 1): reward(1000);
 
-# genocide
+# genocidio
 	value(scroll, mass banishment): range(1, 10): condition(value(trait, max depth) >= 100): reward(10000);
 	value(scroll, mass banishment): range(11, 25): condition(value(trait, max depth) >= 100): reward(2000);
 
-# speed potions/rods/staves
+# pociones/varas/bastones de velocidad
 	value(trait, amt speed): range(1, 20): condition(!value(config, munchkin_start) or value(trait, max clevel) >= value(config, munchkin_level)): reward(5000);
 
-# Recharge ability
+# Habilidad de Recargar
 	condition(value(trait, amt recharge) and value(trait, max depth) < 99): reward(5000);
 
-# missles
+# proyectiles
 	value(trait, amt missiles): range(1, 40): condition(value(class, warrior) or value(class, ranger)): reward(100);
 	value(trait, amt missiles): range(41, 80): condition((value(class, warrior) or value(class, ranger)) and value(trait, str) > 15 and value(trait, str) <= 18): reward(10);
 	value(trait, amt missiles): range(81, 180): condition((value(class, warrior) or value(class, ranger)) and value(trait, str) > 18): reward(8);
@@ -914,41 +914,41 @@ Power
 	condition((!value(class, warrior) and !value(class, ranger)) and value(trait, str) <= 15 and value(trait, amt missiles) > 20): reward(-1000);
 	value(trait, quiver slots): range(3, 10): condition(!value(class, warrior) and !value(class, ranger)): reward(-10000);
 
-#  cursed arrows are "bad"
+# las flechas malditas son "malas"
 	reward(value(trait, amt cursed missiles) * -1000);
 
-# ego arrows are worth a bonus
+# las flechas de ego valen una bonificación
 	reward(value(trait, amt ego missiles) * 100);
 
-# carrying a staff of destruction
+# llevar un bastón de destrucción
 	condition(value(trait, amt staff destruction)): reward(5000);
 	value(trait, amt staff destruction): range(1, 9): reward(200);
 
-# carrying a wand of Teleport Other
+# llevar una varita de Teletransportar a Otro
 	condition(value(trait, amt teleport other)): reward(5000);
-# greater reward for Warrior
+# mayor recompensa para Guerrero
 	condition(value(trait, amt teleport other) and value(class, warrior)): reward(50000);
 	value(trait, amt teleport other): range(1, 15): reward(5000);
 
-# carrying an attack wand
+# llevar una varita de ataque
 	condition((value(wand, magic missile) or value(wand, stinking cloud)) and (value(trait, max depth) < 30)): reward(5000);
 	condition(value(wand, annihilation) and (value(trait, max depth) < 30)): reward(5000);
-# Much greater reward for Warrior or lower level
+# Mucho mayor recompensa para Guerrero o nivel inferior
 	condition((value(wand, annihilation) or value(wand, magic missile) or value(wand, stinking cloud)) and ((value(trait, clevel) <= 20) or value(class, warrior))): reward(10000);
 	reward(value(trait, amt good wand chg) * 50);
 
-# These staves are great but do not clutter inven with them
-#  -- Reward carrying a staff of holiness/power
+# Estos bastones son geniales pero no satures el inventario con ellos
+#  -- Recompensar llevar un bastón de santidad/poder
 	condition(value(trait, amt good staff chg)): reward(2500);
 	value(trait, amt good staff chg): range(1, 3): reward(500);
 
-# Rods of attacking are good too
-#   bolt rods 
+# Las varas de ataque también son buenas
+#   varas de rayo
 	value(trait, amt attack rods1): range(1, 6): reward(8000);
-#   ball rods & drain life
+#   varas de bola y drenar vida
 	value(trait, amt attack rods2): range(1, 6): reward(12000);
 
-# Reward being at max stat
+# Recompensar por estar en estadística máxima
 	condition(value(trait, cur str) >= 118): reward(50000);
 	condition(value(trait, cur int) >= 118): reward(20000);
 	condition(value(trait, cur wis) >= 118): reward(20000);
@@ -958,7 +958,7 @@ Power
 	condition(value(trait, cur int) >= 118 and (value(class, mage) or value(class, necromancer) or value(class, blackguard) or value(class, rogue))): reward(50000);
 	condition(value(trait, cur wis) >= 118 and (value(class, priest) or value(class, druid) or value(class, ranger) or value(class, paladin))): reward(50000);
 
-# Reward stat potions
+# Recompensar pociones de estadística
 	condition((value(potion, strength) + value(potion, augmentation)) and value(trait, cur str) < 118): reward(550000);
 	condition((value(potion, intelligence) + value(potion, augmentation)) and value(trait, cur int) < 118): reward(520000);
 	condition((value(potion, intelligence) + value(potion, augmentation)) and value(trait, cur int) < 118 and (value(class, mage) or value(class, necromancer) or value(class, blackguard) or value(class, rogue))): reward(575000);
@@ -967,23 +967,23 @@ Power
 	condition((value(potion, dexterity) + value(potion, augmentation)) and value(trait, cur dex) < 118): reward(550000);
 	condition((value(potion, constitution) + value(potion, augmentation)) and value(trait, cur con) < 118): reward(550000);
 
-# Remove Curse 
+# Eliminar Maldición
 	condition(value(trait, first cursed) and value(scroll, *remove curse*)): reward(90000);
 	condition(value(trait, first cursed) and value(scroll, remove curse)): reward(90000);
 
-# Restore experience
+# Restaurar experiencia
 	condition(value(trait, has fixexp) ): reward(50000);
 
-# Enchantment
+# Encantamiento
 	condition((value(trait, amt ench to armor) < 1000) and value(trait, need ench to armor)): reward(540);
 	condition((value(trait, amt ench to hit) < 1000) and value(trait, need ench to hit)): reward(540);
 	condition((value(trait, amt ench to dam) < 1000) and value(trait, need ench to dam)): reward(500);
 	condition(value(trait, amt *ench to wep*)): reward(5000);
 	condition(value(trait, amt *ench to armor*)): reward(5000);
 
-#   empty slots (2 to 6) 
+#   espacios vacíos (2 a 6)
 	value(trait, empty slots): range(2, 6): reward(40);
-#   empty slots: first one counts extra 
+#   espacios vacíos: el primero cuenta extra
 	value(trait, empty slots): reward(4000);
 ]
 
@@ -992,8 +992,8 @@ Depth Requirement
 	depth(1): condition(value(trait, fuel) < 5 and !value(trait, light));
 	depth(1): condition(value(trait, food) < 5);
 
-# go no deeper than your char level
-# special hack using "range" as "depth being checked"
+# no ir más profundo que tu nivel de personaje
+# truco especial usando "range" como "profundidad que se está comprobando"
 	depth(2): condition(value(trait, max clevel) < value(range, n) and value(trait, max clevel) < 50);
 	depth(2): condition(value(range, n) >= value(config, no_deeper));
 
@@ -1025,7 +1025,7 @@ Depth Requirement
 
 	depth(5): condition(value(trait, recall) < 1);
 
-# skipping these because they seem redundant given the "go no deeper than your char level" check earlier
+# saltando estos porque parecen redundantes dado el control de "no ir más profundo que tu nivel de personaje" anterior
 #	depth(10): condition((value(class, warrior) or value(class, blackguard)) and value(trait, max clevel) < (value(range, n) - 4) and value(range, n) <= 19 and !value(config, plays_risky));
 #	depth(10): condition(value(class, rogue) and value(trait, max clevel) < value(range, n) and value(range, n) <= 19 and !value(config, plays_risky));
 #	depth(10): condition((value(class, priest) or value(class, druid)) and value(trait, max clevel) < value(range, n) and value(range, n) <= 19 and !value(config, plays_risky));
@@ -1046,7 +1046,7 @@ Depth Requirement
 	depth(21): condition(value(trait, cur dex) < 7);
 	depth(21): condition(value(trait, cur con) < 7);
 
-# skipping these because they seem redundant given the "go no deeper than your char level" check earlier
+# saltando estos porque parecen redundantes dado el control de "no ir más profundo que tu nivel de personaje" anterior
 #	depth(21): condition((value(class, warrior) or value(class, blackguard)) and value(trait, max clevel) < (value(range, n) - 5) and value(trait, max clevel) <= 38 and !value(config, plays_risky));
 #	depth(21): condition(value(class, rogue) and value(trait, max clevel) < value(range, n) + 10 and value(trait, max clevel) <= 46 and !value(config, plays_risky));
 #	depth(21): condition((value(class, priest) or value(class, druid)) and value(trait, max clevel) < value(range, n) + 13 and value(trait, max clevel) <= 46 and !value(config, plays_risky));
@@ -1061,7 +1061,7 @@ Depth Requirement
 	depth(26): condition((value(trait,  amt teleport) + value(trait,  amt escape)) < 6);
 	depth(26): condition(value(trait, max clevel) < 30 and (value(trait,  amt potion csw) + value(trait,  amt potion ccw)) < 10);
 
-# skipping again redundant given the "go no deeper than your char level" check earlier
+# saltando de nuevo, redundante dado el control de "no ir más profundo que tu nivel de personaje" anterior
 #	depth(34): condition(value(trait, max clevel) < 40 and !value(config, plays_risky));
 
 	depth(40): condition(!value(trait, resist poison with swap));
@@ -1093,7 +1093,7 @@ Depth Requirement
 
 	depth(81): condition(value(trait, speed) < 130);
 
-# going after morgoth
+# yendo tras morgoth
 	depth(100): condition(!value(trait, king) and (value(potion, restore mana) < 15));
 	depth(100): condition(!value(trait, king) and (value(potion, healing) < 5));
 	depth(100): condition(!value(trait, king) and (value(potion, *healing*) + value(potion, life)) < 15);
@@ -1122,7 +1122,7 @@ Restock Requirement
 
 	depth(65): condition((value(trait,  amt heal) + value(trait,  amt ezheal) + value(rod,  healing)) < 1);
 
-# !FIX there is a "borg_t - borg_began < 10" but 10 steps is hardly anything so ... ignoring for now
+# !FIX hay un "borg_t - borg_began < 10" pero 10 pasos es casi nada, así que... ignorando por ahora
 	depth(100): condition(value(trait,  amt ezheal) + (value(trait,  amt life)) < 15);
 ]
 
