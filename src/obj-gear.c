@@ -1051,7 +1051,7 @@ void inven_takeoff(struct object *obj)
 	else if (slot_type_is(player, slot, EQUIP_LIGHT))
 		act = "Estabas sosteniendo";
 	else
-		act = "Llevabas puesto";
+		act = "Te desequipaste";
 
 	/* Des-equipar el objeto */
 	player->body.slots[slot].obj = NULL;

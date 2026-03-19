@@ -345,7 +345,7 @@ void do_cmd_wield(struct command *cmd)
 		act = "Estabas sujetando";
 	/* Se quitó otra cosa */
 	else
-		act = "Llevabas puesto";
+		act = "Te desequipaste";
 
 	inven_wield(obj, slot);
 
