@@ -1147,7 +1147,7 @@ void print_custom_message(const struct object *obj, const char *string,
 					end += object_desc(buf, 1024, obj,
 						ODESC_PREFIX | ODESC_BASE, p);
 				} else {
-					strnfcat(buf, 1024, &end, "manos");
+					strnfcat(buf, 1024, &end, "hands"); // Todo revisar como aplicar Fix traduc
 				}
 				break;
 			case MSG_TAG_KIND:
@@ -1155,19 +1155,19 @@ void print_custom_message(const struct object *obj, const char *string,
 					object_kind_name(&buf[end], 1024 - end, obj->kind, true);
 					end += strlen(&buf[end]);
 				} else {
-					strnfcat(buf, 1024, &end, "manos");
+					strnfcat(buf, 1024, &end, "hands"); // Todo revisar como aplicar Fix traduc
 				}
 				break;
 			case MSG_TAG_VERB:
 				if (obj && obj->number == 1) {
-					strnfcat(buf, 1024, &end, "");
+					strnfcat(buf, 1024, &end, "s");
 				}
 				break;
 			case MSG_TAG_VERB_IS:
 				if ((!obj) || (obj->number > 1)) {
-					strnfcat(buf, 1024, &end, "están");
+					strnfcat(buf, 1024, &end, "are"); // Todo revisar como aplicar Fix traduc
 				} else {
-					strnfcat(buf, 1024, &end, "está");
+					strnfcat(buf, 1024, &end, "is"); // Todo revisar como aplicar Fix traduc
 				}
 			default:
 				break;
