@@ -30,7 +30,7 @@ autoexplore_commands está activada.
   n    Repetir comando anterior         N    -
   o    Abrir puerta o cofre             O    -
   p    - (ver arriba)                   P    -
-  q    Beber una poción                 Q    Retirar personaje y salir
+  q    Beber una poción                 Q    Eliminar personaje y salir
   r    Leer un pergamino                R    Descansar un período
   s    Robar a un monstruo (pícaros)    S    Ver habilidades
   t    Quitarse equipamiento            T    Excavar un túnel

@@ -1,6 +1,6 @@
 /**
  * \file obj-tval.h
- * \brief Wrapper functions for tvals.
+ * \brief Funciones envoltorio para tvals.
  *
  * Copyright (c) 2014 Ben Semmler
  *
@@ -22,7 +22,7 @@
 #include "object.h"
 
 /**
- * Special "sval" value -- unknown "sval"
+ * Valor especial de "sval" -- "sval" desconocido
  */
 #define SV_UNKNOWN			0
 

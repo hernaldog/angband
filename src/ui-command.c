@@ -157,7 +157,7 @@ void do_cmd_version(void)
 }
 
 /**
- * Verificar el comando de retiro
+ * Verificar el comando de retiro (eliminar o suicidar personaje)
  */
 void textui_cmd_retire(void)
 {
@@ -166,12 +166,12 @@ void textui_cmd_retire(void)
 
 	/* Verificar */
 	if (player->total_winner) {
-		if (!get_check("¿Quieres retirarte? "))
+		if (!get_check("¿Quieres eliminar tu personaje? "))
 			return;
 	} else {
 		struct keypress ch;
 
-		if (!get_check("¿Realmente quieres retirarte?"))
+		if (!get_check("¿Realmente quieres eliminar tu personaje?"))
 			return;
 
 		/* Verificación especial para el retiro */
