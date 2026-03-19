@@ -1,6 +1,6 @@
 /**
  * \file object.h
- * \brief basic object structs and enums
+ * \brief estructuras básicas y enumeraciones de objetos
  */
 #ifndef INCLUDED_OBJECT_H
 #define INCLUDED_OBJECT_H
@@ -12,10 +12,10 @@
 #include "obj-properties.h"
 
 
-/*** Game constants ***/
+/*** Constantes del juego ***/
 
 /**
- * Elements
+ * Elementos
  */
 enum
 {
@@ -32,7 +32,7 @@ enum
 #define ELEM_HIGH_MAX  (ELEM_DISEN + 1)
 
 /**
- * Object origin kinds
+ * Tipos de origen de objeto
  */
 
 enum {
@@ -44,25 +44,25 @@ enum {
 };
 
 
-/*** Structures ***/
+/*** Estructuras ***/
 
 /**
- * Effect
+ * Efecto
  */
 struct effect {
 	struct effect *next;
-	uint16_t index;	/**< The effect index */
-	dice_t *dice;	/**< Dice expression used in the effect */
-	int y;			/**< Y coordinate or distance */
-	int x;			/**< X coordinate or distance */
-	int subtype;	/**< Projection type, timed effect type, etc. */
-	int radius;		/**< Radius of the effect (if it has one) */
-	int other;		/**< Extra parameter to be passed to the handler */
-	char *msg;		/**< Message for death or whatever */
+	uint16_t index;	/**< El índice del efecto */
+	dice_t *dice;	/**< Expresión de dados usada en el efecto */
+	int y;			/**< Coordenada Y o distancia */
+	int x;			/**< Coordenada X o distancia */
+	int subtype;	/**< Tipo de proyección, tipo de efecto temporizado, etc. */
+	int radius;		/**< Radio del efecto (si tiene) */
+	int other;		/**< Parámetro extra para pasar al manejador */
+	char *msg;		/**< Mensaje para muerte o lo que sea */
 };
 
 /**
- * Chests
+ * Cofres
  */
 struct chest_trap {
 	struct chest_trap *next;
@@ -78,7 +78,7 @@ struct chest_trap {
 };
 
 /**
- * Brand type
+ * Tipo de marca elemental
  */
 struct brand {
 	char *code;
@@ -93,7 +93,7 @@ struct brand {
 };
 
 /**
- * Slay type
+ * Tipo de matanza
  */
 struct slay {
 	char *code;
@@ -109,7 +109,7 @@ struct slay {
 };
 
 /**
- * Curse type
+ * Tipo de maldición
  */
 struct curse {
 	struct curse *next;
@@ -128,7 +128,7 @@ enum {
 };
 
 /**
- * Element info type
+ * Tipo de información de elemento
  */
 struct element_info {
 	int16_t res_level;
@@ -136,7 +136,7 @@ struct element_info {
 };
 
 /**
- * Activation structure
+ * Estructura de activación
  */
 struct activation {
 	struct activation *next;
@@ -153,7 +153,7 @@ struct activation {
 extern struct activation *activations;
 
 /**
- * Information about object types, like rods, wands, etc.
+ * Información sobre tipos de objeto, como varas, varitas, etc.
  */
 struct object_base {
 	char *name;
@@ -164,7 +164,7 @@ struct object_base {
 	int attr;
 
 	bitflag flags[OF_SIZE];
-	bitflag kind_flags[KF_SIZE];			/**< Kind flags */
+	bitflag kind_flags[KF_SIZE];			/**< Banderas de tipo */
 	struct element_info el_info[ELEM_MAX];
 
 	int break_perc;
@@ -175,10 +175,10 @@ struct object_base {
 extern struct object_base *kb_info;
 
 /**
- * Information about object kinds, including player knowledge.
+ * Información sobre tipos de objetos, incluyendo el conocimiento del jugador.
  *
- * TODO: split out the user-changeable bits into a separate struct so this
- * one can be read-only.
+ * TODO: separar las partes modificables por el usuario en una estructura aparte para que
+ * esta pueda ser de solo lectura.
  */
 struct object_kind {
 	char *name;
@@ -189,63 +189,63 @@ struct object_kind {
 	struct object_kind *next;
 	uint32_t kidx;
 
-	int tval;					/**< General object type (see TV_ macros) */
-	int sval;					/**< Object sub-type  */
+	int tval;					/**< Tipo general de objeto (ver macros TV_) */
+	int sval;					/**< Subtipo de objeto */
 
-	random_value pval;			/* Item extra-parameter */
+	random_value pval;			/* Parámetro extra del objeto */
 
-	random_value to_h;			/**< Bonus to hit */
-	random_value to_d;			/**< Bonus to damage */
-	random_value to_a;			/**< Bonus to armor */
-	int ac;					/**< Base armor */
+	random_value to_h;			/**< Bonificación para golpear */
+	random_value to_d;			/**< Bonificación para daño */
+	random_value to_a;			/**< Bonificación para armadura */
+	int ac;					/**< Armadura base */
 
-	int dd;					/**< Damage dice */
-	int ds;					/**< Damage sides */
-	int weight;				/**< Weight, in 1/10lbs */
+	int dd;					/**< Dados de daño */
+	int ds;					/**< Caras de los dados */
+	int weight;				/**< Peso, en 1/10 libras */
 
-	int cost;					/**< Object base cost */
+	int cost;					/**< Coste base del objeto */
 
-	bitflag flags[OF_SIZE];					/**< Flags */
-	bitflag kind_flags[KF_SIZE];			/**< Kind flags */
+	bitflag flags[OF_SIZE];					/**< Banderas */
+	bitflag kind_flags[KF_SIZE];			/**< Banderas de tipo */
 
 	random_value modifiers[OBJ_MOD_MAX];
 	struct element_info el_info[ELEM_MAX];
 
 	bool *brands;
 	bool *slays;
-	int *curses;			/**< Array of curse powers */
+	int *curses;			/**< Array de poderes de maldición */
 
-	uint8_t d_attr;			/**< Default object attribute */
-	wchar_t d_char;			/**< Default object character */
+	uint8_t d_attr;			/**< Atributo de objeto predeterminado */
+	wchar_t d_char;			/**< Carácter de objeto predeterminado */
 
-	int alloc_prob;			/**< Allocation: commonness */
-	int alloc_min;			/**< Highest normal dungeon level */
-	int alloc_max;			/**< Lowest normal dungeon level */
-	int level;				/**< Level (difficulty of activation) */
+	int alloc_prob;			/**< Asignación: frecuencia */
+	int alloc_min;			/**< Nivel de mazmorra normal más alto */
+	int alloc_max;			/**< Nivel de mazmorra normal más bajo */
+	int level;				/**< Nivel (dificultad de activación) */
 
-	struct activation *activation;	/**< Artifact-like activation */
-	struct effect *effect;	/**< Effect this item produces (effects.c) */
-	int power;				/**< Power of the item's effect */
+	struct activation *activation;	/**< Activación similar a artefacto */
+	struct effect *effect;	/**< Efecto que produce este objeto (effects.c) */
+	int power;				/**< Poder del efecto del objeto */
 	char *effect_msg;
 	char *vis_msg;
-	random_value time;		/**< Recharge time (rods/activation) */
-	random_value charge;	/**< Number of charges (staves/wands) */
+	random_value time;		/**< Tiempo de recarga (varas/activación) */
+	random_value charge;	/**< Número de cargas (bastones/varitas) */
 
-	int gen_mult_prob;		/**< Probability of generating more than one */
-	random_value stack_size;/**< Number to generate */
+	int gen_mult_prob;		/**< Probabilidad de generar más de uno */
+	random_value stack_size;/**< Número a generar */
 
-	struct flavor *flavor;	/**< Special object flavor (or zero) */
+	struct flavor *flavor;	/**< Sabor especial del objeto (o cero) */
 
-	/** Also saved in savefile **/
+	/** También guardado en el archivo de guardado **/
 
-	quark_t note_aware; 	/**< Autoinscription quark number */
-	quark_t note_unaware; 	/**< Autoinscription quark number */
+	quark_t note_aware; 	/**< Número quark de autoinscripción */
+	quark_t note_unaware; 	/**< Número quark de autoinscripción */
 
-	bool aware;		/**< Set if player is aware of the kind's effects */
-	bool tried;		/**< Set if kind has been tried */
+	bool aware;		/**< Verdadero si el jugador conoce los efectos del tipo */
+	bool tried;		/**< Verdadero si se ha probado el tipo */
 
-	uint8_t ignore;  	/**< Ignore settings */
-	bool everseen; 	/**< Kind has been seen (to despoilify ignore menus) */
+	uint8_t ignore;  	/**< Configuración de ignorar */
+	bool everseen; 	/**< El tipo ha sido visto (para no estropear los menús de ignorar) */
 };
 
 extern struct object_kind *k_info;
@@ -255,7 +255,7 @@ extern struct object_kind *pile_kind;
 extern struct object_kind *curse_object_kind;
 
 /**
- * Unchanging information about artifacts.
+ * Información inmutable sobre artefactos.
  */
 struct artifact {
 	char *name;
@@ -265,62 +265,62 @@ struct artifact {
 
 	struct artifact *next;
 
-	int tval;		/**< General artifact type (see TV_ macros) */
-	int sval;		/**< Artifact sub-type  */
+	int tval;		/**< Tipo general de artefacto (ver macros TV_) */
+	int sval;		/**< Subtipo de artefacto */
 
-	int to_h;		/**< Bonus to hit */
-	int to_d;		/**< Bonus to damage */
-	int to_a;		/**< Bonus to armor */
-	int ac;		/**< Base armor */
+	int to_h;		/**< Bonificación para golpear */
+	int to_d;		/**< Bonificación para daño */
+	int to_a;		/**< Bonificación para armadura */
+	int ac;		/**< Armadura base */
 
-	int dd;		/**< Base damage dice */
-	int ds;		/**< Base damage sides */
+	int dd;		/**< Dados de daño base */
+	int ds;		/**< Caras de los dados base */
 
-	int weight;	/**< Weight in 1/10lbs */
+	int weight;	/**< Peso en 1/10 libras */
 
-	int cost;		/**< Artifact (pseudo-)worth */
+	int cost;		/**< Valor (pseudo) del artefacto */
 
-	bitflag flags[OF_SIZE];			/**< Flags */
+	bitflag flags[OF_SIZE];			/**< Banderas */
 
 	int modifiers[OBJ_MOD_MAX];
 	struct element_info el_info[ELEM_MAX];
 
 	bool *brands;
 	bool *slays;
-	int *curses;		/**< Array of curse powers */
+	int *curses;		/**< Array de poderes de maldición */
 
-	int level;			/** Difficulty level for activation */
+	int level;			/** Nivel de dificultad para la activación */
 
-	int alloc_prob;		/** Chance of being generated (i.e. rarity) */
-	int alloc_min;		/** Minimum depth (can appear earlier) */
-	int alloc_max;		/** Maximum depth (will NEVER appear deeper) */
+	int alloc_prob;		/** Probabilidad de ser generado (ej. rareza) */
+	int alloc_min;		/** Profundidad mínima (puede aparecer antes) */
+	int alloc_max;		/** Profundidad máxima (NUNCA aparecerá más profundo) */
 
-	struct activation *activation;	/**< Artifact activation */
+	struct activation *activation;	/**< Activación del artefacto */
 	char *alt_msg;
 
-	random_value time;	/**< Recharge time (if appropriate) */
+	random_value time;	/**< Tiempo de recarga (si corresponde) */
 };
 
 /**
- * Information about artifacts that changes during the course of play;
- * except for aidx, saved to the save file
+ * Información sobre artefactos que cambia durante el juego;
+ * excepto aidx, se guarda en el archivo de guardado
  */
 struct artifact_upkeep {
-	uint32_t aidx;	/**< For cross-indexing with struct artifact */
-	bool created;	/**< Whether this artifact has been created */
-	bool seen;	/**< Whether this artifact has been seen this game */
-	bool everseen;	/**< Whether this artifact has ever been seen  */
+	uint32_t aidx;	/**< Para índice cruzado con struct artifact */
+	bool created;	/**< Si este artefacto ha sido creado */
+	bool seen;	/**< Si este artefacto ha sido visto en esta partida */
+	bool everseen;	/**< Si este artefacto ha sido visto alguna vez */
 };
 
 /**
- * The artifact arrays
+ * Los arrays de artefactos
  */
 extern struct artifact *a_info;
 extern struct artifact_upkeep *aup_info;
 
 
 /**
- * Structure for possible object kinds for an ego item
+ * Estructura para posibles tipos de objeto para un objeto de ego
  */
 struct poss_item {
 	uint32_t kidx;
@@ -328,7 +328,7 @@ struct poss_item {
 };
 
 /**
- * Information about ego-items.
+ * Información sobre objetos-ego.
  */
 struct ego_item {
 	struct ego_item *next;
@@ -338,11 +338,11 @@ struct ego_item {
 
 	uint32_t eidx;
 
-	int cost;						/* Ego-item "cost" */
+	int cost;						/* "Coste" del objeto-ego */
 
-	bitflag flags[OF_SIZE];			/**< Flags */
-	bitflag flags_off[OF_SIZE];		/**< Flags to remove */
-	bitflag kind_flags[KF_SIZE];	/**< Kind flags */
+	bitflag flags[OF_SIZE];			/**< Banderas */
+	bitflag flags_off[OF_SIZE];		/**< Banderas a eliminar */
+	bitflag kind_flags[KF_SIZE];	/**< Banderas de tipo */
 
 	random_value modifiers[OBJ_MOD_MAX];
 	int min_modifiers[OBJ_MOD_MAX];
@@ -350,36 +350,36 @@ struct ego_item {
 
 	bool *brands;
 	bool *slays;
-	int *curses;			/**< Array of curse powers */
+	int *curses;			/**< Array de poderes de maldición */
 
-	int rating;			/* Level rating boost */
-	int alloc_prob; 		/** Chance of being generated (i.e. rarity) */
-	int alloc_min;			/** Minimum depth (can appear earlier) */
-	int alloc_max;			/** Maximum depth (will NEVER appear deeper) */
+	int rating;			/* Aumento de nivel de valoración */
+	int alloc_prob; 		/** Probabilidad de ser generado (ej. rareza) */
+	int alloc_min;			/** Profundidad mínima (puede aparecer antes) */
+	int alloc_max;			/** Profundidad máxima (NUNCA aparecerá más profundo) */
 
 	struct poss_item *poss_items;
 
-	random_value to_h;		/* Extra to-hit bonus */
-	random_value to_d;		/* Extra to-dam bonus */
-	random_value to_a;		/* Extra to-ac bonus */
+	random_value to_h;		/* Bonificación extra para golpear */
+	random_value to_d;		/* Bonificación extra para daño */
+	random_value to_a;		/* Bonificación extra para CA */
 
-	int min_to_h;			/* Minimum to-hit value */
-	int min_to_d;			/* Minimum to-dam value */
-	int min_to_a;			/* Minimum to-ac value */
+	int min_to_h;			/* Valor mínimo para golpear */
+	int min_to_d;			/* Valor mínimo para daño */
+	int min_to_a;			/* Valor mínimo para CA */
 
-	struct activation *activation;	/**< Activation */
-	random_value time;		/**< Recharge time for activation */
+	struct activation *activation;	/**< Activación */
+	random_value time;		/**< Tiempo de recarga para la activación */
 
-	bool everseen;			/* Do not spoil ignore menus */
+	bool everseen;			/* No estropear los menús de ignorar */
 };
 
 /*
- * The ego-item arrays
+ * Los arrays de objetos-ego
  */
 extern struct ego_item *e_info;
 
 /**
- * Flags for the obj->notice field
+ * Banderas para el campo obj->notice
  */
 enum {
 	OBJ_NOTICE_WORN = 0x01,
@@ -394,86 +394,86 @@ struct curse_data {
 };
 
 /**
- * Object information, for a specific object.
+ * Información de objeto, para un objeto específico.
  *
- * Note that inscriptions are now handled via the "quark_str()" function
- * applied to the "note" field, which will return NULL if "note" is zero.
+ * Nótese que las inscripciones ahora se manejan mediante la función "quark_str()"
+ * aplicada al campo "note", que devolverá NULL si "note" es cero.
  *
- * Each cave grid points to one (or zero) objects via the "obj" field in
- * its "squares" struct.  Each object then points to one (or zero) objects
- * via the "next" field, and (aside from the first) back via its "prev"
- * field, forming a doubly linked list, which in game terms represents a
- * stack of objects in the same grid.
+ * Cada casilla de la cueva apunta a uno (o cero) objetos a través del campo "obj" en
+ * su estructura "squares". Cada objeto entonces apunta a uno (o cero) objetos
+ * a través del campo "next", y (aparte del primero) hacia atrás a través de su campo "prev",
+ * formando una lista doblemente enlazada, que en términos del juego representa una
+ * pila de objetos en la misma casilla.
  *
- * Each monster points to one (or zero) objects via the "held_obj"
- * field (see monster.h).  Each object then points to one (or zero) objects
- * and back to previous objects by its own "next" and "prev" fields,
- * forming a doubly linked list, which in game terms represents the
- * monster's inventory.
+ * Cada monstruo apunta a uno (o cero) objetos a través del campo "held_obj"
+ * (ver monster.h). Cada objeto entonces apunta a uno (o cero) objetos
+ * y hacia atrás a objetos anteriores por sus propios campos "next" y "prev",
+ * formando una lista doblemente enlazada, que en términos del juego representa el
+ * inventario del monstruo.
  *
- * The "held_m_idx" field is used to indicate which monster, if any,
- * is holding the object.  Objects being held have (0, 0) as a grid.
+ * El campo "held_m_idx" se usa para indicar qué monstruo, si hay alguno,
+ * está sosteniendo el objeto. Los objetos que están siendo sostenidos tienen (0, 0) como casilla.
  *
- * Note that object records are not now copied, but allocated on object
- * creation and freed on object destruction.  These records are handed
- * around between player and monster inventories and the floor on a fairly
- * regular basis, and care must be taken when handling such objects.
+ * Nótese que los registros de objetos ahora no se copian, sino que se asignan al
+ * crear el objeto y se liberan al destruirlo. Estos registros se pasan
+ * entre los inventarios del jugador y los monstruos y el suelo con bastante
+ * regularidad, y se debe tener cuidado al manejar dichos objetos.
  */
 struct object {
-	struct object_kind *kind;	/**< Kind of the object */
-	struct ego_item *ego;		/**< Ego item info of the object, if any */
-	const struct artifact *artifact;	/**< Artifact info of the object, if any */
+	struct object_kind *kind;	/**< Tipo del objeto */
+	struct ego_item *ego;		/**< Información de objeto-ego del objeto, si la hay */
+	const struct artifact *artifact;	/**< Información de artefacto del objeto, si la hay */
 
-	struct object *prev;	/**< Previous object in a pile */
-	struct object *next;	/**< Next object in a pile */
-	struct object *known;	/**< Known version of this object */
+	struct object *prev;	/**< Objeto anterior en una pila */
+	struct object *next;	/**< Objeto siguiente en una pila */
+	struct object *known;	/**< Versión conocida de este objeto */
 
-	uint16_t oidx;		/**< Item list index, if any */
+	uint16_t oidx;		/**< Índice de la lista de objetos, si lo hay */
 
-	struct loc grid;	/**< position on map, or (0, 0) */
+	struct loc grid;	/**< posición en el mapa, o (0, 0) */
 
-	uint8_t tval;		/**< Item type (from kind) */
-	uint8_t sval;		/**< Item sub-type (from kind) */
+	uint8_t tval;		/**< Tipo de objeto (del tipo) */
+	uint8_t sval;		/**< Subtipo de objeto (del tipo) */
 
-	int16_t pval;		/**< Item extra-parameter */
+	int16_t pval;		/**< Parámetro extra del objeto */
 
-	int16_t weight;		/**< Item weight */
+	int16_t weight;		/**< Peso del objeto */
 
-	uint8_t dd;		/**< Number of damage dice */
-	uint8_t ds;		/**< Number of sides on each damage die */
-	int16_t ac;		/**< Normal AC */
-	int16_t to_a;		/**< Plusses to AC */
-	int16_t to_h;		/**< Plusses to hit */
-	int16_t to_d;		/**< Plusses to damage */
+	uint8_t dd;		/**< Número de dados de daño */
+	uint8_t ds;		/**< Número de caras en cada dado de daño */
+	int16_t ac;		/**< CA normal */
+	int16_t to_a;		/**< Bonificaciones a la CA */
+	int16_t to_h;		/**< Bonificaciones para golpear */
+	int16_t to_d;		/**< Bonificaciones para daño */
 
-	bitflag flags[OF_SIZE];	/**< Object flags */
-	int16_t modifiers[OBJ_MOD_MAX];	/**< Object modifiers*/
-	struct element_info el_info[ELEM_MAX];	/**< Object element info */
-	bool *brands;			/**< Flag absence/presence of each brand */
-	bool *slays;			/**< Flag absence/presence of each slay */
-	struct curse_data *curses;	/**< Array of curse powers and timeouts */
+	bitflag flags[OF_SIZE];	/**< Banderas del objeto */
+	int16_t modifiers[OBJ_MOD_MAX];	/**< Modificadores del objeto*/
+	struct element_info el_info[ELEM_MAX];	/**< Información elemental del objeto */
+	bool *brands;			/**< Bandera de ausencia/presencia de cada marca elemental */
+	bool *slays;			/**< Bandera de ausencia/presencia de cada matanza */
+	struct curse_data *curses;	/**< Array de poderes de maldición y tiempos de espera */
 
-	struct effect *effect;	/**< Effect this item produces (effects.c) */
-	char *effect_msg;		/**< Message on use */
-	struct activation *activation;	/**< Artifact activation, if applicable */
-	random_value time;		/**< Recharge time (rods/activation) */
-	int16_t timeout;		/**< Timeout Counter */
+	struct effect *effect;	/**< Efecto que produce este objeto (effects.c) */
+	char *effect_msg;		/**< Mensaje al usar */
+	struct activation *activation;	/**< Activación de artefacto, si corresponde */
+	random_value time;		/**< Tiempo de recarga (varas/activación) */
+	int16_t timeout;		/**< Contador de tiempo de espera */
 
-	uint8_t number;			/**< Number of items */
-	bitflag notice;			/**< Attention paid to the object */
+	uint8_t number;			/**< Número de objetos */
+	bitflag notice;			/**< Atención prestada al objeto */
 
-	int16_t held_m_idx;		/**< Monster holding us (if any) */
-	int16_t mimicking_m_idx;	/**< Monster mimicking us (if any) */
+	int16_t held_m_idx;		/**< Monstruo que nos sostiene (si lo hay) */
+	int16_t mimicking_m_idx;	/**< Monstruo que nos imita (si lo hay) */
 
-	uint8_t origin;			/**< How this item was found */
-	uint8_t origin_depth;		/**< What depth the item was found at */
-	const struct monster_race *origin_race;	/**< Monster race that dropped it */
+	uint8_t origin;			/**< Cómo se encontró este objeto */
+	uint8_t origin_depth;		/**< A qué profundidad se encontró el objeto */
+	const struct monster_race *origin_race;	/**< Raza de monstruo que lo soltó */
 
-	quark_t note; 			/**< Inscription index */
+	quark_t note; 			/**< Índice de inscripción */
 };
 
 /**
- * Null object constant, for safe initialization.
+ * Constante de objeto nulo, para inicialización segura.
  */
 static struct object const OBJECT_NULL = {
 	.kind = NULL,
@@ -521,11 +521,11 @@ struct flavor
 	struct flavor *next;
 	unsigned int fidx;
 
-	uint8_t tval;	/* Associated object type */
-	uint8_t sval;	/* Associated object sub-type */
+	uint8_t tval;	/* Tipo de objeto asociado */
+	uint8_t sval;	/* Subtipo de objeto asociado */
 
-	uint8_t d_attr;	/* Default flavor attribute */
-	wchar_t d_char;	/* Default flavor character */
+	uint8_t d_attr;	/* Atributo de sabor predeterminado */
+	wchar_t d_char;	/* Carácter de sabor predeterminado */
 };
 
 extern struct flavor *flavors;
