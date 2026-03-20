@@ -1365,7 +1365,7 @@ desc:Se puede disparar con una honda o lanzar.
 
 ##### Herramientas de Excavación #####
 
-name:& Shovel~
+name:& Pala~
 type:digger
 graphics:\:s
 level:1

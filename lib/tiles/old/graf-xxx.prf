@@ -555,7 +555,7 @@ object:shot:Mithril Shot:0xCD:0x85
 
 ##### Digging Tools #####
 
-object:digger:Shovel:0x8A:0x98
+object:digger:Pala:0x8A:0x98
 object:digger:Pick:0x8A:0x97
 object:digger:Mattock:0xCD:0x80
 
