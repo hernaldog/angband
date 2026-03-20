@@ -1160,14 +1160,8 @@ void inven_drop(struct object *obj, int amt)
 			ODESC_PREFIX | ODESC_FULL | ODESC_ALTNUM |
 			(total << 16), player);
 			
-		if (!first) {
-		    // Fix traduc. Truco para poner una frase más entendible
-			char *pos = strstr(name, "no más");
-			
-			// Si encontramos "no más", ignoramos el "Tienes" y lanzamos el mensaje corregido
-            // Saltamos el "no más " para obtener solo el nombre del objeto
-            msg("No te quedan %s (%c).", pos + 8, label);  // es 8 ya que son la cantidad de caracteres de "no más  "          
-            //msg("Tienes %s (%c).", name, label); //resp
+		if (!first) {		    
+            msg("Tienes %s (%c).", name, label);
 		} else {
 			label = gear_to_label(player, first);
 			if (total > first->number) {
