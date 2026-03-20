@@ -330,7 +330,7 @@ object:flask:Frasco de aceite:0x89:0x83
 
 object:food:Galleta Dura:0x89:0x8D
 #object:food:Manzana
-#object:food:Handful of Dried Fruits
+#object:food:Puñado de Fruta Seca
 object:food:Slime Mold:0x89:0x89
 object:food:Ration of Food:0x89:0x88
 #object:food:Scrap of Flesh

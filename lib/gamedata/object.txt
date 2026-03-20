@@ -260,7 +260,7 @@ effect:NOURISH:INC_BY
 dice:10
 desc:Arrugada, pero sana y dulce.
 
-name:& Handful~ of Dried Fruits
+name:& Puñado de Fruta~ Seca~
 type:food
 graphics:,:u
 level:0

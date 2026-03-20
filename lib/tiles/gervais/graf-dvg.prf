@@ -911,7 +911,7 @@ object:flask:Frasco de aceite:0x87:0x97
 
 ### Normal Food ###
 
-object:food:Handful of Dried Fruits:0x93:0xb9
+object:food:Puñado de Fruta Seca:0x93:0xb9
 object:food:Slime Mold:0x82:0x85
 object:food:Ration of Food:0x82:0x84
 object:food:Scrap of Flesh:0x82:0x83
