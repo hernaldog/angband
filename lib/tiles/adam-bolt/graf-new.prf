@@ -437,7 +437,7 @@ object:none:<pile>:182:147
 
 ##### Various Stuff #####
 
-object:light:Wooden Torch:0x8E:0x8B
+object:light:Antorcha de Madera:0x8E:0x8B
 object:light:Lantern:0x8E:0x8A
 object:flask:Flask of oil:0x8E:0x88
 
