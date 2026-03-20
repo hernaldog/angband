@@ -469,9 +469,9 @@ object:hard armor:Ribbed Plate Armour:0x95:0x9B
 
 
 
-### The Cloaks ###
+### Capas ###
 
-object:cloak:Cloak:0x94:0x80
+object:cloak:Capa:0x94:0x80
 object:cloak:Elven Cloak:0x94:0x81
 object:cloak:Ethereal Cloak:0x94:0x82
 object:cloak:Fur Cloak:0x94:0x83

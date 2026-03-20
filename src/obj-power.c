@@ -1,9 +1,9 @@
 /**
- * \file obj-power.c
- * \brief calculation of object power and value
+ * \archivo obj-power.c
+ * \brief cálculo del poder y valor del objeto
  *
  * Copyright (c) 2001 Chris Carr, Chris Robertson
- * Revised in 2009-11 by Chris Carr, Peter Denison
+ * Revisado en 2009-11 por Chris Carr, Peter Denison
  *
  * This work is free software; you can redistribute it and/or modify it
  * under the terms of either:
@@ -31,18 +31,18 @@
 
 /**
  * ------------------------------------------------------------------------
- * Object power data and assumptions
+ * Datos de poder de objeto y suposiciones
  * ------------------------------------------------------------------------ */
 
 /**
- * Define a set of constants for dealing with launchers and ammo:
- * - the assumed average damage of ammo (for rating launchers)
- * (the current values assume normal (non-seeker) ammo enchanted to +9)
- * - the assumed bonus on launchers (for rating ego ammo)
- * - twice the assumed multiplier (for rating any ammo)
- * N.B. Ammo tvals are assumed to be consecutive! We access this array using
- * (obj->tval - TV_SHOT) for ammo, and
- * (obj->sval / 10) for launchers
+ * Define un conjunto de constantes para tratar con lanzadores y munición:
+ * - el daño promedio asumido de la munición (para calificar lanzadores)
+ * (los valores actuales asumen munición normal (no buscadora) encantada a +9)
+ * - la bonificación asumida en lanzadores (para calificar munición de ego)
+ * - el doble del multiplicador asumido (para calificar cualquier munición)
+ * N.B. Se asume que los tvals de munición son consecutivos. Accedemos a este arreglo usando
+ * (obj->tval - TV_SHOT) para munición, y
+ * (obj->sval / 10) para lanzadores
  */
 static struct archery {
 	int ammo_tval;
@@ -56,10 +56,10 @@ static struct archery {
 };
 
 /**
- * Set the weightings of flag types:
- * - factor for power increment for multiple flags
- * - additional power bonus for a "full set" of these flags
- * - number of these flags which constitute a "full set"
+ * Establece las ponderaciones de los tipos de banderas:
+ * - factor para el incremento de poder por múltiples banderas
+ * - bonificación de poder adicional por un "conjunto completo" de estas banderas
+ * - número de estas banderas que constituyen un "conjunto completo"
  */
 static struct flag_set {
 	int type;
@@ -69,9 +69,9 @@ static struct flag_set {
 	int count;
 	const char *desc;
 } flag_sets[] = {
-	{ OFT_SUST, 1, 10, 5, 0, "sustains" },
-	{ OFT_PROT, 3, 15, 4, 0, "protections" },
-	{ OFT_MISC, 1, 25, 8, 0, "misc abilities" }
+	{ OFT_SUST, 1, 10, 5, 0, "sostenimientos" },
+	{ OFT_PROT, 3, 15, 4, 0, "protecciones" },
+	{ OFT_MISC, 1, 25, 8, 0, "habilidades varias" }
 };
 
 
@@ -81,7 +81,7 @@ enum {
 };
 
 /**
- * Similar data for elements
+ * Datos similares para elementos
  */
 static struct element_set {
 	int type;
@@ -92,13 +92,13 @@ static struct element_set {
 	int count;
 	const char *desc;
 } element_sets[] = {
-	{ T_LRES, 3, 6, INHIBIT_POWER, 4,    0,     "immunities" },
-	{ T_LRES, 1, 1, 10,            4,    0,     "low resists" },
-	{ T_HRES, 1, 2, 10,            9,    0,     "high resists" },
+	{ T_LRES, 3, 6, INHIBIT_POWER, 4,    0,     "inmunidades" },
+	{ T_LRES, 1, 1, 10,            4,    0,     "resistencias bajas" },
+	{ T_HRES, 1, 2, 10,            9,    0,     "resistencias altas" },
 };
 
 /**
- * Power data for elements
+ * Datos de poder para elementos
  */
 static struct element_powers {
 	const char *name;
@@ -108,36 +108,36 @@ static struct element_powers {
 	int res_power;
 	int im_power;
 } el_powers[] = {
-	{ "acid",			T_LRES,	3,	-6,	5,	38 },
-	{ "electricity",	T_LRES,	1,	-6,	6,	35 },
-	{ "fire",			T_LRES,	3,	-6,	6,	40 },
-	{ "cold",			T_LRES,	1,	-6,	6,	37 },
-	{ "poison",			T_HRES,	0,	0,	28,	0 },
-	{ "light",			T_HRES,	0,	0,	6,	0 },
-	{ "dark",			T_HRES,	0,	0,	16,	0 },
-	{ "sound",			T_HRES,	0,	0,	14,	0 },
-	{ "shards",			T_HRES,	0,	0,	8,	0 },
-	{ "nexus",			T_HRES,	0,	0,	15,	0 },
-	{ "nether",			T_HRES,	0,	0,	20,	0 },
-	{ "chaos",			T_HRES,	0,	0,	20,	0 },
-	{ "disenchantment",	T_HRES,	0,	0,	20,	0 }
+	{ "ácido",			T_LRES,	3,	-6,	5,	38 },
+	{ "electricidad",	T_LRES,	1,	-6,	6,	35 },
+	{ "fuego",			T_LRES,	3,	-6,	6,	40 },
+	{ "frío",			T_LRES,	1,	-6,	6,	37 },
+	{ "veneno",			T_HRES,	0,	0,	28,	0 },
+	{ "luz",			T_HRES,	0,	0,	6,	0 },
+	{ "oscuridad",		T_HRES,	0,	0,	16,	0 },
+	{ "sonido",			T_HRES,	0,	0,	14,	0 },
+	{ "fragmentos",		T_HRES,	0,	0,	8,	0 },
+	{ "nexo",			T_HRES,	0,	0,	15,	0 },
+	{ "más allá",		T_HRES,	0,	0,	20,	0 },
+	{ "caos",			T_HRES,	0,	0,	20,	0 },
+	{ "desencantamiento",	T_HRES,	0,	0,	20,	0 }
 };
 
 /**
- * Boost ratings for combinations of ability bonuses
- * We go up to +24 here - anything higher is inhibited
- * N.B. Not all stats count equally towards this total
+ * Valoraciones de mejora para combinaciones de bonificaciones de habilidad
+ * Llegamos hasta +24 aquí; cualquier valor más alto se inhibe
+ * N.B. No todas las estadísticas cuentan igual para este total
  */
 static int16_t ability_power[25] =
 	{0, 0, 0, 0, 0, 0, 0, 2, 4, 6, 8,
 	12, 16, 20, 24, 30, 36, 42, 48, 56, 64,
 	74, 84, 96, 110};
 
-/* Log file declared here for simplicity */
+/* Archivo de registro declarado aquí por simplicidad */
 static ang_file *object_log;
 
 /**
- * Log progress info to the object log
+ * Registrar información de progreso en el registro de objetos
  */
 static void log_obj(const char *fmt, ...)
 {
@@ -152,11 +152,11 @@ static void log_obj(const char *fmt, ...)
 
 /**
  * ------------------------------------------------------------------------
- * Object power calculations
+ * Cálculos de poder de objeto
  * ------------------------------------------------------------------------ */
 
 /**
- * Calculate the multiplier we'll get with a given bow type.
+ * Calcula el multiplicador que obtendremos con un tipo de arco dado.
  */
 static int bow_multiplier(const struct object *obj)
 {
@@ -167,51 +167,51 @@ static int bow_multiplier(const struct object *obj)
 	else
 		mult = obj->pval;
 
-	log_obj("Base mult for this weapon is %d\n", mult);
+	log_obj("El multiplicador base para esta arma es %d\n", mult);
 	return mult;
 }
 
 /**
- * To damage power
+ * Poder por daño adicional
  */
 static int to_damage_power(const struct object *obj)
 {
 	int p;
 
 	p = (obj->to_d * DAMAGE_POWER / 2);
-	if (p) log_obj("%d power from to_dam\n", p);
+	if (p) log_obj("%d de poder por to_dam\n", p);
 
-	/* Add second lot of damage power for non-weapons */
+	/* Añadir una segunda cantidad de poder de daño para no-armas */
 	if ((wield_slot(obj) != slot_by_name(player, "shooting")) &&
 		!tval_is_melee_weapon(obj) &&
 		!tval_is_ammo(obj)) {
 		int q = (obj->to_d * DAMAGE_POWER);
 		p += q;
-		if (q) log_obj("Add %d from non-weapon to_dam, total %d\n",
+		if (q) log_obj("Añadir %d de no-arma to_dam, total %d\n",
 			q, p);
 	}
 	return p;
 }
 
 /**
- * Damage dice power or equivalent
+ * Poder de los dados de daño o equivalente
  */
 static int damage_dice_power(const struct object *obj)
 {
 	int dice = 0;
 
-	/* Add damage from dice for any wieldable weapon or ammo */
+	/* Añadir daño de dados para cualquier arma empuñable o munición */
 	if (tval_is_melee_weapon(obj) || tval_is_ammo(obj)) {
 		dice = ((obj->dd * (obj->ds + 1) * DAMAGE_POWER) / 4);
-		log_obj("Add %d power for damage dice, ", dice);
+		log_obj("Añadir %d de poder por dados de daño, ", dice);
 	} else if (wield_slot(obj) != slot_by_name(player, "shooting")) {
-		/* Add power boost for nonweapons with combat flags */
+		/* Añadir aumento de poder para no-armas con banderas de combate */
 		if (obj->brands || obj->slays ||
 			(obj->modifiers[OBJ_MOD_BLOWS] > 0) ||
 			(obj->modifiers[OBJ_MOD_SHOTS] > 0) ||
 			(obj->modifiers[OBJ_MOD_MIGHT] > 0)) {
 			dice = (WEAP_DAMAGE * DAMAGE_POWER);
-			log_obj("Add %d power for non-weapon combat bonuses, ",
+			log_obj("Añadir %d de poder por bonificaciones de combate en no-armas, ",
 				dice);
 		}
 	}
@@ -219,7 +219,7 @@ static int damage_dice_power(const struct object *obj)
 }
 
 /**
- * Add ammo damage for launchers, get multiplier and rescale
+ * Añadir daño de munición para lanzadores, obtener multiplicador y reescalar
  */
 static int ammo_damage_power(const struct object *obj, int p)
 {
@@ -236,7 +236,7 @@ static int ammo_damage_power(const struct object *obj, int p)
 
 		if (launcher != -1) {
 			q = (archery[launcher].ammo_dam * DAMAGE_POWER / 2);
-			log_obj("Adding %d power from ammo, total is %d\n", q,
+			log_obj("Añadiendo %d de poder por munición, total es %d\n", q,
 				p + q);
 		}
 	}
@@ -244,7 +244,7 @@ static int ammo_damage_power(const struct object *obj, int p)
 }
 
 /**
- * Add launcher bonus for ego ammo, multiply for launcher and rescale
+ * Añadir bonificación de lanzador para munición de ego, multiplicar por lanzador y reescalar
  */
 static int launcher_ammo_damage_power(const struct object *obj, int p)
 {
@@ -256,14 +256,14 @@ static int launcher_ammo_damage_power(const struct object *obj, int p)
 		if (obj->ego)
 			p += (archery[ammo_type].launch_dam * DAMAGE_POWER / 2);
 		p = p * archery[ammo_type].launch_mult / (2 * MAX_BLOWS);
-		log_obj("After multiplying ammo and rescaling, power"
-			" is %d\n", p);
+		log_obj("Después de multiplicar munición y reescalar, el poder"
+			" es %d\n", p);
 	}
 	return p;
 }
 
 /**
- * Add power for extra blows
+ * Añadir poder por golpes extra
  */
 static int extra_blows_power(const struct object *obj, int p)
 {
@@ -274,21 +274,21 @@ static int extra_blows_power(const struct object *obj, int p)
 
 	if (obj->modifiers[OBJ_MOD_BLOWS] >= INHIBIT_BLOWS) {
 		p += INHIBIT_POWER;
-		log_obj("INHIBITING - too many extra blows - quitting\n");
+		log_obj("INHIBICIÓN - demasiados golpes extra - abandonando\n");
 		return p;
 	} else {
 		p = p * (MAX_BLOWS + obj->modifiers[OBJ_MOD_BLOWS]) / MAX_BLOWS;
-		/* Add boost for assumed off-weapon damage */
+		/* Añadir aumento por daño fuera del arma asumido */
 		p += (NONWEAP_DAMAGE * obj->modifiers[OBJ_MOD_BLOWS]
 			  * DAMAGE_POWER / 2);
-		log_obj("Add %d power for extra blows, total is %d\n",
+		log_obj("Añadir %d de poder por golpes extra, total es %d\n",
 			p - q, p);
 	}
 	return p;
 }
 
 /**
- * Add power for extra shots - note that we cannot handle negative shots
+ * Añadir poder por disparos extra - nota que no podemos manejar disparos negativos
  */
 static int extra_shots_power(const struct object *obj, int p)
 {
@@ -297,14 +297,14 @@ static int extra_shots_power(const struct object *obj, int p)
 
 	if (obj->modifiers[OBJ_MOD_SHOTS] >= INHIBIT_SHOTS) {
 		p += INHIBIT_POWER;
-		log_obj("INHIBITING - too many extra shots - quitting\n");
+		log_obj("INHIBICIÓN - demasiados disparos extra - abandonando\n");
 		return p;
 	} else if (obj->modifiers[OBJ_MOD_SHOTS] > 0) {
-		/* Multiply by effective number of shots */
+		/* Multiplicar por el número efectivo de disparos */
 		int q = obj->modifiers[OBJ_MOD_SHOTS];
 		p *= (10 + q);
 		p /= 10;
-		log_obj("Adding %d%% power for extra shots, total is %d\n",
+		log_obj("Añadiendo %d%% de poder por disparos extra, total es %d\n",
 			10 * q, p);
 	}
 	return p;
@@ -312,25 +312,25 @@ static int extra_shots_power(const struct object *obj, int p)
 
 
 /**
- * Add power for extra might
+ * Añadir poder por poderío extra
  */
 static int extra_might_power(const struct object *obj, int p, int mult)
 {
 	if (obj->modifiers[OBJ_MOD_MIGHT] >= INHIBIT_MIGHT) {
 		p += INHIBIT_POWER;
-		log_obj("INHIBITING - too much extra might - quitting\n");
+		log_obj("INHIBICIÓN - demasiado poderío extra - abandonando\n");
 		return p;
 	} else {
 		mult += obj->modifiers[OBJ_MOD_MIGHT];
 	}
-	log_obj("Mult after extra might is %d\n", mult);
+	log_obj("Multiplicador después de poderío extra es %d\n", mult);
 	p *= mult;
-	log_obj("After multiplying power for might, total is %d\n", p);
+	log_obj("Después de multiplicar poder por poderío, total es %d\n", p);
 	return p;
 }
 
 /**
- * Calculate the rating for a given slay combination
+ * Calcular la calificación para una combinación de matanzas dada
  */
 static int32_t slay_power(const struct object *obj, int p, int verbose,
 					   int dice_pwr)
@@ -338,7 +338,7 @@ static int32_t slay_power(const struct object *obj, int p, int verbose,
 	int i, q, num_brands = 0, num_slays = 0, num_kills = 0;
 	int best_power = 1;
 
-	/* Count the brands and slays */
+	/* Contar las marcas y matanzas */
 	if (obj->brands) {
 		for (i = 1; i < z_info->brand_max; i++) {
 			if (obj->brands[i]) {
@@ -362,14 +362,14 @@ static int32_t slay_power(const struct object *obj, int p, int verbose,
 		}
 	}
 
-	/* If there are no slays or brands return */
+	/* Si no hay matanzas ni marcas, regresar */
 	if ((num_slays + num_brands + num_kills) == 0)
 		return p;
 
-	/* Write the best power */
+	/* Escribir el mejor poder */
 	if (verbose) {
-		/* Write info about the slay combination and multiplier */
-		log_obj("Slay and brands: ");
+		/* Escribir información sobre la combinación de matanza y multiplicador */
+		log_obj("Matanzas y marcas: ");
 
 		if (obj->brands) {
 			for (i = 1; i < z_info->brand_max; i++) {
@@ -389,79 +389,79 @@ static int32_t slay_power(const struct object *obj, int p, int verbose,
 				}
 			}
 		}
-		log_obj("\nbest power is : %d\n", best_power);
+		log_obj("\nmejor poder es : %d\n", best_power);
 	}
 
 	q = (dice_pwr * dice_pwr * (best_power - 100)) / 2500;
 	p += q;
-	log_obj("Add %d for slay power, total is %d\n", q, p);
+	log_obj("Añadir %d por poder de matanza, total es %d\n", q, p);
 
-	/* Bonuses for multiple brands and slays */
+	/* Bonificaciones por múltiples marcas y matanzas */
 	if (num_slays > 1) {
 		q = (num_slays * num_slays * dice_pwr) / (DAMAGE_POWER * 5);
 		p += q;
-		log_obj("Add %d power for multiple slays, total is %d\n", q, p);
+		log_obj("Añadir %d de poder por matanzas múltiples, total es %d\n", q, p);
 	}
 	if (num_brands > 1) {
 		q = (2 * num_brands * num_brands * dice_pwr) / (DAMAGE_POWER * 5);
 		p += q;
-		log_obj("Add %d power for multiple brands, total is %d\n",
+		log_obj("Añadir %d de poder por marcas múltiples, total es %d\n",
 			q, p);
 	}
 	if (num_slays && num_brands) {
 		q = (num_slays * num_brands * dice_pwr) / (DAMAGE_POWER * 5);
 		p += q;
-		log_obj("Add %d power for slay and brand, total is %d\n", q, p);
+		log_obj("Añadir %d de poder por matanza y marca, total es %d\n", q, p);
 	}
 	if (num_kills > 1) {
 		q = (3 * num_kills * num_kills * dice_pwr) / (DAMAGE_POWER * 5);
 		p += q;
-		log_obj("Add %d power for multiple kills, total is %d\n", q, p);
+		log_obj("Añadir %d de poder por muertes múltiples, total es %d\n", q, p);
 	}
 	if (num_slays == 8) {
 		p += 10;
-		log_obj("Add 10 power for full set of slays, total is %d\n", p);
+		log_obj("Añadir 10 de poder por conjunto completo de matanzas, total es %d\n", p);
 	}
 	if (num_brands == 5) {
 		p += 20;
-		log_obj("Add 20 power for full set of brands, total"
-			" is %d\n", p);
+		log_obj("Añadir 20 de poder por conjunto completo de marcas, total"
+			" es %d\n", p);
 	}
 	if (num_kills == 3) {
 		p += 20;
-		log_obj("Add 20 power for full set of kills, total is %d\n", p);
+		log_obj("Añadir 20 de poder por conjunto completo de muertes, total es %d\n", p);
 	}
 
 	return p;
 }
 
 /**
- * Melee weapons assume MAX_BLOWS per turn, so we must divide by MAX_BLOWS
- * to get equal ratings for launchers.
+ * Las armas cuerpo a cuerpo asumen MAX_BLOWS por turno, por lo que debemos dividir por MAX_BLOWS
+ * para obtener calificaciones iguales para los lanzadores.
  */
 static int rescale_bow_power(const struct object *obj, int p)
 {
 	if (wield_slot(obj) == slot_by_name(player, "shooting")) {
 		p /= MAX_BLOWS;
-		log_obj("Rescaling bow power, total is %d\n", p);
+		log_obj("Reescalando poder de arco, total es %d\n", p);
 	}
 	return p;
 }
 
 /**
- * Add power for +to_hit
+ * Añadir poder por +to_hit
  */
 static int to_hit_power(const struct object *obj, int p)
 {
 	int q = (obj->to_h * TO_HIT_POWER / 2);
 	p += q;
 	if (p) 
-		log_obj("Add %d power for to hit, total is %d\n", q, p);
+		log_obj("Añadir %d de poder por to hit, total es %d\n", q, p);
 	return p;
 }
 
 /**
- * Add power for base AC and adjust for weight
+ * Añadir poder por CA base y ajustar por peso
  */
 static int ac_power(const struct object *obj, int p)
 {
@@ -472,30 +472,30 @@ static int ac_power(const struct object *obj, int p)
 
 		p += BASE_ARMOUR_POWER;
 		q += (obj->ac * BASE_AC_POWER / 2);
-		log_obj("Adding %d power for base AC value\n", q);
+		log_obj("Añadiendo %d de poder por valor de CA base\n", q);
 
-		/* Add power for AC per unit weight */
+		/* Añadir poder por CA por unidad de peso */
 		if (weight > 0) {
 			int i = 750 * (obj->ac + obj->to_a) / weight;
 
-			/* Avoid overpricing Elven Cloaks */
+			/* Evitar sobrevalorar Capas Élficas */
 			if (i > 450) i = 450;
 
 			q *= i;
 			q /= 100;
 
-			/* Weightless (ethereal) armour items get fixed boost */
+			/* Los objetos sin peso (etéreos) obtienen aumento fijo */
 		} else
 			q *= 5;
 		p += q;
-		log_obj("Add %d power for AC per unit weight, now %d\n", q, p);
+		log_obj("Añadir %d de poder por CA por unidad de peso, ahora %d\n", q, p);
 	}
 	return p;
 }
 
 
 /**
- * Add power for +to_ac
+ * Añadir poder por +to_ac
  */
 static int to_ac_power(const struct object *obj, int p)
 {
@@ -505,47 +505,47 @@ static int to_ac_power(const struct object *obj, int p)
 
 	q = (obj->to_a * TO_AC_POWER / 2);
 	p += q;
-	log_obj("Add %d power for to_ac of %d, total is %d\n", q, obj->to_a, p);
+	log_obj("Añadir %d de poder por to_ac de %d, total es %d\n", q, obj->to_a, p);
 	if (obj->to_a > HIGH_TO_AC) {
 		q = ((obj->to_a - (HIGH_TO_AC - 1)) * TO_AC_POWER);
 		p += q;
-		log_obj("Add %d power for high to_ac, total is %d\n", q, p);
+		log_obj("Añadir %d de poder por to_ac alto, total es %d\n", q, p);
 	}
 	if (obj->to_a > VERYHIGH_TO_AC) {
 		q = ((obj->to_a - (VERYHIGH_TO_AC -1)) * TO_AC_POWER * 2);
 		p += q;
-		log_obj("Add %d power for very high to_ac, total is %d\n",
+		log_obj("Añadir %d de poder por to_ac muy alto, total es %d\n",
 			q, p);
 	}
 	if (obj->to_a >= INHIBIT_AC) {
 		p += INHIBIT_POWER;
-		log_obj("INHIBITING: AC bonus too high\n");
+		log_obj("INHIBICIÓN: Bonificación de CA demasiado alta\n");
 	}
 	return p;
 }
 
 /**
- * Add base power for jewelry
+ * Añadir poder base para joyería
  */
 static int jewelry_power(const struct object *obj, int p)
 {
 	if (tval_is_jewelry(obj)) {
 		p += BASE_JEWELRY_POWER;
-		log_obj("Adding %d power for jewelry, total is %d\n",
+		log_obj("Añadiendo %d de poder para joyería, total es %d\n",
 			BASE_JEWELRY_POWER, p);
 	}
 	return p;
 }
 
 /**
- * Add power for modifiers
+ * Añadir poder por modificadores
  */
 static int modifier_power(const struct object *obj, int p)
 {
 	int i, k, extra_stat_bonus = 0, q;
 
 	for (i = 0; i < OBJ_MOD_MAX; i++) {
-		/* Get the modifier details */
+		/* Obtener los detalles del modificador */
 		struct obj_property *mod = lookup_obj_property(OBJ_PROPERTY_MOD, i);
 		assert(mod);
 
@@ -555,28 +555,28 @@ static int modifier_power(const struct object *obj, int p)
 		if (mod->power) {
 			q = (k * mod->power * mod->type_mult[obj->tval]);
 			p += q;
-			if (q) log_obj("Add %d power for %d %s, total is %d\n",
+			if (q) log_obj("Añadir %d de poder por %d %s, total es %d\n",
 				q, k, mod->name, p);
 		}
 	}
 
-	/* Add extra power term if there are a lot of ability bonuses */
+	/* Añadir término de poder extra si hay muchas bonificaciones de habilidad */
 	if (extra_stat_bonus > 249) {
-		log_obj("Inhibiting - Total ability bonus of %d is too high\n",
+		log_obj("Inhibición - Bonificación de habilidad total de %d es demasiado alta\n",
 			extra_stat_bonus);
 		p += INHIBIT_POWER;
 	} else if (extra_stat_bonus > 0) {
 		q = ability_power[extra_stat_bonus / 10];
 		if (!q) return p;
 		p += q;
-		log_obj("Add %d power for modifier total of %d, total is %d\n",
+		log_obj("Añadir %d de poder por total de modificador de %d, total es %d\n",
 			q, extra_stat_bonus, p);
 	}
 	return p;
 }
 
 /**
- * Add power for non-derived flags (derived flags have flag_power 0)
+ * Añadir poder por banderas no derivadas (las banderas derivadas tienen flag_power 0)
  */
 static int flags_power(const struct object *obj, int p, int verbose,
 					   ang_file *log_file)
@@ -585,47 +585,47 @@ static int flags_power(const struct object *obj, int p, int verbose,
 	int q;
 	bitflag flags[OF_SIZE];
 
-	/* Extract the flags */
+	/* Extraer las banderas */
 	object_flags(obj, flags);
 
-	/* Zero the flag counts */
+	/* Poner a cero los contadores de banderas */
 	for (i = 0; i < N_ELEMENTS(flag_sets); i++)
 		flag_sets[i].count = 0;
 
 	for (i = of_next(flags, FLAG_START); i != FLAG_END; 
 		 i = of_next(flags, i + 1)) {
-		/* Get the flag details */
+		/* Obtener los detalles de la bandera */
 		struct obj_property *flag = lookup_obj_property(OBJ_PROPERTY_FLAG, i);
 		assert(flag);
 
 		if (flag->power) {
 			q = (flag->power * flag->type_mult[obj->tval]);
 			p += q;
-			log_obj("Add %d power for %s, total is %d\n",
+			log_obj("Añadir %d de poder por %s, total es %d\n",
 				q, flag->name, p);
 		}
 
-		/* Track combinations of flag types */
+		/* Rastrear combinaciones de tipos de banderas */
 		for (j = 0; j < N_ELEMENTS(flag_sets); j++)
 			if (flag_sets[j].type == flag->subtype)
 				flag_sets[j].count++;
 	}
 
-	/* Add extra power for multiple flags of the same type */
+	/* Añadir poder extra por múltiples banderas del mismo tipo */
 	for (i = 0; i < N_ELEMENTS(flag_sets); i++) {
 		if (flag_sets[i].count > 1) {
 			q = (flag_sets[i].factor * flag_sets[i].count * flag_sets[i].count);
 			p += q;
-			log_obj("Add %d power for multiple %s, total is %d\n",
+			log_obj("Añadir %d de poder por múltiples %s, total es %d\n",
 				q, flag_sets[i].desc, p);
 		}
 
-		/* Add bonus if item has a full set of these flags */
+		/* Añadir bonificación si el objeto tiene un conjunto completo de estas banderas */
 		if (flag_sets[i].count == flag_sets[i].size) {
 			q = flag_sets[i].bonus;
 			p += q;
-			log_obj("Add %d power for full set of %s,"
-				" total is %d\n", q, flag_sets[i].desc, p);
+			log_obj("Añadir %d de poder por conjunto completo de %s,"
+				" total es %d\n", q, flag_sets[i].desc, p);
 		}
 	}
 
@@ -633,25 +633,25 @@ static int flags_power(const struct object *obj, int p, int verbose,
 }
 
 /**
- * Add power for elemental properties
+ * Añadir poder por propiedades elementales
  */
 static int element_power(const struct object *obj, int p)
 {
 	size_t i, j;
 	int q;
 
-	/* Zero the set counts */
+	/* Poner a cero los contadores de conjuntos */
 	for (i = 0; i < N_ELEMENTS(element_sets); i++)
 		element_sets[i].count = 0;
 
-	/* Analyse each element for ignore, vulnerability, resistance or immunity */
+	/* Analizar cada elemento para ignorar, vulnerabilidad, resistencia o inmunidad */
 	for (i = 0; i < N_ELEMENTS(el_powers); i++) {
 		if (obj->el_info[i].flags & EL_INFO_IGNORE) {
 			if (el_powers[i].ignore_power != 0) {
 				q = (el_powers[i].ignore_power);
 				p += q;
-				log_obj("Add %d power for ignoring %s, total"
-					" is %d\n", q, el_powers[i].name, p);
+				log_obj("Añadir %d de poder por ignorar %s, total"
+					" es %d\n", q, el_powers[i].name, p);
 			}
 		}
 
@@ -659,50 +659,50 @@ static int element_power(const struct object *obj, int p)
 			if (el_powers[i].vuln_power != 0) {
 				q = (el_powers[i].vuln_power);
 				p += q;
-				log_obj("Add %d power for vulnerability to"
-					" %s, total is %d\n", q,
+				log_obj("Añadir %d de poder por vulnerabilidad a"
+					" %s, total es %d\n", q,
 					el_powers[i].name, p);
 			}
 		} else if (obj->el_info[i].res_level == 1) {
 			if (el_powers[i].res_power != 0) {
 				q = (el_powers[i].res_power);
 				p += q;
-				log_obj("Add %d power for resistance to"
-					" %s, total is %d\n", q,
+				log_obj("Añadir %d de poder por resistencia a"
+					" %s, total es %d\n", q,
 					el_powers[i].name, p);
 			}
 		} else if (obj->el_info[i].res_level == 3) {
 			if (el_powers[i].im_power != 0) {
 				q = (el_powers[i].im_power + el_powers[i].res_power);
 				p += q;
-				log_obj("Add %d power for immunity to"
-					" %s, total is %d\n", q,
+				log_obj("Añadir %d de poder por inmunidad a"
+					" %s, total es %d\n", q,
 					el_powers[i].name, p);
 			}
 		}
 
-		/* Track combinations of element properties */
+		/* Rastrear combinaciones de propiedades elementales */
 		for (j = 0; j < N_ELEMENTS(element_sets); j++)
 			if ((element_sets[j].type == el_powers[i].type) &&
 				(element_sets[j].res_level <= obj->el_info[i].res_level))
 				element_sets[j].count++;
 	}
 
-	/* Add extra power for multiple flags of the same type */
+	/* Añadir poder extra por múltiples banderas del mismo tipo */
 	for (i = 0; i < N_ELEMENTS(element_sets); i++) {
 		if (element_sets[i].count > 1) {
 			q = (element_sets[i].factor * element_sets[i].count * element_sets[i].count);
 			p += q;
-			log_obj("Add %d power for multiple %s, total is %d\n",
+			log_obj("Añadir %d de poder por múltiples %s, total es %d\n",
 				q, element_sets[i].desc, p);
 		}
 
-		/* Add bonus if item has a full set of these flags */
+		/* Añadir bonificación si el objeto tiene un conjunto completo de estas banderas */
 		if (element_sets[i].count == element_sets[i].size) {
 			q = element_sets[i].bonus;
 			p += q;
-			log_obj("Add %d power for full set of %s,"
-				" total is %d\n", q, element_sets[i].desc, p);
+			log_obj("Añadir %d de poder por conjunto completo de %s,"
+				" total es %d\n", q, element_sets[i].desc, p);
 		}
 	}
 
@@ -710,7 +710,7 @@ static int element_power(const struct object *obj, int p)
 }
 
 /**
- * Add power for effect
+ * Añadir poder por efecto
  */
 static int effects_power(const struct object *obj, int p)
 {
@@ -724,14 +724,14 @@ static int effects_power(const struct object *obj, int p)
 
 	if (q) {
 		p += q;
-		log_obj("Add %d power for item activation, total is %d\n",
+		log_obj("Añadir %d de poder por activación de objeto, total es %d\n",
 			q, p);
 	}
 	return p;
 }
 
 /**
- * Add power for curses
+ * Añadir poder por maldiciones
  */
 static int curse_power(const struct object *obj, int p, int verbose,
 					   ang_file *log_file)
@@ -740,16 +740,16 @@ static int curse_power(const struct object *obj, int p, int verbose,
 
 	if (obj->curses) {
 		/*
-		 * Treat weight-affecting curses differently since those may
-		 * not be modeled well with power(base object)
-		 * + power(curse 1) + ....  Could treat all curses the way
-		 * weight-affecting curses are, but separating them out keeps
-		 * the results the same as the 4.2.5 calculations when the
-		 * object does not have weight-affecting curses.
+		 * Tratar las maldiciones que afectan el peso de manera diferente ya que pueden
+		 * no modelarse bien con poder(objeto base)
+		 * + poder(maldición 1) + .... Podríamos tratar todas las maldiciones de la manera
+		 * en que se tratan las que afectan el peso, pero separarlas mantiene
+		 * los resultados iguales que los cálculos de 4.2.5 cuando el
+		 * objeto no tiene maldiciones que afectan el peso.
 		 */
 		bool weight_affecting = false;
 
-		/* Get the curse object power unless it affects the weight. */
+		/* Obtener el poder del objeto de maldición a menos que afecte el peso. */
 		for (i = 1; i < z_info->curse_max; i++) {
 			int curse_power;
 
@@ -768,21 +768,21 @@ static int curse_power(const struct object *obj, int p, int verbose,
 				}
 			}
 
-			log_obj("Calculating %s curse power...\n",
+			log_obj("Calculando poder de maldición %s...\n",
 				curses[i].name);
 			curse_power =
 				object_power(curses[i].obj, verbose, log_file);
 			curse_power -= obj->curses[i].power / 10;
-			log_obj("Adjust for strength of curse, %d for"
-				" %s curse power\n", curse_power,
+			log_obj("Ajustado por fuerza de maldición, %d para"
+				" poder de maldición %s\n", curse_power,
 					curses[i].name);
 			q += curse_power;
 		}
 
 		if (weight_affecting) {
 			/*
-			 * Get the power for the object with all the curses'
-			 * attributes combined with those for the base object.
+			 * Obtener el poder para el objeto con todos los atributos de las maldiciones
+			 * combinados con los del objeto base.
 			 */
 			struct object obj_local;
 			int p_all_curse;
@@ -791,7 +791,7 @@ static int curse_power(const struct object *obj, int p, int verbose,
 			object_copy(&obj_local, obj);
 			apply_curse_attributes(-1, &obj_local);
 			/*
-			 * Clear curses since all included by
+			 * Limpiar maldiciones ya que todas están incluidas por
 			 * apply_curse_attributes().
 			 */
 			mem_free(obj_local.curses);
@@ -800,15 +800,15 @@ static int curse_power(const struct object *obj, int p, int verbose,
 				log_file);
 			mem_free(obj_local.brands);
 			mem_free(obj_local.slays);
-			log_obj("Power is %d with all curses applied\n",
+			log_obj("El poder es %d con todas las maldiciones aplicadas\n",
 				p_all_curse);
 
 			/*
-			 * Now get the power for the object which has one of
-			 * the active curses removed.  The difference between
-			 * that power and p_all_curse is the power of the
-			 * curse.  Skip the non-weight-affecting curses handled
-			 * in the first pass.
+			 * Ahora obtener el poder para el objeto que tiene una de las
+			 * maldiciones activas eliminadas. La diferencia entre
+			 * ese poder y p_all_curse es el poder de la
+			 * maldición. Omitir las maldiciones que no afectan el peso manejadas
+			 * en la primera pasada.
 			 */
 			for (i = 1; i < z_info->curse_max; ++i) {
 				int p_all_but_i, p_curse;
@@ -831,8 +831,8 @@ static int curse_power(const struct object *obj, int p, int verbose,
 				object_copy(&obj_local, obj);
 				apply_curse_attributes(i, &obj_local);
 				/*
-				 * Clear curses since all of interest included
-				 * by apply_curse_attributes().
+				 * Limpiar maldiciones ya que todas las de interés están incluidas
+				 * por apply_curse_attributes().
 				 */
 				mem_free(obj_local.curses);
 				obj_local.curses = NULL;
@@ -840,28 +840,27 @@ static int curse_power(const struct object *obj, int p, int verbose,
 					log_file);
 				mem_free(obj_local.brands);
 				mem_free(obj_local.slays);
-				log_obj("Power is %d with all but %s curse"
-					" applied\n", p_all_but_i,
+				log_obj("El poder es %d con todas excepto la maldición %s"
+					" aplicada\n", p_all_but_i,
 					curses[i].name);
 
 				/*
-				 * The effect of this curse on the total power
-				 * is the difference between p_all_curse and
-				 * p_all_but_i.  If that difference is
-				 * is not negative, use it as is:  at least
-				 * according to the power calculation, it does
-				 * not make sense to remove that curse so the
-				 * curse's resistance to removal does not
-				 * matter.
+				 * El efecto de esta maldición en el poder total
+				 * es la diferencia entre p_all_curse y
+				 * p_all_but_i. Si esa diferencia no es negativa,
+				 * usarla tal cual: al menos según el cálculo de poder,
+				 * no tiene sentido eliminar esa maldición, por lo que la
+				 * resistencia de la maldición a la eliminación no
+				 * importa.
 				 */
 				p_curse = sub_guardi(p_all_curse, p_all_but_i);
 				if (p_curse < 0) {
 					/*
-					 * The curse reduces the object's
-					 * power: scale the contribution to
-					 * power attributed to the curse by
-					 * a factor that increases with the
-					 * curse's resistance to removal.
+					 * La maldición reduce el poder del
+					 * objeto: escalar la contribución al
+					 * poder atribuida a la maldición por
+					 * un factor que aumenta con la
+					 * resistencia de la maldición a la eliminación.
 					 */
 					int resistance = MAX(20, MIN(100,
 						obj->curses[i].power));
@@ -871,7 +870,7 @@ static int curse_power(const struct object *obj, int p, int verbose,
 						p_curse * resistance : INT_MIN;
 					p_curse /= 100;
 				}
-				log_obj("Adjusted power is %d for %s curse\n",
+				log_obj("El poder ajustado es %d para la maldición %s\n",
 					p_curse, curses[i].name);
 
 				q = add_guardi(q, p_curse);
@@ -881,7 +880,7 @@ static int curse_power(const struct object *obj, int p, int verbose,
 
 	if (q != 0) {
 		p += q;
-		log_obj("Total of %d power added for curses, total is %d\n",
+		log_obj("Total de %d de poder añadido por maldiciones, total es %d\n",
 			q, p);
 	}
 	return p;
@@ -889,19 +888,19 @@ static int curse_power(const struct object *obj, int p, int verbose,
 
 
 /**
- * Adjust power for a non-standard weight of the object.
+ * Ajustar el poder por un peso no estándar del objeto.
  *
- * This currently only considers changes to the weight from curses.  It could
- * instead use obj->kind->weight as the standard weight but that would:
- *     1) Cause the be power to different than the 4.2.5 calculations when there
- *        are no weight-affecting curses present but obj->weight differs from
+ * Esto actualmente solo considera cambios en el peso de las maldiciones. Podría
+ * usar obj->kind->weight como el peso estándar, pero eso:
+ *     1) Haría que el poder fuera diferente a los cálculos de 4.2.5 cuando hay
+ *        maldiciones que afectan el peso presentes pero obj->weight difiere de
  *        obj->kind->weight.
- *     2) In the presense of weight-affecting curses, one would have to guard
- *        against performing these calculations on curse objects (i.e.
+ *     2) En presencia de maldiciones que afectan el peso, uno tendría que protegerse
+ *        contra la realización de estos cálculos en objetos de maldición (es decir,
  *        obj->kind->tval == curse_object_kind->tval
- *        && obj->kind->sval == curse_object_kind->sval) since the weights
- *        on those are adjustments to the base weight of the object the curse
- *        affects and differ from obj->kind->weight.
+ *        && obj->kind->sval == curse_object_kind->sval) ya que los pesos
+ *        en esos son ajustes al peso base del objeto que la maldición
+ *        afecta y difieren de obj->kind->weight.
  */
 static int nonstandard_weight_power(const struct object *obj, int p)
 {
@@ -912,16 +911,16 @@ static int nonstandard_weight_power(const struct object *obj, int p)
 
 	assert(nonstd_weight >= 0);
 	if (std_weight == nonstd_weight) {
-		/* No change to the weight so no change to the power. */
+		/* Sin cambio en el peso, sin cambio en el poder. */
 		return p;
 	}
 
-	/* Start with no adjustment. */
+	/* Comenzar sin ajuste. */
 	adj = 0;
 
 	/*
-	 * To handle THROWING below, Merge flags from the base object and any
-	 * curses.
+	 * Para manejar THROWING a continuación, fusionar las banderas del objeto base y cualquier
+	 * maldición.
 	 */
 	of_copy(flags, obj->flags);
 	if (obj->curses) {
@@ -935,12 +934,12 @@ static int nonstandard_weight_power(const struct object *obj, int p)
 	}
 
 	/*
-	 * ac_power() accounted for the weight when the object provides a base
-	 * amount of armor so do not adjust the power for those objects here.
-	 * For objects which do not provide a base amount of armor, adjust
-	 * the power under the assumption that lighter than normal is beneficial
-	 * (more room under the weight cap for other stuff) and heavier than
-	 * normal is harmful.
+	 * ac_power() tuvo en cuenta el peso cuando el objeto proporciona una cantidad
+	 * base de armadura, por lo que no ajustar el poder para esos objetos aquí.
+	 * Para objetos que no proporcionan una cantidad base de armadura, ajustar
+	 * el poder bajo el supuesto de que más ligero de lo normal es beneficioso
+	 * (más espacio bajo el límite de peso para otras cosas) y más pesado de
+	 * lo normal es perjudicial.
 	 */
 	if (!obj->ac) {
 		int adj_wc = (std_weight - nonstd_weight)
@@ -953,14 +952,14 @@ static int nonstandard_weight_power(const struct object *obj, int p)
 			adj_wc = (adj_wc > INT_MIN / WGT_POWER_NUM_NOBASEAC) ?
 				adj_wc * WGT_POWER_NUM_NOBASEAC : INT_MIN;
 		}
-		log_obj("Add %d power for non-standard weight of object not"
-			" affecting base armor.\n", adj_wc);
+		log_obj("Añadir %d de poder por peso no estándar de objeto que no"
+			" afecta armadura base.\n", adj_wc);
 		adj = add_guardi(adj, adj_wc);
 	}
 
 	/*
-	 * Objects with the THROWING flag, either directly or via a curse, can
-	 * increase damage with increasing weight.  Adjust the power for that.
+	 * Los objetos con la bandera THROWING, ya sea directamente o a través de una
+	 * maldición, pueden aumentar el daño con el aumento de peso. Ajustar el poder por eso.
 	 */
 	if (of_has(flags, OF_THROWING)) {
 		int adj_th = nonstd_weight / WGT_POWER_DEN_THROW
@@ -973,26 +972,26 @@ static int nonstandard_weight_power(const struct object *obj, int p)
 			adj_th = (adj_th > INT_MIN / WGT_POWER_NUM_THROW) ?
 				adj_th * WGT_POWER_NUM_THROW : INT_MIN;
 		}
-		log_obj("Add %d power for non-standard weight of object good"
-			" for throwing.\n", adj_th);
+		log_obj("Añadir %d de poder por peso no estándar de objeto bueno"
+			" para lanzar.\n", adj_th);
 		adj = add_guardi(adj, adj_th);
 	}
 
 	/*
-	 * Weight also affects number of blows (melee weapons only),
-	 * heavy wield status (melee weapon or launcher; strength-dependent
-	 * and normally only relevant for quite heavy objects), criticals
-	 * (for melee, launched missile, or thrown missile but only in non-O
-	 * combat calculations; increasing weight can increase the chance of
-	 * a critical and the amount of damage from the critical if it occurs),
-	 * and shield bashes (more weight is better; only relevant for some
-	 * classes).  None of those are accounted for here.
+	 * El peso también afecta el número de golpes (solo armas cuerpo a cuerpo),
+	 * el estado de empuñadura pesada (arma cuerpo a cuerpo o lanzador; dependiente de la fuerza
+	 * y normalmente solo relevante para objetos bastante pesados),
+	 * los críticos (para cuerpo a cuerpo, proyectil lanzado o proyectil lanzado, pero solo en
+	 * cálculos de combate no-O; aumentar el peso puede aumentar la probabilidad de
+	 * un crítico y la cantidad de daño del crítico si ocurre),
+	 * y los golpes con escudo (más peso es mejor; solo relevante para algunas
+	 * clases). Ninguno de estos se tiene en cuenta aquí.
 	 */
 
 	if (adj) {
 		p = add_guardi(p, adj);
-		log_obj("Add %d power combined for non-standard weight; "
-			"total is %p\n", adj, p);
+		log_obj("Añadir %d de poder combinado por peso no estándar; "
+			"total es %p\n", adj, p);
 	}
 
 	return p;
@@ -1000,21 +999,21 @@ static int nonstandard_weight_power(const struct object *obj, int p)
 
 
 /**
- * Evaluate the object's overall power level.
+ * Evaluar el nivel de poder general del objeto.
  */
 int32_t object_power(const struct object* obj, bool verbose, ang_file *log_file)
 {
 	int32_t p = 0, dice_pwr = 0;
 	int mult;
 
-	/* Set the log file */
+	/* Establecer el archivo de registro */
 	object_log = log_file;
 
-	/* Get all the attack power */
+	/* Obtener todo el poder de ataque */
 	p = to_damage_power(obj);
 	dice_pwr = damage_dice_power(obj);
 	p += dice_pwr;
-	if (dice_pwr) log_obj("total is %d\n", p);
+	if (dice_pwr) log_obj("total es %d\n", p);
 	p += ammo_damage_power(obj, p);
 	mult = bow_multiplier(obj);
 	p = launcher_ammo_damage_power(obj, p);
@@ -1028,14 +1027,14 @@ int32_t object_power(const struct object* obj, bool verbose, ang_file *log_file)
 	p = rescale_bow_power(obj, p);
 	p = to_hit_power(obj, p);
 
-	/* Armour class power */
+	/* Poder de clase de armadura */
 	p = ac_power(obj, p);
 	p = to_ac_power(obj, p);
 
-	/* Bonus for jewelry */
+	/* Bonificación por joyería */
 	p = jewelry_power(obj, p);
 
-	/* Other object properties */
+	/* Otras propiedades del objeto */
 	p = modifier_power(obj, p);
 	p = flags_power(obj, p, verbose, object_log);
 	p = element_power(obj, p);
@@ -1043,7 +1042,7 @@ int32_t object_power(const struct object* obj, bool verbose, ang_file *log_file)
 	p = curse_power(obj, p, verbose, object_log);
 	p = nonstandard_weight_power(obj, p);
 
-	log_obj("FINAL POWER IS %d\n", p);
+	log_obj("PODER FINAL ES %d\n", p);
 
 	return p;
 }
@@ -1051,19 +1050,19 @@ int32_t object_power(const struct object* obj, bool verbose, ang_file *log_file)
 
 /**
  * ------------------------------------------------------------------------
- * Object pricing
+ * Fijación de precios de objetos
  * ------------------------------------------------------------------------ */
 /**
- * Return the "value" of an "unknown" item
- * Make a guess at the value of non-aware items
+ * Devolver el "valor" de un objeto "desconocido"
+ * Hacer una estimación del valor de objetos no conocidos
  */
 static int object_value_base(const struct object *obj)
 {
-	/* Use template cost for aware objects */
+	/* Usar el coste de la plantilla para objetos conocidos */
 	if (object_flavor_is_aware(obj))
 		return obj->kind->cost;
 
-	/* Analyze the type */
+	/* Analizar el tipo */
 	switch (obj->tval)
 	{
 		case TV_FOOD:
@@ -1088,13 +1087,13 @@ static int object_value_base(const struct object *obj)
 
 
 /**
- * Return the real price of a known (or partly known) item.
+ * Devolver el precio real de un objeto conocido (o parcialmente conocido).
  *
- * Wand and staffs get cost for each charge.
+ * Las varitas y bastones obtienen coste por cada carga.
  *
- * Wearable items (weapons, launchers, jewelry, lights, armour) and ammo
- * are priced according to their power rating. All ammo, and normal (non-ego)
- * torches are scaled down by AMMO_RESCALER to reflect their impermanence.
+ * Los objetos equipables (armas, lanzadores, joyería, luces, armadura) y munición
+ * se valoran según su nivel de poder. Toda la munición y las antorchas normales (sin ego)
+ * se reducen por AMMO_RESCALER para reflejar su impermanencia.
  */
 int object_value_real(const struct object *obj, int qty)
 {
@@ -1102,39 +1101,39 @@ int object_value_real(const struct object *obj, int qty)
 
 	int power;
 	/*
-	 * This is the quadratic coefficient for power in the expression for
-	 * the real value.  Must be non-negative.
+	 * Este es el coeficiente cuadrático para el poder en la expresión para
+	 * el valor real. Debe ser no negativo.
 	 */
 	int a = 1;
 	/*
-	 * This is the linear coefficient for power in the expression for
-	 * the real value.  Must be non-negative.
+	 * Este es el coeficiente lineal para el poder en la expresión para
+	 * el valor real. Debe ser no negativo.
 	 */
 	int b = 5;
 
-	/* Wearables and ammo have prices that vary by individual item properties */
+	/* Los equipables y la munición tienen precios que varían según las propiedades individuales del objeto */
 	if (tval_has_variable_power(obj)) {
 #ifdef PRICE_DEBUG
 		char buf[1024];
 		ang_file *log_file = NULL;
 		static file_mode pricing_mode = MODE_WRITE;
 
-		/* Logging */
+		/* Registro */
 		path_build(buf, sizeof(buf), ANGBAND_DIR_USER, "pricing.log");
 		log_file = file_open(buf, pricing_mode, FTYPE_TEXT);
 		if (!log_file) {
-			msg("Error - can't open pricing.log for writing.");
+			msg("Error - no se puede abrir pricing.log para escribir.");
 			exit(1);
 		}
 		pricing_mode = MODE_APPEND;
 
-		file_putf(log_file, "object is %s\n", obj->kind->name);
+		file_putf(log_file, "objeto es %s\n", obj->kind->name);
 
 		power = object_power(obj, true, log_file);
 #else /* PRICE_DEBUG */
 		power = object_power(obj, false, NULL);
 #endif /* PRICE_DEBUG */
-		/* Protect against overflow. */
+		/* Proteger contra desbordamiento. */
 		if (power > 0) {
 			if (a > 0) {
 				if (power <= (INT_MAX / power - b) / a) {
@@ -1142,7 +1141,7 @@ int object_value_real(const struct object *obj, int qty)
 				} else {
 					value = INT_MAX;
 #ifdef PRICE_DEBUG
-					file_put(log_file, "Capped value to prevent overflow.\n");
+					file_put(log_file, "Valor limitado para evitar desbordamiento.\n");
 #endif
 				}
 			} else if (b > 0) {
@@ -1151,7 +1150,7 @@ int object_value_real(const struct object *obj, int qty)
 				} else {
 					value = INT_MAX;
 #ifdef PRICE_DEBUG
-					file_put(log_file, "Capped value to prevent overflow.\n");
+					file_put(log_file, "Valor limitado para evitar desbordamiento.\n");
 #endif
 				}
 			} else {
@@ -1164,7 +1163,7 @@ int object_value_real(const struct object *obj, int qty)
 				} else {
 					value = INT_MIN;
 #ifdef PRICE_DEBUG
-					file_put(log_file, "Capped value to prevent overflow.\n");
+					file_put(log_file, "Valor limitado para evitar desbordamiento.\n");
 #endif
 				}
 			} else if (b > 0) {
@@ -1173,7 +1172,7 @@ int object_value_real(const struct object *obj, int qty)
 				} else {
 					value = INT_MIN;
 #ifdef PRICE_DEBUG
-					file_put(log_file, "Capped value to prevent overflow.\n");
+					file_put(log_file, "Valor limitado para evitar desbordamiento.\n");
 #endif
 				}
 			} else {
@@ -1183,88 +1182,88 @@ int object_value_real(const struct object *obj, int qty)
 			value = 0;
 		}
 
-		/* Rescale for expendables */
+		/* Reescalar para consumibles */
 		if ((tval_is_light(obj) && of_has(obj->flags, OF_BURNS_OUT)
 			 && !obj->ego) || tval_is_ammo(obj)) {
 			value = value / AMMO_RESCALER;
 		}
 
-		/* Round up to make sure things like cloaks are not worthless */
+		/* Redondear hacia arriba para asegurar que cosas como capas no sean sin valor */
 		if (value == 0) {
 			value = 1;
 		}
 
 #ifdef PRICE_DEBUG
-		/* More logging */
-		file_putf(log_file, "a is %d and b is %d\n", a, b);
-		file_putf(log_file, "value is %d\n", value);
+		/* Más registro */
+		file_putf(log_file, "a es %d y b es %d\n", a, b);
+		file_putf(log_file, "valor es %d\n", value);
 
 		if (!file_close(log_file)) {
-			msg("Error - can't close pricing.log file.");
+			msg("Error - no se puede cerrar el archivo pricing.log.");
 			exit(1);
 		}
 #endif /* PRICE_DEBUG */
 
-		/* Get the total value */
+		/* Obtener el valor total */
 		total_value = value * qty;
 		if (total_value < 0) total_value = 0;
 	} else {
 
-		/* Worthless items */
+		/* Objetos sin valor */
 		if (!obj->kind->cost) return (0L);
 
-		/* Base cost */
+		/* Coste base */
 		value = obj->kind->cost;
 
-		/* Analyze the item type and quantity */
+		/* Analizar el tipo de objeto y la cantidad */
 		if (tval_can_have_charges(obj)) {
 			int charges;
 
 			total_value = value * qty;
 
-			/* Calculate number of charges, rounded up */
+			/* Calcular el número de cargas, redondeado hacia arriba */
 			charges = obj->pval * qty / obj->number;
 			if ((obj->pval * qty) % obj->number != 0)
 				charges++;
 
-			/* Pay extra for charges, depending on standard number of charges */
+			/* Pagar extra por cargas, dependiendo del número estándar de cargas */
 			total_value += value * charges / 20;
 		} else {
 			total_value = value * qty;
 		}
 
-		/* No negative value */
+		/* Sin valor negativo */
 		if (total_value < 0) total_value = 0;
 	}
 
-	/* Return the value */
+	/* Devolver el valor */
 	return (total_value);
 }
 
 
 /**
- * Return the price of an item including plusses (and charges).
+ * Devolver el precio de un objeto incluyendo pluses (y cargas).
  *
- * This function returns the "value" of the given item (qty one).
+ * Esta función devuelve el "valor" del objeto dado (cantidad uno).
  *
- * Never notice unknown bonuses or properties, including curses,
- * since that would give the player information they did not have.
+ * Nunca notificar bonificaciones o propiedades desconocidas, incluyendo maldiciones,
+ * ya que eso daría información al jugador que no tenía.
  */
 int object_value(const struct object *obj, int qty)
 {
 	int value;
 
-	/* Variable power items are assessed by what is known about them */
+	/* Los objetos de poder variable se evalúan según lo que se sabe de ellos */
 	if (tval_has_variable_power(obj) && obj->known) {
 		value = object_value_real(obj->known, qty);
 	} else if (tval_can_have_flavor_k(obj->kind) &&
 			   object_flavor_is_aware(obj)) {
 		value = object_value_real(obj, qty);
 	} else {
-		/* Unknown constant-price items just get a base value */
+		/* Los objetos desconocidos de precio constante solo obtienen un valor base */
 		value = object_value_base(obj) * qty;
 	}
 
-	/* Return the final value */
+	/* Devolver el valor final */
 	return (value);
 }

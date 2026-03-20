@@ -95,7 +95,7 @@ graphics:light umber
 # max-stack:1
 flags:HATES_ACID
 
-name:cloak:Cloak~
+name:cloak:Capa~
 graphics:light umber
 # max-stack:1
 flags:HATES_ACID | HATES_FIRE

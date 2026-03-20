@@ -312,5 +312,6 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\obj-init.h                           | 100      |
 | src\obj-init.c                           | 100      |
 | src\obj-chest.c                          | 100      |
+| src\obj-power.c                          | 100      |
 | src\player.h                             | 100      |
 | src\store.c                              | 100      |

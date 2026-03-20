@@ -604,9 +604,9 @@ object:hard armor:Mithril Plate Mail:0x88:0x9C
 object:hard armor:Adamantite Plate Mail:0x88:0x9C
 
 
-### The Cloaks ###
+### Capas ###
 
-object:cloak:Cloak:0x88:0x80
+object:cloak:Capa:0x88:0x80
 object:cloak:Fur Cloak:0x88:0x81
 object:cloak:Elven Cloak:0x88:0x80
 object:cloak:Ethereal Cloak:0x88:0x81

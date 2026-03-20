@@ -25,7 +25,7 @@ owner:20000:Snafu the Midget (Gnome)
 owner:30000:Lyar-el the Comely (Elf)
 slots:0:4
 turnover:2
-always:cloak:Cloak
+always:cloak:Capa
 always:food:Ration of Food
 always:light:Antorcha de Madera
 always:flask:Frasco de Aceite

@@ -1776,7 +1776,7 @@ desc:Un exquisito traje de adamantita casi impenetrable.
 
 ### Capas ###
 
-name:& Cloak~
+name:& Capa~
 type:cloak
 graphics:(:g
 level:1
