@@ -185,7 +185,7 @@ y dejas "Manzana" ese index cambia, y si luego cargas una salvada de partida vie
 - El plural va con el símbolo ~ ejemplo: Antorcha~ de Madera y solo en el archivo object.txt
 
 ## Encoding
-Todos los archivo deben traducirse usando encoding **UTF-8**.
+Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (Byte Order Market).
 
 ## Pendientes de traducción
 - Cambios de imágenes gráficas General Store, Armory, Magic Items, Black Market, Temple.
