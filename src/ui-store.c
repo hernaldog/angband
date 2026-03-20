@@ -673,7 +673,7 @@ static bool store_purchase(struct store_context *ctx, int item, bool single)
 		else
 			num = find_inven(obj);
 
-		strnfmt(o_name, sizeof o_name, "%s cuántos%s? (máx %d) ",
+		strnfmt(o_name, sizeof o_name, "¿Cuántos %s%s? (máx %d) ",  //Fix traduc
 				(store->feat == FEAT_HOME) ? "Coger" : "Comprar",
 				num ? format(" (tienes %d)", num) : "", amt);
 
@@ -1106,7 +1106,7 @@ static bool store_menu_handle(struct menu *m, const ui_event *event, int oid)
 				/* usar la forma antigua de comprar objetos */
 				msg_flag = false;
 				if (store->feat != FEAT_HOME) {
-					prt("¿Comprar qué objeto? (ESC para cancelar, Enter seleccionar)",
+					prt("¿Qué objeto comprar? (ESC para cancelar, Enter seleccionar)",
 						0, 0);
 				} else {
 					prt("¿Qué objeto tomar? (ESC cancelar, Enter seleccionar)",  //fix traduc
@@ -1122,7 +1122,7 @@ static bool store_menu_handle(struct menu *m, const ui_event *event, int oid)
 			case 'x':
 				/* usar la forma antigua de examinar objetos */
 				msg_flag = false;
-				prt("¿Examinar qué objeto? (ESC cancelar, Enter seleccionar)",
+				prt("¿Qué objeto examinar? (ESC cancelar, Enter seleccionar)",
 					0, 0);
 				oid = store_get_stock(m, oid);
 				prt("", 0, 0);
