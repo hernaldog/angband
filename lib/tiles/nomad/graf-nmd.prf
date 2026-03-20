@@ -440,7 +440,7 @@ object:bolt:Seeker Bolt:0x90:0x98
 ##### Digging Tools #####
 
 object:digger:Mattock:0x89:0x90
-object:digger:Pick:0x89:0x91
+object:digger:Pico:0x89:0x91
 object:digger:Pala:0x89:0x92
 
 

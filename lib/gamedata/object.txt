@@ -1377,7 +1377,7 @@ armor:0:0
 flags:DIG_1
 desc:Una pala compacta y resistente.
 
-name:& Pick~
+name:& Pico~
 type:digger
 graphics:\:g
 level:30

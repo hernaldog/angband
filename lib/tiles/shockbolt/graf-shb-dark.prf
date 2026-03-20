@@ -426,7 +426,7 @@ object:shot:Mithril Shot:0x8B:0xB6
 ##### Digging Tools #####
 
 object:digger:Pala:0x87:0x9E
-object:digger:Pick:0x87:0x9B
+object:digger:Pico:0x87:0x9B
 object:digger:Mattock:0x87:0x9D
 
 ##### Armor #####

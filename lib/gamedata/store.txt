@@ -31,7 +31,7 @@ always:food:Ración de Comida
 always:light:Antorcha de Madera
 always:flask:Frasco de Aceite
 always:digger:Pala
-always:digger:Pick
+always:digger:Pico
 always:shot:Iron Shot
 always:arrow:Arrow
 always:bolt:Bolt
