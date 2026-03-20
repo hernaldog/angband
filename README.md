@@ -228,6 +228,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (By
 | -----------------------------------------| ------   | -----------------------------------------------------|
 | docs\attack.rst                          | 100      |
 | docs\command.rst                         | 100      |
+| docs\dungeon.rst                         | 100      |
 | docs\customize.rst                       | 100      |
 | docs\hacking\modifying.rst               | 100      |
 | lib\gamedata\player_property.txt         | 100      |
