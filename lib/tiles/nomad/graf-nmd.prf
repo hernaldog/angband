@@ -332,7 +332,7 @@ object:food:Galleta Dura:0x89:0x8D
 #object:food:Manzana
 #object:food:Puñado de Fruta Seca
 object:food:Moho Baboso:0x89:0x89
-object:food:Ration of Food:0x89:0x88
+object:food:Ración de Comida:0x89:0x88
 #object:food:Scrap of Flesh
 #object:food:Slice of Meat
 #object:food:Honey-cake

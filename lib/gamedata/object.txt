@@ -289,7 +289,7 @@ dice:15
 desc:Un extraño crecimiento de hongos, propenso a moverse si no se observa. No muy sabroso,
 desc: pero bastante saciante.
 
-name:& Ration~ of Food
+name:& Ración~ de Comida
 type:food
 graphics:,:U
 level:0
