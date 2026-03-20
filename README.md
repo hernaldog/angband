@@ -257,6 +257,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\ui-knowledge.c                       | 100      |
 | src\ui-game.c                            | 100      |
 | src\ui-score.c                           | 100      |
+| src\ui-event.h                           | 100      |
 | src\list-equip-slots.h                   | 100      |
 | src\obj-desc.c                           | 100      |
 | src\ui-obj-list.c                        | 100      |
