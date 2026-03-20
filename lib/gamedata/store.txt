@@ -35,7 +35,7 @@ always:shot:Iron Shot
 always:arrow:Arrow
 always:bolt:Bolt
 normal:food:Pint of Fine Wine
-normal:food:Slime Mold
+normal:food:Moho Baboso
 normal:food:Flask of Whisky
 normal:food:Galleta Dura
 normal:mushroom:Stoneskin

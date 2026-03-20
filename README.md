@@ -247,6 +247,8 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | lib\help\r_index.txt                     | 100      |
 | lib\help\symbols.txt                     | 100      |
 | lib\screens\news.txt                     | 100      |
+| src\borg\borg.txt                        | 100      |
+| src\borg\borg-item.c                     | 100      |
 | src\main-win.c                           | 100      |
 | src\init.h                               | 100      |
 | src\borg\borg-messages.c                 | 100      |
@@ -301,7 +303,6 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\mon-init.c                           | 100      |
 | src\mon-blows.h                          | 100      |
 | src\mon-blows.c                          | 100      |
-| src\borg\borg.txt                        | 100      |
 | src\obj-tval.c                           | 100      |
 | src\object.h                             | 100      |
 | src\obj-desc.h                           | 100      |

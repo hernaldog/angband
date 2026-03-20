@@ -274,7 +274,7 @@ dice:15
 desc:Fruta troceada y secada al sol, preparada como ración de marcha para los
 desc: guardabosques de Ithilien.
 
-name:& Slime Mold~
+name:& Moho~ Baboso~
 type:food
 graphics:,:g
 level:1
