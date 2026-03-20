@@ -1806,10 +1806,10 @@ desc: and disruptive magics.  It protects the life force of its wearer as
 desc: nothing else can.
 
 
-### Cloaks ###
+### Capas ###
 
 name:'Colluin'
-base-object:cloak:Cloak
+base-object:cloak:Capas
 level:12
 weight:10
 cost:50000
@@ -1823,7 +1823,7 @@ desc:A cape worn by a hero from Valinor, a land utterly beyond the strife
 desc: of Elements.
 
 name:'Holcolleth'
-base-object:cloak:Cloak
+base-object:cloak:Capas
 level:13
 weight:10
 cost:18000
@@ -1838,7 +1838,7 @@ desc: concealment, and grants the wearer the knowledge and understanding of
 desc: the Sindar.
 
 name:of Thingol
-base-object:cloak:Cloak
+base-object:cloak:Capas
 level:62
 weight:10
 cost:35000
@@ -1853,7 +1853,7 @@ desc:A translucent cloak of pearly grey with glowing, energized Elven runes
 desc: showing calm and clear as moonlight on still water.
 
 name:of Thorongil
-base-object:cloak:Cloak
+base-object:cloak:Capas
 level:5
 weight:10
 cost:8000
@@ -1867,7 +1867,7 @@ desc: Aragorn, a keen-eyed captain of Rohan and Gondor, valiant on both land
 desc: and sea.
 
 name:'Colannon'
-base-object:cloak:Cloak
+base-object:cloak:Capas
 level:26
 weight:10
 cost:20000
@@ -1881,7 +1881,7 @@ desc:A crystal-blue cape of fine silk worn by a silent messenger of the forces
 desc: of Law.  Seldom will its wearer be diverted from his mission.
 
 name:of Lúthien
-base-object:cloak:Elven Cloak
+base-object:cloak:Capa Élfica
 level:40
 weight:5
 cost:45000

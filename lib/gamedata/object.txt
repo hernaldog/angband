@@ -1798,7 +1798,7 @@ attack:0d0:0:0
 armor:3:0
 desc:Una capa pesada hecha de piel y forrada de cuero; un lujo.
 
-name:& Elven Cloak~
+name:& Capa~ Élfica~
 type:cloak
 graphics:(:D
 level:60
