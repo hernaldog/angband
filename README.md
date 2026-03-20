@@ -250,6 +250,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (By
 | lib\screens\news.txt                     | 100      |
 | src\borg\borg.txt                        | 100      |
 | src\borg\borg-item.c                     | 100      |
+| src\borg\borg-trait.c                    | 100      |
 | src\main-win.c                           | 100      |
 | src\init.h                               | 100      |
 | src\borg\borg-messages.c                 | 100      |
