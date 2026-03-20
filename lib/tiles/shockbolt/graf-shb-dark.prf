@@ -321,7 +321,7 @@ object:flask:Frasco de aceite:0x87:0x97
 ### Normal Food ###
 
 object:food:Galleta Dura:0x82:0x82
-object:food:Apple:0x82:0xA9
+object:food:Manzana:0x82:0xA9
 object:food:Handful of Dried Fruits:0x82:0xAC
 object:food:Slime Mold:0x82:0x85
 object:food:Ration of Food:0x82:0x84

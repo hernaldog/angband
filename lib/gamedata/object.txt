@@ -246,7 +246,7 @@ dice:10
 effect:CRUNCH
 desc:Una galleta dura que llena pero puede romper los dientes, hecha principalmente de centeno.
 
-name:& Apple~
+name:& Manzana~
 type:food
 graphics:,:R
 level:0
