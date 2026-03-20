@@ -1,6 +1,6 @@
 /**
- * \file store.c
- * \brief Store stocking
+ * \archivo store.c
+ * \brief Abastecimiento de tiendas
  *
  * Copyright (c) 1997 Robert A. Koeneke, James E. Wilson, Ben Harrison
  * Copyright (c) 2007 Andi Sidwell
@@ -48,17 +48,17 @@ static void store_maint(struct store *s);
 
 /**
  * ------------------------------------------------------------------------
- * Constants and definitions
+ * Constantes y definiciones
  * ------------------------------------------------------------------------ */
 
 
 /**
- * Array[z_info->store_max] of stores
+ * Array[z_info->store_max] de tiendas
  */
 struct store *stores;
 
 /**
- * The hints array
+ * El array de pistas
  */
 struct hint *hints;
 
@@ -72,7 +72,7 @@ static const char *obj_flags[] = {
 };
 
 /**
- * Return the store instance at the given location
+ * Devuelve la instancia de la tienda en la ubicación dada
  */
 struct store *store_at(struct chunk *c, struct loc grid)
 {
@@ -84,7 +84,7 @@ struct store *store_at(struct chunk *c, struct loc grid)
 
 
 /**
- * Get rid of stores at cleanup. Gets rid of everything.
+ * Elimina las tiendas al limpiar. Elimina todo.
  */
 static void cleanup_stores(void)
 {
@@ -95,12 +95,12 @@ static void cleanup_stores(void)
 	if (!stores)
 		return;
 
-	/* Free the store inventories */
+	/* Liberar los inventarios de las tiendas */
 	for (i = 0; i < z_info->store_max; i++) {
-		/* Get the store */
+		/* Obtener la tienda */
 		struct store *store = &stores[i];
 
-		/* Free the store inventory */
+		/* Liberar el inventario de la tienda */
 		object_pile_free(NULL, NULL, store->stock_k);
 		object_pile_free(NULL, NULL, store->stock);
 		mem_free(store->always_table);
@@ -123,7 +123,7 @@ static void cleanup_stores(void)
 
 /**
  * ------------------------------------------------------------------------
- * Edit file parsing
+ * Análisis del archivo de edición
  * ------------------------------------------------------------------------ */
 
 
@@ -168,7 +168,7 @@ static enum parser_error parse_normal(struct parser *p) {
 	if (!kind)
 		return PARSE_ERROR_UNRECOGNISED_SVAL;
 
-	/* Expand if necessary */
+	/* Expandir si es necesario */
 	if (!s->normal_num) {
 		s->normal_size = 16;
 		s->normal_table = mem_zalloc(s->normal_size * sizeof *s->normal_table);
@@ -187,7 +187,7 @@ static enum parser_error parse_always(struct parser *p) {
 	int tval = tval_find_idx(parser_getsym(p, "tval"));
 	struct object_kind *kind = NULL;
 
-	/* Mostly svals are given, but special handling is needed for books */
+	/* Mayormente se dan svals, pero se necesita un manejo especial para los libros */
 	if (parser_hasval(p, "sval")) {
 		int sval = lookup_sval(tval, parser_getsym(p, "sval"));
 		kind = lookup_kind(tval, sval);
@@ -195,7 +195,7 @@ static enum parser_error parse_always(struct parser *p) {
 			return PARSE_ERROR_UNRECOGNISED_SVAL;
 		}
 
-		/* Expand if necessary */
+		/* Expandir si es necesario */
 		if (!s->always_num) {
 			s->always_size = 8;
 			s->always_table = mem_zalloc(s->always_size * sizeof *s->always_table);
@@ -206,17 +206,17 @@ static enum parser_error parse_always(struct parser *p) {
 
 		s->always_table[s->always_num++] = kind;
 	} else {
-		/* Books */
+		/* Libros */
 		struct object_base *book_base = &kb_info[tval];
 		int i;
 
-		/* Run across all the books for this type, add the town books */
+		/* Recorrer todos los libros para este tipo, añadir los libros de la ciudad */
 		for (i = 1; i <= book_base->num_svals; i++) {
 			const struct class_book *book = NULL;
 			kind = lookup_kind(tval, i);
 			book = object_kind_to_book(kind);
 			if (!book->dungeon) {
-				/* Expand if necessary */
+				/* Expandir si es necesario */
 				if (!s->always_num) {
 					s->always_size = 8;
 					s->always_table = mem_zalloc(s->always_size * sizeof *s->always_table);
@@ -300,8 +300,8 @@ struct parser *init_parse_stores(void) {
 	parser_reg(p, "buy str base", parse_buy);
 	parser_reg(p, "buy-flag sym flag str base", parse_buy_flag);
 	/*
-	 * The number of stores is known from terrain.txt so allocate the
-	 * store array here and fill in the details when parsing.
+	 * El número de tiendas se conoce desde terrain.txt, así que se asigna el
+	 * array de tiendas aquí y se completan los detalles al analizar.
 	 */
 	stores = mem_zalloc(z_info->store_max * sizeof(*stores));
 	return p;
@@ -327,14 +327,14 @@ static struct file_parser store_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Other init stuff
+ * Otras cosas de inicialización
  * ------------------------------------------------------------------------ */
 
 
 void store_init(void)
 {
-	event_signal_message(EVENT_INITSTATUS, 0, "Initializing stores...");
-	if (run_parser(&store_parser)) quit("Can't initialize stores");
+	event_signal_message(EVENT_INITSTATUS, 0, "Inicializando tiendas...");
+	if (run_parser(&store_parser)) quit("No se pueden inicializar las tiendas");
 }
 
 void store_reset(void) {
@@ -368,7 +368,7 @@ struct init_module store_module = {
 
 
 /**
- * Check if a given item kind is an always-stocked item.
+ * Comprueba si un tipo de objeto dado es un artículo siempre disponible.
  */
 static bool store_is_staple(struct store *s, struct object_kind *k) {
 	size_t i;
@@ -386,7 +386,7 @@ static bool store_is_staple(struct store *s, struct object_kind *k) {
 }
 
 /**
- * Check if a given item kind is an always-stocked or sometimes-stocked item.
+ * Comprueba si un tipo de objeto dado es un artículo siempre disponible o a veces disponible.
  */
 static bool store_can_carry(struct store *store, struct object_kind *kind) {
 	size_t i;
@@ -400,7 +400,7 @@ static bool store_can_carry(struct store *store, struct object_kind *kind) {
 }
 
 /**
- * Check if an object is such that selling it should reduce the stock.
+ * Comprueba si la venta de un objeto debe reducir el stock.
  */
 static bool store_sale_should_reduce_stock(struct store *store,
 		struct object *obj)
@@ -415,94 +415,93 @@ static bool store_sale_should_reduce_stock(struct store *store,
 
 /**
  * ------------------------------------------------------------------------
- * Utilities
+ * Utilidades
  * ------------------------------------------------------------------------ */
 
 
-/* Randomly select one of the entries in an array */
+/* Seleccionar aleatoriamente una de las entradas de un array */
 #define ONE_OF(x)	x[randint0(N_ELEMENTS(x))]
 
 
 /**
  * ------------------------------------------------------------------------
- * Flavour text stuff
+ * Texto de sabor
  * ------------------------------------------------------------------------ */
 
 
 /**
- * Messages for reacting to purchase prices.
+ * Mensajes para reaccionar a los precios de compra.
  */
 static const char *comment_worthless[] =
 {
-	"Arrgghh!",
-	"You bastard!",
-	"You hear someone sobbing...",
-	"The shopkeeper howls in agony!",
-	"The shopkeeper wails in anguish!",
-	"The shopkeeper beats his head against the counter."
+	"¡Arrgghh!",
+	"¡Bastardo!",
+	"Oyes a alguien sollozando...",
+	"¡El tendero aúlla de agonía!",
+	"¡El tendero se lamenta con angustia!",
+	"El tendero golpea su cabeza contra el mostrador."
 };
 
 static const char *comment_bad[] =
 {
-	"Damn!",
-	"You fiend!",
-	"The shopkeeper curses at you.",
-	"The shopkeeper glares at you."
+	"¡Maldición!",
+	"¡Qué demonio!",
+	"El tendero te maldice.",
+	"El tendero te fulmina con la mirada."
 };
 
 static const char *comment_accept[] =
 {
-	"Okay.",
-	"Fine.",
-	"Accepted!",
-	"Agreed!",
-	"Done!",
-	"Taken!"
+	"De acuerdo.",
+	"Bien.",
+	"¡Aceptado!",
+	"¡Acordado!",
+	"¡Hecho!",
+	"¡Tomado!"
 };
 
 static const char *comment_good[] =
 {
-	"Cool!",
-	"You've made my day!",
-	"The shopkeeper sniggers.",
-	"The shopkeeper giggles.",
-	"The shopkeeper laughs loudly."
+	"¡Genial!",
+	"¡Has hecho mi día!",
+	"El tendero ríe entre dientes.",
+	"El tendero ríe tontamente.",
+	"El tendero ríe a carcajadas."
 };
 
 static const char *comment_great[] =
 {
-	"Yipee!",
-	"I think I'll retire!",
-	"The shopkeeper jumps for joy.",
-	"The shopkeeper smiles gleefully.",
-	"Wow.  I'm going to name my new villa in your honour."
+	"¡Yupi!",
+	"¡Creo que me voy a jubilar!",
+	"El tendero salta de alegría.",
+	"El tendero sonríe alegremente.",
+	"Vaya. Voy a ponerle tu nombre a mi nueva villa en tu honor."
 };
-
 
 
 
 
 
 /**
- * Let a shop-keeper React to a purchase
+ * Permitir que un tendero reaccione a una compra
  *
- * We paid "price", it was worth "value", and we thought it was worth "guess"
+ * Pagamos "price", valía "value", y pensamos que valía "guess"
  */
 static void purchase_analyze(int price, int value, int guess)
 {
-	/* Item was worthless, but we bought it */
+	/* El objeto no valía nada, pero lo compramos */
 	if ((value <= 0) && (price > value))
 		msgt(MSG_STORE1, "%s", ONE_OF(comment_worthless));
 
-	/* Item was cheaper than we thought, and we paid more than necessary */
+	/* El objeto era más barato de lo que pensábamos, y pagamos más de lo necesario */
 	else if ((value < guess) && (price > value))
 		msgt(MSG_STORE2, "%s", ONE_OF(comment_bad));
 
-	/* Item was a good bargain, and we got away with it */
+	/* El objeto era una buena ganga, y nos salimos con la nuestra */
 	else if ((value > guess) && (value < (4 * guess)) && (price < value))
 		msgt(MSG_STORE3, "%s", ONE_OF(comment_good));
 
-	/* Item was a great bargain, and we got away with it */
+	/* El objeto era una gran ganga, y nos salimos con la nuestra */
 	else if ((value > guess) && (price < value))
 		msgt(MSG_STORE4, "%s", ONE_OF(comment_great));
 }
@@ -512,69 +511,69 @@ static void purchase_analyze(int price, int value, int guess)
 
 /**
  * ------------------------------------------------------------------------
- * Check if a store will buy an object
+ * Comprobar si una tienda comprará un objeto
  * ------------------------------------------------------------------------ */
 
 
 /**
- * Determine if the current store will purchase the given object
+ * Determina si la tienda actual comprará el objeto dado
  *
- * Note that a shop-keeper must refuse to buy "worthless" objects
+ * Nótese que un tendero debe negarse a comprar objetos "sin valor"
  */
 static bool store_will_buy(struct store *store, const struct object *obj)
 {
 	struct object_buy *buy;
 
-	/* Home accepts anything */
+	/* El hogar acepta cualquier cosa */
 	if (store->feat == FEAT_HOME) return true;
 
-	/* Ignore apparently worthless items, except no-selling {??} items */
+	/* Ignorar objetos aparentemente sin valor, excepto objetos sin venta {??} */
 	if (object_value(obj, 1) <= 0 && !(OPT(player, birth_no_selling) &&
 									   tval_has_variable_power(obj) &&
 									   !object_runes_known(obj))) {
 		return false;
 	}
 
-	/* No buy list means we buy anything */
+	/* No hay lista de compra significa que compramos cualquier cosa */
 	if (!store->buy) return true;
 
-	/* Run through the buy list */
+	/* Recorrer la lista de compra */
 	for (buy = store->buy; buy; buy = buy->next) {
-		/* Wrong tval */
+		/* Tval incorrecto */
 		if (buy->tval != obj->tval) continue;
 
-		/* No flag means we're good */
+		/* Sin bandera significa que está bien */
 		if (!buy->flag) return true;
 
-		/* OK if the object is known to have the flag */
+		/* Está bien si se sabe que el objeto tiene la bandera */
 		if (of_has(obj->flags, buy->flag) &&
 			object_flag_is_known(player, obj, buy->flag))
 			return true;
 	}
 
-	/* Not on the list */
+	/* No está en la lista */
 	return false;
 }
 
 
 /**
  * ------------------------------------------------------------------------
- * Basics: pricing, generation, etc.
+ * Conceptos básicos: precios, generación, etc.
  * ------------------------------------------------------------------------ */
 
 
 /**
- * Determine the price of an object (qty one) in a store.
+ * Determina el precio de un objeto (cantidad uno) en una tienda.
  *
- *  store_buying == true  means the shop is buying, player selling
- *               == false means the shop is selling, player buying
+ *  store_buying == true  significa que la tienda está comprando, el jugador vendiendo
+ *               == false significa que la tienda está vendiendo, el jugador comprando
  *
- * This function never lets a shop-keeper lose money in a transaction.
+ * Esta función nunca permite que un tendero pierda dinero en una transacción.
  *
- * The "greed" value should exceed 100 when the player is "buying" the
- * object, and should be less than 100 when the player is "selling" it.
+ * El valor "greed" debe ser superior a 100 cuando el jugador está "comprando" el
+ * objeto, y debe ser inferior a 100 cuando el jugador lo está "vendiendo".
  *
- * The black market always charges twice as much as it should.
+ * El mercado negro siempre cobra el doble de lo que debería.
  */
 int price_item(struct store *store, const struct object *obj,
 			   bool store_buying, int qty)
@@ -589,7 +588,7 @@ int price_item(struct store *store, const struct object *obj,
 
 	proprietor = store->owner;
 
-	/* Get the value of the stack of wands, or a single item */
+	/* Obtener el valor de la pila de varitas, o de un solo objeto */
 	if (tval_can_have_charges(obj)) {
 		if (store_buying) {
 			price = MIN(object_value_real(obj, qty),
@@ -608,74 +607,74 @@ int price_item(struct store *store, const struct object *obj,
 		}
 	}
 
-	/* Worthless items */
+	/* Objetos sin valor */
 	if (price <= 0) {
 		return (store_buying) ? 0 : qty;
 	}
 
-	/* The black market is always a worse deal */
+	/* El mercado negro siempre es un peor negocio */
 	if (store->feat == FEAT_STORE_BLACK)
 		adjust = 150;
 
-	/* Shop is buying */
+	/* La tienda está comprando */
 	if (store_buying) {
-		/* Set the factor */
+		/* Establecer el factor */
 		adjust = 100 + (100 - adjust);
 		if (adjust > 100) {
 			adjust = 100;
 		}
 
-		/* Shops now pay 2/3 of true value */
+		/* Las tiendas ahora pagan 2/3 del valor real */
 		price = price * 2 / 3;
 
-		/* Black market sucks */
+		/* El mercado negro apesta */
 		if (store->feat == FEAT_STORE_BLACK) {
 			price = price / 2;
 		}
 
-		/* Check for no_selling option */
+		/* Comprobar la opción de no venta */
 		if (OPT(player, birth_no_selling)) {
 			return 0;
 		}
 	} else {
-		/* Re-evaluate if we're selling */
+		/* Reevaluar si estamos vendiendo */
 		if (tval_can_have_charges(obj)) {
 			price = object_value_real(obj, qty);
 		} else {
 			price = object_value_real(obj, 1);
 		}
 
-		/* Black market sucks */
+		/* El mercado negro apesta */
 		if (store->feat == FEAT_STORE_BLACK) {
 			price = price * 2;
 		}
 	}
 
-	/* Compute the final price (with rounding) */
+	/* Calcular el precio final (con redondeo) */
 	price = (price * adjust + 50L) / 100L;
 
-	/* Now convert price to total price for non-wands */
+	/* Ahora convertir el precio a precio total para objetos que no son varitas */
 	if (!tval_can_have_charges(obj)) {
 		price *= qty;
 	}
 
-	/* Now limit the price to the purse limit */
+	/* Ahora limitar el precio al límite de la bolsa */
 	if (store_buying && (price > proprietor->max_cost * qty)) {
 		price = proprietor->max_cost * qty;
 	}
 
-	/* Note -- Never become "free" */
+	/* Nota -- Nunca llegar a ser "gratis" */
 	if (price <= 0) {
 		return qty;
 	}
 
-	/* Return the price */
+	/* Devolver el precio */
 	return price;
 }
 
 
 /**
- * Special "mass production" computation.
+ * Cálculo especial de "producción en masa".
  */
 static int mass_roll(int times, int max)
 {
@@ -691,17 +690,17 @@ static int mass_roll(int times, int max)
 
 
 /**
- * Some cheap objects should be created in piles.
+ * Algunos objetos baratos deben crearse en pilas.
  */
 static void mass_produce(struct object *obj)
 {
 	int size = 1;
 	int cost = object_value_real(obj, 1);
 
-	/* Analyze the type */
+	/* Analizar el tipo */
 	switch (obj->tval)
 	{
-		/* Food, Flasks, and Lights */
+		/* Comida, Frascos y Luces */
 		case TV_FOOD:
 		case TV_MUSHROOM:
 		case TV_FLASK:
@@ -756,11 +755,11 @@ static void mass_produce(struct object *obj)
 		case TV_BOLT:
 		{
 			if (cost <= 5L)
-				size = randint1(2) * 20;         /* 20-40 in 20s */
+				size = randint1(2) * 20;         /* 20-40 en 20s */
 			else if (cost > 5L && cost <= 50L)
-				size = randint1(4) * 10;         /* 10-40 in 10s */
+				size = randint1(4) * 10;         /* 10-40 en 10s */
 			else if (cost > 50 && cost <= 500L)
-				size = randint1(4) * 5;          /* 5-20 in 5s */
+				size = randint1(4) * 5;          /* 5-20 en 5s */
 			else
 				size = 1;
 
@@ -768,13 +767,13 @@ static void mass_produce(struct object *obj)
 		}
 	}
 
-	/* Save the total pile size */
+	/* Guardar el tamaño total de la pila */
 	obj->number = MIN(size, obj->kind->base->max_stack);
 }
 
 
 /**
- * Sort the store inventory into an ordered array.
+ * Ordenar el inventario de la tienda en un array ordenado.
  */
 void store_stock_list(struct store *store, struct object **list, int n)
 {
@@ -788,19 +787,19 @@ void store_stock_list(struct store *store, struct object **list, int n)
 			int i;
 			bool possible = true;
 
-			/* Skip objects already allocated */
+			/* Saltar objetos ya asignados */
 			for (i = 0; i < num; i++)
 				if (list[i] == current)
 					possible = false;
 
-			/* If still possible, choose the first in order */
+			/* Si sigue siendo posible, elegir el primero en orden */
 			if (!possible)
 				continue;
 			else if (earlier_object(first, current, home))
 				first = current;
 		}
 
-		/* Allocate and count the stock */
+		/* Asignar y contar el stock */
 		list[list_num] = first;
 		if (first)
 			num++;
@@ -808,11 +807,11 @@ void store_stock_list(struct store *store, struct object **list, int n)
 }
 
 /**
- * Allow a store object to absorb another object
+ * Permitir que un objeto de la tienda absorba otro objeto
  */
 static void store_object_absorb(struct object *old, struct object *new)
 {
-	/* Combine quantity, lose excess items */
+	/* Combinar cantidad, perder objetos en exceso */
 	int change = (old->number < old->kind->base->max_stack) ?
 		MIN(new->number, old->kind->base->max_stack - old->number) : 0;
 
@@ -821,62 +820,62 @@ static void store_object_absorb(struct object *old, struct object *new)
 
 	object_origin_combine(old, new);
 
-	/* Fully absorbed */
+	/* Absorbido completamente */
 	object_delete(NULL, NULL, &new);
 }
 
 
 /**
- * Check to see if the shop will be carrying too many objects
+ * Comprobar si la tienda estará llevando demasiados objetos
  *
- * Note that the shop, just like a player, will not accept things
- * it cannot hold.  Before, one could "nuke" objects this way, by
- * adding them to a pile which was already full.
+ * Nótese que la tienda, al igual que un jugador, no aceptará cosas
+ * que no puede contener. Antes, uno podía "eliminar" objetos de esta manera,
+ * añadiéndolos a una pila que ya estaba llena.
  */
 bool store_check_num(struct store *store, const struct object *obj)
 {
 	struct object *stock_obj;
 
-	/* Free space is always usable */
+	/* El espacio libre siempre es utilizable */
 	if (store->stock_num < store->stock_size) return true;
 
-	/* The "home" acts like the player */
+	/* El "hogar" actúa como el jugador */
 	if (store->feat == FEAT_HOME) {
 		for (stock_obj = store->stock; stock_obj; stock_obj = stock_obj->next) {
-			/* Can the new object be combined with the old one? */
+			/* ¿Se puede combinar el nuevo objeto con el antiguo? */
 			if (object_mergeable(stock_obj, obj, OSTACK_PACK))
 				return true;
 		}
 	} else {
-		/* Normal stores do special stuff */
+		/* Las tiendas normales hacen cosas especiales */
 		for (stock_obj = store->stock; stock_obj; stock_obj = stock_obj->next) {
-			/* Can the new object be combined with the old one? */
+			/* ¿Se puede combinar el nuevo objeto con el antiguo? */
 			if (object_mergeable(stock_obj, obj, OSTACK_STORE))
 				return true;
 		}
 	}
 
-	/* But there was no room at the inn... */
+	/* Pero no había lugar en la posada... */
 	return false;
 }
 
 
 /**
- * Add an object to the inventory of the Home.
+ * Añadir un objeto al inventario del Hogar.
  *
- * Also note that it may not correctly "adapt" to "knowledge" becoming
- * known: the player may have to pick stuff up and drop it again.
+ * También nótese que puede no "adaptarse" correctamente al "conocimiento" que se
+ * vuelve conocido: el jugador puede tener que recoger objetos y soltarlos de nuevo.
  */
 void home_carry(struct object *obj)
 {
 	struct object *temp_obj;
 	struct store *store = &stores[f_info[FEAT_HOME].shopnum - 1];
 
-	/* Check each existing object (try to combine) */
+	/* Comprobar cada objeto existente (intentar combinar) */
 	for (temp_obj = store->stock; temp_obj; temp_obj = temp_obj->next) {
-		/* The home acts just like the player */
+		/* El hogar actúa igual que el jugador */
 		if (object_mergeable(temp_obj, obj, OSTACK_PACK)) {
-			/* Save the new number of items */
+			/* Guardar el nuevo número de objetos */
 			object_absorb(temp_obj->known, obj->known);
 			obj->known = NULL;
 			object_absorb(temp_obj, obj);
@@ -884,10 +883,10 @@ void home_carry(struct object *obj)
 		}
 	}
 
-	/* No space? */
+	/* ¿Sin espacio? */
 	if (store->stock_num >= store->stock_size) return;
 
-	/* Insert the new object */
+	/* Insertar el nuevo objeto */
 	pile_insert(&store->stock, obj);
 	pile_insert(&store->stock_k, obj->known);
 	store->stock_num++;
@@ -895,16 +894,16 @@ void home_carry(struct object *obj)
 
 
 /**
- * Add an object to a real stores inventory.
+ * Añadir un objeto al inventario de una tienda real.
  *
- * If the object is "worthless", it is thrown away (except in the home).
+ * Si el objeto es "sin valor", se desecha (excepto en el hogar).
  *
- * If the object cannot be combined with an object already in the inventory,
- * make a new slot for it, and calculate its "per item" price.  Note that
- * this price will be negative, since the price will not be "fixed" yet.
- * Adding an object to a "fixed" price stack will not change the fixed price.
+ * Si el objeto no se puede combinar con un objeto ya en el inventario,
+ * se crea un nuevo espacio para él y se calcula su precio "por objeto". Nótese que
+ * este precio será negativo, ya que el precio no estará "fijado" todavía.
+ * Añadir un objeto a una pila de precio "fijo" no cambiará el precio fijo.
  *
- * Returns the object inserted (for ease of use) or NULL if it disappears
+ * Devuelve el objeto insertado (para facilitar su uso) o NULL si desaparece
  */
 struct object *store_carry(struct store *store, struct object *obj)
 {
@@ -914,21 +913,21 @@ struct object *store_carry(struct store *store, struct object *obj)
 
 	struct object_kind *kind = obj->kind;
 
-	/* Evaluate the object */
+	/* Evaluar el objeto */
 	if (object_is_carried(player, obj))
 		value = object_value(obj, 1);
 	else
 		value = object_value_real(obj, 1);
 
-	/* Cursed/Worthless items "disappear" when sold */
+	/* Los objetos malditos/sin valor "desaparecen" al ser vendidos */
 	if (value <= 0)
 		return NULL;
 
-	/* Erase the inscription */
+	/* Borrar la inscripción */
 	obj->note = 0;
 	known_obj->note = 0;
 
-	/* Some item types require maintenance */
+	/* Algunos tipos de objetos requieren mantenimiento */
 	if (tval_is_light(obj)) {
 		if (!of_has(obj->flags, OF_NO_FUEL)) {
 			if (of_has(obj->flags, OF_BURNS_OUT))
@@ -942,38 +941,38 @@ struct object *store_carry(struct store *store, struct object *obj)
 	} else if (tval_is_launcher(obj)) {
 		obj->known->pval = obj->pval;
 	} else if (tval_can_have_charges(obj)) {
-		/* If the store can stock this item kind, we recharge */
+		/* Si la tienda puede almacenar este tipo de objeto, lo recargamos */
 		if (store_can_carry(store, obj->kind)) {
 			int charges = 0;
 
-			/* Calculate the recharged number of charges */
+			/* Calcular el número de cargas recargadas */
 			for (i = 0; i < obj->number; i++)
 				charges += randcalc(kind->charge, 0, RANDOMISE);
 
-			/* Use recharged value only if greater */
+			/* Usar el valor recargado solo si es mayor */
 			if (charges > obj->pval)
 				obj->pval = charges;
 		}
 	}
 
 	for (temp_obj = store->stock; temp_obj; temp_obj = temp_obj->next) {
-		/* Can the existing items be incremented? */
+		/* ¿Se pueden incrementar los objetos existentes? */
 		if (object_mergeable(temp_obj, obj, OSTACK_STORE)) {
-			/* Absorb (some of) the object */
+			/* Absorber (parte de) el objeto */
 			store_object_absorb(temp_obj->known, known_obj);
 			obj->known = NULL;
 			store_object_absorb(temp_obj, obj);
 
-			/* All done */
+			/* Todo listo */
 			return temp_obj;
 		}
 	}
 
-	/* No space? */
+	/* ¿Sin espacio? */
 	if (store->stock_num >= store->stock_size)
 		return NULL;
 
-	/* Insert the new object */
+	/* Insertar el nuevo objeto */
 	pile_insert(&store->stock, obj);
 	pile_insert(&store->stock_k, known_obj);
 	store->stock_num++;
@@ -1001,8 +1000,8 @@ static void store_delete(struct store *s, struct object *obj, int amt)
 
 
 /**
- * Find a given object kind in the store.  If fexclude is not NULL, exclude
- * any object, o, for which (*fexclude)(s, o) is true.
+ * Encontrar un tipo de objeto dado en la tienda. Si fexclude no es NULL, excluir
+ * cualquier objeto, o, para el cual (*fexclude)(s, o) sea verdadero.
  */
 static struct object *store_find_kind(struct store *s, struct object_kind *k,
 		bool (*fexclude)(struct store *, struct object *)) {
@@ -1011,7 +1010,7 @@ static struct object *store_find_kind(struct store *s, struct object_kind *k,
 	assert(s);
 	assert(k);
 
-	/* Check if it's already in stock */
+	/* Comprobar si ya está en stock */
 	for (obj = s->stock; obj; obj = obj->next) {
 		if (obj->kind == k && (fexclude == NULL ||
 			!((*fexclude)(s, obj)))) return obj;
@@ -1022,16 +1021,16 @@ static struct object *store_find_kind(struct store *s, struct object_kind *k,
 
 
 /**
- * Delete an object from store 'store', or, if it is a stack, perhaps only
- * partially delete it.
+ * Eliminar un objeto de la tienda 'store', o, si es una pila, quizás solo
+ * eliminarlo parcialmente.
  *
- * This function is used when store maintainance occurs, and is designed to
- * imitate non-PC purchasers making purchases from the store.
+ * Esta función se usa cuando ocurre el mantenimiento de la tienda y está diseñada para
+ * imitar a compradores no-PC que hacen compras en la tienda.
  *
- * The reason this doesn't check for "staple" items and refuse to
- * delete them is that a store could conceviably have two stacks of a
- * single staple item, in which case, you could have a store which had
- * more stacks than staple items, but all stacks are staple items.
+ * La razón por la que esto no comprueba los artículos "básicos" y se niega a
+ * eliminarlos es que una tienda podría tener dos pilas de un
+ * solo artículo básico, en cuyo caso, se podría tener una tienda que
+ * tuviera más pilas que artículos básicos, pero todas las pilas son artículos básicos.
  */
 static void store_delete_random(struct store *store)
 {
@@ -1041,41 +1040,41 @@ static void store_delete_random(struct store *store)
 
 	assert(store->stock_num > 0);
 
-	/* Pick a random slot */
+	/* Elegir un espacio aleatorio */
 	what = randint0(store->stock_num);
 
-	/* Walk through list until we find our item */
+	/* Recorrer la lista hasta encontrar nuestro objeto */
 	obj = store->stock;
 	while (what--) {
 		assert(obj);
 		obj = obj->next;
 	}
 
-	/* Determine how many objects are in the slot */
+	/* Determinar cuántos objetos hay en el espacio */
 	num = obj->number;
 
-	/* Deal with stacks */
+	/* Tratar con pilas */
 	if (num > 1) {
-		/* Special behaviour for arrows, bolts &tc. */
+		/* Comportamiento especial para flechas, pernos, etc. */
 		if (tval_is_ammo(obj)) {
-			/* 50% of the time, destroy the entire stack */
+			/* 50% de probabilidad de destruir toda la pila */
 			if (randint0(100) < 50 || num < 10)
 				num = obj->number;
 
-			/* 50% of the time, reduce the size to a multiple of 5 */
+			/* 50% de probabilidad de reducir el tamaño a un múltiplo de 5 */
 			else
 				num = randint1(num / 5) * 5 + (num % 5);
 		} else {
-			/* 50% of the time, destroy a single object */
+			/* 50% de probabilidad de destruir un solo objeto */
 			if (randint0(100) < 50) num = 1;
 
-			/* 25% of the time, destroy half the objects */
+			/* 25% de probabilidad de destruir la mitad de los objetos */
 			else if (randint0(100) < 50) num = (num + 1) / 2;
 
-			/* 25% of the time, destroy all objects */
+			/* 25% de probabilidad de destruir todos los objetos */
 			else num = obj->number;
 
-			/* Decrement the total charges of staves and wands. */
+			/* Disminuir las cargas totales de bastones y varitas. */
 			if (tval_can_have_charges(obj))
 				obj->pval -= num * obj->pval / obj->number;
 		}
@@ -1087,67 +1086,67 @@ static void store_delete_random(struct store *store)
 		history_lose_artifact(player, obj->artifact);
 	}
 
-	/* Delete the item, wholly or in part */
+	/* Eliminar el objeto, total o parcialmente */
 	store_delete(store, obj, num);
 }
 
 
 /**
- * This makes sure that the black market doesn't stock any object that other
- * stores have, unless it is an ego-item or has various bonuses.
+ * Esto asegura que el mercado negro no tenga ningún objeto que otras
+ * tiendas tengan, a menos que sea un objeto de ego o tenga varias bonificaciones.
  *
- * Based on a suggestion by Lee Vogt <lvogt@cig.mcel.mot.com>.
+ * Basado en una sugerencia de Lee Vogt <lvogt@cig.mcel.mot.com>.
  */
 static bool black_market_ok(const struct object *obj)
 {
 	int i;
 
-	/* Ego items are always fine */
+	/* Los objetos de ego siempre están bien */
 	if (obj->ego) return true;
 
-	/* Good items are normally fine */
+	/* Los objetos buenos normalmente están bien */
 	if (obj->to_a > 2) return true;
 	if (obj->to_h > 1) return true;
 	if (obj->to_d > 2) return true;
 
-	/* No cheap items */
+	/* Sin objetos baratos */
 	if (object_value_real(obj, 1) < 10) return (false);
 
-	/* Check the other stores */
+	/* Comprobar las otras tiendas */
 	for (i = 0; i < z_info->store_max; i++) {
 		struct object *stock_obj;
 
-		/* Skip home and black market */
+		/* Saltar el hogar y el mercado negro */
 		if (stores[i].feat == FEAT_STORE_BLACK
 				|| stores[i].feat == FEAT_HOME)
 			continue;
 
-		/* Check every object in the store */
+		/* Comprobar cada objeto en la tienda */
 		for (stock_obj = stores[i].stock; stock_obj; stock_obj = stock_obj->next) {
-			/* Compare object kinds */
+			/* Comparar tipos de objeto */
 			if (obj->kind == stock_obj->kind)
 				return false;
 		}
 	}
 
-	/* Otherwise fine */
+	/* De lo contrario, está bien */
 	return true;
 }
 
 
 
 /**
- * Get a choice from the store allocation table, in tables.c
+ * Obtener una opción de la tabla de asignación de la tienda, en tables.c
  */
 static struct object_kind *store_get_choice(struct store *store)
 {
-	/* Choose a random entry from the store's table */
+	/* Elegir una entrada aleatoria de la tabla de la tienda */
 	return store->normal_table[randint0(store->normal_num)];
 }
 
 
 /**
- * Creates a random object and gives it to store 'store'
+ * Crea un objeto aleatorio y se lo da a la tienda 'store'
  */
 static bool store_create_random(struct store *store)
 {
@@ -1155,7 +1154,7 @@ static bool store_create_random(struct store *store)
 
 	int min_level, max_level;
 
-	/* Decide min/max levels */
+	/* Decidir niveles mínimos y máximos */
 	if (store->feat == FEAT_STORE_BLACK) {
 		min_level = player->max_depth + 5;
 		max_level = player->max_depth + 20;
@@ -1167,56 +1166,56 @@ static bool store_create_random(struct store *store)
 	if (min_level > 55) min_level = 55;
 	if (max_level > 70) max_level = 70;
 
-	/* Consider up to six items */
+	/* Considerar hasta seis objetos */
 	for (tries = 0; tries < 6; tries++) {
 		struct object_kind *kind;
 		struct object *obj, *known_obj;
 
-		/* Work out the level for objects to be generated at */
+		/* Calcular el nivel para los objetos a generar */
 		level = rand_range(min_level, max_level);
 
-		/* Black Markets have a random object, of a given level */
+		/* Los Mercados Negros tienen un objeto aleatorio, de un nivel dado */
 		if (store->feat == FEAT_STORE_BLACK)
 			kind = get_obj_num(level, false, 0);
 		else
 			kind = store_get_choice(store);
 
-		/*** Pre-generation filters ***/
+		/*** Filtros de pre-generación ***/
 
-		/* No chests in stores XXX */
+		/* Sin cofres en las tiendas XXX */
 		if (kind->tval == TV_CHEST) continue;
 
-		/*** Generate the item ***/
+		/*** Generar el objeto ***/
 
-		/* Create a new object of the chosen kind */
+		/* Crear un nuevo objeto del tipo elegido */
 		obj = object_new();
 		object_prep(obj, kind, level, RANDOMISE);
 
-		/* Apply some "low-level" magic (no artifacts) */
+		/* Aplicar algo de magia de "bajo nivel" (sin artefactos) */
 		apply_magic(obj, level, false, false, false, false);
 		assert(!obj->artifact);
 
-		/* Reject if item is 'damaged' (negative combat mods, curses) */
+		/* Rechazar si el objeto está 'dañado' (modificadores de combate negativos, maldiciones) */
 		if ((tval_is_weapon(obj) && ((obj->to_h < 0) || (obj->to_d < 0)))
 			|| (tval_is_armor(obj) && (obj->to_a < 0)) || (obj->curses)) {
 			object_delete(NULL, NULL, &obj);
 			continue;
 		}
 
-		/*** Post-generation filters ***/
+		/*** Filtros de post-generación ***/
 
-		/* Make a known object */
+		/* Crear un objeto conocido */
 		known_obj = object_new();
 		obj->known = known_obj;
 
-		/* Know everything the player knows, no origin yet */
+		/* Saber todo lo que el jugador sabe, sin origen todavía */
 		obj->known->notice |= OBJ_NOTICE_ASSESSED;
 		object_set_base_known(player, obj);
 		obj->known->notice |= OBJ_NOTICE_ASSESSED;
 		player_know_object(player, obj);
 		obj->origin = ORIGIN_NONE;
 
-		/* Black markets have expensive tastes */
+		/* Los mercados negros tienen gustos caros */
 		if ((store->feat == FEAT_STORE_BLACK) && !black_market_ok(obj)) {
 			object_delete(NULL, NULL, &known_obj);
 			obj->known = NULL;
@@ -1224,7 +1223,7 @@ static bool store_create_random(struct store *store)
 			continue;
 		}
 
-		/* No "worthless" items */
+		/* No hay objetos "sin valor" */
 		if (object_value_real(obj, 1) < 1)  {
 			object_delete(NULL, NULL, &known_obj);
 			obj->known = NULL;
@@ -1232,10 +1231,10 @@ static bool store_create_random(struct store *store)
 			continue;
 		}
 
-		/* Mass produce and/or apply discount */
+		/* Producción en masa y/o aplicar descuento */
 		mass_produce(obj);
 
-		/* Attempt to carry the object */
+		/* Intentar llevar el objeto */
 		if (!store_carry(store, obj)) {
 			object_delete(NULL, NULL, &known_obj);
 			obj->known = NULL;
@@ -1243,7 +1242,7 @@ static bool store_create_random(struct store *store)
 			continue;
 		}
 
-		/* Definitely done */
+		/* Definitivamente listo */
 		return true;
 	}
 
@@ -1252,8 +1251,8 @@ static bool store_create_random(struct store *store)
 
 
 /**
- * Helper function: create an item with the given tval,sval pair, add it to the
- * store st.  Return the item in the inventory.
+ * Función auxiliar: crear un objeto con el par tval,sval dado, añadirlo a la
+ * tienda st. Devolver el objeto en el inventario.
  */
 static struct object *store_create_item(struct store *store,
 										struct object_kind *kind)
@@ -1262,11 +1261,11 @@ static struct object *store_create_item(struct store *store,
 	struct object *known_obj = object_new();
 	struct object *carried;
 
-	/* Create a new object of the chosen kind */
+	/* Crear un nuevo objeto del tipo elegido */
 	object_prep(obj, kind, 0, RANDOMISE);
 	assert(!obj->artifact);
 
-	/* Know everything the player knows, no origin yet */
+	/* Saber todo lo que el jugador sabe, sin origen todavía */
 	obj->known = known_obj;
 	obj->known->notice |= OBJ_NOTICE_ASSESSED;
 	object_set_base_known(player, obj);
@@ -1274,7 +1273,7 @@ static struct object *store_create_item(struct store *store,
 	player_know_object(player, obj);
 	obj->origin = ORIGIN_NONE;
 
-	/* Attempt to carry the object */
+	/* Intentar llevar el objeto */
 	carried = store_carry(store, obj);
 	if (!carried) {
 		object_delete(NULL, NULL, &known_obj);
@@ -1285,15 +1284,15 @@ static struct object *store_create_item(struct store *store,
 }
 
 /**
- * Maintain the inventory at the stores.
+ * Mantener el inventario de las tiendas.
  */
 static void store_maint(struct store *s)
 {
-	/* Ignore home */
+	/* Ignorar el hogar */
 	if (s->feat == FEAT_HOME)
 		return;
 
-	/* Destroy crappy black market items */
+	/* Destruir objetos del mercado negro de baja calidad */
 	if (s->feat == FEAT_STORE_BLACK) {
 		struct object *obj = s->stock;
 		while (obj) {
@@ -1309,33 +1308,33 @@ static void store_maint(struct store *s)
 		}
 	}
 
-	/* We want to make sure stores have staple items. If there's
-	 * turnover, we also want to delete a few items, and add a few
-	 * items.
+	/* Queremos asegurarnos de que las tiendas tengan artículos básicos. Si hay
+	 * rotación, también queremos eliminar algunos objetos y añadir algunos
+	 * objetos.
 	 *
-	 * If we create staple items, then delete items, then create new
-	 * items, we are stuck with one of three choices:
-	 * 1. We can risk deleting staple items, and not having any left.
-	 * 2. We can refuse to delete staple items, and risk having that
-	 * become an infinite loop.
-	 * 3. We can do a ton of extra bookkeeping to make sure we delete
-	 * staple items only if there's duplicates of them.
+	 * Si creamos artículos básicos, luego eliminamos objetos, luego creamos nuevos
+	 * objetos, nos quedamos con una de tres opciones:
+	 * 1. Podemos arriesgarnos a eliminar artículos básicos y no tener ninguno.
+	 * 2. Podemos negarnos a eliminar artículos básicos y arriesgarnos a que eso
+	 * se convierta en un bucle infinito.
+	 * 3. Podemos hacer un montón de contabilidad adicional para asegurarnos de eliminar
+	 * artículos básicos solo si hay duplicados de ellos.
 	 *
-	 * What if we change the order? First sell a handful of random items,
-	 * then create any missing staples, then create new items. This
-	 * has two tests for s->turnover, but simplifies everything else
-	 * dramatically.
+	 * ¿Y si cambiamos el orden? Primero vender un puñado de objetos aleatorios,
+	 * luego crear los artículos básicos que falten, luego crear nuevos objetos. Esto
+	 * tiene dos pruebas para s->turnover, pero simplifica todo lo demás
+	 * drásticamente.
 	 */
 
 	if (s->turnover) {
 		int restock_attempts = 100000;
 		int stock = s->stock_num - randint1(s->turnover);
 
-		/* We'll end up adding staples for sure, maybe plus other
-		 * items. It's fine if we sell out completely, though, if
-		 * turnover is high. The cap doesn't include always_num,
-		 * because otherwise the addition of missing staples could
-		 * put us over (if the store was full of player-sold loot).
+		/* Terminaremos añadiendo artículos básicos con seguridad, quizás más otros
+		 * objetos. Está bien si nos quedamos sin existencias por completo, sin embargo,
+		 * si la rotación es alta. El límite no incluye always_num,
+		 * porque de lo contrario la adición de artículos básicos que faltan podría
+		 * ponernos por encima (si la tienda estaba llena de botín vendido por el jugador).
 		 */
 		int min = 0;
 		int max = s->normal_stock_max;
@@ -1343,16 +1342,16 @@ static void store_maint(struct store *s)
 		if (stock < min) stock = min;
 		if (stock > max) stock = max;
 
-		/* Destroy random objects until only "stock" slots are left */
+		/* Destruir objetos aleatorios hasta que solo queden espacios "stock" */
 		while (s->stock_num > stock && --restock_attempts)
 			store_delete_random(s);
 
 		if (!restock_attempts)
-			quit_fmt("Unable to (de-)stock %s. Please report this bug",
+			quit_fmt("No se puede (des-)abastecer %s. Por favor, reporta este error",
 				(f_info[s->feat].name) ? f_info[s->feat].name :
-				format("store %d", f_info[s->feat].shopnum));
+				format("tienda %d", f_info[s->feat].shopnum));
 	} else {
-		/* For the Bookseller, occasionally sell a book */
+		/* Para el Librero, ocasionalmente vender un libro */
 		if (s->always_num && s->stock_num) {
 			int sales = randint1(s->stock_num);
 			while (sales--) {
@@ -1361,7 +1360,7 @@ static void store_maint(struct store *s)
 		}
 	}
 
-	/* Ensure staples are created */
+	/* Asegurar que se creen los artículos básicos */
 	if (s->always_num) {
 		size_t i;
 		for (i = 0; i < s->always_num; i++) {
@@ -1369,13 +1368,13 @@ static void store_maint(struct store *s)
 			struct object *obj = store_find_kind(s, kind,
 				store_sale_should_reduce_stock);
 
-			/* Create the item if it doesn't exist */
+			/* Crear el objeto si no existe */
 			if (!obj) {
 				obj = store_create_item(s, kind);
 				if (!obj) continue;
 			}
 
-			/* Ensure a full stack */
+			/* Asegurar una pila completa */
 			obj->number = obj->kind->base->max_stack;
 			obj->known->number = obj->kind->base->max_stack;
 		}
@@ -1385,61 +1384,61 @@ static void store_maint(struct store *s)
 		int restock_attempts = 100000;
 		int stock = s->stock_num + randint1(s->turnover);
 
-		/* Now that the staples exist, we want to add more
-		 * items, at least enough to get us to normal_stock_min
-		 * items that aren't necessarily staples.
+		/* Ahora que existen los artículos básicos, queremos añadir más
+		 * objetos, al menos suficientes para llegar a normal_stock_min
+		 * objetos que no son necesariamente artículos básicos.
 		 */
 
 		int min = s->normal_stock_min + s->always_num;
 		int max = s->normal_stock_max + s->always_num;
 
-		/* Buy a few items */
+		/* Comprar algunos objetos */
 
-		/* Keep stock between specified min and max slots */
+		/* Mantener el stock entre los espacios mínimos y máximos especificados */
 		if (stock > max) stock = max;
 		if (stock < min) stock = min;
 
-		/* For the rest, we just choose items randomlyish */
-		/* The (huge) restock_attempts will only go to zero (otherwise
-		 * infinite loop) if stores don't have enough items they can stock! */
+		/* Para el resto, simplemente elegimos objetos de forma aleatoria */
+		/* Los (enormes) restock_attempts solo llegarán a cero (de lo contrario
+		 * bucle infinito) si las tiendas no tienen suficientes objetos que puedan almacenar. */
 		while (s->stock_num < stock && --restock_attempts)
 			store_create_random(s);
 
 		if (!restock_attempts)
-			quit_fmt("Unable to (re-)stock %s. Please report this bug",
+			quit_fmt("No se puede (re-)abastecer %s. Por favor, reporta este error",
 				(f_info[s->feat].name) ? f_info[s->feat].name :
-				format("store %d", f_info[s->feat].shopnum));
+				format("tienda %d", f_info[s->feat].shopnum));
 	}
 }
 
 /**
- * Update the stores on the return to town.
+ * Actualizar las tiendas al regresar a la ciudad.
  */
 void store_update(void)
 {
-	if (OPT(player, cheat_xtra)) msg("Updating Shops...");
+	if (OPT(player, cheat_xtra)) msg("Actualizando tiendas...");
 	while (daycount--) {
 		int n;
 
-		/* Maintain each shop (except home) */
+		/* Mantener cada tienda (excepto el hogar) */
 		for (n = 0; n < z_info->store_max; n++) {
-			/* Skip the home */
+			/* Saltar el hogar */
 			if (stores[n].feat == FEAT_HOME) continue;
 
-			/* Maintain */
+			/* Mantener */
 			store_maint(&stores[n]);
 		}
 
-		/* Sometimes, shuffle the shop-keepers */
+		/* A veces, cambiar a los dueños de las tiendas */
 		if (one_in_(z_info->store_shuffle)) {
 			int *non_home_inds = mem_zalloc(z_info->store_max
 				* sizeof(*non_home_inds));
 			int n_without_home = 0;
 
-			/* Message */
-			if (OPT(player, cheat_xtra)) msg("Shuffling a Shopkeeper...");
+			/* Mensaje */
+			if (OPT(player, cheat_xtra)) msg("Cambiando a un tendero...");
 
-			/* Pick a random shop (except home) */
+			/* Elegir una tienda aleatoria (excepto el hogar) */
 			for (n = 0; n < z_info->store_max; n++) {
 				if (stores[n].feat != FEAT_HOME) {
 					non_home_inds[n_without_home] = n;
@@ -1448,17 +1447,17 @@ void store_update(void)
 			}
 			if (n_without_home > 0) {
 				n = randint0(n_without_home);
-				/* Then suffle it. */
+				/* Luego cambiarlo. */
 				store_shuffle(&stores[non_home_inds[n]]);
 			}
 			mem_free(non_home_inds);
 		}
 	}
 	daycount = 0;
-	if (OPT(player, cheat_xtra)) msg("Done.");
+	if (OPT(player, cheat_xtra)) msg("Listo.");
 }
 
-/** Owner stuff **/
+/** Cosas del dueño **/
 
 struct owner *store_ownerbyidx(struct store *s, unsigned int idx) {
 	struct owner *o;
@@ -1467,8 +1466,8 @@ struct owner *store_ownerbyidx(struct store *s, unsigned int idx) {
 			return o;
 	}
 
-	quit_fmt("Bad call to store_ownerbyidx: idx is %d\n", idx);
-	return 0; /* Needed to avoid Windows compiler warning */
+	quit_fmt("Llamada incorrecta a store_ownerbyidx: idx es %d\n", idx);
+	return 0; /* Necesario para evitar advertencia del compilador de Windows */
 }
 
 static struct owner *store_choose_owner(struct store *s) {
@@ -1484,7 +1483,7 @@ static struct owner *store_choose_owner(struct store *s) {
 }
 
 /**
- * Shuffle one of the stores.
+ * Cambiar al dueño de una de las tiendas.
  */
 void store_shuffle(struct store *store)
 {
@@ -1501,12 +1500,12 @@ void store_shuffle(struct store *store)
 
 /**
  * ------------------------------------------------------------------------
- * Higher-level code
+ * Código de nivel superior
  * ------------------------------------------------------------------------ */
 
 
 /**
- * Return the quantity of a given item in the pack (include quiver).
+ * Devolver la cantidad de un objeto dado en la mochila (incluyendo la aljaba).
  */
 int find_inven(const struct object *obj)
 {
@@ -1514,52 +1513,52 @@ int find_inven(const struct object *obj)
 	struct object *gear_obj;
 	int num = 0;
 
-	/* Similar slot? */
+	/* ¿Espacio similar? */
 	for (gear_obj = player->gear; gear_obj; gear_obj = gear_obj->next) {
-		/* Check only the inventory and the quiver */
+		/* Comprobar solo el inventario y la aljaba */
 		if (object_is_equipped(player->body, gear_obj))
 			continue;
 
-		/* Require identical object types */
+		/* Requerir tipos de objeto idénticos */
 		if (obj->kind != gear_obj->kind)
 			continue;
 
-		/* Analyze the items */
+		/* Analizar los objetos */
 		switch (obj->tval)
 		{
-			/* Chests */
+			/* Cofres */
 			case TV_CHEST:
 			{
-				/* Never okay */
+				/* Nunca está bien */
 				return 0;
 			}
 
-			/* Food and Potions and Scrolls */
+			/* Comida, Pociones y Pergaminos */
 			case TV_FOOD:
 			case TV_MUSHROOM:
 			case TV_POTION:
 			case TV_SCROLL:
 			{
-				/* Assume okay */
+				/* Asumir que está bien */
 				break;
 			}
 
-			/* Staves and Wands */
+			/* Bastones y Varitas */
 			case TV_STAFF:
 			case TV_WAND:
 			{
-				/* Assume okay */
+				/* Asumir que está bien */
 				break;
 			}
 
-			/* Rods */
+			/* Varas */
 			case TV_ROD:
 			{
-				/* Assume okay */
+				/* Asumir que está bien */
 				break;
 			}
 
-			/* Wearables */
+			/* Equipables */
 			case TV_BOW:
 			case TV_DIGGING:
 			case TV_HAFTED:
@@ -1581,7 +1580,7 @@ int find_inven(const struct object *obj)
 			case TV_ARROW:
 			case TV_SHOT:
 			{
-				/* Require identical "bonuses" */
+				/* Requerir "bonificaciones" idénticas */
 				if (obj->to_h != gear_obj->to_h)
 					continue;
 				if (obj->to_d != gear_obj->to_d)
@@ -1589,25 +1588,25 @@ int find_inven(const struct object *obj)
 				if (obj->to_a != gear_obj->to_a)
 					continue;
 
-				/* Require identical modifiers */
+				/* Requerir modificadores idénticos */
 				for (i = 0; i < OBJ_MOD_MAX; i++)
 					if (obj->modifiers[i] != gear_obj->modifiers[i])
 						continue;
 
-				/* Require identical "artifact" names */
+				/* Requerir nombres de "artefacto" idénticos */
 				if (obj->artifact != gear_obj->artifact)
 					continue;
 
-				/* Require identical "ego-item" names */
+				/* Requerir nombres de "objeto-ego" idénticos */
 				if (obj->ego != gear_obj->ego)
 					continue;
 
-				/* Lights must have same amount of fuel */
+				/* Las luces deben tener la misma cantidad de combustible */
 				else if (obj->timeout != gear_obj->timeout &&
 						 tval_is_light(obj))
 					continue;
 
-				/* Require identical "values" */
+				/* Requerir "valores" idénticos */
 				if (obj->ac != gear_obj->ac)
 					continue;
 				if (obj->dd != gear_obj->dd)
@@ -1615,24 +1614,24 @@ int find_inven(const struct object *obj)
 				if (obj->ds != gear_obj->ds)
 					continue;
 
-				/* Probably okay */
+				/* Probablemente está bien */
 				break;
 			}
 
-			/* Various */
+			/* Varios */
 			default:
 			{
-				/* Probably okay */
+				/* Probablemente está bien */
 				break;
 			}
 		}
 
 
-		/* Different flags */
+		/* Banderas diferentes */
 		if (!of_is_equal(obj->flags, gear_obj->flags))
 			continue;
 
-		/* They match, so add up */
+		/* Coinciden, así que sumar */
 		num += gear_obj->number;
 	}
 
@@ -1641,7 +1640,7 @@ int find_inven(const struct object *obj)
 
 
 /**
- * Buy the item with the given index from the current store's inventory.
+ * Comprar el objeto con el índice dado del inventario de la tienda actual.
  */
 void do_cmd_buy(struct command *cmd)
 {
@@ -1655,81 +1654,81 @@ void do_cmd_buy(struct command *cmd)
 	struct store *store = store_at(cave, player->grid);
 
 	if (!store) {
-		msg("You cannot purchase items when not in a store.");
+		msg("No puedes comprar objetos cuando no estás en una tienda.");
 		return;
 	}
 
-	/* Get arguments */
-	/* XXX-AS fill this out, split into cmd-store.c */
+	/* Obtener argumentos */
+	/* XXX-AS completar esto, dividir en cmd-store.c */
 	if (cmd_get_arg_item(cmd, "item", &obj) != CMD_OK)
 		return;
 
 	if (!pile_contains(store->stock, obj)) {
-		msg("You cannot buy that item because it's not in the store.");
+		msg("No puedes comprar ese objeto porque no está en la tienda.");
 		return;
 	}
 
 	if (cmd_get_arg_number(cmd, "quantity", &amt) != CMD_OK)
 		return;
 
-	/* Get desired object */
+	/* Obtener el objeto deseado */
 	bought = object_new();
 	object_copy_amt(bought, obj, amt);
 
-	/* Ensure we have room */
+	/* Asegurar que tenemos espacio */
 	if (bought->number > inven_carry_num(player, bought)) {
-		msg("You cannot carry that many items.");
+		msg("No puedes llevar tantos objetos.");
 		object_delete(NULL, NULL, &bought);
 		return;
 	}
 
-	/* Describe the object (fully) */
+	/* Describir el objeto (completamente) */
 	object_desc(o_name, sizeof(o_name), bought, ODESC_PREFIX | ODESC_FULL,
 		player);
 
-	/* Extract the price for the entire stack */
+	/* Extraer el precio para la pila completa */
 	price = price_item(store, bought, false, bought->number);
 
 	if (price > player->au) {
-		msg("You cannot afford that purchase.");
+		msg("No puedes permitirte esa compra.");
 		object_delete(NULL, NULL, &bought);
 		return;
 	}
 
-	/* Spend the money */
+	/* Gastar el dinero */
 	player->au -= price;
 
-	/* Update the gear */
+	/* Actualizar el equipo */
 	player->upkeep->update |= (PU_INVEN);
 
-	/* Combine the pack (later) */
+	/* Combinar la mochila (después) */
 	player->upkeep->notice |= (PN_COMBINE | PN_IGNORE);
 
-	/* Describe the object (fully) again for the message */
+	/* Describir el objeto (completamente) de nuevo para el mensaje */
 	object_desc(o_name, sizeof(o_name), bought, ODESC_PREFIX | ODESC_FULL,
 		player);
 
-	/* Message */
+	/* Mensaje */
 	if (one_in_(3)) msgt(MSG_STORE5, "%s", ONE_OF(comment_accept));
-	msg("You bought %s for %d gold.", o_name, price);
+	msg("Compraste %s por %d de oro.", o_name, price);
 
-	/* Erase the inscription */
+	/* Borrar la inscripción */
 	bought->note = 0;
 
-	/* Give it an origin if it doesn't have one */
+	/* Darle un origen si no tiene uno */
 	if (bought->origin == ORIGIN_NONE)
 		bought->origin = ORIGIN_STORE;
 
-	/* Hack - Reduce the number of charges in the original stack */
+	/* Truco - Reducir el número de cargas en la pila original */
 	if (tval_can_have_charges(obj))
 		obj->pval -= bought->pval;
 
-	/* Make a known object */
+	/* Crear un objeto conocido */
 	known_obj = object_new();
 	object_copy(known_obj, obj->known);
 	bought->known = known_obj;
 
-	/* Learn flavor, any effect and all the runes */
+	/* Aprender el sabor, cualquier efecto y todas las runas */
 	object_flavor_aware(player, bought);
 	bought->known->effect = bought->effect;
 	while (!object_fully_known(bought)) {
@@ -1737,32 +1736,32 @@ void do_cmd_buy(struct command *cmd)
 		player_know_object(player, bought);
 	}
 
-	/* Give it to the player */
+	/* Darlo al jugador */
 	inven_carry(player, bought, true, true);
 
-	/* Handle stuff */
+	/* Manejar cosas */
 	handle_stuff(player);
 
-	/* Remove the bought objects from the store if it's not a readily
-	 * replaced staple item */
+	/* Eliminar los objetos comprados de la tienda si no es un artículo básico
+	 * que se repone fácilmente */
 	if (store_sale_should_reduce_stock(store, obj)) {
-		/* Reduce or remove the item */
+		/* Reducir o eliminar el objeto */
 		store_delete(store, obj, amt);
 
-		/* Store is empty */
+		/* La tienda está vacía */
 		if (store->stock_num == 0) {
 			int i;
 
-			/* Sometimes shuffle the shopkeeper */
+			/* A veces cambiar al tendero */
 			if (one_in_(z_info->store_shuffle)) {
-				/* Shuffle */
-				msg("The shopkeeper retires.");
+				/* Cambiar */
+				msg("El tendero se jubila.");
 				store_shuffle(store);
 			} else
-				/* Maintain */
-				msg("The shopkeeper brings out some new stock.");
+				/* Mantener */
+				msg("El tendero saca algunas existencias nuevas.");
 
-			/* New inventory */
+			/* Nuevo inventario */
 			for (i = 0; i < 10; ++i)
 				store_maint(store);
 		}
@@ -1774,7 +1773,7 @@ void do_cmd_buy(struct command *cmd)
 }
 
 /**
- * Retrieve the item with the given index from the home's inventory.
+ * Recuperar el objeto con el índice dado del inventario del hogar.
  */
 void do_cmd_retrieve(struct command *cmd)
 {
@@ -1786,60 +1785,59 @@ void do_cmd_retrieve(struct command *cmd)
 	if (!store) return;
 
 	if (store->feat != FEAT_HOME) {
-		msg("You are not currently at home.");
+		msg("No estás actualmente en tu hogar.");
 		return;
 	}
 
-	/* Get arguments */
+	/* Obtener argumentos */
 	if (cmd_get_arg_item(cmd, "item", &obj) != CMD_OK)
 		return;
 
 	if (!pile_contains(store->stock, obj)) {
-		msg("You cannot retrieve that item because it's not in the home.");
+		msg("No puedes recuperar ese objeto porque no está en el hogar.");
 		return;
 	}
 
 	if (cmd_get_arg_number(cmd, "quantity", &amt) != CMD_OK)
 		return;
 
-	/* Get desired object */
+	/* Obtener el objeto deseado */
 	picked_item = object_new();
 	object_copy_amt(picked_item, obj, amt);
 
-	/* Ensure we have room */
+	/* Asegurar que tenemos espacio */
 	if (picked_item->number > inven_carry_num(player, picked_item)) {
-		msg("You cannot carry that many items.");
+		msg("No puedes llevar tantos objetos.");
 		object_delete(NULL, NULL, &picked_item);
 		return;
 	}
 
-	/* Distribute charges of wands, staves, or rods */
+	/* Distribuir cargas de varitas, bastones o varas */
 	distribute_charges(obj, picked_item, amt, true);
 
-	/* Make a known object */
+	/* Crear un objeto conocido */
 	known_obj = object_new();
 	/*
-	 * Have at least one save,
-	 * https://github.com/angband/angband/issues/6362 , where
-	 * obj->known->number does not agree with obj->number.  Coerce
-	 * obj->known->number so it is usable in object_copy_amt() and
-	 * distribute_charges().  It may be possible to drop that coercion if
-	 * the source of the misaligned numbers is fixed and compatibility
-	 * with old saves which may have misaligned numbers is no longer
-	 * required.
+	 * Tener al menos un guardado,
+	 * https://github.com/angband/angband/issues/6362 , donde
+	 * obj->known->number no coincide con obj->number. Forzar
+	 * obj->known->number para que sea utilizable en object_copy_amt() y
+	 * distribute_charges(). Puede ser posible eliminar esa coerción si
+	 * la fuente de los números desalineados se soluciona y se requiere compatibilidad
+	 * con guardados antiguos que pueden tener números desalineados.
 	 */
 	obj->known->number = obj->number;
 	object_copy_amt(known_obj, obj->known, amt);
 	picked_item->known = known_obj;
 	distribute_charges(obj->known, picked_item->known, amt, true);
 
-	/* Give it to the player */
+	/* Darlo al jugador */
 	inven_carry(player, picked_item, true, true);
 
-	/* Handle stuff */
+	/* Manejar cosas */
 	handle_stuff(player);
 	
-	/* Reduce or remove the item */
+	/* Reducir o eliminar el objeto */
 	store_delete(store, obj, amt);
 
 	event_signal(EVENT_STORECHANGED);
@@ -1849,7 +1847,7 @@ void do_cmd_retrieve(struct command *cmd)
 
 
 /**
- * Determine if the current store will purchase the given object
+ * Determinar si la tienda actual comprará el objeto dado
  */
 bool store_will_buy_tester(const struct object *obj)
 {
@@ -1860,7 +1858,7 @@ bool store_will_buy_tester(const struct object *obj)
 }
 
 /**
- * Sell an item to the current store.
+ * Vender un objeto a la tienda actual.
  */
 void do_cmd_sell(struct command *cmd)
 {
@@ -1874,73 +1872,73 @@ void do_cmd_sell(struct command *cmd)
 	struct object *obj, *sold_item;
 	bool none_left = false;
 
-	/* Get arguments */
-	/* XXX-AS fill this out, split into cmd-store.c */
+	/* Obtener argumentos */
+	/* XXX-AS completar esto, dividir en cmd-store.c */
 	if (cmd_get_arg_item(cmd, "item", &obj) != CMD_OK)
 		return;
 
 	if (cmd_get_quantity(cmd, "quantity", &amt, obj->number) != CMD_OK)
 		return;
 
-	/* Cannot remove stickied objects */
+	/* No se pueden quitar objetos pegajosos */
 	if (object_is_equipped(player->body, obj) && !obj_can_takeoff(obj)) {
-		msg("Hmmm, it seems to be stuck.");
+		msg("Mmm, parece estar pegado.");
 		return;
 	}
 
-	/* Check we are somewhere we can sell the items. */
+	/* Comprobar que estamos en un lugar donde podemos vender los objetos. */
 	if (!store) {
-		msg("You cannot sell items when not in a store.");
+		msg("No puedes vender objetos cuando no estás en una tienda.");
 		return;
 	}
 
-	/* Check the store wants the items being sold */
+	/* Comprobar si la tienda quiere los objetos que se venden */
 	if (!store_will_buy(store, obj)) {
-		msg("I do not wish to purchase this item.");
+		msg("No deseo comprar este objeto.");
 		return;
 	}
 
-	/* Get a copy of the object representing the number being sold */
+	/* Obtener una copia del objeto que representa el número que se vende */
 	object_copy_amt(&dummy_item, obj, amt);
 
-	/* Check if the store has space for the items */
+	/* Comprobar si la tienda tiene espacio para los objetos */
 	if (!store_check_num(store, &dummy_item)) {
 		object_wipe(&dummy_item);
-		msg("I have not the room in my store to keep it.");
+		msg("No tengo espacio en mi tienda para guardarlo.");
 		return;
 	}
 
-	/* Get the label */
+	/* Obtener la etiqueta */
 	label = gear_to_label(player, obj);
 
 	price = price_item(store, &dummy_item, true, amt);
 
-	/* Get some money */
+	/* Obtener algo de dinero */
 	player->au += price;
 
-	/* Update the auto-history if selling an artifact that was previously
-	 * un-IDed. (Ouch!) */
+	/* Actualizar el auto-historial si se vende un artefacto que anteriormente
+	 * no estaba identificado. (¡Ay!) */
 	if (obj->artifact)
 		history_find_artifact(player, obj->artifact);
 
-	/* Update the gear */
+	/* Actualizar el equipo */
 	player->upkeep->update |= (PU_INVEN);
 
-	/* Combine the pack (later) */
+	/* Combinar la mochila (después) */
 	player->upkeep->notice |= (PN_COMBINE);
 
-	/* Redraw stuff */
+	/* Redibujar cosas */
 	player->upkeep->redraw |= (PR_INVEN | PR_EQUIP);
 
-	/* Get the "apparent" value */
+	/* Obtener el valor "aparente" */
 	dummy = object_value(&dummy_item, amt);
 	/*
-	 * Do not need the dummy any more so release the memory allocated
-	 * within it.
+	 * Ya no necesitamos el dummy, así que liberamos la memoria asignada
+	 * dentro de él.
 	 */
 	object_wipe(&dummy_item);
 
-	/* Know flavor of consumables */
+	/* Conocer el sabor de los consumibles */
 	object_flavor_aware(player, obj);
 	obj->known->effect = obj->effect;
 	while (!object_fully_known(obj)) {
@@ -1948,42 +1946,42 @@ void do_cmd_sell(struct command *cmd)
 		player_know_object(player, obj);
 	}
 
-	/* Take a proper copy of the now known-about object. */
+	/* Tomar una copia adecuada del objeto ahora conocido. */
 	sold_item = gear_object_for_use(player, obj, amt, false, &none_left);
 
-	/* Get the "actual" value */
+	/* Obtener el valor "real" */
 	value = object_value_real(sold_item, amt);
 
-	/* Get the description all over again */
+	/* Obtener la descripción de nuevo */
 	object_desc(o_name, sizeof(o_name), sold_item,
 		ODESC_PREFIX | ODESC_FULL, player);
 
-	/* Describe the result (in message buffer) */
+	/* Describir el resultado (en el búfer de mensajes) */
 	if (OPT(player, birth_no_selling)) {
-		msg("You had %s (%c).", o_name, label);
+		msg("Tenías %s (%c).", o_name, label);
 	} else {
-		msg("You sold %s (%c) for %d gold.", o_name, label, price);
+		msg("Vendiste %s (%c) por %d de oro.", o_name, label, price);
 
-		/* Analyze the prices (and comment verbally) */
+		/* Analizar los precios (y comentar verbalmente) */
 		purchase_analyze(price, value, dummy);
 	}
 
-	/* Autoinscribe if we still have any */
+	/* Autoinscribir si todavía tenemos alguno */
 	if (!none_left)
 		apply_autoinscription(player, obj);
 
-	/* Set ignore flag */
+	/* Establecer la bandera de ignorar */
 	player->upkeep->notice |= PN_IGNORE;
 
-	/* Notice if pack items need to be combined or reordered */
+	/* Notificar si los objetos de la mochila necesitan combinarse o reordenarse */
 	notice_stuff(player);
 
-	/* Handle stuff */
+	/* Manejar cosas */
 	handle_stuff(player);
 
-	/* The store gets that (known) object */
+	/* La tienda obtiene ese objeto (conocido) */
 	if (!store_carry(store, sold_item)) {
-		/* The store rejected it; delete. */
+		/* La tienda lo rechazó; eliminar. */
 		if (sold_item->artifact) {
 			history_lose_artifact(player, sold_item->artifact);
 		}
@@ -2000,7 +1998,7 @@ void do_cmd_sell(struct command *cmd)
 }
 
 /**
- * Stash an item in the home.
+ * Guardar un objeto en el hogar.
  */
 void do_cmd_stash(struct command *cmd)
 {
@@ -2020,49 +2018,49 @@ void do_cmd_stash(struct command *cmd)
 	if (cmd_get_quantity(cmd, "quantity", &amt, obj->number) != CMD_OK)
 		return;
 
-	/* Check we are somewhere we can stash items. */
+	/* Comprobar que estamos en un lugar donde podemos guardar objetos. */
 	if (!store || store->feat != FEAT_HOME) {
-		msg("You are not in your home.");
+		msg("No estás en tu hogar.");
 		return;
 	}
 
-	/* Cannot remove stickied objects */
+	/* No se pueden quitar objetos pegajosos */
 	if (object_is_equipped(player->body, obj) && !obj_can_takeoff(obj)) {
-		msg("Hmmm, it seems to be stuck.");
+		msg("Mmm, parece estar pegado.");
 		return;
 	}	
 
-	/* Get a copy of the object representing the number being sold */
+	/* Obtener una copia del objeto que representa el número que se vende */
 	object_copy_amt(&dummy, obj, amt);
 
 	no_room = !store_check_num(store, &dummy);
 	/*
-	 * Do not need the dummy any more so release the memory allocated
-	 * within it.
+	 * Ya no necesitamos el dummy, así que liberamos la memoria asignada
+	 * dentro de él.
 	 */
 	object_wipe(&dummy);
 	if (no_room) {
-		msg("Your home is full.");
+		msg("Tu hogar está lleno.");
 		return;
 	}
 
-	/* Get where the object is now */
+	/* Obtener dónde está el objeto ahora */
 	label = gear_to_label(player, obj);
 
-	/* Now get the real item */
+	/* Ahora obtener el objeto real */
 	dropped = gear_object_for_use(player, obj, amt, false, &none_left);
 
-	/* Describe */
+	/* Describir */
 	object_desc(o_name, sizeof(o_name), dropped,
 		ODESC_PREFIX | ODESC_FULL, player);
 
-	/* Message */
-	msg("You drop %s (%c).", o_name, label);
+	/* Mensaje */
+	msg("Soltaste %s (%c).", o_name, label);
 
-	/* Handle stuff */
+	/* Manejar cosas */
 	handle_stuff(player);
 
-	/* Let the home carry it */
+	/* Permitir que el hogar lo lleve */
 	home_carry(dropped);
 
 	event_signal(EVENT_STORECHANGED);
