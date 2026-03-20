@@ -1787,7 +1787,7 @@ attack:0d0:0:0
 armor:1:0
 desc:Una prenda exterior resistente de viajero.
 
-name:& Fur Cloak~
+name:& Capa~ de Pelo
 type:cloak
 graphics:(:o
 level:1

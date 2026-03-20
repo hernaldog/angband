@@ -226,6 +226,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 
 | Archivo                                  | % Avance | TODO                                                 |
 | -----------------------------------------| ------   | -----------------------------------------------------|
+| docs\attack.rst                          | 100      |
 | docs\command.rst                         | 100      |
 | docs\customize.rst                       | 100      |
 | docs\hacking\modifying.rst               | 100      |
