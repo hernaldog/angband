@@ -2,7 +2,9 @@ cd c:
 cd c:/juegos/angband-src-esp/src
 
 echo "Eliminando carpeta game"
-rm -rf game
+shopt -s extglob
+rm -rf game/!(lib)
+rm -rf game/lib/!(user)
 
 echo "Eliminando carpeta CMakeFiles"
 rm -rf CMakeFiles
