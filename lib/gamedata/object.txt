@@ -214,7 +214,7 @@ attack:1d1:0:0
 armor:0:0
 flags:TAKES_FUEL | EASY_KNOW | LIGHT_3 | IGNORE_FIRE
 
-name:& Flask~ of oil
+name:& Frasco~ de aceite
 type:flask
 graphics:!:y
 level:1
