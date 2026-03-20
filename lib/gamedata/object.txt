@@ -3508,7 +3508,7 @@ dice:100+4d25
 
 ### Inútiles ###
 
-name:Slime Mold Juice
+name:Jugo de Moho Baboso
 type:potion
 graphics:!:d
 level:0
