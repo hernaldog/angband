@@ -1,787 +1,782 @@
 .. _command-descriptions:
 
 ====================
-Command Descriptions
+Descripciones de Comandos
 ====================
 
-The following command descriptions are listed as the command name plus the
-default key to use it. For those who prefer the original "roguelike"
-keyset, the name and key of the roguelike command is also shown if it is
-different. Then comes a brief description of the command, including
-information about alternative methods of specifying the command in each
-keyset, when needed.
+Las siguientes descripciones de comandos se enumeran como el nombre del comando más la
+tecla predeterminada para usarlo. Para aquellos que prefieren el conjunto de teclas "roguelike"
+original, el nombre y la tecla del comando roguelike también se muestran si es
+diferente. Luego viene una breve descripción del comando, que incluye
+información sobre métodos alternativos para especificar el comando en cada
+conjunto de teclas, cuando sea necesario.
 
-Some commands use the "repeat count" to automatically repeat the command
-several times, while others use the "repeat count" to specify a "quantity"
-for the command, and still others use it as an "argument" of some kind.
+Algunos comandos usan el "número de repetición" para repetir automáticamente el comando
+varias veces, mientras que otros usan el "número de repetición" para especificar una "cantidad"
+para el comando, y otros aún lo usan como un "argumento" de algún tipo.
 
-Most commands take no "energy" to perform, while other commands only take
-energy when they cause the world to change in some way. For example,
-attempting to read a scroll while blind does not use any energy.
+La mayoría de los comandos no consumen "energía" para realizarse, mientras que otros comandos solo consumen
+energía cuando hacen que el mundo cambie de alguna manera. Por ejemplo,
+intentar leer un pergamino mientras se está ciego no usa energía.
 
-The following command is very useful for beginners,
+El siguiente comando es muy útil para principiantes,
 
-Command lists ('Enter')
-  This brings up a little window in the middle of the screen, in which you
-  can select what command you would like to use by browsing.  If you wish
-  to begin playing immediately, you can use this option to navigate the 
-  commands and refer to this guide when you need more details about 
-  specific commands.
+Listas de comandos ('Enter')
+  Esto muestra una pequeña ventana en el medio de la pantalla, en la que
+  puedes seleccionar qué comando te gustaría usar navegando. Si deseas
+  comenzar a jugar inmediatamente, puedes usar esta opción para navegar por los
+  comandos y consultar esta guía cuando necesites más detalles sobre
+  comandos específicos.
 
-Inventory Commands
+Comandos de Inventario
 ==================
 
-Inventory list (``i``)
-  Displays a list of objects being carried but not equipped. You can carry
-  up to 23 different items, not counting those in your equipment. Often,
-  many identical objects can be "stacked" into a "pile" which will count as
-  a single item.  Each object has a weight, and if you carry more
-  objects than your strength permits, you will begin to slow down. The
-  amount of weight you can still carry without being overencumbered, or the
-  amount of extra weight you are currently carrying is displayed at the top
-  of the screen.
- 
-Equipment list (``e``)
-  Use this command to display a list of the objects currently being used by
-  your character. The standard body (which all races currently have) has
-  12 slots for equipment. Every equipment slot corresponds to a different
-  location on the body, and each of which may contain only one object at
-  a time, and each of which may only contain objects of the proper "type".
-  For the standard body these are WEAPON (weapon), BOW (missile launcher),
-  RING (ring) (two of these), AMULET (amulet), LIGHT (light source),
-  BODY_ARMOR (armor), CLOAK (cloak), SHIELD (shield), HAT (helmet),
-  GLOVES (gloves), BOOTS (boots). You must be wielding/wearing certain
-  objects to take advantage of their special powers.
+Lista de inventario (``i``)
+  Muestra una lista de objetos que se llevan pero no están equipados. Puedes llevar
+  hasta 23 objetos diferentes, sin contar los de tu equipo. A menudo,
+  muchos objetos idénticos pueden "apilarse" en un "montón" que contará como
+  un solo objeto. Cada objeto tiene un peso, y si llevas más
+  objetos de los que tu fuerza permite, comenzarás a ralentizarte. La
+  cantidad de peso que aún puedes llevar sin estar sobrecargado, o la
+  cantidad de peso extra que llevas actualmente se muestra en la parte superior
+  de la pantalla.
 
-Quiver list (``|``)
-  Displays the contents of your quiver.  Missiles that you carry will
-  automatically be put in your quiver if there is space.  The quiver has
-  10 slots; it also takes up inventory space:  every 40 missiles will
-  reduce your number of inventory slots by 1.  Items that are good for
-  throwing and have been :ref:`inscribed for throwing <inscribing>` (for
-  instance, the inscription includes ``@v0``) will also be placed in the
-  quiver if there is space.  Each stack of such items takes a quiver slot
-  and every 8 such items will reduce your inventory slots by 1.
+Lista de equipo (``e``)
+  Usa este comando para mostrar una lista de los objetos que tu personaje está usando
+  actualmente. El cuerpo estándar (que todas las razas tienen actualmente) tiene
+  12 ranuras para equipo. Cada ranura de equipo corresponde a una ubicación diferente
+  en el cuerpo, y cada una puede contener solo un objeto a la vez, y cada una
+  solo puede contener objetos del "tipo" adecuado.
+  Para el cuerpo estándar, estas son ARMA (arma), ARCO (lanzador de proyectiles),
+  ANILLO (anillo) (dos de estos), AMULETO (amuleto), LUZ (fuente de luz),
+  ARMADURA CORPORAL (armadura), CAPA (capa), ESCUDO (escudo), SOMBRERO (casco),
+  GUANTES (guantes), BOTAS (botas). Debes estar empuñando/llevando ciertos
+  objetos para aprovechar sus poderes especiales.
 
-Drop an item (``d``)
-  This drops an item from your inventory or equipment onto the dungeon
-  floor.  The item will remain at your feet if possible.  Some terrain,
-  like doors and staircases, and any square with a trap can not hold
-  items, and, in that case, the game will attempt to place the item in
-  a nearby square that can hold items.  This command may take a quantity,
-  and takes some energy.
+Lista de aljaba (``|``)
+  Muestra el contenido de tu aljaba. Los proyectiles que llevas se
+  colocarán automáticamente en tu aljaba si hay espacio. La aljaba tiene
+  10 ranuras; también ocupa espacio de inventario: cada 40 proyectiles
+  reducirán tu número de ranuras de inventario en 1. Los objetos que son buenos
+  para lanzar y han sido :ref:`inscritos para lanzar <inscribing>` (por
+  ejemplo, la inscripción incluye ``@v0``) también se colocarán en la
+  aljaba si hay espacio. Cada pila de tales objetos ocupa una ranura de aljaba
+  y cada 8 de esos objetos reducirán tus ranuras de inventario en 1.
 
-Ignore an item (``k``) or Ignore an item ('^d')
-  This ignores an item in your inventory or on the dungeon floor. If the
-  selected pile contains multiple objects, you may specify a quantity. When
-  ignored, the game will sometimes prompt you whether to ignore only this
-  item or all others like it.  If the second option is chosen, all similar
-  items on the floor and in your inventory will be ignored.  To view all
-  items regardless of whether they are ignored, you can use ``K`` (``O``
-  in the roguelike keyset) to toggle the ignore setting on and off.
+Soltar un objeto (``d``)
+  Esto suelta un objeto de tu inventario o equipo al suelo de la mazmorra.
+  El objeto permanecerá a tus pies si es posible. Algunos terrenos,
+  como puertas y escaleras, y cualquier casilla con una trampa no pueden contener
+  objetos, y, en ese caso, el juego intentará colocar el objeto en
+  una casilla cercana que pueda contener objetos. Este comando puede tomar una cantidad,
+  y consume algo de energía.
 
-Wear/Wield equipment (``w``)
-  To wear or wield an object in your inventory, use this command. Since
-  only one object can be in each slot at a time, if you wear or wield an
-  item into a slot which is already occupied, the old item will be first be
-  taken off, and may in fact be dropped if there is no room for it in your
-  inventory. This command takes some energy.
+Ignorar un objeto (``k``) o Ignorar un objeto ('^d')
+  Esto ignora un objeto en tu inventario o en el suelo de la mazmorra. Si el
+  montón seleccionado contiene múltiples objetos, puedes especificar una cantidad. Cuando
+  se ignora, el juego a veces te preguntará si quieres ignorar solo este
+  objeto o todos los demás como él. Si se elige la segunda opción, todos los objetos
+  similares en el suelo y en tu inventario serán ignorados. Para ver todos los
+  objetos independientemente de si están ignorados, puedes usar ``K`` (``O``
+  en el conjunto de teclas roguelike) para alternar la configuración de ignorar.
 
-Take off equipment (``t``) or Take off equipment (``T``)
-  Use this command to take off a piece of equipment and return it to your
-  inventory. Occasionally, you will run into a cursed item which cannot be
-  removed. These items normally penalize you in some way and cannot be
-  taken off until the curse is removed. If there is no room in your
-  inventory for the item, your pack will overflow and you will drop the
-  item after taking it off. You may also remove ammunition from your quiver
-  with this command. This command takes some energy.
+Usar/Poner equipo (``w``)
+  Para usar o poner un objeto de tu inventario, usa este comando. Dado que
+  solo un objeto puede estar en cada ranura a la vez, si usas o pones un
+  objeto en una ranura que ya está ocupada, el objeto antiguo se quitará primero,
+  y de hecho puede ser soltado si no hay espacio para él en tu
+  inventario. Este comando consume algo de energía.
 
-Movement Commands
+Quitar equipo (``t``) o Quitar equipo (``T``)
+  Usa este comando para quitar una pieza de equipo y devolverla a tu
+  inventario. Ocasionalmente, te encontrarás con un objeto maldito que no se puede
+  quitar. Estos objetos normalmente te penalizan de alguna manera y no se pueden
+  quitar hasta que se elimine la maldición. Si no hay espacio en tu
+  inventario para el objeto, tu mochila se desbordará y soltarás el
+  objeto después de quitártelo. También puedes quitar munición de tu aljaba
+  con este comando. Este comando consume algo de energía.
+
+Comandos de Movimiento
 =================
 
-Moving (arrow keys, number keys) or (arrow keys, number keys, 'yuhjklbn')
-  This causes you to move one step in a given direction. If the square you
-  wish to move into is occupied by a monster, you will attack it. If the
-  square is occupied by a door, you will attempt to open it. If the square
-  is occupied by a trap, you will attempt to disarm it unless you are
-  immune to traps:  in that case, you simply move there without harm. Preceding
-  this command with CTRL will cause you to alter (attack, tunnel, open,
-  disarm or close) in the appropriate direction, but will not move your
-  character if there is nothing there to alter. These commands take some
-  energy.
+Moverse (teclas de flecha, teclas numéricas) o (teclas de flecha, teclas numéricas, 'yuhjklbn')
+  Esto te hace mover un paso en una dirección dada. Si la casilla a la que
+  deseas moverte está ocupada por un monstruo, lo atacarás. Si la
+  casilla está ocupada por una puerta, intentarás abrirla. Si la casilla
+  está ocupada por una trampa, intentarás desarmarla a menos que seas inmune a las trampas:
+  en ese caso, simplemente te mueves allí sin sufrir daño. Anteponer
+  este comando con CTRL hará que alteres (ataques, excaves, abras,
+  desarmes o cierres) en la dirección apropiada, pero no moverá a tu
+  personaje si no hay nada allí para alterar. Estos comandos consumen algo de
+  energía.
 
-Walk (``W``) or Walk (``-``)
-  The walk command lets you willingly walk into a trap without trying to
-  disarm it. This command may take a count, requires a direction, and takes
-  some energy.
+Caminar (``W``) o Caminar (``-``)
+  El comando caminar te permite entrar voluntariamente en una trampa sin intentar
+  desarmarla. Este comando puede tomar un número, requiere una dirección y consume
+  algo de energía.
 
-Run (``.``) or Run (``,``)
-  This command will move in the given direction, following any bends in the
-  corridor, until you either have to make a "choice" between two directions
-  or you are disturbed. For more information about what can disturb you, see
-  :ref:`Disturb <disturb-player>`. You may also use shift plus the "roguelike"
-  direction keys (roguelike keyset), or shift plus the "original" direction
-  keys on the keypad (both keysets, some machines) to run in a direction.
-  This command may take an argument, requires a direction, and takes some
-  energy.
+Correr (``.``) o Correr (``,``)
+  Este comando te moverá en la dirección dada, siguiendo cualquier curva en el
+  corredor, hasta que tengas que tomar una "decisión" entre dos direcciones
+  o te molesten. Para más información sobre lo que puede molestarte, consulta
+  :ref:`Molestar <disturb-player>`. También puedes usar mayúsculas más las teclas de dirección "roguelike"
+  (conjunto de teclas roguelike), o mayúsculas más las teclas de dirección "originales"
+  en el teclado numérico (ambos conjuntos de teclas, algunas máquinas) para correr en una dirección.
+  Este comando puede tomar un argumento, requiere una dirección y consume algo de
+  energía.
 
-Go up staircase (``<``)
-  Climbs up an up staircase you are standing on. There is always at least
-  one staircase going up on every level except for the town level (this
-  doesn't mean it's easy to find). Going up a staircase will take you to a
-  new dungeon level unless you are at 50 feet (dungeon level 1), in which
-  case you will return to the town level. Note that whenever you leave a
-  level (not the town), you will never find it again. This means that for
-  all intents and purposes, any objects on that level are destroyed. This
-  includes artifacts unless the "Lose artifacts when leaving level" option
-  was turned off when your character was created, in which case the artifacts
-  may show up again later. The option to lose artifacts is off in the default
-  configuration. This command takes some energy. If the
-  :ref:`Autoexplore Commands Option <autoexplore-commands-option>` is on,
-  you are not on an up staircase, you are not confused, and no monsters are
-  in view, ``<`` will determine a path to the nearest (by number of turns)
-  known up staircase, and, if it finds a path, start you along it.
-  :ref:`Pathfinding <pathfinding-player>` has more information about how the
-  path is calculated and what happens when following the path.
+Subir escaleras (``<``)
+  Sube por una escalera ascendente en la que te encuentras. Siempre hay al menos
+  una escalera que sube en cada nivel excepto en el nivel de la ciudad (esto
+  no significa que sea fácil de encontrar). Subir una escalera te llevará a un
+  nuevo nivel de mazmorra a menos que estés a 50 pies (nivel de mazmorra 1), en cuyo
+  caso regresarás al nivel de la ciudad. Ten en cuenta que cada vez que abandonas
+  un nivel (que no sea la ciudad), nunca lo volverás a encontrar. Esto significa que
+  para todos los efectos prácticos, cualquier objeto en ese nivel es destruido. Esto
+  incluye artefactos a menos que la opción "Perder artefactos al abandonar el nivel"
+  estuviera desactivada cuando se creó tu personaje, en cuyo caso los artefactos
+  pueden aparecer de nuevo más tarde. La opción de perder artefactos está desactivada en la
+  configuración predeterminada. Este comando consume algo de energía. Si la
+  :ref:`Opción de Comandos de Autoexploración <autoexplore-commands-option>` está activada,
+  no estás en una escalera ascendente, no estás confundido y no hay monstruos a la vista,
+  ``<`` determinará una ruta a la escalera ascendente conocida más cercana (por número de turnos),
+  y, si encuentra una ruta, comenzará a seguirla.
+  :ref:`Búsqueda de camino <pathfinding-player>` tiene más información sobre cómo se
+  calcula la ruta y qué sucede al seguirla.
 
-Go down staircase (``>``)
-  Descends a down staircase you are standing on. There are always at least
-  one staircase going down on each level, except for the town which has
-  only one, and "quest" levels, which have none until the quest monster is
-  killed. Going down a staircase will take you to a new dungeon level. See
-  "Go Up Staircase" for more info. This command takes some energy. If the
-  :ref:`Autoexplore Commands Option <autoexplore-commands-option>` is on,
-  you are not on an down staircase, you are not confused, and no monsters are
-  in view, ``>`` will determine a path to the nearest (by number of turns)
-  known down staircase, and, if it finds a path, start you along it.
-  :ref:`Pathfinding <pathfinding-player>` has more information about how the
-  path is calculated and what happens when following the path.
+Bajar escaleras (``>``)
+  Desciende por una escalera descendente en la que te encuentras. Siempre hay al menos
+  una escalera que baja en cada nivel, excepto en la ciudad, que tiene
+  solo una, y los niveles de "misión", que no tienen ninguna hasta que se mata al
+  monstruo de la misión. Bajar una escalera te llevará a un nuevo nivel de mazmorra. Consulta
+  "Subir Escaleras" para más información. Este comando consume algo de energía. Si la
+  :ref:`Opción de Comandos de Autoexploración <autoexplore-commands-option>` está activada,
+  no estás en una escalera descendente, no estás confundido y no hay monstruos a la vista,
+  ``>`` determinará una ruta a la escalera descendente conocida más cercana (por número de turnos),
+  y, si encuentra una ruta, comenzará a seguirla.
+  :ref:`Búsqueda de camino <pathfinding-player>` tiene más información sobre cómo se
+  calcula la ruta y qué sucede al seguirla.
 
-Path to nearest unknown grid (``p``)
-  Unless the :ref:`Autoexplore Commands Option <autoexplore-commands-option>`
-  is on, this command does nothing.  When that option is on, you are not
-  confused, and no monsters are in view, ``p`` will determine a path to
-  the nearest (by turns) known passable grid that has an unknown neighbor
-  and start you along that path.  If there is no such path, it will try
-  to find a path to the nearest known passable grid that is next to a closed
-  door or impassable rubble and that door or rubble has an unknown neighbor.
-  :ref:`Pathfinding <pathfinding-player>` has more information about how the
-  path is calculated and what happens when following the path.
+Ruta a la casilla desconocida más cercana (``p``)
+  A menos que la :ref:`Opción de Comandos de Autoexploración <autoexplore-commands-option>`
+  esté activada, este comando no hace nada. Cuando esa opción está activada, no estás
+  confundido y no hay monstruos a la vista, ``p`` determinará una ruta a
+  la casilla transitable conocida más cercana (por turnos) que tenga una casilla vecina desconocida
+  y comenzará a seguir esa ruta. Si no existe tal ruta, intentará
+  encontrar una ruta a la casilla transitable conocida más cercana que esté junto a una puerta cerrada
+  o escombro infranqueable y esa puerta o escombro tenga una casilla vecina desconocida.
+  :ref:`Búsqueda de camino <pathfinding-player>` tiene más información sobre cómo se
+  calcula la ruta y qué sucede al seguirla.
 
-Resting Commands
+Comandos de Descanso
 ================
 
-Stay still (with pickup) (``,``) or Stay still (with pickup) (``.``)
-  Stays in the same square for one move. If you normally pick up objects
-  you encounter, you will pick up whatever you are standing on. You may
-  also use the ``5`` key (both keysets). This command may take a count, and
-  takes some energy.
+Quedarse quieto (con recogida) (``,``) o Quedarse quieto (con recogida) (``.``)
+  Permanece en la misma casilla durante un movimiento. Si normalmente recoges objetos
+  que encuentras, recogerás lo que esté debajo de ti. También puedes
+  usar la tecla ``5`` (ambos conjuntos de teclas). Este comando puede tomar un número y
+  consume algo de energía.
 
-Get objects (``g``)
-  Pick up objects and gold on the floor beneath you. Picking up gold takes
-  no time, and objects take 1/10th of a normal turn each (maximum time cost
-  is a full turn). You may pick up objects until the floor is empty or your
-  backpack is full.
+Recoger objetos (``g``)
+  Recoge objetos y oro del suelo debajo de ti. Recoger oro no
+  lleva tiempo, y los objetos toman 1/10 de un turno normal cada uno (el costo máximo de tiempo
+  es un turno completo). Puedes recoger objetos hasta que el suelo esté vacío o tu
+  mochila esté llena.
 
-Rest (``R``)
-  Resting is better for you than repeatedly staying still, and can be told
-  to automatically stop after a certain amount of time, or when various
-  conditions are met. In any case, you always wake up when anything
-  :ref:`disturbing happens <disturb-player>`, or when you press any key.
-  To rest, enter the Rest command, followed by the number of turns you want
-  to rest, or ``*`` to rest until your hitpoints and mana are restored, or
-  ``&`` to rest until you are fully "healed". This command may take an
-  argument (used for the number of turns to rest), and takes some energy.
+Descansar (``R``)
+  Descansar es mejor para ti que quedarte quieto repetidamente, y se puede indicar
+  que se detenga automáticamente después de un cierto tiempo, o cuando se cumplan varias
+  condiciones. En cualquier caso, siempre te despiertas cuando algo
+  :ref:`molesto sucede <disturb-player>`, o cuando presionas cualquier tecla.
+  Para descansar, ingresa el comando Descansar, seguido del número de turnos que deseas
+  descansar, o ``*`` para descansar hasta que se recuperen tus puntos de vida y maná, o
+  ``&`` para descansar hasta que estés completamente "curado". Este comando puede tomar un
+  argumento (usado para el número de turnos para descansar) y consume algo de energía.
 
-Alter Commands
+Comandos de Alteración
 ==============
 
-Tunnel (``T``) or Tunnel ('^t')
-  Tunnelling or mining is a very useful art. There are many kinds of rock,
-  with varying hardness, including permanent rock (permanent), granite
-  (very hard), quartz veins (hard), magma veins (soft), and rubble (very
-  soft). Quartz and magma veins may be displayed in a special way, and may
-  sometimes contain treasure, in which case they will be displayed in a
-  different way. Rubble sometimes covers an object but is easy to tunnel
-  through, even with your bare hands.  Tunnelling ability increases with 
-  strength and weapon weight. If you have a digging tool in your pack, the
-  game will automatically use this to dig. This command may take a count,
-  requires a direction, and takes some energy.
+Excavar (``T``) o Excavar ('^t')
+  Excavar o minar es un arte muy útil. Hay muchos tipos de roca,
+  con diferente dureza, incluyendo roca permanente (permanente), granito
+  (muy duro), vetas de cuarzo (duro), vetas de magma (blando) y escombros (muy
+  blando). Las vetas de cuarzo y magma pueden mostrarse de una manera especial, y pueden
+  contener a veces tesoros, en cuyo caso se mostrarán de una manera diferente.
+  Los escombros a veces cubren un objeto pero son fáciles de excavar,
+  incluso con las manos desnudas. La habilidad de excavar aumenta con la
+  fuerza y el peso del arma. Si tienes una herramienta de excavación en tu mochila,
+  el juego la usará automáticamente para excavar. Este comando puede tomar un número,
+  requiere una dirección y consume algo de energía.
 
-Open a door or chest (``o``)
-  To open an object such as a door or chest, you must use this command. If
-  the object is locked, you will attempt to pick the lock based on your
-  disarming ability. If you open a trapped chest without disarming the
-  traps first, the trap will be set off. Opening will automatically attempt
-  to pick any door locks. You may need several tries to open a door or chest.
-  This command may take a count, requires a direction, and takes some energy.
+Abrir una puerta o cofre (``o``)
+  Para abrir un objeto como una puerta o cofre, debes usar este comando. Si
+  el objeto está cerrado con llave, intentarás abrir la cerradura según tu
+  habilidad de desarme. Si abres un cofre con trampas sin desarmar las
+  trampas primero, la trampa se activará. Abrir intentará automáticamente
+  abrir cualquier cerradura de puerta. Puedes necesitar varios intentos para abrir una puerta o cofre.
+  Este comando puede tomar un número, requiere una dirección y consume algo de energía.
 
-Close a door (``c``)
-  Non-intelligent and some other creatures cannot open doors, so shutting
-  doors can be quite valuable. Furthermore, monsters cannot see you behind
-  closed doors, so closing doors may allow you to buy some time without
-  being attacked. Broken doors cannot be closed.  This command may take a
-  count, requires a direction, and takes some energy.
+Cerrar una puerta (``c``)
+  Las criaturas no inteligentes y algunas otras no pueden abrir puertas, por lo que cerrar
+  puertas puede ser muy valioso. Además, los monstruos no pueden verte detrás
+  de puertas cerradas, por lo que cerrar puertas puede permitirte ganar algo de tiempo sin
+  ser atacado. Las puertas rotas no se pueden cerrar. Este comando puede tomar un
+  número, requiere una dirección y consume algo de energía.
 
-Disarm a trap or chest, or lock a door (``D``)
-  You can attempt to disarm traps on the floor or on chests. If you fail,
-  there is a chance that you will blunder and set it off. You can only
-  disarm a trap after you have found it. The command can also be used to
-  lock a closed door, which will create a hindrance for monsters. Even if
-  many monsters will be able to pick the lock or bash the door down, it
-  will often take them some time. This command may take a count, requires
-  a direction, and takes some energy.
+Desarmar una trampa o cofre, o cerrar con llave una puerta (``D``)
+  Puedes intentar desarmar trampas en el suelo o en cofres. Si fallas,
+  hay una posibilidad de que te equivoques y la actives. Solo puedes
+  desarmar una trampa después de haberla encontrado. El comando también se puede usar para
+  cerrar con llave una puerta cerrada, lo que creará un obstáculo para los monstruos. Incluso si
+  muchos monstruos pueden abrir la cerradura o derribar la puerta,
+  a menudo les llevará algún tiempo. Este comando puede tomar un número, requiere
+  una dirección y consume algo de energía.
 
-Alter (``+``)
-  This special command allows the use of a single keypress to select any of
-  the "obvious" commands above (attack, tunnel, bash, open, disarm),
-  and, by using keymaps, to combine this keypress with directions. In
-  general, this allows the use of the "control" key plus the appropriate
-  "direction" key (including the roguelike direction keys in roguelike
-  mode) as a kind of generic "alter the terrain feature of an adjacent
-  grid" command. This command may take a count, requires a direction, and
-  takes some energy.
+Alterar (``+``)
+  Este comando especial permite el uso de una sola pulsación de tecla para seleccionar cualquiera de
+  los comandos "obvios" anteriores (atacar, excavar, derribar, abrir, desarmar),
+  y, mediante el uso de mapas de teclas, combinar esta pulsación de tecla con direcciones. En
+  general, esto permite el uso de la tecla "control" más la tecla de "dirección"
+  adecuada (incluyendo las teclas de dirección roguelike en el modo roguelike)
+  como una especie de comando genérico para "alterar la característica del terreno de una casilla
+  adyacente". Este comando puede tomar un número, requiere una dirección y
+  consume algo de energía.
 
-Steal (``s``)
-  This command is only available to rogues, and allows them to try and steal
-  from a monster.  Stealing works better when the player is stealthy and
-  faster than the target monster, and best of all when the victim is asleep.
-  A failed theft will wake the monster; if you really bungle the attempt, the
-  monster may shout out in anger.  This command requires a direction and
-  takes some energy.
+Robar (``s``)
+  Este comando solo está disponible para pícaros y les permite intentar robar
+  de un monstruo. Robar funciona mejor cuando el jugador es sigiloso y
+  más rápido que el monstruo objetivo, y mejor aún cuando la víctima está dormida.
+  Un robo fallido despertará al monstruo; si realmente arruinas el intento, el
+  monstruo puede gritar con ira. Este comando requiere una dirección y
+  consume algo de energía.
 
-Spell Commands
+Comandos de Hechizos
 =========================
 
-Browse a book (``b``) or Peruse a book (``P``)
-  Each class has books it can read and books it cannot; except for warriors,
-  who cannot read any books. When this command is used, all of the spells
-  contained in the selected book are displayed, along with information such as
-  their level, the amount of mana required to cast them, and whether or not
-  you know the spell.
+HoJear un libro (``b``) o Examinar un libro (``P``)
+  Cada clase tiene libros que puede leer y libros que no; excepto los guerreros,
+  que no pueden leer ningún libro. Cuando se usa este comando, todos los hechizos
+  contenidos en el libro seleccionado se muestran, junto con información como
+  su nivel, la cantidad de maná requerida para lanzarlos, y si sabes o no el hechizo.
 
-Gain new spells (``G``)
-  Use this command to actually learn new spells. When you are able to learn
-  new spells, the word "Study" will appear on the status line at the bottom
-  of the screen. If you have a book in your possession, containing spells
-  which you may learn, then you may choose to study that book. Most classes
-  may actually choose which spell to study, but if you are a priest or paladin,
-  your gods will choose a prayer for you. There are five books of each
-  realm, but hybrid classes - paladins, rogues, rangers and blackguards - can
-  only cast from two or three of these.  Higher level books are normally found
-  only in the dungeon. This command takes some energy.
+Aprender nuevos hechizos (``G``)
+  Usa este comando para aprender realmente nuevos hechizos. Cuando puedas aprender
+  nuevos hechizos, la palabra "Estudiar" aparecerá en la línea de estado en la parte inferior
+  de la pantalla. Si tienes un libro en tu poder, que contenga hechizos
+  que puedas aprender, entonces puedes elegir estudiar ese libro. La mayoría de las clases
+  pueden elegir qué hechizo estudiar, pero si eres un sacerdote o paladín,
+  tus dioses elegirán una oración por ti. Hay cinco libros de cada
+  reino, pero las clases híbridas - paladines, pícaros, montaraces y guardias negras - solo
+  pueden lanzar desde dos o tres de estos. Los libros de nivel superior normalmente se encuentran
+  solo en la mazmorra. Este comando consume algo de energía.
 
-Cast a spell (``m`` in both keysets)
-  To cast a spell, you must have previously learned the spell and must have
-  in your inventory a book from which the spell can be read. Each spell has
-  a chance of failure which starts out fairly large but decreases as you
-  gain levels. If you don't have enough mana to cast a spell, you will be
-  prompted for confirmation. If you decide to go ahead, the chance of
-  failure is greatly increased, and whether or not the spell is successfully
-  cast, you may wind up paralyzed for several turns or draining your
-  constitution. Since you must read the spell from a book, you cannot be blind
-  or confused while casting, and, unless you are a necromancer, there must be
-  some light present. This command takes some energy.
+Lanzar un hechizo (``m`` en ambos conjuntos de teclas)
+  Para lanzar un hechizo, debes haber aprendido previamente el hechizo y debes tener
+  en tu inventario un libro del cual se pueda leer el hechizo. Cada hechizo tiene
+  una probabilidad de fallo que comienza siendo bastante grande pero disminuye a medida que
+  ganas niveles. Si no tienes suficiente maná para lanzar un hechizo, se te
+  pedirá confirmación. Si decides continuar, la probabilidad de
+  fallo aumenta considerablemente, y ya sea que el hechizo se lance con éxito o no,
+  puedes terminar paralizado durante varios turnos o drenando tu
+  constitución. Dado que debes leer el hechizo de un libro, no puedes estar ciego
+  o confundido mientras lanzas, y, a menos que seas un nigromante, debe haber
+  algo de luz presente. Este comando consume algo de energía.
 
-Object Manipulation Commands
+Comandos de Manipulación de Objetos
 ============================
 
-Eat some food (``E``)
-  You must eat regularly to prevent starvation. There is a hunger meter
-  at the bottom of the screen, which says "Fed" and gives a percentage in
-  most circumstances. If you go hungry long enough, you will become weak,
-  then start fainting, and eventually, you may well die of starvation
-  (accompanied by increasingly alarming messages on your hunger meter).
-  It is also possible to be "Full", which will make you move slowly; more
-  slowly the fuller you get. You may use this command to eat food in your
-  inventory. Note that you can sometimes find food in the dungeon, but it
-  is not always wise to eat strange food. This command takes some energy.
+Comer algo (``E``)
+  Debes comer regularmente para evitar morir de hambre. Hay un medidor de hambre
+  en la parte inferior de la pantalla, que dice "Alimentado" y da un porcentaje en
+  la mayoría de las circunstancias. Si tienes hambre durante suficiente tiempo, te debilitarás,
+  luego comenzarás a desmayarte y, eventualmente, podrías morir de hambre
+  (acompañado de mensajes cada vez más alarmantes en tu medidor de hambre).
+  También es posible estar "Lleno", lo que te hará moverte lentamente; más
+  lentamente cuanto más lleno estés. Puedes usar este comando para comer comida en tu
+  inventario. Ten en cuenta que a veces puedes encontrar comida en la mazmorra, pero
+  no siempre es sabio comer comida extraña. Este comando consume algo de energía.
 
-Fuel your lantern/torch (``F``)
-  If you are using a lantern and have flasks of oil in your pack, then you
-  can "refuel" them with this command. Torches and Lanterns are limited
-  in their maximal fuel. In general, two flasks will fully fuel a lantern.
-  This command takes some energy.
+Alimentar tu linterna/antorcha (``F``)
+  Si estás usando una linterna y tienes frascos de aceite en tu mochila, entonces puedes
+  "reabastecerlas" con este comando. Las antorchas y linternas tienen un límite
+  en su combustible máximo. En general, dos frascos reabastecerán completamente una linterna.
+  Este comando consume algo de energía.
 
-Quaff a potion (``q``)
-  Use this command to drink a potion. Potions affect the player in various
-  ways, but the effects are not always immediately obvious. This command
-  takes some energy.
+Beber una poción (``q``)
+  Usa este comando para beber una poción. Las pociones afectan al jugador de varias
+  maneras, pero los efectos no siempre son inmediatamente obvios. Este comando
+  consume algo de energía.
 
-Read a scroll (``r``)
-  Use this command to read a scroll. Scroll spells usually have an area
-  effect, except for a few cases where they act on other objects. Reading a
-  scroll causes the parchment to disintegrate as the scroll takes effect.
-  Most scrolls which prompt for more information can be aborted (by
-  pressing escape), which will stop reading the scroll before it
-  disintegrates. This command takes some energy.
- 
-Inscribe an object (``{``) 
-  This command inscribes a string on an object. The inscription is
-  displayed inside curly braces after the object description. The
-  inscription is limited to the particular object (or stack) and is not
-  automatically transferred to all similar objects. Under certain
-  circumstances, Angband will display "fake" inscriptions on certain
-  objects ('tried', 'empty') when appropriate. These "fake" inscriptions
-  remain all the time, even if the player chooses to add a "real" inscription
-  on top of it later.
+Leer un pergamino (``r``)
+  Usa este comando para leer un pergamino. Los hechizos de pergamino suelen tener un efecto de área,
+  excepto en algunos casos en los que actúan sobre otros objetos. Leer un
+  pergamino hace que el pergamino se desintegre a medida que el pergamino hace efecto.
+  La mayoría de los pergaminos que solicitan más información se pueden abortar (presionando
+  escape), lo que detendrá la lectura del pergamino antes de que se
+  desintegre. Este comando consume algo de energía.
 
-  In addition, Angband will place the inscription '??' on an object for you
-  if the object has a property (or "rune") that you have not learned yet.
-  This inscription will remain until you know all the runes on the object.
+Inscribir un objeto (``{``) 
+  Este comando inscribe una cadena en un objeto. La inscripción se muestra
+  entre llaves después de la descripción del objeto. La inscripción está
+  limitada al objeto particular (o pila) y no se transfiere automáticamente
+  a todos los objetos similares. Bajo ciertas circunstancias, Angband mostrará inscripciones
+  "falsas" en ciertos objetos ('probado', 'vacío') cuando sea apropiado. Estas inscripciones
+  "falsas" permanecen todo el tiempo, incluso si el jugador elige agregar una inscripción "real"
+  encima de ellas más tarde.
 
-  An item labeled as '{empty}' was found to be out of charges, and an
-  item labeled as '{tried}' is a "flavored" item which the character has
-  used, but whose effects are unknown. Certain inscriptions have a meaning
-  to the game, see '@#', '@x#', '!!', '=g`, '!*', '!x', '^*', and '^x' in the
-  :ref:`section on inscriptions <inscribing>`.
+  Además, Angband colocará la inscripción '??' en un objeto por ti
+  si el objeto tiene una propiedad (o "runa") que aún no has aprendido.
+  Esta inscripción permanecerá hasta que conozcas todas las runas del objeto.
 
-Uninscribe an object (``}``)
-  This command removes the inscription on an object. This command will have
-  no effect on "fake" inscriptions added by the game itself.
-  
-Toggle ignore (``K``) or Toggle ignore (``O``)
-  This command will toggle ignore settings.  If on, all ignored items 
-  will be hidden from view.  If off, all items will be shown regardless
-  of their ignore setting.  See the :ref:`section on ignoring items <ignoring>`
-  for more information.
+  Un objeto etiquetado como '{vacío}' se encontró sin cargas, y un
+  objeto etiquetado como '{probado}' es un objeto "con sabor" que el personaje ha
+  usado, pero cuyos efectos son desconocidos. Ciertas inscripciones tienen un significado
+  para el juego, consulta '@#', '@x#', '!!', '=g`, '!*', '!x', '^*', y '^x' en la
+  :ref:`sección sobre inscripciones <inscribing>`.
 
-Magical Object Commands
+Desinscribir un objeto (``}``)
+  Este comando elimina la inscripción de un objeto. Este comando no tendrá
+  efecto en las inscripciones "falsas" agregadas por el juego mismo.
+
+Alternar ignorar (``K``) o Alternar ignorar (``O``)
+  Este comando alternará la configuración de ignorar. Si está activada, todos los objetos ignorados
+  quedarán ocultos a la vista. Si está desactivada, se mostrarán todos los objetos independientemente
+  de su configuración de ignorar. Consulta la :ref:`sección sobre ignorar objetos <ignoring>`
+  para más información.
+
+Comandos de Objetos Mágicos
 =======================
 
-Activate an object (``A``)
-  You have heard rumors of special weapons and armor deep in the Pits,
-  items that can let you breathe fire like a dragon or light rooms with
-  just a thought. Should you ever be lucky enough to find such an item,
-  this command will let you activate its special ability. Special abilities
-  can only be used if you are wearing or wielding the item. This command
-  takes some energy.
+Activar un objeto (``A``)
+  Has escuchado rumores de armas y armaduras especiales en las profundidades de los Pozos,
+  objetos que pueden permitirte respirar fuego como un dragón o iluminar habitaciones con
+  solo un pensamiento. Si alguna vez tienes la suerte de encontrar tal objeto,
+  este comando te permitirá activar su habilidad especial. Las habilidades especiales
+  solo se pueden usar si llevas puesta o empuñas el objeto. Este comando
+  consume algo de energía.
 
-Aim a wand (``a``) or Zap a wand (``z``)
-  Wands must be aimed in a direction to be used. Wands are magical devices,
-  and therefore there is a chance you will not be able to figure out how to
-  use them if you aren't good with magical devices. They will fire a shot
-  that affects the first object or creature encountered or fire a beam that
-  affects anything in a given direction, depending on the wand. An
-  obstruction such as a door or wall will generally stop the effects from
-  traveling any farther. This command requires a direction and can use a
-  target. This command takes some energy.
+Apuntar una varita (``a``) o Usar una varita (``z``)
+  Las varitas deben apuntarse en una dirección para ser utilizadas. Las varitas son dispositivos mágicos,
+  y por lo tanto hay una posibilidad de que no puedas descubrir cómo usarlas
+  si no eres bueno con los dispositivos mágicos. Dispararán un proyectil
+  que afecta al primer objeto o criatura encontrada o dispararán un rayo que
+  afecta a cualquier cosa en una dirección dada, dependiendo de la varita. Una
+  obstrucción como una puerta o pared generalmente detendrá los efectos de viajar
+  más lejos. Este comando requiere una dirección y puede usar un
+  objetivo. Este comando consume algo de energía.
 
-Use a staff (``u``) or Zap a staff (``Z``)
-  This command will use a staff. A staff is normally very similar to a
-  scroll, in that they normally either have an area effect or affect a
-  specific object. Staves are magical devices, and there is a chance you
-  will not be able to figure out how to use them. This command takes some
-  energy.
- 
-Zap a rod (``z``) or Activate a rod (``a``)
-  Rods are extremely powerful magical items, which cannot be burnt or
-  shattered, and which can have either staff-like or wand-like effects, but
-  unlike staves and wands, they don't have charges. Instead, they draw on
-  the ambient magical energy to recharge themselves, and therefore can only
-  be activated once every few turns. The recharging time varies depending
-  on the type of rod. This command may require a direction (depending on
-  the type of rod, and whether you are aware of its type) and can use a
-  target. This command takes some energy.
+Usar un bastón (``u``) o Usar un bastón (``Z``)
+  Este comando usará un bastón. Un bastón es normalmente muy similar a un
+  pergamino, ya que normalmente tienen un efecto de área o afectan a un
+  objeto específico. Los bastones son dispositivos mágicos y hay una posibilidad de que
+  no puedas descubrir cómo usarlos. Este comando consume algo de energía.
 
-Throwing and Missile Weapons
+Usar una vara (``z``) o Activar una vara (``a``)
+  Las varas son objetos mágicos extremadamente poderosos, que no pueden quemarse ni
+  romperse, y que pueden tener efectos similares a bastones o varitas, pero
+  a diferencia de los bastones y varitas, no tienen cargas. En cambio, se basan en
+  la energía mágica ambiental para recargarse y, por lo tanto, solo pueden
+  activarse una vez cada pocos turnos. El tiempo de recarga varía según
+  el tipo de vara. Este comando puede requerir una dirección (dependiendo
+  del tipo de vara y de si conoces su tipo) y puede usar un
+  objetivo. Este comando consume algo de energía.
+
+Armas Arrojadizas y de Proyectiles
 ============================
 
-Fire an item (``f``) or Fire an item (``t``)
-  This command will allow you to fire a missile from either your quiver or
-  your inventory provided it is the appropriate ammunition for the current
-  missile weapon you have equipped. You may not fire an item without a
-  missile weapon equipped. Fired ammunition has a chance of breaking.
-  This command takes some energy.
+Disparar un objeto (``f``) o Disparar un objeto (``t``)
+  Este comando te permitirá disparar un proyectil de tu aljaba o
+  de tu inventario, siempre que sea la munición adecuada para el arma
+  de proyectiles actual que tengas equipada. No puedes disparar un objeto sin un
+  arma de proyectiles equipada. La munición disparada tiene una probabilidad de romperse.
+  Este comando consume algo de energía.
 
-Fire default ammo at nearest (``h``) or ('TAB')
-  If you have a missile weapon equipped and the appropriate ammunition in
-  your quiver, you can use this command to fire at the nearest visible
-  enemy. This command will cancel itself if you lack a launcher, ammunition
-  or a visible target that is in range. The first ammunition of the correct
-  type found in the quiver is used. This command takes some energy.
+Disparar munición predeterminada al más cercano (``h``) o ('TAB')
+  Si tienes un arma de proyectiles equipada y la munición adecuada en
+  tu aljaba, puedes usar este comando para disparar al enemigo visible más cercano.
+  Este comando se cancelará si no tienes un lanzador, munición
+  o un objetivo visible que esté a alcance. Se usa la primera munición del tipo correcto
+  encontrada en la aljaba. Este comando consume algo de energía.
 
-Throw an item (``v``)
-  You may throw any object carried by your character. Depending on the
-  weight, it may travel across the room or drop down beside you. Only one
-  object from a pile will be thrown at a time. Note that throwing an object
-  will often cause it to break, so be careful! If you throw something at a
-  creature, your chances of hitting it are determined by your plusses to
-  hit, your ability at throwing, and the object's plusses to hit. Some
-  weapons are especially designed for throwing.  Once the
-  creature is hit, the object may or may not do any damage to it. 
-  Note that flasks of oil will do some fire damage to a monster on impact. 
-  Throw, like fire, requires a direction. Targeting mode (see the next
-  command) can be invoked with ``*`` at the 'Direction?' prompt. This command
-  takes some energy.
+Lanzar un objeto (``v``)
+  Puedes lanzar cualquier objeto que lleve tu personaje. Dependiendo del
+  peso, puede viajar a través de la habitación o caer a tu lado. Solo un
+  objeto de una pila se lanzará a la vez. Ten en cuenta que lanzar un objeto
+  a menudo hará que se rompa, ¡así que ten cuidado! Si lanzas algo a una
+  criatura, tus posibilidades de golpearla están determinadas por tus pluses para
+  golpear, tu habilidad para lanzar y los pluses del objeto para golpear. Algunas
+  armas están especialmente diseñadas para ser lanzadas. Una vez que la
+  criatura es golpeada, el objeto puede o no causarle daño.
+  Ten en cuenta que los frascos de aceite causarán algo de daño de fuego a un monstruo al impactar.
+  Lanzar, al igual que disparar, requiere una dirección. El modo de apuntado (consulta el siguiente
+  comando) se puede invocar con ``*`` en el mensaje '¿Dirección?'. Este comando
+  consume algo de energía.
 
-Targeting Mode (``*``)
-  This will allow you to change or clear the current target.  That target
-  can be recalled when other commands ask for a target.  When the
-  current target is a monster, the status of that monster is tracked in the
-  sidebar.  For more details about the targeting interface that this
-  command uses, see :ref:`Targeting <targeting>`.
+Modo de Apuntado (``*``)
+  Esto te permitirá cambiar o borrar el objetivo actual. Ese objetivo
+  se puede recordar cuando otros comandos soliciten un objetivo. Cuando el
+  objetivo actual es un monstruo, el estado de ese monstruo se rastrea en la
+  barra lateral. Para más detalles sobre la interfaz de apuntado que
+  usa este comando, consulta :ref:`Apuntado <targeting>`.
 
-Looking Commands
+Comandos de Observación
 ================
 
-Full screen map (``M``)
-  This command will show a map of the entire dungeon, reduced by a factor
-  of nine, on the screen. Only the major dungeon features will be visible
-  because of the scale, so even some important objects may not show up on
-  the map. This is particularly useful in locating where the stairs are
-  relative to your current position, or for identifying unexplored areas of
-  the dungeon.
+Mapa de pantalla completa (``M``)
+  Este comando mostrará un mapa de toda la mazmorra, reducido por un factor
+  de nueve, en la pantalla. Solo las características principales de la mazmorra serán visibles
+  debido a la escala, por lo que incluso algunos objetos importantes pueden no aparecer en
+  el mapa. Esto es particularmente útil para localizar dónde están las escaleras
+  en relación con tu posición actual, o para identificar áreas inexploradas de
+  la mazmorra.
 
-Locate player on map (``L``) or Where is the player (``W``)
-  This command lets you scroll your map around, looking at all sectors of
-  the current dungeon level, until you press escape, at which point the map
-  will be re-centered on the player if necessary. To scroll the map around,
-  simply press any of the "direction" keys. The top line will display the
-  sector location, and the offset from your current sector.
+Localizar jugador en el mapa (``L``) o Dónde está el jugador (``W``)
+  Este comando te permite desplazarte por tu mapa, mirando todos los sectores de
+  nivel actual de la mazmorra, hasta que presiones escape, en cuyo punto el mapa
+  se volverá a centrar en el jugador si es necesario. Para desplazarte por el mapa,
+  simplemente presiona cualquiera de las teclas de "dirección". La línea superior mostrará la
+  ubicación del sector y el desplazamiento desde tu sector actual.
 
-Look around (``l``) or Examine things (``x``)
-  This command is used to look around at nearby monsters (to determine 
-  their type and health) and objects (to determine their type). It is also 
-  used to find out if a monster is currently inside a wall, and what is 
-  under the player. You could also use it to set the current target, but,
-  when you want to target a monster, the targeting command, ``*``, will be
-  more useful.  For more information about the targeting interface that
-  this command uses, see :ref:`Targeting <targeting>`.
+Mirar alrededor (``l``) o Examinar cosas (``x``)
+  Este comando se usa para mirar alrededor de los monstruos cercanos (para determinar
+  su tipo y salud) y objetos (para determinar su tipo). También se
+  usa para saber si un monstruo está actualmente dentro de una pared y qué hay
+  debajo del jugador. También podrías usarlo para establecer el objetivo actual, pero,
+  cuando quieras apuntar a un monstruo, el comando de apuntado, ``*``, será
+  más útil. Para más información sobre la interfaz de apuntado que
+  usa este comando, consulta :ref:`Apuntado <targeting>`.
 
-Inspect an item (``I``)
-  This command lets you inspect an item. This will tell you things about
-  the special powers of the object, as well as attack information for
-  weapons. It will also tell you what resistances or abilities you have
-  noticed for the item and if you have not yet completely identified all
-  properties.
-        
-List visible monsters (``[``)
-  This command lists all monsters that are visible to you, telling you how
-  many there are of each kind. It also tells you whether they are asleep,
-  and where they are (relative to you).
+Inspeccionar un objeto (``I``)
+  Este comando te permite inspeccionar un objeto. Esto te dirá cosas sobre
+  los poderes especiales del objeto, así como información de ataque para
+  armas. También te dirá qué resistencias o habilidades has notado
+  para el objeto y si aún no has identificado completamente todas las
+  propiedades.
 
-List visible items (``]``)
-  This command lists all items that are visible to you, telling you how of
-  each there are and where they are on the level relative to your current
-  location.
+Listar monstruos visibles (``[``)
+  Este comando enumera todos los monstruos que son visibles para ti, indicando cuántos
+  hay de cada tipo. También te dice si están dormidos
+  y dónde están (relativo a ti).
 
-Message Commands
+Listar objetos visibles (``]``)
+  Este comando enumera todos los objetos que son visibles para ti, indicando cuántos
+  hay de cada uno y dónde están en el nivel en relación con tu ubicación
+  actual.
+
+Comandos de Mensajes
 ================
 
-Repeat level feeling ('^f')
-  Repeats the feeling about the monsters in the dungeon level that you got
-  when you first entered the level.  If you have explored enough of the 
-  level, you will also get a feeling about how good the treasures are.
+Repetir sensación de nivel ('^f')
+  Repite la sensación sobre los monstruos en el nivel de mazmorra que obtuviste
+  cuando entraste por primera vez al nivel. Si has explorado suficiente del
+  nivel, también obtendrás una sensación sobre lo buenos que son los tesoros.
 
-View previous messages ('^p')
-  This command shows you all the recent messages. You can scroll through
-  them, or exit with ESCAPE.
+Ver mensajes anteriores ('^p')
+  Este comando te muestra todos los mensajes recientes. Puedes desplazarte a través
+  de ellos o salir con ESCAPE.
 
-Take notes (``:``)
-  This command allows you to take notes, which will then appear in your
-  message list and your character history (prefixed with "Note:").
+Tomar notas (``:``)
+  Este comando te permite tomar notas, que luego aparecerán en tu
+  lista de mensajes y en tu historial de personaje (con el prefijo "Nota:").
 
-Game Status Commands
+Comandos de Estado del Juego
 ====================
 
-Character Description (``C``)
-  Brings up a full description of your character, including your skill
-  levels, your current and potential stats, and various other information.
-  From this screen, you can change your name or use the file character
-  description command to save your character status to a file. That command
-  saves additional information, including your background, your inventory,
-  and the contents of your house. The command to change the mode switches
-  what's displayed back and forth from the original view to one that shows
-  how your current equipment and the player's innate characteristics affect
-  certain attributes. The default symbols used within that view are '.' for
-  nothing equipped or no known effect on the attribute, '?' if your character
-  does not know if there's an effect on the attribute, '+' if your character
-  knows that there is a positive effect on the attribute, '-' if your character
-  knows that there is a negative effect on the attribute, '!' if a timed effect
-  positively affects the attribute, or '=' if a timed effect negatively affects
-  the attribute.  For elemental resistances (the block of attributes on the
-  far left), '*', to indicate an immunity, and '~' to indicate that something
-  provides both a '+' and '-', are also possible.  The color of the label for
-  the attribute will indicate the sum of the different sources for your
-  character. Those colors default to be: slate for when your character does
-  not know the rune associated with that attribute, white if there is no
-  combined effect (excluding timed effects) known to the character, light
-  blue if the known combined effect (excluding timed effects) is positive, red
-  if the known combined effect (excluding timed effects) is negative, and
-  green if the known combined effect is an elemental immunity.
+Descripción del Personaje (``C``)
+  Muestra una descripción completa de tu personaje, que incluye tus niveles
+  de habilidad, tus estadísticas actuales y potenciales, y otra información diversa.
+  Desde esta pantalla, puedes cambiar tu nombre o usar el comando de descripción de
+  archivo de personaje para guardar el estado de tu personaje en un archivo. Ese comando
+  guarda información adicional, que incluye tu historial, tu inventario
+  y el contenido de tu casa. El comando para cambiar el modo cambia
+  lo que se muestra de un lado a otro entre la vista original y una que muestra
+  cómo tu equipo actual y las características innatas del jugador afectan
+  ciertos atributos. Los símbolos predeterminados utilizados dentro de esa vista son '.' para
+  nada equipado o ningún efecto conocido en el atributo, '?' si tu personaje
+  no sabe si hay un efecto en el atributo, '+' si tu personaje
+  sabe que hay un efecto positivo en el atributo, '-' si tu personaje
+  sabe que hay un efecto negativo en el atributo, '!' si un efecto temporizado
+  afecta positivamente el atributo, o '=' si un efecto temporizado afecta negativamente
+  el atributo. Para las resistencias elementales (el bloque de atributos en el
+  extremo izquierdo), también son posibles '*', para indicar una inmunidad, y '~' para indicar que algo
+  proporciona tanto un '+' como un '-'. El color de la etiqueta para
+  el atributo indicará la suma de las diferentes fuentes para tu
+  personaje. Esos colores predeterminados son: pizarra para cuando tu personaje no
+  conoce la runa asociada con ese atributo, blanco si no hay ningún
+  efecto combinado (excluyendo efectos temporizados) conocido por el personaje, azul
+  claro si el efecto combinado conocido (excluyendo efectos temporizados) es positivo, rojo
+  si el efecto combinado conocido (excluyendo efectos temporizados) es negativo, y
+  verde si el efecto combinado conocido es una inmunidad elemental.
 
-Check knowledge (``~``)
-  This command allows you to ask about the knowledge possessed by your
-  character. Information that you can look up is:
+Consultar conocimiento (``~``)
+  Este comando te permite preguntar sobre el conocimiento que posee tu
+  personaje. La información que puedes consultar es:
 
-  objects
-    Will display which objects your character is familiar with. For each
-    type of object, allows you to change whether or not it is ignored,
-    the representation of that type on the screen, or the inscription
-    automatically applied to all objects of that type. Some types of
-    objects your character will be familiar with from the start of the game.
-    Others come in "flavors", and your character must determine the effect
-    of each "flavor" once for each such type of object. For a type of object
-    with a known "flavor", you be also be able to display a summary of
-    what the object can do.
+  objetos
+    Mostrará qué objetos conoce tu personaje. Para cada
+    tipo de objeto, te permite cambiar si está ignorado o no,
+    la representación de ese tipo en la pantalla o la inscripción
+    aplicada automáticamente a todos los objetos de ese tipo. Algunos tipos de
+    objetos tu personaje los conocerá desde el principio del juego.
+    Otros vienen en "sabores", y tu personaje debe determinar el efecto
+    de cada "sabor" una vez para cada tipo de objeto. Para un tipo de objeto
+    con un "sabor" conocido, también podrás mostrar un resumen de
+    lo que el objeto puede hacer.
 
-  runes
-    Will display the "runes", properties of enchanted objects, your
-    character is familiar with. Allows you to change the inscription that
-    is automatically appended to an object that has the rune.  Once your
-    character identifies a "rune" on one object, he or she will recognize
-    that property on other objects.
+  runas
+    Mostrará las "runas", propiedades de objetos encantados, que tu
+    personaje conoce. Te permite cambiar la inscripción que
+    se añade automáticamente a un objeto que tiene la runa. Una vez que tu
+    personaje identifica una "runa" en un objeto, reconocerá
+    esa propiedad en otros objetos.
 
-  artifacts
-    Will display all artifacts that your character has encountered. Normally,
-    once an artifact is "generated" and "lost", it can never again be found,
-    and will become "known" to the player. With the "Lose artifacts when
-    leaving level" option turned off, an artifact can never be "lost" until
-    it is "known" to the player. In either case, any "known" artifacts not
-    in the possession of the player will never again be "generated".
+  artefactos
+    Mostrará todos los artefactos que tu personaje ha encontrado. Normalmente,
+    una vez que un artefacto es "generado" y "perdido", nunca se puede volver a encontrar,
+    y se volverá "conocido" para el jugador. Con la opción "Perder artefactos al
+    abandonar el nivel" desactivada, un artefacto nunca puede ser "perdido" hasta
+    que es "conocido" para el jugador. En cualquier caso, cualquier artefacto "conocido" no
+    en posesión del jugador nunca volverá a ser "generado".
 
-  ego items
-    Will display the "egos" your character has encountered.  Each "ego" is
-    a collection of enchantments that can appear on an object.  "Egos" are
-    often restricted to only a few specific types of objects.
+  objetos de ego
+    Mostrará los "egos" que tu personaje ha encontrado. Cada "ego" es
+    una colección de encantamientos que pueden aparecer en un objeto. Los "Egos"
+    a menudo están restringidos a solo unos pocos tipos específicos de objetos.
 
-  monsters
-    Displays the kinds of monsters your current or previous characters have
-    encountered. For each kind of monster, allows you to change its
-    representation on the screen. Some monsters are "uniques" which can be
-    only be killed once per game. For a "unique" that your current or
-    previous characters have encountered, this will display whether that
-    "unique" is still alive in this game.
+  monstruos
+    Muestra los tipos de monstruos que tus personajes actuales o anteriores han
+    encontrado. Para cada tipo de monstruo, te permite cambiar su
+    representación en la pantalla. Algunos monstruos son "únicos" que solo se
+    pueden matar una vez por juego. Para un "único" que tus personajes actuales o
+    anteriores han encontrado, esto mostrará si ese "único" sigue vivo en este juego.
 
-  features
-    Displays the types of map grids that can appear in the game.  For each
-    type, allows you to change its representation on the screen and how
-    that representation changes depending on the amount of light present.
+  características
+    Muestra los tipos de casillas de mapa que pueden aparecer en el juego. Para cada
+    tipo, te permite cambiar su representación en la pantalla y cómo
+    esa representación cambia dependiendo de la cantidad de luz presente.
 
-  traps
-    Displays the types of traps that can appear in the game.  For each type,
-    allows you to change its representation on the screen and how that
-    representation changes depending on the amount of light present.
+  trampas
+    Muestra los tipos de trampas que pueden aparecer en el juego. Para cada tipo,
+    te permite cambiar su representación en la pantalla y cómo esa
+    representación cambia dependiendo de la cantidad de luz presente.
 
-  shapechange effects
-    Provides a more detailed description of the "shapes", magical effects
-    from some spells and a few items which change the shape of your
-    character's body.
+  efectos de cambio de forma
+    Proporciona una descripción más detallada de las "formas", efectos mágicos
+    de algunos hechizos y algunos objetos que cambian la forma del cuerpo de tu
+    personaje.
 
-  stores and home
-    Each of these will display the contents of the corresponding store
-    or your player's home at the time your character last visited the
-    town. If your character is currently in town, what is displayed here
-    will be the current contents.
+  tiendas y hogar
+    Cada una de estas mostrará el contenido de la tienda correspondiente
+    o del hogar de tu jugador en el momento en que tu personaje visitó por última vez la
+    ciudad. Si tu personaje está actualmente en la ciudad, lo que se muestra aquí
+    será el contenido actual.
 
-  hall of fame
-    Displays a list of current and past characters, sorted by how far they
-    progressed.
+  salón de la fama
+    Muestra una lista de personajes actuales y pasados, ordenados por lo lejos que
+    progresaron.
 
-  character history
-    Displays a summary of what your current character has done.
+  historial del personaje
+    Muestra un resumen de lo que ha hecho tu personaje actual.
 
-  equippable comparison
-    This displays a summary of the known properties of the equippable
-    items your character has access to, whether they are currently equipped,
-    in your character's pack, on the floor at your character's current
-    location, or in a store. Near the top of the display is a line, beginning
-    with "@", which summarizes the state of your character given his or her
-    current equipment. Every line after that corresponds to an item, sorted
-    by which equipment slot it can fill. The first character on each of those
-    lines is the representation of that item as it would appear in the map if
-    it was on the floor. After that is single character, "e" for equipped,
-    "p" for pack, "f" for floor, "h" for home, and "s" for store, which
-    indicates where the item is. The remainder of the line summarizes the
-    properties of the object, with one property per column. In the default
-    view, those properties are the resistances, flags, and modifiers present
-    on the item; they appear in the same order (left to right) as they appear
-    (top to bottom and then left to right) in the second part of the character
-    description. You can toggle back and forth between that view and one
-    that displays the effect of each item on your character's key statistics
-    by pressing 'v'. You can use 'c' to cycle through which items, based
-    on their location, are included in the display. The default is to show
-    only the items that are equipped, in the pack, on the floor at your
-    character's current location, and in the home. The other options are:
-    show only the items in stores other than the home, show all items,
-    or show only those that equipped or in the pack. There are some
-    additional commands, notably for filtering which items are displayed based
-    on a particular property and for displaying the details about one or
-    two items. To see what those additional commands are, use the '?' key
-    to bring up the in-game help for the equippable comparison.
+  comparación de equipo
+    Esto muestra un resumen de las propiedades conocidas de los objetos equipables
+    a los que tu personaje tiene acceso, ya sea que estén actualmente equipados,
+    en la mochila de tu personaje, en el suelo en la ubicación actual de tu
+    personaje o en una tienda. Cerca de la parte superior de la pantalla hay una línea, que comienza
+    con "@", que resume el estado de tu personaje dado su equipo actual.
+    Cada línea después de esa corresponde a un objeto, ordenado
+    por qué ranura de equipo puede ocupar. El primer carácter de cada una de esas
+    líneas es la representación de ese objeto como aparecería en el mapa si
+    estuviera en el suelo. Después de eso hay un solo carácter, "e" para equipado,
+    "p" para mochila, "f" para suelo, "h" para hogar y "s" para tienda, que
+    indica dónde está el objeto. El resto de la línea resume las
+    propiedades del objeto, con una propiedad por columna. En la vista
+    predeterminada, esas propiedades son las resistencias, banderas y modificadores presentes
+    en el objeto; aparecen en el mismo orden (de izquierda a derecha) que aparecen
+    (de arriba a abajo y luego de izquierda a derecha) en la segunda parte de la descripción
+    del personaje. Puedes alternar entre esa vista y una
+    que muestra el efecto de cada objeto en las estadísticas clave de tu personaje
+    presionando 'v'. Puedes usar 'c' para alternar qué objetos, según
+    su ubicación, se incluyen en la pantalla. El valor predeterminado es mostrar
+    solo los objetos que están equipados, en la mochila, en el suelo en la ubicación actual
+    de tu personaje y en el hogar. Las otras opciones son:
+    mostrar solo los objetos en tiendas distintas del hogar, mostrar todos los objetos,
+    o mostrar solo aquellos que están equipados o en la mochila. Hay algunos
+    comandos adicionales, especialmente para filtrar qué objetos se muestran según
+    una propiedad particular y para mostrar los detalles sobre uno o
+    dos objetos. Para ver cuáles son esos comandos adicionales, usa la tecla '?'
+    para mostrar la ayuda en el juego para la comparación de equipo.
 
-Saving and Exiting Commands
+Comandos de Guardado y Salida
 ===========================
 
-Save and Quit ('Ctrl-x')
-  To save your game so that you can return to it later, use this command.
-  Save files will also be generated (hopefully) if the game crashes due to
-  a system error. After you die, you can use your savefile to play again
-  with the same options and such.
+Guardar y Salir ('Ctrl-x')
+  Para guardar tu juego para que puedas volver a él más tarde, usa este comando.
+  Los archivos guardados también se generarán (con suerte) si el juego falla debido a
+  un error del sistema. Después de morir, puedes usar tu archivo guardado para jugar de nuevo
+  con las mismas opciones, etc.
 
-Save ('Ctrl-s')
-  This command saves the game but doesn't exit Angband. Use this frequently
-  if you are paranoid about having your computer crash (or your power go
-  out) while you are playing.
+Guardar ('Ctrl-s')
+  Este comando guarda el juego pero no sale de Angband. Usa esto con frecuencia
+  si eres paranoico acerca de que tu computadora falle (o se corte la luz)
+  mientras juegas.
 
-Retire (``Q``)
-  Retires your character and exits Angband. You will be prompted to make sure
-  you really want to do this, and then asked to verify that choice. The
-  only thing that can be done with a retired character's save file is to
-  start the game from the beginning.  You will have the option to reuse
-  the same options and birth choices as the retired character when you do so.
+Retirarse (``Q``)
+  Retira a tu personaje y sale de Angband. Se te pedirá que confirmes que
+  realmente quieres hacer esto, y luego se te pedirá que verifiques esa elección. Lo
+  único que se puede hacer con el archivo guardado de un personaje retirado es
+  comenzar el juego desde el principio. Tendrás la opción de reutilizar
+  las mismas opciones y elecciones de nacimiento que el personaje retirado cuando lo hagas.
 
-User Pref File Commands
+Comandos de Archivos de Preferencias del Usuario
 =======================
 
-Interact with options (``=``)
-  Allow you to interact with options. Note that using the "cheat" options
-  may mark your savefile as unsuitable for the high score list. The
-  "window" options allow you to specify what should be drawn in any of the
-  special sub-windows (not available on all platforms). See the help files
-  for :doc:`customization <customize>` and :doc:`options <option>` for more
-  information. You can also interact with keymaps under this menu.
+Interactuar con opciones (``=``)
+  Te permite interactuar con las opciones. Ten en cuenta que usar las opciones de "trampa"
+  puede marcar tu archivo guardado como no apto para la lista de puntuaciones altas. Las
+  opciones de "ventana" te permiten especificar qué se debe dibujar en cualquiera de las
+  subventanas especiales (no disponibles en todas las plataformas). Consulta los archivos de ayuda
+  para :doc:`personalización <customize>` y :doc:`opciones <option>` para más
+  información. También puedes interactuar con los mapas de teclas en este menú.
 
-Interact with keymaps - option submenu
-  Allow you to interact with keymaps. You may load or save keymaps from
-  user pref files, or define keymaps.
- 
-Interact with visuals - option submenu
-  Allow you to interact with visuals. You may load or save visuals from
-  user pref files, or modify the attr/char mappings for the monsters,
-  objects, and terrain features. You must use the "redraw" command ('^r')
-  to redraw the map after changing attr/char mappings. NOTE: It is
-  generally easier to modify visuals via the "knowledge" menus.
+Interactuar con mapas de teclas - submenú de opciones
+  Te permite interactuar con los mapas de teclas. Puedes cargar o guardar mapas de teclas desde
+  archivos de preferencias de usuario, o definir mapas de teclas.
 
-Interact with colors - option submenu
-  Allow the user to interact with colors. This command only works on some
-  systems. NOTE: It is commonly used to brighten the 'Light Dark' color
-  (eg. Cave Spiders) on displays with bad alpha settings.
+Interactuar con elementos visuales - submenú de opciones
+  Te permite interactuar con elementos visuales. Puedes cargar o guardar elementos visuales desde
+  archivos de preferencias de usuario, o modificar las asignaciones attr/char para los monstruos,
+  objetos y características del terreno. Debes usar el comando "redibujar" ('^r')
+  para redibujar el mapa después de cambiar las asignaciones attr/char. NOTA: Generalmente es
+  más fácil modificar los elementos visuales a través de los menús de "conocimiento".
 
-Help Commands
+Interactuar con colores - submenú de opciones
+  Permite al usuario interactuar con los colores. Este comando solo funciona en algunos
+  sistemas. NOTA: Se usa comúnmente para aclarar el color 'Gris Oscuro'
+  (ej. Arañas de Cueva) en pantallas con configuraciones alfa deficientes.
+
+Comandos de Ayuda
 =============
 
-Help (``?``)
-  Brings up the Angband on-line help system. Note that the help files are
-  just text files in a particular format, and that other help files may be
-  available on the Net. In particular, there are a variety of spoiler files
-  which do not come with the standard distribution. Check the place you got
-  Angband from or ask on the Angband forums, angband.live/forums/ , about them.
+Ayuda (``?``)
+  Muestra el sistema de ayuda en línea de Angband. Ten en cuenta que los archivos de ayuda son
+  solo archivos de texto en un formato particular, y que otros archivos de ayuda pueden estar
+  disponibles en la Red. En particular, hay una variedad de archivos de revelación
+  que no vienen con la distribución estándar. Consulta el lugar de donde obtuviste
+  Angband o pregunta en los foros de Angband, angband.live/forums/, sobre ellos.
 
-Identify Symbol (``/``)
-  Use this command to find out what a character stands for. For instance,
-  by pressing '/.', you can find out that the ``.`` symbol stands for a
-  floor spot. When used with a symbol that represents creatures, this
-  command will tell you only what class of creature the symbol stands for,
-  not give you specific information about a creature you can see. To get
-  that, use the Look command.
+Identificar Símbolo (``/``)
+  Usa este comando para averiguar qué representa un carácter. Por ejemplo,
+  presionando '/.', puedes averiguar que el símbolo ``.`` representa un
+  espacio de suelo. Cuando se usa con un símbolo que representa criaturas, este
+  comando te dirá solo qué clase de criatura representa el símbolo,
+  no te dará información específica sobre una criatura que puedas ver. Para obtener
+  eso, usa el comando Mirar.
 
-  There are three special symbols you can use with the Identify Symbol
-  command to access specific parts of your monster memory. Typing
-  'Ctrl-a' when asked for a symbol will recall details about all
-  monsters, typing 'Ctrl-u' will recall details about all unique
-  monsters, and typing 'Ctrl-n' will recall details about all non-unique
-  monsters.
+  Hay tres símbolos especiales que puedes usar con el comando Identificar Símbolo
+  para acceder a partes específicas de tu memoria de monstruos. Escribir
+  'Ctrl-a' cuando se te pida un símbolo recordará detalles sobre todos los
+  monstruos, escribir 'Ctrl-u' recordará detalles sobre todos los monstruos
+  únicos y escribir 'Ctrl-n' recordará detalles sobre todos los monstruos no
+  únicos.
 
-  If the character stands for a creature, you are asked if you want to
-  recall details. If you answer yes, information about the creatures you
-  have encountered with that symbol is shown in the Recall window if
-  available, or on the screen if not. You can also answer ``k`` to see the
-  list sorted by number of kills, or ``p`` to see the list sorted by 
-  dungeon level the monster is normally found on. Pressing 'ESCAPE' at 
-  any point will exit this command.
+  Si el carácter representa una criatura, se te pregunta si quieres
+  recordar detalles. Si respondes que sí, la información sobre las criaturas que
+  has encontrado con ese símbolo se muestra en la ventana de Recuerdo si
+  está disponible, o en la pantalla si no. También puedes responder ``k`` para ver la
+  lista ordenada por número de muertes, o ``p`` para ver la lista ordenada por
+  nivel de mazmorra en el que normalmente se encuentra el monstruo. Presionar 'ESCAPE' en
+  cualquier punto saldrá de este comando.
 
-Game Version (``V``)
-  This command will tell you what version of Angband you are using. For
-  more information, see the 'version.txt' help file.
+Versión del Juego (``V``)
+  Este comando te dirá qué versión de Angband estás usando. Para
+  más información, consulta el archivo de ayuda 'version.txt'.
 
-Extra Commands
+Comandos Extra
 ==============
 
-Toggle Choice Window ('^e')
-  Toggles the display in any sub-windows (if available) which are
-  displaying your inventory or equipment.
+Alternar Ventana de Elección ('^e')
+  Alterna la pantalla en cualquier subventana (si está disponible) que
+  muestre tu inventario o equipo.
 
-Redraw Screen ('^r')
-  This command adapts to various changes in global options, and redraws all
-  of the windows. It is normally only necessary in abnormal situations,
-  such as after changing the visual attr/char mappings, or enabling
-  "graphics" mode.
+Redibujar Pantalla ('^r')
+  Este comando se adapta a varios cambios en las opciones globales y redibuja todas
+  las ventanas. Normalmente solo es necesario en situaciones anormales,
+  como después de cambiar las asignaciones attr/char visuales, o habilitar
+  el modo "gráficos".
 
-Save screen dump (|``)``|)
-  This command dumps a "snap-shot" of the current screen to a file,
-  including encoded color information. The command has two variants:
+Guardar captura de pantalla (|``)``|)
+  Este comando guarda una "instantánea" de la pantalla actual en un archivo,
+  incluyendo información de color codificada. El comando tiene dos variantes:
 
-  - html, suitable for viewing in a web browser.
-  - forum embedded html for vBulletin, suitable for pasting in
-    web forums like https://angband.live/forums/.
-	
-Special Keys
-============
- 
-Certain special keys may be intercepted by the operating system or the host
-machine, causing unexpected results. In general, these special keys are
-control keys, and often, you can disable their special effects.
+  - html, adecuado para ver en un navegador web.
+  - html incrustado para foro vBulletin, adecuado para pegar en
+    foros web como https://angband.live/forums/.
 
-If you are playing on a UNIX or similar system, then Ctrl-c will interrupt
-Angband. The second and third interrupt will induce a warning bell, and the
-fourth will induce both a warning bell and a special message, since the
-fifth will either quit without saving (if Angband was compiled without the
-SETGID option which puts the save files in a shared location for all users)
-or kill your character (if Angband was compiled with the SETGID option).
-Also, 'Ctrl-z' will suspend the game, and return you to the original command
-shell, until you resume the game with the 'fg' command. The 'Ctrl-\\' and
-'Ctrl-d' and 'Ctrl-s' keys should not be intercepted.
+Teclas Especiales
+=============
 
-It is often possible to specify "control-keys" without actually pressing
-the control key, by typing a caret (``^``) followed by the key. This is
-useful for specifying control-key commands which might be caught by the
-operating system as explained above.
+Ciertas teclas especiales pueden ser interceptadas por el sistema operativo o la máquina
+anfitriona, causando resultados inesperados. En general, estas teclas especiales son
+teclas de control y, a menudo, puedes deshabilitar sus efectos especiales.
 
-Pressing backslash (``\``) before a command will bypass all keymaps, and
-the next keypress will be interpreted as an "underlying command" key,
-unless it is a caret (``^``), in which case the keypress after that will be
-turned into a control-key and interpreted as a command in the underlying
-angband keyset. For example, the sequence ``\`` + ``.`` + ``6`` will always
-mean "run east", even if the ``.`` key has been mapped to a different
-underlying command.
+Si estás jugando en un sistema UNIX o similar, entonces Ctrl-c interrumpirá
+Angband. La segunda y tercera interrupción inducirán un timbre de advertencia, y la
+cuarta inducirá tanto un timbre de advertencia como un mensaje especial, ya que la
+quinta saldrá sin guardar (si Angband se compiló sin la opción
+SETGID que coloca los archivos guardados en una ubicación compartida para todos los usuarios)
+o matará a tu personaje (si Angband se compiló con la opción SETGID).
+Además, 'Ctrl-z' suspenderá el juego y te devolverá al shell de comandos
+original, hasta que reanudes el juego con el comando 'fg'. Las teclas 'Ctrl-\\',
+'Ctrl-d' y 'Ctrl-s' no deberían ser interceptadas.
 
-The ``0`` and ``^`` and ``\`` keys all have special meaning when entered at
-the command prompt, and there is no "useful" way to specify any of them as
-an "underlying command", which is okay, since they would have no effect.
+A menudo es posible especificar "teclas de control" sin presionar realmente
+la tecla de control, escribiendo un acento circunflejo (``^``) seguido de la tecla. Esto es
+útil para especificar comandos de tecla de control que podrían ser capturados por el
+sistema operativo como se explicó anteriormente.
 
-For many input requests or queries, the special character ESCAPE will abort
-the command. The '[y/n]' prompts may be answered with ``y`` or ``n``, or
-'ESCAPE'. The '-more-' message prompts may be cleared (after reading
-the displayed message) by pressing 'ESCAPE', 'SPACE', 'RETURN',
-'LINEFEED', or by any keypress, if the "quick_messages" option is turned
-on.
+Presionar barra invertida (``\``) antes de un comando omitirá todos los mapas de teclas, y
+la siguiente pulsación de tecla se interpretará como una tecla de "comando subyacente",
+a menos que sea un acento circunflejo (``^``), en cuyo caso la pulsación de tecla después de esa se
+convertirá en una tecla de control y se interpretará como un comando en el conjunto de teclas
+subyacente de angband. Por ejemplo, la secuencia ``\`` + ``.`` + ``6`` siempre
+significará "correr hacia el este", incluso si la tecla ``.`` ha sido mapeada a un comando
+subyacente diferente.
+
+Las teclas ``0``, ``^`` y ``\`` tienen un significado especial cuando se ingresan en
+el indicador de comandos, y no hay una manera "útil" de especificar ninguna de ellas como
+un "comando subyacente", lo cual está bien, ya que no tendrían efecto.
+
+Para muchas solicitudes de entrada o consultas, el carácter especial ESCAPE abortará
+el comando. Las indicaciones '[s/n]' pueden responderse con ``s`` o ``n``, o
+'ESCAPE'. Las indicaciones de mensaje '-más-' pueden borrarse (después de leer
+el mensaje mostrado) presionando 'ESCAPE', 'ESPACIO', 'RETORNO',
+'AVANCE DE LÍNEA', o con cualquier pulsación de tecla, si la opción "mensajes rápidos" está
+activada.
 
 .. _command-counts:
 
-Command Counts
+Conteos de Comandos
 ==============
 
-Some commands can be executed a fixed number of times by preceding them
-with a count. Counted commands will execute until the count expires, until
-you type any character, or until
-:ref:`something significant happens <disturb-player>`, such as being attacked.
-Thus, a counted command doesn't work to attack another creature. While the
-command is being repeated, the number of times left to be repeated will flash
-by on the line at the bottom of the screen.
+Algunos comandos se pueden ejecutar un número fijo de veces anteponiéndoles
+un número. Los comandos contados se ejecutarán hasta que expire el número, hasta
+que escribas cualquier carácter, o hasta que
+:ref:`algo significativo suceda <disturb-player>`, como ser atacado.
+Por lo tanto, un comando contado no funciona para atacar a otra criatura. Mientras
+el comando se repite, el número de veces que quedan por repetir parpadeará
+en la línea en la parte inferior de la pantalla.
 
-To give a count to a command, type ``0``, the repeat count, and then the
-command. If you want to give a movement command and you are using the
-original command set (where the movement commands are digits), press space
-after the count and you will be prompted for the command.
+Para dar un número a un comando, escribe ``0``, el número de repetición y luego el
+comando. Si quieres dar un comando de movimiento y estás usando el
+conjunto de comandos original (donde los comandos de movimiento son dígitos), presiona espacio
+después del número y se te pedirá el comando.
 
-Counted commands are very useful for time consuming commands, as they
-automatically terminate on success, or if you are attacked. You may also
-terminate any counted command (or resting or running), by typing any
-character. This character is ignored, but it is safest to use a 'SPACE' 
-or 'ESCAPE' which are always ignored as commands in case you type the
-command just after the count expires.	
+Los comandos contados son muy útiles para comandos que consumen tiempo, ya que
+se terminan automáticamente al tener éxito, o si eres atacado. También puedes
+terminar cualquier comando contado (o descanso o carrera) escribiendo cualquier
+carácter. Este carácter se ignora, pero es más seguro usar 'ESPACIO'
+o 'ESCAPE', que siempre se ignoran como comandos en caso de que escribas el
+comando justo después de que expire el número.
 
 .. |``)``| replace:: ``)``
-

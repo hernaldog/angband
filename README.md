@@ -225,7 +225,8 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 
 | Archivo                                  | % Avance | TODO                                                 |
 | -----------------------------------------| ------   | -----------------------------------------------------|
-| lib\screens\news.txt                     | 100      |
+| docs\command.rst                         | 100      |
+| docs\hacking\modifying.rst               | 100      |
 | lib\gamedata\player_property.txt         | 100      |
 | lib\gamedata\history.txt                 | 100      |
 | lib\gamedata\hints.txt                   | 100      |
@@ -238,12 +239,12 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | lib\gamedata\monster.txt                 | 100      | Revisar textos se pueden mejorar|
 | lib\gamedata\blow_methods.txt            | 100      |
 | lib\gamedata\class.txt                   | 100      |
+| lib\gamedata\terrain.txt                 | 100      |
 | lib\help\commands.txt                    | 100      |
 | lib\help\index.txt                       | 100      |
 | lib\help\r_index.txt                     | 100      |
 | lib\help\symbols.txt                     | 100      |
-| lib\gamedata\terrain.txt                 | 100      |
-| docs\hacking\modifying.rst               | 100      |
+| lib\screens\news.txt                     | 100      |
 | src\main-win.c                           | 100      |
 | src\init.h                               | 100      |
 | src\borg\borg-messages.c                 | 100      |
@@ -291,7 +292,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8**.
 | src\ui-output.c                          | 100      |
 | src\buildid.c                            | 100      |
 | src\ui-player-properties.c               | 100      |
-| src\src\list-mon-race-flags.h            | 100      |
+| src\list-mon-race-flags.h                | 100      |
 | src\obj-gear.c                           | 100      |
 | src\mon-attack.c                         | 100      |
 | src\mon-init.c                           | 100      |
