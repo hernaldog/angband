@@ -234,7 +234,7 @@ desc: nominal (que ocurre incluso contra criaturas resistentes al fuego).
 
 ### Comida Normal ###
 
-name:& Hard Biscuit~
+name:& Galleta~ Dura~
 type:food
 graphics:,:U
 level:0
