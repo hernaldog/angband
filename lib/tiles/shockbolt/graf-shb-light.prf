@@ -413,7 +413,7 @@ object:bow:Heavy Crossbow:0x8A:0xAE
 
 ##### Missiles #####
 
-object:arrow:Arrow:0x8A:0xB1
+object:arrow:Flecha:0x8A:0xB1
 object:arrow:Seeker Arrow:0x8A:0xB2
 object:arrow:Mithril Arrow:0x8A:0xD9
 object:bolt:Perno:0x8A:0xB3

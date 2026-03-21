@@ -1245,7 +1245,7 @@ desc: requiere una manivela para ser amartillada.
 
 ##### Proyectiles #####
 
-name:& Arrow~
+name:& Flecha~
 type:arrow
 graphics:{:U
 level:3

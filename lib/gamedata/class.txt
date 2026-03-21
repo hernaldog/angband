@@ -1497,7 +1497,7 @@ equip:food:Ración de Comida:1:3:none
 equip:light:Antorcha de Madera:1:3:none
 equip:sword:Main Gauche:1:1:none
 equip:bow:Short Bow:1:1:none
-equip:arrow:Arrow:15:20:none
+equip:arrow:Flecha:15:20:none
 equip:scroll:Word of Recall:1:1:birth_no_recall
 equip:nature book:[Lesser Charms]:1:1:none
 player-flags:FAST_SHOT | CHOOSE_SPELLS

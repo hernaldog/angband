@@ -33,7 +33,7 @@ always:flask:Frasco de Aceite
 always:digger:Pala
 always:digger:Pico
 always:shot:Iron Shot
-always:arrow:Arrow
+always:arrow:Flecha
 always:bolt:Perno
 normal:food:Pint of Fine Wine
 normal:food:Moho Baboso
@@ -96,7 +96,7 @@ owner:30000:Oglign Dragon-Slayer (Dwarf)
 slots:3:14
 turnover:9
 normal:shot:Iron Shot
-normal:arrow:Arrow
+normal:arrow:Flecha
 normal:bolt:Perno
 normal:sword:Dagger
 normal:sword:Main Gauche
