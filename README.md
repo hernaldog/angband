@@ -318,3 +318,4 @@ Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (By
 | src\obj-power.c                          | 100      |
 | src\player.h                             | 100      |
 | src\store.c                              | 100      |
+| src\effect-handler-general.c             | 100      |
