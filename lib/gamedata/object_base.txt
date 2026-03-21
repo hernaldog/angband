@@ -34,7 +34,7 @@ break:35
 flags:HATES_ACID | HATES_FIRE
 flags:SHOW_DICE
 
-name:bolt:Bolt~
+name:bolt:Perno~
 graphics:light umber
 break:20
 # max-stack:40

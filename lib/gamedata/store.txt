@@ -34,7 +34,7 @@ always:digger:Pala
 always:digger:Pico
 always:shot:Iron Shot
 always:arrow:Arrow
-always:bolt:Bolt
+always:bolt:Perno
 normal:food:Pint of Fine Wine
 normal:food:Moho Baboso
 normal:food:Flask of Whisky
@@ -97,7 +97,7 @@ slots:3:14
 turnover:9
 normal:shot:Iron Shot
 normal:arrow:Arrow
-normal:bolt:Bolt
+normal:bolt:Perno
 normal:sword:Dagger
 normal:sword:Main Gauche
 normal:sword:Rapier
