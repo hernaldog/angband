@@ -32,7 +32,7 @@ always:light:Antorcha de Madera
 always:flask:Frasco de Aceite
 always:digger:Pala
 always:digger:Pico
-always:shot:Iron Shot
+always:shot:Perdigón de Hierro
 always:arrow:Flecha
 always:bolt:Perno
 normal:food:Pint of Fine Wine
@@ -95,7 +95,7 @@ owner:25000:Tarl Beast-Master (Hobbit)
 owner:30000:Oglign Dragon-Slayer (Dwarf)
 slots:3:14
 turnover:9
-normal:shot:Iron Shot
+normal:shot:Perdigón de Hierro
 normal:arrow:Flecha
 normal:bolt:Perno
 normal:sword:Dagger

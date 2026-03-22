@@ -1335,7 +1335,7 @@ flags:THROWING
 desc:Se puede disparar con una honda o lanzar.
 
 
-name:& Iron Shot~
+name:& Perdigón~ de Hierro
 type:shot
 graphics:{:s
 level:3
