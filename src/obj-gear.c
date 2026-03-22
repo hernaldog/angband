@@ -1161,7 +1161,7 @@ void inven_drop(struct object *obj, int amt)
 			(total << 16), player);
 			
 		if (!first) {		    
-            msg("Tienes %s (%c).", name, label);
+            msg("Ya no tienes %s (%c).", name, label);  //TODO Fix traduc mejorar Ya no tienes no mas Antorchas...por No te quedan Antorchas
 		} else {
 			label = gear_to_label(player, first);
 			if (total > first->number) {
