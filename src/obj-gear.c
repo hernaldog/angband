@@ -997,7 +997,7 @@ void inven_wield(struct object *obj, int slot)
 	else if (tval_is_light(wielded))
 		fmt = "Tu fuente de luz es %s (%c).";
 	else
-		fmt = "Llevas puesto %s (%c).";
+		fmt = "Te equipas %s (%c).";
 
 	/* Describir el resultado */
 	object_desc(o_name, sizeof(o_name), wielded,
