@@ -10,6 +10,8 @@ Hernaldo González  - hernaldog@gmail.com
 - 21-02-2026 - Se entiende como compilar en Windows 11 y hacen pruebas de concepto.
 - 21-02-2026 - Se inicia traducción de primeros elementos como news.txt o archivos c/h base.
 - 20-03-2026 - Se entiende y empieza a traducir archivos txt dentro de gamedata, .rst y archivos de tiles .prf
+- 23-03-2026 - Para facilitar la traducción al español. Se cambian todos los prefijos en objetos, ejemplo "Un Pergamino", "Una Manzana" y solo deja la unidad + objeto, ejemplo "Ves 1 Antorcha de Madera", "Te quedan 3 Linternas". 
+  Esta idea sale de otros juegos Roguelike como Shattered Pixel Dungeons donde no hay prefijos en objetos.
 
 ## Motivación
 Me entantan los juegos Roguelike clásicos como Moria, Rogue, etc, a la vez, siempre me ha gustado el Señor de los Anillos, y que mejor que este gran juego que uno los dos mundos. 
