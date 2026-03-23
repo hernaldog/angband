@@ -338,37 +338,41 @@ static void build_obj_list(int last, struct object **list, item_tester tester,
 
 /**
  * Establecer nombres de objetos y obtener su longitud máxima.
- * Solo tiene sentido después de construir la lista de objetos.
+ * Solo tiene sentido después de construir la lista de objetos. Texto que aparece cuando presionas d (frop) o (i) inventario o k (ignorar)
  */
 static void set_obj_names(bool terse, const struct player *p)
 {
 	int i;
 	struct object *obj;
 
-	/* Calcular desplazamiento del nombre y longitud máxima del nombre */
 	for (i = 0; i < num_obj; i++) {
 		obj = items[i].object;
 
-		/* Los objetos nulos se usan para saltar líneas, o mostrar solo una etiqueta */		
 		if (!obj) {
 			if ((i < num_head) || streq(items[i].label, "In quiver"))
 				strnfmt(items[i].o_name, sizeof(items[i].o_name), "%s", "");
 			else
 				strnfmt(items[i].o_name, sizeof(items[i].o_name), "(nada)");
 		} else {
+			char tmp_name[80];
+
+			/* Obtener nombre sin prefijo */
 			if (terse) {
-				object_desc(items[i].o_name,
-					sizeof(items[i].o_name), obj,
-					ODESC_PREFIX | ODESC_FULL | ODESC_TERSE,
-					p);
+				object_desc(tmp_name, sizeof(tmp_name), obj,
+					ODESC_FULL | ODESC_TERSE, p);
 			} else {
-				object_desc(items[i].o_name,
-					sizeof(items[i].o_name), obj,
-					ODESC_PREFIX | ODESC_FULL, p);
+				object_desc(tmp_name, sizeof(tmp_name), obj,
+					ODESC_FULL, p);
 			}
+
+			/* Agregar número manualmente si hay más de uno */
+			if (obj->number > 1)
+				strnfmt(items[i].o_name, sizeof(items[i].o_name),
+					"%d %s", obj->number, tmp_name);
+			else
+				my_strcpy(items[i].o_name, tmp_name, sizeof(items[i].o_name));
 		}
 
-		/* Longitud máxima de etiqueta + nombre del objeto */
 		max_len = MAX(max_len,
 					  strlen(items[i].label) + strlen(items[i].equip_label) +
 					  strlen(items[i].o_name));
@@ -487,7 +491,7 @@ void show_inven(int mode, item_tester tester)
 
 	/* Incluir carga para ventanas de terminal */	
 	if (in_term) {
-	    /* Conversión de décimas de libra a kg con 1 decimal
+	    /* Fix traduc conversión de décimas de libra a kg con 1 decimal
 	     * 1 lb = 0.4536 kg  →  1 décima de lb = 0.04536 kg
 	     * peso_kg_x10 = total_weight * 4536 / 10000  (da décimas de kg)
 	     */

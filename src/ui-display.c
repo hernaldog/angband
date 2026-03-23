@@ -2607,6 +2607,7 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		/* Obtener el objeto */
 		struct object *obj = floor_list[0];
 		char o_name[80];
+		char o_name_final[80];
 
 		if (!can_pickup)
 			p = "no tienes espacio para";
@@ -2625,14 +2626,14 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		/* Mensaje */
 		event_signal(EVENT_MESSAGE_FLUSH);
 		
-		//fix traduc se cambia por Ves: algo 
-		char *limpio = o_name;
-		if (strncmp(o_name, "un ", 3) == 0) {
-		    limpio = o_name + 3; // Saltamos 3 caracteres ("u", "n", " ")
-		} else if (strncmp(o_name, "una ", 4) == 0) {
-		    limpio = o_name + 4; // Saltamos 4 caracteres ("u", "n", "a", " ")
-		}		
-    	msg("%s: %s.", p, limpio);
+		/* fix traduc Armar el mensaje con número si hay más de uno */
+		if (obj->number > 1)
+			strnfmt(o_name_final, sizeof(o_name_final), "%d %s", obj->number, o_name);
+		else
+			my_strcpy(o_name_final, o_name, sizeof(o_name_final));
+
+		msg("%s %s.", p, o_name_final); ///Fix traduc Ves X objeto
+		 
 		// fin fix traduc
 	} else {
 		ui_event e;

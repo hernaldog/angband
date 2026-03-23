@@ -531,13 +531,19 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 				   m_name), 0, 0);
 	} else if (square_obj && !ignore_item_ok(player, square_obj)) {
 		char o_name[80];
+		char o_name_final[80];
 
-		/* Obtener una descripción del objeto */
-		object_desc(o_name, sizeof (o_name), square_obj,
-			ODESC_PREFIX | ODESC_FULL, player);
+		/* fix traduc Obtener una descripción del objeto */			
+		object_desc(o_name, sizeof(o_name), square_obj, ODESC_FULL, player);
+		//fix traduc
+		if (square_obj->number > 1) {			
+        strnfmt(o_name_final, sizeof(o_name_final), "%d %s", square_obj->number, o_name);
+        } else {        	
+        	my_strcpy(o_name_final, o_name, sizeof(o_name_final));
+        }
 
-		prt(format("(Enter para seleccionar comando, ESC para cancelar) Ves %s:",
-				   o_name), 0, 0);
+		//fix traduc		
+		prt(format("(Enter para seleccionar comando, ESC para cancelar) Ves %s:", o_name_final), 0, 0);
 	} else {
 		/* Característica (aplicar imitación) */
 		const char *name = square_apparent_name(player->cave, grid);
@@ -658,6 +664,7 @@ int context_menu_object(struct object *obj)
 	int selected;
 	char *labels;
 	char header[120];
+	char o_name_final[120];
 
 	textblock *tb;
 	region area = { 0, 0, 0, 0 };
@@ -670,8 +677,15 @@ int context_menu_object(struct object *obj)
 	if (!m || !obj)
 		return 0;
 
-	object_desc(header, sizeof(header), obj, ODESC_PREFIX | ODESC_BASE,
-		player);
+	//fix traduc
+	object_desc(header, sizeof(header), obj, ODESC_BASE, player);	
+	//fix traduc
+	if (obj->number > 1) {		
+        strnfmt(o_name_final, sizeof(o_name_final), "%d %s", obj->number, header);
+    }
+    else {    	
+        my_strcpy(o_name_final, header, sizeof(o_name_final));
+    }    
 
 	labels = string_make(lower_case);
 	m->selections = labels;
@@ -813,8 +827,14 @@ int context_menu_object(struct object *obj)
 			/* copiado de textui_obj_examine */
 			/* Mostrar información */
 			tb = object_info(obj, OINFO_NONE);
-			object_desc(header, sizeof(header), obj,
-				ODESC_PREFIX | ODESC_FULL, player);
+			//fix traduc
+			object_desc(header, sizeof(header), obj, ODESC_FULL, player);
+			
+			 if (obj->number > 1) { //fix traduc
+     		    char tmp[120];
+		        strnfmt(tmp, sizeof(tmp), "%d %s", obj->number, header);
+		        my_strcpy(header, tmp, sizeof(header));
+		     }
 
 			textui_textblock_show(tb, area, format("%s", header));
 			textblock_free(tb);

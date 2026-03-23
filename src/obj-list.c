@@ -360,80 +360,35 @@ uint8_t object_list_entry_line_attribute(const object_list_entry_t *entry)
  * \param entry es la entrada de la lista de objetos que tiene un nombre a formatear.
  * \param line_buffer es el búfer donde formatear.
  * \param size es el tamaño de line_buffer.
+ * Fix traduc nuevo parámetro "out_count" devuelve el número aparte
  */
 void object_list_format_name(const object_list_entry_t *entry,
-							 char *line_buffer, size_t size)
+                             char *line_buffer, size_t size, int *out_count)
 {
-	char name[80];
-	const char *chunk;
-	char *source;
-	bool has_singular_prefix;
+    char name[80]; //fix traduc varios cambios
 	bool los = false;
 	int field;
 	struct loc pgrid = player->grid;
 	struct object *base_obj;
 	struct loc grid;
-	bool object_is_recognized_artifact;
 
 	if (entry == NULL || entry->object == NULL || entry->object->kind == NULL)
 		return;
 
 	base_obj = cave->objects[entry->object->oidx];
 	grid = entry->object->grid;
-	object_is_recognized_artifact = object_is_known_artifact(base_obj);
 
-	/* Truco: estos no tienen un prefijo cuando solo hay uno, así que simplemente rellenar
-	 * con un espacio. */
-	switch (entry->object->kind->tval) {
-		case TV_SOFT_ARMOR:
-			if (object_is_recognized_artifact)
-				has_singular_prefix = true;
-			else if (base_obj->kind->sval == lookup_sval(TV_SOFT_ARMOR, "Robe"))
-				has_singular_prefix = true;
-			else
-				has_singular_prefix = false;
-			break;
-		case TV_HARD_ARMOR:
-		case TV_DRAG_ARMOR:
-			if (object_is_recognized_artifact)
-				has_singular_prefix = true;
-			else
-				has_singular_prefix = false;
-			break;
-		default:
-			has_singular_prefix = true;
-			break;
-	}
-
-	if (entry->object->kind != base_obj->kind)
-		has_singular_prefix = true;
-
-	/* Determinar si el objeto está a la vista */
+    /* Determinar si el objeto está a la vista */
 	los = projectable(cave, pgrid, grid, PROJECT_NONE) || loc_eq(grid, pgrid);
 	field = los ? OBJECT_LIST_SECTION_LOS : OBJECT_LIST_SECTION_NO_LOS;
 
-	/*
-	 * Pasar el número acumulado a través del mecanismo ODESC_ALTNUM
-	 * de object_desc(): está en los 16 bits superiores del modo.
-	 */
-	object_desc(name, sizeof(name), base_obj, ODESC_PREFIX | ODESC_FULL |
-		ODESC_ALTNUM | (entry->count[field] << 16), player);
+    /* Exportar el conteo para que el caller lo imprima como columna */
+    if (out_count != NULL)
+        *out_count = entry->count[field];
 
-	/* La cadena fuente para strtok() debe establecerse correctamente, dependiendo de
-	 * cuándo la usamos. */
-	if (!has_singular_prefix && entry->count[field] == 1) {
-		chunk = " ";
-		source = name;
-	}
-	else {
-		chunk = strtok(name, " ");
-		source = NULL;
-	}
+    /* Obtener el nombre sin prefijo numérico */
+    object_desc(name, sizeof(name), base_obj,
+        ODESC_FULL | ODESC_ALTNUM | (entry->count[field] << 16), player);
 
-	/* Alinear a la derecha el prefijo y recortar. */
-	strnfmt(line_buffer, size, "%3.3s ", chunk);
-
-	/* Obtener el resto del nombre y recortarlo para que quepa en el ancho máximo. */
-	chunk = strtok(source, "\0");
-	my_strcat(line_buffer, chunk, size);
+    my_strcpy(line_buffer, name, size);
 }

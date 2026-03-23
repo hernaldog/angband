@@ -112,11 +112,13 @@ static void object_list_format_section(const object_list_t *list,
 
 		/* Obtener ancho disponible para el nombre del objeto: 2 para carácter y espacio; location
 		 * incluye relleno; último -1 por alguna razón. */
-		full_width = max_width - 2 - utf8_strlen(location) - 1;
+		//fix traduc
+		full_width = max_width - 2 - utf8_strlen(location) - 1 - 4;
 
-		/* Añadir el recuento de objetos y recortar el nombre del objeto para que quepa. */
+		int obj_count = 0;
 		object_list_format_name(&list->entries[entry_index], line_buffer,
-								sizeof(line_buffer));
+                        sizeof(line_buffer), &obj_count);
+                        
 		utf8_clipto(line_buffer, full_width);
 
 		/* Calcular el ancho de la línea para el tamaño dinámico; usar un ancho máximo fijo
@@ -149,8 +151,9 @@ static void object_list_format_section(const object_list_t *list,
 			 */
 			full_width += strlen(line_buffer) - utf8_strlen(line_buffer);
 			line_attr = object_list_entry_line_attribute(&list->entries[entry_index]);
-			textblock_append_c(tb, line_attr, "%-*s%s\n",
-				(int) full_width, line_buffer, location);
+			
+			textblock_append_c(tb, line_attr, "%3d %-*s%s\n",
+			    obj_count, (int) full_width, line_buffer, location);
 		}
 
 		line_count++;
@@ -259,7 +262,7 @@ static void object_list_format_textblock(const object_list_t *list,
         
 	object_list_format_section(list, tb, OBJECT_LIST_SECTION_LOS,
 							   los_lines_to_display, max_width,
-							   "Puedes ver", false, &max_los_line);
+							   "Ves", false, &max_los_line);
 
 	if (list->total_entries[OBJECT_LIST_SECTION_NO_LOS] > 0) {
          bool show_others = list->total_objects[OBJECT_LIST_SECTION_LOS] > 0;
@@ -269,7 +272,7 @@ static void object_list_format_textblock(const object_list_t *list,
 
          object_list_format_section(list, tb, OBJECT_LIST_SECTION_NO_LOS,
 									no_los_lines_to_display, max_width,
-									"Has detectado", show_others,
+									"Detectas", show_others,
 									&max_no_los_line);
 	}
 

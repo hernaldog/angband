@@ -892,14 +892,11 @@ void inven_carry(struct player *p, struct object *obj, bool absorb,
 
 	if (message) {
 		char o_name[80];
+		char o_name_final[80]; //fix traduc
 		struct object *first;
 		uint16_t total;
 		char label;
 
-		/*
-		 * Mostrar un total agregado si la descripción no tiene
-		 * un aviso de carga/recarga que sea específico de la pila.
-		 */
 		if (tval_can_have_charges(obj) || tval_is_rod(obj)
 				|| obj->timeout > 0) {
 			total = obj->number;
@@ -908,15 +905,25 @@ void inven_carry(struct player *p, struct object *obj, bool absorb,
 			total = object_pack_total(p, obj, false, &first);
 		}
 		assert(first && total >= first->number);
+
+		/* Fix traduc Sin ODESC_PREFIX — el nombre viene limpio */
 		object_desc(o_name, sizeof(o_name), obj,
-			ODESC_PREFIX | ODESC_FULL | ODESC_ALTNUM |
+			ODESC_FULL | ODESC_ALTNUM |
 			(total << 16), p);
+
 		label = gear_to_label(p, first);
+
+		/* Fix traduc Agregar número manualmente */
+		if (total > 1)
+			strnfmt(o_name_final, sizeof(o_name_final), "%d %s", total, o_name);
+		else
+			my_strcpy(o_name_final, o_name, sizeof(o_name_final));
+
 		if (total > first->number) {
-			msg("Recogiste %s (1er %c).", o_name, label);
+			msg("Recogiste %s (1er %c).", o_name_final, label);
 		} else {
 			assert(first == obj);
-			msg("Recogiste %s (%c).", o_name, label);
+			msg("Recogiste %s (%c).", o_name_final, label);
 		}
 	}
 
@@ -1081,50 +1088,38 @@ void inven_drop(struct object *obj, int amt)
 	bool none_left = false;
 	bool equipped = false;
 	bool quiver;
-
 	char name[80];
+	char name_final[80];  //fix traduc
 	char label;
 
-	/* Verificación de error */
 	if (amt <= 0)
 		return;
 
-	/* Verificar que todavía se sostiene, en caso de que hubiera dos comandos de soltar encolados
-	 * para este objeto. Esto en teoría no es ideal, pero en la práctica debería
-	 * ser seguro. */
 	if (!object_is_carried(player, obj))
 		return;
 
-	/* Obtener dónde está el objeto ahora */
 	label = gear_to_label(player, obj);
-
-	/* ¿Está en la aljaba? */
 	quiver = object_is_in_quiver(player, obj);
 
-	/* No demasiados */
 	if (amt > obj->number) amt = obj->number;
 
-	/* Quitar equipo, no combinar */
 	if (object_is_equipped(player->body, obj)) {
 		equipped = true;
 		inven_takeoff(obj);
 	}
 
-	/* Obtener el objeto */
 	dropped = gear_object_for_use(player, obj, amt, false, &none_left);
 
-	/* Describir el objeto soltado */
-	object_desc(name, sizeof(name), dropped, ODESC_PREFIX | ODESC_FULL,
-		player);
+	/* fix traduc Describir el objeto soltado — sin ODESC_PREFIX */
+	object_desc(name, sizeof(name), dropped, ODESC_FULL, player);
 
-	/* Mensaje soltar objeto "Soltaste Pergamino" si el "un" */
-	char *pos = strstr(name, "un "); //fix traduc
-	if (pos != NULL) {
-		msg("Soltaste %s (%c).", pos + 3, label);  //Fix traduc. Saltamos 3 caracteres de "un "  
-	}
-	else {		
-		msg("Soltaste %s (%c).", name, label);  // Texto normal: Soltaste 7 Rations of ....
-	}
+	/* fix traduc Agregar número manualmente */
+	if (dropped->number > 1)
+		strnfmt(name_final, sizeof(name_final), "%d %s", dropped->number, name);
+	else
+		my_strcpy(name_final, name, sizeof(name_final));
+
+	msg("Soltaste %s (%c).", name_final, label);
 
 	/* Describir lo que queda */
 	if (dropped->artifact) {
@@ -1136,11 +1131,6 @@ void inven_drop(struct object *obj, int amt)
 		struct object *desc_target;
 		uint16_t total;
 
-		/*
-		 * Como gear_object_for_use(), no mostrar un total agregado
-		 * si estaba equipado o el objeto tiene cargas/aviso de recarga
-		 * que es específico de la pila.
-		 */
 		if (equipped || tval_can_have_charges(obj) || tval_is_rod(obj)
 				|| obj->timeout > 0) {
 			first = NULL;
@@ -1156,26 +1146,33 @@ void inven_drop(struct object *obj, int amt)
 			desc_target = (total) ? obj : dropped;
 		}
 
+		/* Fix traduc sin ODESC_PREFIX se agrega número manualmente */
 		object_desc(name, sizeof(name), desc_target,
-			ODESC_PREFIX | ODESC_FULL | ODESC_ALTNUM |
-			(total << 16), player);
-			
-		if (!first) {		    
-            msg("Ya no tienes %s (%c).", name, label);  //TODO Fix traduc mejorar Ya no tienes no mas Antorchas...por No te quedan Antorchas
+			ODESC_FULL | ODESC_ALTNUM | (total << 16), player);
+
+		if (total == 0) {
+			/* Fix traduc No quedó ninguno */
+			msg("Ya no te quedan %s (%c).", name, label);
+		} else if (total == 1) {
+			/* Quedó exactamente uno */
+			msg("Te queda 1 %s (%c).", name, label);
 		} else {
-			label = gear_to_label(player, first);
-			if (total > first->number) {
-				msg("Tienes2 %s (1er %c).", name, label);
+			/* Quedaron varios */
+			if (!first) {
+				msg("Te quedan %d %s (%c).", total, name, label);
 			} else {
-				msg("Te quedan %s (%c).", name, label);  // fix traduc. Cuando soltaste 3 de 4 Rations of Food ahora dice "Te quedan 4 Rations..."
+				label = gear_to_label(player, first);
+				if (total > first->number) {
+					msg("Te quedan %d %s (1er %c).", total, name, label);
+				} else {
+					msg("Te quedan %d %s (%c).", total, name, label);
+				}
 			}
 		}
 	}
 
-	/* Soltarlo cerca del jugador */
 	drop_near(cave, &dropped, 0, player->grid, false, true);
 
-	/* Sonido para objetos de la aljaba */
 	if (quiver)
 		sound(MSG_QUIVER);
 

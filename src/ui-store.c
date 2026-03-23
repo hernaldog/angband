@@ -271,6 +271,7 @@ static void store_display_entry(struct menu *menu, int oid, bool cursor, int row
 	uint32_t desc = ODESC_PREFIX;
 
 	char o_name[80];
+	char o_name_final[80]; //fix traduc
 	char out_val[160];
 	uint8_t colour;
 	int16_t obj_weight;
@@ -289,9 +290,17 @@ static void store_display_entry(struct menu *menu, int oid, bool cursor, int row
 		desc |= ODESC_FULL | ODESC_STORE;
 	}
 	object_desc(o_name, sizeof(o_name), obj, desc, player);
+	
+	
+	/* fix traduc Agregar número manualmente */
+	if (obj->number > 1) {		
+		strnfmt(o_name_final, sizeof(o_name_final), "%d %s", obj->number, o_name);
+	} else {		
+		my_strcpy(o_name_final, o_name, sizeof(o_name_final));
+	}
 
-	/* Mostrar el objeto */
-	c_put_str(obj->kind->base->attr, o_name, row, col);
+	/* fix traduc Mostrar el objeto*/
+	c_put_str(obj->kind->base->attr, o_name_final, row, col);
 
 	/* Mostrar pesos */
 	colour = curs_attrs[CURS_KNOWN][(int)cursor];

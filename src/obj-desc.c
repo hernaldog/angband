@@ -187,35 +187,8 @@ static size_t obj_desc_name_prefix(char *buf, size_t max, size_t end,
 		const struct object *obj, const char *basename,
 		const char *modstr, bool terse, uint16_t number)
 {
-	if (number == 0) {
-		strnfcat(buf, max, &end, "no más ");
-	} else if (number > 1) {
-		strnfcat(buf, max, &end, "%u ", number);
-	} else if (object_is_known_artifact(obj)) {
-		strnfcat(buf, max, &end, "el ");
-	} else if (*basename == '&') {
-		//bool an = false;  //fix traduc
-		const char *lookahead = basename + 1;
-
-		while (*lookahead == ' ') lookahead++;
-
-		//if (*lookahead == '#') {
-			//if (modstr && is_a_vowel(*modstr))
-				//an = true;
-		//} //else if (is_a_vowel(*lookahead)) {
-			//an = true;
-		//}
-
-		if (!terse) { //fix traduc TODO mejorar
-			//if (an) //Dice "un manzana" an o a en ingles es un o una. Se sacan mejor
-				//strnfcat(buf, max, &end, "un "); //resp
-				strnfcat(buf, max, &end, "un1 ");
-			//else
-				//strnfcat(buf, max, &end, "un "); //resp
-			//	strnfcat(buf, max, &end, "un(a) ");
-		}
-	}
-
+	//fix traduc: para traducir al español no se usa prefijo en la palabra, se usará numero manual y palabra directa sin prefijo
+	// Ves 1 Manzana o Ves 4 Pergaminos y no "Ves una manzada" o "Ves unas manzanas"
 	return end;
 }
 

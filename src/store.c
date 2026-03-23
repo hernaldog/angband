@@ -1649,6 +1649,7 @@ void do_cmd_buy(struct command *cmd)
 	struct object *obj, *bought, *known_obj;
 
 	char o_name[80];
+	char o_name_final[80];  //fix traduc
 	int price;
 
 	struct store *store = store_at(cave, player->grid);
@@ -1682,9 +1683,14 @@ void do_cmd_buy(struct command *cmd)
 		return;
 	}
 
-	/* Describir el objeto (completamente) */
-	object_desc(o_name, sizeof(o_name), bought, ODESC_PREFIX | ODESC_FULL,
-		player);
+	/* fix traduc Describir el objeto (completamente) */	
+	object_desc(o_name, sizeof(o_name), bought, ODESC_FULL, player);
+	// fix traduc
+	if (bought->number > 1) {		
+    	strnfmt(o_name_final, sizeof(o_name_final), "%d %s", bought->number, o_name);
+    } else {
+    	my_strcpy(o_name_final, o_name, sizeof(o_name_final));
+      }    
 
 	/* Extraer el precio para la pila completa */
 	price = price_item(store, bought, false, bought->number);
@@ -1704,13 +1710,19 @@ void do_cmd_buy(struct command *cmd)
 	/* Combinar la mochila (después) */
 	player->upkeep->notice |= (PN_COMBINE | PN_IGNORE);
 
-	/* Describir el objeto (completamente) de nuevo para el mensaje */
-	object_desc(o_name, sizeof(o_name), bought, ODESC_PREFIX | ODESC_FULL,
-		player);
+	/* fix traduc Describir el objeto (completamente) de nuevo para el mensaje*/
+	object_desc(o_name, sizeof(o_name), bought, ODESC_FULL, player);
+	//fix traduc
+	if (bought->number > 1) {		
+    	strnfmt(o_name_final, sizeof(o_name_final), "%d %s", bought->number, o_name);
+    } else {    	
+    	my_strcpy(o_name_final, o_name, sizeof(o_name_final));
+      }
 
 	/* Mensaje */
-	if (one_in_(3)) msgt(MSG_STORE5, "%s", ONE_OF(comment_accept));
-	msg("Compraste %s por %d de oro.", o_name, price);
+	if (one_in_(3)) msgt(MSG_STORE5, "%s", ONE_OF(comment_accept));	
+	//fix traduc
+	msg("Compraste %s por %d de oro.", o_name_final, price);
 
 	/* Borrar la inscripción */
 	bought->note = 0;
@@ -1867,6 +1879,7 @@ void do_cmd_sell(struct command *cmd)
 	struct store *store = store_at(cave, player->grid);
 	int price, dummy, value;
 	char o_name[120];
+	char o_name_final[120];  //fix traduc
 	char label;
 
 	struct object *obj, *sold_item;
@@ -1952,18 +1965,24 @@ void do_cmd_sell(struct command *cmd)
 	/* Obtener el valor "real" */
 	value = object_value_real(sold_item, amt);
 
-	/* Obtener la descripción de nuevo */
-	object_desc(o_name, sizeof(o_name), sold_item,
-		ODESC_PREFIX | ODESC_FULL, player);
+	/* Fix traduc Obtener la descripción de nuevo*/
+	object_desc(o_name, sizeof(o_name), sold_item, ODESC_FULL, player);
+	//fix traduc
+	if (sold_item->number > 1) {
+    	strnfmt(o_name_final, sizeof(o_name_final), "%d %s", sold_item->number, o_name);
+    } else {    	
+    	my_strcpy(o_name_final, o_name, sizeof(o_name_final));
+      }
 
 	/* Describir el resultado (en el búfer de mensajes) */
 	if (OPT(player, birth_no_selling)) {
-		msg("Tenías %s (%c).", o_name, label);
+		//fix traduc
+		msg("Tenías %s (%c).", o_name_final, label);
 	} else {
-		msg("Vendiste %s (%c) por %d de oro.", o_name, label, price);
-
+		//fix traduc
+		msg("Vendiste %s (%c) por %d de oro.", o_name_final, label, price);
 		/* Analizar los precios (y comentar verbalmente) */
-		purchase_analyze(price, value, dummy);
+		purchase_analyze(price, value, dummy);	    
 	}
 
 	/* Autoinscribir si todavía tenemos alguno */
@@ -2006,6 +2025,7 @@ void do_cmd_stash(struct command *cmd)
 	struct object dummy;
 	struct store *store = store_at(cave, player->grid);
 	char o_name[120];
+	char o_name_final[120]; //fix traduc
 	char label;
 
 	struct object *obj, *dropped;
@@ -2050,12 +2070,18 @@ void do_cmd_stash(struct command *cmd)
 	/* Ahora obtener el objeto real */
 	dropped = gear_object_for_use(player, obj, amt, false, &none_left);
 
-	/* Describir */
-	object_desc(o_name, sizeof(o_name), dropped,
-		ODESC_PREFIX | ODESC_FULL, player);
+	/* fix traduc Describir*/
+	object_desc(o_name, sizeof(o_name), dropped, ODESC_FULL, player);
+	// fix traduc
+	if (dropped->number > 1) {		
+    	strnfmt(o_name_final, sizeof(o_name_final), "%d %s", dropped->number, o_name);
+    } else {    	
+    	my_strcpy(o_name_final, o_name, sizeof(o_name_final));
+      }
 
 	/* Mensaje */
-	msg("Soltaste %s (%c).", o_name, label);
+	//fix traduc
+	msg("Soltaste %s (%c).", o_name_final, label);
 
 	/* Manejar cosas */
 	handle_stuff(player);
