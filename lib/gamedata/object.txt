@@ -331,7 +331,7 @@ desc:Un trozo de carne seca de aspecto grisáceo de una criatura que no te atrev
 desc:  Tendrías que estar desesperado para comer esto.
 
 
-name:Slice~ of Meat
+name:Rebanada~ de Carne
 type:food
 graphics:,:W
 level:0

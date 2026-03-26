@@ -443,7 +443,7 @@ object:food:Galleta Dura:0x8B:0x82
 object:food:Moho Baboso:0x8A:0x9F
 object:food:Ración de Comida:0x8B:0x82
 #object:food:Trozo de Carne
-#object:food:Slice of Meat
+#object:food:Rebanada de Carne
 #object:food:Honey-cake
 object:food:Piece of Elvish Waybread:0x8B:0x80
 object:food:Flask of Whisky:0x8A:0x95
