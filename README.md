@@ -192,6 +192,8 @@ Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (By
 ## Pendientes de traducción
 - Cambios de imágenes gráficas General Store, Armory, Magic Items, Black Market, Temple.
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
+- Varios textos en plural como:
+  - Ration, por Racións, y es Raciones
 - Cambios de unidades a Sistema métrico decimal:
   - menú superior derecho lb a kg -> ok
   - peso de listado de items menú superior de lb a kg -> ok
@@ -201,28 +203,26 @@ Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (By
   - nuevo personaje altura de pies y pulgadas a cms -> ok
   - nuevo personaje de ft a mt (infravisión) -> ok
   - tiendas de ciudad pesos de items de lb a kg -> ok
-  
-- Mejoras en traducciones varias:
-  
-  - Has encontrado 18 piezas de oro en gold, buscar mejor traducción
-  - enemigo bites you, enemigo misses you, etc
-  - No se pueden traducir nombres de monstruos (monster.txt) si se hace indica error al cargar partida
-  - En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
-  - Has detectado X objetos: 6 Light Teal Pocións. Acá o inglés o español y la s está rara. Archivo "obj-desc.c"
-  - The flotating eye se despiertan. Y es uno solo. Está demás la "n"
-  - Mejorar: The fruit bat (offscreen) se despertan.
-  - Mejorar: "Ves un fruit bat (unhurt, hasted)
-  - Mejorar: "Puedes aprender 2 rituals más."
-  - Mejorar lista de items: un Apple
-  - Mejorar: "You have 7 Rations of Food (a).": ok
-  - Con tecla d "Soltar qué objeto", por "¿Qué objeto soltar?": ok
-  - You drop, debe decir "Soltaste x objeto": ok
-  - The cutpurse ¡huye aterrorizados!. Dice con "s" y es uno solo: ok se dejó sin s fijo por ahora
-  - Mejorar: "Puedes ver ningún monstuo": ok
-  - Tecla S "Race and class abilities": ok
-  - Tecla V información de licencia: ok
-  - Mejorar "Puedes ver ningún objeto": ok
-  - Mejorar "Este parece ser un lugar manso y resguardado: ok
+
+- Has encontrado 18 piezas de oro en gold, buscar mejor traducción
+- enemigo bites you, enemigo misses you, etc
+- No se pueden traducir nombres de monstruos (monster.txt) si se hace indica error al cargar partida
+- En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
+- Has detectado X objetos: 6 Light Teal Pocións. Acá o inglés o español y la s está rara. Archivo "obj-desc.c"
+- The flotating eye se despiertan. Y es uno solo. Está demás la "n"
+- Mejorar: The fruit bat (offscreen) se despertan.
+- Mejorar: "Ves un fruit bat (unhurt, hasted)
+- Mejorar: "Puedes aprender 2 rituals más."
+- Mejorar lista de items: un Apple
+- Mejorar: "You have 7 Rations of Food (a).": ok
+- Con tecla d "Soltar qué objeto", por "¿Qué objeto soltar?": ok
+- You drop, debe decir "Soltaste x objeto": ok
+- The cutpurse ¡huye aterrorizados!. Dice con "s" y es uno solo: ok se dejó sin s fijo por ahora
+- Mejorar: "Puedes ver ningún monstuo": ok
+- Tecla S "Race and class abilities": ok
+- Tecla V información de licencia: ok
+- Mejorar "Puedes ver ningún objeto": ok
+- Mejorar "Este parece ser un lugar manso y resguardado: ok
 
 ## Detalle de la traducción por archivo
 

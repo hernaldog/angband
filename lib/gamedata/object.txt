@@ -305,7 +305,7 @@ desc:Este alimento nutritivo pero bastante insípido, llamado "cram" por los Hom
 desc: elaboran, es familiar para cualquiera que contemple viajes largos. Es
 desc: sustancioso, pero muy poco interesante, excepto como ejercicio de masticación.
 
-name:Scrap~ of Flesh
+name:Trozo~ de Carne
 type:food
 graphics:,:s
 level:0
