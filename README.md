@@ -194,6 +194,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (By
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
 - Varios textos en plural como:
   - Ration, por Racións, y es Raciones
+  - Pastels de Miel, y no Pasteles de Miel
 - Cambios de unidades a Sistema métrico decimal:
   - menú superior derecho lb a kg -> ok
   - peso de listado de items menú superior de lb a kg -> ok

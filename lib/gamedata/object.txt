@@ -346,7 +346,7 @@ dice:40
 desc:Una gruesa loncha de cerdo, salada para que no se estropee. Es muy
 desc: saciante.
 
-name:Honey-cake~
+name:Pastel~ de Miel
 type:food
 graphics:,:y
 level:5

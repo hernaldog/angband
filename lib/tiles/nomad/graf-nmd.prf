@@ -335,7 +335,7 @@ object:food:Moho Baboso:0x89:0x89
 object:food:Ración de Comida:0x89:0x88
 #object:food:Trozo de Carne
 #object:food:Rebanada de Carne
-#object:food:Honey-cake
+#object:food:Pastel de Miel
 object:food:Piece of Elvish Waybread:0x89:0x8A
 object:food:Flask of Whisky:0x89:0x8B
 object:food:Pint of Fine Wine:0x89:0x8C
