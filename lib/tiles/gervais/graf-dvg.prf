@@ -917,7 +917,7 @@ object:food:Ración de Comida:0x82:0x84
 object:food:Trozo de Carne:0x82:0x83
 object:food:Rebanada de Carne:0x82:0x83
 object:food:Pastel de Miel:0x82:0x82
-object:food:Piece of Elvish Waybread:0x82:0x86
+object:food:Trozo de Pan Élfico:0x82:0x86
 object:food:Flask of Whisky:0x88:0x83
 object:food:Pint of Fine Wine:0x82:0x81
 object:food:Sip of Miruvor:0x88:0xc8

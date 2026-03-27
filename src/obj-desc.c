@@ -298,11 +298,14 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 
 	/* Prefijo de cantidad */
 	if (prefix)
-		end = obj_desc_name_prefix(buf, max, end, obj, basename,
-			modstr, terse, number);
+		end = obj_desc_name_prefix(buf, max, end, obj, basename, modstr, terse, number);
 
-	/* Nombre base */
-	end = obj_desc_name_format(buf, max, end, basename, modstr, plural);
+	/* Fix traduc: Nombre base — usar plural explícito solo si existe en object.txt */
+	if (plural && obj->kind->name_plural) {
+    	strnfcat(buf, max, &end, "%s", obj->kind->name_plural);
+	} else {
+		end = obj_desc_name_format(buf, max, end, basename, modstr, plural);
+	}
 
 	/* Añadir nombres extra de varios tipos */
 	if (object_is_known_artifact(obj))

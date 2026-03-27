@@ -20,10 +20,10 @@
 
 # General store
 store:STORE_GENERAL
-owner:5000:Bilbo the Friendly (Hobbit)
-owner:10000:Rincewind the Chicken (Human)
-owner:20000:Snafu the Midget (Gnome)
-owner:30000:Lyar-el the Comely (Elf)
+owner:5000:Bilbo el Amistoso (Hobbit)
+owner:10000:Rincewind el Cobarde (Humano)
+owner:20000:Snafu el Enano (Gnomo)
+owner:30000:Lyar-el el Agraciado (Elfo)
 slots:0:4
 turnover:2
 always:cloak:Capa
@@ -34,13 +34,13 @@ always:digger:Pala
 always:digger:Pico
 always:shot:Perdigón de Hierro
 always:arrow:Flecha
-always:bolt:Perno
-normal:food:Pint of Fine Wine
+always:bolt:Virote
+normal:food:Sorbo de Vino Fino
 normal:food:Moho Baboso
-normal:food:Flask of Whisky
+normal:food:Frasco de Whisky
 normal:food:Galleta Dura
-normal:mushroom:Stoneskin
-normal:mushroom:Purging
+normal:mushroom:Piel de Piedra
+normal:mushroom:Purga
 buy:light
 buy:food
 buy:mushroom
@@ -53,30 +53,30 @@ buy:arrow
 
 # Armoury
 store:STORE_ARMOR
-owner:5000:Kon-Dar the Ugly (Half-Orc)
-owner:10000:Darg-Low the Grim (Human)
-owner:25000:Decado the Handsome (Dunadan)
-owner:30000:Mauglin the Grumpy (Dwarf)
+owner:5000:Kon-Dar el Feo (Medio orco)
+owner:10000:Darg-Low el Sombrío (Humano)
+owner:25000:Decado el Apuesto (Dúnadan)
+owner:30000:Mauglin el Gruñón (Enano)
 slots:6:18
 turnover:9
-normal:boots:Pair of Leather Sandals
-normal:boots:Pair of Leather Boots
-normal:boots:Pair of Iron Shod Boots
-normal:helm:Hard Leather Cap
-normal:helm:Metal Cap
-normal:helm:Iron Helm
-normal:soft armour:Robe
-normal:soft armour:Soft Leather Armour
-normal:soft armour:Studded Leather Armour
-normal:soft armour:Hard Leather Armour
-normal:soft armour:Leather Scale Mail
-normal:hard armour:Metal Scale Mail
+normal:boots:Par de Sandalias de Cuero
+normal:boots:Par de Botas de Cuero
+normal:boots:Par de Botas con Herradura de Hierro
+normal:helm:Gorro de Cuero Duro
+normal:helm:Casco de Metal
+normal:helm:Yelmo de Hierro
+normal:soft armour:Túnica
+normal:soft armour:Armadura de Cuero Blando
+normal:soft armour:Armadura de Cuero Tachonado
+normal:soft armour:Armadura de Cuero Duro
+normal:soft armour:Cota de Escamas de Cuero
+normal:hard armour:Cota de Escamas de Metal
 normal:hard armour:Chain Mail
-normal:gloves:Set of Leather Gloves
-normal:gloves:Set of Gauntlets
-normal:shield:Wicker Shield
-normal:shield:Small Metal Shield
-normal:shield:Leather Shield
+normal:gloves:Par de Guantes de Cuero
+normal:gloves:Par de Manoplas
+normal:shield:Escudo de Mimbre
+normal:shield:Escudo de Metal Pequeño
+normal:shield:Escudo de Cuero
 buy:boots
 buy:gloves
 buy:crown
@@ -89,40 +89,40 @@ buy:dragon armor
 
 # Weaponsmith
 store:STORE_WEAPON
-owner:5000:Ithyl-Mak the Beastly (Half-Troll)
-owner:10000:Arndal Beast-Slayer (Half-Elf)
-owner:25000:Tarl Beast-Master (Hobbit)
-owner:30000:Oglign Dragon-Slayer (Dwarf)
+owner:5000:Ithyl-Mak el Bestial (Medio trol)
+owner:10000:Arndal Matador de Bestias (Medio elfo)
+owner:25000:Tarl Señor de las Bestias (Hobbit)
+owner:30000:Oglign Matador de Dragones (Enano)
 slots:3:14
 turnover:9
 normal:shot:Perdigón de Hierro
 normal:arrow:Flecha
-normal:bolt:Perno
-normal:sword:Dagger
+normal:bolt:Virote
+normal:sword:Daga
 normal:sword:Main Gauche
 normal:sword:Rapier
-normal:sword:Short Sword
-normal:sword:Cutlass
+normal:sword:Espada Corta
+normal:sword:Alfanje
 normal:sword:Tulwar
-normal:sword:Broad Sword
-normal:sword:Long Sword
-normal:sword:Scimitar
+normal:sword:Espada Ancha
+normal:sword:Espada Larga
+normal:sword:Cimitarra
 normal:sword:Katana
-normal:sword:Bastard Sword
-normal:polearm:Spear
-normal:polearm:Awl-Pike
+normal:sword:Espada Bastarda
+normal:polearm:Lanza
+normal:polearm:Pica de Lezna
 normal:polearm:Trident
 normal:polearm:Pike
-normal:polearm:Beaked Axe
-normal:polearm:Broad Axe
-normal:polearm:Battle Axe
-normal:polearm:Lance
-normal:polearm:Lucerne Hammer
-normal:hafted:Whip
-normal:bow:Sling
-normal:bow:Short Bow
-normal:bow:Long Bow
-normal:bow:Light Crossbow
+normal:polearm:Hacha de Pico
+normal:polearm:Hacha Ancha
+normal:polearm:Hacha de Batalla
+normal:polearm:Lanza
+normal:polearm:Martillo de Lucerna
+normal:hafted:Látigo
+normal:bow:Honda
+normal:bow:Arco Corto
+normal:bow:Arco Largo
+normal:bow:Ballesta Ligera
 buy:shot
 buy:bolt
 buy:arrow
@@ -135,10 +135,10 @@ buy:hafted
 
 # Bookseller
 store:STORE_BOOK
-owner:15000:Ludwig the Humble (Human)
-owner:20000:Gunnar the Paladin (Human)
-owner:25000:Delilah the Pure (Elf)
-owner:30000:Bosk the Wise (Dwarf)
+owner:15000:Ludwig el Humilde (Humano)
+owner:20000:Gunnar el Paladín (Humano)
+owner:25000:Delilah la Pura (Elfa)
+owner:30000:Bosk el Sabio (Enano)
 slots:0:2
 turnover:0
 always:prayer book
@@ -152,59 +152,59 @@ buy:shadow book
 
 # Alchemist
 store:STORE_ALCHEMY
-owner:10000:Mauser the Chemist (Half-Elf)
-owner:10000:Wizzle the Chaotic (Hobbit)
-owner:15000:Ga-nat the Greedy (Gnome)
-owner:15000:Vella the Slender (Human)
+owner:10000:Mauser el Químico (Medio elfo)
+owner:10000:Wizzle el Caótico (Hobbit)
+owner:15000:Ga-nat el Codicioso (Gnomo)
+owner:15000:Vella la Esbelta (Humana)
 slots:6:10
 turnover:9
-always:scroll:Word of Recall
-always:scroll:Phase Door
-always:scroll:Remove Curse
-always:potion:Cure Light Wounds
-normal:scroll:Monster Confusion
-normal:scroll:Magic Mapping
-normal:scroll:Detect Invisible
-normal:scroll:Recharging
-normal:scroll:Remove Hunger
-normal:scroll:Blessing
-normal:scroll:Holy Chant
-normal:potion:Boldness
-normal:potion:Berserk Strength
-normal:potion:Resist Heat
-normal:potion:Resist Cold
-normal:potion:Restore Life Levels
-normal:potion:Neutralize Poison
-normal:potion:Cure Serious Wounds
-normal:potion:Cure Critical Wounds
+always:scroll:Palabra de Retorno
+always:scroll:Puerta de Fase
+always:scroll:Eliminar Maldición
+always:potion:Curar Heridas Leves
+normal:scroll:Confundir Monstruo
+normal:scroll:Mapeo Mágico
+normal:scroll:Detección de lo Invisible
+normal:scroll:Recarga
+normal:scroll:Saciar Hambre
+normal:scroll:Bendición
+normal:scroll:Canto Sagrado
+normal:potion:Audacia
+normal:potion:Fuerza Berserker
+normal:potion:Resistir Calor
+normal:potion:Resistir Frío
+normal:potion:Restaurar Niveles de Vida
+normal:potion:Neutralizar Veneno
+normal:potion:Curar Heridas Graves
+normal:potion:Curar Heridas Críticas
 buy:scroll
 buy:potion
 
 # Magic-user's
 store:STORE_MAGIC
-owner:15000:Ariel the Sorceress (Half-Elf)
-owner:20000:Buggerby the Great (Gnome)
-owner:25000:Inglorian the Mage (Human)
-owner:30000:Luthien Starshine (High-Elf)
+owner:15000:Ariel la Hechicera (Medio elfa)
+owner:20000:Buggerby el Grande (Gnomo)
+owner:25000:Inglorian el Mago (Humano)
+owner:30000:Luthien Brillo Estelar (Alto elfo)
 slots:4:14
 turnover:9
-normal:ring:Searching
-normal:ring:Feather Falling
-normal:ring:Protection
-normal:ring:Open Wounds
-normal:amulet:Slow Digestion
-normal:amulet:Resist Acid
-normal:wand:Light
-normal:wand:Slow Monster
-normal:wand:Confuse Monster
-normal:wand:Magic Missile
-normal:wand:Stinking Cloud
-normal:wand:Stone to Mud
-normal:staff:Teleportation
-normal:staff:Light
-normal:staff:Mapping
-normal:staff:Detect Invisible
-normal:staff:Detect Evil
+normal:ring:Búsqueda
+normal:ring:Caída de Pluma
+normal:ring:Protección
+normal:ring:Heridas Abiertas
+normal:amulet:Digestión Lenta
+normal:amulet:Resistencia al Ácido
+normal:wand:Luz
+normal:wand:Ralentizar Monstruo
+normal:wand:Confundir Monstruo
+normal:wand:Proyectil Mágico
+normal:wand:Nube Apestosa
+normal:wand:Piedra a Lodo
+normal:staff:Teletransportación
+normal:staff:Luz
+normal:staff:Mapeo
+normal:staff:Detección de lo Invisible
+normal:staff:Detección del Mal
 buy:magic book
 buy:amulet
 buy:ring
@@ -214,10 +214,10 @@ buy:rod
 
 # Black Market - no stock given but we still need slot/turnover info
 store:STORE_BLACK
-owner:15000:Lo-Hak the Awful (Half-Troll)
-owner:20000:Histor the Goblin (Kobold)
-owner:25000:Durwin the Shifty (Half-Orc)
-owner:30000:Drago the Fair (Elf)
+owner:15000:Lo-Hak el Horrible (Medio trol)
+owner:20000:Histor el Goblin (Kobold)
+owner:25000:Durwin el Astuto (Medio orco)
+owner:30000:Drago el Hermoso (Elfo)
 slots:6:18
 turnover:9
 

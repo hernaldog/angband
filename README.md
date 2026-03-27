@@ -12,6 +12,7 @@ Hernaldo González  - hernaldog@gmail.com
 - 20-03-2026 - Se entiende y empieza a traducir archivos txt dentro de gamedata, .rst y archivos de tiles .prf
 - 23-03-2026 - Para facilitar la traducción al español. Se cambian todos los prefijos en objetos, ejemplo "Un Pergamino", "Una Manzana" y solo deja la unidad + objeto, ejemplo "Ves 1 Antorcha de Madera", "Te quedan 3 Linternas". 
   Esta idea sale de otros juegos Roguelike como Shattered Pixel Dungeons donde no hay prefijos en objetos.
+- 27-03-2026 - Se logra editar los txt y archivos c para manejar objetos en Español que usan plural y que son muy diferentes al inglés, como "Perdigones" o "Raciones".
 
 ## Motivación
 Me entantan los juegos Roguelike clásicos como Moria, Rogue, etc, a la vez, siempre me ha gustado el Señor de los Anillos, y que mejor que este gran juego que uno los dos mundos. 
@@ -192,9 +193,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (By
 ## Pendientes de traducción
 - Cambios de imágenes gráficas General Store, Armory, Magic Items, Black Market, Temple.
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
-- Varios textos en plural como:
-  - Ration, por Racións, y es Raciones
-  - Pastels de Miel, y no Pasteles de Miel
+- Varios objetos en plural como Ration, por Racións, y es Raciones, Pastels de Miel por Pasteles de Miel -> ok
 - Cambios de unidades a Sistema métrico decimal:
   - menú superior derecho lb a kg -> ok
   - peso de listado de items menú superior de lb a kg -> ok

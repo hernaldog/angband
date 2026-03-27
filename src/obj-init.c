@@ -1705,6 +1705,18 @@ static enum parser_error parse_object_name(struct parser *p) {
 	return PARSE_ERROR_NONE;
 }
 
+// fix traduc solo para plural español
+static enum parser_error parse_object_name_plural(struct parser *p) {
+    const char *name_plural = parser_getstr(p, "name_plural");
+    struct object_kind *k = parser_priv(p);
+
+    if (!k)
+        return PARSE_ERROR_MISSING_RECORD_HEADER;
+
+    k->name_plural = string_make(name_plural);
+    return PARSE_ERROR_NONE;
+}
+
 static enum parser_error parse_object_graphics(struct parser *p) {
 	wchar_t glyph = parser_getchar(p, "glyph");
 	const char *color = parser_getsym(p, "color");
@@ -2139,6 +2151,7 @@ struct parser *init_parse_object(void) {
 	struct parser *p = parser_new();
 	parser_setpriv(p, NULL);
 	parser_reg(p, "name str name", parse_object_name);
+	parser_reg(p, "name_plural str name_plural", parse_object_name_plural); // fix traduc
 	parser_reg(p, "type sym tval", parse_object_type);
 	parser_reg(p, "graphics char glyph sym color", parse_object_graphics);
 	parser_reg(p, "level int level", parse_object_level);
@@ -2216,6 +2229,7 @@ static void cleanup_object(void)
 	for (idx = 0; idx < z_info->k_max; idx++) {
 		struct object_kind *kind = &k_info[idx];
 		string_free(kind->name);
+		string_free(kind->name_plural);  //fix traduc
 		string_free(kind->text);
 		string_free(kind->effect_msg);
 		string_free(kind->vis_msg);

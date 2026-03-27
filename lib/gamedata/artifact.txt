@@ -178,7 +178,7 @@ desc: sparks of white radiance shot with glints of the rainbow.
 ### Swords and Daggers ###
 
 name:'Angrist'
-base-object:sword:Dagger
+base-object:sword:Daga
 level:20
 weight:12
 cost:100000
@@ -196,7 +196,7 @@ desc: a Silmaril out of Morgoth's crown, this long chopping dagger slices
 desc: through ordinary metal as easily as its name, "Iron Cleaver", suggests.
 
 name:'Narthanc'
-base-object:sword:Dagger
+base-object:sword:Daga
 level:1
 weight:12
 cost:12000
@@ -210,7 +210,7 @@ time:8+d8
 desc:Instead of a blade, a flame seems to emerge from this dagger's hilt.
 
 name:'Nimthanc'
-base-object:sword:Dagger
+base-object:sword:Daga
 level:1
 weight:12
 cost:11000
@@ -224,7 +224,7 @@ time:7+d8
 desc:From the hilt of this dagger springs not so much a blade as an icicle.
 
 name:'Dethanc'
-base-object:sword:Dagger
+base-object:sword:Daga
 level:1
 weight:12
 cost:13000
@@ -238,7 +238,7 @@ time:6+d6
 desc:In this dagger is bound the very force of lightning.
 
 name:of Rilia
-base-object:sword:Dagger
+base-object:sword:Daga
 level:5
 weight:12
 cost:15000
@@ -255,7 +255,7 @@ desc:A large stiletto dagger that glistens with odorless poison, to which the
 desc: wearer seems oddly immune.
 
 name:'Belangil'
-base-object:sword:Dagger
+base-object:sword:Daga
 level:10
 weight:12
 cost:40000
@@ -334,7 +334,7 @@ desc:An heirloom of the dauntless Lords of Rhûn far to the east, and a name
 desc: of dismay to creatures natural and unnatural.
 
 name:'Sting'
-base-object:sword:Short Sword
+base-object:sword:Espada Corta
 level:20
 weight:75
 cost:100000
@@ -353,7 +353,7 @@ desc: sturdy little blade grants the wearer combat prowess and survival
 desc: abilities he did not know he had.
 
 name:'Dagmor'
-base-object:sword:Short Sword
+base-object:sword:Espada Corta
 level:20
 weight:80
 cost:15000
@@ -368,7 +368,7 @@ desc:A stubby blade worn by Beren, whose horn sounded of old in the glades of
 desc: Brethil.
 
 name:'Gondricam'
-base-object:sword:Cutlass
+base-object:sword:Alfanje
 level:20
 weight:110
 cost:28000
@@ -383,7 +383,7 @@ desc: with a perfect edge shining cleanly in the sun, an object of hate to the
 desc: men of Umbar who met it in combat.
 
 name:'Haradekket'
-base-object:sword:Scimitar
+base-object:sword:Cimitarra
 level:20
 weight:130
 cost:30000
@@ -399,7 +399,7 @@ desc:A damascened scimitar that hefts with wondrous ease.  Famed in song
 desc: as the "Sickle of Harad", and a deadly foe to the undead.
 
 name:'Ringil'
-base-object:sword:Long Sword
+base-object:sword:Espada Larga
 level:40
 weight:130
 cost:300000
@@ -421,7 +421,7 @@ desc: of old; his lame foot will remind him of its might should he face it
 desc: again.
 
 name:'Andúril'
-base-object:sword:Long Sword
+base-object:sword:Espada Larga
 level:35
 weight:130
 cost:80000
@@ -442,7 +442,7 @@ desc: again.  It glows with the essence of fire, its wearer is mighty in combat,
 desc: and no creature of Sauron can withstand it.
 
 name:'Anguirel'
-base-object:sword:Long Sword
+base-object:sword:Espada Larga
 level:20
 weight:130
 cost:40000
@@ -460,7 +460,7 @@ desc: imbued with the malice of its maker; as dangerous to its wielder as it is
 desc: deadly to his foes.
 
 name:'Elvagil'
-base-object:sword:Long Sword
+base-object:sword:Espada Larga
 level:1
 weight:130
 cost:30000
@@ -475,7 +475,7 @@ desc:The "Singing Blade", whose wearer can slay Orcs and Trolls in the hidden
 desc: and secret places of the earth.
 
 name:'Aranrúth'
-base-object:sword:Broad Sword
+base-object:sword:Espada Ancha
 level:20
 weight:150
 cost:50000
@@ -493,7 +493,7 @@ desc: icy enough to freeze the hearts of demons, and you feel supple and
 desc: lightfooted as you clasp its hilt of gold and silver inlay.
 
 name:'Glamdring'
-base-object:sword:Broad Sword
+base-object:sword:Espada Ancha
 level:20
 weight:150
 cost:40000
@@ -510,7 +510,7 @@ desc:This fiery, shining blade, mate to Orcrist, earned its sobriquet "Beater"
 desc: from dying orcs who dared to behold hidden Gondolin.
 
 name:'Aeglin'
-base-object:sword:Broad Sword
+base-object:sword:Espada Ancha
 level:20
 weight:150
 cost:45000
@@ -528,7 +528,7 @@ desc: continually covered in tiny arcs of captive lightning that flash and dance
 desc: eerily in the globes of light they create.
 
 name:'Orcrist'
-base-object:sword:Broad Sword
+base-object:sword:Espada Ancha
 level:20
 weight:150
 cost:40000
@@ -545,7 +545,7 @@ desc:This coldly gleaming blade, mate to Glamdring, is called simply "Biter"
 desc: by orcs who came to know its power all too well.
 
 name:'Calris'
-base-object:sword:Bastard Sword
+base-object:sword:Espada Bastarda
 level:30
 weight:140
 cost:100000
@@ -565,7 +565,7 @@ desc: blood channel that gleams coldly blue as you grasp this mighty weapon of
 desc: peril.
 
 name:of Éowyn
-base-object:sword:Bastard Sword
+base-object:sword:Espada Bastarda
 level:30
 weight:140
 cost:120000
@@ -699,7 +699,7 @@ desc: shadow of death even as you inflict wounds that will not heal.
 ### Blunt Weapons ###
 
 name:of Gothmog
-base-object:hafted:Whip
+base-object:hafted:Látigo
 level:60
 weight:90
 cost:25000
@@ -922,7 +922,7 @@ desc: of the Undead!
 ### Polearms ###
 
 name:'Aiglos'
-base-object:polearm:Spear
+base-object:polearm:Lanza
 level:40
 weight:50
 cost:140000
@@ -942,7 +942,7 @@ desc:The mighty spear of Gil-galad, famed as "Snow-point" in the songs of Elves.
 desc:  Against it, all the foul corruptions of Sauron dashed in vain.
 
 name:of Oromë
-base-object:polearm:Spear
+base-object:polearm:Lanza
 level:5
 weight:50
 cost:60000
@@ -961,7 +961,7 @@ desc:The thrusting spear of wise Oromë the Vala, strong against giants of
 desc: frost, and able to pierce rock or flesh with ease.
 
 name:'Nimloth'
-base-object:polearm:Spear
+base-object:polearm:Lanza
 level:15
 weight:50
 cost:30000
@@ -978,7 +978,7 @@ desc: cold into the breasts of your enemies lay upon this perfectly balanced
 desc: spear.
 
 name:of Melkor
-base-object:polearm:Spear
+base-object:polearm:Lanza
 level:65
 weight:200
 cost:100000
@@ -1063,7 +1063,7 @@ desc:Within this long two-handed spear dwell the spirits of frost giants and
 desc: fire demons, who war forever, fettered by sorcerous binds.
 
 name:of Théoden
-base-object:polearm:Beaked Axe
+base-object:polearm:Hacha de Pico
 level:30
 weight:180
 cost:40000
@@ -1079,7 +1079,7 @@ desc:The narrow axe head of this weapon would pierce the armour of a very
 desc: Dragon, and the designs of your enemies stand naked and revealed.
 
 name:of Húrin
-base-object:polearm:Beaked Axe
+base-object:polearm:Hacha de Pico
 level:20
 weight:180
 cost:90000
@@ -1102,7 +1102,7 @@ desc: did he utter his mighty war-cry: "Aurë entuluva!" - "Day shall
 desc: come again!"
 
 name:'Barukkheled'
-base-object:polearm:Broad Axe
+base-object:polearm:Hacha Ancha
 level:20
 weight:160
 cost:50000
@@ -1119,7 +1119,7 @@ desc:A royal heirloom of the southern coast, strong in combat against the evil
 desc: creatures of earth.
 
 name:of Balli Stonehand
-base-object:polearm:Battle Axe
+base-object:polearm:Hacha de Batalla
 level:30
 weight:170
 cost:90000
@@ -1136,7 +1136,7 @@ desc:The twin blades of this weapon were forged in Belegost, and powerful
 desc: forces to resist and endure lie ready for its next owner.
 
 name:'Lotharang'
-base-object:polearm:Battle Axe
+base-object:polearm:Hacha de Batalla
 level:30
 weight:170
 cost:21000
@@ -1240,7 +1240,7 @@ desc: fell spells of annihilation swirl and dance as you swing death's myrmidon
 desc: down.
 
 name:of the Eorlingas
-base-object:polearm:Lance
+base-object:polearm:Lanza
 level:20
 weight:360
 cost:55000
@@ -1499,7 +1499,7 @@ desc: the main host.
 ### Helmets and Crowns ###
 
 name:of Thranduil
-base-object:helm:Hard Leather Cap
+base-object:helm:Gorro de Cuero Duro
 level:50
 weight:15
 cost:50000
@@ -1512,7 +1512,7 @@ desc:The hunting cap of King Thranduil, to whose ears come all the secrets of
 desc: his forest domain.
 
 name:of Thengel
-base-object:helm:Metal Cap
+base-object:helm:Casco de Metal
 level:10
 weight:20
 cost:22000
@@ -1525,7 +1525,7 @@ desc:A ridged helmet made of steel and embossed with scenes of valor in fine-
 desc:engraved silver.  It grants the wearer nobility and understanding.
 
 name:of Celebrimbor
-base-object:helm:Metal Cap
+base-object:helm:Casco de Metal
 level:55
 weight:20
 cost:45000
@@ -1539,7 +1539,7 @@ desc: this helm serves equally well in battle or at the forge, and its
 desc: enchantment will never be diminished.
 
 name:of Dor-Lómin
-base-object:helm:Iron Helm
+base-object:helm:Yelmo de Hierro
 level:40
 weight:50
 cost:300000
@@ -1556,7 +1556,7 @@ desc: mere sight of the helm, borne by Túrin Turambar, struck dread into the
 desc: hearts of the servants of Morgoth.
 
 name:'Holhenneth'
-base-object:helm:Iron Helm
+base-object:helm:Yelmo de Hierro
 level:20
 weight:50
 cost:100000
@@ -1571,7 +1571,7 @@ desc:A famous forged iron helm granting extraordinary powers of mind and
 desc: awareness.
 
 name:of Gorlim
-base-object:helm:Iron Helm
+base-object:helm:Yelmo de Hierro
 level:20
 weight:75
 cost:1
@@ -1915,7 +1915,7 @@ desc: walk under my shadow".
 ### Gloves and Gauntlets ###
 
 name:'Cambeleg'
-base-object:gloves:Set of Leather Gloves
+base-object:gloves:Par de Guantes de Cuero
 level:10
 weight:5
 cost:36000
@@ -1927,7 +1927,7 @@ values:STR[2] | CON[2]
 desc:A hero's handgear that lends great prowess in battle.
 
 name:'Cammithrim'
-base-object:gloves:Set of Leather Gloves
+base-object:gloves:Par de Guantes de Cuero
 level:10
 weight:5
 cost:30000
@@ -1942,7 +1942,7 @@ desc:These gloves glow so brightly as to light the way for the wearer and cast
 desc: magical bolts with great frequency.
 
 name:'Paurhach'
-base-object:gloves:Set of Gauntlets
+base-object:gloves:Par de Manoplas
 level:1
 weight:25
 cost:15000
@@ -1956,7 +1956,7 @@ time:8+d8
 desc:A set of gauntlets that smoulder with an unnatural heat.
 
 name:'Paurnimmen'
-base-object:gloves:Set of Gauntlets
+base-object:gloves:Par de Manoplas
 level:1
 weight:25
 cost:13000
@@ -1971,7 +1971,7 @@ time:7+d7
 desc:A set of handgear, freezing with unnatural cold.
 
 name:'Pauraegen'
-base-object:gloves:Set of Gauntlets
+base-object:gloves:Par de Manoplas
 level:1
 weight:25
 cost:11000
@@ -1984,7 +1984,7 @@ time:6+d6
 desc:A set of handgear with sparks that crackle across its knuckleguards.
 
 name:'Paurnen'
-base-object:gloves:Set of Gauntlets
+base-object:gloves:Par de Manoplas
 level:1
 weight:25
 cost:12000
@@ -1999,7 +1999,7 @@ desc:A set of gauntlets that give off a foul, acrid odour yet remain
 desc: untarnished.
 
 name:'Camlost'
-base-object:gloves:Set of Gauntlets
+base-object:gloves:Par de Manoplas
 level:10
 weight:25
 cost:0
@@ -2012,7 +2012,7 @@ desc:A pair of weakening gauntlets, named after Beren, who returned to Thingol
 desc: having lost to Carcharoth the hand that clasped a Silmaril.
 
 name:of Eöl
-base-object:gloves:Set of Gauntlets
+base-object:gloves:Par de Manoplas
 level:55
 weight:25
 cost:40000
@@ -2046,7 +2046,7 @@ desc: Morgoth seven mighty wounds and pain that will last until the end of Arda.
 ### Shields ###
 
 name:of Elros
-base-object:shield:Wicker Shield
+base-object:shield:Escudo de Mimbre
 level:40
 weight:30
 cost:60000
@@ -2059,7 +2059,7 @@ desc:The shield of Elros Tar-Minyatur, founder of Númenor.  Granted long
 desc: life by the Valar, even his shield became imbued with power.
 
 name:of Thorin
-base-object:shield:Small Metal Shield
+base-object:shield:Escudo de Metal Pequeño
 level:40
 weight:65
 cost:60000
@@ -2072,7 +2072,7 @@ desc:Invoking the strength and endurance of Thorin, King under the Mountain,
 desc: this little metal shield is proof against the Element of Earth.
 
 name:of Celegorm
-base-object:shield:Leather Shield
+base-object:shield:Escudo de Cuero
 level:30
 weight:60
 cost:12000
@@ -2087,7 +2087,7 @@ desc: once protected Celegorm, Lord of Himlad; around it, a mystic balance lies,
 desc: containing the conflicts of the elements.
 
 name:of the Haradrim
-base-object:shield:Leather Shield
+base-object:shield:Escudo de Cuero
 level:35
 weight:90
 cost:25000
