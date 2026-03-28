@@ -80,7 +80,7 @@ static const char *obj_desc_get_modstr(const struct object_kind *kind)
  * de object.txt para casi todo lo demás, y un poco extra para los libros.
  */
 static const char *obj_desc_get_basename(const struct object *obj, bool aware,
-		bool terse, uint32_t mode, const struct player *p)
+		bool terse, uint32_t mode, const struct player *p, bool plural)
 {
 	bool show_flavor = !terse && obj->kind->flavor;
 
@@ -136,8 +136,12 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 		case TV_ROD:
 			return (show_flavor ? "& # Vara~" : "& Vara~");
 
-		case TV_POTION:
-			return (show_flavor ? "& # Poción~" : "& Poción~");  /* TODO funciona con "# Pociones" : "& Poción~"); pero hay que ver que pasa cuando es 1 sola*/
+		case TV_POTION:			
+			if (plural) { //fix traduc plural
+        		return (show_flavor ? "# Pociones" : "Pociones");
+        	} else {        		
+        		return (show_flavor ? "& # Poción" : "& Poción");
+        	}      
 
 		case TV_SCROLL:
 			return (show_flavor ? "& Pergamino~ titulado #" : "& Pergamino~");
@@ -216,22 +220,19 @@ size_t obj_desc_name_format(char *buf, size_t max, size_t end,
 				fmt++;
 			continue;
 		} else if (*fmt == '~') {
-			/* Pluralizador (plurales regulares en inglés/español) */
-			char prev = *(fmt - 1);
-
-			if (!pluralise)	{
-				fmt++;
-				continue;
-			}
-
-			/* En español, normalmente solo se añade 's' o 'es' */
-			/* Nota: Esto es una simplificación; el juego usa reglas de pluralización en inglés,
-			   pero adaptamos a español de forma básica. */
-			if (prev == 's' || prev == 'h' || prev == 'x' || prev == 'z')
-				strnfcat(buf, max, &end, "es");
-			else
-				strnfcat(buf, max, &end, "s");
-		} else if (*fmt == '|') {
+		    char prev = *(fmt - 1);
+		
+		    if (!pluralise) {
+		        fmt++;
+		        continue;
+		    }
+		
+		    /* Regla especial: "ón" al final → "ones" */
+		    if (prev == 's' || prev == 'h' || prev == 'x' || prev == 'z') {
+		        strnfcat(buf, max, &end, "es");
+		    } else 
+		        strnfcat(buf, max, &end, "s");
+		    } else if (*fmt == '|') {
 			/* Plurales especiales 
 			* ej. cuchi|llo|llos|
 			*          ^   ^    ^ */
@@ -292,8 +293,7 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 	bool plural = !(mode & ODESC_SINGULAR) &&
 		!obj->artifact &&
 		(number != 1 || (mode & ODESC_PLURAL));
-	const char *basename = obj_desc_get_basename(obj, aware, terse,
-		mode, p);
+	const char *basename = obj_desc_get_basename(obj, aware, terse,	mode, p, plural);
 	const char *modstr = obj_desc_get_modstr(obj->kind);
 
 	/* Prefijo de cantidad */

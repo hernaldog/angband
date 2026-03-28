@@ -121,6 +121,32 @@ static void textblock_vappend_c(textblock *tb, uint8_t attr, const char *fmt,
 		temp_space = mem_realloc(temp_space, temp_len * sizeof *temp_space);
 	}
 
+	/* Fix traduc UTF-8: retroceder si el string termina con bytes de secuencia incompleta. Ejemplo plural del Poción, Pociones
+	 * Esto puede ocurrir cuando vstrnfmt trunca en medio de un carácter multibyte. */
+	{
+		int len = (int)strlen(temp_space);
+		while (len > 0) {
+			unsigned char last = (unsigned char)temp_space[len - 1];
+			/* Byte de inicio de 2 bytes (0xC2-0xDF) sin su continuación */
+			if (last >= 0xC2 && last <= 0xDF) {
+				temp_space[len - 1] = '\0';
+				break;
+			}
+			/* Byte de inicio de 3 bytes (0xE0-0xEF) */
+			if (last >= 0xE0 && last <= 0xEF) {
+				temp_space[len - 1] = '\0';
+				break;
+			}
+			/* Byte de continuación suelto al final (0x80-0xBF) — retroceder */
+			if (last >= 0x80 && last <= 0xBF) {
+				temp_space[len - 1] = '\0';
+				len--;
+				continue;
+			}
+			break;
+		}
+	}
+
 	/* Get extent of addition in wide chars */
 	new_length = text_mbstowcs(NULL, temp_space, 0);
 	assert(new_length >= 0); /* If this fails, the string was badly formed */
