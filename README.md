@@ -4,7 +4,7 @@
 Hernaldo González  - hernaldog@gmail.com
 
 # Status general de la traducción
-50%
+60%
 
 ## Bitácora principal
 - 21-02-2026 - Se entiende como compilar en Windows 11 y hacen pruebas de concepto.
