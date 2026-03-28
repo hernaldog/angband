@@ -94,16 +94,28 @@ static void append_damage(char *buffer, size_t buffer_size, random_value value,
 	}
 }
 
-
+//fix traduc para soportar UTF-8 cuando se describe un objeto
+//Se usa cuando se quiere descripción de un objeto del inventario que tiene efectos mágicos
 static void copy_to_textblock_with_coloring(textblock *tb, const char *s)
 {
+	const char *start = s;
 	while (*s) {
-		if (isdigit((unsigned char) *s)) {
+		if (isdigit((unsigned char)*s)) {
+			/* Si veníamos acumulando texto no-numérico, lo añadimos ahora */
+			if (s > start) {
+				textblock_append(tb, "%.*s", (int)(s - start), start);
+			}
+			/* Añadimos el número en verde */
 			textblock_append_c(tb, COLOUR_L_GREEN, "%c", *s);
+			s++;
+			start = s;
 		} else {
-			textblock_append(tb, "%c", *s);
+			s++;
 		}
-		++s;
+	}
+	/* Añadir el resto de la cadena si queda algo */
+	if (s > start) {
+		textblock_append(tb, "%s", start);
 	}
 }
 
