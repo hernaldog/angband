@@ -8,7 +8,7 @@
 # === Comprendiendo object.txt ===
 
 # name: & nombre del objeto~
-# name_plural: nombre del objeto en plural (para español, ejemplo Poción - Pociones y no Pocións)
+# name_plural: nombre del objeto en plural (para español, ejemplo Ración - Raciones y no Racións)
 # graphics: símbolo : color
 # type: tval
 # level: nivel
