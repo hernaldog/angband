@@ -7,12 +7,12 @@ Hernaldo González  - hernaldog@gmail.com
 60%
 
 ## Bitácora principal
-- 21-02-2026 - Se entiende como compilar en Windows 11 y hacen pruebas de concepto.
-- 21-02-2026 - Se inicia traducción de primeros elementos como news.txt o archivos c/h base.
-- 20-03-2026 - Se entiende y empieza a traducir archivos txt dentro de gamedata, .rst y archivos de tiles .prf
-- 23-03-2026 - Para facilitar la traducción al español. Se cambian todos los prefijos en objetos, ejemplo "Un Pergamino", "Una Manzana" y solo deja la unidad + objeto, ejemplo "Ves 1 Antorcha de Madera", "Te quedan 3 Linternas". 
-  Esta idea sale de otros juegos Roguelike como Shattered Pixel Dungeons donde no hay prefijos en objetos.
-- 27-03-2026 - Se logra editar los txt, se agrega tag nuevo en object.txt llamado "name_plural" y archivos c para manejar objetos en Español que usan plural y que son muy diferentes al inglés, como "Ración-> Raciones" o "Perdigón -> Perdigones".
+- 21-02-2026: Se entiende como compilar en Windows 11 y hacen pruebas de concepto.
+- 21-02-2026: Se inicia traducción de primeros elementos como news.txt o archivos c/h base.
+- 20-03-2026: Se entiende y empieza a traducir archivos txt dentro de gamedata, .rst y archivos de tiles .prf
+- 23-03-2026: Para facilitar la traducción al español. Se cambian todos los prefijos en objetos, ejemplo "Un Pergamino", "Una Manzana" y solo deja la unidad + objeto, ejemplo "Ves 1 Antorcha de Madera", "Te quedan 3 Linternas". Esta idea sale de otros juegos Roguelike como Shattered Pixel Dungeons donde no hay prefijos en objetos.
+- 27-03-2026: Se logra editar los txt, se agrega tag nuevo en object.txt llamado "name_plural" y archivos c como obj-init.c, object.h, obj-desc.c, z-textblock.c para manejar objetos en Español que usan plural y que son muy diferentes al inglés, como "Ración-> Raciones" o "Perdigón -> Perdigones".
+- 28-03-2026: Se logra ampliar el método que imprime caracteres a color de ASCII a UTF-8 en effects-info.c, método copy_to_textblock_with_coloring(), esto para las tildes de lenguaje español cuando se inspecciona un objeto.
 
 ## Motivación
 Me entantan los juegos Roguelike clásicos como Moria, Rogue, etc, a la vez, siempre me ha gustado el Señor de los Anillos, y que mejor que este gran juego que uno los dos mundos. 
