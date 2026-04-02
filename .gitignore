@@ -14,3 +14,4 @@ src/.ninja_log
 src/.ninja_deps
 src/CMakeCache.txt
 src/libangband.dll.a
+*.epp

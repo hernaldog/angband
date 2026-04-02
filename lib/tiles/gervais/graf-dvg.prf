@@ -918,11 +918,11 @@ object:food:Trozo de Carne:0x82:0x83
 object:food:Rebanada de Carne:0x82:0x83
 object:food:Pastel de Miel:0x82:0x82
 object:food:Trozo de Pan Élfico:0x82:0x86
-object:food:Flask of Whisky:0x88:0x83
-object:food:Pint of Fine Wine:0x82:0x81
-object:food:Sip of Miruvor:0x88:0xc8
-object:food:Swig of Orcish Liquor:0x82:0x80
-object:food:Draught of the Ents:0x88:0xbc
+object:food:Frasco de Whisky:0x88:0x83
+object:food:Sorbo de Vino Fino:0x82:0x81
+object:food:Sorbo de Miruvor:0x88:0xc8
+object:food:Un trago de licor orco:0x82:0x80
+object:food:Trago de los Ents:0x88:0xbc
 object:food:Manzana:0x9a:0xc6
 object:food:Galleta Dura:0x82:0x82
 

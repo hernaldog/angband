@@ -337,11 +337,11 @@ object:food:Ración de Comida:0x89:0x88
 #object:food:Rebanada de Carne
 #object:food:Pastel de Miel
 object:food:Trozo de Pan Élfico:0x89:0x8A
-object:food:Flask of Whisky:0x89:0x8B
-object:food:Pint of Fine Wine:0x89:0x8C
-#object:food:Sip of Miruvor
-#object:food:Swig of Orcish Liquor
-#object:food:Draught of the Ents
+object:food:Frasco de Whisky:0x89:0x8B
+object:food:Sorbo de Vino Fino:0x89:0x8C
+#object:food:Sorbo de Miruvor
+#object:food:Un trago de licor orco
+#object:food:Trago de los Ents
 
 
 ### The shrooms, an interesting collection ###

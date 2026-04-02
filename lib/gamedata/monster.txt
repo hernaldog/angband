@@ -238,6 +238,7 @@ color:w
 ### Nivel de mazmorra 0 ###
 
 name:golfo callejero inmundo
+plural:golfos callejeros inmundos
 base:townsfolk
 color:D
 speed:110
@@ -258,6 +259,7 @@ friends:100:3d4:Same
 desc:Parece sórdido y completamente repugnante.
 
 name:gato flaco
+plural:gatos flacos
 base:feline
 color:U
 speed:110
@@ -274,6 +276,7 @@ flags:RAND_25
 desc:Una bola de pelo flaca con garras afiladas y una mirada amenazante.
 
 name:perrito desaliñado
+plural:perritos desaliñados
 base:canine
 color:U
 speed:110
@@ -344,6 +347,7 @@ flags:RAND_25 | OPEN_DOOR | BASH_DOOR | TAKE_ITEM
 desc:Feo ni siquiera lo describe.
 
 name:idiota del pueblo
+plural:idiotas del pueblo
 base:townsfolk
 color:G
 speed:120
