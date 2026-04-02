@@ -480,11 +480,11 @@ object:cloak:Capa de Pelo:0x94:0x83
 ### The Shields ###
 
 #K:shield:Buckler:0x92:0x80
-object:shield:Large Metal Shield:0x92:0x81
-object:shield:Leather Shield:0x92:0x82
+object:shield:Escudo de Metal Grande:0x92:0x81
+object:shield:Escudo de Cuero:0x92:0x82
 object:shield:Mithril Shield:0x92:0x83
-object:shield:Small Metal Shield:0x92:0x84
-object:shield:Wicker Shield:0x92:0x85
+object:shield:Escudo de Metal Pequeño:0x92:0x84
+object:shield:Escudo de Mimbre:0x92:0x85
 
 
 ### Headgear ###
@@ -907,17 +907,17 @@ GF:SOUND:static:0x99:0x93
 
 
 monster:<player>:0x92:0x80
-monster:Filthy street urchin:0xB1:0x94
-monster:Scrawny cat:0xA5:0x96
-monster:Scruffy little dog:0xA1:0x92
-monster:Farmer Maggot:0xA7:0x8C
-monster:Blubbering idiot:0xB1:0x96
-monster:Boil-covered wretch:0xB1:0x95
-monster:Village idiot:0xB1:0x9C
+monster:Golfo callejero inmundo:0xB1:0x94
+monster:Gato flaco:0xA5:0x96
+monster:Perrito desaliñado:0xA1:0x92
+monster:Granjero Maggot:0xA7:0x8C
+monster:Idiota llorón:0xB1:0x96
+monster:Desgraciado cubierto de forúnculos:0xB1:0x95
+monster:Idiota del pueblo:0xB1:0x9C
 monster:Pitiful-looking beggar:0xB1:0x99
 monster:Mangy-looking leper:0xB1:0x97
 monster:Squint-eyed rogue:0xB1:0x9B
-monster:Singing, happy drunk:0xB1:0x9A
+monster:Borracho cantando y feliz:0xB1:0x9A
 monster:Aimless-looking merchant:0xB1:0x92
 monster:Mean-looking mercenary:0xB1:0x98
 monster:Battle-scarred veteran:0xB1:0x93

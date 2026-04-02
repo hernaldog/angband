@@ -237,7 +237,7 @@ color:w
 
 ### Nivel de mazmorra 0 ###
 
-name:filthy street urchin
+name:golfo callejero inmundo
 base:townsfolk
 color:D
 speed:110
@@ -252,12 +252,12 @@ blow:BEG
 blow:TOUCH:EAT_GOLD
 flags:MALE
 flags:RAND_25 | OPEN_DOOR | TAKE_ITEM
-friends:50:2d1:Scrawny cat
-friends:50:2d1:Scruffy little dog
+friends:50:2d1:Gato flaco
+friends:50:2d1:Perrito desaliñado
 friends:100:3d4:Same
 desc:Parece sórdido y completamente repugnante.
 
-name:scrawny cat
+name:gato flaco
 base:feline
 color:U
 speed:110
@@ -273,7 +273,7 @@ blow:CLAW:HURT:1d1
 flags:RAND_25
 desc:Una bola de pelo flaca con garras afiladas y una mirada amenazante.
 
-name:scruffy little dog
+name:perrito desaliñado
 base:canine
 color:U
 speed:110
@@ -289,7 +289,7 @@ blow:BITE:HURT:1d1
 flags:RAND_25
 desc:Un perro callejero flaco y lleno de pulgas, gruñendo mientras te acercas.
 
-name:Farmer Maggot
+name:Granjero Maggot
 base:humanoid
 color:w
 speed:110
@@ -310,7 +310,7 @@ drop-base:mushroom:100:1:2
 desc:Ha perdido a sus perros. Le han robado sus setas. ¡No es un hobbit
 desc: feliz!
 
-name:blubbering idiot
+name:idiota llorón
 base:townsfolk
 color:W
 speed:110
@@ -326,8 +326,8 @@ flags:MALE
 flags:RAND_25 | TAKE_ITEM
 desc:Tiende a lloriquear mucho.
 
-name:boil-covered wretch
-plural:boil-covered wretches
+name:desgraciado cubierto de forúnculos
+plural:desgraciados cubiertos de forúnculos
 base:townsfolk
 color:g
 speed:110
@@ -343,7 +343,7 @@ flags:MALE
 flags:RAND_25 | OPEN_DOOR | BASH_DOOR | TAKE_ITEM
 desc:Feo ni siquiera lo describe.
 
-name:village idiot
+name:idiota del pueblo
 base:townsfolk
 color:G
 speed:120
@@ -359,7 +359,7 @@ flags:MALE
 flags:RAND_25 | TAKE_ITEM
 desc:Babeante y cómico, pero ¿qué esperabas?
 
-name:pitiful-looking beggar
+name:mendigo de aspecto lastimero
 base:townsfolk
 color:U
 speed:110
@@ -375,7 +375,7 @@ flags:MALE
 flags:RAND_25 | OPEN_DOOR | TAKE_ITEM
 desc:No puedes evitar sentir lástima por él.
 
-name:mangy-looking leper
+name:leproso de aspecto sarnoso
 base:townsfolk
 color:u
 speed:110
@@ -391,7 +391,7 @@ flags:MALE
 flags:RAND_25 | OPEN_DOOR | TAKE_ITEM
 desc:Sientes que no es seguro tocarlo.
 
-name:squint-eyed rogue
+name:pícaro estrábico
 base:townsfolk
 color:b
 speed:110
@@ -410,7 +410,7 @@ flags:OPEN_DOOR | BASH_DOOR | TAKE_ITEM
 desc:Un delincuente fornido, astuto en la calle, que reconoce una presa fácil
 desc: cuando la ve.
 
-name:singing, happy drunk
+name:borracho cantando y feliz
 base:townsfolk
 color:y
 speed:110
@@ -428,7 +428,7 @@ flags:DROP_40 | ONLY_GOLD
 flags:RAND_50 | OPEN_DOOR | BASH_DOOR | TAKE_ITEM
 desc:Le alegra estar sobrio.
 
-name:aimless-looking merchant
+name:mercader de aspecto despreocupado
 base:townsfolk
 color:o
 speed:110
@@ -444,12 +444,12 @@ blow:HIT:HURT:1d3
 flags:MALE
 flags:DROP_40 | ONLY_GOLD
 flags:RAND_50 | OPEN_DOOR | BASH_DOOR | TAKE_ITEM
-friends:30:2d2:Filthy street urchin
+friends:30:2d2:Golfo callejero inmundo
 desc:El típico pisaverde del pueblo, con la bolsa tintineando, buscando más
 desc: amuletos de adorno para comprar.
 
-name:mean-looking mercenary
-plural:mean-looking mercenaries
+name:mercenario de aspecto malvado
+plural:mercenarios de aspecto malvado
 base:townsfolk
 color:r
 speed:110
@@ -467,7 +467,7 @@ flags:DROP_40
 flags:RAND_50 | OPEN_DOOR | BASH_DOOR | TAKE_ITEM
 desc:Ningún trabajo es demasiado bajo para él.
 
-name:battle-scarred veteran
+name:veterano marcado por la batalla
 base:townsfolk
 color:B
 speed:110
@@ -485,8 +485,8 @@ flags:DROP_40
 flags:RAND_50 | OPEN_DOOR | BASH_DOOR | TAKE_ITEM
 desc:No trata bien a los extraños.
 
-name:red-hatted elf
-plural:red-hatted elves
+name:elfo de gorro rojo
+plural:elfos de gorro rojo
 base:humanoid
 color:r
 speed:110
@@ -503,7 +503,7 @@ flags:SEASONAL
 friends:30:1d5:Same
 desc:Es Navidad y este elfo ha bebido unas copas de más.
 
-name:Father Christmas
+name:Papá Noel
 base:humanoid
 color:G
 speed:100
@@ -525,7 +525,7 @@ desc:Es San Nicolás, repartiendo regalos a los niños de la calle.
 
 ### Nivel de mazmorra 1 ###
 
-name:grey mold
+name:moho gris
 base:mold
 color:s
 speed:110
@@ -541,8 +541,8 @@ blow:SPORE:HURT:1d4
 flags:EMPTY_MIND | STUPID
 desc:Una pequeña y extraña vegetación de color gris.
 
-name:grey mushroom patch
-plural:grey mushroom patches
+name:parche de hongos grises
+plural:parches de hongos grises
 base:mushroom
 color:s
 speed:110
@@ -557,8 +557,8 @@ blow:SPORE:CONFUSE:1d4
 flags:IM_POIS | NEVER_MOVE
 desc:¡Ñam! Tiene una pinta bastante apetitosa.
 
-name:giant yellow centipede
-base:centipede
+name:ciempiés amarillo gigante
+base:ciempiés
 color:y
 speed:110
 hit-points:7
@@ -573,8 +573,8 @@ blow:BITE:HURT:1d3
 blow:STING:HURT:1d3
 desc:Mide alrededor de un metro y es carnívoro.
 
-name:giant white centipede
-base:centipede
+name:ciempiés blanco gigante
+base:ciempiés
 color:w
 speed:110
 hit-points:9
@@ -590,7 +590,7 @@ blow:STING:COLD:1d2
 flags:RAND_50 | BASH_DOOR
 desc:Mide alrededor de un metro y es carnívoro.
 
-name:white icky thing
+name:cosa asquerosa blanca
 base:icky thing
 color:w
 speed:110
@@ -606,7 +606,7 @@ flags:EMPTY_MIND
 flags:RAND_25
 desc:Es una criatura pequeña, viscosa y asquerosa.
 
-name:clear icky thing
+name:cosa asquerosa transparente
 base:icky thing
 color:w
 speed:110
@@ -623,8 +623,8 @@ flags:RAND_25
 flags:ATTR_CLEAR
 desc:Es una criatura pequeña, viscosa, asquerosa y amorfa.
 
-name:giant white mouse
-plural:giant white mice
+name:ratón blanco gigante
+plural:ratones blancos gigantes
 base:rodent
 color:w
 speed:110
@@ -641,7 +641,7 @@ flags:MULTIPLY
 flags:RAND_50
 desc:Mide alrededor de un metro de largo con dientes grandes.
 
-name:large white snake
+name:serpiente blanca grande
 base:snake
 color:w
 speed:100
@@ -657,7 +657,7 @@ blow:CRUSH:HURT:1d1
 flags:RAND_50
 desc:Mide alrededor de dos metros y medio.
 
-name:small kobold
+name:kobold pequeño
 base:kobold
 color:y
 speed:110
@@ -673,7 +673,7 @@ blow:HIT:HURT:1d5
 flags:DROP_60
 desc:Es una figura humanoide rechoncha y fea con cara de canino.
 
-name:white worm mass
+name:masa de gusanos blancos
 base:worm
 color:w
 speed:100
@@ -690,7 +690,7 @@ flags:RAND_25 | RAND_50
 flags:HURT_LIGHT | IM_POIS | NO_FEAR
 desc:Es una masa grande y viscosa de gusanos.
 
-name:floating eye
+name:ojo flotante
 base:eye
 color:o
 speed:110
@@ -706,7 +706,7 @@ flags:NEVER_MOVE
 flags:HURT_LIGHT | NO_FEAR
 desc:Un ojo incorpóreo, flotando a unos centímetros del suelo.
 
-name:rock lizard
+name:lagarto de roca
 base:reptile
 color:U
 speed:110
@@ -721,7 +721,7 @@ experience:2
 blow:BITE:HURT:1d1
 desc:Es un pequeño lagarto con piel endurecida.
 
-name:wild dog
+name:perro salvaje
 base:canine
 color:U
 speed:110
@@ -738,7 +738,7 @@ flags:GROUP_AI
 friends:100:2d7:Same
 desc:Es un perro que ladra y gruñe, es peligroso cuando es una manada.
 
-name:soldier ant
+name:hormiga soldado
 base:ant
 color:W
 speed:110
@@ -753,7 +753,7 @@ experience:3
 blow:BITE:HURT:1d2
 desc:Una hormiga grande con poderosas mandíbulas.
 
-name:fruit bat
+name:murciélago frutero
 base:bat
 color:o
 speed:120
@@ -786,8 +786,8 @@ blow:HIT:HURT:1d8
 flags:DROP_60
 desc:Es un humanoide pequeño, con cabeza de perro.
 
-name:shrieker mushroom patch
-plural:shrieker mushroom patches
+name:parche de setas chilladoras
+plural:parche de setas chilladoras
 base:mushroom
 color:R
 speed:110
@@ -805,7 +805,7 @@ innate-freq:4
 spells:SHRIEK
 desc:¡Ñam! Tiene una pinta bastante apetitosa. Aunque no suena tan bien...
 
-name:blubbering icky thing
+name:cosa asquerosa llorona
 base:icky thing
 color:W
 speed:110
@@ -823,8 +823,8 @@ flags:KILL_BODY | TAKE_ITEM
 flags:IM_POIS
 desc:Es una criatura pequeña, viscosa, asquerosa y hambrienta.
 
-name:metallic green centipede
-base:centipede
+name:ciempiés verde metálico
+base:ciempiés
 color:g
 speed:120
 hit-points:10
@@ -840,7 +840,7 @@ blow:STING:ACID:1d1
 flags:RAND_50 | BASH_DOOR
 desc:Mide alrededor de un metro y es carnívoro.
 
-name:soldier
+name:soldado
 base:person
 color:u
 speed:110
@@ -863,7 +863,7 @@ friends-base:80:1d3:person
 friends:50:1d2:Same
 desc:Un guerrero inexperto pero resistente.
 
-name:cutpurse
+name:carterista
 base:person
 color:b
 speed:110
@@ -886,7 +886,7 @@ friends-base:80:1d3:person
 friends:50:1d2:Same
 desc:Un individuo bastante sospechoso.
 
-name:acolyte
+name:acólito
 base:person
 color:g
 speed:110
@@ -912,7 +912,7 @@ friends-base:80:1d3:person
 friends:50:1d2:Same
 desc:Tropieza con sus vestiduras sacerdotales.
 
-name:apprentice
+name:aprendiz
 base:person
 color:r
 speed:110
@@ -938,8 +938,8 @@ friends-base:80:1d3:person
 friends:50:1d2:Same
 desc:Deja un rastro de componentes de hechizos caídos.
 
-name:yellow mushroom patch
-plural:yellow mushroom patches
+name:parche de setas amarillas
+plural:parches de setas amarillas
 base:mushroom
 color:y
 speed:110
@@ -955,8 +955,8 @@ flags:NEVER_MOVE
 flags:IM_POIS
 desc:¡Ñam! Tiene una pinta bastante apetitosa.
 
-name:white jelly
-plural:white jellies
+name:gelatina blanca
+plural:gelatinas blancas
 base:jelly
 color:w
 speed:120
@@ -972,7 +972,7 @@ flags:NEVER_MOVE
 flags:HURT_LIGHT | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP
 desc:Es un gran montón de carne blanca.
 
-name:giant green frog
+name:rana verde gigante
 base:reptile
 color:g
 speed:110
@@ -988,7 +988,7 @@ blow:BITE:HURT:1d3
 flags:RAND_25 | BASH_DOOR
 desc:Es tan grande como un lobo.
 
-name:giant black ant
+name:hormiga negra gigante
 base:ant
 color:D
 speed:110
@@ -1004,7 +1004,7 @@ blow:BITE:HURT:1d4
 flags:RAND_25
 desc:Mide alrededor de un metro.
 
-name:salamander
+name:salamandra
 base:reptile
 color:o
 speed:110
@@ -1021,8 +1021,8 @@ flags:RAND_25
 flags:IM_FIRE
 desc:Un pequeño lagarto negro y naranja.
 
-name:white harpy
-plural:white harpies
+name:arpía blanca
+plural:arpías blancas
 base:hybrid
 color:w
 speed:110
@@ -1041,7 +1041,7 @@ flags:FEMALE | EVIL | ANIMAL
 flags:RAND_50
 desc:Un pájaro volador y chillón con rostro de mujer.
 
-name:blue yeek
+name:yeek azul
 base:yeek
 color:b
 speed:110
@@ -1057,7 +1057,7 @@ blow:HIT:HURT:1d5
 flags:DROP_60
 desc:Una pequeña figura humanoide.
 
-name:Grip, Farmer Maggot's Dog
+name:Grip, el perro del Granjero Maggot
 base:canine
 color:y
 speed:120
@@ -1073,10 +1073,10 @@ blow:BITE:HURT:1d4
 flags:UNIQUE | NAME_COMMA
 flags:RAND_25 | BASH_DOOR
 flags:NO_CONF | NO_SLEEP
-desc:Un perro bastante vicioso perteneciente a Farmer Maggot. Cree que estás
+desc:Un perro bastante vicioso perteneciente al Granjero Maggot. Cree que estás
 desc: robando setas.
 
-name:Fang, Farmer Maggot's Dog
+name:Fang, el perro del Granjero Maggot
 base:canine
 color:y
 speed:120
@@ -1092,10 +1092,10 @@ blow:BITE:HURT:1d4
 flags:UNIQUE | NAME_COMMA
 flags:RAND_25 | BASH_DOOR
 flags:NO_CONF | NO_SLEEP
-desc:Un perro bastante vicioso perteneciente a Farmer Maggot. Cree que estás
+desc:Un perro bastante vicioso perteneciente al Granjero Maggot. Cree que estás
 desc: robando setas.
 
-name:green worm mass
+name:masa de gusanos verdes
 base:worm
 color:g
 speed:100
@@ -1112,8 +1112,8 @@ flags:RAND_25 | RAND_50
 flags:HURT_LIGHT | IM_ACID | NO_FEAR
 desc:Es una masa grande y viscosa de gusanos.
 
-name:cave spider
-base:spider
+name:araña de cueva
+base:araña
 color:p
 speed:120
 hit-points:7
@@ -1129,7 +1129,7 @@ flags:GROUP_AI
 friends:100:2d8:Same
 desc:Es una araña negra que se mueve a trompicones.
 
-name:wild cat
+name:gato salvaje
 base:feline
 color:U
 speed:120
@@ -1147,7 +1147,7 @@ flags:BASH_DOOR
 desc:Un felino más grande de lo normal, silbando fuerte. Sus patas de terciopelo
 desc: esconden un puñado de agujas.
 
-name:crow
+name:cuervo
 base:bird
 color:s
 speed:120
@@ -1183,7 +1183,7 @@ flags:HURT_LIGHT
 desc:Normalmente conocido como Gollum. Ha estado espiando, y quiere su
 desc: 'tesoro'.
 
-name:green ooze
+name:limo verde
 base:jelly
 color:g
 speed:120
@@ -1219,8 +1219,8 @@ spell-freq:15
 spells:BLINK
 desc:Es una forma fantasmal y horrible.
 
-name:metallic blue centipede
-base:centipede
+name:ciempiés azul metálico
+base:ciempiés
 color:b
 speed:120
 hit-points:12
@@ -1236,8 +1236,8 @@ blow:STING:ELEC:1d2
 flags:RAND_50 | BASH_DOOR
 desc:Mide alrededor de un metro y es carnívoro.
 
-name:giant white louse
-plural:giant white lice
+name:piojo blanco gigante
+plural:piojos blancos gigantes
 base:insect
 color:w
 speed:120
@@ -1252,7 +1252,7 @@ experience:1
 blow:BITE:HURT:1d1
 desc:Mide quince centímetros.
 
-name:black naga
+name:naga negro
 base:naga
 color:D
 speed:110
@@ -1268,8 +1268,8 @@ flags:DROP_60
 flags:RAND_25
 desc:Un gran cuerpo de serpiente negra con torso de mujer.
 
-name:spotted mushroom patch
-plural:spotted mushroom patches
+name:parche de setas moteadas
+plural:parches de setas moteadas
 base:mushroom
 color:o
 speed:110
@@ -1285,8 +1285,8 @@ flags:NEVER_MOVE
 flags:IM_POIS
 desc:¡Ñam! Tiene una pinta bastante apetitosa.
 
-name:silver jelly
-plural:silver jellies
+name:gelatina plateada
+plural:gelatinas plateadas
 base:jelly
 color:W
 speed:120
@@ -1307,8 +1307,8 @@ message-invis:DRAIN_MANA:Algo sorbe.
 desc:Es un gran montón de carne plateada que chupa toda la luz de su
 desc: entorno.
 
-name:yellow jelly
-plural:yellow jellies
+name:gelatina amarilla
+plural:gelatinas amarillas
 base:jelly
 color:y
 speed:120
@@ -1327,7 +1327,7 @@ spells:DRAIN_MANA
 message-invis:DRAIN_MANA:Algo sorbe.
 desc:Es un gran montón de carne amarilla.
 
-name:scruffy looking hobbit
+name:hobbit de aspecto desaliñado
 base:humanoid
 color:b
 speed:110
@@ -1346,7 +1346,7 @@ flags:TAKE_ITEM
 desc:Un tipo bajito, con ropas desaliñadas. Parece estar buscando una buena
 desc: taberna.
 
-name:giant white ant
+name:hormiga blanca gigante
 base:ant
 color:w
 speed:110
@@ -1362,7 +1362,7 @@ blow:BITE:HURT:1d4
 friends:100:4d4:same
 desc:Mide alrededor de sesenta centímetros y tiene pinzas afiladas.
 
-name:yellow mold
+name:moho amarillo
 base:mold
 color:y
 speed:110
@@ -1377,8 +1377,8 @@ blow:SPORE:HURT:1d4
 flags:EMPTY_MIND | STUPID
 desc:Es un crecimiento extraño y amarillo en el suelo de la mazmorra.
 
-name:metallic red centipede
-base:centipede
+name:ciempiés rojo metálico
+base:ciempiés
 color:r
 speed:120
 hit-points:18
@@ -1394,7 +1394,7 @@ blow:STING:FIRE:1d2
 flags:RAND_25 | BASH_DOOR
 desc:Mide alrededor de un metro y es carnívoro.
 
-name:yellow worm mass
+name:masa de gusanos amarillos
 base:worm
 color:y
 speed:100
@@ -1411,7 +1411,7 @@ flags:RAND_25 | RAND_50
 flags:HURT_LIGHT | NO_FEAR
 desc:Es una masa grande y viscosa de gusanos.
 
-name:clear worm mass
+name:masa de gusanos transparentes
 base:worm
 color:w
 speed:100
@@ -1429,7 +1429,7 @@ flags:HURT_LIGHT | IM_POIS | NO_FEAR
 flags:ATTR_CLEAR
 desc:Es una masa asquerosa de gusanos venenosos.
 
-name:radiation eye
+name:ojo de radiación
 base:eye
 color:R
 speed:110
@@ -1447,7 +1447,7 @@ spell-freq:11
 spells:DRAIN_MANA
 desc:Un ojo incorpóreo, crepitando con energía.
 
-name:kobold shaman
+name:chamán kobold
 base:kobold
 color:r
 speed:110
@@ -1471,7 +1471,7 @@ desc:Es un kobold vestido con pieles y gesticulando salvajemente.
 
 ### Nivel de mazmorra 4 ###
 
-name:cave lizard
+name:lagarto de cueva
 base:reptile
 color:u
 speed:110
@@ -1486,7 +1486,7 @@ experience:8
 blow:BITE:HURT:1d5
 desc:Es un lagarto acorazado con un mordisco potente.
 
-name:scout
+name:explorador
 base:person
 color:W
 speed:110
@@ -1515,7 +1515,7 @@ friends-base:80:1d3:person
 friends:50:1d2:Same
 desc:Un cazador ágil, listo y relajado.
 
-name:gallant
+name:galante
 base:person
 color:w
 speed:110
@@ -1542,7 +1542,7 @@ friends-base:80:1d3:person
 friends:50:1d2:Same
 desc:Un aventurero profundamente religioso y hábil en combate.
 
-name:tamer
+name:domador
 base:person
 color:y
 speed:110
@@ -1567,8 +1567,8 @@ friends-base:80:1d3:person
 friends:50:1d2:Same
 desc:Un amante de la naturaleza.
 
-name:blue jelly
-plural:blue jellies
+name:gelatina azul
+plural:gelatinas azules
 base:jelly
 color:b
 speed:110
@@ -1585,8 +1585,8 @@ flags:NEVER_MOVE
 flags:HURT_LIGHT | IM_COLD | NO_CONF | NO_SLEEP
 desc:Es un gran montón de carne azul pulsante.
 
-name:creeping copper coins
-plural:piles of creeping copper coins
+name:monedas de cobre rastreras
+plural:montones de monedas de cobre rastreras
 base:creeping coins
 color:u
 speed:100
@@ -1602,7 +1602,7 @@ blow:TOUCH:POISON:2d4
 desc:Parece un montón de monedas de cobre.
 mimic:gold:cobre
 
-name:giant white rat
+name:rata blanca gigante
 base:rodent
 color:W
 speed:110
@@ -1619,7 +1619,7 @@ flags:MULTIPLY
 flags:RAND_25
 desc:Es un roedor muy vicioso.
 
-name:blue worm mass
+name:masa de gusanos azules
 base:worm
 color:b
 speed:100
@@ -1636,7 +1636,7 @@ flags:RAND_25 | RAND_50
 flags:HURT_LIGHT | IM_COLD | NO_FEAR
 desc:Es una masa grande y viscosa de gusanos.
 
-name:large grey snake
+name:serpiente gris grande
 base:snake
 color:s
 speed:100
@@ -1652,7 +1652,7 @@ blow:CRUSH:HURT:1d8
 flags:RAND_25
 desc:Mide alrededor de tres metros.
 
-name:kobold archer
+name:arquero kobold
 base:kobold
 color:W
 speed:110
@@ -1672,8 +1672,8 @@ friends-base:30:1d2:kobold
 friends-base:70:1d2:kobold
 desc:Es un feo humanoide con cabeza de perro que empuña un arco.
 
-name:silver mouse
-plural:silver mice
+name:ratón plateado
+plural:ratones plateados
 base:rodent
 color:W
 speed:110
@@ -1693,7 +1693,7 @@ desc: lámpara sobre él, parece fortalecerse.
 
 ### Nivel de mazmorra 5 ###
 
-name:Bullroarer the Hobbit
+name:Bullroarer el Hobbit
 base:humanoid
 color:U
 speed:120
@@ -1708,11 +1708,11 @@ blow:HIT:HURT:1d8
 blow:HIT:HURT:1d8
 flags:UNIQUE | MALE
 flags:DROP_2 | DROP_GOOD | ONLY_ITEM
-friends:80:1d7:Scruffy looking hobbit:servant
+friends:80:1d7:Hobbit de aspecto desaliñado:servant
 desc:Es un hobbit fornido, renombrado por su inusual fuerza y vigor. Puede ser
 desc: un oponente problemático.
 
-name:green naga
+name:naga verde
 base:naga
 color:g
 speed:110
@@ -1731,7 +1731,7 @@ flags:IM_ACID
 desc:Una gran serpiente verde con torso de mujer. Su piel verde reluce con
 desc: ácido.
 
-name:blue ooze
+name:limo azul
 base:jelly
 color:b
 speed:110
@@ -1748,7 +1748,7 @@ flags:RAND_25 | RAND_50
 flags:IM_COLD | NO_CONF | NO_SLEEP
 desc:Es azul y está supurando.
 
-name:green glutton ghost
+name:fantasma glotón verde
 base:ghost
 color:g
 speed:130
@@ -1765,8 +1765,8 @@ flags:RAND_25 | RAND_50
 flags-off:IM_COLD
 desc:Es un fantasma verde muy feo con un apetito voraz.
 
-name:green jelly
-plural:green jellies
+name:gelatina verde
+plural:gelatinas verdes
 base:jelly
 color:g
 speed:120
@@ -1782,7 +1782,7 @@ flags:NEVER_MOVE
 flags:HURT_LIGHT | IM_ACID | HURT_COLD | NO_CONF | NO_SLEEP
 desc:Es un gran montón de carne verde pulsante.
 
-name:large kobold
+name:kobold grande
 base:kobold
 color:b
 speed:110
@@ -1801,7 +1801,7 @@ friends-base:30:1d2:kobold
 desc:Es una figura del tamaño de un hombre con la cara de kobold, demasiado
 desc: reconocible.
 
-name:skeleton kobold
+name:esqueleto de kobold
 base:skeleton
 color:w
 speed:110
@@ -1817,7 +1817,7 @@ flags:EMPTY_MIND
 flags:OPEN_DOOR | BASH_DOOR
 desc:Es un pequeño esqueleto de kobold animado.
 
-name:grey icky thing
+name:cosa asquerosa gris
 base:icky thing
 color:s
 speed:110
@@ -1832,7 +1832,7 @@ blow:TOUCH:HURT:1d5
 flags:EMPTY_MIND
 desc:Es una criatura pequeña, viscosa, asquerosa y desagradable.
 
-name:disenchanter eye
+name:ojo desencantador
 base:eye
 color:v
 speed:100
@@ -1851,7 +1851,7 @@ spell-freq:9
 spells:DRAIN_MANA
 desc:Un ojo incorpóreo, crepitando con magia.
 
-name:red worm mass
+name:masa de gusanos rojos
 base:worm
 color:r
 speed:100
@@ -1868,7 +1868,7 @@ flags:RAND_25 | RAND_50 | BASH_DOOR
 flags:HURT_LIGHT | IM_FIRE | NO_FEAR
 desc:Es una masa grande y viscosa de gusanos.
 
-name:copperhead snake
+name:serpiente cabeza de cobre
 base:snake
 color:o
 speed:110
@@ -1884,8 +1884,8 @@ flags:RAND_50
 flags:IM_POIS
 desc:Tiene una cabeza cobriza y colmillos afilados y venenosos.
 
-name:giant white dragon fly
-plural:giant white dragon flies
+name:mosca blanca gigante
+plural:moscas blancas gigantes
 base:dragon fly
 color:w
 speed:110
@@ -1902,8 +1902,8 @@ innate-freq:10
 spells:BR_COLD
 desc:Es una mosca grande que destila escarcha.
 
-name:giant green dragon fly
-plural:giant green dragon flies
+name:mosca verde gigante
+plural:moscas verdes gigantes
 base:dragon fly
 color:g
 speed:110
@@ -1921,8 +1921,8 @@ innate-freq:10
 spells:BR_POIS
 desc:Una libélula enorme y apestosa.
 
-name:rot jelly
-plural:rot jellies
+name:gelatina podrida
+plural:gelatinas podridas
 base:jelly
 color:u
 speed:120
@@ -1942,8 +1942,8 @@ desc: El olor terrible que exhala también es muy difícil de eliminar...
 
 ### Nivel de mazmorra 6 ###
 
-name:purple mushroom patch
-plural:purple mushroom patches
+name:parche de setas moradas
+plural:parches de setas moradas
 base:mushroom
 color:P
 speed:110
@@ -1960,7 +1960,7 @@ blow:SPORE:LOSE_CON:1d2
 flags:NEVER_MOVE
 desc:¡Ñam! Tiene una pinta bastante apetitosa.
 
-name:brown mold
+name:moho marrón
 base:mold
 color:u
 speed:110
@@ -1975,7 +1975,7 @@ blow:SPORE:CONFUSE:1d4
 flags:EMPTY_MIND | STUPID
 desc:Un crecimiento marrón extraño en el suelo de la mazmorra.
 
-name:giant brown bat
+name:murciélago marrón gigante
 base:bat
 color:u
 speed:130
@@ -1990,8 +1990,8 @@ blow:BITE:HURT:1d3
 flags:RAND_50
 desc:Chilla mientras ataca.
 
-name:creeping silver coins
-plural:piles of creeping silver coins
+name:monedas de plata rastreras
+plural:montones de monedas de plata rastreras
 base:creeping coins
 color:s
 speed:100
@@ -2024,12 +2024,12 @@ flags:DROP_20
 flags:HURT_LIGHT
 innate-freq:15
 spells:ARROW
-friends:30:1d3:Crow
+friends:30:1d3:Cuervo
 friends:100:2d9:Same
 desc:Es uno de los muchos orcos 'esclavos' más débiles, a menudo confundidos con
 desc: un goblin.
 
-name:rattlesnake
+name:serpiente de cascabel
 base:snake
 color:r
 speed:110
@@ -2046,8 +2046,8 @@ flags:IM_POIS
 desc:Es reconocido por el extremo escamoso y duro de su cuerpo que a menudo
 desc: sacude para asustar a su presa.
 
-name:giant black dragon fly
-plural:giant black dragon flies
+name:mosca negra gigante
+plural:moscas negras gigantes
 base:dragon fly
 color:s
 speed:120
@@ -2064,8 +2064,8 @@ innate-freq:10
 spells:BR_ACID
 desc:Del tamaño de un pájaro grande, esta mosca destila ácido cáustico.
 
-name:giant gold dragon fly
-plural:giant gold dragon flies
+name:mosca dorada gigante
+plural:moscas doradas gigantes
 base:dragon fly
 color:y
 speed:120
@@ -2086,8 +2086,8 @@ desc: zumbido impregna el aire.
 
 ### Nivel de mazmorra 7 ###
 
-name:crow of Durthang
-plural:crows of Durthang
+name:cuervo de Durthang
+plural:cuervos de Durthang
 base:bird
 color:D
 speed:120
@@ -2108,7 +2108,7 @@ message-invis:WOUND:Algo grazna tres veces.
 desc:Un pájaro de pico torcido con plumas negras y desaliñadas. Se burla de ti,
 desc: y te das cuenta de que su desprecio puede matar.
 
-name:cave orc
+name:orco de cueva
 base:orc
 color:G
 speed:110
@@ -2129,8 +2129,8 @@ friends:50:1d8:snaga
 friends:100:2d6:Same
 desc:A menudo se encuentra en grandes cantidades en cuevas profundas.
 
-name:wood spider
-base:spider
+name:araña de madera
+base:araña
 color:U
 speed:120
 hit-points:11
@@ -2147,7 +2147,7 @@ flags:IM_POIS | GROUP_AI
 friends:100:2d7:Same
 desc:Corre hacia ti.
 
-name:bloodshot eye
+name:ojo inyectado en sangre
 base:eye
 color:r
 speed:110
@@ -2165,7 +2165,7 @@ spell-freq:7
 spells:DRAIN_MANA
 desc:Un ojo incorpóreo, inyectado en sangre y desagradable.
 
-name:red naga
+name:naga rojo
 base:naga
 color:r
 speed:110
@@ -2182,8 +2182,8 @@ flags:DROP_60
 flags:RAND_25 | TAKE_ITEM
 desc:Una gran serpiente roja con torso de mujer.
 
-name:red jelly
-plural:red jellies
+name:gelatina roja
+plural:gelatinas rojas
 base:jelly
 color:r
 speed:110
@@ -2199,7 +2199,7 @@ flags:NEVER_MOVE
 flags:HURT_LIGHT | HURT_COLD | NO_CONF | NO_SLEEP
 desc:Es un gran montículo pulsante de carne roja.
 
-name:giant red frog
+name:rana roja gigante
 base:reptile
 color:r
 speed:110
@@ -2215,7 +2215,7 @@ blow:BITE:LOSE_STR:2d4
 flags:RAND_50 | BASH_DOOR
 desc:Parece venenoso.
 
-name:green icky thing
+name:cosa asquerosa verde
 base:icky thing
 color:g
 speed:110
@@ -2231,7 +2231,7 @@ flags:EMPTY_MIND
 flags:IM_ACID
 desc:Es una criatura pequeña, viscosa, asquerosa y ácida.
 
-name:zombified kobold
+name:kobold zombificado
 base:zombie
 color:s
 speed:110
@@ -2250,7 +2250,7 @@ flags:NO_FEAR
 desc:Es un cadáver de kobold animado. La carne se cae a pedazos mientras
 desc: avanza torpemente.
 
-name:lost soul
+name:alma perdida
 base:ghost
 color:B
 speed:110
@@ -2269,8 +2269,8 @@ spell-freq:15
 spells:DRAIN_MANA | TPORT
 desc:Es casi insustancial.
 
-name:eastern dwarf
-plural:eastern dwarves
+name:enano oriental
+plural:enanos orientales
 base:humanoid
 color:D
 speed:110
@@ -2291,7 +2291,7 @@ spells:CONF | DARKNESS
 desc:Un enano de una de las parentelas orientales que ha caído bajo el dominio
 desc: de Morgoth.
 
-name:night lizard
+name:lagarto nocturno
 base:reptile
 color:b
 speed:110
@@ -2307,7 +2307,7 @@ blow:BITE:HURT:1d6
 blow:BITE:HURT:1d6
 desc:Es un lagarto negro con escamas superpuestas y una mandíbula poderosa.
 
-name:Mughash the Kobold Lord
+name:Mughash el Señor Kobold
 base:kobold
 color:v
 speed:110
@@ -2324,16 +2324,16 @@ blow:HIT:HURT:1d10
 blow:HIT:HURT:1d10
 flags:UNIQUE | MALE | MOVE_BODY
 flags:DROP_1 | DROP_GOOD | ONLY_ITEM
-friends:100:1d10:Small kobold:servant
+friends:100:1d10:Kobold pequeño:servant
 friends:100:1d10:Kobold:servant
-friends:100:1d3:Kobold shaman:servant
-friends:100:1d5:Kobold archer:servant
-friends:100:1d5:Large kobold:bodyguard
+friends:100:1d3:Chamán kobold:servant
+friends:100:1d5:Arquero kobold:servant
+friends:100:1d5:Kobold grande:bodyguard
 desc:Fuerte y poderoso, para ser un kobold.
 
 ### Nivel de mazmorra 8 ###
 
-name:Wormtongue, Agent of Saruman
+name:Lengua de Gusano, Agente de Saruman
 base:person
 color:B
 speed:110
@@ -2359,7 +2359,7 @@ spells:BO_COLD
 desc:Ha estado espiando para Saruman. Es un desgraciado llorón sin moral y con
 desc: hábitos asquerosos.
 
-name:Lagduf, the Snaga
+name:Lagduf, el Snaga
 base:orc
 color:y
 speed:110
@@ -2377,12 +2377,12 @@ blow:HIT:HURT:1d9
 blow:HIT:HURT:1d9
 flags:UNIQUE | NAME_COMMA
 flags:DROP_1 | DROP_GOOD | ONLY_ITEM
-friends:80:2d7:Wolf
+friends:80:2d7:Lobo
 friends:100:5d4:snaga:servant
 desc:Un capitán de un regimiento de orcos más débiles, Lagduf mantiene su tropa
 desc: en orden con muestras de violencia excesiva.
 
-name:terrified yeek
+name:yeek aterrorizado
 base:yeek
 color:u
 speed:110
@@ -2399,7 +2399,7 @@ innate-freq:9
 spells:SHRIEK
 desc:Es un extraño humanoide pequeño en un estado constante de terror extremo.
 
-name:giant salamander
+name:salamandra gigante
 base:reptile
 color:y
 speed:110
@@ -2419,7 +2419,7 @@ innate-freq:9
 spells:BR_FIRE
 desc:Un gran lagarto negro y amarillo. ¡Será mejor que huyas!
 
-name:green mold
+name:moho verde
 base:mold
 color:g
 speed:110
@@ -2435,7 +2435,7 @@ flags:EMPTY_MIND | STUPID
 flags:IM_ACID
 desc:Es un crecimiento extraño en el suelo de la mazmorra.
 
-name:skeleton orc
+name:esqueleto de orco
 base:skeleton
 color:w
 speed:110
@@ -2451,7 +2451,7 @@ flags:ORC | EMPTY_MIND
 flags:OPEN_DOOR | BASH_DOOR
 desc:Es un esqueleto de orco animado.
 
-name:lemure
+name:lémur
 base:minor demon
 color:U
 speed:110
@@ -2468,7 +2468,7 @@ flags:NO_FEAR
 friends:100:2d7:Same
 desc:Es un demonio menor pero agresivo.
 
-name:orc tracker
+name:rastreador orco
 base:orc
 color:u
 speed:110
@@ -2487,7 +2487,7 @@ innate-freq:12
 spells:ARROW
 desc:Un orco pequeño con fosas nasales anchas y resoplando.
 
-name:ruffian
+name:rufián
 base:person
 color:s
 speed:110
@@ -2509,8 +2509,8 @@ desc:Un bruto inculto con una clava, una honda y un látigo.
 
 ### Nivel de mazmorra 9 ###
 
-name:giant black louse
-plural:giant black lice
+name:piojo negro gigante
+plural:piojos negros gigantes
 base:insect
 color:D
 speed:120
@@ -2524,8 +2524,8 @@ experience:3
 blow:BITE:HURT:1d2
 desc:Te pica con solo mirarlo.
 
-name:yeti
-plural:yeti
+name:yetis
+plural:yetis
 base:yeti
 color:w
 speed:110
@@ -2542,7 +2542,7 @@ blow:CLAW:HURT:1d3
 blow:BITE:HURT:1d4
 desc:Una gran figura blanca cubierta de pelaje hirsuto.
 
-name:bloodshot icky thing
+name:cosa asquerosa inyectada en sangre
 base:icky thing
 color:r
 speed:110
@@ -2561,7 +2561,7 @@ spells:DRAIN_MANA
 message-invis:DRAIN_MANA:Algo sorbe.
 desc:Es una criatura extraña, viscosa y asquerosa.
 
-name:giant grey rat
+name:rata gris gigante
 base:rodent
 color:s
 speed:110
@@ -2578,8 +2578,8 @@ flags:MULTIPLY
 flags:RAND_25
 desc:Es un roedor de tamaño inusual.
 
-name:black harpy
-plural:black harpies
+name:arpía negra
+plural:arpías negras
 base:hybrid
 color:D
 speed:120
@@ -2598,7 +2598,7 @@ flags:FEMALE | EVIL | ANIMAL
 flags:RAND_25
 desc:Rostro de mujer en el cuerpo de un pájaro negro y vicioso.
 
-name:orc shaman
+name:chamán orco
 base:orc
 color:r
 speed:110
@@ -2621,7 +2621,7 @@ spell-freq:8
 spells:BLINK | WOUND | MISSILE
 desc:Un orco vestido con pieles que gesticula salvajemente.
 
-name:baby blue dragon
+name:bebé dragón azul
 base:dragon
 color:b
 speed:110
@@ -2643,7 +2643,7 @@ spells:BR_ELEC
 desc:Este dragón recién nacido aún es suave, sus ojos no acostumbrados a la luz
 desc: y sus escamas de un azul pálido.
 
-name:baby white dragon
+name:bebé dragón blanco
 base:dragon
 color:w
 speed:110
@@ -2665,7 +2665,7 @@ spells:BR_COLD
 desc:Este dragón recién nacido aún es suave, sus ojos no acostumbrados a la luz
 desc: y sus escamas de un blanco pálido.
 
-name:baby green dragon
+name:bebé dragón verde
 base:dragon
 color:g
 speed:110
@@ -2687,7 +2687,7 @@ spells:BR_POIS
 desc:Este dragón recién nacido aún es suave, sus ojos no acostumbrados a la luz
 desc: y sus escamas de un verde enfermizo.
 
-name:baby black dragon
+name:bebé dragón negro
 base:dragon
 color:s
 speed:110
@@ -2709,7 +2709,7 @@ spells:BR_ACID
 desc:Este dragón recién nacido aún es suave, sus ojos no acostumbrados a la luz
 desc: y sus escamas de un negro apagado.
 
-name:baby red dragon
+name:bebé dragón rojo
 base:dragon
 color:r
 speed:110
@@ -2731,7 +2731,7 @@ spells:BR_FIRE
 desc:Este dragón recién nacido aún es suave, sus ojos no acostumbrados a la luz
 desc: y sus escamas de un rojo pálido.
 
-name:giant red ant
+name:hormiga roja gigante
 base:ant
 color:r
 speed:110
@@ -2747,7 +2747,7 @@ blow:BITE:HURT:1d4
 blow:STING:LOSE_STR:1d4
 desc:Es grande y tiene mandíbulas venenosas.
 
-name:Brodda, the Easterling
+name:Brodda, el Oriental
 base:person
 color:U
 speed:110
@@ -2768,7 +2768,7 @@ flags:DROP_1 | DROP_GOOD | ONLY_ITEM
 flags:OPEN_DOOR
 desc:Un tipo despreciable, Brodda se mete con mujeres y niños indefensos.
 
-name:king cobra
+name:rey cobra
 base:snake
 color:g
 speed:110
@@ -2787,7 +2787,7 @@ innate-freq:4
 spells:SPIT
 desc:Es una serpiente grande con cara encapuchada.
 
-name:baby gold dragon
+name:bebé dragón dorado
 base:dragon
 color:y
 speed:110
@@ -2808,7 +2808,7 @@ spells:BR_SOUN
 desc:Este dragón recién nacido aún es suave, sus ojos no acostumbrados a la luz
 desc: y sus escamas de un oro pálido.
 
-name:cave bear
+name:oso de cueva
 base:quadruped
 color:u
 speed:110
@@ -2836,8 +2836,8 @@ desc: invadiendo su territorio.
 
 ### Nivel de mazmorra 10 ###
 
-name:giant spider
-base:spider
+name:araña gigante
+base:araña
 color:V
 speed:110
 hit-points:55
@@ -2857,7 +2857,7 @@ innate-freq:10
 spells:WEAVE
 desc:Es una araña negra enorme cuyo cuerpo abultado está hinchado de veneno.
 
-name:blacklock mage
+name:mago blacklock
 base:humanoid
 color:r
 speed:120
@@ -2880,7 +2880,7 @@ drop-base:magic book:10:1:1
 drop-base:magic book:10:1:1
 desc:Un enano corrupto del este, vestido con malla negra, lanzándote hechizos.
 
-name:Orfax, Son of Boldor
+name:Orfax, Hijo de Boldor
 base:yeek
 color:B
 speed:120
@@ -2902,13 +2902,13 @@ flags:FORCE_SLEEP
 spell-freq:4
 spells:BLINK | CONF | HEAL | SLOW | TELE_TO
 spells:S_MONSTER
-friends:50:2d5:terrified yeek:servant
-friends:100:2d5:Blue yeek:servant
-friends:50:1d3:Master yeek:servant
+friends:50:2d5:yeek aterrorizado:servant
+friends:100:2d5:Yeek azul:servant
+friends:50:1d3:Maestro yeek:servant
 desc:¡Es igual que su papi! Conoce poderosos hechizos, pero por suerte es un
 desc: yeek.
 
-name:stonefoot warrior
+name:guerrero stonefoot
 base:humanoid
 color:u
 speed:110
@@ -2925,8 +2925,8 @@ flags:MALE | EVIL
 flags:DROP_60
 desc:Un enano del este con una cota de anillas de hierro y blandiendo un hacha.
 
-name:clear mushroom patch
-plural:clear mushroom patches
+name:parche de setas transparentes
+plural:parches de setas transparentes
 base:mushroom
 color:w
 speed:120
@@ -2943,7 +2943,7 @@ flags:NEVER_MOVE
 flags:ATTR_CLEAR
 desc:¡Ñam! Tiene una pinta bastante apetitosa.
 
-name:Grishnákh, the Hill Orc
+name:Grishnákh, el Orco de la Colina
 base:orc
 color:y
 speed:110
@@ -2962,12 +2962,12 @@ blow:HIT:HURT:1d10
 flags:UNIQUE | NAME_COMMA
 flags:DROP_1 | DROP_GOOD | ONLY_ITEM
 friends:50:2d5:snaga:servant
-friends:80:2d7:Wolf
-friends:100:5d4:cave orc:servant
+friends:80:2d7:Lobo
+friends:100:5d4:orco de cueva:servant
 desc:Es un orco astuto y retorcido de naturaleza caótica.
 
-name:giant white tick
-base:spider
+name:garrapata blanca gigante
+base:araña
 color:w
 speed:100
 hit-points:54
@@ -2983,7 +2983,7 @@ flags:ANIMAL | WEIRD_MIND
 flags:IM_POIS
 desc:Se mueve lentamente hacia ti.
 
-name:hairy mold
+name:moho peludo
 base:mold
 color:o
 speed:110
@@ -2998,7 +2998,7 @@ blow:SPORE:POISON:1d3
 flags:EMPTY_MIND | STUPID
 desc:Es un crecimiento extraño y peludo en el suelo de la mazmorra.
 
-name:disenchanter mold
+name:moho desencantador
 base:mold
 color:v
 speed:110
@@ -3017,7 +3017,7 @@ spell-freq:11
 spells:DRAIN_MANA
 desc:Es un crecimiento extraño y brillante en el suelo de la mazmorra.
 
-name:pseudo-dragon
+name:pseudo-dragón
 base:dragon
 color:o
 speed:110
@@ -3041,7 +3041,7 @@ spells:BR_DARK | BR_LIGHT
 desc:Un pariente pequeño del dragón que habita en cuevas oscuras.
 
 name:tengu
-plural:tengu
+plural:tengus
 base:minor demon
 color:R
 speed:120
@@ -3060,8 +3060,8 @@ spells:BLINK | TELE_TO
 desc:Es un demonio que se mueve rápido y parpadea rápidamente dentro y fuera de
 desc: la existencia; ningún otro demonio iguala su maestría en el teletransporte.
 
-name:creeping gold coins
-plural:piles of creeping gold coins
+name:monedas de oro rastreras
+plural:montones de monedas de oro rastreras
 base:creeping coins
 color:y
 speed:100
@@ -3079,8 +3079,8 @@ desc:Parece un montón de monedas de oro, hasta que empieza a gatear hacia ti
 desc: sobre diminutas patas.
 mimic:gold:oro
 
-name:wolf
-plural:wolves
+name:lobo
+plural:lobos
 base:canine
 color:u
 speed:120
@@ -3098,8 +3098,8 @@ flags:GROUP_AI
 friends:100:2d10:Same
 desc:Aúlla y te muerde.
 
-name:giant fruit fly
-plural:giant fruit flies
+name:mosca de la fruta gigante
+plural:moscas de la fruta gigantes
 base:insect
 color:G
 speed:120
@@ -3113,7 +3113,7 @@ experience:4
 blow:BITE:HURT:1d2
 desc:Una plaga molesta que se reproduce rápido.
 
-name:panther
+name:pantera
 base:feline
 color:u
 speed:120
@@ -3131,8 +3131,8 @@ flags:BASH_DOOR
 desc:Un gran gato negro, acechándote con intención. Cree que eres su próxima
 desc: comida.
 
-name:witch
-plural:witches
+name:bruja
+plural:brujas
 base:person
 color:P
 speed:110
@@ -3152,15 +3152,15 @@ spell-freq:8
 spells:WHIP
 spells:WOUND | SCARE | DARKNESS
 drop-base:shadow book:5:1:1
-friends:50:1d2:Illusionist
-friends:50:1d2:Priest
-friends:50:1d2:warrior
+friends:50:1d2:Ilusionista
+friends:50:1d2:Sacerdote
+friends:50:1d2:guerrero
 friends:50:1d2:Same
 desc:Viste de negro y huele a podredumbre.
 
 ### Nivel de mazmorra 11 ###
 
-name:baby multi-hued dragon
+name:bebé dragón multicolor
 base:dragon
 color:v
 speed:110
@@ -3183,7 +3183,7 @@ spells:BR_ACID | BR_COLD | BR_ELEC | BR_FIRE | BR_POIS
 desc:Este dragón recién nacido aún es suave, sus ojos no acostumbrados a la luz
 desc: y sus escamas brillan con destellos de muchos colores diferentes.
 
-name:hippogriff
+name:hipogrifo
 base:hybrid
 color:U
 speed:110
@@ -3201,7 +3201,7 @@ flags:ANIMAL
 flags:BASH_DOOR
 desc:Un extraño híbrido de águila y caballo. Parece raro.
 
-name:zombified orc
+name:orco zombificado
 base:zombie
 color:s
 speed:110
@@ -3219,7 +3219,7 @@ flags:ORC | EMPTY_MIND
 flags:NO_FEAR
 desc:Es un cadáver de orco que se arrastra dejando un rastro de carne.
 
-name:drúadan mage
+name:mago drúadan
 base:person
 color:r
 speed:110
@@ -3243,7 +3243,7 @@ drop-base:magic book:5:1:1
 friends:100:4d4:Same
 desc:Un mago de baja estatura con piernas rechonchas y una barba rala.
 
-name:old forest tree
+name:árbol del bosque viejo
 base:tree
 color:g
 speed:100
@@ -3264,7 +3264,7 @@ desc:Un árbol antiguo que parece observarte.
 
 ### Nivel de mazmorra 12 ###
 
-name:black mamba
+name:mamba negra
 base:snake
 color:D
 speed:120
@@ -3283,8 +3283,8 @@ spells:SPIT
 desc:Tiene la piel negra y brillante, un cuerpo esbelto y colmillos altamente
 desc: venenosos.
 
-name:white wolf
-plural:white wolves
+name:lobo blanco
+plural:lobos blancos
 base:canine
 color:w
 speed:120
@@ -3304,8 +3304,8 @@ friends:100:2d7:Same
 desc:Un lobo grande y musculoso de los páramos del norte. Su aliento es frío y
 desc: helado y su pelaje cubierto de escarcha.
 
-name:grape jelly
-plural:grape jellies
+name:gelatina de uva
+plural:gelatinas de uva
 base:jelly
 color:P
 speed:110
@@ -3326,7 +3326,7 @@ message-invis:DRAIN_MANA:Algo sorbe.
 desc:¡Ñam! Tiene una pinta bastante apetitosa. Es un montículo pulsante de
 desc: carne brillante.
 
-name:nether worm mass
+name:masa de gusanos infernales
 base:worm
 color:D
 speed:100
@@ -3344,7 +3344,7 @@ flags:HURT_LIGHT | NO_FEAR | IM_NETHER
 desc:Es una masa asquerosa de gusanos oscuros, comiéndose unos a otros, el suelo,
 desc: el aire, a ti....
 
-name:Golfimbul, the Hill Orc Chief
+name:Golfimbul, el Jefe Orco de la Colina
 base:orc
 color:Y
 speed:110
@@ -3365,12 +3365,12 @@ flags:DROP_2 | DROP_GOOD | ONLY_ITEM
 flags:IM_COLD | IM_ELEC | IM_FIRE | IM_POIS
 friends:50:4d4:snaga:servant
 friends:80:2d7:Warg
-friends:100:5d4:cave orc:servant
-friends:100:1d1:Bullroarer the Hobbit
-friends:100:1d1:Grishnákh, the Hill Orc
+friends:100:5d4:orco de cueva:servant
+friends:100:1d1:Bullroarer el Hobbit
+friends:100:1d1:Grishnákh, el Orco de la Colina
 desc:Un líder de una banda de orcos asaltantes, se mete con los hobbits.
 
-name:master yeek
+name:maestro yeek
 base:yeek
 color:U
 speed:110
@@ -3394,7 +3394,7 @@ drop-base:magic book:5:1:1
 drop-base:magic book:5:1:1
 desc:Un pequeño humanoide que irradia cierto poder.
 
-name:priest
+name:sacerdote
 base:person
 color:g
 speed:110
@@ -3419,13 +3419,13 @@ spells:BA_LIGHT | BA_HOLY
 spells:S_KIN
 drop-base:prayer book:8:1:1
 drop-base:prayer book:8:1:1
-friends:50:1d2:Brigand
-friends:50:1d2:Illusionist
-friends:50:1d2:warrior
+friends:50:1d2:Brigante
+friends:50:1d2:Ilusionista
+friends:50:1d2:guerrero
 friends:50:1d2:Same
 desc:Un hombre con túnica, dedicado a su dios.
 
-name:ironfist priest
+name:sacerdote puño de hierro
 base:humanoid
 color:P
 speed:120
@@ -3448,7 +3448,7 @@ drop-base:shadow book:8:1:1
 desc:Un enano del este, vestido todo de negro, cantando palabras de brujería
 desc: oscura.
 
-name:air spirit
+name:espíritu del aire
 base:elemental
 color:B
 speed:130
@@ -3465,7 +3465,7 @@ flags:RAND_25 | RAND_50 | BASH_DOOR
 flags:IM_ELEC
 desc:Un torbellino de aire sensible.
 
-name:skeleton human
+name:esqueleto humano
 base:skeleton
 color:w
 speed:110
@@ -3481,7 +3481,7 @@ flags:EMPTY_MIND
 flags:OPEN_DOOR | BASH_DOOR
 desc:Es un esqueleto humano animado.
 
-name:zombified human
+name:humano zombificado
 base:zombie
 color:s
 speed:110
@@ -3498,7 +3498,7 @@ flags:EMPTY_MIND
 flags:NO_FEAR
 desc:Es un cadáver humano que se arrastra dejando trozos de carne detrás.
 
-name:tiger
+name:tigre
 base:feline
 color:o
 speed:120
@@ -3517,7 +3517,7 @@ flags:BASH_DOOR
 desc:Uno de los más grandes de su especie, una forma estilizada naranja y negra
 desc: se acerca sigilosamente, lista para abalanzarse.
 
-name:moaning spirit
+name:espíritu quejumbroso
 base:ghost
 color:u
 speed:120
@@ -3537,7 +3537,7 @@ spell-freq:15
 spells:SCARE | TPORT
 desc:Una aparición fantasmal que chilla horriblemente.
 
-name:warrior
+name:guerrero
 base:person
 color:u
 speed:110
@@ -3556,14 +3556,14 @@ flags:DROP_1
 flags:OPEN_DOOR
 innate-freq:10
 spells:BOLT
-friends:50:1d2:Brigand
-friends:50:1d2:Priest
-friends:50:1d2:Illusionist
+friends:50:1d2:Brigante
+friends:50:1d2:Sacerdote
+friends:50:1d2:Ilusionista
 friends:50:1d2:Same
 desc:Un guerrero de habilidad considerable.
 
-name:stegocentipede
-base:centipede
+name:estegociempiés
+base:ciempiés
 color:u
 speed:120
 hit-points:59
@@ -3580,8 +3580,8 @@ blow:STING:HURT:2d4
 flags:BASH_DOOR
 desc:Es un enorme ciempiés acorazado con mandíbulas masivas y una cola con púas.
 
-name:spotted jelly
-plural:spotted jellies
+name:gelatina moteada
+plural:gelatinas moteadas
 base:jelly
 color:o
 speed:120
@@ -3602,8 +3602,8 @@ desc:Una gelatina extraña, cubierta de manchas descoloridas.
 
 ### Nivel de mazmorra 13 ###
 
-name:killer brown beetle
-base:killer beetle
+name:escarabajo marrón asesino
+base:escarabajo asesino
 color:u
 speed:110
 hit-points:59
@@ -3616,8 +3616,8 @@ experience:45
 blow:BITE:HURT:4d4
 desc:Es un insecto vicioso con un caparazón resistente.
 
-name:ochre jelly
-plural:ochre jellies
+name:gelatina ocre
+plural:gelatinas ocres
 base:jelly
 color:U
 speed:120
@@ -3637,7 +3637,7 @@ flags:IM_ACID | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP
 desc:Una gelatina que se mueve rápido, altamente ácida, que se está comiendo el
 desc: suelo sobre el que descansa.
 
-name:Boldor, King of the Yeeks
+name:Boldor, Rey de los Yeeks
 base:yeek
 color:P
 speed:120
@@ -3658,13 +3658,13 @@ flags:FORCE_SLEEP
 spell-freq:3
 spells:BLIND | BLINK | HEAL | SLOW | TPORT
 spells:S_KIN | S_MONSTER
-friends:50:2d6:terrified yeek:servant
-friends:100:2d6:Blue yeek:servant
-friends:100:2d4:Master yeek:servant
-friends:100:1d1:Orfax, Son of Boldor
+friends:50:2d6:yeek aterrorizado:servant
+friends:100:2d6:Yeek azul:servant
+friends:100:2d4:Maestro yeek:servant
+friends:100:1d1:Orfax, Hijo de Boldor
 desc:Un gran yeek, poderoso en magia y brujería, pero un yeek al fin y al cabo.
 
-name:ogre
+name:ogro
 base:ogre
 color:U
 speed:110
@@ -3682,8 +3682,8 @@ friends-base:100:2d4:orc
 friends:100:2d4:Same
 desc:Un gigante pequeño y horrible que a menudo se encuentra cerca o con orcos.
 
-name:creeping mithril coins
-plural:piles of creeping mithril coins
+name:monedas de mithril rastreras
+plural:montones de monedas de mithril rastreras
 base:creeping coins
 color:B
 speed:110
@@ -3701,7 +3701,7 @@ desc:Parece un montón de monedas de mithril sensibles que no les gusta que las
 desc: recojan.
 mimic:gold:mithril
 
-name:illusionist
+name:ilusionista
 base:person
 color:I
 speed:120
@@ -3723,13 +3723,13 @@ spells:BLIND | BLINK | CONF | DARKNESS | HASTE | HOLD
 spells:SLOW | TPORT
 drop-base:magic book:8:1:1
 drop-base:magic book:8:1:1
-friends:50:1d2:Brigand
-friends:50:1d2:Priest
-friends:50:1d2:warrior
+friends:50:1d2:Brigante
+friends:50:1d2:Sacerdote
+friends:50:1d2:guerrero
 friends:50:1d2:Same
 desc:Un lanzador de hechizos engañoso.
 
-name:druid
+name:druida
 base:person
 color:y
 speed:110
@@ -3755,7 +3755,7 @@ drop-base:nature book:8:1:1
 drop-base:nature book:8:1:1
 desc:Un sacerdote devoto de la Naturaleza.
 
-name:orc archer
+name:arquero orco
 base:orc
 color:m
 speed:110
@@ -3779,7 +3779,7 @@ desc:Tiene un arco de cuerno y una aljaba llena de flechas de plumas negras.
 
 ### Nivel de mazmorra 14 ###
 
-name:giant flea
+name:pulga gigante
 base:insect
 color:s
 speed:120
@@ -3794,7 +3794,7 @@ blow:BITE:HURT:1d2
 flags:BASH_DOOR
 desc:Te pica con solo mirarlo.
 
-name:Ufthak of Cirith Ungol
+name:Ufthak de Cirith Ungol
 base:orc
 color:g
 speed:110
@@ -3813,13 +3813,13 @@ blow:HIT:HURT:3d4
 flags:UNIQUE
 flags:DROP_1 | DROP_GOOD | ONLY_ITEM
 flags:IM_COLD
-friends:50:2d2:orc archer
+friends:50:2d2:arquero orco
 friends:100:4d4:snaga
-friends:100:3d4:cave orc
+friends:100:3d4:orco de cueva
 desc:Un orco fuerte que guarda el paso de Cirith Ungol. Tiene un miedo mortal a
 desc: las arañas.
 
-name:blue icky thing
+name:cosa asquerosa azul
 base:icky thing
 color:b
 speed:100
@@ -3844,7 +3844,7 @@ message-invis:BLIND:Algo sorbe.
 desc:Es una criatura extraña, viscosa y asquerosa, con inteligencia rudimentaria,
 desc: pero astucia maligna. Ansía comida, y tú tienes buena pinta.
 
-name:flesh golem
+name:gólem de carne
 base:golem
 color:R
 speed:110
@@ -3878,7 +3878,7 @@ flags:RAND_25 | BASH_DOOR
 friends:100:2d7:Same
 desc:Es un lobo grande con ojos llenos de astucia.
 
-name:lurker
+name:acechador
 base:lurker
 color:w
 speed:110
@@ -3896,7 +3896,7 @@ desc: a sus víctimas envolviéndolas en su forma perfectamente disfrazada.
 
 ### Nivel de mazmorra 15 ###
 
-name:wererat
+name:hombre-rata
 base:rodent
 color:D
 speed:110
@@ -3922,7 +3922,7 @@ spells:BO_COLD
 desc:Una rata grande con ojos rojos brillantes. El hombre-rata es una criatura
 desc: asquerosa, que se deleita en la inmundicia y la enfermedad.
 
-name:black ogre
+name:ogro negro
 base:ogre
 color:D
 speed:110
@@ -3938,12 +3938,12 @@ blow:HIT:HURT:2d8
 blow:HIT:HURT:2d8
 flags:DROP_40
 flags:RAND_25
-friends:60:2d4:Ogre
+friends:60:2d4:Ogro
 friends:100:3d4:Same
 desc:Una figura gigantesca parecida a un orco con piel negra y brazos poderosos.
 
-name:magic mushroom patch
-plural:magic mushroom patches
+name:parche de setas mágicas
+plural:parches de setas mágicas
 base:mushroom
 color:B
 speed:140
@@ -3969,7 +3969,7 @@ message-invis:SLOW:Algo zumba suavemente.
 desc:¡Ñam! Tiene una pinta bastante apetitosa. Parece brillar con una luz
 desc: inusual.
 
-name:guardian naga
+name:naga guardián
 base:naga
 color:B
 speed:110
@@ -3987,7 +3987,7 @@ flags:DROP_40 | DROP_1
 flags:RAND_25 | OPEN_DOOR
 desc:Una figura gigante parecida a una serpiente con torso de mujer.
 
-name:light hound
+name:sabueso de luz
 base:zephyr hound
 color:o
 speed:110
@@ -4011,7 +4011,7 @@ friends:100:2d7:Same
 desc:Una forma canina brillante cuya luz lastra tus ojos, incluso a esta
 desc: distancia.
 
-name:dark hound
+name:sabueso oscuro
 base:zephyr hound
 color:D
 speed:110
@@ -4035,7 +4035,7 @@ friends:100:2d7:Same
 desc:Un agujero en el aire con forma de enorme sabueso. Ninguna luz incide sobre
 desc: su forma.
 
-name:half-orc
+name:medio orco
 base:orc
 color:s
 speed:110
@@ -4053,14 +4053,14 @@ flags:DROP_20
 innate-freq:10
 spells:ARROW
 friends:50:2d4:Warg
-friends:50:1d2:orc tracker
+friends:50:1d2:rastreador orco
 friends:100:4d4:Same
 desc:Es un cruce deforme y horrible entre hombre y orco, que combina la fuerza y
 desc: astucia del hombre con la maldad orca. Generalmente se cree que el
 desc: traidor mago Saruman es responsable de esta abominación.
 
-name:giant tarantula
-base:spider
+name:tarántula gigante
+base:araña
 color:o
 speed:120
 hit-points:80
@@ -4077,8 +4077,8 @@ flags:ANIMAL | WEIRD_MIND
 flags:IM_POIS
 desc:Una araña gigante que se mueve rápido, con patas peludas negras y rojas.
 
-name:giant clear centipede
-base:centipede
+name:ciempiés transparente gigante
+base:ciempiés
 color:w
 speed:110
 hit-points:23
@@ -4096,7 +4096,7 @@ flags:BASH_DOOR
 flags:ATTR_CLEAR
 desc:Mide alrededor de un metro y es carnívoro.
 
-name:griffon
+name:grifo
 base:hybrid
 color:u
 speed:110
@@ -4114,8 +4114,8 @@ flags:ANIMAL
 flags:BASH_DOOR
 desc:Es mitad león, mitad águila. Vuela amenazadoramente hacia ti.
 
-name:homunculus
-plural:homunculi
+name:homúnculo
+plural:homúnculos
 base:minor demon
 color:y
 speed:110
@@ -4132,7 +4132,7 @@ flags:OPEN_DOOR | BASH_DOOR
 flags:NO_FEAR
 desc:Es un pequeño espíritu demoníaco lleno de malevolencia.
 
-name:clear hound
+name:sabueso transparente
 base:zephyr hound
 color:w
 speed:110
@@ -4153,7 +4153,7 @@ flags:ATTR_CLEAR
 friends:100:2d7:Same
 desc:Un sabueso completamente translúcido.
 
-name:clay golem
+name:gólem de arcilla
 base:golem
 color:U
 speed:110
@@ -4171,7 +4171,7 @@ flags:BASH_DOOR
 flags:HURT_ROCK | IM_COLD | IM_FIRE | IM_POIS
 desc:Es una estatua animada masiva hecha de arcilla endurecida.
 
-name:giant tan bat
+name:murciélago bronceado gigante
 base:bat
 color:U
 speed:130
@@ -4213,7 +4213,7 @@ flags:BASH_DOOR | KILL_WALL
 desc:Esta extraña criatura tiene ojos penetrantes y grandes mandíbulas capaces
 desc: de cortar la roca.
 
-name:gelatinous cube
+name:cubo gelatinoso
 base:jelly
 color:G
 speed:110
@@ -4238,7 +4238,7 @@ desc: mientras recubre las cuatro paredes de los corredores que patrulla. A
 desc: través de su transparente estructura gelatinosa puedes ver tesoros que ha
 desc: engullido, y algunos cadáveres también.
 
-name:rogue
+name:pícaro
 base:person
 color:b
 speed:115
@@ -4258,13 +4258,13 @@ flags:OPEN_DOOR | TAKE_ITEM
 innate-freq:8
 spells:SHOT
 drop:scroll:Puerta de Fase:70:2:6
-friends:50:1d2:Illusionist
-friends:50:1d2:Priest
-friends:50:1d2:warrior
+friends:50:1d2:Ilusionista
+friends:50:1d2:Sacerdote
+friends:50:1d2:guerrero
 friends:50:1d2:Same
 desc:Está mirando tu mochila.
 
-name:Ulfast, Son of Ulfang
+name:Ulfast, Hijo de Ulfang
 base:person
 color:U
 speed:110
@@ -4284,7 +4284,7 @@ blow:HIT:HURT:3d5
 flags:UNIQUE | MALE | NAME_COMMA | EVIL
 flags:DROP_60 | DROP_GOOD | ONLY_ITEM
 flags:OPEN_DOOR | TAKE_ITEM
-friends:60:1d3:warrior:servant
+friends:60:1d3:guerrero:servant
 desc:Un hombre del Este, bajo y moreno.
 
 name:quasit
@@ -4327,14 +4327,14 @@ blow:HIT:HURT:3d5
 flags:DROP_20
 innate-freq:9
 spells:ARROW | WHIP
-friends:40:1d4:Half-orc
+friends:40:1d4:Medio orco
 friends:80:2d5:Warg
-friends:50:1d2:orc tracker
-friends:50:1d2:orc archer
+friends:50:1d2:rastreador orco
+friends:50:1d2:arquero orco
 friends:100:3d3:Same
 desc:Un orco astuto y poderoso, tan alto como un hombre, y más fuerte. Teme poco.
 
-name:grizzly bear
+name:oso pardo
 base:quadruped
 color:U
 speed:110
@@ -4378,7 +4378,7 @@ desc: presencia.
 
 ### Nivel de mazmorra 17 ###
 
-name:imp
+name:diablillo
 base:minor demon
 color:g
 speed:110
@@ -4400,7 +4400,7 @@ spells:BLIND | BLINK | CONF | SCARE | TELE_LEVEL | TELE_TO
 spells:TPORT
 desc:Un pequeño travieso venenoso.
 
-name:forest troll
+name:troll del bosque
 base:troll
 color:g
 speed:110
@@ -4421,7 +4421,7 @@ flags:HURT_LIGHT
 friends:100:4d4:Same
 desc:Es de piel verde, feo y estúpido.
 
-name:Nár, the Dwarf
+name:Nár, el Enano
 base:humanoid
 color:y
 speed:110
@@ -4447,7 +4447,7 @@ desc: de Thrór a manos de Azog el Orco. Con la barba desgarrada y ropas
 desc: harapientas, parece haberte fijado como un objetivo conveniente para
 desc: descargar su ira.
 
-name:2-headed hydra
+name:hidra de 2 cabezas
 base:hydra
 color:u
 speed:110
@@ -4466,7 +4466,7 @@ spell-freq:11
 spells:SCARE
 desc:Un extraño híbrido de reptil con dos cabezas, custodiando su tesoro.
 
-name:water spirit
+name:espíritu del agua
 base:elemental
 color:b
 speed:120
@@ -4484,8 +4484,8 @@ flags:RAND_25 | BASH_DOOR
 flags:IM_ACID | IM_WATER
 desc:Un remolino de líquido sensible.
 
-name:giant red scorpion
-base:spider
+name:escorpión rojo gigante
+base:araña
 color:r
 speed:115
 hit-points:50
@@ -4502,7 +4502,7 @@ flags:ANIMAL | WEIRD_MIND
 flags:IM_POIS
 desc:Es rápido y venenoso.
 
-name:earth spirit
+name:espíritu de la tierra
 base:elemental
 color:u
 speed:120
@@ -4522,7 +4522,7 @@ desc:Una forma arremolinada de roca sensible.
 
 ### Nivel de mazmorra 18 ###
 
-name:hummerhorn
+name:avispón zumbador
 base:insect
 color:y
 speed:120
@@ -4537,7 +4537,7 @@ blow:BITE:CONFUSE:2d2
 flags:MOVE_BODY
 desc:Una avispa gigante zumbadora, su aguijón gotea veneno.
 
-name:orc captain
+name:capitán orco
 base:orc
 color:o
 speed:110
@@ -4555,16 +4555,16 @@ blow:HIT:HURT:3d5
 flags:DROP_60
 innate-freq:9
 spells:ARROW
-friends:50:1d5:Wolf
+friends:50:1d5:Lobo
 friends:50:1d5:Warg
-friends:80:1d2:orc tracker:servant
-friends:80:1d4:orc archer:servant
+friends:80:1d2:rastreador orco:servant
+friends:80:1d4:arquero orco:servant
 friends-base:50:1d5:orc:servant
 friends-base:50:1d5:orc:servant
 friends-base:50:1d5:orc:servant
 desc:Un orco acorazado con aire de autoridad.
 
-name:blackguard
+name:guardia negro
 base:person
 color:s
 speed:115
@@ -4588,13 +4588,13 @@ spells:DARKNESS | SCARE
 spells:BOLT
 drop-base:shadow book:8:1:1
 drop-base:shadow book:8:1:1
-friends:50:1d1:rogue
-friends:50:1d1:ranger
-friends:50:1d1:paladin
+friends:50:1d1:pícaro
+friends:50:1d1:explorador
+friends:50:1d1:paladín
 desc:Una figura corpulenta envuelta en armadura de placas negra; te mira
 desc: amenazadoramente.
 
-name:fire spirit
+name:espíritu del fuego
 base:elemental
 color:r
 speed:120
@@ -4612,7 +4612,7 @@ flags:RAND_25 | BASH_DOOR
 flags:IM_FIRE | HURT_COLD
 desc:Un torbellino de llama sensible.
 
-name:fire hound
+name:sabueso de fuego
 base:zephyr hound
 color:r
 speed:110
@@ -4637,7 +4637,7 @@ friends:100:2d7:Same
 desc:Llamas lamen sus patas y su lengua es una hoja de fuego. Puedes sentir el
 desc: calor de un horno irradiando de la criatura.
 
-name:cold hound
+name:sabueso de frío
 base:zephyr hound
 color:w
 speed:110
@@ -4662,7 +4662,7 @@ desc:Un sabueso tan alto como un hombre, esta criatura parece estar compuesta de
 desc: planos angulares de hielo. El frío irradia de él y congela tu aliento en el
 desc: aire.
 
-name:energy hound
+name:sabueso de energía
 base:zephyr hound
 color:b
 speed:110
@@ -4688,7 +4688,7 @@ desc:El Fuego de San Telmo forma un halo fantasmal alrededor de este sabueso, y
 desc: las chispas pican tus dedos mientras la energía se acumula en el aire a tu
 desc: alrededor.
 
-name:potion mimic
+name:mímico de poción
 base:mimic
 glyph:!
 color:w
@@ -4716,7 +4716,7 @@ mimic:potion:Experiencia
 mimic:potion:Aumento
 mimic:potion:Velocidad
 
-name:blink dog
+name:perro parpadeante
 base:canine
 color:B
 speed:120
@@ -4737,7 +4737,7 @@ friends:100:2d7:Same
 desc:Un extraño miembro mágico de la raza canina, su forma parece brillar y
 desc: desvanecerse ante tus propios ojos.
 
-name:shambling mound
+name:montículo vacilante
 base:mushroom
 color:g
 speed:110
@@ -4755,11 +4755,11 @@ flags:DROP_60 | ONLY_GOLD
 flags:OPEN_DOOR | BASH_DOOR
 innate-freq:4
 spells:SHRIEK
-friends:60:1d1:Giant fruit fly
+friends:60:1d1:Mosca de la fruta gigante
 desc:Un montón de vegetación podrida que se desliza hacia ti con un hedor
 desc: asqueroso, despertando todo lo que se acerca.
 
-name:evil eye
+name:ojo maligno
 base:eye
 color:g
 speed:110
@@ -4783,7 +4783,7 @@ desc: hacer nada más que acercarte a él con fascinación horrorizada.
 
 ### Nivel de mazmorra 19 ###
 
-name:Shagrat, the Orc Captain
+name:Shagrat, el Capitán Orco
 base:orc
 color:g
 speed:110
@@ -4802,14 +4802,14 @@ blow:HIT:HURT:3d5
 flags:UNIQUE | NAME_COMMA
 flags:DROP_1 | DROP_GOOD | ONLY_ITEM
 friends:50:3d4:snaga:servant
-friends:80:2d4:cave orc:servant
-friends:80:1d2:orc tracker:servant
-friends:100:1d2:orc archer:servant
+friends:80:2d4:orco de cueva:servant
+friends:80:1d2:rastreador orco:servant
+friends:100:1d2:arquero orco:servant
 friends:100:2d4:uruk:servant
 desc:Es un orco poderoso y muy astuto, líder de la guarnición en Cirith
 desc: Ungol.
 
-name:Gorbag, the Orc Captain
+name:Gorbag, el Capitán Orco
 base:orc
 color:g
 speed:110
@@ -4828,14 +4828,14 @@ blow:HIT:HURT:3d5
 flags:UNIQUE | NAME_COMMA
 flags:DROP_1 | DROP_GOOD | ONLY_ITEM
 friends:50:3d4:snaga:servant
-friends:80:2d4:cave orc:servant
-friends:80:1d2:orc tracker:servant
-friends:100:1d2:orc archer:servant
+friends:80:2d4:orco de cueva:servant
+friends:80:1d2:rastreador orco:servant
+friends:100:1d2:arquero orco:servant
 friends:100:2d4:uruk:servant
 desc:Es un orco poderoso y muy astuto, líder de la guarnición en Minas
 desc: Morgul.
 
-name:stone golem
+name:gólem de piedra
 base:golem
 color:W
 speed:100
@@ -4853,7 +4853,7 @@ flags:BASH_DOOR
 flags:HURT_ROCK | IM_COLD | IM_FIRE | IM_POIS
 desc:Es una estatua animada masiva.
 
-name:red mold
+name:moho rojo
 base:mold
 color:r
 speed:110
@@ -4872,7 +4872,7 @@ flags-off:HURT_FIRE
 desc:Es un crecimiento rojo extraño en el suelo de la mazmorra; parece arder con
 desc: llama.
 
-name:Old Man Willow
+name:Viejo Hombre Sauce
 base:tree
 color:s
 speed:110
@@ -4903,7 +4903,7 @@ desc: amplias fisuras que crujían débilmente mientras las ramas se movían."
 
 ### Nivel de mazmorra 20 ###
 
-name:blood falcon
+name:halcón de sangre
 base:bird
 color:R
 speed:140
@@ -4923,8 +4923,8 @@ desc:Un torbellino cegador de miedo y plumas. Su pico y garras, afilados como
 desc: navajas, llenan de terror a sus enemigos mientras busca arrancar la carne
 desc: del hueso con una ferocidad desenfrenada.
 
-name:Mirkwood spider
-base:spider
+name:araña de Mirkwood
+base:araña
 color:g
 speed:120
 hit-points:41
@@ -4945,7 +4945,7 @@ friends:100:2d7:Same
 desc:Una araña fuerte y poderosa del bosque de Mirkwood. Astuta y malvada,
 desc: busca saborear tus jugosas entrañas.
 
-name:Bolg, Son of Azog
+name:Bolg, Hijo de Azog
 base:orc
 color:P
 speed:120
@@ -4963,15 +4963,15 @@ blow:HIT:HURT:3d6
 blow:HIT:HURT:3d6
 flags:UNIQUE | NAME_COMMA | MOVE_BODY
 flags:DROP_2 | DROP_GOOD | ONLY_ITEM
-friends:50:3d4:cave orc:servant
+friends:50:3d4:orco de cueva:servant
 friends:80:2d7:Warg
-friends:100:2d2:orc tracker
-friends:100:4d2:orc archer
+friends:100:2d2:rastreador orco
+friends:100:4d2:arquero orco
 friends:100:4d4:Uruk:bodyguard
 desc:Un orco grande y poderoso, se parece mucho a su padre. Es alto y
 desc: rápido, pero afortunadamente bendecido con cerebro de orco.
 
-name:3-headed hydra
+name:hidra de 3 cabezas
 base:hydra
 color:o
 speed:120
@@ -4992,7 +4992,7 @@ spell-freq:9
 spells:SCARE
 desc:Una hidra de 2 cabezas con una cabeza extra, su boca goteando veneno.
 
-name:earth hound
+name:sabueso de tierra
 base:zephyr hound
 color:u
 speed:110
@@ -5016,7 +5016,7 @@ friends:100:2d7:Same
 desc:Una hermosa forma cristalina no disimula el peligro que este sabueso
 desc: claramente presenta. Tu piel se estremece cuando se acerca.
 
-name:air hound
+name:sabueso de aire
 base:zephyr hound
 color:g
 speed:110
@@ -5041,7 +5041,7 @@ friends:100:2d7:Same
 desc:Vapores arremolinados rodean a esta bestia mientras flota hacia ti,
 desc: aparentemente caminando sobre el aire. Gases nocivos pican tu garganta.
 
-name:sabre-tooth tiger
+name:tigre dientes de sable
 base:feline
 color:y
 speed:120
@@ -5061,7 +5061,7 @@ flags:BASH_DOOR
 desc:Un gato feroz y peligroso, sus enormes colmillos y afiladas garras
 desc: lacerarían incluso la armadura más fuerte.
 
-name:water hound
+name:sabueso de agua
 base:zephyr hound
 color:s
 speed:110
@@ -5086,7 +5086,7 @@ friends:100:2d7:Same
 desc:Huellas líquidas siguen a este sabueso mientras patrulla la mazmorra. Un
 desc: olor acre a ácido emana del pelaje del perro.
 
-name:chimaera
+name:quimera
 base:hybrid
 color:r
 speed:110
@@ -5144,8 +5144,8 @@ blow:CLAW:HURT:1d10
 blow:BITE:HURT:2d8
 desc:Un humanoide alto, peludo y velludo, podría llamar hermano al yeti.
 
-name:werewolf
-plural:werewolves
+name:hombre lobo
+plural:hombres lobo
 base:canine
 color:D
 speed:110
@@ -5164,7 +5164,7 @@ flags:EVIL
 flags:RAND_25 | OPEN_DOOR | BASH_DOOR | TAKE_ITEM
 desc:Es un lobo enorme con ojos que brillan con inteligencia humana.
 
-name:dark dwarven lord
+name:señor enano oscuro
 base:humanoid
 color:s
 speed:120
@@ -5185,14 +5185,14 @@ spells:BLIND | CONF | DARKNESS | HASTE
 spells:BO_COLD | BO_FIRE
 drop-base:magic book:5:1:1
 drop-base:magic book:5:1:1
-friends:80:1d3:eastern dwarf:servant
-friends:70:1d2:stonefoot warrior:servant
-friends:50:1d1:blacklock mage:servant
-friends:50:1d1:ironfist priest:servant
+friends:80:1d3:enano oriental:servant
+friends:70:1d2:guerrero stonefoot:servant
+friends:50:1d1:mago blacklock:servant
+friends:50:1d1:sacerdote puño de hierro:servant
 desc:Un líder de los reclutas enanos orientales de Morgoth, vestido con cota de
 desc: malla negra y radiando poder maligno.
 
-name:ranger
+name:explorador
 base:person
 color:W
 speed:110
@@ -5216,16 +5216,16 @@ spells:BO_COLD
 spells:S_ANIMAL
 drop-base:nature book:5:1:1
 drop-base:nature book:5:1:1
-friends:50:1d1:Easterling champion
-friends:50:1d1:rogue
-friends:50:1d2:Illusionist
-friends:50:1d2:Priest
-friends:50:1d1:Paladin
+friends:50:1d1:Campeón oriental
+friends:50:1d1:pícaro
+friends:50:1d2:Ilusionista
+friends:50:1d2:Sacerdote
+friends:50:1d1:Paladín
 desc:Un guerrero que está en armonía con la naturaleza. Un maestro tanto del
 desc: arco como de la espada, con habilidades menores de lanzamiento de hechizos,
 desc: y los animales acuden a hacer su voluntad.
 
-name:paladin
+name:paladín
 base:person
 color:w
 speed:110
@@ -5246,18 +5246,18 @@ spell-freq:4
 spells:HEAL | SLOW
 drop-base:prayer book:5:1:1
 drop-base:prayer book:5:1:1
-friends:50:1d1:Easterling champion
-friends:50:1d1:rogue
-friends:50:1d2:Illusionist
-friends:50:1d2:Priest
-friends:50:1d1:Ranger
+friends:50:1d1:Campeón oriental
+friends:50:1d1:pícaro
+friends:50:1d2:Ilusionista
+friends:50:1d2:Sacerdote
+friends:50:1d1:Explorador
 desc:Un guerrero por una causa santa. Desafortunadamente, su dios no es el tuyo,
 desc: y hay rivalidad incluso entre los diversos dioses del Bien, así que es tu
 desc: enemigo.
 
 ### Nivel de mazmorra 21 ###
 
-name:Lugdush, the Uruk
+name:Lugdush, el Uruk
 base:orc
 color:b
 speed:110
@@ -5275,14 +5275,14 @@ blow:HIT:HURT:3d5
 blow:HIT:HURT:3d5
 flags:UNIQUE | NAME_COMMA
 flags:DROP_1 | DROP_GOOD | ONLY_ITEM
-friends:50:3d4:Half-orc:servant
+friends:50:3d4:Medio orco:servant
 friends:80:2d7:Warg
-friends:50:1d3:Orc captain
+friends:50:1d3:Capitán orco
 friends:100:4d4:Uruk:servant
 desc:Un orco grande y poderoso, capitán de uno de los regimientos de orcos de
 desc: Saruman.
 
-name:blue dragon bat
+name:murciélago dragón azul
 base:bat
 color:b
 speed:130
@@ -5301,7 +5301,7 @@ innate-freq:4
 spells:BR_ELEC
 desc:Es un murciélago azul brillante con una cola afilada.
 
-name:scroll mimic
+name:mímico de pergamino
 base:mimic
 glyph:?
 color:w
@@ -5331,8 +5331,8 @@ mimic:scroll:Adquisición
 mimic:scroll:*Adquisición*
 mimic:scroll:*Destrucción*
 
-name:fire vortex
-plural:fire vortices
+name:vórtice de fuego
+plural:vórtices de fuego
 base:vortex
 color:r
 speed:110
@@ -5350,8 +5350,8 @@ innate-freq:4
 spells:BR_FIRE
 desc:Un torbellino arremolinado de fuego.
 
-name:water vortex
-plural:water vortices
+name:vórtice de agua
+plural:vórtices de agua
 base:vortex
 color:s
 speed:110
@@ -5368,8 +5368,8 @@ innate-freq:4
 spells:BR_ACID
 desc:Un remolino giratorio y cáustico de agua.
 
-name:cold vortex
-plural:cold vortices
+name:vórtice de frío
+plural:vórtices de frío
 base:vortex
 color:w
 speed:110
@@ -5386,7 +5386,7 @@ innate-freq:4
 spells:BR_COLD
 desc:Un remolino retorcido de escarcha.
 
-name:mummified orc
+name:orco momificado
 base:zombie
 color:w
 speed:110
@@ -5427,7 +5427,7 @@ desc: "neek-breek, neek-breek". El ruido puede volver loca a la gente, y peor
 desc: aún, puede oírse a bastante distancia, alertando a otros monstruos de tu
 desc: presencia.
 
-name:Uglúk, the Uruk
+name:Uglúk, el Uruk
 base:orc
 color:b
 speed:110
@@ -5446,16 +5446,16 @@ blow:HIT:HURT:3d5
 flags:UNIQUE | NAME_COMMA | MOVE_BODY
 flags:DROP_1 | DROP_GOOD | ONLY_ITEM
 flags:IM_COLD | IM_FIRE | IM_POIS | NO_CONF | NO_SLEEP | NO_HOLD
-friends:50:2d4:Half-orc:servant
+friends:50:2d4:Medio orco:servant
 friends:80:2d5:Warg
 friends:100:4d4:Uruk:bodyguard
-friends:80:1d3:Orc captain:servant
-friends:100:1d1:Lugdush, the Uruk:servant
+friends:80:1d3:Capitán orco:servant
+friends:100:1d1:Lugdush, el Uruk:servant
 desc:Un guerrero orco fuerte y astuto, el comandante de la horda de orcos de
 desc: Saruman.
 
-name:killer stag beetle
-base:killer beetle
+name:escarabajo ciervo asesino
+base:escarabajo asesino
 color:g
 speed:110
 hit-points:68
@@ -5470,7 +5470,7 @@ blow:CLAW:HURT:3d6
 flags:RAND_25
 desc:Es un escarabajo gigante con garras viciosas.
 
-name:iron golem
+name:gólem de hierro
 base:golem
 color:s
 speed:110
@@ -5491,8 +5491,8 @@ spells:SLOW
 message-invis:SLOW:Algo retumba.
 desc:Es una estatua de metal masiva que se mueve constantemente hacia ti.
 
-name:giant yellow scorpion
-base:spider
+name:escorpión amarillo gigante
+base:araña
 color:y
 speed:110
 hit-points:54
@@ -5534,8 +5534,8 @@ desc: venenoso!
 
 ### Nivel de mazmorra 23 ###
 
-name:phase spider
-base:spider
+name:araña de fase
+base:araña
 color:B
 speed:120
 hit-points:27
@@ -5558,7 +5558,7 @@ friends:100:2d7:Same
 desc:Una araña que nunca parece estar del todo allí. Por donde mires, solo está
 desc: medio vista en el rabillo del ojo.
 
-name:black ooze
+name:limo negro
 base:jelly
 color:D
 speed:90
@@ -5579,7 +5579,7 @@ spells:DRAIN_MANA
 message-invis:DRAIN_MANA:Algo sorbe.
 desc:Es un charco que se mueve de forma extraña.
 
-name:Easterling champion
+name:Campeón oriental
 base:person
 color:u
 speed:110
@@ -5598,13 +5598,13 @@ flags:DROP_1
 flags:OPEN_DOOR | TAKE_ITEM
 innate-freq:6
 spells:BOLT
-friends:50:1d1:rogue
-friends:50:1d1:Ranger
-friends:50:1d1:Mage
-friends:50:1d1:Paladin
+friends:50:1d1:pícaro
+friends:50:1d1:Explorador
+friends:50:1d1:Mago
+friends:50:1d1:Paladín
 desc:Un guerrero con cicatrices que empuña un hacha y se mueve con confianza.
 
-name:Azog, Enemy of the Dwarves
+name:Azog, Enemigo de los Enanos
 base:orc
 color:R
 speed:120
@@ -5621,18 +5621,18 @@ blow:HIT:HURT:5d5
 blow:HIT:HURT:5d5
 flags:UNIQUE | NAME_COMMA | MOVE_BODY
 flags:DROP_2 | DROP_GOOD | ONLY_ITEM
-friends:50:3d4:cave orc:servant
+friends:50:3d4:orco de cueva:servant
 friends:80:2d7:Warg
-friends:100:2d2:orc tracker
-friends:100:4d2:orc archer
+friends:100:2d2:rastreador orco
+friends:100:4d2:arquero orco
 friends:100:4d4:Uruk:bodyguard
-friends:50:1d3:Orc captain:servant
-friends:100:1d1:Bolg, son of Azog
+friends:50:1d3:Capitán orco:servant
+friends:100:1d1:Bolg, hijo de Azog
 desc:Un gran orco con una enorme cabeza revestida de hierro, ágil y fuerte. Es
 desc: famoso por iniciar la Guerra de los Enanos y los Orcos al matar al heredero
 desc: de Durin, Thrór.
 
-name:brigand
+name:brigante
 base:person
 color:b
 speed:120
@@ -5652,13 +5652,13 @@ flags:DROP_2
 flags:OPEN_DOOR | TAKE_ITEM
 innate-freq:4
 spells:SHOT
-friends:50:1d1:Easterling champion
-friends:50:1d1:Ranger
-friends:50:1d1:Mage
-friends:50:1d1:Paladin
+friends:50:1d1:Campeón oriental
+friends:50:1d1:Explorador
+friends:50:1d1:Mago
+friends:50:1d1:Paladín
 desc:Un ladrón de gran poder y velocidad escurridiza.
 
-name:red dragon bat
+name:murciélago dragón rojo
 base:bat
 color:r
 speed:130
@@ -5678,7 +5678,7 @@ innate-freq:4
 spells:BR_FIRE
 desc:Es un murciélago de cola afilada, envuelto en llamas.
 
-name:giant silver ant
+name:hormiga plateada gigante
 base:ant
 color:W
 speed:110
@@ -5699,7 +5699,7 @@ desc:Una hormiga plateada gigante con un mordisco cáustico y escamas duras.
 
 ### Nivel de mazmorra 24 ###
 
-name:forest wight
+name:espectro del bosque
 base:wraith
 color:g
 speed:110
@@ -5720,7 +5720,7 @@ spell-freq:10
 spells:DRAIN_MANA | SCARE
 desc:Es una aparición fantasmal con forma humanoide.
 
-name:Ibun, Son of Mîm
+name:Ibun, Hijo de Mîm
 base:humanoid
 color:o
 speed:110
@@ -5745,7 +5745,7 @@ spells:BO_FIRE
 desc:Uno de los últimos Petty-Enanos. Ibun es un pequeño ser hechicero y
 desc: tramposo, lleno de malicia.
 
-name:Khîm, Son of Mîm
+name:Khîm, Hijo de Mîm
 base:humanoid
 color:o
 speed:110
@@ -5770,7 +5770,7 @@ spells:BO_FIRE
 desc:Uno de los últimos Petty-Enanos. Khîm es un pequeño ser hechicero y
 desc: tramposo, lleno de malicia.
 
-name:4-headed hydra
+name:hidra de 4 cabezas
 base:hydra
 color:y
 speed:120
@@ -5792,7 +5792,7 @@ spell-freq:7
 spells:SCARE
 desc:Una hidra de 3 cabezas con una cabeza extra humeante.
 
-name:mummified human
+name:humano momificado
 base:zombie
 color:w
 speed:110
@@ -5810,7 +5810,7 @@ flags:DROP_60 | ONLY_ITEM
 flags:NO_FEAR
 desc:Es una forma humana envuelta en vendas mohosas.
 
-name:vampire bat
+name:murciélago vampiro
 base:bat
 color:D
 speed:120
@@ -5828,7 +5828,7 @@ flags:RAND_50
 flags:IM_COLD | NO_FEAR | NO_CONF | NO_SLEEP | NO_STUN
 desc:Un murciélago chupasangre que vuela hacia tu cuello hambriento.
 
-name:Sangahyando of Umbar
+name:Sangahyando de Umbar
 base:person
 color:U
 speed:110
@@ -5851,10 +5851,10 @@ flags:IM_ELEC | IM_FIRE | NO_CONF | NO_SLEEP | NO_HOLD
 flags:FORCE_SLEEP
 spell-freq:4
 spells:CONF | SLOW
-friends:100:1d1:Angamaitë of Umbar
+friends:100:1d1:Angamaitë de Umbar
 desc:Un Númenóreano Negro con un corazón aún más negro.
 
-name:Angamaitë of Umbar
+name:Angamaitë de Umbar
 base:person
 color:U
 speed:110
@@ -5877,7 +5877,7 @@ flags:IM_ELEC | IM_FIRE | NO_CONF | NO_SLEEP | NO_HOLD
 flags:FORCE_SLEEP
 spell-freq:4
 spells:CONF | SLOW
-friends:100:1d1:Sangahyando of Umbar
+friends:100:1d1:Sangahyando de Umbar
 desc:Un Númenóreano Negro que odia a los hombres del oeste.
 
 name:banshee
@@ -5900,7 +5900,7 @@ spell-freq:15
 spells:DRAIN_MANA | TPORT
 desc:Es una forma fantasmal de mujer que se lamenta lastimeramente.
 
-name:werebear
+name:hombre oso
 base:quadruped
 color:D
 speed:110
@@ -5950,7 +5950,7 @@ friends:100:2d7:Same
 desc:Pequeñas chispas de llamas que bailan a tu alrededor, azotando látigos y
 desc: maldiciendo horriblemente.
 
-name:necromancer
+name: nigromante
 base:person
 color:P
 speed:110
@@ -5976,7 +5976,7 @@ drop-base:shadow book:8:1:1
 friends-base:80:1d3:skeleton
 desc:Una figura demacrada, vestida con túnicas negras.
 
-name:hill giant
+name:gigante de colina
 base:giant
 color:U
 speed:110
@@ -5993,7 +5993,7 @@ flags:DROP_40
 flags:OPEN_DOOR
 innate-freq:10
 spells:BOULDER
-friends:60:1d7:Wolf
+friends:60:1d7:Lobo
 friends:80:1d3:Same
 desc:Un humanoide de tres metros con músculos poderosos.
 
@@ -6023,7 +6023,7 @@ message-invis:BO_ACID:Algo retumba.
 desc:Una figura rechoncha tallada en piedra, con ojos brillantes, este centinela
 desc: avanza hacia ti con intención mortal.
 
-name:stone troll
+name:troll de piedra
 base:troll
 color:W
 speed:110
@@ -6041,12 +6041,12 @@ blow:BITE:HURT:3d4
 flags:MALE
 flags:DROP_20
 flags:HURT_ROCK | HURT_LIGHT
-friends:50:1d5:Earth hound
+friends:50:1d5:Sabueso de tierra
 friends:100:3d3:Same
 desc:Es un troll grande y tosco con piel negra y escamosa.
 
-name:carrion crawler
-base:centipede
+name:rastreador carroñero
+base:ciempiés
 color:o
 speed:110
 hit-points:130
@@ -6065,8 +6065,8 @@ friends:100:2d4:Same
 desc:Un ciempiés horrible cubierto de baba y con tentáculos brillantes alrededor
 desc: de su cabeza.
 
-name:killer red beetle
-base:killer beetle
+name:escarabajo rojo asesino
+base:escarabajo asesino
 color:r
 speed:110
 hit-points:90
@@ -6083,7 +6083,7 @@ desc:Es un escarabajo gigante con mandíbulas venenosas.
 
 ### Nivel de mazmorra 26 ###
 
-name:abyss worm mass
+name:masa de gusanos abismales
 base:worm
 color:D
 speed:100
@@ -6103,8 +6103,8 @@ desc:Un brillo de negrura retorcido y parecido a un gusano, grande como tu brazo
 desc: Se retuerce a través del aire y las paredes con igual facilidad, dejando un
 desc: vacío a su paso.
 
-name:giant firefly
-plural:giant fireflies
+name:luciérnaga gigante
+plural:luciérnagas gigantes
 base:insect
 color:r
 speed:120
@@ -6120,7 +6120,7 @@ blow:BITE:BLIND:1d2
 desc:Nubes de estos monstruos iluminan la mazmorra, tan brillantemente que
 desc: apenas puedes ver a través de ellos.
 
-name:giant grey ant
+name:hormiga gris gigante
 base:ant
 color:s
 speed:110
@@ -6137,7 +6137,7 @@ blow:BITE:HURT:2d12
 flags:RAND_25 | KILL_BODY
 desc:Es una hormiga encerrada en un exoesqueleto impenetrable.
 
-name:Ulwarth, Son of Ulfang
+name:Ulwarth, Hijo de Ulfang
 base:person
 color:U
 speed:110
@@ -6155,11 +6155,11 @@ blow:HIT:HURT:4d6
 flags:UNIQUE | MALE | NAME_COMMA | EVIL
 flags:DROP_60 | DROP_GOOD | ONLY_ITEM
 flags:OPEN_DOOR | TAKE_ITEM
-friends:60:2d3:Easterling champion:servant
-friends:100:1d1:Ulfast, Son of Ulfang
+friends:60:2d3:Campeón oriental:servant
+friends:100:1d1:Ulfast, Hijo de Ulfang
 desc:Un hombre del Este, bajo y moreno.
 
-name:displacer beast
+name:bestia desplazadora
 base:feline
 color:D
 speed:110
@@ -6180,8 +6180,8 @@ flags:BASH_DOOR
 desc:Es una pantera negra enorme, con tentáculos como garrotes que brotan de sus
 desc: hombros.
 
-name:giant fire tick
-base:spider
+name:garrapata de fuego gigante
+base:araña
 color:R
 speed:110
 hit-points:72
@@ -6200,7 +6200,7 @@ innate-freq:20
 spells:SPIT
 desc:Está humeando y ardiendo con gran calor.
 
-name:cave ogre
+name:ogro de cueva
 base:ogre
 color:u
 speed:110
@@ -6215,12 +6215,12 @@ experience:80
 blow:HIT:HURT:3d8
 blow:HIT:HURT:3d8
 flags:DROP_40
-friends:50:2d4:Ogre
-friends:50:2d4:Black ogre
+friends:50:2d4:Ogro
+friends:50:2d4:Ogro negro
 friends:100:2d4:Same
 desc:Una figura gigante parecida a un orco con un cuerpo increíblemente musculoso.
 
-name:disenchanter bat
+name:murciélago desencantador
 base:bat
 color:v
 speed:130
@@ -6237,7 +6237,7 @@ flags:IM_DISEN
 flags:ATTR_MULTI | FORCE_SLEEP
 desc:Un murciélago gigante que se alimenta de energía mágica pura.
 
-name:wolf chieftain
+name:jefe lobo
 base:canine
 color:D
 speed:120
@@ -6259,10 +6259,10 @@ flags:IM_COLD | NO_FEAR
 spell-freq:8
 spells:DARKNESS
 message-invis:DARKNESS:Algo aúlla.
-friends:100:2d4:Wolf:servant
-friends:60:2d4:White wolf:servant
+friends:100:2d4:Lobo:servant
+friends:60:2d4:Lobo blanco:servant
 friends:60:2d4:Warg:servant
-friends:60:1d4:Werewolf:servant
+friends:60:1d4:Hombre lobo:servant
 desc:Un gran jefe lobo cuya manada está al servicio del Señor Oscuro, y cuyos
 desc: aullidos infunden miedo incluso en el corazón más audaz.
 
@@ -6289,7 +6289,7 @@ desc:La carne se cae a pedazos de esta abominación en descomposición.
 
 ### Nivel de mazmorra 27 ###
 
-name:Mîm, Betrayer of Turin
+name:Mîm, Traidor de Turin
 base:humanoid
 color:I
 speed:120
@@ -6313,14 +6313,14 @@ spell-freq:6
 spells:HEAL | SCARE
 spells:BA_ACID
 spells:BO_ACID
-friends:100:1d1:Ibun, Son of Mîm
-friends:100:1d1:Khîm, Son of Mîm
+friends:100:1d1:Ibun, Hijo de Mîm
+friends:100:1d1:Khîm, Hijo de Mîm
 desc:El último de su raza, Mîm es un Petty-Enano. Los Petty-Enanos son criaturas
 desc: extrañas, poderosas en hechicería y originarias del Este. Han sido
 desc: cazados casi hasta la extinción por los Altos Elfos.
 
-name:killer fire beetle
-base:killer beetle
+name:escarabajo de fuego asesino
+base:escarabajo asesino
 color:R
 speed:110
 hit-points:99
@@ -6338,8 +6338,8 @@ innate-freq:5
 spells:SPIT
 desc:Es un escarabajo gigante envuelto en llamas.
 
-name:creeping adamantite coins
-plural:piles of creeping adamantite coins
+name:monedas de adamantita rastreras
+plural:montones de monedas de adamantita rastreras
 base:creeping coins
 color:G
 speed:120
@@ -6359,7 +6359,7 @@ desc:Parece un montón de monedas hechas de precioso adamantio, deslizándose
 desc: hacia ti sobre muchas patitas.
 mimic:gold:adamantita
 
-name:troll scavenger
+name:troll carroñero
 base:troll
 color:o
 speed:110
@@ -6376,12 +6376,12 @@ blow:CLAW:POISON:3d3
 blow:BITE:HURT:1d6
 flags:DROP_20
 flags:IM_POIS | HURT_LIGHT
-friends:30:1d5:Forest Troll
+friends:30:1d5:Troll del bosque
 friends:100:3d3:Same
 desc:Un troll poderoso y devorador de hombres, sus garras sucias con los restos
 desc: de su última víctima.
 
-name:vibration hound
+name:sabueso de vibración
 base:zephyr hound
 color:y
 speed:110
@@ -6406,7 +6406,7 @@ friends:100:2d7:Same
 desc:Una forma canina borrosa que parece moverse tan rápido como el ojo puede
 desc: seguir. Puedes sentir la tierra resonando bajo tus pies.
 
-name:nexus hound
+name:sabueso de nexo
 base:zephyr hound
 color:P
 speed:110
@@ -6431,7 +6431,7 @@ friends:100:2d7:Same
 desc:Un punto de unión de puntos conflictivos se coalescen para formar la vaga
 desc: forma de un enorme sabueso. ¿O es solo tu imaginación?
 
-name:vampire
+name:vampiro
 base:vampire
 color:W
 speed:110
@@ -6478,7 +6478,7 @@ desc:El resultado de experimentos malvados, esta afrenta a la naturaleza nunca
 desc: debería estar viva. Tiene tres cabezas: cabra, dragón y gorgona, todas
 desc: unidas a un cuerpo de león.
 
-name:ogre shaman
+name:chamán ogro
 base:ogre
 color:G
 speed:110
@@ -6503,7 +6503,7 @@ drop-base:prayer book:5:1:1
 drop-base:prayer book:5:1:1
 desc:Es un ogro envuelto en pieles y cubierto de grotescas pinturas corporales.
 
-name:shimmering mold
+name:moho brillante
 base:mold
 color:b
 speed:110
@@ -6524,7 +6524,7 @@ desc: crepitando con chispas.
 
 ### Nivel de mazmorra 28 ###
 
-name:frost giant
+name:gigante de escarcha
 base:giant
 color:w
 speed:110
@@ -6542,11 +6542,11 @@ flags:OPEN_DOOR
 flags:IM_COLD
 innate-freq:10
 spells:BOULDER
-friends:60:1d7:Cold Hound
+friends:60:1d7:Sabueso de frío
 friends:80:1d3:Same
 desc:Un gigante de tres metros y medio cubierto de pieles.
 
-name:spirit naga
+name:naga espiritual
 base:naga
 color:w
 speed:110
@@ -6573,7 +6573,7 @@ drop-base:prayer book:5:1:1
 desc:Una forma espectral parecida a una serpiente con el torso de una mujer
 desc: hermosa.
 
-name:5-headed hydra
+name:hidra de 5 cabezas
 base:hydra
 color:g
 speed:120
@@ -6596,7 +6596,7 @@ spell-freq:5
 spells:SCARE
 desc:Una hidra de 4 cabezas con una cabeza extra, humeante con vapor ácido.
 
-name:black knight
+name:jinete negro
 base:person
 color:s
 speed:120
@@ -6618,15 +6618,15 @@ spell-freq:8
 spells:BLIND | WOUND | DARKNESS | SCARE
 drop-base:shadow book:8:1:1
 drop-base:shadow book:8:1:1
-friends:50:1d1:rogue
-friends:50:1d1:Ranger
-friends:50:1d1:Paladin
-friends:50:1d1:Mage
-friends:50:1d1:southron assassin
+friends:50:1d1:pícaro
+friends:50:1d1:Explorador
+friends:50:1d1:Paladín
+friends:50:1d1:Mago
+friends:50:1d1:asesino southron
 desc:Una figura corpulenta envuelta en armadura de placas negra; te mira
 desc: amenazadoramente.
 
-name:Uldor the Accursed
+name:Uldor el Maldito
 base:person
 color:U
 speed:110
@@ -6651,7 +6651,7 @@ desc:Un hombre astuto y malvado del Este. Habiendo jurado lealtad a los hijos de
 desc: Fëanor, fue la traición de Uldor la que cambió el rumbo de la Batalla de
 desc: las Lágrimas Innumerables a favor de Morgoth.
 
-name:mage
+name:mago
 base:person
 color:r
 speed:110
@@ -6678,7 +6678,7 @@ drop-base:magic book:7:1:1
 friends-base:100:1d1:golem
 desc:Un mago de cierto poder: lo sabes por el tamaño de su sombrero.
 
-name:mind flayer
+name:devorador de mentes
 base:humanoid
 color:P
 speed:110
@@ -6701,7 +6701,7 @@ desc:Una forma humanoide con una cabeza horrible, boca tentacular y ojos
 desc: penetrantes. Garras se extienden hacia ti y sientes una presencia invadir
 desc: tu mente.
 
-name:Draebor, the Imp
+name:Draebor, el Diablillo
 base:minor demon
 color:v
 speed:120
@@ -6727,10 +6727,10 @@ spells:S_KIN
 friends-base:50:1d3:minor demon:servant
 friends-base:50:1d3:minor demon:servant
 friends-base:50:1d3:minor demon:servant
-friends:100:2d4:Imp:servant
+friends:100:2d4:Diablillo:servant
 desc:Un monstruo extremadamente irritante.
 
-name:basilisk
+name:basilisco
 base:reptile
 color:s
 speed:120
@@ -6754,7 +6754,7 @@ spells:BR_POIS
 desc:Un vil reptil que se aprovecha de viajeros desprevenidos. Sus ojos te miran
 desc: fijamente y tu alma comienza a marchitarse.
 
-name:snow troll
+name:troll de nieve
 base:troll
 color:w
 speed:110
@@ -6773,13 +6773,13 @@ blow:BITE:COLD:2d6
 flags:MALE
 flags:DROP_20
 flags:HURT_LIGHT | IM_COLD
-friends:40:1d5:Cold hound
-friends:60:2d7:White wolf
+friends:40:1d5:Sabueso de frío
+friends:60:2d7:Lobo blanco
 friends:100:4d4:Same
 desc:Es un troll blanco con pelaje hirsuto y manos con garras poderosas.
 
-name:bat of Gorgoroth
-plural:bats of Gorgoroth
+name:murciélago de Gorgoroth
+plural:murciélagos de Gorgoroth
 base:bat
 color:g
 speed:120
@@ -6804,7 +6804,7 @@ friends:100:2d7:Same
 desc:Alimentada con carnes horribles y crecida hasta un tamaño enorme, esta
 desc: criatura babosa busca presas más vivas.
 
-name:spectator
+name:espectador
 base:eye
 color:B
 speed:110
@@ -6826,7 +6826,7 @@ desc:Un pariente menor del observador: un cuerpo globular con una gran boca
 desc: dentada, un ojo central grande y cuatro ojos más pequeños en tallos que
 desc: sobresalen de la parte superior de su cuerpo.
 
-name:Beorn, the Shape-Changer
+name:Beorn, el Cambiaformas
 base:person
 color:p
 speed:110
@@ -6847,16 +6847,16 @@ flags:DROP_2 | DROP_GOOD | ONLY_ITEM
 flags:FORCE_SLEEP
 spell-freq:2
 spells:SHAPECHANGE
-friends:100:2d3:Cave bear
-friends:100:2d3:Grizzly bear
-friends:100:2d3:Werebear
-shape:Beorn, the Mountain Bear
+friends:100:2d3:Oso de cueva
+friends:100:2d3:Oso pardo
+friends:100:2d3:Hombre oso
+shape:Beorn, el Oso de la Montaña
 desc:Hoy en día, Beorn solo se ve ocasionalmente en forma humana, prefiriendo
 desc: aparecer con la forma de un oso negro gigante: también prefiere la compañía
 desc: de las bestias a la de los humanos. Nunca ha sido amable con los extraños,
 desc: incluso en forma humana.
 
-name:Beorn, the Mountain Bear
+name:Beorn, el Oso de la Montaña
 base:quadruped
 color:p
 speed:120
@@ -6879,7 +6879,7 @@ desc: mella.
 
 ### Nivel de mazmorra 29 ###
 
-name:green elf archer
+name:arquero elfo verde
 base:humanoid
 color:W
 speed:120
@@ -6906,8 +6906,8 @@ desc:Un elfo de la Tierra de los Siete Ríos, cuya habilidad en el bosque era ta
 desc: que un extraño podía atravesar su tierra de punta a punta sin ver a ninguno
 desc: de ellos.
 
-name:giant black scorpion
-base:spider
+name:escorpión negro gigante
+base:araña
 color:s
 speed:120
 hit-points:189
@@ -6926,7 +6926,7 @@ flags:IM_POIS
 desc:Un escorpión negro brillante tan grande como un león, con un aguijón
 desc: pulsante y dos grandes garras mortales.
 
-name:purple worm
+name:gusano púrpura
 base:worm
 color:P
 speed:110
@@ -6968,7 +6968,7 @@ flags:IM_POIS
 desc:Una forma extraña parecida a un buey con una cabeza enorme pero un cuello
 desc: delgado y débil, parece la creación de algún alquimista trastornado.
 
-name:ring mimic
+name:mímico de anillo
 base:mimic
 glyph:=
 color:w
@@ -6997,7 +6997,7 @@ mimic:ring:Resistencia al Veneno
 mimic:ring:Libre Acción
 mimic:ring:Ver lo Invisible
 
-name:young blue dragon
+name:joven dragón azul
 base:dragon
 color:b
 speed:110
@@ -7021,7 +7021,7 @@ spells:BR_ELEC
 desc:Tiene una forma de la que se hacen las leyendas. Sus escamas aún tiernas
 desc: son de un tono azul profundo. Chispas crepitan a lo largo de su cuerpo.
 
-name:young white dragon
+name:joven dragón blanco
 base:dragon
 color:w
 speed:110
@@ -7046,7 +7046,7 @@ desc:Tiene una forma de la que se hacen las leyendas. Sus escamas aún tiernas
 desc: son de un tono blanco escarchado. Ráfagas heladas de aire frío emanan de
 desc: él cuando respira.
 
-name:young green dragon
+name:joven dragón verde
 base:dragon
 color:g
 speed:110
@@ -7071,8 +7071,8 @@ desc:Tiene una forma de la que se hacen las leyendas. Sus escamas aún tiernas
 desc: son de un tono verde profundo. Gas fétido se filtra a través de sus
 desc: escamas.
 
-name:energy vortex
-plural:energy vortices
+name:vórtice de energía
+plural:vórtices de energía
 base:vortex
 color:b
 speed:110
@@ -7098,7 +7098,7 @@ desc:Un tornado brillante de aire, chispas crepitan a lo largo de su longitud.
 
 ### Nivel de mazmorra 30 ###
 
-name:fire giant
+name:gigante de fuego
 base:giant
 color:r
 speed:110
@@ -7117,11 +7117,11 @@ flags:OPEN_DOOR
 flags:IM_FIRE
 innate-freq:8
 spells:BOULDER
-friends:60:1d7:Fire Hound
+friends:60:1d7:Sabueso de fuego
 friends:80:1d3:Same
 desc:Un gigante brillante de cuatro metros. Llamas gotean de su piel roja.
 
-name:mithril golem
+name:gólem de mithril
 base:golem
 color:B
 speed:110
@@ -7142,7 +7142,7 @@ flags:BASH_DOOR
 flags:IM_COLD | IM_FIRE | IM_POIS
 desc:Es una estatua masiva de mithril purísimo. ¡Parece caro!
 
-name:skeleton troll
+name:esqueleto de troll
 base:skeleton
 color:w
 speed:110
@@ -7160,7 +7160,7 @@ flags:TROLL | EMPTY_MIND | REGENERATE
 flags:OPEN_DOOR | BASH_DOOR
 desc:Es un esqueleto de troll animado por oscuros encantamientos.
 
-name:manticore
+name:mantícora
 base:hybrid
 color:y
 speed:120
@@ -7184,7 +7184,7 @@ spells:ARROW
 desc:Es el cuerpo de un león alado con torso humano y una cola cubierta de púas
 desc: viciosas.
 
-name:giant blue ant
+name:hormiga azul gigante
 base:ant
 color:b
 speed:110
@@ -7204,7 +7204,7 @@ spells:SPIT
 friends:100:4d4:Same
 desc:Es una hormiga gigante que crepita con energía.
 
-name:giant army ant
+name:hormiga legionaria gigante
 base:ant
 color:o
 speed:120
@@ -7223,7 +7223,7 @@ friends:100:4d4:Same
 desc:Una forma acorazada que se mueve con determinación. Poderosa por sí sola,
 desc: huye cuando marchan hordas de ellas.
 
-name:grave wight
+name:espectro de tumba
 base:wraith
 color:b
 speed:110
@@ -7244,8 +7244,8 @@ spell-freq:8
 spells:WOUND | DARKNESS | SCARE
 desc:Es una forma fantasmal con ojos que te persiguen.
 
-name:killer slicer beetle
-base:killer beetle
+name:escarabajo cortador asesino
+base:escarabajo asesino
 color:y
 speed:110
 hit-points:138
@@ -7260,7 +7260,7 @@ blow:BITE:HURT:7d8
 desc:Es un escarabajo con mandíbulas cortantes mortalmente afiladas y un
 desc: caparazón duro como la roca.
 
-name:ogre chieftain
+name:jefe ogro
 base:ogre
 color:b
 speed:120
@@ -7280,11 +7280,11 @@ flags:MALE
 flags:DROP_60 | ONLY_ITEM
 flags:MOVE_BODY
 flags:FORCE_SLEEP
-friends:50:2d4:Ogre:servant
-friends:100:2d4:Black ogre:servant
-friends:100:2d4:Cave ogre:servant
-friends:50:1d2:Ogre mage:servant
-friends:50:1d2:Ogre shaman:servant
+friends:50:2d4:Ogro:servant
+friends:100:2d4:Ogro negro:servant
+friends:100:2d4:Ogro de cueva:servant
+friends:50:1d2:Mago ogro:servant
+friends:50:1d2:Chamán ogro:servant
 desc:Este ogro es el líder de su tribu. Te mira con desdén mientras avanza hacia
 desc: ti, blandiendo una enorme clava y apartando groseramente a sus propios
 desc: seguidores.
@@ -7307,17 +7307,17 @@ flags:DROP_40
 flags:HURT_LIGHT
 spell-freq:7
 spells:HOLD | SCARE
-friends:20:1d3:Zombified kobold
-friends:20:1d3:Zombified orc
-friends:20:1d3:Zombified human
-friends:40:1d3:Mummified orc
-friends:40:1d3:Mummified human
-friends:40:1d3:Mummified troll
+friends:20:1d3:Kobold zombificado
+friends:20:1d3:Orco zombificado
+friends:20:1d3:Humano zombificado
+friends:40:1d3:Orco momificado
+friends:40:1d3:Humano momificado
+friends:40:1d3:Troll momificado
 friends:100:4d4:Ghoul
 desc:Esta vil abominación es pariente de los ghouls, y a menudo lidera manadas de
 desc: ellos. Hiede, y su mordedura conlleva una enfermedad de putrefacción.
 
-name:Bert the Stone Troll
+name:Bert el Troll de Piedra
 base:troll
 color:s
 speed:120
@@ -7338,12 +7338,12 @@ flags:MOVE_BODY | TAKE_ITEM
 flags:HURT_ROCK | HURT_LIGHT | IM_COLD
 innate-freq:7
 spells:BOULDER
-friends:100:1d1:Tom the Stone Troll
-friends:100:1d1:Bill the Stone Troll
+friends:100:1d1:Tom el Troll de Piedra
+friends:100:1d1:Bill el Troll de Piedra
 desc:Grande, fornido, poderoso y con gusto por el hobbit. Tiene amigos llamados
 desc: Bill y Tom.
 
-name:Bill the Stone Troll
+name:Bill el Troll de Piedra
 base:troll
 color:s
 speed:120
@@ -7364,12 +7364,12 @@ flags:MOVE_BODY | TAKE_ITEM
 flags:HURT_ROCK | HURT_LIGHT | IM_COLD
 innate-freq:7
 spells:BOULDER
-friends:100:1d1:Bert the Stone Troll
-friends:100:1d1:Tom the Stone Troll
+friends:100:1d1:Bert el Troll de Piedra
+friends:100:1d1:Tom el Troll de Piedra
 desc:Grande, fornido, poderoso y con gusto por el hobbit. Tiene amigos llamados
 desc: Bert y Tom.
 
-name:Tom the Stone Troll
+name:Tom el Troll de Piedra
 base:troll
 color:s
 speed:120
@@ -7390,14 +7390,14 @@ flags:MOVE_BODY | TAKE_ITEM
 flags:HURT_ROCK | HURT_LIGHT | IM_COLD
 innate-freq:7
 spells:BOULDER
-friends:100:1d1:Bert the Stone Troll
-friends:100:1d1:Bill the Stone Troll
+friends:100:1d1:Bert el Troll de Piedra
+friends:100:1d1:Bill el Troll de Piedra
 desc:Grande, fornido, poderoso y con gusto por el hobbit. Tiene amigos llamados
 desc: Bert y Bill.
 
 ### Nivel de mazmorra 31 ###
 
-name:ghost
+name:fantasma
 base:ghost
 color:w
 speed:120
@@ -7419,8 +7419,8 @@ spell-freq:15
 spells:BLIND | DRAIN_MANA | HOLD
 desc:No crees en él. Pero él cree en ti...
 
-name:death watch beetle
-base:killer beetle
+name:escarabajo de la muerte
+base:escarabajo asesino
 color:D
 speed:110
 hit-points:163
@@ -7435,7 +7435,7 @@ blow:BITE:HURT:5d6
 blow:WAIL:TERRIFY:5d6
 desc:Es un escarabajo gigante que produce un sonido escalofriante.
 
-name:young black dragon
+name:joven dragón negro
 base:dragon
 color:s
 speed:110
@@ -7459,7 +7459,7 @@ spells:BR_ACID
 desc:Tiene una forma de la que se hacen las leyendas. Sus escamas aún tiernas
 desc: son de un tono negro oscuro. El ácido gotea de su cuerpo.
 
-name:young gold dragon
+name:joven dragón dorado
 base:dragon
 color:y
 speed:110
@@ -7482,7 +7482,7 @@ spells:BR_SOUN
 desc:Tiene una forma de la que se hacen las leyendas. Sus escamas aún tiernas
 desc: son de un tono oro deslustrado, y la luz se refleja en su forma.
 
-name:young red dragon
+name:joven dragón rojo
 base:dragon
 color:r
 speed:110
@@ -7533,8 +7533,8 @@ desc:Un árbol que se ha vuelto ent, o tal vez un ent que se ha vuelto árbol.
 
 ### Nivel de mazmorra 32 ###
 
-name:serpent of the brownlands
-plural:serpents of the brownlands
+name:serpiente de las tierras marrones
+plural:serpientes de las tierras marrones
 base:snake
 color:u
 speed:120
@@ -7558,7 +7558,7 @@ desc:Una gran serpiente, con espirales de acero, una embestida más rápida de l
 desc: que el ojo puede ver, y colmillos que gotean veneno ácido. Sus ojos son
 desc: hipnóticos.
 
-name:ogre mage
+name:mago ogro
 base:ogre
 color:B
 speed:115
@@ -7584,7 +7584,7 @@ drop-base:magic book:5:1:1
 drop-base:magic book:5:1:1
 desc:Un ogro horrible envuelto en túnicas de brujería negra.
 
-name:nexus quylthulg
+name:quylthulg de nexo
 base:quylthulg
 color:P
 speed:110
@@ -7601,7 +7601,7 @@ spells:BLINK | TELE_AWAY
 message-invis:BLINK:Algo sorbe.
 desc:Es un montículo pulsante de carne extraño y muy inestable.
 
-name:southron assassin
+name:asesino southron
 base:person
 color:M
 speed:120
@@ -7619,12 +7619,12 @@ flags:MALE | EVIL
 flags:DROP_1
 flags:OPEN_DOOR
 flags:NO_CONF | NO_SLEEP
-friends:50:1d1:Master thief
-friends:50:1d1:Mage
-friends:50:1d1:blackguard
+friends:50:1d1:Ladrón maestro
+friends:50:1d1:Mago
+friends:50:1d1:guardia negro
 desc:Un hombre de Harad vestido de negro que se mueve con velocidad cegadora.
 
-name:memory moss
+name:musgo de la memoria
 base:mushroom
 color:r
 speed:110
@@ -7644,7 +7644,7 @@ spells:FORGET
 desc:Una masa de vegetación verde. No recuerdas haber visto nada igual
 desc: antes.
 
-name:young multi-hued dragon
+name:joven dragón multicolor
 base:dragon
 color:v
 speed:110
@@ -7669,7 +7669,7 @@ spells:BR_ACID | BR_COLD | BR_ELEC | BR_FIRE | BR_POIS
 desc:Tiene una forma de la que se hacen las leyendas. Hermosas escamas de
 desc: colores brillantes y mágicos lo cubren.
 
-name:doombat
+name:murciélago de la perdición
 base:bat
 color:R
 speed:130
@@ -7692,7 +7692,7 @@ desc: rodeado de llamas rojas brillantes y parpadeantes.
 
 ### Nivel de mazmorra 33 ###
 
-name:drúadan druid
+name:druida drúadan
 base:person
 color:y
 speed:120
@@ -7719,7 +7719,7 @@ drop-base:nature book:8:1:1
 drop-base:nature book:8:1:1
 desc:Un hombre bajo y robusto con una conexión extraña con la naturaleza.
 
-name:stone giant
+name:gigante de piedra
 base:giant
 color:W
 speed:110
@@ -7736,11 +7736,11 @@ flags:DROP_40
 flags:OPEN_DOOR | TAKE_ITEM
 innate-freq:5
 spells:BOULDER
-friends:60:1d7:Earth hound
+friends:60:1d7:Sabueso de tierra
 friends:80:1d3:Same
 desc:Mide cinco metros y medio y te está mirando.
 
-name:shadow drake
+name:draco sombrío
 base:dragon
 color:G
 speed:110
@@ -7767,7 +7767,7 @@ desc:Es una forma parecida a un dragón envuelta en sombras. Ojos rojos brillant
 desc: resplandecen en la oscuridad, y está rodeado por un aura de frío
 desc: sobrenatural que hiela el alma más que el cuerpo.
 
-name:cave troll
+name:troll de cueva
 base:troll
 color:u
 speed:110
@@ -7786,12 +7786,12 @@ blow:BITE:HURT:1d8
 flags:MALE
 flags:DROP_20
 flags:HURT_LIGHT
-friends:30:1d5:stone troll
-friends:30:1d5:troll scavenger
+friends:30:1d5:troll de piedra
+friends:30:1d5:troll carroñero
 friends:100:3d3:Same
 desc:Es un monstruo vicioso, temido por su ferocidad.
 
-name:mystic
+name:místico
 base:person
 color:o
 speed:120
@@ -7816,12 +7816,12 @@ spells:HEAL
 spells:S_ANIMAL | S_SPIDER
 drop-base:nature book:10:1:1
 drop-base:nature book:5:1:1
-friends-base:50:2d4:spider
+friends-base:50:2d4:araña
 desc:Un experto en combate sin armas, el místico golpea con poder impresionante.
 desc: Puede pedir ayuda a la naturaleza y es capaz de concentrar su poder para
 desc: aliviar cualquier dolor.
 
-name:barrow wight
+name:espectro de túmulo
 base:wraith
 color:P
 speed:110
@@ -7843,7 +7843,7 @@ spells:WOUND | DARKNESS | HOLD | SCARE
 friends:100:4d4:Same
 desc:Es una pesadilla fantasmal de una entidad.
 
-name:skeleton etten
+name:esqueleto etten
 base:skeleton
 color:w
 speed:110
@@ -7862,7 +7862,7 @@ flags:TROLL | EMPTY_MIND | REGENERATE
 flags:OPEN_DOOR | BASH_DOOR
 desc:Es la forma animada de un troll masivo de dos cabezas.
 
-name:chaos drake
+name:draco del caos
 base:dragon
 color:v
 speed:110
@@ -7887,7 +7887,7 @@ spells:BR_CHAO | BR_DISE
 desc:Un dragón retorcido por las fuerzas del caos. Parece primero feo, luego
 desc: bello, mientras su forma brilla y cambia ante tus ojos.
 
-name:law drake
+name:draco de la ley
 base:dragon
 color:B
 speed:110
@@ -7911,7 +7911,7 @@ spells:BR_SHAR | BR_SOUN
 desc:Este dragón es listo y astuto. Se ríe de tus endebles esfuerzos por
 desc: molestarlo.
 
-name:balance drake
+name:draco del equilibrio
 base:dragon
 color:P
 speed:110
@@ -7935,7 +7935,7 @@ spells:BR_CHAO | BR_DISE | BR_SHAR | BR_SOUN
 desc:Un dragón poderoso, el draco del equilibrio busca mantener el Equilibrio
 desc: Cósmico y desprecia tus débiles esfuerzos por destruir el mal.
 
-name:ethereal drake
+name:draco etéreo
 base:dragon
 color:o
 speed:110
@@ -7960,7 +7960,7 @@ spells:BR_DARK | BR_LIGHT
 desc:Un dragón de gran poder, con control sobre la luz y la oscuridad. Los ojos
 desc: del draco etéreo fulguran con odio blanco desde las sombras.
 
-name:fire elemental
+name:elemental de fuego
 base:elemental
 color:r
 speed:110
@@ -7981,7 +7981,7 @@ spell-freq:6
 spells:BO_FIRE
 desc:Es un infierno llameante de fuego.
 
-name:water elemental
+name:elemental de agua
 base:elemental
 color:b
 speed:110
@@ -8003,7 +8003,7 @@ spell-freq:6
 spells:BO_COLD
 desc:Es una imponente tempestad de agua.
 
-name:crystal drake
+name:draco de cristal
 base:dragon
 color:u
 speed:110
@@ -8030,7 +8030,7 @@ desc: deslumbrando tus ojos con espectros de color.
 
 ### Nivel de mazmorra 34 ###
 
-name:troll priest
+name:sacerdote troll
 base:troll
 color:G
 speed:110
@@ -8082,7 +8082,7 @@ desc: a ti en combate por alguna otra razón no está claro; todo lo que sabes e
 desc: que está ante ti, sus ojos llameantes mientras prepara su próxima
 desc: andanada de hechizos.
 
-name:troll blackguard
+name:guardia negro troll
 base:troll
 color:U
 speed:110
@@ -8106,7 +8106,7 @@ friends-base:100:3d4:troll
 desc:Un troll medio inteligente, vicioso, con algo de magia rudimentaria y amor
 desc: por la violencia.
 
-name:shade
+name:sombra
 base:ghost
 color:D
 speed:120
@@ -8129,8 +8129,8 @@ spells:BLIND | DRAIN_MANA | HOLD
 desc:Una forma sombría te agarra desde la oscuridad. Una criatura no muerta
 desc: poderosa con un toque mortal.
 
-name:master thief
-plural:master thieves
+name:ladrón maestro
+plural:ladrones maestros
 base:person
 color:b
 speed:130
@@ -8151,12 +8151,12 @@ flags:OPEN_DOOR | TAKE_ITEM
 innate-freq:10
 spell-freq:6
 spells:SHOT | BLINK | TRAPS
-friends:50:1d1:blackguard
-friends:50:1d1:Mage
-friends:50:1d1:southron assassin
+friends:50:1d1:guardia negro
+friends:50:1d1:Mago
+friends:50:1d1:asesino southron
 desc:Frío y confiado, rápido y ágil; ¡protege tus posesiones rápidamente!
 
-name:Ulfang the Black
+name:Ulfang el Negro
 base:person
 color:U
 speed:120
@@ -8178,14 +8178,14 @@ flags:OPEN_DOOR | TAKE_ITEM
 spell-freq:10
 spells:S_KIN
 friends:60:1d3:Mûmak
-friends:100:3d3:Easterling champion:bodyguard
-friends:100:1d1:Ulfast, Son of Ulfang
-friends:100:1d1:Ulwarth, Son of Ulfang
+friends:100:3d3:Campeón oriental:bodyguard
+friends:100:1d1:Ulfast, Hijo de Ulfang
+friends:100:1d1:Ulwarth, Hijo de Ulfang
 desc:Un hombre del Este, bajo y moreno, vestido de negro. Él y sus tres hijos
 desc: una vez juraron lealtad abiertamente a los Altos Elfos, pero estaban
 desc: secretamente al servicio de Morgoth.
 
-name:lich
+name:liche
 plural:liches
 base:lich
 color:o
@@ -8210,7 +8210,7 @@ friends-base:70:1d3:skeleton
 desc:Es una forma esquelética vestida con túnicas. Irradia un poder vastamente
 desc: maligno.
 
-name:earth elemental
+name:elemental de tierra
 base:elemental
 color:u
 speed:100
@@ -8232,7 +8232,7 @@ spell-freq:8
 spells:BO_ACID
 desc:Es una forma imponente compuesta de roca con puños de poder impresionante.
 
-name:air elemental
+name:elemental de aire
 base:elemental
 color:B
 speed:120
@@ -8254,7 +8254,7 @@ spell-freq:8
 spells:BO_ELEC
 desc:Es un imponente tornado de vientos.
 
-name:Eog golem
+name:gólem Eog
 base:golem
 color:u
 speed:100
@@ -8279,7 +8279,7 @@ desc: menos poderosa ahora.
 
 ### Nivel de mazmorra 35 ###
 
-name:wereworm
+name:hombre-gusano
 base:worm
 color:p
 speed:100
@@ -8296,10 +8296,10 @@ blow:BITE:HURT:1d10
 blow:BITE:POISON:1d6
 flags:BASH_DOOR
 flags:IM_ACID
-desc:Una enorme forma de gusano que gotea ácido, retorcida por malvada hechicería
+desc:Una enorme forma de gusano que gotea ácido, retorcido por malvada hechicería
 desc: en un monstruo inmundo que se reproduce en la muerte.
 
-name:Lokkak, the Ogre Chieftain
+name:Lokkak, el Jefe Ogro
 base:ogre
 color:v
 speed:120
@@ -8316,16 +8316,16 @@ blow:HIT:HURT:6d6
 blow:HIT:HURT:6d6
 flags:UNIQUE | MALE | NAME_COMMA | MOVE_BODY
 flags:DROP_2 | DROP_GOOD | ONLY_ITEM
-friends:100:3d3:Ogre:servant
-friends:100:3d3:Black ogre:servant
-friends:100:3d3:Cave ogre:bodyguard
-friends:80:1d2:Ogre mage:servant
-friends:80:1d2:Ogre shaman:servant
-friends:50:1d2:Ogre chieftain:servant
+friends:100:3d3:Ogro:servant
+friends:100:3d3:Ogro negro:servant
+friends:100:3d3:Ogro de cueva:bodyguard
+friends:80:1d2:Mago ogro:servant
+friends:80:1d2:Chamán ogro:servant
+friends:50:1d2:Jefe ogro:servant
 desc:Un ogro famoso por actos de crueldad excepcional, Lokkak se convirtió
 desc: rápidamente en el líder de una gran banda de ogros violentos.
 
-name:hill troll
+name:troll de colina
 base:troll
 color:m
 speed:110
@@ -8348,7 +8348,7 @@ desc:Vestido solo con una malla de escamas córneas muy ajustada (a menos que se
 desc: su piel), este troll avanza hacia ti rugiendo como una bestia, blandiendo
 desc: un pesado martillo en su mano nudosa.
 
-name:invisible stalker
+name:acechador invisible
 base:elemental
 color:y
 speed:130
@@ -8367,7 +8367,7 @@ flags:RAND_50 | OPEN_DOOR | BASH_DOOR
 flags:IM_ELEC
 desc:Es imposible definir su forma pero su violencia es legendaria.
 
-name:gravity hound
+name:sabueso de gravedad
 base:zephyr hound
 color:W
 speed:110
@@ -8394,7 +8394,7 @@ desc: antinaturales caminan por las paredes e incluso el techo. De repente, la
 desc: tierra se siente menos sólida al ver la gravedad deformarse alrededor de
 desc: los monstruos.
 
-name:inertia hound
+name:sabueso de inercia
 base:zephyr hound
 color:W
 speed:110
@@ -8419,7 +8419,7 @@ friends:100:2d7:Same
 desc:Curiosamente, este sabueso parece casi no moverse, pero se acerca a ti con
 desc: amenaza mortal. Te cansa solo mirarlo.
 
-name:impact hound
+name:sabueso de impacto
 base:zephyr hound
 color:u
 speed:110
@@ -8465,7 +8465,7 @@ flags:ANIMAL
 friends:100:4d4:Same
 desc:Una forma elefantina masiva con ojos retorcidos por la locura.
 
-name:giant fire ant
+name:hormiga de fuego gigante
 base:ant
 color:R
 speed:110
@@ -8488,7 +8488,7 @@ friends:100:4d4:Same
 desc:Una hormiga gigante cubierta de pelaje hirsuto. Sus poderosas mandíbulas
 desc: brillan con calor.
 
-name:chest mimic
+name:mímico de cofre
 base:mimic
 glyph:~
 color:s
@@ -8521,7 +8521,7 @@ mimic:chest:Cofre grande de hierro
 mimic:chest:Cofre pequeño de acero
 mimic:chest:Cofre grande de acero
 
-name:silent watcher
+name:vigilante silencioso
 base:golem
 color:r
 speed:110
@@ -8599,7 +8599,7 @@ message-invis:TELE_SELF_TO:El crepitar constante se calma brevemente y luego se 
 desc:Una forma humanoide de relámpago viviente. Chispas y descargas crepitan por
 desc: toda esta figura que brinca locamente, mientras salta y gira a tu alrededor.
 
-name:cloud giant
+name:gigante de nubes
 base:giant
 color:b
 speed:110
@@ -8617,11 +8617,11 @@ flags:OPEN_DOOR | TAKE_ITEM
 flags:IM_ELEC
 innate-freq:8
 spells:BOULDER
-friends:60:1d7:Energy hound
+friends:60:1d7:Sabueso de energía
 friends:80:1d3:Same
 desc:Es un gigante de seis metros envuelto en nubes.
 
-name:master vampire
+name:maestro vampiro
 base:vampire
 color:g
 speed:110
@@ -8646,7 +8646,7 @@ spells:HOLD | SCARE
 desc:Es una forma humanoide vestida con túnicas. El poder emana de su
 desc: escalofriante armazón.
 
-name:ooze elemental
+name:elemental de lodo
 base:elemental
 color:g
 speed:110
@@ -8667,9 +8667,9 @@ flags:FORCE_SLEEP
 spell-freq:5
 spells:BA_ACID
 spells:BO_ACID
-desc:Es una masa imponente de inmundicia, un horror de limo.
+desc:Es una masa imponente de inmundicia, un fango horroroso.
 
-name:smoke elemental
+name:elemental de humo
 base:elemental
 color:D
 speed:120
@@ -8710,8 +8710,8 @@ flags:IM_COLD | IM_ELEC | IM_FIRE
 desc:Una criatura enorme del elemento Tierra. Capaz de fusionarse con su
 desc: elemento, tiene cuatro brazos enormes que sobresalen de su torso enorme.
 
-name:colossus
-plural:colossi
+name:coloso
+plural:colosos
 base:golem
 color:G
 speed:100
@@ -8733,7 +8733,7 @@ desc:Una construcción enorme que se asemeja a un titán hecho de piedra. Avanza
 desc: con determinación hacia ti, balanceando sus lentos puños con un poder
 desc: capaz de partir la tierra.
 
-name:trapper
+name:trampero
 base:lurker
 color:W
 speed:120
@@ -8775,8 +8775,8 @@ spells:BO_FIRE
 spells:S_DEMON
 desc:Es una forma humanoide compuesta de llamas y odio.
 
-name:dúnadan of Angmar
-plural:dúnedain of Angmar
+name:dúnadan de Angmar
+plural:dúnedain de Angmar
 base:person
 color:P
 speed:120
@@ -8804,7 +8804,7 @@ friends-base:80:1d3:skeleton
 desc:Un nigromante reclutado para el reino malvado de Angmar durante el declive
 desc: del Reino del Norte.
 
-name:Lorgan, Chief of the Easterlings
+name:Lorgan, Jefe de los Orientales
 base:person
 color:P
 speed:120
@@ -8830,10 +8830,10 @@ spell-freq:4
 spells:TELE_TO
 spells:S_MONSTERS
 friends:50:1d3:Mûmak
-friends:100:2d5:Easterling champion:bodyguard
+friends:100:2d5:Campeón oriental:bodyguard
 desc:Un poderoso guerrero del este, Lorgan odia todo lo que no puede controlar.
 
-name:demonologist
+name:demoniólogo
 base:person
 color:R
 speed:120
@@ -8889,7 +8889,7 @@ desc: de magia.
 
 ### Nivel de mazmorra 37 ###
 
-name:ice elemental
+name:elemental de hielo
 base:elemental
 color:w
 speed:110
@@ -8912,7 +8912,7 @@ spells:BA_COLD
 spells:BO_ICE
 desc:Es un imponente glaciar de hielo.
 
-name:mummified troll
+name:troll momificado
 base:zombie
 color:w
 speed:110
@@ -8930,7 +8930,7 @@ flags:DROP_20
 flags:NO_FEAR
 desc:Es una figura masiva envuelta en vendas. Desconfías de sus puños masivos.
 
-name:spectre
+name:espectro
 base:ghost
 color:U
 speed:120
@@ -8952,7 +8952,7 @@ spells:BLIND | DRAIN_MANA | HOLD
 desc:Un espíritu fantasmal y chillón. Su lamento lleva el frío intenso del mal
 desc: puro a lo más profundo de tu cuerpo.
 
-name:magma elemental
+name:elemental de magma
 base:elemental
 color:o
 speed:110
@@ -8976,8 +8976,8 @@ spells:BA_FIRE
 spells:BO_PLAS
 desc:Es una forma brillante e imponente de odio fundido.
 
-name:killer iridescent beetle
-base:killer beetle
+name:escarabajo irisado asesino
+base:escarabajo asesino
 color:b
 speed:110
 hit-points:330
@@ -8996,8 +8996,8 @@ innate-freq:6
 spells:SPIT
 desc:Es un escarabajo gigante, cuyo caparazón brilla con energías vibrantes.
 
-name:nexus vortex
-plural:nexus vortices
+name:vórtice de nexo
+plural:vórtices de nexo
 base:vortex
 color:P
 speed:120
@@ -9015,8 +9015,8 @@ innate-freq:4
 spells:BR_NEXU
 desc:Un torbellino de energía mágica potente.
 
-name:plasma vortex
-plural:plasma vortices
+name:vórtice de plasma
+plural:vórtices de plasma
 base:vortex
 color:R
 speed:120
@@ -9036,7 +9036,7 @@ innate-freq:4
 spells:BR_PLAS
 desc:Un remolino de llamas intensas, carbonizando las piedras a tus pies.
 
-name:mountain troll
+name:troll de montaña
 base:troll
 color:r
 speed:110
@@ -9058,7 +9058,7 @@ flags:NO_CONF | NO_SLEEP
 desc:Un troll masivo, más grande y más fuerte que muchos hombres juntos. No
 desc: necesita más armas que sus manos y pies masivos.
 
-name:shardstorm
+name:tormenta de fragmentos
 base:vortex
 color:u
 speed:120
@@ -9075,7 +9075,7 @@ spells:BR_SHAR
 desc:Una ráfaga aullante de fragmentos de montaña afilados como navajas, mantenidos
 desc: intactos por magias peligrosas.
 
-name:emperor wight
+name:espectro emperador
 base:wraith
 color:r
 speed:110
@@ -9102,7 +9102,7 @@ desc: sobrenatural se acerca.
 
 ### Nivel de mazmorra 38 ###
 
-name:mummified chieftain
+name:jefe momificado
 base:zombie
 color:y
 speed:115
@@ -9130,14 +9130,14 @@ spells:HEAL | MIND_BLAST | SCARE
 spells:BA_COLD | BA_POIS
 spells:BO_NETH
 spells:S_UNDEAD
-friends:100:2d3:Mummified orc:servant
-friends:100:2d3:Mummified human:servant
-friends:100:2d3:Mummified troll:servant
+friends:100:2d3:Orco momificado:servant
+friends:100:2d3:Humano momificado:servant
+friends:100:2d3:Troll momificado:servant
 desc:Un gobernante poderoso que se negó a la llamada de Mandos en la muerte,
 desc: prefiriendo re-ocupar su cuerpo ahora embalsamado. Comanda una legión de
 desc: sus antiguos súbditos con alaridos sobrenaturales.
 
-name:will o' the wisp
+name:fuego fatuo
 base:elemental
 color:W
 speed:130
@@ -9165,7 +9165,7 @@ desc:Una bola extraña de luz brillante. Desaparece y reaparece y parece
 desc: atrayerte hacia ella. De alguna manera te sientes obligado a quedarte
 desc: quieto y mirar su extraño baile.
 
-name:death knight
+name:jinete de la muerte
 base:person
 color:D
 speed:120
@@ -9190,12 +9190,12 @@ spells:BO_NETH
 spells:S_MONSTERS
 drop-base:shadow book:8:1:1
 drop-base:shadow book:8:1:1
-friends:50:1d1:Imp
+friends:50:1d1:Diablillo
 desc:Es una figura humanoide vestida con una armadura de forma antigua. Debajo de
 desc: su yelmo, los ojos brillan con un rojo fatídico y parecen perforarte como
 desc: lanzas de fuego.
 
-name:Castamir the Usurper
+name:Castamir el Usurpador
 base:person
 color:V
 speed:120
@@ -9221,8 +9221,8 @@ spells:BO_COLD | BO_ELEC | BO_FIRE | BO_ICE
 desc:Un Númenóreano Negro que usurpó el trono de Gondor, es traicionero y
 desc: malvado.
 
-name:time vortex
-plural:time vortices
+name:vórtice de tiempo
+plural:vórtices de tiempo
 base:vortex
 color:B
 speed:130
@@ -9239,8 +9239,8 @@ innate-freq:4
 spells:BR_TIME
 desc:Aún no lo has visto.
 
-name:shimmering vortex
-plural:shimmering vortices
+name:vórtice brillante
+plural:vórtices brillantes
 base:vortex
 color:o
 speed:140
@@ -9263,7 +9263,7 @@ desc:Un extraño pilar de luz brillante que lastra tus ojos. Su forma cambia
 desc: constantemente mientras corta el aire hacia ti. Es como un faro,
 desc: despertando monstruos de su sueño.
 
-name:white wraith
+name:espectro blanco
 base:wraith
 color:w
 speed:120
@@ -9307,8 +9307,8 @@ desc:Un troll masivo de dos cabezas de fuerza enorme, los ettens son estúpidos
 desc: pero violentos. También son prueba viviente de que dos cabezas no son más
 desc: inteligentes que una...
 
-name:abyss spider
-base:spider
+name:araña abismal
+base:araña
 color:G
 speed:120
 hit-points:264
@@ -9336,7 +9336,7 @@ desc: patas espinosas.
 
 ### Nivel de mazmorra 39 ###
 
-name:southron archer
+name:arquero southron
 base:person
 color:M
 speed:120
@@ -9357,12 +9357,12 @@ flags:OPEN_DOOR
 flags:NO_CONF | NO_SLEEP
 innate-freq:2
 spells:ARROW
-friends:80:1d4:southron assassin
+friends:80:1d4:asesino southron
 desc:Un hombre de Harad vestido de negro y rojo y llevando un arco largo. Su
 desc: aljaba está llena de flechas de plumas rojas, y lleva una insignia de una
 desc: serpiente negra.
 
-name:mature white dragon
+name:dragón blanco maduro
 base:dragon
 color:w
 speed:115
@@ -9383,11 +9383,11 @@ innate-freq:12
 spell-freq:20
 spells:SCARE
 spells:BR_COLD
-friends:50:1d4:Baby white dragon
-friends:50:1d2:Young white dragon
+friends:50:1d4:Bebé dragón blanco
+friends:50:1d2:Joven dragón blanco
 desc:Un dragón grande, de escamas de un blanco brillante.
 
-name:mature blue dragon
+name:dragón azul maduro
 base:dragon
 color:b
 speed:115
@@ -9408,11 +9408,11 @@ innate-freq:12
 spell-freq:20
 spells:SCARE
 spells:BR_ELEC
-friends:50:1d4:Baby blue dragon
-friends:50:1d2:Young blue dragon
+friends:50:1d4:Bebé dragón azul
+friends:50:1d2:Joven dragón azul
 desc:Un dragón grande, de escamas teñidas de azul profundo.
 
-name:mature green dragon
+name:dragón verde maduro
 base:dragon
 color:g
 speed:115
@@ -9433,11 +9433,11 @@ innate-freq:12
 spell-freq:20
 spells:SCARE
 spells:BR_POIS
-friends:50:1d4:Baby green dragon
-friends:50:1d2:Young green dragon
+friends:50:1d4:Bebé dragón verde
+friends:50:1d2:Joven dragón verde
 desc:Un dragón grande, de escamas teñidas de verde profundo.
 
-name:6-headed hydra
+name:hidra de 6 cabezas
 base:hydra
 color:G
 speed:120
@@ -9465,7 +9465,7 @@ spells:BR_POIS
 desc:Una hidra de 5 cabezas que parece tener una cabeza extra, si tan solo
 desc: pudieras verla bien.
 
-name:night mare
+name:pesadilla nocturna
 base:quadruped
 color:G
 speed:120
@@ -9495,7 +9495,7 @@ desc: más que odio por todo lo que vive.
 
 ### Nivel de mazmorra 40 ###
 
-name:beholder
+name:observador
 base:eye
 color:U
 speed:120
@@ -9521,7 +9521,7 @@ spells:BO_ACID | BO_COLD | BO_ELEC | BO_FIRE
 desc:Una criatura vil con un ojo central enorme, doce ojos más pequeños en
 desc: tallos y una boca enorme llena de dientes afilados.
 
-name:disenchanter worm mass
+name:masa de gusanos desencantadores
 base:worm
 color:v
 speed:100
@@ -9540,7 +9540,7 @@ flags:ATTR_MULTI
 desc:Es una masa extraña de gusanos retorcidos. La energía mágica crepita
 desc: alrededor de su asquerosa forma.
 
-name:spirit troll
+name:troll espiritual
 base:ghost
 color:G
 speed:110
@@ -9559,7 +9559,7 @@ flags:DROP_60
 flags:IM_ELEC
 desc:Una extraña criatura fantasmal parecida a un troll.
 
-name:phantom
+name:fantasma
 base:ghost
 color:P
 speed:120
@@ -9581,7 +9581,7 @@ spells:FORGET
 desc:Una criatura impía de la oscuridad, el aura que emana de este ser maligno
 desc: agota tu propia alma.
 
-name:7-headed hydra
+name:hidra de 7 cabezas
 base:hydra
 color:r
 speed:120
@@ -9610,7 +9610,7 @@ spells:BR_POIS | BR_FIRE
 desc:Una hidra de 6 cabezas con una cabeza extra que te hace señas
 desc: hipnotizadoramente.
 
-name:enchantress
+name:encantadora
 base:person
 color:R
 speed:130
@@ -9641,7 +9641,7 @@ shape:ancient dragon
 desc:Esta esquiva lanzadora de hechizos femenina tiene una afinidad especial con
 desc: los dragones, con los que rara vez lucha sin compañía.
 
-name:sorcerer
+name:hechicero
 base:person
 color:R
 speed:130
@@ -9668,9 +9668,9 @@ spells:BO_ACID
 spells:S_DRAGON | S_MONSTER | S_UNDEAD
 drop-base:magic book:5:1:1
 drop-base:magic book:10:1:1
-friends:30:1d1:Master thief
-friends:30:1d1:Ranger chieftain
-friends:30:1d1:Patriarch
+friends:30:1d1:Ladrón maestro
+friends:30:1d1:Jefe explorador
+friends:30:1d1:Patriarca
 friends:30:1d1:Berserker
 desc:Una figura humana con túnica, se mueve con velocidad mejorada mágicamente, y
 desc: sus manos son un borrón al lanzar hechizos.
@@ -9695,7 +9695,7 @@ flags:PASS_WALL | KILL_ITEM
 flags:IM_COLD | IM_ELEC | IM_FIRE
 desc:Es un pariente más duro del Xorn. Su piel brilla con menas metálicas.
 
-name:giant roc
+name:roc gigante
 base:bird
 color:u
 speed:110
@@ -9715,7 +9715,7 @@ desc:Un ave legendaria y enorme, sus garras de hierro rasgan las superficies má
 desc: impenetrables y su chillido resuena a través de los muchos sinuosos
 desc: pasillos de la mazmorra.
 
-name:minotaur
+name:minotauro
 base:hybrid
 color:s
 speed:130
@@ -9756,7 +9756,7 @@ spells:BLIND | CONF
 friends:100:4d4:Same
 desc:Es un demonio con cuello largo y garras que rasgan.
 
-name:death quasit
+name:quasit de la muerte
 base:minor demon
 color:D
 speed:130
@@ -9782,7 +9782,7 @@ desc:Es un demonio de pequeña estatura, pero su armazón acorazada se mueve con
 desc: velocidad relámpago y sus poderes lo convierten en un tornado de muerte y
 desc: destrucción.
 
-name:patriarch
+name:patriarca
 base:person
 color:G
 speed:120
@@ -9808,14 +9808,14 @@ spells:BA_LIGHT | BA_ELEC | BA_HOLY
 spells:S_KIN
 drop-base:prayer book:5:1:1
 drop-base:prayer book:10:1:1
-friends:30:1d1:Master thief
-friends:30:1d1:Ranger chieftain
-friends:30:1d1:Sorcerer
+friends:30:1d1:Ladrón maestro
+friends:30:1d1:Jefe explorador
+friends:30:1d1:Hechicero
 friends:30:1d1:Berserker
 desc:Un sacerdote de gran poder, está convencido de la rectitud de sus
 desc: creencias. Ponte en su camino bajo tu propio riesgo.
 
-name:troll chieftain
+name:jefe troll
 base:troll
 color:P
 speed:120
@@ -9835,18 +9835,18 @@ flags:SMART
 flags:DROP_1
 flags:MOVE_BODY | TAKE_ITEM
 flags:NO_FEAR
-friends:60:2d3:forest troll:servant
-friends:60:2d3:stone troll:servant
-friends:60:2d3:snow troll:servant
-friends:60:2d3:hill troll:servant
-friends:60:2d3:cave troll:servant
+friends:60:2d3:troll del bosque:servant
+friends:60:2d3:troll de piedra:servant
+friends:60:2d3:troll de nieve:servant
+friends:60:2d3:troll de colina:servant
+friends:60:2d3:troll de cueva:servant
 friends:60:2d3:olog:servant
 desc:La gran fuerza y tamaño de este troll le han valido el puesto de jefe de
 desc: su tribu. No teme a nada.
 
 ### Nivel de mazmorra 41 ###
 
-name:mature red dragon
+name:dragón rojo maduro
 base:dragon
 color:r
 speed:115
@@ -9868,11 +9868,11 @@ innate-freq:12
 spell-freq:20
 spells:CONF | SCARE
 spells:BR_FIRE
-friends:50:1d4:Baby red dragon
-friends:50:1d2:Young red dragon
+friends:50:1d4:Bebé dragón rojo
+friends:50:1d2:Joven dragón rojo
 desc:Un dragón grande, de escamas teñidas de rojo profundo.
 
-name:mature gold dragon
+name:dragón dorado maduro
 base:dragon
 color:y
 speed:115
@@ -9893,11 +9893,11 @@ innate-freq:12
 spell-freq:20
 spells:CONF | SCARE
 spells:BR_SOUN
-friends:50:1d4:Baby gold dragon
-friends:50:1d2:Young gold dragon
+friends:50:1d4:Bebé dragón dorado
+friends:50:1d2:Joven dragón dorado
 desc:Un dragón grande con escamas de oro brillante.
 
-name:mature black dragon
+name:dragón negro maduro
 base:dragon
 color:s
 speed:115
@@ -9918,11 +9918,11 @@ innate-freq:12
 spell-freq:20
 spells:SCARE
 spells:BR_ACID
-friends:50:1d4:Baby black dragon
-friends:50:1d2:Young black dragon
+friends:50:1d4:Bebé dragón negro
+friends:50:1d2:Joven dragón negro
 desc:Un dragón grande, con escamas del más profundo negro.
 
-name:stiffbeard sorcerer
+name:hechicero barba rígida
 base:humanoid
 color:R
 speed:130
@@ -9951,8 +9951,8 @@ drop-base:shadow book:8:1:1
 desc:Un enano con barba trenzada y cara pintada, vestido del más profundo negro.
 desc: El poder parece crepitar de su fornido cuerpo.
 
-name:master lich
-plural:master liches
+name:maestro liche
+plural:maestros liches
 base:lich
 color:r
 speed:120
@@ -9977,7 +9977,7 @@ friends-base:80:1d3:skeleton:servant
 desc:Una forma esquelética envuelta en túnicas. Una magia poderosa crepita a lo
 desc: largo de sus huesudos dedos.
 
-name:Gorlim, Betrayer of Barahir
+name:Gorlim, Traidor de Barahir
 base:person
 color:z
 speed:120
@@ -10007,7 +10007,7 @@ desc: seguridad y la de su esposa. Y así cayó bajo el poder de Morgoth y se
 desc: convirtió en poco más que un sirviente sin mente del mal, aunque la otra
 desc: parte de su "trato" no se cumplió.
 
-name:ranger chieftain
+name:jefe explorador
 base:person
 color:W
 speed:120
@@ -10032,16 +10032,16 @@ spells:BA_COLD
 spells:S_ANIMAL
 drop-base:nature book:8:1:1
 drop-base:nature book:8:1:1
-friends:30:1d1:Master thief
-friends:30:1d1:Sorcerer
-friends:30:1d1:Patriarch
+friends:30:1d1:Ladrón maestro
+friends:30:1d1:Hechicero
+friends:30:1d1:Patriarca
 friends:30:1d1:Berserker
 desc:Un jefe entre los Rangers. Su comprensión de la naturaleza le otorga
 desc: poderosos hechizos elementales para usar contra ti, además de sus
 desc: habilidades como arquero y guerrero. Además, es un maestro del camuflaje,
 desc: por lo que necesitarás visión mágicamente mejorada para localizarlo.
 
-name:Kavlax the Many-Headed
+name:Kavlax el de Muchas Cabezas
 base:dragon
 color:D
 speed:120
@@ -10069,7 +10069,7 @@ desc: mientras buscan presas, pero cada una con su propia arma de aliento mortal
 
 ### Nivel de mazmorra 42 ###
 
-name:hellhound
+name:sabueso infernal
 base:canine
 color:r
 speed:120
@@ -10094,7 +10094,7 @@ spells:BR_FIRE
 friends:100:2d5:Same
 desc:Es un lobo gigante que brilla con calor. Llamas brotan de sus fosas nasales.
 
-name:black-hearted huorn
+name:huorn de corazón negro
 base:tree
 color:m
 speed:120
@@ -10118,7 +10118,7 @@ spell-freq:7
 spells:HASTE | TELE_TO | DARKNESS | SCARE | BLIND
 desc:Un huorn con mal corazón.
 
-name:The Queen Ant
+name:La Reina Hormiga
 base:ant
 color:v
 speed:120
@@ -10141,15 +10141,15 @@ flags:NO_CONF | NO_SLEEP
 flags:FORCE_SLEEP | GROUP_AI
 spell-freq:2
 spells:S_KIN
-friends:100:2d6:Soldier ant:servant
-friends:60:2d3:Giant silver ant:servant
-friends:60:2d3:Giant grey ant:servant
-friends:60:2d3:Giant blue ant:servant
-friends:60:2d3:Giant fire ant:servant
-friends:100:3d3:Giant army ant:bodyguard
+friends:100:2d6:Hormiga soldado:servant
+friends:60:2d3:Hormiga plateada gigante:servant
+friends:60:2d3:Hormiga gris gigante:servant
+friends:60:2d3:Hormiga azul gigante:servant
+friends:60:2d3:Hormiga de fuego gigante:servant
+friends:100:3d3:Hormiga legionaria gigante:bodyguard
 desc:Está molesta porque heriste a sus hijos.
 
-name:Rogrog the Black Troll
+name:Rogrog el Troll Negro
 base:troll
 color:D
 speed:120
@@ -10171,10 +10171,10 @@ flags:MOVE_BODY | TAKE_ITEM
 flags:IM_COLD
 innate-freq:7
 spells:BOULDER
-friends:60:2d3:troll scavenger:servant
-friends:60:2d3:cave troll:servant
-friends:40:2d3:hill troll:servant
-friends:30:1d2:mountain troll:servant
+friends:60:2d3:troll carroñero:servant
+friends:60:2d3:troll de cueva:servant
+friends:40:2d3:troll de colina:servant
+friends:30:1d2:troll de montaña:servant
 friends:100:4d4:olog:bodyguard
 desc:Un troll masivo y cruel de gran poder, la baba resbala cáusticamente por su
 desc: musculoso cuerpo. A pesar de su volumen, golpea con una velocidad
@@ -10182,8 +10182,8 @@ desc: impresionante.
 
 ### Nivel de mazmorra 43 ###
 
-name:Maia of Nienna
-plural:Maiar of Nienna
+name:Maia de Nienna
+plural:Maiar de Nienna
 base:ainu
 color:W
 speed:120
@@ -10205,13 +10205,13 @@ spell-freq:3
 spells:BLIND | HASTE | HEAL | SCARE
 spells:BO_MANA
 spells:SHAPECHANGE
-shape:air elemental
-shape:nexus vortex
+shape:elemental de aire
+shape:vórtice de nexo
 desc:Una sirviente de Nienna, que se aflige por los daños causados al mundo por
 desc: Morgoth.
 
-name:Maia of Mandos
-plural:Maiar of Mandos
+name:Maia de Mandos
+plural:Maiar de Mandos
 base:ainu
 color:s
 speed:120
@@ -10231,11 +10231,11 @@ flags:DROP_2
 spell-freq:3
 spells:BLIND | HASTE | HOLD | CONF
 spells:SHAPECHANGE
-shape:will o' the wisp
-shape:time vortex
+shape:fuego fatuo
+shape:vórtice de tiempo
 desc:Un sirviente de Mandos, el invocador de los espíritus de los caídos.
 
-name:mature multi-hued dragon
+name:dragón multicolor maduro
 base:dragon
 color:v
 speed:115
@@ -10258,11 +10258,11 @@ innate-freq:10
 spell-freq:15
 spells:BLIND | CONF | SCARE
 spells:BR_ACID | BR_COLD | BR_ELEC | BR_FIRE | BR_POIS
-friends:50:1d4:Baby multi-hued dragon
-friends:50:1d2:Young multi-hued dragon
+friends:50:1d4:Bebé dragón multicolor
+friends:50:1d2:Joven dragón multicolor
 desc:Un dragón grande, de escamas que brillan con muchos colores.
 
-name:Vargo, Tyrant of Fire
+name:Vargo, Tirano del Fuego
 base:elemental
 color:R
 speed:120
@@ -10288,7 +10288,7 @@ spells:BO_PLAS
 desc:Un elemental de fuego imponente, Vargo quema todo más allá del
 desc: reconocimiento.
 
-name:Waldern, King of Water
+name:Waldern, Rey del Agua
 base:elemental
 color:V
 speed:120
@@ -10334,7 +10334,7 @@ spells:BO_FIRE
 spells:S_DEMON
 desc:Es un demonio con brazos y pinzas, su forma una verdadera burla de la vida.
 
-name:Quaker, Master of Earth
+name:Quaker, Maestro de la Tierra
 base:elemental
 color:U
 speed:110
@@ -10359,7 +10359,7 @@ spells:BO_ACID
 desc:Un elemental de piedra imponente se alza ante ti. Las paredes y el techo se
 desc: reducen a escombros mientras Quaker avanza.
 
-name:Ariel, Queen of Air
+name:Ariel, Reina del Aire
 base:elemental
 color:Z
 speed:130
@@ -10384,7 +10384,7 @@ spells:BO_ELEC
 desc:Un elemental de aire imponente, Ariel, la hechicera, esquiva tus golpes con
 desc: su velocidad extrema.
 
-name:multi-hued hound
+name:sabueso multicolor
 base:zephyr hound
 color:v
 speed:110
@@ -10411,7 +10411,7 @@ desc:Brillando en tonos de arcoíris, este sabueso es hermoso y mortal.
 
 ### Nivel de mazmorra 44 ###
 
-name:8-headed hydra
+name:hidra de 8 cabezas
 base:hydra
 color:R
 speed:120
@@ -10439,7 +10439,7 @@ spells:SCARE
 spells:BR_FIRE | BR_POIS | BR_ACID
 desc:Una hidra de 7 cabezas con una cabeza extra que apesta a muerte.
 
-name:dread
+name:temor
 base:ghost
 color:o
 speed:120
@@ -10466,8 +10466,8 @@ desc: universo mismo lucha por desterrarlo.
 
 ### Nivel de mazmorra 45 ###
 
-name:killer white beetle
-base:killer beetle
+name:escarabajo blanco asesino
+base:escarabajo asesino
 color:w
 speed:120
 hit-points:800
@@ -10486,7 +10486,7 @@ spells:SPIT
 desc:Un escarabajo gigante con un caparazón blanco brillante. El aire se condensa
 desc: alrededor de sus mandíbulas mientras corre hacia ti.
 
-name:rotting quylthulg
+name:quylthulg podrido
 base:quylthulg
 color:u
 speed:120
@@ -10529,7 +10529,7 @@ spells:S_DEMON
 desc:Es un demonio grande con cabeza de jabalí gigante. Llamas recorren su
 desc: cuerpo de arriba abajo.
 
-name:undead beholder
+name:observador no muerto
 base:eye
 color:u
 speed:120
@@ -10560,7 +10560,7 @@ desc: alrededor de la pupila inyectada en sangre de su ojo central gigante, y la
 desc: luz parece doblarse mientras absorbe su poder del aire mismo. Tu alma se
 desc: enfría mientras drena tu vitalidad para sus malvados encantamientos.
 
-name:demonic quylthulg
+name:quylthulg demoníaco
 base:quylthulg
 color:r
 speed:120
@@ -10578,7 +10578,7 @@ message-invis:BLINK:Algo sorbe.
 desc:Un montón de carne pulsante que apesta a azufre. El mundo mismo parece
 desc: clamar contra él.
 
-name:draconic quylthulg
+name:quylthulg draconiano
 base:quylthulg
 color:g
 speed:120
@@ -10597,7 +10597,7 @@ desc:Parece que alguna vez fue un cadáver de dragón, ahora profundamente
 desc: infectado con bacterias mágicas que lo hacen palpitar de una manera
 desc: inmunda y degradante.
 
-name:greater basilisk
+name:basilisco mayor
 base:reptile
 color:D
 speed:120
@@ -10642,18 +10642,18 @@ flags:KILL_BODY
 flags:NO_FEAR | NO_CONF | NO_SLEEP
 spell-freq:4
 spells:HASTE | SCARE
-friends:30:1d1:Master thief
-friends:30:1d1:Ranger chieftain
-friends:30:1d1:Patriarch
-friends:30:1d1:Sorcerer
+friends:30:1d1:Ladrón maestro
+friends:30:1d1:Jefe explorador
+friends:30:1d1:Patriarca
+friends:30:1d1:Hechicero
 desc:Incluso el más fuerte de los guerreros humanos normales teme al Berserker
 desc: — aquel que puede llevarse a sí mismo a un frenesí de batalla tan terrible
 desc: que puede sobrevivir a golpes que deberían matarlo, y aún aparentemente no
 desc: sentir dolor. Pisotea a las criaturas más débiles en su afán por llegar a
 desc: su verdadero enemigo, y su grito de batalla infunde terror en sus enemigos.
 
-name:cyclops
-plural:cyclopes
+name:cíclope
+plural:cíclopes
 base:giant
 color:u
 speed:120
@@ -10674,7 +10674,7 @@ innate-freq:8
 spells:BOULDER
 desc:Un humanoide gigantesco y feo con un solo ojo y piel muy gruesa.
 
-name:grey wraith
+name:espectro gris
 base:wraith
 color:s
 speed:120
@@ -10699,8 +10699,8 @@ desc: alrededor se siente mortalmente frío.
 
 ### Nivel de mazmorra 46 ###
 
-name:lord of Carn Dûm
-plural:lords of Carn Dûm
+name:señor de Carn Dûm
+plural:señores de Carn Dûm
 base:person
 color:i
 speed:120
@@ -10724,15 +10724,15 @@ spells:BLIND | WOUND | HEAL | HOLD
 spells:S_MONSTER | S_UNDEAD
 drop-base:shadow book:5:1:1
 drop-base:shadow book:10:1:1
-friends:30:1d1:Master thief
-friends:30:1d1:Ranger chieftain
-friends:30:1d1:Sorcerer
+friends:30:1d1:Ladrón maestro
+friends:30:1d1:Jefe explorador
+friends:30:1d1:Hechicero
 friends:30:1d1:Berserker
 desc:Un sacerdote maligno, vestido todo de negro. Mortales hechizos te golpean
 desc: a un ritmo alarmante mientras su maza de púas negra descarga golpe tras
 desc: golpe sobre tu lastimoso cuerpo.
 
-name:vampire lord
+name:señor vampiro
 base:vampire
 color:b
 speed:120
@@ -10753,7 +10753,7 @@ spell-freq:7
 spells:BLIND | BRAIN_SMASH | WOUND | DARKNESS | DRAIN_MANA
 spells:BO_NETH
 spells:HOLD | SCARE
-friends:40:1d4:Vampire:servant
+friends:40:1d4:Vampiro:servant
 desc:Un viento inmundo hiela tus huesos mientras esta horrible figura se acerca.
 
 ### Nivel de mazmorra 47 ###
@@ -10782,7 +10782,7 @@ spells:S_DEMON
 desc:Es un demonio de forma femenina con muchos brazos, cada uno blandiendo
 desc: armas mortales.
 
-name:death mold
+name:moho de la muerte
 base:mold
 color:D
 speed:140
@@ -10807,8 +10807,8 @@ desc: lo rodea. Por suerte para ti, no puede moverse.
 
 ### Nivel de mazmorra 48 ###
 
-name:ancient spider
-base:spider
+name:araña ancestral
+base:araña
 color:r
 speed:120
 hit-points:1050
@@ -10831,11 +10831,11 @@ spell-freq:6
 spells:WOUND | DRAIN_MANA | HEAL | HOLD | SLOW
 spells:BR_DARK
 spells:S_KIN | S_SPIDER
-friends:100:4d4:spider
+friends:100:4d4:araña
 desc:Una criatura inmunda con forma de araña, más antigua incluso que los pozos
 desc: de Angband.
 
-name:winged horror
+name:horror alado
 base:bird
 color:p
 speed:120
@@ -10858,7 +10858,7 @@ desc: hayas visto, y sin plumas en sus horribles alas negras de cuero.
 desc: Descendiente quizás de una criatura de un mundo más antiguo, criado por
 desc: Sauron para ser una montura alada para sus Espectros del Anillo.
 
-name:gorgon
+name:gorgona
 base:naga
 color:G
 speed:120
@@ -10890,7 +10890,7 @@ desc: llameantes, veneno goteando de su horrible boca.
 
 ### Nivel de mazmorra 49 ###
 
-name:storm giant
+name:gigante de tormenta
 base:giant
 color:B
 speed:120
@@ -10913,11 +10913,11 @@ innate-freq:40
 spell-freq:8
 spells:BLINK | CONF | SCARE | TELE_TO
 spells:BA_ELEC | BO_ELEC | STORM | BOULDER
-friends:60:1d7:Energy hound
+friends:60:1d7:Sabueso de energía
 friends:80:1d3:Same
 desc:Es un gigante de siete metros y medio envuelto en relámpagos.
 
-name:lesser Balrog
+name:Balrog menor
 base:major demon
 color:p
 speed:120
@@ -10944,7 +10944,7 @@ spells:BR_FIRE
 spells:S_DEMON
 desc:Es un demonio humanoide masivo envuelto en llamas.
 
-name:black wraith
+name:espectro negro
 base:wraith
 color:D
 speed:120
@@ -10968,7 +10968,7 @@ spells:BO_NETH
 desc:Una figura que parece hecha de vacío, su forma extrañamente humana está
 desc: envuelta en sombras. Se acerca a ti.
 
-name:Eöl, the Dark Elf
+name:Eöl, el Elfo Oscuro
 base:humanoid
 color:v
 speed:130
@@ -11003,7 +11003,7 @@ desc: su ira, tras el asesinato de la Princesa Aredhel de Gondolin.
 
 ### Nivel de mazmorra 50 ###
 
-name:ancient blue dragon
+name:dragón azul ancestral
 base:ancient dragon
 color:b
 speed:120
@@ -11026,7 +11026,7 @@ spells:BR_ELEC
 desc:Una enorme forma de dragón. Los relámpagos crepitan a lo largo de su
 desc: cuerpo.
 
-name:ancient white dragon
+name:dragón blanco ancestral
 base:ancient dragon
 color:w
 speed:120
@@ -11048,7 +11048,7 @@ spells:BLIND | CONF | SCARE
 spells:BR_COLD
 desc:Una enorme forma de dragón. La escarcha lo cubre de la cabeza a la cola.
 
-name:ancient green dragon
+name:dragón verde ancestral
 base:ancient dragon
 color:g
 speed:120
@@ -11070,7 +11070,7 @@ spells:BLIND | CONF | SCARE
 spells:BR_POIS
 desc:Una enorme forma de dragón envuelta en nubes de vapor venenoso.
 
-name:death drake
+name:draco de la muerte
 base:ancient dragon
 color:G
 speed:120
@@ -11096,7 +11096,7 @@ spells:BR_NETH
 desc:Es una forma parecida a un dragón envuelta en oscuridad. No puedes
 desc: distinguir su verdadera forma pero sientes su maldad.
 
-name:great crystal drake
+name:gran draco de cristal
 base:ancient dragon
 color:u
 speed:120
@@ -11124,7 +11124,7 @@ desc:Un enorme dragón cristalino. Sus garras podrían hacerte trizas y sus
 desc: dientes son afilados como navajas. Extraños colores ondulan a través de él
 desc: mientras se mueve en la luz.
 
-name:ethereal dragon
+name:dragón etéreo
 base:ancient dragon
 color:o
 speed:120
@@ -11149,7 +11149,7 @@ spells:BR_DARK | BR_LIGHT
 desc:Este terrible dragón es un maestro de la luz y la oscuridad. Su forma
 desc: desaparece de la vista mientras se envuelve en sombras sobrenaturales.
 
-name:master mystic
+name:maestro místico
 base:person
 color:o
 speed:130
@@ -11175,12 +11175,12 @@ spells:HEAL
 spells:S_ANIMAL
 drop-base:nature book:8:1:1
 drop-base:nature book:8:1:1
-friends-base:50:2d4:spider
+friends-base:50:2d4:araña
 desc:Un señor de todo lo natural, experto en las artes místicas. Es un maestro
 desc: de las artes marciales y está en armonía con la naturaleza, capaz de pedir
 desc: ayuda a la naturaleza si es necesario.
 
-name:shadow
+name:sombra
 base:ghost
 color:D
 speed:120
@@ -11206,7 +11206,7 @@ desc: afiladas como navajas se extienden para acabar con tu vida mientras se
 desc: desliza hacia ti, buscando absorber la energía de tu alma para alimentar su
 desc: poder.
 
-name:The Balrog of Moria
+name:El Balrog de Moria
 base:major demon
 color:v
 speed:130
@@ -11231,15 +11231,15 @@ spell-freq:5
 spells:CONF | SCARE
 spells:BR_FIRE
 spells:S_DEMON | S_UNDEAD
-friends:100:4d4:cave orc:servant
-friends:100:3d4:cave troll:servant
+friends:100:4d4:orco de cueva:servant
+friends:100:3d4:troll de cueva:servant
 desc:Un enorme Balrog rodeado de imponentes pilares de fuego, este es sin duda
 desc: un oponente terrible. Blandiendo un gran látigo de fuego y una espada
 desc: llameante, su furia ampolla tu piel y derrite tu carne.
 
 ### Nivel de mazmorra 51 ###
 
-name:ancient black dragon
+name:dragón negro ancestral
 base:ancient dragon
 color:s
 speed:120
@@ -11262,7 +11262,7 @@ spells:BR_ACID
 desc:Una enorme forma de dragón. Charco de ácido derriten el suelo a su
 desc: alrededor.
 
-name:ancient red dragon
+name:dragón rojo ancestral
 base:ancient dragon
 color:r
 speed:120
@@ -11286,7 +11286,7 @@ spells:BR_FIRE
 desc:Una enorme forma de dragón. Hilachas de humo salen de sus fosas nasales y
 desc: el calor extremo que lo rodea te hace jadear.
 
-name:ancient gold dragon
+name:dragón dorado ancestral
 base:ancient dragon
 color:y
 speed:120
@@ -11308,7 +11308,7 @@ spells:BR_SOUN
 desc:Una enorme forma de dragón envuelta en un nimbo de luz. Su rugido te aturde
 desc: y ensordece.
 
-name:nether hound
+name:sabueso infernal
 base:zephyr hound
 color:G
 speed:120
@@ -11333,7 +11333,7 @@ friends:100:2d7:Same
 desc:Sientes un escalofrío que desgarra el alma al ver a esta bestia, una forma
 desc: fantasmal de oscuridad con forma de perro grande.
 
-name:time hound
+name:sabueso del tiempo
 base:zephyr hound
 color:B
 speed:130
@@ -11360,7 +11360,7 @@ desc:Tienes una terrible sensación de déjà vu, ¿o es una premonición? De re
 desc: ves un pequeño cachorro y un perro viejo y desdentado. Quizás deberías
 desc: rendirte e irte a la cama.
 
-name:plasma hound
+name:sabueso de plasma
 base:zephyr hound
 color:R
 speed:120
@@ -11384,11 +11384,11 @@ flags:FORCE_SLEEP
 innate-freq:5
 spells:BR_PLAS
 friends:100:2d7:Same
-desc: El mismo aire se deforma mientras la energía elemental pura te acecha con la
-desc:  forma de un sabueso gigante. Tu cabello se eriza y tus palmas te pican
-desc:  mientras presientes problemas.
+desc:El mismo aire se deforma mientras la energía elemental pura te acecha con la
+desc: forma de un sabueso gigante. Tu cabello se eriza y tus palmas te pican
+desc: mientras presientes problemas.
 
-name:Harowen the Black Hand
+name:Harowen la Mano Negra
 base:person
 color:Z
 speed:140
@@ -11415,8 +11415,8 @@ desc: se mueve con velocidad cegadora. ¡Revisa tus bolsillos!
 
 ### Nivel de mazmorra 52 ###
 
-name:Maia of Oromë
-plural:Maiar of Oromë
+name:Maia de Oromë
+plural:Maiar de Oromë
 base:ainu
 color:w
 speed:120
@@ -11439,12 +11439,12 @@ spell-freq:5
 spells:ARROW
 spells:SHAPECHANGE
 spells:S_HOUND
-shape:ranger chieftain
-shape:giant
-shape:Huan, Wolfhound of the Valar
+shape:jefe explorador
+shape:gigante
+shape:Huan, Lebrel de los Valar
 desc:Un sirviente de Oromë, cazador de monstruos y bestias malignas.
 
-name:hasty ent
+name:ent apresurado
 base:tree
 color:t
 speed:120
@@ -11466,7 +11466,7 @@ friends:100:3d4:huorn
 desc:Los ents no están del todo de parte de nadie, porque nadie está del todo de
 desc: su parte. Este parece bastante alterado y no parece estar de tu lado.
 
-name:Itangast the Fire Drake
+name:Itangast el Draco de Fuego
 base:ancient dragon
 color:R
 speed:120
@@ -11521,7 +11521,7 @@ desc:Un demonio perezoso de forma de lagarto, lanzando poderosos proyectiles.
 desc: Desde las mandíbulas terriblemente grandes hasta la cola rechoncha que
 desc: azota, charcos de ácido hirviente burbujean y chisporrotean.
 
-name:ancient multi-hued dragon
+name:dragón multicolor ancestral
 base:ancient dragon
 color:v
 speed:120
@@ -11546,8 +11546,8 @@ spells:BR_ACID | BR_COLD | BR_ELEC | BR_FIRE | BR_POIS
 desc:Una enorme forma de dragón. Muchos colores ondulan a lo largo de su
 desc: imponente cuerpo. Pocos viven para ver otro.
 
-name:chaos vortex
-plural:chaos vortices
+name:vórtice del caos
+plural:vórtices del caos
 base:vortex
 color:v
 speed:120
@@ -11568,7 +11568,7 @@ innate-freq:4
 spells:BR_CHAO
 desc:Vacío, nada, girando destructivamente.
 
-name:Scatha the Worm
+name:Scatha el Gusano
 base:ancient dragon
 color:W
 speed:120
@@ -11597,7 +11597,7 @@ desc: una lluvia de hielo al aire.
 
 ### Nivel de mazmorra 54 ###
 
-name:The Phoenix
+name:El Fénix
 base:bird
 color:r
 speed:120
@@ -11658,8 +11658,8 @@ desc: entretejidos durante su creación lo convierten en un adversario temible.
 desc: Sus ojos muestran poca inteligencia, pero se le ha ordenado destruir todo
 desc: lo que encuentra.
 
-name:demilich
-plural:demiliches
+name:semiliche
+plural:semiliches
 base:lich
 color:U
 speed:120
@@ -11683,7 +11683,7 @@ spells:S_DEMON | S_UNDEAD
 desc:Un liche que es parcialmente inmaterial, en camino a una nueva forma
 desc: etérea.
 
-name:dreadmaster
+name:maestro del temor
 base:ghost
 color:y
 speed:120
@@ -11710,7 +11710,7 @@ desc:Es una no-vida de poder casi sin igual. Una afrenta a la existencia, su
 desc: propio tacto abusa y desbarata el flujo de la vida, y sus miembros
 desc: sobrenaturales, del más puro negro, aplastan roca y carne con facilidad.
 
-name:nether wraith
+name:espectro infernal
 base:wraith
 color:G
 speed:120
@@ -11737,8 +11737,8 @@ desc: Cuando se acerca, un frío agota tu alma.
 
 ### Nivel de mazmorra 55 ###
 
-name:Shelob, Spider of Darkness
-base:spider
+name:Shelob, Araña de la Oscuridad
+base:araña
 color:D
 speed:120
 hit-points:3500
@@ -11764,13 +11764,13 @@ spells:SLOW | WEAVE
 spells:BR_DARK | BR_POIS
 spells:S_KIN
 friends:80:4d4:uruk
-friends:100:3d7:mirkwood spider
+friends:100:3d7:araña de Mirkwood
 desc:Shelob es una araña enorme y abotargada, la última hija de Ungoliant la
 desc: Oscuridad. Su veneno es legendario, así como su ego. Normalmente guarda el
 desc: paso a través de Cirith Ungol, pero ocasionalmente sale a buscar comida
 desc: para alimentar su apetito voraz.
 
-name:dracolich
+name:dracoliche
 plural:dracoliches
 base:ancient dragon
 color:G
@@ -11797,7 +11797,7 @@ desc:La forma esquelética de un otrora gran dragón, encantada con magia muy
 desc: peligrosa. Su forma animada golpea con velocidad y drena vida de su presa
 desc: para satisfacer su hambre.
 
-name:dracolisk
+name:dracolisco
 base:ancient dragon
 color:i
 speed:120
@@ -11824,7 +11824,7 @@ desc:Una mezcla de dragón y basilisco, el dracolisco te mira fijamente con ojos
 desc: profundos y penetrantes, su aliento maligno quema el suelo donde se
 desc: encuentra.
 
-name:Ar-Pharazôn the Golden
+name:Ar-Pharazôn el Dorado
 base:person
 color:y
 speed:130
@@ -11880,7 +11880,7 @@ desc: infiernos, capaces de una furia berserker aterradora.
 
 ### Nivel de mazmorra 56 ###
 
-name:lesser titan
+name:titán menor
 base:giant
 color:y
 speed:120
@@ -11908,7 +11908,7 @@ desc: y odio.
 
 ### Nivel de mazmorra 57 ###
 
-name:grand master mystic
+name:gran maestro místico
 base:person
 color:o
 speed:130
@@ -11934,12 +11934,12 @@ spells:HEAL | MIND_BLAST
 spells:S_ANIMAL | S_HOUND | S_SPIDER
 drop-base:nature book:5:1:1
 drop-base:nature book:15:1:1
-friends-base:80:3d5:spider
+friends-base:80:3d5:araña
 desc:Es uno de los pocos verdaderos maestros del arte, siendo extremadamente
 desc: hábil en todas las formas de combate sin armas y controlando las criaturas
 desc: naturales del mundo con desdeñosa facilidad.
 
-name:hand druj
+name:mano druj
 base:skeleton
 color:y
 speed:130
@@ -11960,7 +11960,7 @@ spells:BO_ACID | BO_COLD | BO_ELEC | BO_FIRE
 desc:Una mano esquelética flotando en el aire, inmóvil excepto por sus dedos
 desc: flexibles.
 
-name:9-headed hydra
+name:hidra de 9 cabezas
 base:hydra
 color:P
 speed:120
@@ -11997,7 +11997,7 @@ desc: Y le crecen nuevas cabezas tan rápido como se las cortas.
 
 ### Nivel de mazmorra 58 ###
 
-name:Baphomet the Minotaur Lord
+name:Baphomet el Señor Minotauro
 base:hybrid
 color:v
 speed:130
@@ -12029,7 +12029,7 @@ desc: mientras maldice a todos los que lo desafían.
 
 ### Nivel de mazmorra 59 ###
 
-name:elder vampire
+name:vampiro anciano
 base:vampire
 color:r
 speed:120
@@ -12059,7 +12059,7 @@ desc: no-vida durante muchos siglos robando la vida de otros. Puede invocar a la
 desc: mismas sombras de sus víctimas desde el más allá para que acudan esclavizadas
 desc: en su ayuda.
 
-name:Fundin Bluecloak
+name:Fundin Capa Azul
 base:humanoid
 color:Z
 speed:130
@@ -12096,7 +12096,7 @@ desc: para cualquier aventurero.
 
 ### Nivel de mazmorra 60 ###
 
-name:Gilim, the Giant of Eruman
+name:Gilim, el Gigante de Eruman
 base:giant
 color:w
 speed:120
@@ -12123,8 +12123,8 @@ spells:S_MONSTERS
 desc:Conocido como el gigante del invierno y las regiones del norte,
 desc: es alto incluso entre los gigantes, y su nombre es maldito en muchas tierras.
 
-name:Maia of Yavanna
-plural:Maiar of Yavanna
+name:Maia de Yavanna
+plural:Maiar de Yavanna
 base:ainu
 color:g
 speed:120
@@ -12151,8 +12151,8 @@ shape:tree
 desc:Una sirviente de Yavanna Kementári, Reina de la Tierra, la Dadora de Frutos
 desc: y amante de todas las cosas que crecen.
 
-name:Maia of Aulë
-plural:Maiar of Aulë
+name:Maia de Aulë
+plural:Maiar de Aulë
 base:ainu
 color:u
 speed:120
@@ -12174,13 +12174,13 @@ innate-freq:5
 spell-freq:5
 spells:BOULDER
 spells:SHAPECHANGE
-shape:shardstorm
-shape:great earth elemental
-shape:Quaker, Master of Earth
+shape:tormenta de fragmentos
+shape:gran elemental de tierra
+shape:Quaker, Maestro de la Tierra
 desc:Un sirviente de Aulë el Herrero, señor de todas las sustancias de Arda y
 desc: amigo de los Noldor.
 
-name:great earth elemental
+name:gran elemental de tierra
 base:elemental
 color:u
 speed:120
@@ -12202,8 +12202,8 @@ spells:BOULDER | BR_SHAR | BA_SHAR
 desc:Pareciendo un gigante de piedra, este poderoso elemental parece sacar su
 desc: poder de la propia estructura de la mazmorra.
 
-name:aether vortex
-plural:aether vortices
+name:vórtice de éter
+plural:vórtices de éter
 base:vortex
 color:v
 speed:130
@@ -12228,7 +12228,7 @@ spells:BR_FIRE | BR_GRAV | BR_INER | BR_LIGHT | BR_NETH | BR_NEXU
 spells:BR_PLAS | BR_POIS | BR_SHAR | BR_SOUN | BR_TIME | BR_WALL
 desc:Un impresionante vórtice de magia pura, el poder irradia de su marco.
 
-name:Saruman of Many Colours
+name:Saruman el de Muchos Colores
 base:ainu
 color:v
 speed:120
@@ -12254,7 +12254,7 @@ spells:SCARE | TELE_AWAY | TPORT | TRAPS
 spells:BA_ACID | BA_COLD | BA_FIRE | BA_WATE
 spells:BO_ICE
 spells:S_ANIMAL | S_DEMON | S_HI_DRAGON | S_MONSTERS | S_UNDEAD
-friends:100:1d1:Wormtongue, Agent of Saruman:servant
+friends:100:1d1:Lengua de Gusano, Agente de Saruman
 desc:Originalmente conocido como el Blanco, Saruman cayó presa de las artimañas
 desc: de Sauron. Busca emularlo y cría orcos y trolls para que luchen por él.
 desc: Busca eternamente el Anillo Único, para convertirse en un poderoso
@@ -12262,7 +12262,7 @@ desc: Rey-Hechicero del mundo.
 
 ### Nivel de mazmorra 61 ###
 
-name:nightwing
+name:ala nocturna
 base:wraith
 color:V
 speed:120
@@ -12292,7 +12292,7 @@ desc: de la muerte mientras el ala nocturna se acerca para arrastrarte al olvido
 desc: Tus músculos se hunden y tu mente pierde toda voluntad de lucha mientras
 desc: contemplas con asombro a este poderoso ser.
 
-name:bile demon
+name:demonio de la bilis
 base:major demon
 color:R
 speed:120
@@ -12321,7 +12321,7 @@ desc: jamás.
 
 ### Nivel de mazmorra 62 ###
 
-name:dreadlord
+name:señor del temor
 base:ghost
 color:r
 speed:120
@@ -12345,13 +12345,13 @@ spells:BLIND | BLINK | BRAIN_SMASH | CONF | DRAIN_MANA | HOLD
 spells:TELE_TO | TPORT
 spells:BA_NETH
 spells:S_UNDEAD
-friends:50:2d3:Dread:servant
+friends:50:2d3:Temor:servant
 desc:Es una forma masiva de muerte animada, su color más profundo que el negro.
 desc: Bebe la luz, y el espacio a su alrededor se retuerce y desgarra por el peso
 desc: de su maldad. Es no-vida y no conoce nada más que el robo de almas y el
 desc: hedor de la muerte. ¡Huye de su hambre!
 
-name:Smaug the Golden
+name:Smaug el Dorado
 base:ancient dragon
 color:R
 speed:120
@@ -12382,8 +12382,8 @@ desc: cree que es el dragón más grande que aún sobrevive en la Tercera Edad.
 
 ### Nivel de mazmorra 63 ###
 
-name:werewolf of Sauron
-plural:werewolves of Sauron
+name:hombre lobo de Sauron
+plural:hombres lobo de Sauron
 base:canine
 color:G
 speed:120
@@ -12407,14 +12407,14 @@ spell-freq:7
 spells:BR_NETH | BR_DARK
 spells:S_HOUND
 friends:50:2d4:warg:servant
-friends:50:2d3:hellhound:servant
-friends:100:2d3:werewolf:servant
+friends:50:2d3:sabueso infernal:servant
+friends:100:2d3:hombre lobo:servant
 desc:Un lobo enorme, que parece una sombra poderosa. Sus ojos rojos brillantes
 desc: te miran con malevolencia mientras defiende la fortaleza de su amo maligno.
 
-name:spider of Gorgoroth
-plural:spiders of Gorgoroth
-base:spider
+name:araña de Gorgoroth
+plural:arañas de Gorgoroth
+base:araña
 color:P
 speed:120
 hit-points:4000
@@ -12439,13 +12439,13 @@ spells:BLIND | WOUND | CONF | HEAL | SCARE
 spells:SLOW | WEAVE
 spells:BR_DARK | BR_POIS
 spells:S_KIN
-friends:100:2d4:spider
+friends:100:2d4:araña
 desc:Una de la horrible progenie de Ungoliant, engendrada en la sombra sin fin
 desc: de Nan Dungortheb bajo las montañas de Ered Gorgoroth.
 
 ### Nivel de mazmorra 64 ###
 
-name:chaos hound
+name:sabueso del caos
 base:zephyr hound
 color:v
 speed:120
@@ -12471,7 +12471,7 @@ desc:Una forma canina en constante cambio, este sabueso corre hacia ti como si
 desc: esperara caos y destrucción por delante. Parece tener un entusiasmo casi
 desc: kamikaze por el combate. Sospechas que no todo es lo que parece.
 
-name:archlich
+name:archliche
 plural:archliches
 base:lich
 color:B
@@ -12499,8 +12499,8 @@ desc: completamente inmaterial.
 
 ### Nivel de mazmorra 65 ###
 
-name:Maia of Ulmo
-plural:Maiar of Ulmo
+name:Maia de Ulmo
+plural:Maiar de Ulmo
 base:ainu
 color:b
 speed:120
@@ -12523,13 +12523,13 @@ spells:BA_WATE
 spells:BO_MANA | BO_WATE
 spells:S_AINU
 spells:SHAPECHANGE
-shape:great water elemental
-shape:water vortex
-shape:cold vortex
+shape:gran elemental de agua
+shape:vórtice de agua
+shape:vórtice de frío
 desc:Un sirviente de Ulmo, Señor de las Aguas, que habla a aquellos que habitan
 desc: en la Tierra Media con voces que solo se escuchan como la música del agua.
 
-name:great water elemental
+name:gran elemental de agua
 base:elemental
 color:b
 speed:120
@@ -12553,7 +12553,7 @@ spells:BR_COLD
 desc:Una poderosa columna de agua, terrible como una ola creciente que avanza
 desc: hacia la tierra.
 
-name:The Mouth of Sauron
+name:La Boca de Sauron
 base:person
 color:v
 speed:130
@@ -12611,7 +12611,7 @@ desc:Es un demonio hecho casi enteramente de huesos. Es humanoide, pero con una
 desc: cola grande similar a la de un escorpión gigante, y emite un olor inmundo a
 desc: podredumbre y putrefacción. Son despreciados incluso en los infiernos.
 
-name:Fëanorian raider
+name:saqueador fëanoriano
 base:humanoid
 color:M
 speed:120
@@ -12637,7 +12637,7 @@ desc: de los Silmarils, te ataca con agilidad, poder y crueldad.
 
 ### Nivel de mazmorra 66 ###
 
-name:eye druj
+name:ojo druj
 base:skeleton
 color:r
 speed:130
@@ -12660,7 +12660,7 @@ spells:S_UNDEAD
 desc:Un globo ocular inyectado en sangre flotando en el aire, se te perdonaría
 desc: asumir que es inofensivo.
 
-name:greater titan
+name:titán mayor
 base:giant
 color:o
 speed:120
@@ -12687,7 +12687,7 @@ desc:Un humanoide de doce metros que sacude el suelo mientras camina. El poder
 desc: que irradia de su marco tambalea tu valor, su odio inspirado por tu
 desc: desafío.
 
-name:Tevildo, Prince of Cats
+name:Tevildo, Príncipe de los Gatos
 base:feline
 color:v
 speed:130
@@ -12711,16 +12711,16 @@ flags:FORCE_SLEEP
 spell-freq:3
 spells:TELE_TO
 spells:S_KIN
-friends:100:2d4:Tiger:servant
-friends:100:2d4:Sabre-tooth tiger:servant
-friends:100:2d4:Displacer beast:servant
+friends:100:2d4:Tigre:servant
+friends:100:2d4:Tigre dientes de sable:servant
+friends:100:2d4:Bestia desplazadora:servant
 desc:Señor de todas las cosas felinas, Tevildo sirve bien a su amo Morgoth.
 desc: Se deleita en pequeños tormentos y estratagemas astutas, y se ríe
 desc: alegremente mientras te golpea.
 
 ### Nivel de mazmorra 67 ###
 
-name:Thuringwethil, the Vampire Messenger
+name:Thuringwethil, la Mensajera Vampiro
 base:vampire
 color:v
 speed:130
@@ -12748,7 +12748,7 @@ desc:Principal mensajera entre Sauron y Morgoth, es seguramente la más mortal d
 desc: su raza vampírica. Al principio es encantadora de conocer, pero sus alas y
 desc: ojos delatan su verdadera forma.
 
-name:beholder hive-mother
+name:madre colmena observadora
 base:eye
 color:b
 speed:120
@@ -12805,7 +12805,7 @@ desc:"¡Cuidado con el Jabberwocky, hijo mío! ¡Las mandíbulas que muerden, la
 desc: garras que atrapan!" Huye y huye rápido, ¡la muerte personificada te
 desc: persigue!
 
-name:Tselakus, the Dreadlord
+name:Tselakus, el Señor del Temor
 base:ghost
 color:R
 speed:130
@@ -12834,7 +12834,7 @@ desc: rastro de muerte y destrucción. Tselakus es un ser de desprecio sarcásti
 desc: riéndose de tus débiles esfuerzos por desafiarlo. Poderosas garras desgarran
 desc: la realidad mientras aniquila todo en su camino hacia tu alma.
 
-name:bone golem
+name:gólem de hueso
 base:golem
 color:D
 speed:120
@@ -12865,8 +12865,8 @@ desc: víctimas anteriores.
 
 ### Nivel de mazmorra 69 ###
 
-name:hound of Tindalos
-plural:hounds of Tindalos
+name:sabueso de Tindalos
+plural:sabuesos de Tindalos
 base:zephyr hound
 color:t
 speed:130
@@ -12892,7 +12892,7 @@ friends:100:2d7:Same
 desc:Cuerpos de muerte, receptáculos de toda inmundicia, emergen como el humo
 desc: de los ángulos del tiempo, voraces y gruñendo e insatisfechos.
 
-name:Nan, the Giant
+name:Nan, el Gigante
 base:giant
 color:o
 speed:120
@@ -12921,7 +12921,7 @@ desc:Conocido como el gigante del verano y el sur, se alza sobre ti
 desc: como un gran olmo. En su mano derecha, sostiene la espada más larga
 desc: que jamás hayas contemplado.
 
-name:nightcrawler
+name:rastreador nocturno
 base:snake
 color:D
 speed:120
@@ -12993,7 +12993,7 @@ desc: está cubierta de púas afiladas como navajas.
 
 ### Nivel de mazmorra 70 ###
 
-name:great storm wyrm
+name:gran wyrm de tormenta
 base:ancient dragon
 color:b
 speed:120
@@ -13022,7 +13022,7 @@ desc:Un vasto dragón de poder. Tormentas y relámpagos chocan alrededor de su
 desc: forma titánica. Escamas azules profundas reflejan los destellos y resaltan
 desc: los grandes músculos de la criatura. Te mira con desprecio.
 
-name:great ice wyrm
+name:gran wyrm de hielo
 base:ancient dragon
 color:w
 speed:120
@@ -13050,7 +13050,7 @@ desc:Un inmenso dragón capaz de una destrucción impresionante. Nunca has senti
 desc: un frío tan extremo, ni presenciado una mirada tan glacial. ¡Vete rápido o
 desc: siente su ira!
 
-name:great swamp wyrm
+name:gran wyrm de pantano
 base:ancient dragon
 color:g
 speed:120
@@ -13080,8 +13080,8 @@ desc: la respiración mientras luchas contra él, él no ve razón para hacer lo
 
 ### Nivel de mazmorra 71 ###
 
-name:Maia of Manwë
-plural:Maiar of Manwë
+name:Maia de Manwë
+plural:Maiar de Manwë
 base:ainu
 color:B
 speed:130
@@ -13109,8 +13109,8 @@ shape:vortex
 desc:Un sirviente de Manwë Súlimo, el primero de todos los Reyes, señor del
 desc: reino de Arda y gobernante de todo lo que allí habita.
 
-name:Maia of Varda
-plural:Maiar of Varda
+name:Maia de Varda
+plural:Maiar de Varda
 base:ainu
 color:y
 speed:130
@@ -13139,7 +13139,7 @@ shape:vortex
 desc:Una sirviente de Varda, Señora de las Estrellas, a quien los elfos llaman
 desc: Elbereth y aman por encima de todos los Valar.
 
-name:greater demonic quylthulg
+name:quylthulg demoníaco mayor
 base:quylthulg
 color:R
 speed:120
@@ -13157,7 +13157,7 @@ spells:S_HI_DEMON
 message-invis:BLINK:Algo sorbe.
 desc:Un montículo masivo y pulsante de carne, que apesta fuertemente a azufre.
 
-name:greater draconic quylthulg
+name:quylthulg draconiano mayor
 base:quylthulg
 color:G
 speed:120
@@ -13175,7 +13175,7 @@ spells:S_HI_DRAGON
 message-invis:BLINK:Algo sorbe.
 desc:Una masa masiva de carne escamosa multicolor, palpitante y pulsante.
 
-name:greater rotting quylthulg
+name:quylthulg podrido mayor
 base:quylthulg
 color:U
 speed:120
@@ -13196,7 +13196,7 @@ desc: late y se retuerce.
 
 ### Nivel de mazmorra 72 ###
 
-name:horned reaper
+name:segador cornudo
 base:major demon
 color:B
 speed:130
@@ -13223,7 +13223,7 @@ desc: Temido por enemigos y amigos por igual cuando entra en uno de sus furiosos
 desc: arrebatos berserker, el Segador Cornudo cortará todo lo que se interponga
 desc: entre él y tú, incluso los secuaces que acaba de invocar.
 
-name:Ossë, Herald of Ulmo
+name:Ossë, Heraldo de Ulmo
 base:ainu
 color:w
 speed:130
@@ -13258,7 +13258,7 @@ desc: chapoteante de su acercamiento.
 
 ### Nivel de mazmorra 73 ###
 
-name:great hell wyrm
+name:gran wyrm infernal
 base:ancient dragon
 color:r
 speed:120
@@ -13287,7 +13287,7 @@ desc:Un vasto dragón de inmenso poder. El fuego salta continuamente de su enorm
 desc: forma. El aire a su alrededor te abrasa. Su más mínimo vistazo te quema, y
 desc: te das cuenta de lo insignificante que eres.
 
-name:great bile wyrm
+name:gran wyrm de bilis
 base:ancient dragon
 color:s
 speed:120
@@ -13315,8 +13315,8 @@ desc:Un dragón enorme y muy poderoso. Grandes charcos humeantes de ácido gotea
 desc: de su forma al suelo. Te estremeces al ver el ácido carcomiendo las mismas
 desc: piedras de la mazmorra. ¿Qué podría hacerte a ti?
 
-name:great wyrm of thunder
-plural:great wyrms of thunder
+name:gran wyrm de trueno
+plural:grandes wyrms de trueno
 base:ancient dragon
 color:y
 speed:120
@@ -13344,7 +13344,7 @@ desc:Un dragón de proporciones gigantescas, con habilidades destructivas a la
 desc: altura. La mera intensidad de su rugido te deja aturdido e incapaz de
 desc: pensar con claridad para defenderte adecuadamente.
 
-name:nightwalker
+name:caminante nocturno
 base:wraith
 color:v
 speed:130
@@ -13374,7 +13374,7 @@ desc: dejándote indefenso contra su ira maligna. Puede oler tu miedo, y tú a t
 desc: vez hueles el terrible hedor de la muerte mientras esta horrible figura
 desc: avanza amenazadoramente hacia ti.
 
-name:Omarax, the Eye Tyrant
+name:Omarax, el Tirano de los Ojos
 base:eye
 color:v
 speed:130
@@ -13405,7 +13405,7 @@ desc: repugnantes.
 
 ### Nivel de mazmorra 74 ###
 
-name:skull druj
+name:cráneo druj
 base:skeleton
 color:o
 speed:130
@@ -13429,7 +13429,7 @@ desc:Una calavera brillante poseída por un poder hechicero. No necesita moverse
 desc: sino simplemente lanzarte magia poderosa mientras pronuncia las palabras de
 desc: poder.
 
-name:black reaver
+name:saqueador negro
 base:lich
 color:D
 speed:120
@@ -13456,7 +13456,7 @@ desc:Una forma humanoide, negra como la noche, avanzando constante e
 desc: imparablemente, incluso la misma roca de la mazmorra no puede evitar que te
 desc: alcance.
 
-name:aether hound
+name:sabueso de éter
 base:zephyr hound
 color:v
 speed:130
@@ -13488,8 +13488,8 @@ desc: repente, te sientes muy inseguro.
 
 ### Nivel de mazmorra 75 ###
 
-name:great wyrm of chaos
-plural:great wyrms of chaos
+name:gran wyrm del caos
+plural:grandes wyrms del caos
 base:ancient dragon
 color:v
 speed:120
@@ -13517,8 +13517,8 @@ desc:Un dragón masivo de forma cambiante. Mientras miras, aparece primero bello
 desc: luego feo. Su cuerpo está retorcido por fuerzas caóticas mientras lucha por
 desc: permanecer real. Su mera existencia distorsiona el universo a su alrededor.
 
-name:great wyrm of law
-plural:great wyrms of law
+name:gran wyrm de la ley
+plural:grandes wyrms de la ley
 base:ancient dragon
 color:B
 speed:120
@@ -13548,8 +13548,8 @@ desc: desprecia toda otra vida. Ve a todos los que no le obedecen como meros
 desc: insectos para ser aplastados bajo sus pies.
 
 
-name:Ungoliant, the Unlight
-base:spider
+name:Ungoliant, la Oscuridad
+base:araña
 color:D
 speed:130
 hit-points:13000
@@ -13580,7 +13580,7 @@ desc: absorbe toda la luz viviente en su cuerpo hinchado, y exhala la más negra
 desc: las oscuridades. Siempre está vorazmente hambrienta y hasta se comería a sí
 desc: misma para evitar morir de hambre.
 
-name:bronze golem
+name:gólem de bronce
 base:golem
 color:o
 speed:120
@@ -13613,7 +13613,7 @@ message-invis:BO_PLAS:Algo retumba.
 desc:Una estatua de bronce animada gigantesca de cuatro brazos y forma demoníaca,
 desc: brillando con gran calor.
 
-name:Glaurung, Father of the Dragons
+name:Glaurung, Padre de los Dragones
 base:ancient dragon
 color:v
 speed:130
@@ -13645,7 +13645,7 @@ desc: definición del fuego de dragón.
 
 ### Nivel de mazmorra 76 ###
 
-name:master quylthulg
+name:quylthulg maestro
 base:quylthulg
 color:B
 speed:120
@@ -13664,7 +13664,7 @@ message-invis:BLINK:Algo sorbe.
 desc:Una masa gigante y hirviente de carne, abrumándote con monstruo tras
 desc: monstruo.
 
-name:Makar, the Warrior
+name:Makar, el Guerrero
 base:ainu
 color:D
 speed:120
@@ -13690,7 +13690,7 @@ desc: turbulencias causadas por Morgoth.
 
 ### Nivel de mazmorra 77 ###
 
-name:Feagwath, the Undead Sorcerer
+name:Feagwath, el Hechicero No Muerto
 base:lich
 color:v
 speed:130
@@ -13713,17 +13713,17 @@ spells:TELE_TO | TRAPS
 spells:BA_MANA | BA_NETH
 spells:BO_MANA
 spells:S_KIN | S_MONSTERS | S_UNDEAD
-friends:100:2d4:Dread:servant
-friends:40:1d2:Dreadmaster:servant
-friends:10:1d2:Dreadlord:servant
-friends:100:1d4:Lich:servant
-friends:40:1d2:Master lich:servant
+friends:100:2d4:Temor:servant
+friends:40:1d2:Maestro del temor:servant
+friends:10:1d2:Señor del temor:servant
+friends:100:1d4:Liche:servant
+friends:40:1d2:Maestro liche:servant
 friends:10:1d2:Archlich:servant
 desc:Un hedor de corrupción y podredumbre rodea a este hechicero, que claramente
 desc: se ha levantado de entre los muertos para continuar sus inmundos planes y
 desc: maquinaciones.
 
-name:pit fiend
+name:diablo del abismo
 base:major demon
 color:o
 speed:130
@@ -13753,7 +13753,7 @@ desc: escamoso y colmillos masivos que gotean un líquido verde inmundo, el
 desc: demonio del foso es un enemigo temible de las profundidades más bajas de los
 desc: infiernos. A menudo son los comandantes de vastos ejércitos demoníacos.
 
-name:Uvatha the Horseman
+name:Uvatha el Jinete
 base:wraith
 color:p
 speed:120
@@ -13781,8 +13781,8 @@ desc: Anhela saborear tu sangre.
 
 ### Nivel de mazmorra 78 ###
 
-name:serpent of chaos
-plural:serpents of chaos
+name:serpiente del caos
+plural:serpientes del caos
 base:snake
 color:y
 speed:130
@@ -13805,7 +13805,7 @@ desc:Retorciéndose espiral sobre espiral, este poderoso engendro del caos se
 desc: desintegra y reforma constantemente ante tus ojos deslumbrados. Busca
 desc: obliterarte por completo; ¡cuidado!
 
-name:Adunaphel the Quiet
+name:Adunaphel la Silenciosa
 base:wraith
 color:p
 speed:120
@@ -13834,7 +13834,7 @@ desc: poder de los anillos.
 
 ### Nivel de mazmorra 79 ###
 
-name:Qlzqqlzuup, the Emperor Quylthulg
+name:Qlzqqlzuup, el Quylthulg Emperador
 base:quylthulg
 color:v
 speed:130
@@ -13855,7 +13855,7 @@ desc:Una masa gigante y hirviente de carne, Qlzqqlzuup cambia de colores ante tu
 desc: ojos. Pulsando primero un color y luego el siguiente, solo sabe que debe
 desc: traer ayuda para protegerse.
 
-name:Akhorahil the Blind
+name:Akhorahil el Ciego
 base:wraith
 color:p
 speed:120
@@ -13889,8 +13889,8 @@ desc: hombre común jamás podría.
 
 ### Nivel de mazmorra 80 ###
 
-name:fury
-plural:furies
+name:furia
+plural:furias
 base:major demon
 color:t
 speed:130
@@ -13915,8 +13915,8 @@ spells:S_HI_DEMON
 desc:Una encarnación femenina de la rabia, con la intención de destrozar tu mente
 desc: y tu cuerpo.
 
-name:great wyrm of annihilation
-plural:great wyrms of annihilation
+name:gran wyrm de aniquilación
+plural:grandes wyrms de aniquilación
 base:ancient dragon
 color:v
 speed:120
@@ -13944,7 +13944,7 @@ desc:Un dragón masivo de forma horrible. De su aura sombría emana el hedor del
 desc: inframundo. Su cuerpo está retorcido por fuerzas caóticas mientras lucha por
 desc: permanecer real. Su mera existencia distorsiona el universo a su alrededor.
 
-name:sky dragon
+name:dragón del cielo
 base:ancient dragon
 color:B
 speed:120
@@ -13972,7 +13972,7 @@ desc:Un dragón iracundo, de una raza que ni las leyendas mencionan,
 desc: precipitándose hacia ti como un rayo. Pocos se enfrentan a los dragones
 desc: de los aires exóticos; menos aún viven para contarlo.
 
-name:Wiruin, the Maelstrom
+name:Wiruin, el Maelstrom
 base:vortex
 color:z
 speed:140
@@ -13997,7 +13997,7 @@ desc:Un violento remolino helado, traído de los yermos helados de Helcaraxë po
 desc: Morgoth como guardián y entretenimiento. Vórtices más pequeños surgen en sus
 desc: bordes, y sientes que nunca te liberarás de su ensordecedor rugido.
 
-name:Ren the Unclean
+name:Ren el Impuro
 base:wraith
 color:p
 speed:120
@@ -14029,7 +14029,7 @@ desc: familia, y nunca se recuperó.
 
 ### Nivel de mazmorra 81 ###
 
-name:Maeglin, the Traitor of Gondolin
+name:Maeglin, el Traidor de Gondolin
 base:humanoid
 color:p
 speed:130
@@ -14056,7 +14056,7 @@ desc: más. Su codicia por el oro lo llevó a traicionar el Reino Oculto de
 desc: Gondolin ante las fuerzas de Morgoth. Él mismo es un poderoso guerrero, y
 desc: algunos de los más grandes sirvientes de Morgoth responden a su llamada.
 
-name:Ji Indur Dawndeath
+name:Ji Indur Muerte del Alba
 base:wraith
 color:p
 speed:120
@@ -14086,8 +14086,8 @@ desc: fácilmente bajo el poder de Sauron.
 
 ### Nivel de mazmorra 82 ###
 
-name:great wyrm of balance
-plural:great wyrms of balance
+name:gran wyrm del equilibrio
+plural:grandes wyrms del equilibrio
 base:ancient dragon
 color:P
 speed:120
@@ -14117,8 +14117,8 @@ desc: años de antigüedad y busca mantener el Equilibrio Cósmico. Te ve como u
 desc: advenedizo alborotador sin la sabiduría para controlar tus acciones. Te
 desc: destruirá.
 
-name:great wyrm of many colours
-plural:great wyrms of many colours
+name:gran wyrm de muchos colores
+plural:grandes wyrms de muchos colores
 base:ancient dragon
 color:v
 speed:120
@@ -14144,7 +14144,7 @@ spells:BR_ACID | BR_COLD | BR_ELEC | BR_FIRE | BR_POIS
 spells:S_DRAGON | S_HI_DRAGON
 desc:Un dragón gigantesco cuyas escamas brillan en innumerables tonos.
 
-name:Pazuzu, Lord of Air
+name:Pazuzu, Señor del Aire
 base:major demon
 color:Z
 speed:140
@@ -14167,11 +14167,11 @@ spells:MIND_BLAST
 spells:BA_ELEC
 spells:BO_ELEC | BO_MANA
 spells:S_HI_DEMON
-friends:100:2d3:Giant roc:servant
+friends:100:2d3:Roc gigante:servant
 desc:Un demonio humanoide alado, Pazuzu sonríe inhumanamente mientras decide tu
 desc: destino.
 
-name:Dwar, Dog Lord of Waw
+name:Dwar, Señor Perro de Waw
 base:wraith
 color:p
 speed:120
@@ -14201,7 +14201,7 @@ desc: destruirte.
 
 ### Nivel de mazmorra 83 ###
 
-name:Hoarmurath of Dir
+name:Hoarmurath de Dir
 base:wraith
 color:p
 speed:120
@@ -14229,7 +14229,7 @@ spells:S_UNDEAD | S_WRAITH
 desc:Un Jinete del Anillo poderoso en hechicería maligna, anhela la vida que ha
 desc: perdido por una no-vida de tormento eterno.
 
-name:Draugluin, Sire of All Werewolves
+name:Draugluin, Padre de Todos los Hombres Lobo
 base:canine
 color:m
 speed:130
@@ -14253,15 +14253,15 @@ flags:FORCE_SLEEP
 spell-freq:3
 spells:SCARE
 spells:S_HOUND | S_MONSTERS
-friends:100:3d5:Werewolf:servant
-friends:100:2d4:Wolf Chieftain:servant
+friends:100:3d5:Hombre lobo:servant
+friends:100:2d4:Jefe lobo:servant
 desc:Draugluin proporciona a Sauron una guardia personal temible. Es un lobo
 desc: enorme habitado por un espíritu humano. Es el jefe de todos los de su
 desc: especie.
 
 ### Nivel de mazmorra 84 ###
 
-name:Khamûl, the Black Easterling
+name:Khamûl, el Oriental Negro
 base:wraith
 color:p
 speed:120
@@ -14290,7 +14290,7 @@ spells:S_HI_UNDEAD | S_WRAITH
 desc:Un rey-guerrero del Este. Khamûl es un oponente poderoso, su habilidad en
 desc: combate es impresionante y su forma retorcida por la astucia maligna.
 
-name:Cantoras, the Skeletal Lord
+name:Cantoras, el Señor Esquelético
 base:skeleton
 color:W
 speed:140
@@ -14322,7 +14322,7 @@ desc: inframundo. ¡Huye de su ira!
 
 ### Nivel de mazmorra 85 ###
 
-name:greater Balrog
+name:Balrog mayor
 base:major demon
 color:P
 speed:130
@@ -14352,7 +14352,7 @@ desc: lealtad a Morgoth al principio de los tiempos y ahora es uno de sus más
 desc: terribles sirvientes demoníacos. Con su látigo llameante y su espada busca
 desc: destruirte.
 
-name:The Witch-King of Angmar
+name:El Rey Brujo de Angmar
 base:wraith
 color:p
 speed:130
@@ -14377,7 +14377,7 @@ spells:BLIND | BRAIN_SMASH | WOUND | HOLD | SCARE | TELE_AWAY
 spells:BA_NETH
 spells:BO_MANA
 spells:S_HI_DEMON | S_HI_DRAGON | S_HI_UNDEAD | S_KIN | S_MONSTERS | S_WRAITH
-friends:50:1d1:Winged Horror
+friends:50:1d1:Horror alado
 desc:El más funesto de todos los capitanes de Sauron: Rey de Angmar, Hechicero,
 desc: Jinete del Anillo, Señor de los Nazgûl, una lanza de terror en la mano de
 desc: Sauron, sombra de desesperación. Sus hechizos son letales y sus golpes en
@@ -14385,7 +14385,7 @@ desc: combate aplastantemente duros. Se mueve con rapidez y comanda legiones del
 desc: mal para que hagan su voluntad. Se dice que está destinado a no morir nunca
 desc: a manos de un hombre mortal.
 
-name:Ancalagon the Black
+name:Ancalagon el Negro
 base:ancient dragon
 color:D
 speed:130
@@ -14408,18 +14408,18 @@ innate-freq:4
 spell-freq:10
 spells:BR_ACID | BR_COLD | BR_ELEC | BR_FIRE | BR_POIS
 spells:S_HI_DRAGON | S_KIN
-friends:100:1d1:Kavlax the Many-Headed
-friends:100:1d1:Scatha the Worm
-friends:100:1d1:Itangast the Fire Drake
-friends:100:1d1:Smaug the Golden
-friends:100:1d1:Glaurung, Father of the Dragons
+friends:100:1d1:Kavlax el de Muchas Cabezas
+friends:100:1d1:Scatha el Gusano
+friends:100:1d1:Itangast el Draco de Fuego
+friends:100:1d1:Smaug el Dorado
+friends:100:1d1:Glaurung, Padre de los Dragones
 desc:"Fauces Apresuradas" es su nombre, y la muerte es su juego; el más grande y
 desc: terrible de todos los dragones, su poder desanimó incluso a los Valar por
 desc: un tiempo.
 
 ### Nivel de mazmorra 86 ###
 
-name:The Tarrasque
+name:El Tarrasque
 base:reptile
 color:v
 speed:130
@@ -14448,7 +14448,7 @@ desc: inmune a la magia. ¡Teme su ira, pues su devastación no tiene igual!
 
 ### Nivel de mazmorra 87 ###
 
-name:Meássë, the Bloody
+name:Meássë, la Sangrienta
 base:ainu
 color:r
 speed:120
@@ -14473,11 +14473,11 @@ spells:HEAL | HEAL_KIN
 spells:BOULDER
 spells:BA_SHAR | BR_SOUN
 spells:S_KIN | S_MONSTERS
-friends:50:1d4:Maia of Oromë:servant
-friends:50:1d4:Maia of Aulë:servant
-friends:50:1d3:Lesser titan:servant
-friends:50:1d2:Greater titan:servant
-friends:100:1d1:Makar, the Warrior
+friends:50:1d4:Maia de Oromë:servant
+friends:50:1d4:Maia de Aulë:servant
+friends:50:1d3:Titán menor:servant
+friends:50:1d2:Titán mayor:servant
+friends:100:1d1:Makar, el Guerrero
 desc:Hermana de Makar el Guerrero, animaba a los guerreros de su salón y curaba
 desc: sus heridas para que pudieran seguir luchando, hasta que sus brazos se
 desc: enrojecían hasta el codo. Meássë está encantada con toda violencia, y
@@ -14486,7 +14486,7 @@ desc: recluta a cualquier ser de habilidades similares para su servicio.
 
 ### Nivel de mazmorra 88 ###
 
-name:Lungorthin, the Balrog of White Fire
+name:Lungorthin, el Balrog de Fuego Blanco
 base:major demon
 color:v
 speed:130
@@ -14511,9 +14511,9 @@ spell-freq:6
 spells:BLIND | CONF | SCARE
 spells:BR_FIRE | BR_PLAS
 spells:S_HI_DEMON | S_UNDEAD
-friends:100:1d3:Lesser Balrog:servant
-friends:50:1d2:Greater Balrog:servant
-friends:100:1d1:The Balrog of Moria
+friends:100:1d3:Balrog menor:servant
+friends:50:1d2:Balrog mayor:servant
+friends:100:1d1:El Balrog de Moria
 desc:Una forma masiva envuelta en llamas. Lungorthin te mira con fiereza con ojos
 desc: que arden en rojo. El suelo de la mazmorra donde se encuentra está
 desc: chamuscado por el calor de su cuerpo.
@@ -14524,7 +14524,7 @@ desc: chamuscado por el calor de su cuerpo.
 
 ### Nivel de mazmorra 90 ###
 
-name:Huan, Wolfhound of the Valar
+name:Huan, Lebrel de los Valar
 base:canine
 color:W
 speed:130
@@ -14552,7 +14552,7 @@ desc: Celegorm hijo de Fëanor hasta Beren hijo de Barahir: pero ahora corre lib
 desc: y no reconoce a ningún amo excepto a sí mismo, mientras caza solo a su
 desc: némesis - Carcharoth, el terrible lobo de Angband.
 
-name:Carcharoth, the Jaws of Thirst
+name:Carcharoth, las Fauces de la Sed
 base:canine
 color:p
 speed:130
@@ -14584,7 +14584,7 @@ desc: muy inteligente y un oponente mortal en combate.
 
 ### Nivel de mazmorra 92 ###
 
-name:Vecna, the Emperor Lich
+name:Vecna, el Liche Emperador
 base:lich
 color:p
 speed:130
@@ -14607,24 +14607,24 @@ spells:BLIND | WOUND | SCARE | TPORT | BRAIN_SMASH
 spells:BA_FIRE | BA_MANA | BA_NETH
 spells:BO_MANA
 spells:S_HI_DEMON | S_HI_UNDEAD | S_KIN | S_MONSTERS
-friends:50:1d3:mummified chieftain:servant
-friends:50:1d3:Skeleton etten:servant
-friends:50:1d3:Night mare:servant
-friends:30:1d2:Dreadlord:servant
-friends:40:1d2:Archlich:servant
-friends:30:1d2:Nightwing:servant
-friends:30:1d2:Nightcrawler:servant
-friends:20:1d2:Nightwalker:servant
-friends:20:1d2:Bone golem:servant
-friends:20:1d2:Black reaver:servant
+friends:50:1d3:jefe momificado:servant
+friends:50:1d3:Esqueleto etten:servant
+friends:50:1d3:Pesadilla nocturna:servant
+friends:30:1d2:Señor del temor:servant
+friends:40:1d2:Archliche:servant
+friends:30:1d2:Ala nocturna:servant
+friends:30:1d2:Rastreador nocturno:servant
+friends:20:1d2:Caminante nocturno:servant
+friends:20:1d2:Gólem de hueso:servant
+friends:20:1d2:Saqueador negro:servant
 desc:El más grande de todos los hechiceros no muertos, incluso los dioses una vez
 desc: lo temieron. Esta antigua sombra de muerte marchita todo ser viviente que
 desc: pasa.
 
 ### Nivel de mazmorra 95 ###
 
-name:storm of Unmagic
-plural:storms of Unmagic
+name:tormenta de No-Magia
+plural:tormentas de No-Magia
 base:vortex
 color:v
 speed:140
@@ -14647,7 +14647,7 @@ spells:BR_CHAO | BR_DISE | BR_TIME
 desc:Aullando a través de la mazmorra que se desintegra, este remolino de
 desc: No-Magia arranca los encantamientos de todo lo que toca.
 
-name:Gothmog, the High Captain of Balrogs
+name:Gothmog, el Alto Capitán de los Balrogs
 base:major demon
 color:v
 speed:130
@@ -14672,13 +14672,13 @@ spell-freq:4
 spells:BLIND | CONF | SCARE
 spells:BR_FIRE | BR_PLAS
 spells:S_HI_DEMON | S_HI_UNDEAD
-friends:100:1d5:Lesser Balrog:servant
+friends:100:1d5:Balrog menor:servant
 friends:30:1d3:Osyluth:servant
 friends:30:1d3:Gelugon:servant
-friends:30:1d3:Pit fiend:servant
-friends:100:1d2:Greater Balrog:bodyguard
-friends:100:1d1:The Balrog of Moria:servant
-friends:100:1d1:Lungorthin, the Balrog of White Fire:servant
+friends:30:1d3:Diablo del abismo:servant
+friends:100:1d2:Balrog mayor:bodyguard
+friends:100:1d1:El Balrog de Moria:servant
+friends:100:1d1:Lungorthin, el Balrog de Fuego Blanco:servant
 desc:Gothmog es el Jefe de los Balrogs en la guardia personal de Morgoth. Es
 desc: famoso por matar a Fëanor y Fingon, dos de los Altos Reyes de los Noldor,
 desc: y nunca ha sido derrotado en combate. Con su látigo de llamas y su
@@ -14686,7 +14686,7 @@ desc: impresionante aliento ígneo salvó a su amo de la ira de Ungoliant.
 
 ### Nivel de mazmorra 99 ###
 
-name:Sauron, the Sorcerer
+name:Sauron, el Hechicero
 base:ainu
 color:p
 speed:130
@@ -14713,18 +14713,18 @@ spells:BA_DARK | BA_FIRE | BA_NETH
 spells:BO_ICE | BO_MANA | BO_PLAS
 spells:SHAPECHANGE
 spells:S_HI_DEMON | S_HI_DRAGON | S_HI_UNDEAD | S_UNIQUE | S_WRAITH
-friends:100:1d1:Khamûl, the Black Easterling:servant
-friends:100:1d1:The Witch-King of Angmar:servant
-shape:Wolf-Sauron
-shape:Serpent-Sauron
-shape:Vampire-Sauron
+friends:100:1d1:Khamûl, el Oriental Negro:servant
+friends:100:1d1:El Rey Brujo de Angmar:servant
+shape:Lobo-Sauron
+shape:Serpiente-Sauron
+shape:Vampiro-Sauron
 desc:El más grande y terrible de los sirvientes de Morgoth, creador del Anillo
 desc: Único. Un hechicero de terribles poderes, maestro de las sombras y los
 desc: fantasmas, inmundo en sabiduría, cruel en fuerza, deformando lo que
 desc: gobierna, señor de los hombres lobo; su dominio es el tormento. Tiene
 desc: muchos sirvientes, y rara vez lucha sin ellos.
 
-name:Wolf-Sauron
+name:Lobo-Sauron
 base:canine
 color:p
 speed:140
@@ -14752,7 +14752,7 @@ spells:S_HOUND | S_DRAGON | S_HI_DEMON | S_HI_UNDEAD
 desc:La forma de Sauron como el lobo más poderoso que jamás haya caminado por el
 desc: mundo.
 
-name:Serpent-Sauron
+name:Serpiente-Sauron
 base:snake
 color:p
 speed:130
@@ -14781,7 +14781,7 @@ spells:S_DRAGON | S_HI_DEMON | S_HI_UNDEAD
 desc:La forma de Sauron como una serpiente: venenosa, mordedora, escupidora y
 desc: amenazando con aplastarte en sus poderosos espirales.
 
-name:Vampire-Sauron
+name:Vampiro-Sauron
 base:vampire
 color:p
 speed:130
@@ -14809,7 +14809,7 @@ desc:La forma de Sauron como vampiro, grande como una nube oscura sobre la luna.
 
 ### Nivel de mazmorra 100 ###
 
-name:Morgoth, Lord of Darkness
+name:Morgoth, Señor de la Oscuridad
 base:Morgoth
 color:D
 speed:140

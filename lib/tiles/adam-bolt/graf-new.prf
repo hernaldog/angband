@@ -636,10 +636,10 @@ object:gloves:Set of Alchemist's Gloves:0x88:0x91
 ### The shields ###
 
 #K:shield:Buckler:0x88:0x94
-object:shield:Wicker Shield:0x88:0x94
-object:shield:Small Metal Shield:0x88:0x96
-object:shield:Leather Shield:0x88:0x95
-object:shield:Large Metal Shield:0x88:0x97
+object:shield:Escudo de Mimbre:0x88:0x94
+object:shield:Escudo de Metal Pequeño:0x88:0x96
+object:shield:Escudo de Cuero:0x88:0x95
+object:shield:Escudo de Metal Grande:0x88:0x97
 object:shield:Mithril Shield:0x88:0x98
 
 
@@ -935,17 +935,17 @@ object:amulet:Jewel:0x8E:0x9F
 ##### Monster attr/char definitions #####
 
 monster:<player>:0x92:0x80
-monster:Filthy street urchin:0xAA:0x80
-monster:Scrawny cat:0xA7:0x82
-monster:Scruffy little dog:0x9D:0x9A
-monster:Farmer Maggot:0xAA:0x81
-monster:Blubbering idiot:0xAA:0x82
-monster:Boil-covered wretch:0xAA:0x83
-monster:Village idiot:0xAA:0x84
+monster:Golfo callejero inmundo:0xAA:0x80
+monster:Gato flaco:0xA7:0x82
+monster:Perrito desaliñado:0x9D:0x9A
+monster:Granjero Maggot:0xAA:0x81
+monster:Idiota llorón:0xAA:0x82
+monster:Desgraciado cubierto de forúnculos:0xAA:0x83
+monster:Idiota del pueblo:0xAA:0x84
 monster:Pitiful-looking beggar:0xAA:0x85
 monster:Mangy-looking leper:0xAA:0x86
 monster:Squint-eyed rogue:0xAA:0x87
-monster:Singing, happy drunk:0xAA:0x88
+monster:Borracho cantando y feliz:0xAA:0x88
 monster:Aimless-looking merchant:0xAA:0x89
 monster:Mean-looking mercenary:0xAA:0x8A
 monster:Battle-scarred veteran:0xAA:0x8B

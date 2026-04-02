@@ -191,9 +191,9 @@ name:Creepy crawlies
 room:2
 alloc:1:20
 obj-rarity:5
-mon-base:centipede
-mon-base:killer beetle
-mon-base:spider
+mon-base:ciempiés
+mon-base:escarabajo asesino
+mon-base:araña
 spell-ban:BLINK
 spell-ban:CONF
 spell-ban:SLOW
@@ -348,10 +348,10 @@ name:Insects
 room:3
 alloc:2:15
 mon-base:ant
-mon-base:centipede
+mon-base:ciempiés
 mon-base:dragon fly
 mon-base:insect
-mon-base:killer beetle
+mon-base:escarabajo asesino
 
 name:Reptiles
 room:3

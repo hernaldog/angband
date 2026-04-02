@@ -2103,7 +2103,7 @@ desc:  Its wielder will fear nothing and fight with unnatural strength, but
 desc: also draw attention to himself.
 
 name:of Anárion
-base-object:shield:Large Metal Shield
+base-object:shield:Escudo de Metal Grande
 level:40
 weight:120
 cost:160000

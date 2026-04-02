@@ -58,7 +58,7 @@ monster-category:Canines
 mcat-include-base:canine
 
 monster-category:Centipede
-mcat-include-base:centipede
+mcat-include-base:ciempiés
 
 monster-category:Demons
 mcat-include-base:minor demon
@@ -108,7 +108,7 @@ monster-category:Jellies
 mcat-include-base:jelly
 
 monster-category:Killer Beetles
-mcat-include-base:killer beetle
+mcat-include-base:escarabajo asesino
 
 monster-category:Kobolds
 mcat-include-base:kobold
@@ -150,7 +150,7 @@ monster-category:Rodents
 mcat-include-base:rodent
 
 monster-category:Scorpions/Spiders
-mcat-include-base:spider
+mcat-include-base:araña
 
 monster-category:Skeletons/Drujs
 mcat-include-base:skeleton

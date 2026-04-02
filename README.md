@@ -4,7 +4,7 @@
 Hernaldo González  - hernaldog@gmail.com
 
 # Status general de la traducción
-60%
+70%
 
 ## Bitácora principal
 - 21-02-2026: Se entiende como compilar en Windows 11 y hacen pruebas de concepto.
@@ -13,6 +13,7 @@ Hernaldo González  - hernaldog@gmail.com
 - 23-03-2026: Para facilitar la traducción al español. Se cambian todos los prefijos en objetos, ejemplo "Un Pergamino", "Una Manzana" y solo deja la unidad + objeto, ejemplo "Ves 1 Antorcha de Madera", "Te quedan 3 Linternas". Esta idea sale de otros juegos Roguelike como Shattered Pixel Dungeons donde no hay prefijos en objetos.
 - 27-03-2026: Se logra editar los txt, se agrega tag nuevo en object.txt llamado "name_plural" y archivos c como obj-init.c, object.h, obj-desc.c, z-textblock.c para manejar objetos en Español que usan plural y que son muy diferentes al inglés, como "Ración-> Raciones" o "Perdigón -> Perdigones".
 - 28-03-2026: Se logra ampliar el método que imprime caracteres a color de ASCII a UTF-8 en effects-info.c, método copy_to_textblock_with_coloring(), esto para las tildes de lenguaje español cuando se inspecciona un objeto.
+- 02-04-2026: Se traduce la mayoría de los nombres de monstruos al español, esto en archivos monster.txt, monster_base.txt, pit.txt, summon.txt, borg-flow-kill.c. Faltan algunos que están relacionados a otros txt
 
 ## Motivación
 Me entantan los juegos Roguelike clásicos como Moria, Rogue, etc, a la vez, siempre me ha gustado el Señor de los Anillos, y que mejor que este gran juego que uno los dos mundos. 

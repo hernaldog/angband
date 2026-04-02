@@ -350,7 +350,7 @@ static void get_subject(char *buf, size_t buflen,
 	}
 
 	if (offscreen)
-		my_strcat(buf, " (offscreen)", buflen);
+		my_strcat(buf, " (fuera de vista)", buflen); //fix traduc
 
 	/* Add a separator */
 	my_strcat(buf, " ", buflen);

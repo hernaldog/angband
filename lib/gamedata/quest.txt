@@ -9,10 +9,10 @@
 
 name:Sauron
 level:99
-race:Sauron, the Sorcerer
+race:Sauron, el Hechicero
 number:1
 
 name:Morgoth
 level:100
-race:Morgoth, Lord of Darkness
+race:Morgoth, Señor de la Oscuridad
 number:1

@@ -259,17 +259,17 @@ trap:rock fall trap:*:0x93:0xb8
 # Monster attr/char definitions
 
 monster:<player>:0x83:0x87
-monster:Filthy street urchin:0x8B:0x80
-monster:Scrawny cat:0x90:0xB6
-monster:Scruffy little dog:0x8F:0xC8
-monster:Farmer Maggot:0x8B:0x81
-monster:Blubbering idiot:0x8B:0x82
-monster:Boil-covered wretch:0x8B:0x83
-monster:Village idiot:0x8B:0x84
+monster:Golfo callejero inmundo:0x8B:0x80
+monster:Gato flaco:0x90:0xB6
+monster:Perrito desaliñado:0x8F:0xC8
+monster:Granjero Maggot:0x8B:0x81
+monster:Idiota llorón:0x8B:0x82
+monster:Desgraciado cubierto de forúnculos:0x8B:0x83
+monster:Idiota del pueblo:0x8B:0x84
 monster:Pitiful-looking beggar:0x8B:0x85
 monster:Mangy-looking leper:0x8B:0x86
 monster:Squint-eyed rogue:0x8B:0x87
-monster:Singing, happy drunk:0x8B:0x88
+monster:Borracho cantando y feliz:0x8B:0x88
 monster:Aimless-looking merchant:0x8B:0x89
 monster:Mean-looking mercenary:0x8B:0x8A
 monster:Battle-scarred veteran:0x8B:0x8B
@@ -1100,10 +1100,10 @@ object:gloves:Set of Alchemist's Gloves:0x80:0xCD
 ### The shields ###
 
 #K:shield:Buckler:0x80:0xE4
-object:shield:Wicker Shield:0x80:0x9E
-object:shield:Small Metal Shield:0x80:0xA0
-object:shield:Leather Shield:0x80:0x9F
-object:shield:Large Metal Shield:0x80:0xA1
+object:shield:Escudo de Mimbre:0x80:0x9E
+object:shield:Escudo de Metal Pequeño:0x80:0xA0
+object:shield:Escudo de Cuero:0x80:0x9F
+object:shield:Escudo de Metal Grande:0x80:0xA1
 object:shield:Mithril Shield:0x80:0xA2
 object:shield:Knight's Shield:0x93:0xb7
 

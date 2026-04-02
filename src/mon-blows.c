@@ -127,7 +127,8 @@ char *monster_blow_method_action(const struct blow_method *method, int midx)
 						strnfcat(buf, sizeof(buf),
 							&end, "%s", m_name);
 					} else {
-						strnfcat(buf, sizeof(buf), &end, "you");
+						//strnfcat(buf, sizeof(buf), &end, "you");
+						strnfcat(buf, sizeof(buf), &end, "te"); //fix traduc
 					}
 					break;
 				}
@@ -139,15 +140,18 @@ char *monster_blow_method_action(const struct blow_method *method, int midx)
 							MDESC_TARG | MDESC_POSS);
 						strnfcat(buf, sizeof(buf), &end, "%s", m_name);
 					} else {
-						strnfcat(buf, sizeof(buf), &end, "your");
+						//strnfcat(buf, sizeof(buf), &end, "your");
+						strnfcat(buf, sizeof(buf), &end, "tu"); //fix traduc
 					}
 					break;
 				}
 				case BLOW_TAG_HAS: {
 					if (midx > 0) {
-						strnfcat(buf, sizeof(buf), &end, "has");
+						//strnfcat(buf, sizeof(buf), &end, "has");
+						strnfcat(buf, sizeof(buf), &end, "tiene"); //fix traduc
 					} else {
-						strnfcat(buf, sizeof(buf), &end, "have");
+						//strnfcat(buf, sizeof(buf), &end, "have");
+						strnfcat(buf, sizeof(buf), &end, "tienes"); //fix traduc
 					}
 					break;
 				}

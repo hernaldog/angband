@@ -62,7 +62,7 @@ stun:0
 miss:1
 phys:1
 msg:MON_BITE
-act:muerde a {target}
+act:{target} muerde
 desc:mordisco
 
 name:STING
@@ -161,7 +161,7 @@ stun:0
 miss:0
 phys:0
 msg:MON_BEG
-act:suplica dinero a {target}
+act:{target} suplica dinero
 desc:suplicar
 
 name:INSULT

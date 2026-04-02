@@ -625,10 +625,10 @@ object:gloves:Set of Alchemist's Gloves:0x88:0x8C
 ### The shields ###
 
 #K:shield:Buckler:0x88:0x8F
-object:shield:Wicker Shield:0x88:0x8F
-object:shield:Small Metal Shield:0x88:0x91
-object:shield:Leather Shield:0x88:0x90
-object:shield:Large Metal Shield:0x88:0x92
+object:shield:Escudo de Mimbre:0x88:0x8F
+object:shield:Escudo de Metal Pequeño:0x88:0x91
+object:shield:Escudo de Cuero:0x88:0x90
+object:shield:Escudo de Metal Grande:0x88:0x92
 object:shield:Mithril Shield:0x88:0x93
 
 
@@ -925,17 +925,17 @@ object:amulet:Jewel:0xB6:0x90
 
 
 monster:<player>:0x8C:0x80
-monster:Filthy street urchin:0x9B:0x8A
-monster:Scrawny cat:0x98:0x8B
-monster:Scruffy little dog:0x8E:0x9D
-monster:Farmer Maggot:0x9B:0x8B
-monster:Blubbering idiot:0x9B:0x8C
-monster:Boil-covered wretch:0x9B:0x8D
-monster:Village idiot:0x9B:0x8E
+monster:Golfo callejero inmundo:0x9B:0x8A
+monster:Gato flaco:0x98:0x8B
+monster:Perrito desaliñado:0x8E:0x9D
+monster:Granjero Maggot:0x9B:0x8B
+monster:Idiota llorón:0x9B:0x8C
+monster:Desgraciado cubierto de forúnculos:0x9B:0x8D
+monster:Idiota del pueblo:0x9B:0x8E
 monster:Pitiful-looking beggar:0x9B:0x8F
 monster:Mangy-looking leper:0x9B:0x90
 monster:Squint-eyed rogue:0x9B:0x91
-monster:Singing, happy drunk:0x9B:0x92
+monster:Borracho cantando y feliz:0x9B:0x92
 monster:Aimless-looking merchant:0x9B:0x93
 monster:Mean-looking mercenary:0x9B:0x94
 monster:Battle-scarred veteran:0x9B:0x95
