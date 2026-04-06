@@ -116,7 +116,7 @@ normal:polearm:Pica
 normal:polearm:Hacha de Pico
 normal:polearm:Hacha Ancha
 normal:polearm:Hacha de Batalla
-normal:polearm:Lanza
+normal:polearm:Lanza de Caballería
 normal:polearm:Martillo de Lucerna
 normal:hafted:Látigo
 normal:bow:Honda

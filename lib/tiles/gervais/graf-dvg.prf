@@ -976,7 +976,7 @@ object:hafted:Throwing Hammer:0x8a:0xb9
 
 ### Spears ###
 
-object:polearm:Spear:0x8a:0x9C
+object:polearm:Lanza:0x8a:0x9C
 object:polearm:Pica de Punzón:0x8a:0x9E
 object:polearm:Trident:0x8a:0x9D
 object:polearm:Halberd:0x8a:0xA6
@@ -997,7 +997,7 @@ object:polearm:Throwing Axe:0x8a:0xe6
 
 object:polearm:Scythe:0x8a:0xA9
 object:polearm:Glaive:0x8a:0xA5
-object:polearm:Lance:0x8a:0x9F
+object:polearm:Lanza de Caballería:0x8a:0x9F
 object:polearm:Scythe of Slicing:0x8a:0xAA
 object:polearm:Lucerne Hammer:0x8a:0xA0
 

@@ -500,7 +500,7 @@ object:hafted:Mace of Disruption:0x89:0x8D
 
 ### Spears ###
 
-object:polearm:Spear:0x89:0x91
+object:polearm:Lanza:0x89:0x91
 object:polearm:Pica de Punzón:0x89:0x91
 object:polearm:Trident:0x89:0x92
 object:polearm:Halberd:0x89:0x90
@@ -520,7 +520,7 @@ object:polearm:Great Axe:0x89:0x90
 
 object:polearm:Scythe:0x89:0x94
 object:polearm:Glaive:0x89:0x90
-object:polearm:Lance:0x89:0x93
+object:polearm:Lanza de Caballería:0x89:0x93
 object:polearm:Scythe of Slicing:0x89:0x94
 object:polearm:Lucerne Hammer:0x89:0x90
 

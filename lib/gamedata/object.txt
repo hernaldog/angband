@@ -1152,7 +1152,7 @@ armor:0:0
 desc:Un poste de madera reforzado de ocho pies de largo, rematado por una hoja de cuchillo masiva
 desc: que se puede usar para apuñalar o cortar.
 
-name:Lanza~
+name:Lanza~ de Caballería
 type:polearm
 graphics:/:s
 level:10

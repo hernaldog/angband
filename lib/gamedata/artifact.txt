@@ -1240,7 +1240,7 @@ desc: fell spells of annihilation swirl and dance as you swing death's myrmidon
 desc: down.
 
 name:of the Eorlingas
-base-object:polearm:Lanza
+base-object:polearm:Lanza de Caballería
 level:20
 weight:360
 cost:55000
