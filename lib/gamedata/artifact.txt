@@ -738,7 +738,7 @@ desc:The weapon of a mighty dwarven priest, whose shade is rumoured to
 desc: haunt the halls of Angband still.
 
 name:'Bloodspike'
-base-object:hafted:Morning Star
+base-object:hafted:Lucero del Alba
 level:20
 weight:150
 cost:30000
@@ -755,7 +755,7 @@ desc:You feel strong and firm of foot as you whip its spiked orb around and
 desc: bathe it in the blood of your foes.
 
 name:'Firestar'
-base-object:hafted:Morning Star
+base-object:hafted:Lucero del Alba
 level:25
 weight:150
 cost:35000
@@ -770,7 +770,7 @@ desc:A famed battle-lord of old with a head as ruddy as embers that can yet rise
 desc: up in wrath.
 
 name:'Totila'
-base-object:hafted:Flail
+base-object:hafted:Mayal
 level:20
 weight:150
 cost:55000
@@ -787,7 +787,7 @@ desc:A flail whose head befuddles those who stare as you whirl it round and
 desc: becomes a fiery comet as you bring it down.
 
 name:'Thunderfist'
-base-object:hafted:Two-Handed Great Flail
+base-object:hafted:Gran Mayal a Dos Manos
 level:45
 weight:300
 cost:160000
