@@ -501,7 +501,7 @@ object:hafted:Mace of Disruption:0x89:0x8D
 ### Spears ###
 
 object:polearm:Spear:0x89:0x91
-object:polearm:Awl-Pike:0x89:0x91
+object:polearm:Pica de Punzón:0x89:0x91
 object:polearm:Trident:0x89:0x92
 object:polearm:Halberd:0x89:0x90
 object:polearm:Pica:0x89:0x91

@@ -392,7 +392,7 @@ object:hafted:Whip:0x8F:0x8B
 
 ### Polearms ###
 
-object:polearm:Awl-Pike:0x8E:0x80
+object:polearm:Pica de Punzón:0x8E:0x80
 object:polearm:Battle Axe:0x8E:0x81
 object:polearm:Beaked Axe:0x8E:0x82
 object:polearm:Broad Axe:0x8E:0x83

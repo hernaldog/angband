@@ -1004,7 +1004,7 @@ flags:THROWING
 desc:El arma de asta básica, con un cuchillo de doble filo montado en un asta ligera.
 desc:  Esta arma puede lanzarse eficazmente.
 
-name:Pica~ de Lezna
+name:Pica~ de Punzón
 type:polearm
 graphics:/:s
 level:10
