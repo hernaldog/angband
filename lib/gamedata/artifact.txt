@@ -1029,7 +1029,7 @@ desc: powers of good save Manwë himself, Ulmo laughs to scorn the dread powers
 desc: of the undead, and is utterly in command of the Element of water.
 
 name:'Osondir'
-base-object:polearm:Halberd
+base-object:polearm:Alabarda
 level:20
 weight:140
 cost:22000
