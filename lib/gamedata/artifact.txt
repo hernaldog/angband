@@ -738,7 +738,7 @@ desc:The weapon of a mighty dwarven priest, whose shade is rumoured to
 desc: haunt the halls of Angband still.
 
 name:'Bloodspike'
-base-object:hafted:Morning Star
+base-object:hafted:Lucero del Alba
 level:20
 weight:150
 cost:30000
@@ -755,7 +755,7 @@ desc:You feel strong and firm of foot as you whip its spiked orb around and
 desc: bathe it in the blood of your foes.
 
 name:'Firestar'
-base-object:hafted:Morning Star
+base-object:hafted:Lucero del Alba
 level:25
 weight:150
 cost:35000
