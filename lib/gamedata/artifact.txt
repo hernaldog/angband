@@ -770,7 +770,7 @@ desc:A famed battle-lord of old with a head as ruddy as embers that can yet rise
 desc: up in wrath.
 
 name:'Totila'
-base-object:hafted:Flail
+base-object:hafted:Mayal
 level:20
 weight:150
 cost:55000
