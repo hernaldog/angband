@@ -359,7 +359,7 @@ object:sword:Blade of Chaos:0x8D:0x81
 object:sword:Espada Ancha:0x8D:0x82
 object:sword:Alfanje:0x8D:0x83
 object:sword:Daga:0x8D:0x84
-object:sword:Espada del Verdugo:0x8D:0x85
+object:sword:Executioner's Sword:0x8D:0x85
 object:sword:Katana:0x8D:0x86
 object:sword:Espada Larga:0x8D:0x87
 object:sword:Daga de Parada:0x8D:0x88
@@ -375,7 +375,7 @@ object:sword:Mandoble:0x8D:0x8D
 
 ### Hafted Weapons ###
 
-object:hafted:Bola con Cadena:0x8F:0x80
+object:hafted:Ball-and-Chain:0x8F:0x80
 object:hafted:Flail:0x8F:0x81
 object:hafted:Great Hammer:0x8F:0x82
 object:hafted:Lead-Filled Mace:0x8F:0x83

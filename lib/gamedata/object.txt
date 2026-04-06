@@ -1,4 +1,4 @@
-﻿# Archivo: object.txt
+# Archivo: object.txt
 #
 # Este archivo se utiliza para inicializar la información de los "tipos de objetos" para Angband.
 # Modificar este archivo cuando no sabes lo que estás haciendo puede ser perjudicial
@@ -841,7 +841,7 @@ armor:0:0
 desc:Un látigo pesado, esta gruesa trenza se lanza desde el hombro y puede
 desc: derribar a un hombre grande.
 
-name:Bola~ con Cadena
+name:Cadena~ con Bola~
 type:hafted
 graphics:\:D
 level:20

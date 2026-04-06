@@ -474,14 +474,14 @@ object:sword:Espada Ancha:0x89:0x85
 object:sword:Espada Bastarda:0x89:0x85
 object:sword:Katana:0x89:0x85
 object:sword:Mandoble:0x89:0x85
-object:sword:Espada del Verdugo:0x89:0x86
+object:sword:Executioner's Sword:0x89:0x86
 object:sword:Blade of Chaos:0x89:0x87
 
 
 ### Whips ###
 
 object:hafted:Whip:0x89:0x89
-object:hafted:Bola con Cadena:0x89:0x88
+object:hafted:Ball-and-Chain:0x89:0x88
 object:hafted:Morning Star:0x89:0x8B
 object:hafted:Flail:0x89:0x8B
 object:hafted:Two-Handed Great Flail:0x89:0x8B
