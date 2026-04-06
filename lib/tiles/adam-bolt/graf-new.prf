@@ -540,11 +540,11 @@ object:polearm:Martillo de Lucerna:0x8B:0x8D
 
 ##### Bows, Crossbows, Slings #####
 
-object:bow:Sling:0x8B:0x9C
-object:bow:Short Bow:0x8B:0x98
-object:bow:Long Bow:0x8B:0x99
-object:bow:Light Crossbow:0x8B:0x9A
-object:bow:Heavy Crossbow:0x8B:0x9B
+object:bow:Honda:0x8B:0x9C
+object:bow:Arco Corto:0x8B:0x98
+object:bow:Arco Largo:0x8B:0x99
+object:bow:Ballesta Ligera:0x8B:0x9A
+object:bow:Ballesta Pesada:0x8B:0x9B
 
 
 

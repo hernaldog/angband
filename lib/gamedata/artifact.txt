@@ -1278,7 +1278,7 @@ desc: physical blows.
 ### Missile Weapons ###
 
 name:of Amrod
-base-object:bow:Short Bow
+base-object:bow:Arco Corto
 level:25
 weight:30
 cost:9000
@@ -1291,7 +1291,7 @@ desc:One of a pair of hunting bows once belonging to Fëanor's two youngest
 desc: sons.  The bows are like and yet unlike, much as the twin brothers were.
 
 name:of Amras
-base-object:bow:Short Bow
+base-object:bow:Arco Corto
 level:25
 weight:30
 cost:9000
@@ -1305,7 +1305,7 @@ desc:One of a pair of hunting bows once belonging to Fëanor's two youngest
 desc: sons.  The bows are like and yet unlike, much as the twin brothers were.
 
 name:'Belthronding'
-base-object:bow:Long Bow
+base-object:bow:Arco Largo
 level:40
 weight:40
 cost:35000
@@ -1318,7 +1318,7 @@ desc:  Its backbone of black yew holds strings of bear sinew, and of old, only
 desc: Beleg himself could draw them.
 
 name:of Bard
-base-object:bow:Long Bow
+base-object:bow:Arco Largo
 level:30
 weight:40
 cost:20000
@@ -1331,7 +1331,7 @@ desc:The great yew bow of grim-faced Bard, who shot the mightiest arrow that
 desc: songs record.
 
 name:'Cubragol'
-base-object:bow:Light Crossbow
+base-object:bow:Ballesta Ligera
 level:50
 weight:110
 cost:50000
@@ -1344,7 +1344,7 @@ desc:A crossbow that grants fiery speed to its finder, and imbues its bolts
 desc: with flame unquenchable.
 
 name:of Umbar
-base-object:bow:Heavy Crossbow
+base-object:bow:Ballesta Pesada
 level:45
 weight:200
 cost:35000
