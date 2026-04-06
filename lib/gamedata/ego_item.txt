@@ -319,7 +319,7 @@ alloc:100:1 to 30
 type:sword
 type:polearm
 item:hafted:Látigo
-item:hafted:Bola con Cadena
+item:hafted:Cadena con Bola
 item:hafted:Lucero del Alba
 item:hafted:Mayal
 item:hafted:Gran Mayal a Dos Manos
@@ -401,7 +401,7 @@ alloc:30:10 to 60
 type:sword
 type:polearm
 item:hafted:Látigo
-item:hafted:Bola con Cadena
+item:hafted:Cadena con Bola
 item:hafted:Lucero del Alba
 item:hafted:Mayal
 item:hafted:Gran Mayal a Dos Manos
