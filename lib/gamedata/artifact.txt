@@ -994,7 +994,7 @@ desc: himself as he came to Valinor in wrath.  Its envenomed bite pierced
 desc: the Two Trees with wounds that would not heal.
 
 name:of Wrath
-base-object:polearm:Trident
+base-object:polearm:Tridente
 level:15
 weight:70
 cost:90000
@@ -1011,7 +1011,7 @@ desc: to wield, evoking the spirit of Osse who with it pierced legions of
 desc: evil and undead.
 
 name:of Ulmo
-base-object:polearm:Trident
+base-object:polearm:Tridente
 level:27
 weight:70
 cost:120000

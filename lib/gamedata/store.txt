@@ -111,7 +111,7 @@ normal:sword:Katana
 normal:sword:Espada Bastarda
 normal:polearm:Lanza
 normal:polearm:Pica de Punzón
-normal:polearm:Trident
+normal:polearm:Tridente
 normal:polearm:Pica
 normal:polearm:Hacha de Pico
 normal:polearm:Hacha Ancha
