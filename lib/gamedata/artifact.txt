@@ -823,7 +823,7 @@ desc:  You remain utterly untouched, even as fat sparks crackle around your
 desc: fingers and eyebrows.
 
 name:'Nar-i-vagil'
-base-object:hafted:Quarterstaff
+base-object:hafted:Bastón
 level:20
 weight:150
 cost:70000
@@ -837,7 +837,7 @@ desc:Named for a fiery star and set with priceless gems bearing mystic
 desc: auras of protection and thought.
 
 name:'Eriril'
-base-object:hafted:Quarterstaff
+base-object:hafted:Bastón
 level:15
 weight:150
 cost:20000
@@ -853,7 +853,7 @@ desc:The radiant golden staff of an Istar of legend, this wizard's companion
 desc: grants keen sight and clear knowledge of many hidden things.
 
 name:of Olórin
-base-object:hafted:Quarterstaff
+base-object:hafted:Bastón
 level:20
 weight:150
 cost:130000
@@ -875,7 +875,7 @@ desc: creature who lives in the shadow of mountains can withstand the blows it
 desc: deals.
 
 name:of Aulë
-base-object:hafted:Great Hammer
+base-object:hafted:Gran Martillo
 level:40
 weight:120
 cost:250000
@@ -1257,7 +1257,7 @@ desc: hope to save beleaguered Gondor, and from his lance fled massive trolls
 desc: and dire wolves.
 
 name:'Turmil'
-base-object:hafted:Lead-Filled Mace
+base-object:hafted:Maza de Plomo
 level:20
 weight:120
 cost:30000

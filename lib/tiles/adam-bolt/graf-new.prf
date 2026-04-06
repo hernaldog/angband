@@ -501,11 +501,11 @@ object:hafted:Two-Handed Great Flail:0x8B:0x87
 ### Clubs ###
 
 object:hafted:Mace:0x8B:0x81
-object:hafted:Lead-Filled Mace:0x8B:0x85
-object:hafted:Quarterstaff:0x8B:0x82
+object:hafted:Maza de Plomo:0x8B:0x85
+object:hafted:Bastón:0x8B:0x82
 object:hafted:War Hammer:0x8B:0x80
 object:hafted:Maul:0xB5:0x8A
-object:hafted:Great Hammer:0xB5:0x8A
+object:hafted:Gran Martillo:0xB5:0x8A
 object:hafted:Mace of Disruption:0x8B:0x88
 
 

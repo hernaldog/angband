@@ -370,12 +370,12 @@ object:hafted:Two-Handed Great Flail:0x8A:0x9A
 ### Clubs ###
 
 object:hafted:Mace:0x8A:0x94
-object:hafted:Lead-Filled Mace:0x8A:0x98
-object:hafted:Quarterstaff:0x8A:0x95
+object:hafted:Maza de Plomo:0x8A:0x98
+object:hafted:Bastón:0x8A:0x95
 object:hafted:Throwing Hammer:0x8B:0xAB
 object:hafted:War Hammer:0x8A:0x93
 object:hafted:Maul:0x8A:0xB0
-object:hafted:Great Hammer:0x8B:0x94
+object:hafted:Gran Martillo:0x8B:0x94
 object:hafted:Mace of Disruption:0x8A:0x9B
 
 ### Spears ###
