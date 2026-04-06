@@ -1045,7 +1045,7 @@ desc:Lordly and tall did Osondir stand against the wrath of giants, and
 desc: clear-eyed in barrows fell, wielding a halberd glowing ruby red.
 
 name:'Til-i-arc'
-base-object:polearm:Pike
+base-object:polearm:Pica
 level:20
 weight:160
 cost:32000

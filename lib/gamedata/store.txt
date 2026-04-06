@@ -112,7 +112,7 @@ normal:sword:Espada Bastarda
 normal:polearm:Lanza
 normal:polearm:Pica de Lezna
 normal:polearm:Trident
-normal:polearm:Pike
+normal:polearm:Pica
 normal:polearm:Hacha de Pico
 normal:polearm:Hacha Ancha
 normal:polearm:Hacha de Batalla
