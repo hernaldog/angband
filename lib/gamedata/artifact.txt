@@ -597,7 +597,7 @@ desc: slices rock and bone, and spells to render the wearer lithe and nimble.
 desc:  It is combat incarnate.
 
 name:'Gurthang'
-base-object:sword:Zweihander
+base-object:sword:Mandoble
 level:30
 weight:200
 cost:100000
@@ -614,7 +614,7 @@ desc: dragonbane; for what worm could stand against the blade that bathed in
 desc: Glaurung's blood?
 
 name:'Zarcuthra'
-base-object:sword:Zweihander
+base-object:sword:Mandoble
 level:30
 weight:240
 cost:200000
@@ -638,7 +638,7 @@ desc: weapon, and you feel a wrathful power of slaying and rending as you
 desc: slowly approach.
 
 name:'Mormegil'
-base-object:sword:Zweihander
+base-object:sword:Mandoble
 level:30
 weight:250
 cost:10000

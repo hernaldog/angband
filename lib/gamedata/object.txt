@@ -790,7 +790,7 @@ armor:0:0
 desc:Una espada cortante de mango largo ligeramente curvada con una hoja de un solo
 desc: filo y punta de cincel.
 
-name:Zweihander~
+name:Mandoble~
 type:sword
 graphics:|:W
 level:30
