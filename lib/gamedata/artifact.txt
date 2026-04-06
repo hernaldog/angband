@@ -656,7 +656,7 @@ desc: a curse upon the lips of Elves and Men.  It is said that it will drink the
 desc: very lifeblood of its wielder.
 
 name:'Crisdurian'
-base-object:sword:Executioner's Sword
+base-object:sword:Espada del Verdugo
 level:40
 weight:260
 cost:100000
