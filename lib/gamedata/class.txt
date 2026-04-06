@@ -969,7 +969,7 @@ max-attacks:4
 min-weight:35
 strength-multiplier:3
 equip:food:Ración de Comida:1:3:none
-equip:sword:Main Gauche:1:1:none
+equip:sword:Daga de Parada:1:1:none
 equip:scroll:Palabra de Retorno:1:1:birth_no_recall
 player-flags:ZERO_FAIL | CHOOSE_SPELLS | UNLIGHT | EVIL
 title:Acólito
@@ -1227,7 +1227,7 @@ min-weight:30
 strength-multiplier:5
 equip:food:Ración de Comida:1:3:none
 equip:light:Antorcha de Madera:1:3:none
-equip:sword:Main Gauche:1:1:none
+equip:sword:Daga de Parada:1:1:none
 equip:scroll:Protección contra el Mal:1:1:none
 equip:scroll:Palabra de Retorno:1:1:birth_no_recall
 equip:prayer book:[Novice's Handbook]:1:1:none
@@ -1495,7 +1495,7 @@ min-weight:35
 strength-multiplier:4
 equip:food:Ración de Comida:1:3:none
 equip:light:Antorcha de Madera:1:3:none
-equip:sword:Main Gauche:1:1:none
+equip:sword:Daga de Parada:1:1:none
 equip:bow:Arco Corto:1:1:none
 equip:arrow:Flecha:15:20:none
 equip:scroll:Palabra de Retorno:1:1:birth_no_recall
