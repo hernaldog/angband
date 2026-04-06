@@ -271,7 +271,7 @@ desc:A frosty dagger wreathed in a nimbus of ice with a hilt of elk horn and
 desc: an edge to wound the wind.
 
 name:of Azaghâl
-base-object:sword:Main Gauche
+base-object:sword:Daga de Parada
 level:18
 weight:30
 cost:50000
@@ -288,7 +288,7 @@ desc: fled the field with all his kin, and was at first believed to be mortally
 desc: wounded.
 
 name:of Maedhros
-base-object:sword:Main Gauche
+base-object:sword:Daga de Parada
 level:15
 weight:30
 cost:20000

@@ -99,7 +99,7 @@ normal:shot:Perdigón de Hierro
 normal:arrow:Flecha
 normal:bolt:Virote
 normal:sword:Daga
-normal:sword:Main Gauche
+normal:sword:Daga de Parada
 normal:sword:Rapier
 normal:sword:Espada Corta
 normal:sword:Alfanje
