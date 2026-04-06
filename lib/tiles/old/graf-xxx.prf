@@ -585,9 +585,9 @@ object:crown:Corona Incrustada de Joyas:0x88:0x88
 
 ### Body armours ###
 
-object:soft armor:Robe:0x88:0x95
-object:soft armor:Soft Leather Armour:0x88:0x96
-object:soft armor:Studded Leather Armour:0x88:0x97
+object:soft armor:Túnica:0x88:0x95
+object:soft armor:Armadura de Cuero Blando:0x88:0x96
+object:soft armor:Armadura de Cuero Tachonada:0x88:0x97
 object:soft armor:Hard Leather Armour:0x88:0x97
 object:soft armor:Leather Scale Mail:0x88:0x98
 object:hard armor:Metal Scale Mail:0x88:0x98

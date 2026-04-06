@@ -448,11 +448,11 @@ object:digger:Pala:0x89:0x92
 
 ### Body armours ###
 
-object:soft armor:Robe:0x95:0x80
+object:soft armor:Túnica:0x95:0x80
 object:soft armor:Hard Leather Armour:0x95:0x81
 object:soft armor:Leather Scale Mail:0x95:0x82
-object:soft armor:Soft Leather Armour:0x95:0x83
-object:soft armor:Studded Leather Armour:0x95:0x84
+object:soft armor:Armadura de Cuero Blando:0x95:0x83
+object:soft armor:Armadura de Cuero Tachonada:0x95:0x84
 
 object:hard armor:Adamantite Plate Mail:0x95:0x90
 object:hard armor:Augmented Chain Mail:0x95:0x91

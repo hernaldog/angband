@@ -67,7 +67,7 @@ normal:helm:Casco de Metal
 normal:helm:Yelmo de Hierro
 normal:soft armour:Túnica
 normal:soft armour:Armadura de Cuero Blando
-normal:soft armour:Armadura de Cuero Tachonado
+normal:soft armour:Armadura de Cuero Tachonada
 normal:soft armour:Armadura de Cuero Duro
 normal:soft armour:Cota de Escamas de Cuero
 normal:hard armour:Cota de Escamas de Metal

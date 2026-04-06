@@ -1651,7 +1651,7 @@ desc: once worn by the kings of ancient Númenor.
 ### Light Armor ###
 
 name:'Hithlomir'
-base-object:soft armour:Soft Leather Armour
+base-object:soft armour:Armadura de Cuero Blando
 level:20
 weight:80
 cost:45000

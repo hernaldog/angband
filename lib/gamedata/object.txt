@@ -1601,7 +1601,7 @@ attack:0d0:0:0
 armor:8:0
 desc:Una coraza de cuero flexible, con una chaqueta de cuero más grueso.
 
-name:Armadura~ de Cuero Tachonado
+name:Armadura~ de Cuero Tachonada
 type:soft armor
 graphics:(:U
 level:10
