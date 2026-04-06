@@ -103,7 +103,7 @@ normal:sword:Daga de Parada
 normal:sword:Estoque
 normal:sword:Espada Corta
 normal:sword:Alfanje
-normal:sword:Tulwar
+normal:sword:Talwar
 normal:sword:Espada Ancha
 normal:sword:Espada Larga
 normal:sword:Cimitarra

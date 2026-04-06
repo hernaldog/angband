@@ -721,7 +721,7 @@ armor:0:0
 desc:Una daga más gruesa y ligeramente más larga, el alfanje es una espada cortante.
 desc: Posee una ligera curva y solo un lado está afilado.
 
-name:Tulwar~
+name:Talwar~
 type:sword
 graphics:|:W
 level:5
