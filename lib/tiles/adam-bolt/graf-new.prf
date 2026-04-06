@@ -568,19 +568,19 @@ object:shot:Perdigón de Mithril:0xB6:0x8F
 
 object:digger:Pala:0x8E:0x8F
 object:digger:Pico:0x8E:0x8C
-object:digger:Mattock:0x8E:0x8D
+object:digger:Azada:0x8E:0x8D
 
 
 
 
 ##### Armor #####
 
-object:boots:Pair of Leather Sandals:0x88:0x8E
-object:boots:Pair of Leather Boots:0x88:0x8F
-object:boots:Pair of Iron Shod Boots:0x88:0x90
-object:boots:Pair of Steel Shod Boots:0x88:0x90
-object:boots:Pair of Mithril Shod Boots:0x88:0x90
-object:boots:Pair of Ethereal Slippers:0x88:0x8E
+object:boots:Sandalias de Cuero:0x88:0x8E
+object:boots:Botas de Cuero:0x88:0x8F
+object:boots:Botas Herradas con Hierro:0x88:0x90
+object:boots:Botas Herradas con Acero:0x88:0x90
+object:boots:Botas Herradas con Mithril:0x88:0x90
+object:boots:Zapatillas Etéreas:0x88:0x8E
 
 
 ### Headgear ###

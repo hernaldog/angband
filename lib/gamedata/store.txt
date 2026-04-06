@@ -59,9 +59,9 @@ owner:25000:Decado el Apuesto (Dúnadan)
 owner:30000:Mauglin el Gruñón (Enano)
 slots:6:18
 turnover:9
-normal:boots:Par de Sandalias de Cuero
-normal:boots:Par de Botas de Cuero
-normal:boots:Par de Botas con Herradura de Hierro
+normal:boots:Sandalias de Cuero
+normal:boots:Botas de Cuero
+normal:boots:Botas Herradas con Hierro
 normal:helm:Gorro de Cuero Duro
 normal:helm:Casco de Metal
 normal:helm:Yelmo de Hierro

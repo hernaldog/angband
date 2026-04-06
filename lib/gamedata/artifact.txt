@@ -1380,7 +1380,7 @@ desc:A fine dwarven pick, good for a miner, and suitable as a weapon
 desc: should the wielder ever tunnel through into a foe's stronghold.
 
 name:of Náin
-base-object:digger:Mattock
+base-object:digger:Azada
 level:10
 weight:240
 cost:30000
@@ -1403,7 +1403,7 @@ desc: although Náin himself fell before their lord Azog.
 ### Boots ###
 
 name:of Fëanor
-base-object:boots:Pair of Leather Boots
+base-object:boots:Botas de Cuero
 level:30
 weight:20
 cost:300000
@@ -1420,7 +1420,7 @@ desc: shall be accounted, and yet shall be well-bought.  For the price could be
 desc: no other."
 
 name:'Dal-i-thalion'
-base-object:boots:Pair of Leather Boots
+base-object:boots:Botas de Cuero
 level:10
 weight:20
 cost:40000
@@ -1436,7 +1436,7 @@ desc:A pair of high-laced shoes, bestowing extraordinary agility and proof
 desc: against the powers of corruption and withering.
 
 name:of Wormtongue
-base-object:boots:Pair of Leather Boots
+base-object:boots:Botas de Cuero
 level:10
 weight:20
 cost:17000
@@ -1452,7 +1452,7 @@ desc: Gálmód, the Wormtongue of Edoras.  They are aptly suited for a
 desc: messenger, a servant, a spy... or a coward.
 
 name:of Radagast
-base-object:boots:Pair of Leather Boots
+base-object:boots:Botas de Cuero
 level:10
 weight:20
 cost:7000
@@ -1465,7 +1465,7 @@ desc:Made of brown leather, covered with scuff marks and dust, still these
 desc: boots possess the magic of Radagast, friend of birds and nature.
 
 name:of Thrór
-base-object:boots:Pair of Steel Shod Boots
+base-object:boots:Botas Herradas con Acero
 level:30
 weight:60
 cost:12000
@@ -1478,7 +1478,7 @@ desc:Sturdy footwear of leather and steel as enduring as the long-suffering
 desc: Dwarven king-in-exile who wore them.
 
 name:'Stormwalker'
-base-object:boots:Pair of Mithril Shod Boots
+base-object:boots:Botas Herradas con Mithril
 level:30
 weight:40
 cost:40000

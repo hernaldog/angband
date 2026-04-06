@@ -714,9 +714,9 @@ flags:FEATHER
 name:de Sigilo
 info:500:16
 alloc:20:15 to 100
-item:boots:Par de Sandalias de Cuero
-item:boots:Par de Botas de Cuero
-item:boots:Par de Zapatillas Etéreas
+item:boots:Sandalias de Cuero
+item:boots:Botas de Cuero
+item:boots:Zapatillas Etéreas
 values:STEALTH[d3]
 min-values:STEALTH[0]
 
@@ -743,8 +743,8 @@ values:RES_NEXUS[1]
 name:de Élficos
 info:200000:30
 alloc:3:60 to 127
-item:boots:Par de Botas de Cuero
-item:boots:Par de Botas con Herradura de Hierro
+item:boots:Botas de Cuero
+item:boots:Botas Herradas con Hierro
 flags:FEATHER | IGNORE_ACID | IGNORE_FIRE
 values:STEALTH[d4] | SPEED[4+M5]
 min-values:STEALTH[1] | SPEED[1]

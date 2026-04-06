@@ -439,7 +439,7 @@ object:bolt:Virote Buscador:0x90:0x98
 
 ##### Digging Tools #####
 
-object:digger:Mattock:0x89:0x90
+object:digger:Azada:0x89:0x90
 object:digger:Pico:0x89:0x91
 object:digger:Pala:0x89:0x92
 
@@ -512,12 +512,12 @@ object:gloves:Set of Mithril Gauntlets:0x93:0x85
 
 ##### The Boots #####
 
-object:boots:Pair of Ethereal Slippers:0x93:0x90
-object:boots:Pair of Iron Shod Boots:0x93:0x91
-object:boots:Pair of Leather Boots:0x93:0x92
-object:boots:Pair of Leather Sandals:0x93:0x93
-object:boots:Pair of Mithril Shod Boots:0x93:0x94
-object:boots:Pair of Steel Shod Boots:0x93:0x95
+object:boots:Zapatillas Etéreas:0x93:0x90
+object:boots:Botas Herradas con Hierro:0x93:0x91
+object:boots:Botas de Cuero:0x93:0x92
+object:boots:Sandalias de Cuero:0x93:0x93
+object:boots:Botas Herradas con Mithril:0x93:0x94
+object:boots:Botas Herradas con Acero:0x93:0x95
 
 
 
