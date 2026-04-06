@@ -687,7 +687,7 @@ attack:1d5:0:0
 armor:0:0
 desc:Una hoja corta para estocadas con una gran guarda, usada principalmente en duelos.
 
-name:Rapier~
+name:Estoque~
 type:sword
 graphics:|:W
 level:5

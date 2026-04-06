@@ -100,7 +100,7 @@ normal:arrow:Flecha
 normal:bolt:Virote
 normal:sword:Daga
 normal:sword:Daga de Parada
-normal:sword:Rapier
+normal:sword:Estoque
 normal:sword:Espada Corta
 normal:sword:Alfanje
 normal:sword:Tulwar

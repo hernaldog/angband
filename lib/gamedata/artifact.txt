@@ -304,7 +304,7 @@ desc: Fëanor, Maedhros the Tall, who lost his right hand while escaping
 desc: from Angband.
 
 name:'Forasgil'
-base-object:sword:Rapier
+base-object:sword:Estoque
 level:1
 weight:40
 cost:15000
@@ -317,7 +317,7 @@ slay:ANIMAL_2
 desc:A slender, tapered needle of ice that coldly grips its impaled prey.
 
 name:'Careth Asdriag'
-base-object:sword:Rapier
+base-object:sword:Estoque
 level:15
 weight:40
 cost:25000
