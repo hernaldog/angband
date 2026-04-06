@@ -1228,7 +1228,7 @@ desc: white, this shining reaper bears within it a power of going forth and
 desc: returning.
 
 name:of Pain
-base-object:polearm:Glaive
+base-object:polearm:Gladius
 level:30
 weight:300
 cost:50000
@@ -1585,7 +1585,7 @@ desc:A headpiece, gaudy and barbaric, that betrayed a warrior when he most
 desc: needed succor.
 
 name:of Hammerhand
-base-object:helm:Steel Helm
+base-object:helm:Yelmo de Acero
 level:20
 weight:60
 cost:45000
@@ -1601,7 +1601,7 @@ desc: strode out time and again among his foes and slew many.  Although they
 desc: knew of his coming, none could stand against him.
 
 name:of Berúthiel
-base-object:crown:Iron Crown
+base-object:crown:Corona de Hierro
 level:40
 weight:20
 cost:1
@@ -1615,7 +1615,7 @@ desc: grants extraordinary powers of sight and awareness at a terrible physical
 desc: cost.
 
 name:of Gondor
-base-object:crown:Golden Crown
+base-object:crown:Corona de Oro
 level:40
 weight:30
 cost:100000
@@ -1632,7 +1632,7 @@ desc:From dying Númenor, Elendil brought this shining winged circlet, emblem
 desc: of Gondor through an age of the world.
 
 name:of Númenor
-base-object:crown:Jewel Encrusted Crown
+base-object:crown:Corona Incrustada de Joyas
 level:60
 weight:40
 cost:50000
@@ -2423,7 +2423,7 @@ desc:The mighty Hammer of the Underworld, blackened by doomspells of shattering.
 desc:  Its wielder holds the lives of all Morgoth's servants in his hand.
 
 name:of Morgoth
-base-object:crown:Massive Iron Crown
+base-object:crown:Corona Masiva de Hierro
 level:100
 weight:400
 cost:10000000

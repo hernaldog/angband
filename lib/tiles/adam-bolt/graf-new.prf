@@ -521,7 +521,7 @@ object:polearm:Pica:0x8B:0x8F
 ### Axes ###
 
 object:polearm:Hacha de Pico:0x8B:0x90
-object:polearm:Broad Axe:0x8B:0x91
+object:polearm:Hacha Ancha:0x8B:0x91
 object:polearm:Hacha de Batalla:0x8B:0x8E
 object:polearm:Hacha Lochaber:0x8B:0x94
 object:polearm:Gran Hacha:0x8B:0x95
@@ -530,7 +530,7 @@ object:polearm:Gran Hacha:0x8B:0x95
 ### Other misc polearms ###
 
 object:polearm:Guadaña:0x8B:0x96
-object:polearm:Glaive:0x8B:0x92
+object:polearm:Gladius:0x8B:0x92
 object:polearm:Lanza de Caballería:0x8B:0x8C
 object:polearm:Guadaña Cortante:0x8B:0x97
 object:polearm:Martillo de Lucerna:0x8B:0x8D
@@ -586,12 +586,12 @@ object:boots:Zapatillas Etéreas:0x88:0x8E
 ### Headgear ###
 
 object:helm:Gorro de Cuero Duro:0x87:0x98
-object:helm:Metal Cap:0x87:0x99
-object:helm:Iron Helm:0x87:0x9A
-object:helm:Steel Helm:0x87:0x9B
-object:crown:Iron Crown:0x87:0x9C
-object:crown:Golden Crown:0x87:0x9D
-object:crown:Jewel Encrusted Crown:0x87:0x9E
+object:helm:Casco de Metal:0x87:0x99
+object:helm:Yelmo de Hierro:0x87:0x9A
+object:helm:Yelmo de Acero:0x87:0x9B
+object:crown:Corona de Hierro:0x87:0x9C
+object:crown:Corona de Oro:0x87:0x9D
+object:crown:Corona Incrustada de Joyas:0x87:0x9E
 
 
 ### Body armours ###
@@ -877,7 +877,7 @@ object:gold:adamantite:0x83:0x95
 ##### "Morgoth Artifacts" #####
 
 object:hafted:Mighty Hammer:0x88:0x9E
-object:crown:Massive Iron Crown:0x8B:0x9E
+object:crown:Corona Masiva de Hierro:0x8B:0x9E
 
 
 

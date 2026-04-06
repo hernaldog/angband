@@ -395,8 +395,8 @@ object:hafted:Látigo:0x8F:0x8B
 object:polearm:Pica de Punzón:0x8E:0x80
 object:polearm:Hacha de Batalla:0x8E:0x81
 object:polearm:Hacha de Pico:0x8E:0x82
-object:polearm:Broad Axe:0x8E:0x83
-object:polearm:Glaive:0x8E:0x84
+object:polearm:Hacha Ancha:0x8E:0x83
+object:polearm:Gladius:0x8E:0x84
 object:polearm:Gran Hacha:0x8E:0x85
 object:polearm:Alabarda:0x8E:0x86
 object:polearm:Lanza de Caballería:0x8E:0x87
@@ -490,13 +490,13 @@ object:shield:Escudo de Mimbre:0x92:0x85
 ### Headgear ###
 
 object:helm:Gorro de Cuero Duro:0x92:0x90
-object:helm:Iron Helm:0x92:0x91
-object:helm:Metal Cap:0x92:0x92
-object:helm:Steel Helm:0x92:0x93
+object:helm:Yelmo de Hierro:0x92:0x91
+object:helm:Casco de Metal:0x92:0x92
+object:helm:Yelmo de Acero:0x92:0x93
 
-object:crown:Golden Crown:0x92:0x98
-object:crown:Iron Crown:0x92:0x99
-object:crown:Jewel Encrusted Crown:0x92:0x9A
+object:crown:Corona de Oro:0x92:0x98
+object:crown:Corona de Hierro:0x92:0x99
+object:crown:Corona Incrustada de Joyas:0x92:0x9A
 
 
 
@@ -750,7 +750,7 @@ object:gold:emeralds:0x83:0x8A
 ##### "Morgoth Artifacts" #####
 
 object:hafted:Mighty Hammer:0x8A:0x88
-object:crown:Massive Iron Crown:0x8A:0x89
+object:crown:Corona Masiva de Hierro:0x8A:0x89
 
 
 

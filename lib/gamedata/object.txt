@@ -1563,7 +1563,7 @@ flags:IGNORE_ACID
 desc:Una elegante diadema de oro, con esbeltas espinas que se elevan.
 desc:  Parece que debería reposar sobre la frente de un rey.
 
-name:Corona~ de Joya
+name:Corona~ Incrustada de Joyas
 type:crown
 graphics:]:v
 level:50
