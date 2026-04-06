@@ -806,7 +806,7 @@ desc: Runes of strength adorn its handle, and flames and sparks roar and
 desc: crackle around its massive head.
 
 name:'Taratol'
-base-object:hafted:Mace
+base-object:hafted:Maza
 level:35
 weight:200
 cost:50000
@@ -896,7 +896,7 @@ desc:  It bears demolishing magics that no serpent or demon can withstand, and
 desc: invokes the strength of mountains to ward off the tumult of the elements.
 
 name:'Deathwreaker'
-base-object:hafted:Mace of Disruption
+base-object:hafted:Maza de Disrupción
 level:80
 weight:400
 cost:400000

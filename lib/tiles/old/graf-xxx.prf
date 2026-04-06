@@ -489,13 +489,13 @@ object:hafted:Gran Mayal a Dos Manos:0x89:0x8B
 
 ### Clubs ###
 
-object:hafted:Mace:0x89:0x8C
+object:hafted:Maza:0x89:0x8C
 object:hafted:Maza de Plomo:0x89:0x8C
 object:hafted:Bastón:0x89:0x8E
 object:hafted:War Hammer:0x89:0x8F
 object:hafted:Maul:0x89:0x8F
 object:hafted:Gran Martillo:0x89:0x8F
-object:hafted:Mace of Disruption:0x89:0x8D
+object:hafted:Maza de Disrupción:0x89:0x8D
 
 
 ### Spears ###
