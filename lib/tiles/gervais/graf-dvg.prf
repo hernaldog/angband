@@ -950,12 +950,12 @@ object:sword:Espada Bastarda:0x8a:0xC2
 object:sword:Katana:0x8a:0x8E
 object:sword:Mandoble:0x8a:0x90
 object:sword:Espada del Verdugo:0x8a:0x8F
-object:sword:Blade of Chaos:0x8a:0x91
+object:sword:Hoja del Caos:0x8a:0x91
 
 
-### Whips ###
+### Látigos ###
 
-object:hafted:Whip:0x8a:0x92
+object:hafted:Látigo:0x8a:0x92
 object:hafted:Bola con Cadena:0x8a:0x99
 object:hafted:Lucero del Alba:0x8a:0x97
 object:hafted:Mayal:0x8a:0x96
