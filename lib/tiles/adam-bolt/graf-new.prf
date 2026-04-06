@@ -503,8 +503,8 @@ object:hafted:Gran Mayal a Dos Manos:0x8B:0x87
 object:hafted:Maza:0x8B:0x81
 object:hafted:Maza de Plomo:0x8B:0x85
 object:hafted:Bastón:0x8B:0x82
-object:hafted:War Hammer:0x8B:0x80
-object:hafted:Maul:0xB5:0x8A
+object:hafted:Martillo de Guerra:0x8B:0x80
+object:hafted:Mazo:0xB5:0x8A
 object:hafted:Gran Martillo:0xB5:0x8A
 object:hafted:Maza de Disrupción:0x8B:0x88
 
@@ -520,11 +520,11 @@ object:polearm:Pica:0x8B:0x8F
 
 ### Axes ###
 
-object:polearm:Beaked Axe:0x8B:0x90
+object:polearm:Hacha de Pico:0x8B:0x90
 object:polearm:Broad Axe:0x8B:0x91
-object:polearm:Battle Axe:0x8B:0x8E
-object:polearm:Lochaber Axe:0x8B:0x94
-object:polearm:Great Axe:0x8B:0x95
+object:polearm:Hacha de Batalla:0x8B:0x8E
+object:polearm:Hacha Lochaber:0x8B:0x94
+object:polearm:Gran Hacha:0x8B:0x95
 
 
 ### Other misc polearms ###

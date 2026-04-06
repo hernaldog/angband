@@ -1152,7 +1152,7 @@ desc:A superbly crafted double-bladed axe once borne by Ceruthain, commander
 desc: of the Rangers of Arnor.
 
 name:'Mundwine'
-base-object:polearm:Lochaber Axe
+base-object:polearm:Hacha Lochaber
 level:30
 weight:240
 cost:30000
@@ -1168,7 +1168,7 @@ desc: requires two hands to wield, with spells to ward off the elements
 desc: intricately engraved upon its surface in filleted gold.
 
 name:of Durin
-base-object:polearm:Great Axe
+base-object:polearm:Gran Hacha
 level:30
 weight:230
 cost:150000
@@ -1189,7 +1189,7 @@ desc: mithril inlay telling sagas of endurance.  The powers of
 desc: Khazad-dûm protect its wielder and slay all evils found underground.
 
 name:of Eönwë
-base-object:polearm:Great Axe
+base-object:polearm:Gran Hacha
 level:30
 weight:230
 cost:200000
