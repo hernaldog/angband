@@ -787,7 +787,7 @@ desc:A flail whose head befuddles those who stare as you whirl it round and
 desc: becomes a fiery comet as you bring it down.
 
 name:'Thunderfist'
-base-object:hafted:Two-Handed Great Flail
+base-object:hafted:Gran Mayal a Dos Manos
 level:45
 weight:300
 cost:160000
