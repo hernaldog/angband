@@ -574,8 +574,8 @@ object:boots:Zapatillas Etéreas:0x88:0x89
 
 ### Headgear ###
 
-object:helm:Hard Leather Cap:0x88:0x82
-object:helm:Metal Cap:0x88:0x83
+object:helm:Gorro de Cuero Duro:0x88:0x82
+object:helm:Casco de Metal:0x88:0x83
 object:helm:Iron Helm:0x88:0x84
 object:helm:Steel Helm:0x88:0x85
 object:crown:Iron Crown:0x88:0x86
