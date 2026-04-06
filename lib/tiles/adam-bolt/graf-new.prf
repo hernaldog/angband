@@ -492,7 +492,7 @@ object:sword:Blade of Chaos:0x8A:0x9E
 ### Whips ###
 
 object:hafted:Whip:0x8A:0x9F
-object:hafted:Ball-and-Chain:0x8B:0x86
+object:hafted:Bola con Cadena:0x8B:0x86
 object:hafted:Lucero del Alba:0x8B:0x84
 object:hafted:Flail:0x8B:0x83
 object:hafted:Two-Handed Great Flail:0x8B:0x87

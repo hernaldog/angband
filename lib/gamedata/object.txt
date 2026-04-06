@@ -841,7 +841,7 @@ armor:0:0
 desc:Un látigo pesado, esta gruesa trenza se lanza desde el hombro y puede
 desc: derribar a un hombre grande.
 
-name:Cadena~ con Bola~
+name:Bola~ con Cadena
 type:hafted
 graphics:\:D
 level:20

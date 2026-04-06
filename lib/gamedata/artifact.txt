@@ -721,7 +721,7 @@ desc:A great crackling Balrog's whip of flame, this weapon could bring
 desc: even Ungoliant to heel.
 
 name:of Fundin Bluecloak
-base-object:hafted:Ball-and-Chain
+base-object:hafted:Bola con Cadena
 level:65
 weight:130
 cost:60000
