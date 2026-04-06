@@ -1210,7 +1210,7 @@ desc: Wrath, strikes with icy wrath at the undead, disperses hosts of
 desc: evil at a word, and grants Maia-like powers of body and mind.
 
 name:'Avavir'
-base-object:polearm:Scythe
+base-object:polearm:Guadaña
 level:20
 weight:180
 cost:18000

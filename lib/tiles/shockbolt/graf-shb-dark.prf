@@ -397,11 +397,11 @@ object:polearm:Gran Hacha:0x8A:0xA8
 
 ### Other misc polearms ###
 
-object:polearm:Scythe:0x8A:0xA9
+object:polearm:Guadaña:0x8A:0xA9
 object:polearm:Glaive:0x8A:0xA5
 object:polearm:Lanza de Caballería:0x8A:0x9F
-object:polearm:Scythe of Slicing:0x8A:0xAA
-object:polearm:Lucerne Hammer:0x8A:0xA0
+object:polearm:Guadaña Cortante:0x8A:0xAA
+object:polearm:Martillo de Lucerna:0x8A:0xA0
 
 ##### Bows, Crossbows, Slings #####
 
