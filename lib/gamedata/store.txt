@@ -71,7 +71,7 @@ normal:soft armour:Armadura de Cuero Tachonada
 normal:soft armour:Armadura de Cuero Duro
 normal:soft armour:Cota de Escamas de Cuero
 normal:hard armour:Cota de Escamas de Metal
-normal:hard armour:Chain Mail
+normal:hard armour:Cota de Malla
 normal:gloves:Par de Guantes de Cuero
 normal:gloves:Par de Manoplas
 normal:shield:Escudo de Mimbre

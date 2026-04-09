@@ -1664,7 +1664,7 @@ desc:Familiar with the secret ways hidden in darkness, this leather cuirass is
 desc: truly more than it appears.
 
 name:of Himring
-base-object:soft armour:Hard Leather Armour
+base-object:soft armour:Armadura de Cuero Duro
 level:30
 weight:100
 cost:35000
@@ -1679,7 +1679,7 @@ desc: unvanquished Himring, defiant fortress surrounded by the legions of
 desc: Morgoth.
 
 name:'Thalkettoth'
-base-object:soft armour:Leather Scale Mail
+base-object:soft armour:Cota de Escamas de Cuero
 level:20
 weight:60
 cost:25000
@@ -1695,7 +1695,7 @@ desc: hardened leather.  Those who wear it move with agility and assurance.
 ### Heavy Armor ###
 
 name:of Arvedui
-base-object:hard armour:Chain Mail
+base-object:hard armour:Cota de Malla
 level:20
 weight:220
 cost:32000
@@ -1709,7 +1709,7 @@ desc: with leather.  You feel as strong and tall as Arvedui, last king of
 desc: Arnor, as you put it on.
 
 name:of Caspanion
-base-object:hard armour:Augmented Chain Mail
+base-object:hard armour:Cota de Malla Reforzada
 level:25
 weight:270
 cost:40000
@@ -1726,7 +1726,7 @@ desc:  Magics to enhance body and mind lie within, and no door can bar the
 desc: wearer's path.
 
 name:of the Rohirrim
-base-object:hard armour:Metal Brigandine Armour
+base-object:hard armour:Armadura Brigantina Metálica
 level:30
 weight:200
 cost:30000
@@ -1741,7 +1741,7 @@ desc: and cloth bear scenes of hunting and war.  As you don the armour of Eorl
 desc: the Young, matchless in combat, you feel his spirit surround you.
 
 name:of Isildur
-base-object:hard armour:Full Plate Armour
+base-object:hard armour:Armadura de Placas Completas
 level:30
 weight:300
 cost:50000
@@ -1755,7 +1755,7 @@ desc:A gleaming steel suit covering the wearer from neck to foot, with runes of
 desc: warding and stability deeply engraved into its surface.
 
 name:'Belegennon'
-base-object:hard armour:Mithril Chain Mail
+base-object:hard armour:Cota de Malla de Mithril
 level:20
 weight:150
 cost:105000
@@ -1773,7 +1773,7 @@ desc:  It stands untouched amidst the fury of the elements, and blows seem
 desc: strangely less powerful.
 
 name:of Celeborn
-base-object:hard armour:Mithril Plate Mail
+base-object:hard armour:Cota de Placas de Mithril
 level:40
 weight:250
 cost:150000
@@ -1789,7 +1789,7 @@ desc: legend.  It gleams with purest white as you gaze upon it, and mighty are
 desc: its powers to protect and banish.
 
 name:'Soulkeeper'
-base-object:hard armour:Adamantite Plate Mail
+base-object:hard armour:Cota de Placas de Adamantita
 level:75
 weight:420
 cost:300000
@@ -1898,7 +1898,7 @@ desc: restorative magics of Lúthien, the most beautiful being who ever knew
 desc: death.
 
 name:of Tuor
-base-object:cloak:Ethereal Cloak
+base-object:cloak:Capa Etérea
 level:40
 weight:0
 cost:35000

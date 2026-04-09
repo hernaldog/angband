@@ -1063,20 +1063,20 @@ object:crown:Corona Incrustada de Joyas:0x80:0x93
 object:soft armor:Túnica:0x80:0xA4
 object:soft armor:Armadura de Cuero Blando:0x80:0xA8
 object:soft armor:Armadura de Cuero Tachonada:0x80:0xAB
-object:soft armor:Hard Leather Armour:0x80:0xAA
-object:soft armor:Leather Scale Mail:0x80:0xAC
-object:hard armor:Metal Scale Mail:0x80:0xAD
-object:hard armor:Chain Mail:0x80:0xAF
-object:hard armor:Augmented Chain Mail:0x80:0xB1
-object:hard armor:Bar Chain Mail:0x80:0xB2
-object:hard armor:Metal Brigandine Armour:0x80:0xB3
-object:hard armor:Partial Plate Armour:0x80:0xB4
-object:hard armor:Metal Lamellar Armour:0x80:0xB5
-object:hard armor:Full Plate Armour:0x80:0xB6
-object:hard armor:Ribbed Plate Armour:0x80:0xB7
-object:hard armor:Mithril Chain Mail:0x80:0xB9
-object:hard armor:Mithril Plate Mail:0x80:0xB8
-object:hard armor:Adamantite Plate Mail:0x80:0xBA
+object:soft armor:Armadura de Cuero Duro:0x80:0xAA
+object:soft armor:Cota de Escamas de Cuero:0x80:0xAC
+object:hard armor:Cota de Escamas de Metal:0x80:0xAD
+object:hard armor:Cota de Malla:0x80:0xAF
+object:hard armor:Cota de Malla Reforzada:0x80:0xB1
+object:hard armor:Cota de Malla de Barra:0x80:0xB2
+object:hard armor:Armadura Brigantina Metálica:0x80:0xB3
+object:hard armor:Armadura de Placas Parciales:0x80:0xB4
+object:hard armor:Armadura de Metal:0x80:0xB5
+object:hard armor:Armadura de Placas Completas:0x80:0xB6
+object:hard armor:Armadura de Placas Corrugada:0x80:0xB7
+object:hard armor:Cota de Malla de Mithril:0x80:0xB9
+object:hard armor:Cota de Placas de Mithril:0x80:0xB8
+object:hard armor:Cota de Placas de Adamantita:0x80:0xBA
 
 
 ### Capas ###
@@ -1084,7 +1084,7 @@ object:hard armor:Adamantite Plate Mail:0x80:0xBA
 object:cloak:Capa:0x80:0x83
 object:cloak:Capa de Pelo:0x80:0x85
 object:cloak:Capa Élfica:0x80:0x84
-object:cloak:Ethereal Cloak:0x80:0x88
+object:cloak:Capa Etérea:0x80:0x88
 
 
 ### The Gloves ###
