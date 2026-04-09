@@ -1143,7 +1143,7 @@ object:scroll:Detección de lo Invisible:0x87:0xEE
 
 ### Enchantments ###
 
-object:scroll:Enchant Weapon To-Hit:0x87:0xCF
+object:scroll:Encantamiento de golpe certero:0x87:0xCF
 object:scroll:Enchant Weapon To-Dam:0x87:0xD0
 object:scroll:Enchant Armour:0x87:0xD2
 object:scroll:*Enchant Weapon*:0x87:0xEB
@@ -1171,7 +1171,7 @@ object:scroll:Mass Banishment:0x87:0xE9
 
 object:scroll:Remove Hunger:0x87:0xE6
 object:scroll:Identify Rune:0x87:0xCD
-object:scroll:Light:0x87:0xD3
+object:scroll:Luz:0x87:0xD3
 object:scroll:Word of Recall:0x87:0xDF
 object:scroll:Recharging:0x87:0xDB
 object:scroll:Door Destruction:0x87:0xF2

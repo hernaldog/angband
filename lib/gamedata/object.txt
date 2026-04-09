@@ -2631,7 +2631,7 @@ effect:IDENTIFY
 
 ### Encantamientos ###
 
-name:Encantar Arma para Golpe
+name:Encantamiento de golpe certero
 type:scroll
 graphics:?:w
 level:15

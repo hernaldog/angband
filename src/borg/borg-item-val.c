@@ -343,7 +343,7 @@ void borg_init_item_val(void)
     sv_scroll_word_of_recall = borg_lookup_sval_fail(tval, "Palabra de Retorno");
     sv_scroll_enchant_armor  = borg_lookup_sval_fail(tval, "Encantar Armadura");
     sv_scroll_enchant_weapon_to_hit
-        = borg_lookup_sval_fail(tval, "Encantar Arma Para-Golpear");
+        = borg_lookup_sval_fail(tval, "Encantamiento de golpe certero");
     sv_scroll_enchant_weapon_to_dam
         = borg_lookup_sval_fail(tval, "Encantar Arma Para-Dañar");
     sv_scroll_star_enchant_armor
