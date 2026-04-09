@@ -482,7 +482,7 @@ object:cloak:Capa de Pelo:0x94:0x83
 #K:shield:Buckler:0x92:0x80
 object:shield:Escudo de Metal Grande:0x92:0x81
 object:shield:Escudo de Cuero:0x92:0x82
-object:shield:Mithril Shield:0x92:0x83
+object:shield:Escudo de Mithril:0x92:0x83
 object:shield:Escudo de Metal Pequeño:0x92:0x84
 object:shield:Escudo de Mimbre:0x92:0x85
 
@@ -502,12 +502,12 @@ object:crown:Corona Incrustada de Joyas:0x92:0x9A
 
 ### The Gloves ###
 
-object:gloves:Set of Alchemist's Gloves:0x93:0x80
-object:gloves:Set of Caestus:0x93:0x81
-object:gloves:Set of Gauntlets:0x93:0x82
-object:gloves:Set of Leather Gloves:0x93:0x83
+object:gloves:Guantes de Alquimista:0x93:0x80
+object:gloves:Guantes de Combate:0x93:0x81
+object:gloves:Manoplas:0x93:0x82
+object:gloves:Guantes de Cuero:0x93:0x83
 #K:gloves:Set of Mining Gloves:0x93:0x84
-object:gloves:Set of Mithril Gauntlets:0x93:0x85
+object:gloves:Manoplas de Mithril:0x93:0x85
 
 
 ##### The Boots #####

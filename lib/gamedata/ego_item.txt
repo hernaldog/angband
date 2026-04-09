@@ -1019,8 +1019,8 @@ name:de Hurto
 info:5000:22
 alloc:5:40 to 127
 combat:d8:d3:0
-item:gloves:Par de Guantes de Cuero
-item:gloves:Par de Guantes de Alquimista
+item:gloves:Guantes de Cuero
+item:gloves:Guantes de Alquimista
 flags:FEATHER | FREE_ACT
 values:DEX[1+M4] | SEARCH[1+d2M3]
 min-values:DEX[1] | SEARCH[2]
@@ -1029,9 +1029,9 @@ name:de Combate
 info:7000:22
 alloc:5:50 to 127
 combat:d5:d8:0
-item:gloves:Par de Manoplas
-item:gloves:Par de Manoplas de Mithril
-item:gloves:Par de Caestus
+item:gloves:Manoplas
+item:gloves:Manoplas de Mithril
+item:gloves:Guantes de Combate
 flags:AGGRAVATE
 values:STR[d2] | CON[d2]
 min-values:STR[1] | CON[1]

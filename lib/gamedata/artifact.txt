@@ -2027,7 +2027,7 @@ desc:The iron-shod gauntlets of the Dark Elven smith Eöl, who imbued them
 desc: with magics he could channel in battle.
 
 name:of Fingolfin
-base-object:gloves:Set of Caestus
+base-object:gloves:Guantes de Combate
 level:40
 weight:40
 cost:110000
@@ -2133,7 +2133,7 @@ desc: "scored with runes to keep all wounds and harm from him".
 
 # should be Shield of Deflection
 name:of Gil-galad
-base-object:shield:Mithril Shield
+base-object:shield:Escudo de Mithril
 level:30
 weight:80
 cost:65000

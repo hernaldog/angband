@@ -1089,11 +1089,11 @@ object:cloak:Capa Etérea:0x80:0x88
 
 ### The Gloves ###
 
-object:gloves:Set of Leather Gloves:0x80:0x99
-object:gloves:Set of Gauntlets:0x80:0x9A
-object:gloves:Set of Mithril Gauntlets:0x80:0x9C
-object:gloves:Set of Caestus:0x80:0x9D
-object:gloves:Set of Alchemist's Gloves:0x80:0xCD
+object:gloves:Guantes de Cuero:0x80:0x99
+object:gloves:Manoplas:0x80:0x9A
+object:gloves:Manoplas de Mithril:0x80:0x9C
+object:gloves:Guantes de Combate:0x80:0x9D
+object:gloves:Guantes de Alquimista:0x80:0xCD
 #K:gloves:Set of Mining Gloves:0x80:0xE5
 
 
@@ -1104,7 +1104,7 @@ object:shield:Escudo de Mimbre:0x80:0x9E
 object:shield:Escudo de Metal Pequeño:0x80:0xA0
 object:shield:Escudo de Cuero:0x80:0x9F
 object:shield:Escudo de Metal Grande:0x80:0xA1
-object:shield:Mithril Shield:0x80:0xA2
+object:shield:Escudo de Mithril:0x80:0xA2
 object:shield:Knight's Shield:0x93:0xb7
 
 
