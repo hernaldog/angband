@@ -649,18 +649,18 @@ object:shield:Escudo de Mithril:0x88:0x93
 
 ### Teleportation ###
 
-object:scroll:Phase Door:0x86:0x80
-object:scroll:Teleportation:0x86:0x80
-object:scroll:Teleport Level:0x86:0x80
+object:scroll:Puerta de Fase:0x86:0x80
+object:scroll:Teletransportación:0x86:0x80
+object:scroll:Teletransporte de Nivel:0x86:0x80
 
 
 ### Detection ###
 
-object:scroll:Magic Mapping:0x86:0x80
-object:scroll:Treasure Detection:0x86:0x80
-#object:scroll:Trap Detection:0x86:0x80
-#object:scroll:Door/Stair Location:0x86:0x80
-object:scroll:Detect Invisible:0x86:0x80
+object:scroll:Mapeo Mágico:0x86:0x80
+object:scroll:Detección de Tesoros:0x86:0x80
+#object:scroll:Detección de Trampas:0x86:0x80
+#object:scroll:Ubicación Puerta/Escalera:0x86:0x80
+object:scroll:Detección de lo Invisible:0x86:0x80
 
 
 ### Enchantments ###

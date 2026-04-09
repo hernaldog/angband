@@ -234,7 +234,7 @@ effect:DETECT_STAIRS
 effect-yx:22:40
 desc:Detecta todas las trampas, puertas y escaleras en el área inmediata.
 
-spell:Phase Door:2:2:22:4
+spell:Puerta de Fase:2:2:22:4
 effect:TELEPORT
 dice:10
 desc:Te teletransporta aleatoriamente hasta 10 casillas de distancia.
@@ -276,7 +276,7 @@ spell:Identify Rune:8:7:25:8
 effect:IDENTIFY
 desc:Revela una runa desconocida en un objeto.
 
-spell:Treasure Detection:10:3:60:5
+spell:Detección de Tesoros:10:3:60:5
 effect:DETECT_ORE
 effect-yx:22:40
 effect:SENSE_GOLD
@@ -367,7 +367,7 @@ desc:  A veces se dispara un rayo en su lugar que daña a cada monstruo
 desc: en su trayectoria.
 desc:  La probabilidad de obtener un rayo aumenta con tu nivel de personaje.
 
-spell:Teleport Level:28:17:65:20
+spell:Teletransporte de Nivel:28:17:65:20
 effect:TELEPORT_LEVEL
 desc:Te teletransporta 1 nivel arriba o 1 nivel abajo (elegido al azar).
 desc:  Este hechizo puede no tener efecto cuando la opción de descenso forzado está activada.
@@ -1415,7 +1415,7 @@ effect-yx:22:40
 desc:Detecta todos los monstruos no invisibles en el área inmediata,
 desc: por un solo turno.
 
-spell:Phase Door:7:2:55:4
+spell:Puerta de Fase:7:2:55:4
 effect:TELEPORT
 dice:10
 desc:Te teletransporta aleatoriamente hasta 10 casillas de distancia.
@@ -1470,7 +1470,7 @@ expr:B:PLAYER_LEVEL:* 3
 desc:Produce un rayo que teletransporta al primer monstruo en su trayectoria.
 desc:  La distancia de teletransporte aumenta con el nivel del jugador.
 
-spell:Teleport Level:35:17:65:80
+spell:Teletransporte de Nivel:35:17:65:80
 effect:TELEPORT_LEVEL
 desc:Te teletransporta 1 nivel arriba o 1 nivel abajo (elegido al azar).
 desc:  Este hechizo puede no tener efecto cuando la opción de descenso forzado está activada.

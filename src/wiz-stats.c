@@ -797,9 +797,9 @@ static void get_obj_data(const struct object *obj, int y, int x, bool mon,
 			/* add to total */
 			add_stats(ST_RODS, vault, mon, number);
 
-			if (strstr(obj->kind->name, "Trap Detection") ||
-				strstr(obj->kind->name, "Treasure Detection") ||
-				strstr(obj->kind->name, "Door/Stair Location") ||
+			if (strstr(obj->kind->name, "Detección de Trampas") ||
+				strstr(obj->kind->name, "Detección de Tesoros") ||
+				strstr(obj->kind->name, "Ubicación Puerta/Escalera") ||
 				strstr(obj->kind->name, "Illumination") ||
 				strstr(obj->kind->name, "Light")) {
 				add_stats(ST_UTILITY_RODS, vault, mon, number);

@@ -540,18 +540,18 @@ object:boots:Botas Herradas con Acero:0x93:0x95
 
 ### Teleportation ###
 
-object:scroll:Phase Door:0x87:0x91
-object:scroll:Teleportation:0x87:0x91
-object:scroll:Teleport Level:0x87:0x91
+object:scroll:Puerta de Fase:0x87:0x91
+object:scroll:Teletransportación:0x87:0x91
+object:scroll:Teletransporte de Nivel:0x87:0x91
 
 
 ### Detection ###
 
-object:scroll:Magic Mapping:0x87:0x91
-object:scroll:Treasure Detection:0x87:0x91
-#object:scroll:Trap Detection:0x87:0x91
-#object:scroll:Door/Stair Location:0x87:0x91
-object:scroll:Detect Invisible:0x87:0x91
+object:scroll:Mapeo Mágico:0x87:0x91
+object:scroll:Detección de Tesoros:0x87:0x91
+#object:scroll:Detección de Trampas:0x87:0x91
+#object:scroll:Ubicación Puerta/Escalera:0x87:0x91
+object:scroll:Detección de lo Invisible:0x87:0x91
 
 
 ### Enchantments ###
