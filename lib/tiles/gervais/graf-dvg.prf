@@ -1145,9 +1145,9 @@ object:scroll:Detección de lo Invisible:0x87:0xEE
 
 object:scroll:Encantamiento de golpe certero:0x87:0xCF
 object:scroll:Encantamiento de Daño:0x87:0xD0
-object:scroll:Enchant Armour:0x87:0xD2
+object:scroll:Encantar Armadura:0x87:0xD2
 object:scroll:*Enchant Weapon*:0x87:0xEB
-object:scroll:*Enchant Armour*:0x87:0xD1
+object:scroll:*Encantar Armadura*:0x87:0xD1
 object:scroll:Remove Curse:0x87:0xF0
 object:scroll:*Remove Curse*:0x87:0xF1
 

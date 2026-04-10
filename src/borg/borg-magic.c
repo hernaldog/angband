@@ -126,7 +126,7 @@ static borg_spell_rating borg_spell_ratings_PRIEST[] =
     { "Restoration", 75, RESTORATION },
     { "Clairvoyance", 85, CLAIRVOYANCE },
     { "Enchant Weapon", 75, ENCHANT_WEAPON },
-    { "Enchant Armour", 75, ENCHANT_ARMOUR },
+    { "Encantar Armadura", 75, ENCHANT_ARMOUR },
     { "Smite Evil", 75, SMITE_EVIL },
     { "Glyph of Warding", 95, GLYPH_OF_WARDING },
     { "Demon Bane", 85, DEMON_BANE },
@@ -181,7 +181,7 @@ static borg_spell_rating borg_spell_ratings_PALADIN[] =
     { "Smite Evil", 55, SMITE_EVIL },
     { "Demon Bane", 55, DEMON_BANE },
     { "Enchant Weapon", 75, ENCHANT_WEAPON },
-    { "Enchant Armour", 85, ENCHANT_ARMOUR },
+    { "Encantar Armadura", 85, ENCHANT_ARMOUR },
     { "Single Combat", 95, SINGLE_COMBAT } // !FIX !TODO defense?  not sure how to code.
 };
 static borg_spell_rating borg_spell_ratings_ROGUE[] =

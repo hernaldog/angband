@@ -878,7 +878,7 @@ effect:ENCHANT:TOBOTH
 dice:1d4
 desc:Intenta mejorar la bonificación para golpear y la bonificación de daño de un arma.
 
-spell:Enchant Armour:37:60:85:250
+spell:Encantar Armadura:37:60:85:250
 effect:ENCHANT:TOAC
 dice:1+1d3
 desc:Intenta mejorar la bonificación de clase de armadura de una pieza de armadura.
@@ -1359,7 +1359,7 @@ effect:ENCHANT:TOBOTH
 dice:1d4
 desc:Intenta mejorar la bonificación para golpear y la bonificación de daño de un arma.
 
-spell:Enchant Armour:37:60:85:250
+spell:Encantar Armadura:37:60:85:250
 effect:ENCHANT:TOAC
 dice:1+1d3
 desc:Intenta mejorar la bonificación de clase de armadura de una pieza de armadura.
