@@ -50,8 +50,8 @@ static borg_spell_rating borg_spell_ratings_MAGE[] =
     { "Electric Arc", 85, ELECTRIC_ARC },
     { "Detect Monsters", 85, DETECT_MONSTERS },
     { "Fire Ball", 75, FIRE_BALL },
-    { "Recharging", 65, RECHARGING },
-    { "Identify Rune", 95, IDENTIFY_RUNE },
+    { "Recarga", 65, RECHARGING },
+    { "Identificar Runa", 95, IDENTIFY_RUNE },
     { "Treasure Detection", 5, TREASURE_DETECTION }, /* borg never uses this */
     { "Frost Bolt", 75, FROST_BOLT },
     { "Reveal Monsters", 85, REVEAL_MONSTERS },
@@ -78,7 +78,7 @@ static borg_spell_rating borg_spell_ratings_DRUID[] =
 {
     { "Detect Life", 95,  DETECT_LIFE },
     { "Fox Form", 5, FOX_FORM }, // !FIX !TODO need to know when to cast any of the shapechanges
-    { "Remove Hunger", 85, REMOVE_HUNGER },
+    { "Saciar Hambre", 85, REMOVE_HUNGER },
     { "Stinking Cloud", 95, STINKING_CLOUD },
     { "Confuse Monster", 55, CONFUSE_MONSTER },
     { "Slow Monster", 65, SLOW_MONSTER },
@@ -121,7 +121,7 @@ static borg_spell_rating borg_spell_ratings_PRIEST[] =
     { "Eliminar Maldición", 85, REMOVE_CURSE },
     { "Portal", 85, PORTAL },
     { "Remembrance", 75, REMEMBRANCE },
-    { "Word of Recall", 95, WORD_OF_RECALL },
+    { "Palabra de Retorno", 95, WORD_OF_RECALL },
     { "Healing", 95, HEALING },
     { "Restoration", 75, RESTORATION },
     { "Clairvoyance", 85, CLAIRVOYANCE },
@@ -175,7 +175,7 @@ static borg_spell_rating borg_spell_ratings_PALADIN[] =
     { "Heroism", 85, HEROISM },
     { "Protection from Evil", 85, PROTECTION_FROM_EVIL },
     { "Eliminar Maldición", 65, REMOVE_CURSE },
-    { "Word of Recall", 95, WORD_OF_RECALL },
+    { "Palabra de Retorno", 95, WORD_OF_RECALL },
     { "Healing", 95, HEALING },
     { "Clairvoyance", 85, CLAIRVOYANCE },
     { "Smite Evil", 55, SMITE_EVIL },
@@ -190,7 +190,7 @@ static borg_spell_rating borg_spell_ratings_ROGUE[] =
     { "Phase Door", 95, PHASE_DOOR },
     { "Object Detection", 55, OBJECT_DETECTION },
     { "Detect Stairs", 55, DETECT_STAIRS },
-    { "Recharging", 85, RECHARGING },
+    { "Recarga", 85, RECHARGING },
     { "Reveal Monsters", 85, REVEAL_MONSTERS },
     { "Teleport Self", 95, TELEPORT_SELF },
     { "Hit and Run", 15, HIT_AND_RUN }, // !FIX !TODO not sure how to code this
@@ -199,7 +199,7 @@ static borg_spell_rating borg_spell_ratings_ROGUE[] =
 };
 static borg_spell_rating borg_spell_ratings_RANGER[] =
 {
-    { "Remove Hunger", 95, REMOVE_HUNGER },
+    { "Saciar Hambre", 95, REMOVE_HUNGER },
     { "Detect Life", 85, DETECT_LIFE },
     { "Herbal Curing", 95, HERBAL_CURING },
     { "Resist Poison", 85, RESIST_POISON },

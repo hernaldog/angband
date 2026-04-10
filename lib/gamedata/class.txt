@@ -263,7 +263,7 @@ book:magic book:town:[Attacks and Knowledge]:6:arcane
 book-graphics:?:R
 book-properties:400:40:10 to 100
 
-spell:Recharging:5:5:28:6
+spell:Recarga:5:5:28:6
 effect:RECHARGE
 dice:$B
 expr:B:PLAYER_LEVEL:/ 8 + 6
@@ -272,7 +272,7 @@ desc:  La probabilidad de éxito y el número de cargas obtenidas aumentan con t
 desc: nivel y disminuyen con el nivel de la varita o bastón y el número de cargas.
 desc:  Un intento fallido de recargar destruye una varita o bastón de la pila.
 
-spell:Identify Rune:8:7:25:8
+spell:Identificar Runa:8:7:25:8
 effect:IDENTIFY
 desc:Revela una runa desconocida en un objeto.
 
@@ -494,7 +494,7 @@ effect:SHAPECHANGE:fox
 desc:Te transforma en la forma de un zorro, rápido y sigiloso.
 desc:  Mientras estás transformado no puedes usar objetos.
 
-spell:Remove Hunger:2:2:25:2
+spell:Saciar Hambre:2:2:25:2
 effect:NOURISH:INC_TO
 dice:50
 desc:Te deja mágicamente confortablemente alimentado (pero no saciado).
@@ -1434,7 +1434,7 @@ effect:DETECT_STAIRS
 effect-yx:44:60
 desc:Detecta todas las escaleras en un área amplia.
 
-spell:Recharging:20:10:50:6
+spell:Recarga:20:10:50:6
 effect:RECHARGE
 dice:$B
 expr:B:PLAYER_LEVEL:/ 10 + 4
@@ -1516,7 +1516,7 @@ magic:3:400:2
 
 book:nature book:town:[Lesser Charms]:6:nature
 
-spell:Remove Hunger:3:1:25:2
+spell:Saciar Hambre:3:1:25:2
 effect:NOURISH:INC_TO
 dice:50
 desc:Te deja mágicamente confortablemente alimentado (pero no saciado).

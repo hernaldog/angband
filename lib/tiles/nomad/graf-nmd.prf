@@ -582,13 +582,13 @@ object:scroll:Destierro Masivo:0x87:0x91
 
 ### Utility ###
 
-object:scroll:Remove Hunger:0x87:0x91
-object:scroll:Identify Rune:0x87:0x91
+object:scroll:Saciar Hambre:0x87:0x91
+object:scroll:Identificar Runa:0x87:0x91
 object:scroll:Luz:0x87:0x91
-object:scroll:Word of Recall:0x87:0x91
-object:scroll:Recharging:0x87:0x91
-object:scroll:Door Destruction:0x87:0x91
-object:scroll:Deep Descent:0x87:0x91
+object:scroll:Palabra de Retorno:0x87:0x91
+object:scroll:Recarga:0x87:0x91
+object:scroll:Destrucción de Puertas:0x87:0x91
+object:scroll:Descenso Profundo:0x87:0x91
 
 
 ### "Holy" spells ###

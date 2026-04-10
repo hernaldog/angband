@@ -172,9 +172,9 @@ int sv_staff_speed;
 int sv_staff_healing;
 int sv_staff_the_magi;
 int sv_staff_power;
+int sv_staff_curing;
 int sv_staff_holiness;
 int kv_staff_holiness;
-int sv_staff_curing;
 int sv_staff_sleep_monsters;
 int sv_staff_slow_monsters;
 int sv_staff_detect_invis;
@@ -357,8 +357,8 @@ void borg_init_item_val(void)
     sv_scroll_teleport_level  = borg_lookup_sval_fail(tval, "Teletransporte de Nivel");
     sv_scroll_deep_descent    = borg_lookup_sval_fail(tval, "Descenso Profundo");
     sv_scroll_recharging      = borg_lookup_sval_fail(tval, "Recarga");
-    sv_scroll_banishment      = borg_lookup_sval_fail(tval, "Exilio");
-    sv_scroll_mass_banishment = borg_lookup_sval_fail(tval, "Exilio Masivo");
+    sv_scroll_banishment      = borg_lookup_sval_fail(tval, "Destierro");
+    sv_scroll_mass_banishment = borg_lookup_sval_fail(tval, "Destierro Masivo");
     kv_scroll_mass_banishment
         = borg_lookup_kind(tval, sv_scroll_mass_banishment);
     sv_scroll_blessing       = borg_lookup_sval_fail(tval, "Bendición");
