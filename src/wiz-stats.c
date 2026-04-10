@@ -782,9 +782,9 @@ static void get_obj_data(const struct object *obj, int y, int x, bool mon,
 				strstr(obj->kind->name, "Rune of Protection") ||
 				strstr(obj->kind->name, "*Destruction*")) {
 				add_stats(ST_ENDGAME_SCROLLS, vault, mon, number);
-			} else if (strstr(obj->kind->name, "Acquirement")) {
+			} else if (strstr(obj->kind->name, "Adquisición")) {
 				add_stats(ST_ACQUIRE_SCROLLS, vault, mon, number);
-			} else if (strstr(obj->kind->name, "*Acquirement*")) {
+			} else if (strstr(obj->kind->name, "*Adquisición*")) {
 				/* do the effect of 2 acquires */
 				add_stats(ST_ACQUIRE_SCROLLS, vault, mon, number * 2);
 			}

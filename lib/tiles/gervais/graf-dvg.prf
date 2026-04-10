@@ -1154,10 +1154,10 @@ object:scroll:*Eliminar Maldición*:0x87:0xF1
 
 ### Summoning ###
 
-object:scroll:Summon Monster:0x87:0xD4
-object:scroll:Summon Undead:0x87:0xDE
-object:scroll:Acquirement:0x87:0xF4
-object:scroll:*Acquirement*:0x87:0xF5
+object:scroll:Invocar Monstruo:0x87:0xD4
+object:scroll:Invocar No Muerto:0x87:0xDE
+object:scroll:Adquisición:0x87:0xF4
+object:scroll:*Adquisición*:0x87:0xF5
 
 
 ### Killing scrolls ###
