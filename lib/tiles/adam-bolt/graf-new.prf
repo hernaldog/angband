@@ -729,7 +729,7 @@ object:scroll:*Destrucción*:0x83:0x9C
 
 ### Bad scrolls ###
 
-object:scroll:Aggravate Monster:0x83:0x9C
+object:scroll:Irritar Monstruo:0x83:0x9C
 object:scroll:Curse Weapon:0x83:0x9C
 object:scroll:Curse Armour:0x83:0x9C
 object:scroll:Darkness:0x83:0x9C
