@@ -70,8 +70,8 @@ static borg_spell_rating borg_spell_ratings_MAGE[] =
     { "Thrust Away", 55, THRUST_AWAY },
     { "Shock Wave", 85, SHOCK_WAVE },
     { "Explosion", 85, EXPLOSION },
-    { "Banishment", 75, BANISHMENT },
-    { "Mass Banishment", 65, MASS_BANISHMENT },
+    { "Destierro", 75, BANISHMENT },
+    { "Destierro Masivo", 65, MASS_BANISHMENT },
     { "Mana Storm", 75, MANA_STORM }
 };
 static borg_spell_rating borg_spell_ratings_DRUID[] =
@@ -115,7 +115,7 @@ static borg_spell_rating borg_spell_ratings_PRIEST[] =
     { "Heroism", 75, HEROISM },
     { "Orb of Draining", 95, ORB_OF_DRAINING },
     { "Spear of Light", 75, SPEAR_OF_LIGHT },
-    { "Dispel Undead", 65, DISPEL_UNDEAD },
+    { "Dispersar No Muerto", 65, DISPEL_UNDEAD },
     { "Dispel Evil", 65, DISPEL_EVIL },
     { "Protection from Evil", 85, PROTECTION_FROM_EVIL },
     { "Eliminar Maldición", 85, REMOVE_CURSE },

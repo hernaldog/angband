@@ -777,8 +777,8 @@ static void get_obj_data(const struct object *obj, int y, int x, bool mon,
 			/* add total amounts */
 			add_stats(ST_SCROLLS, vault, mon, number);
 
-			if (strstr(obj->kind->name, "Banishment") ||
-				strstr(obj->kind->name, "Mass Banishment") ||
+			if (strstr(obj->kind->name, "Destierro") ||
+				strstr(obj->kind->name, "Destierro Masivo") ||
 				strstr(obj->kind->name, "Rune of Protection") ||
 				strstr(obj->kind->name, "*Destruction*")) {
 				add_stats(ST_ENDGAME_SCROLLS, vault, mon, number);
@@ -828,7 +828,7 @@ static void get_obj_data(const struct object *obj, int y, int x, bool mon,
 					   strstr(obj->kind->name, "Holiness")) {
 				add_stats(ST_KILL_STAVES, vault, mon, number);
 			} else if (strstr(obj->kind->name, "Healing") ||
-					   strstr(obj->kind->name, "Banishment") ||
+					   strstr(obj->kind->name, "Destierro") ||
 					   strstr(obj->kind->name, "the Magi")) {
 				add_stats(ST_ENDGAME_STAVES, vault, mon, number);
 			}

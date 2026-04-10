@@ -424,13 +424,13 @@ expr:B:PLAYER_LEVEL:/ 5
 desc:Dispara una bola de fragmentos de radio 2 y arroja todo lo que está en el área de
 desc: efecto.
 
-spell:Banishment:35:45:95:25
+spell:Destierro:35:45:95:25
 effect:BANISH
 desc:Elimina del nivel todos los monstruos representados por un símbolo elegido.
 desc:  Los únicos no se ven afectados.
 desc:  Recibes 1d4 puntos de daño por cada monstruo eliminado.
 
-spell:Mass Banishment:40:75:90:100
+spell:Destierro Masivo:40:75:90:100
 effect:MASS_BANISH
 desc:Elimina todos los monstruos dentro de 20 casillas de ti.
 desc:  Los únicos no se ven afectados.
@@ -794,7 +794,7 @@ dice:6d8
 desc:Dispara un rayo que ilumina cada casilla y daña a cada
 desc: monstruo sensible a la luz en su trayectoria.
 
-spell:Dispel Undead:10:14:55:6
+spell:Dispersar No Muerto:10:14:55:6
 effect:PROJECT_LOS_AWARE:DISP_UNDEAD
 dice:d$S
 expr:S:PLAYER_LEVEL:* 5

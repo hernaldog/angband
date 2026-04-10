@@ -575,9 +575,9 @@ object:scroll:*Adquisición*:0x87:0x91
 
 ### Killing scrolls ###
 
-object:scroll:Dispel Undead:0x87:0x91
-object:scroll:Banishment:0x87:0x91
-object:scroll:Mass Banishment:0x87:0x91
+object:scroll:Dispersar No Muerto:0x87:0x91
+object:scroll:Destierro:0x87:0x91
+object:scroll:Destierro Masivo:0x87:0x91
 
 
 ### Utility ###
