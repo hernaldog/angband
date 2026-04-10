@@ -1144,7 +1144,7 @@ object:scroll:Detección de lo Invisible:0x87:0xEE
 ### Enchantments ###
 
 object:scroll:Encantamiento de golpe certero:0x87:0xCF
-object:scroll:Enchant Weapon To-Dam:0x87:0xD0
+object:scroll:Encantamiento de Daño:0x87:0xD0
 object:scroll:Enchant Armour:0x87:0xD2
 object:scroll:*Enchant Weapon*:0x87:0xEB
 object:scroll:*Enchant Armour*:0x87:0xD1
