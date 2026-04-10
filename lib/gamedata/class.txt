@@ -814,7 +814,7 @@ desc:Te protege del mal durante una duración dependiente del nivel:
 desc: todos los ataques cuerpo a cuerpo de monstruos malvados tienen probabilidad de ser repelidos,
 desc: a menos que el nivel del monstruo sea superior a tu nivel de personaje.
 
-spell:Remove Curse:16:6:38:8
+spell:Eliminar Maldición:16:6:38:8
 effect:REMOVE_CURSE
 dice:$B+d$S
 expr:B:PLAYER_LEVEL:+ 0
@@ -1309,7 +1309,7 @@ desc:Te protege del mal durante una duración dependiente del nivel:
 desc: todos los ataques cuerpo a cuerpo de monstruos malvados tienen probabilidad de ser repelidos,
 desc: a menos que el nivel del monstruo sea superior a tu nivel de personaje.
 
-spell:Remove Curse:20:12:38:8
+spell:Eliminar Maldición:20:12:38:8
 effect:REMOVE_CURSE
 dice:$B+d$S
 expr:B:PLAYER_LEVEL:+ 0

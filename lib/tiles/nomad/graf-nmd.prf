@@ -561,8 +561,8 @@ object:scroll:Encantamiento de Daño:0x87:0x91
 object:scroll:Encantar Armadura:0x87:0x91
 object:scroll:*Enchant Weapon*:0x87:0x91
 object:scroll:*Encantar Armadura*:0x87:0x91
-object:scroll:Remove Curse:0x87:0x91
-object:scroll:*Remove Curse*:0x87:0x91
+object:scroll:Eliminar Maldición:0x87:0x91
+object:scroll:*Eliminar Maldición*:0x87:0x91
 
 
 ### Summoning ###
