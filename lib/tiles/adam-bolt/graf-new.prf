@@ -730,10 +730,10 @@ object:scroll:*Destrucción*:0x83:0x9C
 ### Bad scrolls ###
 
 object:scroll:Irritar Monstruo:0x83:0x9C
-object:scroll:Curse Weapon:0x83:0x9C
-object:scroll:Curse Armour:0x83:0x9C
-object:scroll:Darkness:0x83:0x9C
-object:scroll:Trap Creation:0x83:0x9C
+object:scroll:Maldecir Arma:0x83:0x9C
+object:scroll:Maldecir Armadura:0x83:0x9C
+object:scroll:Oscuridad:0x83:0x9C
+object:scroll:Creación de Trampas:0x83:0x9C
 
 
 
