@@ -351,7 +351,7 @@ void borg_init_item_val(void)
     sv_scroll_star_enchant_weapon
         = borg_lookup_sval_fail(tval, "*Encantar Arma*");
     sv_scroll_protection_from_evil
-        = borg_lookup_sval_fail(tval, "Protección Contra el Mal");
+        = borg_lookup_sval_fail(tval, "Protección contra el Mal");
     sv_scroll_rune_of_protection
         = borg_lookup_sval_fail(tval, "Runa de Protección");
     sv_scroll_teleport_level  = borg_lookup_sval_fail(tval, "Teletransporte de Nivel");
@@ -362,8 +362,8 @@ void borg_init_item_val(void)
     kv_scroll_mass_banishment
         = borg_lookup_kind(tval, sv_scroll_mass_banishment);
     sv_scroll_blessing       = borg_lookup_sval_fail(tval, "Bendición");
-    sv_scroll_holy_chant     = borg_lookup_sval_fail(tval, "Cántico Sagrado");
-    sv_scroll_holy_prayer    = borg_lookup_sval_fail(tval, "Plegaria Sagrada");
+    sv_scroll_holy_chant     = borg_lookup_sval_fail(tval, "Canto Sagrado");
+    sv_scroll_holy_prayer    = borg_lookup_sval_fail(tval, "Oración Sagrada");
     sv_scroll_detect_invis   = borg_lookup_sval_fail(tval, "Detectar Invisibles");
     sv_scroll_satisfy_hunger = borg_lookup_sval_fail(tval, "Quitar Hambre");
     sv_scroll_light          = borg_lookup_sval_fail(tval, "Luz");

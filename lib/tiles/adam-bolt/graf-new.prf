@@ -714,10 +714,10 @@ object:scroll:Descenso Profundo:0x83:0x9C
 
 ### "Holy" spells ###
 
-object:scroll:Blessing:0x83:0x9C
-object:scroll:Holy Chant:0x83:0x9C
-object:scroll:Holy Prayer:0x83:0x9C
-object:scroll:Protection from Evil:0x83:0x9C
+object:scroll:Bendición:0x83:0x9C
+object:scroll:Canto Sagrado:0x83:0x9C
+object:scroll:Oración Sagrada:0x83:0x9C
+object:scroll:Protección contra el Mal:0x83:0x9C
 
 
 ### Misc. ###
