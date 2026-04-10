@@ -643,8 +643,8 @@ object:scroll:Creación de Trampas:0x87:0x91
 
 ##### Arcane Books #####
 
-object:magic book:[First Spells]:0x88:0x90
-object:magic book:[Attacks and Knowledge]:0x88:0x91
+object:magic book:[Primeros Conjuros]:0x88:0x90
+object:magic book:[Ataques y Conocimientos]:0x88:0x91
 object:magic book:[Magical Defences]:0x88:0x92
 object:magic book:[Arcane Control]:0x88:0x94
 object:magic book:[Wizard's Tome of Power]:0x88:0x98

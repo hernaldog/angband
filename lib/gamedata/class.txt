@@ -202,10 +202,10 @@ title:Archimago
 
 magic:1:300:5
 
-book:magic book:town:[First Spells]:7:arcane
+book:magic book:town:[Primeros Conjuros]:7:arcane
 book-graphics:?:R
 book-properties:25:40:1 to 100
-equip:magic book:[First Spells]:1:1:none
+equip:magic book:[Primeros Conjuros]:1:1:none
 
 spell:Magic Missile:1:1:22:4
 effect:BOLT_OR_BEAM:MISSILE:0:-10
@@ -259,7 +259,7 @@ dice:$B
 expr:B:PLAYER_LEVEL:* 2
 desc:Dispara una bola de fuego de radio 2.
 
-book:magic book:town:[Attacks and Knowledge]:6:arcane
+book:magic book:town:[Ataques y Conocimientos]:6:arcane
 book-graphics:?:R
 book-properties:400:40:10 to 100
 
@@ -1392,7 +1392,7 @@ equip:light:Antorcha de Madera:1:3:none
 equip:sword:Daga:1:1:none
 equip:soft armour:Armadura de Cuero Blando:1:1:none
 equip:scroll:Palabra de Retorno:1:1:birth_no_recall
-equip:magic book:[First Spells]:1:1:none
+equip:magic book:[Primeros Conjuros]:1:1:none
 player-flags:CHOOSE_SPELLS | STEAL
 title:Vagabundo
 title:Carterista
@@ -1407,7 +1407,7 @@ title:Maestro Ladrón
 
 magic:5:350:2
 
-book:magic book:town:[First Spells]:7:arcane
+book:magic book:town:[Primeros Conjuros]:7:arcane
 
 spell:Detect Monsters:5:1:50:4
 effect:DETECT_VISIBLE_MONSTERS

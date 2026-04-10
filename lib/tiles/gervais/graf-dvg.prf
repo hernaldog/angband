@@ -1234,8 +1234,8 @@ object:scroll:Creación de Trampas:0x87:0xE1
 
 # from class.txt
 
-object:magic book:[First Spells]:0x86:0xAD
-object:magic book:[Attacks and Knowledge]:0x86:0xAE
+object:magic book:[Primeros Conjuros]:0x86:0xAD
+object:magic book:[Ataques y Conocimientos]:0x86:0xAE
 object:magic book:[Magical Defences]:0x86:0xB0
 object:magic book:[Arcane Control]:0x86:0xB1
 object:magic book:[Wizard's Tome of Power]:0x86:0xB5
