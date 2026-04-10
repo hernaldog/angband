@@ -283,7 +283,7 @@ static const struct stat_data stat_message[] =
 	{ST_ENDGAME_RODS, " Endgame     "},//speed, healing
 	{ST_STAVES, "\n ***STAVES***    \n All:        "},
 	{ST_SPEED_STAVES, " Speed       "},
-	{ST_DESTRUCTION_STAVES, " Destruction "},
+	{ST_DESTRUCTION_STAVES, " Destrucción "},
 	{ST_KILL_STAVES, " Kill        "},//dispel evil, power, holiness
 	{ST_ENDGAME_STAVES, " Endgame     "},//healing, magi, banishment
 	{ST_WANDS, "\n ***WANDS***     \n All:        "},
@@ -779,8 +779,8 @@ static void get_obj_data(const struct object *obj, int y, int x, bool mon,
 
 			if (strstr(obj->kind->name, "Destierro") ||
 				strstr(obj->kind->name, "Destierro Masivo") ||
-				strstr(obj->kind->name, "Rune of Protection") ||
-				strstr(obj->kind->name, "*Destruction*")) {
+				strstr(obj->kind->name, "Runa de Protección") ||
+				strstr(obj->kind->name, "*Destrucción*")) {
 				add_stats(ST_ENDGAME_SCROLLS, vault, mon, number);
 			} else if (strstr(obj->kind->name, "Adquisición")) {
 				add_stats(ST_ACQUIRE_SCROLLS, vault, mon, number);
@@ -821,7 +821,7 @@ static void get_obj_data(const struct object *obj, int y, int x, bool mon,
 
 			if (strstr(obj->kind->name, "Speed")) {
 				add_stats(ST_SPEED_STAVES, vault, mon, number);
-			} else if (strstr(obj->kind->name, "*Destruction*")) {
+			} else if (strstr(obj->kind->name, "*Destrucción*")) {
 				add_stats(ST_DESTRUCTION_STAVES, vault, mon, number);
 			} else if (strstr(obj->kind->name, "Dispel Evil") ||
 					   strstr(obj->kind->name, "Power") ||

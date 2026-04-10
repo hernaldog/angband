@@ -376,7 +376,7 @@ void borg_init_item_val(void)
     kv_scroll_star_remove_curse
         = borg_lookup_kind(tval, sv_scroll_star_remove_curse);
     sv_scroll_monster_confusion
-        = borg_lookup_sval_fail(tval, "Confusión de Monstruos");
+        = borg_lookup_sval_fail(tval, "Confundir Monstruo");
     sv_scroll_trap_door_destruction
         = borg_lookup_sval_fail(tval, "Destrucción de Puertas");
     sv_scroll_dispel_undead = borg_lookup_sval_fail(tval, "Disipar No-muertos");

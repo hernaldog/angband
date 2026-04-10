@@ -722,9 +722,9 @@ object:scroll:Protección contra el Mal:0x83:0x9C
 
 ### Misc. ###
 
-object:scroll:Monster Confusion:0x83:0x9C
-object:scroll:Rune of Protection:0x83:0x9C
-object:scroll:*Destruction*:0x83:0x9C
+object:scroll:Confundir Monstruo:0x83:0x9C
+object:scroll:Runa de Protección:0x83:0x9C
+object:scroll:*Destrucción*:0x83:0x9C
 
 
 ### Bad scrolls ###
