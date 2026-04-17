@@ -717,7 +717,7 @@ object:amulet:Colgante:0x85:0xCB
 object:amulet:Collar:0x85:0xCC
 
 # The Ring of Barahir
-object:ring:Ring:0x85:0xBF
+object:ring:Anillo:0x85:0xBF
 
 # The Band of Tulkas
 object:ring:Band:0x85:0x95

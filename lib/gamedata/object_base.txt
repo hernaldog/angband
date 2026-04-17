@@ -124,7 +124,7 @@ name:amulet:Amuleto~
 graphics:orange
 # max-stack:2
 
-name:ring:Ring~
+name:ring:Anillo~
 graphics:red
 # max-stack:5
 flags:HATES_ELEC

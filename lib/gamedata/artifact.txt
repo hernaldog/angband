@@ -2152,7 +2152,7 @@ desc: gates of the Dark Tower, and with whom came light even to Gorgoroth.
 ### Rings ###
 
 name:of Barahir
-base-object:ring:Ring
+base-object:ring:Anillo
 graphics:=:d
 level:50
 weight:2
