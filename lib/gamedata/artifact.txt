@@ -2352,7 +2352,7 @@ desc: return to the Shire.
 ### Dragon Scale Mails ###
 
 name:'Razorback'
-base-object:dragon armour:Multi-Hued Dragon Scale Mail
+base-object:dragon armour:Cota de Escamas de Dragón Multicolor
 level:60
 weight:200
 cost:400000
@@ -2369,7 +2369,7 @@ desc:  It throbs with angry energies, and you feel the raw elemental might of
 desc: untamed Lightning as you put it on.
 
 name:'Mediator'
-base-object:dragon armour:Balance Dragon Scale Mail
+base-object:dragon armour:Cota de Escamas de Dragón del Equilibrio
 level:60
 weight:250
 cost:400000
@@ -2384,7 +2384,7 @@ desc:A great suit of dragon hide, set with scales of many hues.  Even the
 desc: mightiest wyrms of Law and Chaos fear the judgement of its wearer.
 
 name:'Bladeturner'
-base-object:dragon armour:Power Dragon Scale Mail
+base-object:dragon armour:Cota de Escamas de Dragón del Poder
 level:55
 weight:250
 cost:500000

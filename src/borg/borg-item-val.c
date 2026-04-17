@@ -497,21 +497,21 @@ void borg_init_item_val(void)
     sv_iron_crown   = borg_lookup_sval_fail(tval, "Corona de Hierro");
 
     tval            = tval_find_idx("dragon armor");
-    sv_dragon_blue  = borg_lookup_sval_fail(tval, "Malla de Escamas de Dragón Azul");
-    sv_dragon_black = borg_lookup_sval_fail(tval, "Malla de Escamas de Dragón Negro");
-    sv_dragon_white = borg_lookup_sval_fail(tval, "Malla de Escamas de Dragón Blanco");
-    sv_dragon_red   = borg_lookup_sval_fail(tval, "Malla de Escamas de Dragón Rojo");
-    sv_dragon_green = borg_lookup_sval_fail(tval, "Malla de Escamas de Dragón Verde");
+    sv_dragon_blue  = borg_lookup_sval_fail(tval, "Cota de Escamas de Dragón Azul");
+    sv_dragon_black = borg_lookup_sval_fail(tval, "Cota de Escamas de Dragón Negro");
+    sv_dragon_white = borg_lookup_sval_fail(tval, "Cota de Escamas de Dragón Blanco");
+    sv_dragon_red   = borg_lookup_sval_fail(tval, "Cota de Escamas de Dragón Rojo");
+    sv_dragon_green = borg_lookup_sval_fail(tval, "Cota de Escamas de Dragón Verde");
     sv_dragon_multihued
-        = borg_lookup_sval_fail(tval, "Malla de Escamas de Dragón Multicolor");
+        = borg_lookup_sval_fail(tval, "Cota de Escamas de Dragón Multicolor");
     sv_dragon_shining
-        = borg_lookup_sval_fail(tval, "Malla de Escamas de Dragón Brillante");
-    sv_dragon_law   = borg_lookup_sval_fail(tval, "Malla de Escamas de Dragón de la Ley");
-    sv_dragon_gold  = borg_lookup_sval_fail(tval, "Malla de Escamas de Dragón Dorado");
-    sv_dragon_chaos = borg_lookup_sval_fail(tval, "Malla de Escamas de Dragón del Caos");
+        = borg_lookup_sval_fail(tval, "Cota de Escamas de Dragón Brillante");
+    sv_dragon_law   = borg_lookup_sval_fail(tval, "Cota de Escamas de Dragón de la Ley");
+    sv_dragon_gold  = borg_lookup_sval_fail(tval, "Cota de Escamas de Dragón Dorado");
+    sv_dragon_chaos = borg_lookup_sval_fail(tval, "Cota de Escamas de Dragón del Caos");
     sv_dragon_balance
-        = borg_lookup_sval_fail(tval, "Malla de Escamas de Dragón del Equilibrio");
-    sv_dragon_power = borg_lookup_sval_fail(tval, "Malla de Escamas de Dragón del Poder");
+        = borg_lookup_sval_fail(tval, "Cota de Escamas de Dragón del Equilibrio");
+    sv_dragon_power = borg_lookup_sval_fail(tval, "Cota de Escamas de Dragón del Poder");
 }
 
 /**

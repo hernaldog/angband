@@ -662,18 +662,18 @@ object:chest:Cofre de acero grande:0x87:0x85
 
 ##### Dragon Scale Mail #####
 
-object:dragon armour:Black Dragon Scale Mail:0x80:0xBB
-object:dragon armour:Blue Dragon Scale Mail:0x80:0xB9
-object:dragon armour:White Dragon Scale Mail:0x80:0xBA
-object:dragon armour:Red Dragon Scale Mail:0x80:0xBC
-object:dragon armour:Green Dragon Scale Mail:0x80:0xBD
-object:dragon armour:Multi-Hued Dragon Scale Mail:0x80:0xC4
-object:dragon armour:Shining Dragon Scale Mail:0x80:0xC0
-object:dragon armour:Law Dragon Scale Mail:0x80:0xC2
-object:dragon armour:Gold Dragon Scale Mail:0x80:0xBF
-object:dragon armour:Chaos Dragon Scale Mail:0x80:0xC1
-object:dragon armour:Balance Dragon Scale Mail:0x80:0xC3
-object:dragon armour:Power Dragon Scale Mail:0x80:0xC5
+object:dragon armour:Cota de Escamas de Dragón Negro:0x80:0xBB
+object:dragon armour:Cota de Escamas de Dragón Azul:0x80:0xB9
+object:dragon armour:Cota de Escamas de Dragón Blanco:0x80:0xBA
+object:dragon armour:Cota de Escamas de Dragón Rojo:0x80:0xBC
+object:dragon armour:Cota de Escamas de Dragón Verde:0x80:0xBD
+object:dragon armour:Cota de Escamas de Dragón Multicolor:0x80:0xC4
+object:dragon armour:Cota de Escamas de Dragón Brillante:0x80:0xC0
+object:dragon armour:Cota de Escamas de Dragón de la Ley:0x80:0xC2
+object:dragon armour:Cota de Escamas de Dragón Dorado:0x80:0xBF
+object:dragon armour:Cota de Escamas de Dragón del Caos:0x80:0xC1
+object:dragon armour:Cota de Escamas de Dragón del Equilibrio:0x80:0xC3
+object:dragon armour:Cota de Escamas de Dragón del Poder:0x80:0xC5
 
 ##### Gold/gems #####
 

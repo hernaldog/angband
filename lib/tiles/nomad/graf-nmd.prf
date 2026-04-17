@@ -713,18 +713,18 @@ object:chest:Cofre de acero grande:0x83:0x95
 
 ##### Dragon Scale Mail #####
 
-object:dragon armor:Black Dragon Scale Mail:0x94:0x90
-object:dragon armor:Blue Dragon Scale Mail:0x94:0x91
-object:dragon armor:White Dragon Scale Mail:0x94:0x92
-object:dragon armor:Red Dragon Scale Mail:0x94:0x93
-object:dragon armor:Green Dragon Scale Mail:0x94:0x94
-object:dragon armor:Multi-Hued Dragon Scale Mail:0x94:0x95
+object:dragon armor:Cota de Escamas de Dragón Negro:0x94:0x90
+object:dragon armor:Cota de Escamas de Dragón Azul:0x94:0x91
+object:dragon armor:Cota de Escamas de Dragón Blanco:0x94:0x92
+object:dragon armor:Cota de Escamas de Dragón Rojo:0x94:0x93
+object:dragon armor:Cota de Escamas de Dragón Verde:0x94:0x94
+object:dragon armor:Cota de Escamas de Dragón Multicolor:0x94:0x95
 object:dragon armor:Pseudo-Dragon Scale Mail:0x94:0x96
-object:dragon armor:Law Dragon Scale Mail:0x94:0x97
-object:dragon armor:Gold Dragon Scale Mail:0x94:0x99
-object:dragon armor:Chaos Dragon Scale Mail:0x94:0x9A
-object:dragon armor:Balance Dragon Scale Mail:0x94:0x9B
-object:dragon armor:Power Dragon Scale Mail:0x94:0x9C
+object:dragon armor:Cota de Escamas de Dragón de la Ley:0x94:0x97
+object:dragon armor:Cota de Escamas de Dragón Dorado:0x94:0x99
+object:dragon armor:Cota de Escamas de Dragón del Caos:0x94:0x9A
+object:dragon armor:Cota de Escamas de Dragón del Equilibrio:0x94:0x9B
+object:dragon armor:Cota de Escamas de Dragón del Poder:0x94:0x9C
 
 
 
