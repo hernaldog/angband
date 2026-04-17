@@ -873,7 +873,7 @@ book:prayer book:dungeon:[Battle Blessings]:5:divine
 book-graphics:?:g
 book-properties:30000:15:40 to 100
 
-spell:Enchant Weapon:35:50:80:230
+spell:Encantar Arma:35:50:80:230
 effect:ENCHANT:TOBOTH
 dice:1d4
 desc:Intenta mejorar la bonificación para golpear y la bonificación de daño de un arma.
@@ -1354,7 +1354,7 @@ effect:TIMED_INC:ATT_DEMON:0:5
 dice:20+d20
 desc:Hace que tus ataques cuerpo a cuerpo maten demonios poderosamente temporalmente.
 
-spell:Enchant Weapon:35:50:80:230
+spell:Encantar Arma:35:50:80:230
 effect:ENCHANT:TOBOTH
 dice:1d4
 desc:Intenta mejorar la bonificación para golpear y la bonificación de daño de un arma.

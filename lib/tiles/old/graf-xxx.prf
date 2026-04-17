@@ -668,7 +668,7 @@ object:scroll:Detección de lo Invisible:0x86:0x80
 object:scroll:Encantamiento de golpe certero:0x86:0x80
 object:scroll:Encantamiento de Daño:0x86:0x80
 object:scroll:Encantar Armadura:0x86:0x80
-object:scroll:*Enchant Weapon*:0x86:0x82
+object:scroll:*Encantar Arma*:0x86:0x82
 object:scroll:*Encantar Armadura*:0x86:0x82
 object:scroll:Eliminar Maldición:0x86:0x80
 object:scroll:*Eliminar Maldición*:0x86:0x82
