@@ -156,7 +156,7 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 			if (terse)
 				return "& Libro~ #";
 			else
-				return "& Libro Sagrado~ de Plegarias #";
+				return "& Libro~ Sagrado~ de Plegarias #";
 
 		case TV_NATURE_BOOK:
 			if (terse)
@@ -174,7 +174,7 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 			if (terse)
 				return "& Libro~ #";
 			else
-				return "& Libro de Misterios~ #";
+				return "& Libro~ de Misterios #";
 
 		case TV_MUSHROOM:
 			return (show_flavor ? "& # Seta~" : "& Seta~");
