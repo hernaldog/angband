@@ -885,7 +885,7 @@ object:light:Piedra del Arca:0x87:0x9F
 object:amulet:Amuleto:0x87:0x82
 
 # The Amulet of Ingwe
-object:amulet:Pendant:0x87:0x83
+object:amulet:Colgante:0x87:0x83
 
 # The Necklace of the Dwarves
 object:amulet:Necklace:0x87:0x84

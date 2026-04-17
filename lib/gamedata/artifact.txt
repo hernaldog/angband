@@ -2277,7 +2277,7 @@ values:CON[3] | STR[1] | RES_FIRE[1]
 desc:A fiery circle of bronze, with mighty spells to ward off and banish evil.
 
 name:of Ingwë
-base-object:amulet:Pendant
+base-object:amulet:Colgante
 graphics:":d
 level:65
 weight:3
