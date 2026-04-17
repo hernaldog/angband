@@ -775,7 +775,7 @@ desc:Cura 10 puntos de daño, elimina el miedo y, a partir del nivel 20,
 desc: te otorga heroísmo (resistencia al miedo y una bonificación de +12 a golpear)
 desc: durante una duración dependiente del nivel.
 
-book:prayer book:town:[Cleansing Power]:6:divine
+book:prayer book:town:[Poder Purificador]:6:divine
 book-graphics:?:G
 book-properties:100:40:5 to 100
 
@@ -822,7 +822,7 @@ expr:S:PLAYER_LEVEL:+ 0
 desc:Intenta eliminar una maldición de un objeto, más efectivo a niveles
 desc: de personaje más altos.
 
-book:prayer book:dungeon:[Healing and Sanctuary]:6:divine
+book:prayer book:dungeon:[Sanación y Santuario]:6:divine
 book-graphics:?:g
 book-properties:10000:20:30 to 100
 
@@ -869,7 +869,7 @@ effect:LIGHT_LEVEL
 desc:Ilumina, traza el mapa y percibe todos los objetos en el nivel actual
 desc: completo de la mazmorra.
 
-book:prayer book:dungeon:[Battle Blessings]:5:divine
+book:prayer book:dungeon:[Bendiciones de Batalla]:5:divine
 book-graphics:?:g
 book-properties:30000:15:40 to 100
 
@@ -903,7 +903,7 @@ effect:TIMED_INC:ATT_DEMON:0:5
 dice:20+d20
 desc:Hace que tus ataques cuerpo a cuerpo maten demonios poderosamente temporalmente.
 
-book:prayer book:dungeon:[Wrath of the Valar]:5:divine
+book:prayer book:dungeon:[Ira de los Valar]:5:divine
 book-graphics:?:g
 book-properties:50000:10:60 to 100
 
@@ -1299,7 +1299,7 @@ desc:Cura 10 puntos de daño, elimina el miedo y, a partir del nivel 15,
 desc: te otorga heroísmo (resistencia al miedo y una bonificación de +12 a golpear)
 desc: durante una duración dependiente del nivel.
 
-book:prayer book:dungeon:[Healing and Sanctuary]:5:divine
+book:prayer book:dungeon:[Sanación y Santuario]:5:divine
 
 spell:Protección contra el Mal:15:8:42:5
 effect:TIMED_INC:PROTEVIL
@@ -1342,7 +1342,7 @@ effect:LIGHT_LEVEL
 desc:Ilumina, traza el mapa y percibe todos los objetos en el nivel actual
 desc: completo de la mazmorra.
 
-book:prayer book:dungeon:[Battle Blessings]:5:divine
+book:prayer book:dungeon:[Bendiciones de Batalla]:5:divine
 
 spell:Smite Evil:25:20:70:40
 effect:TIMED_INC:ATT_EVIL:0:5

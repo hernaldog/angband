@@ -789,10 +789,10 @@ object:magic book:[Grimorio de Poder de Kelek]:0x8C:0x8E
 # from class.txt
 
 object:prayer book:[Manual del Novicio]:0x8C:0x8F
-object:prayer book:[Cleansing Power]:0x8C:0x90
-object:prayer book:[Healing and Sanctuary]:0x8C:0x93
-object:prayer book:[Battle Blessings]:0x8C:0x95
-object:prayer book:[Wrath of the Valar]:0x8C:0x97
+object:prayer book:[Poder Purificador]:0x8C:0x90
+object:prayer book:[Sanación y Santuario]:0x8C:0x93
+object:prayer book:[Bendiciones de Batalla]:0x8C:0x95
+object:prayer book:[Ira de los Valar]:0x8C:0x97
 
 # from old_class.txt
 
