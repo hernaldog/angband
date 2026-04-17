@@ -776,7 +776,7 @@ object:amulet:Amuleto:0x84:0x9E
 object:amulet:Colgante:0x84:0x96
 
 # The Necklace of the Dwarves
-object:amulet:Necklace:0x84:0x91
+object:amulet:Collar:0x84:0x91
 
 # The Jewel 'Evenstar'
 object:amulet:Jewel:0x84:0x90

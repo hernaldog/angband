@@ -888,7 +888,7 @@ object:amulet:Amuleto:0x87:0x82
 object:amulet:Colgante:0x87:0x83
 
 # The Necklace of the Dwarves
-object:amulet:Necklace:0x87:0x84
+object:amulet:Collar:0x87:0x84
 
 # The Ring of Barahir
 object:ring:Ring:0x82:0x83

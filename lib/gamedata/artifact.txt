@@ -2291,7 +2291,7 @@ desc:The ancient heirloom of Ingwë, high lord of the Vanyar, against whom
 desc: nothing of evil could stand.
 
 name:of the Dwarves
-base-object:amulet:Necklace
+base-object:amulet:Collar
 graphics:":y
 level:50
 weight:3
