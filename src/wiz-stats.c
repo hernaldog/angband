@@ -1207,7 +1207,7 @@ static void print_heading(void)
 	file_putf(stats_log,"            weapons, are one of the above with xblows or slay evil\n");
 	file_putf(stats_log," Launchers: xtra shots and xtra might are only logged for x3 or\n");
 	file_putf(stats_log,"            better.  Very good has +to hit or + to dam > 15\n");
-	file_putf(stats_log," Amulets:   Endgame amulets are trickery, weaponmaster and magi\n");
+	file_putf(stats_log," Amuletos:   Endgame amulets are trickery, weaponmaster and magi\n");
 	file_putf(stats_log," Armor:     Low resist armor may have more than one basic resist (acid, \n");
 	file_putf(stats_log,"		     elec, fire, cold) but not all. \n");
 	file_putf(stats_log," Books:     Prayer and Magic books have the same probability. \n");

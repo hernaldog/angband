@@ -1364,7 +1364,7 @@ object:light:Estrella:0x87:0xB4
 object:light:Piedra del Arca:0x87:0xB5
 
 # The Amulet of Carlammas
-object:amulet:Amulet:0x85:0xA6
+object:amulet:Amuleto:0x85:0xA6
 
 # The Amulet of Ingwe
 object:amulet:Pendant:0x85:0x9F

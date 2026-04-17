@@ -120,7 +120,7 @@ break:50
 # max-stack:10
 flags:HATES_FIRE
 
-name:amulet:Amulet~
+name:amulet:Amuleto~
 graphics:orange
 # max-stack:2
 

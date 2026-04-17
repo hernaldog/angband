@@ -2265,7 +2265,7 @@ desc: being who wears it.
 ### Amulets ###
 
 name:of Carlammas
-base-object:amulet:Amulet
+base-object:amulet:Amuleto
 graphics:":d
 level:30
 weight:3
