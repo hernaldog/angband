@@ -2239,7 +2239,7 @@ desc: wrought.  Vilya is one of the three Rings of Power created by Celebrimbor
 desc: and hidden by the Elves from Sauron.
 
 name:'The One Ring'
-base-object:ring:Ring of Power
+base-object:ring:Anillo de Poder
 graphics:=:y
 level:75
 weight:2

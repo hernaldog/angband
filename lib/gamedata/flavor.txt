@@ -15,7 +15,7 @@
 kind:ring:=
 
 # Fixed: the One Ring
-fixed:1:Ring of Power:Yellow:Plain Gold
+fixed:1:Anillo de Poder:Yellow:Plain Gold
 
 # The Ring of Barahir 50
 # The Ring of Tulkas 51

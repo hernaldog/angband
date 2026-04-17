@@ -906,7 +906,7 @@ object:ring:Anillo de Adamant:0x82:0x85
 object:ring:Anillo del Firmamento:0x82:0x86
 
 # The Ring of Power 'The One Ring'
-object:ring:Ring of Power:0x82:0x87
+object:ring:Anillo de Poder:0x82:0x87
 
 # The Palantir of Westernesse
 # object:light:Palantir:0xD8:0x8F
