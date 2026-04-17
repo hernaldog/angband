@@ -909,7 +909,7 @@ object:ring:Anillo:0x84:0x8F
 object:ring:Band:0x84:0x90
 
 # The Ring of Fire 'Narya'
-object:ring:Ring of Fire:0x84:0x92
+object:ring:Anillo de Fuego:0x84:0x92
 
 # The Ring of Adamant 'Nenya'
 object:ring:Ring of Adamant:0x84:0x93

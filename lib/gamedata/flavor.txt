@@ -21,7 +21,7 @@ fixed:1:Ring of Power:Yellow:Plain Gold
 # The Ring of Tulkas 51
 
 # The Ring of Fire 'Narya'
-fixed:28:Ring of Fire:Red:Ruby
+fixed:28:Anillo de Fuego:Red:Ruby
 
 # The Ring of Adamant 'Nenya'
 fixed:40:Ring of Adamant:Light Blue:Mithril

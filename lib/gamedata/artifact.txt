@@ -2177,7 +2177,7 @@ time:150+d150
 desc:The treasure of Tulkas, most fleet and wrathful of the Valar.
 
 name:'Narya'
-base-object:ring:Ring of Fire
+base-object:ring:Anillo de Fuego
 graphics:=:d
 level:30
 weight:2
