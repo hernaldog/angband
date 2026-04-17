@@ -194,7 +194,7 @@ y dejas "Manzana" ese index cambia, y si luego cargas una salvada de partida vie
 Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (Byte Order Market).
 
 ## Pendientes de traducción
-- Ver si está correcto en venta de Magic Items a la derecha del precio dice "prom", ej "100 prom"
+- Ver si está correcto en venta de Magic Items a la derecha del precio dice "prom", ej "100 prom": ok, es prom de "avg" en inglés y se ve en el juego original
 - Mejorar donde dice "T o m o s Nigromántico" por "Tomos de Nigrómantico"
 - Cambios de imágenes gráficas General Store, Armory, Magic Items, Black Market, Temple.
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
