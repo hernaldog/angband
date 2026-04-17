@@ -1,17 +1,17 @@
-# Archivo: object_base.txt
+# File: object_base.txt
 #
-# Este archivo se utiliza para inicializar la información de la base de objetos para Angband.
-# Las bases de objetos corresponden a los tvals definidos en src/list-tvals.h.
+# This file is used to initialize object base information for Angband.
+# Object bases correspond to tvals as defined in src/list-tvals.h.
 
-# === Entendiendo object_base.txt ===
+# === Understanding object_base.txt ===
 
-# default: las líneas son valores predeterminados para cualquier base de objeto
+# default: lines are default values for any object base
 
-# name: tval:nombre
-# graphics: atributo predeterminado para la visualización en el inventario
-# break: probabilidad de romperse al ser lanzado
-# max-stack: número máximo que puede aparecer en una pila
-# flags: banderas predeterminadas
+# name: tval:name
+# graphics: default attr for inventory display
+# break: breakage chance when thrown
+# max-stack: maximum number that can appear in a stack
+# flags: default flags
 
 default:break-chance:10
 default:max-stack:40
@@ -34,7 +34,7 @@ break:35
 flags:HATES_ACID | HATES_FIRE
 flags:SHOW_DICE
 
-name:bolt:Perno~
+name:bolt:Bolt~
 graphics:light umber
 break:20
 # max-stack:40
@@ -95,7 +95,7 @@ graphics:light umber
 # max-stack:1
 flags:HATES_ACID
 
-name:cloak:Capa~
+name:cloak:Cloak~
 graphics:light umber
 # max-stack:1
 flags:HATES_ACID | HATES_FIRE
@@ -120,11 +120,11 @@ break:50
 # max-stack:10
 flags:HATES_FIRE
 
-name:amulet:Amuleto~
+name:amulet:Amulet~
 graphics:orange
 # max-stack:2
 
-name:ring:Anillo~
+name:ring:Ring~
 graphics:red
 # max-stack:5
 flags:HATES_ELEC
