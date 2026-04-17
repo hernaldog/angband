@@ -788,7 +788,7 @@ object:magic book:[Grimorio de Poder de Kelek]:0x8C:0x8E
 
 # from class.txt
 
-object:prayer book:[Novice's Handbook]:0x8C:0x8F
+object:prayer book:[Manual del Novicio]:0x8C:0x8F
 object:prayer book:[Cleansing Power]:0x8C:0x90
 object:prayer book:[Healing and Sanctuary]:0x8C:0x93
 object:prayer book:[Battle Blessings]:0x8C:0x95
