@@ -2196,7 +2196,7 @@ desc:  Narya is one of the three Rings of Power created by Celebrimbor and
 desc: hidden by the Elves from Sauron.
 
 name:'Nenya'
-base-object:ring:Ring of Adamant
+base-object:ring:Anillo de Adamant
 graphics:=:d
 level:40
 weight:2

@@ -726,7 +726,7 @@ object:ring:Band:0x85:0x95
 object:ring:Anillo de Fuego:0x85:0x96
 
 # The Ring of Adamant 'Nenya'
-object:ring:Ring of Adamant:0x85:0x93
+object:ring:Anillo de Adamant:0x85:0x93
 
 # The Ring of Firmament 'Vilya'
 object:ring:Ring of Firmament:0x85:0x94
