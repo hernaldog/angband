@@ -651,15 +651,15 @@ object:magic book:[Tomo de Poder del Mago]:0x88:0x98
 
 # from old_class.txt
 
-object:magic book:[Magic for Beginners]:0x88:0x90
-object:magic book:[Conjurings and Tricks]:0x88:0x91
-object:magic book:[Incantations and Illusions]:0x88:0x92
-object:magic book:[Sorcery and Evocations]:0x88:0x93
-object:magic book:[Resistances of Scarabtarices]:0x88:0x94
-object:magic book:[Raal's Tome of Destruction]:0x88:0x95
-object:magic book:[Mordenkainen's Escapes]:0x88:0x96
-object:magic book:[Tenser's Transformations]:0x88:0x97
-object:magic book:[Kelek's Grimoire of Power]:0x88:0x98
+object:magic book:[Magia para Principiantes]:0x88:0x90
+object:magic book:[Conjuros y Trucos]:0x88:0x91
+object:magic book:[Encantamientos e ilusiones]:0x88:0x92
+object:magic book:[Hechicería y evocaciones]:0x88:0x93
+object:magic book:[Resistencias de Scarabtarices]:0x88:0x94
+object:magic book:[Tomo Destructor de Raal]:0x88:0x95
+object:magic book:[Escapes de Mordenkainen]:0x88:0x96
+object:magic book:[Transformaciones de Tenser]:0x88:0x97
+object:magic book:[Grimorio de Poder de Kelek]:0x88:0x98
 
 ##### Divine Books #####
 
