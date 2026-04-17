@@ -757,8 +757,8 @@ object:scroll:Creación de Trampas:0x86:0x80
 object:magic book:[Primeros Conjuros]:0x8A:0x80
 object:magic book:[Ataques y Conocimientos]:0x8A:0x81
 object:magic book:[Defensas Mágicas]:0x8A:0x83
-object:magic book:[Arcane Control]:0x8A:0x86
-object:magic book:[Wizard's Tome of Power]:0x8A:0x87
+object:magic book:[Control Arcano]:0x8A:0x86
+object:magic book:[Tomo de Poder del Mago]:0x8A:0x87
 
 # from old_class.txt
 

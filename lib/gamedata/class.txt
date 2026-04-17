@@ -348,7 +348,7 @@ effect:TIMED_INC:FASTCAST
 dice:5+1d5
 desc:Aumenta la velocidad de lanzamiento de hechizos en un 33% durante 5+1d5 turnos.
 
-book:magic book:dungeon:[Arcane Control]:6:arcane
+book:magic book:dungeon:[Control Arcano]:6:arcane
 book-graphics:?:r
 book-properties:30000:15:40 to 100
 
@@ -402,7 +402,7 @@ dice:$Dd8
 expr:D:PLAYER_LEVEL:+ 0
 desc:Dispara un rayo de fuerza de corto alcance.
 
-book:magic book:dungeon:[Wizard's Tome of Power]:5:arcane
+book:magic book:dungeon:[Tomo de Poder del Mago]:5:arcane
 book-graphics:?:r
 book-properties:50000:10:60 to 100
 
@@ -1450,7 +1450,7 @@ effect:DETECT_VISIBLE_MONSTERS
 effect-yx:22:40
 desc:Detecta todos los monstruos en el área inmediata, por un solo turno.
 
-book:magic book:dungeon:[Arcane Control]:4:arcane
+book:magic book:dungeon:[Control Arcano]:4:arcane
 
 spell:Teleport Self:17:6:35:5
 effect:TELEPORT
