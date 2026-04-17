@@ -42,7 +42,7 @@ Algunas capturas del estado actual de la traducción:
 
 ![Intro](captura1.png)
 ![Selección de personaje](captura2.png)
-![Inventario](captura3.png)
+![Inventario](captura31.png)
 ![Tienda](captura4.png)
 
 ## Pasos para la compilación si quieres colaborar
