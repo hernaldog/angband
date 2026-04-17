@@ -621,15 +621,15 @@ object:prayer book:[Ira de los Valar]:0x8D:0xFF
 
 # from old_class.txt
 
-object:prayer book:[Beginners Handbook]:0x86:0x89
-object:prayer book:[Words of Wisdom]:0x86:0x8A
-object:prayer book:[Chants and Blessings]:0x86:0x8B
-object:prayer book:[Exorcism and Dispelling]:0x86:0x8C
-object:prayer book:[Ethereal Openings]:0x86:0x8D
-object:prayer book:[Godly Insights]:0x86:0x8E
-object:prayer book:[Purifications and Healing]:0x86:0x8F
-object:prayer book:[Holy Infusions]:0x86:0x90
-object:prayer book:[Wrath of God]:0x86:0x91
+object:prayer book:[Manual del Principiante]:0x86:0x89
+object:prayer book:[Palabras de Sabiduría]:0x86:0x8A
+object:prayer book:[Cánticos y Bendiciones]:0x86:0x8B
+object:prayer book:[Exorcismo y Disipación]:0x86:0x8C
+object:prayer book:[Aperturas Etéreas]:0x86:0x8D
+object:prayer book:[Visiones Divinas]:0x86:0x8E
+object:prayer book:[Purificación y Sanación]:0x86:0x8F
+object:prayer book:[Infusiones Sagradas]:0x86:0x90
+object:prayer book:[Ira de Dios]:0x86:0x91
 
 ##### Nature Books #####
 
