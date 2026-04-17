@@ -2404,7 +2404,7 @@ desc: and ethereal swirl around it in an inextricably intermingled nimbus.
 ### Quest artifacts ###
 
 name:'Grond'
-base-object:hafted:Mighty Hammer
+base-object:hafted:Martillo Poderoso
 level:100
 weight:1000
 cost:500000
