@@ -1385,7 +1385,7 @@ object:ring:Anillo de Fuego:0x85:0x96
 object:ring:Anillo de Adamant:0x85:0x93
 
 # The Ring of Firmament 'Vilya'
-object:ring:Ring of Firmament:0x85:0x94
+object:ring:Anillo del Firmamento:0x85:0x94
 
 # The Ring of Power 'The One Ring'
 object:ring:Ring of Power:0x85:0x97

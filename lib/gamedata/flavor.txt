@@ -27,7 +27,7 @@ fixed:28:Anillo de Fuego:Red:Ruby
 fixed:40:Anillo de Adamant:Light Blue:Mithril
 
 # The Ring of Firmament 'Vilya'
-fixed:29:Ring of Firmament:Blue:Sapphire
+fixed:29:Anillo del Firmamento:Blue:Sapphire
 
 flavor:2:Green:Alexandrite
 flavor:3:Violet:Amethyst

@@ -193,6 +193,7 @@ y dejas "Manzana" ese index cambia, y si luego cargas una salvada de partida vie
 Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (Byte Order Market).
 
 ## Pendientes de traducción
+- Mejorar donde dice "T o m o s Nigromántico" por "Tomos de Nigrómantico"
 - Cambios de imágenes gráficas General Store, Armory, Magic Items, Black Market, Temple.
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
 - Varios objetos en plural como Ration, por Racións, y es Raciones, Pastels de Miel por Pasteles de Miel -> ok

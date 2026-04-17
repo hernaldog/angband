@@ -2217,7 +2217,7 @@ desc: centerpiece.  Nenya is one of the three Rings of Power created by
 desc: Celebrimbor and hidden by the Elves from Sauron.
 
 name:'Vilya'
-base-object:ring:Ring of Firmament
+base-object:ring:Anillo del Firmamento
 graphics:=:d
 level:80
 weight:2
