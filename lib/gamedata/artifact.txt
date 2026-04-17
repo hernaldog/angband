@@ -137,7 +137,7 @@ time:50+d50
 desc:The shining Star of the North, a treasured heirloom of Elendil's house.
 
 name:of Thráin
-base-object:light:Arkenstone
+base-object:light:Piedra del Arca
 graphics:~:y
 level:50
 weight:5

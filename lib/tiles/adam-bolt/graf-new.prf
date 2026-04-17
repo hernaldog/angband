@@ -891,7 +891,7 @@ object:light:Vial:0x8E:0x9D
 object:light:Estrella:0x8E:0x9E
 
 # The Arkenstone of Thrain
-object:light:Arkenstone:0x8E:0x9F
+object:light:Piedra del Arca:0x8E:0x9F
 
 # The Amulet of Carlammas
 object:amulet:Amulet:0x84:0x96
