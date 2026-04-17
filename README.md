@@ -26,10 +26,11 @@ tengo algo de experiencia en traducciones y quise aplicar lo aprendido allí. Es
 Por si no lo sabías, como este juego es una "rama" del juego [UMoria](https://umoria.org), donde hay que bajar al nivel 50 de profunidad a derrotar al Balrog. 
 En este case, hay las cosas se ponen mejor aún, y hay que bajar al nivel 100 y derrotar nada más y nada menos que a **Morgoth**. Link de [Wikipedia](https://es.wikipedia.org/wiki/Angband_(videojuego)).
 
-## Sitio base y Git de Angband
-- https://github.com/angband/angband
+## Enlaces
+- https://github.com/angband/angband GitHub Oficial
 - https://rephial.org Sitio con último release y código fuente para Windows, Linux y Mac
-- https://angband.readthedocs.io/en/latest/index.html Manual
+- https://angband.readthedocs.io/en/latest/index.html Manual oficial en inglés
+- https://angband.live/forums/forum/angband/development/257970-angband-4-2-6-in-spanish Hilo en los foros oficiales donde puedes opinar y apoyar esta iniciativa
 
 ## Licencia
 Se mantienen las mismas dos licencias originales:
