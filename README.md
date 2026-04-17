@@ -202,40 +202,41 @@ Contenido del script shell:
 
 ## Pendientes de traducción
 - Limpiar y dejar solo traducciones al español que aportan a la salida en pantalla del juego pero no comentarios u otros. A Excepción de nuevos parámetros que implican algo relacionado a la traducción: Pendiente
-- Ver si está correcto en venta de Magic Items a la derecha del precio dice "prom", ej "100 prom": ok, es prom de "avg" en inglés y se ve en el juego original
-- Mejorar donde dice "T o m o s Nigromántico" por "Tomos de Nigrómantico"
 - Cambios de imágenes gráficas General Store, Armory, Magic Items, Black Market, Temple.
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
-- Varios objetos en plural como Ration, por Racións, y es Raciones, Pastels de Miel por Pasteles de Miel -> ok
-- Cambios de unidades a Sistema métrico decimal:
-  - menú superior derecho lb a kg -> ok
-  - peso de listado de items menú superior de lb a kg -> ok
-  - lista de items al usar i inventario, w usar o d drop de lb a kg -> ok
-  - nuevo personaje unidades peso de st lb a kg -> ok
-  - nuevo personaje carga y sobrepeso de lb a kg -> ok
-  - nuevo personaje altura de pies y pulgadas a cms -> ok
-  - nuevo personaje de ft a mt (infravisión) -> ok
-  - tiendas de ciudad pesos de items de lb a kg -> ok
-
 - Has encontrado 18 piezas de oro en gold, buscar mejor traducción
 - enemigo bites you, enemigo misses you, etc
-- No se pueden traducir nombres de monstruos (monster.txt) si se hace indica error al cargar partida: ok
 - En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
 - Has detectado X objetos: 6 Light Teal Pocións. Acá o inglés o español y la s está rara. Archivo "obj-desc.c"
 - The flotating eye se despiertan. Y es uno solo. Está demás la "n"
 - Mejorar: The fruit bat (offscreen) se despertan.
 - Mejorar: "Ves un fruit bat (unhurt, hasted)
 - Mejorar: "Puedes aprender 2 rituals más."
+
+## Varios ok
+- No se pueden traducir nombres de monstruos (monster.txt) si se hace indica error al cargar partida: ok, al traducir un txt debe compilarserse e iniciar una nueva partida
 - Mejorar lista de items: un Apple: ok
-- Mejorar: "You have 7 Rations of Food (a).": ok
-- Con tecla d "Soltar qué objeto", por "¿Qué objeto soltar?": ok
-- You drop, debe decir "Soltaste x objeto": ok
 - The cutpurse ¡huye aterrorizados!. Dice con "s" y es uno solo: ok se dejó sin s fijo por ahora
 - Mejorar: "Puedes ver ningún monstuo": ok
 - Tecla S "Race and class abilities": ok
 - Tecla V información de licencia: ok
 - Mejorar "Puedes ver ningún objeto": ok
 - Mejorar "Este parece ser un lugar manso y resguardado: ok
+- Varios objetos en plural como Ration, por Racións, y es Raciones, Pastels de Miel por Pasteles de Miel -> ok
+- Mejorar donde dice "T o m o s Nigromántico" por "Tomos de Nigrómantico": ok
+- Ver si está correcto en venta de Magic Items a la derecha del precio dice "prom", ej "100 prom": ok, es prom de "avg" en inglés y se ve en el juego original
+- Mejorar: "You have 7 Rations of Food (a).": ok
+- Con tecla d "Soltar qué objeto", por "¿Qué objeto soltar?": ok
+- You drop, debe decir "Soltaste x objeto": ok
+- Cambios de unidades a Sistema métrico decimal: ok
+  - menú superior derecho lb a kg
+  - peso de listado de items menú superior de lb a kg
+  - lista de items al usar i inventario, w usar o d drop de lb a kg
+  - nuevo personaje unidades peso de st lb a kg
+  - nuevo personaje carga y sobrepeso de lb a kg
+  - nuevo personaje altura de pies y pulgadas a cms
+  - nuevo personaje de ft a mt (infravisión)
+  - tiendas de ciudad pesos de items de lb a kg
 
 ## Detalle de la traducción por archivo
 
