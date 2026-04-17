@@ -227,6 +227,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (By
 - Tecla V información de licencia: ok
 - Mejorar "Puedes ver ningún objeto": ok
 - Mejorar "Este parece ser un lugar manso y resguardado: ok
+- Se deja tal cual sin traducir "lib\gamedata\object_base.txt" al parecer solo es una especie de "puntero" del campo "type" de object.txt -> ok
 
 ## Detalle de la traducción por archivo
 
