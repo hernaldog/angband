@@ -307,7 +307,7 @@ dice:$Dd8
 expr:D:PLAYER_LEVEL:/ 2
 desc:Expulsa ácido en un cono de 60 grados, golpeando a todos los monstruos hasta 10 casillas.
 
-book:magic book:town:[Magical Defences]:6:arcane
+book:magic book:town:[Defensas Mágicas]:6:arcane
 book-graphics:?:R
 book-properties:1600:20:30 to 100
 
