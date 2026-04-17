@@ -166,9 +166,9 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 
 		case TV_SHADOW_BOOK:
 			if (terse)
-				return "& T o m o~ #";
+				return "& Tomo~ #";
 			else
-				return "& T o m o~ Nigromántico #";
+				return "& Tomo~ Necromántico~ #";
 
 		case TV_OTHER_BOOK:
 			if (terse)

@@ -201,6 +201,7 @@ Estos archivos sirven como "puente" entre otros archivos:
 - list-ignore-types.h: tiene tipos pero en string no creo que se muestre eso en pantalla
 
 ## Pendientes de traducción
+- Limpiar y dejar solo traducciones al español que aportan a la salida en pantalla del juego pero no comentarios u otros. A Excepción de nuevos parámetros que implican algo relacionado a la traducción: Pendiente
 - Ver si está correcto en venta de Magic Items a la derecha del precio dice "prom", ej "100 prom": ok, es prom de "avg" en inglés y se ve en el juego original
 - Mejorar donde dice "T o m o s Nigromántico" por "Tomos de Nigrómantico"
 - Cambios de imágenes gráficas General Store, Armory, Magic Items, Black Market, Temple.
