@@ -193,6 +193,13 @@ y dejas "Manzana" ese index cambia, y si luego cargas una salvada de partida vie
 ## Encoding
 Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (Byte Order Market).
 
+## Archivos que no se traducen
+
+Estos archivos sirven como "puente" entre otros archivos:
+
+- "lib\gamedata\object_base.txt": Al parecer solo es una especie de "puntero" del campo "type" de object.txt
+- list-ignore-types.h: tiene tipos pero en string no creo que se muestre eso en pantalla
+
 ## Pendientes de traducción
 - Ver si está correcto en venta de Magic Items a la derecha del precio dice "prom", ej "100 prom": ok, es prom de "avg" en inglés y se ve en el juego original
 - Mejorar donde dice "T o m o s Nigromántico" por "Tomos de Nigrómantico"
@@ -228,7 +235,6 @@ Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (By
 - Tecla V información de licencia: ok
 - Mejorar "Puedes ver ningún objeto": ok
 - Mejorar "Este parece ser un lugar manso y resguardado: ok
-- Se deja tal cual sin traducir "lib\gamedata\object_base.txt" al parecer solo es una especie de "puntero" del campo "type" de object.txt: ok
 
 ## Detalle de la traducción por archivo
 
