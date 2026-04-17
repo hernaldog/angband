@@ -924,10 +924,10 @@ object:ring:Anillo de Poder:0x84:0x95
 # object:light:Palantir:0x8E:0x9F
 
 # The Elfstone 'Elessar'
-object:amulet:Elfstone:0x8E:0x9F
+object:amulet:Piedra de Elfo:0x8E:0x9F
 
 # The Jewel 'Evenstar'
-object:amulet:Jewel:0x8E:0x9F
+object:amulet:Joya:0x8E:0x9F
 
 
 

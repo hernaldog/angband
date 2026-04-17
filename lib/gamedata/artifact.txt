@@ -2306,7 +2306,7 @@ desc: labored long in mountain smithies lie within it still, and as gossamer
 desc: it rests upon the bearer.
 
 name:'Elessar'
-base-object:amulet:Elfstone
+base-object:amulet:Piedra de Elfo
 graphics:":g
 level:60
 weight:3
@@ -2323,7 +2323,7 @@ desc:  Those who gaze through it see the aged and infirm as young again, and
 desc: its wearer brings healing after victory in battle.
 
 name:'Evenstar'
-base-object:amulet:Jewel
+base-object:amulet:Joya
 graphics:":w
 level:40
 weight:3

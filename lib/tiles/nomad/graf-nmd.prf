@@ -779,10 +779,10 @@ object:amulet:Colgante:0x84:0x96
 object:amulet:Collar:0x84:0x91
 
 # The Jewel 'Evenstar'
-object:amulet:Jewel:0x84:0x90
+object:amulet:Joya:0x84:0x90
 
 # The Elfstone 'Elessar'
-object:amulet:Elfstone:0x84:0x9C
+object:amulet:Piedra de Elfo:0x84:0x9C
 
 # The Ring of Barahir
 object:ring:Anillo:0x84:0x83

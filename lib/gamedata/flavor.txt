@@ -95,10 +95,10 @@ fixed:52:Amulet:Light Umber:Bronze
 fixed:55:Necklace:Yellow:Golden
 
 # New Artifact (14): The Elfstone 'Elessar'
-fixed:44:Elfstone:Green:Green
+fixed:44:Piedra de Elfo:Green:Green
 
 # New Artifact (15): The Jewel 'Evenstar'
-fixed:46:Jewel:White:White
+fixed:46:Joya:White:White
 
 #flavor:44:Yellow:Amber
 flavor:45:Light Umber:Driftwood

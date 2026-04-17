@@ -4,7 +4,7 @@
 Hernaldo González  - hernaldog@gmail.com
 
 # Status general de la traducción
-70%
+80%
 
 ## Bitácora principal
 - 21-02-2026: Se entiende como compilar en Windows 11 y hacen pruebas de concepto.
@@ -14,6 +14,7 @@ Hernaldo González  - hernaldog@gmail.com
 - 27-03-2026: Se logra editar los txt, se agrega tag nuevo en object.txt llamado "name_plural" y archivos c como obj-init.c, object.h, obj-desc.c, z-textblock.c para manejar objetos en Español que usan plural y que son muy diferentes al inglés, como "Ración-> Raciones" o "Perdigón -> Perdigones".
 - 28-03-2026: Se logra ampliar el método que imprime caracteres a color de ASCII a UTF-8 en effects-info.c, método copy_to_textblock_with_coloring(), esto para las tildes de lenguaje español cuando se inspecciona un objeto.
 - 02-04-2026: Se traduce la mayoría de los nombres de monstruos al español, esto en archivos monster.txt, monster_base.txt, pit.txt, summon.txt, borg-flow-kill.c. Faltan algunos que están relacionados a otros txt
+- 17-04-2026: Se traducen todos los objetos
 
 ## Motivación
 Me entantan los juegos Roguelike clásicos como Moria, Rogue, etc, a la vez, siempre me ha gustado el Señor de los Anillos, y que mejor que este gran juego que uno los dos mundos. 
@@ -210,14 +211,14 @@ Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (By
 
 - Has encontrado 18 piezas de oro en gold, buscar mejor traducción
 - enemigo bites you, enemigo misses you, etc
-- No se pueden traducir nombres de monstruos (monster.txt) si se hace indica error al cargar partida
+- No se pueden traducir nombres de monstruos (monster.txt) si se hace indica error al cargar partida: ok
 - En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
 - Has detectado X objetos: 6 Light Teal Pocións. Acá o inglés o español y la s está rara. Archivo "obj-desc.c"
 - The flotating eye se despiertan. Y es uno solo. Está demás la "n"
 - Mejorar: The fruit bat (offscreen) se despertan.
 - Mejorar: "Ves un fruit bat (unhurt, hasted)
 - Mejorar: "Puedes aprender 2 rituals más."
-- Mejorar lista de items: un Apple
+- Mejorar lista de items: un Apple: ok
 - Mejorar: "You have 7 Rations of Food (a).": ok
 - Con tecla d "Soltar qué objeto", por "¿Qué objeto soltar?": ok
 - You drop, debe decir "Soltaste x objeto": ok
@@ -227,7 +228,7 @@ Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (By
 - Tecla V información de licencia: ok
 - Mejorar "Puedes ver ningún objeto": ok
 - Mejorar "Este parece ser un lugar manso y resguardado: ok
-- Se deja tal cual sin traducir "lib\gamedata\object_base.txt" al parecer solo es una especie de "puntero" del campo "type" de object.txt -> ok
+- Se deja tal cual sin traducir "lib\gamedata\object_base.txt" al parecer solo es una especie de "puntero" del campo "type" de object.txt: ok
 
 ## Detalle de la traducción por archivo
 
