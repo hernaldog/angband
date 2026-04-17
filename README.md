@@ -128,15 +128,41 @@ y pégalo sobre la carpeta donde desomprimiste el ZIP original
 
 Así toma las librerías .dll correctas.
 
-## Traduciendo TXT
+## Consideraciones si vas a traducir
 
-Hay archivos txt que se pueden traducir de forma directa sin tener que compilar como \lib\screens\news.txt. Esto hace más simple la traducción.
+### Encoding
+Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (Byte Order Market).
 
-## Traduciendo archivos .c
+### Traduciendo archivos .c
 
 Una vez traducidos, antes de compilar hay que eliminar la carpeta /src/game generada en una compilación anterior. De lo contrario, no se ve reflejado el cambio.
 
-## Archivo shell script compila.sh
+### Archivos Txt
+
+Al momento de traducir, hay muchos archivos txt en una carpeta llamada "gamedata". La que tiene el código fuente es esta ruta de la raiz:
+
+    1. fuente\lib\gamedata
+
+y no esta:
+
+    2. fuente\src\game\lib\gamedata
+
+Al momento de compilar se traspasa de forma automática del lugar 1 al lugar 2. Así que no debes traducir desde el lugar 2 directamente.
+
+**NOTA:** La forma de leer estos txt, como object.txt, se hace por medio de un archivo llamado obj-init.c y un sistema de "parser". Los campos como "name" tienen un index que si cambias los valores por ejemplo, "Apple"
+y dejas "Manzana" ese index cambia, y si luego cargas una salvada de partida vieja, se rompe el juego. Por lo tanto, en esta traducción, las salvadas no serán compatible con otras versiones del juego en inglés.
+
+- Cuidado con los textos "anidados": Al cambiar el "name" de un item en object.txt, ejemplo "Wooden Torch" port "Antorcha de Madera", debes colocar el mismo nombre en class.txt -> ego_item.txt -> store.txt y en los archivos de tiles "lib\tiles\shockbolt\graf-shb-dark.prf"
+- El plural va con el símbolo ~ ejemplo: Antorcha~ de Madera y solo en el archivo object.txt
+
+### Archivos que no se traducen
+
+Estos archivos sirven como "puente" entre otros archivos por lo que no deben traducirse:
+
+- lib\gamedata\object_base.txt: Al parecer solo es una especie de "puntero" del campo "type" de object.txt
+- list-ignore-types.h: tiene tipos pero en string no creo que se muestre eso en pantalla
+
+### Archivo shell script compila.sh
 
 Usa este archivo SH para compilar más facilmente ya que elimina carpeta temporal, compila y además copia el ejecutable a la carpeta del juego original para probar más facilmente. Este archivo quedó subido a GIT.
 
@@ -173,33 +199,6 @@ Contenido del script shell:
     
     C:/juegos/angband-src-esp/src/game/angband.exe
 
-## Gamedata y txt
-
-Al momento de traducir, hay muchos archivos txt en una carpeta llamada "gamedata". La que tiene el código fuente es esta ruta de la raiz:
-
-    1. fuente\lib\gamedata
-
-y no esta:
-
-    2. fuente\src\game\lib\gamedata
-
-Al momento de compilar se traspasa de forma automática del lugar 1 al lugar 2. Así que no debes traducir desde el lugar 2 directamente.
-
-**NOTA:** La forma de leer estos txt, como object.txt, se hace por medio de un archivo llamado obj-init.c y un sistema de "parser". Los campos como "name" tienen un index que si cambias los valores por ejemplo, "Apple"
-y dejas "Manzana" ese index cambia, y si luego cargas una salvada de partida vieja, se rompe el juego. Por lo tanto, en esta traducción, las salvadas no serán compatible con otras versiones del juego en inglés.
-
-- Cuidado con los textos "anidados": Al cambiar el "name" de un item en object.txt, ejemplo "Wooden Torch" port "Antorcha de Madera", debes colocar el mismo nombre en class.txt -> ego_item.txt -> store.txt y en los archivos de tiles "lib\tiles\shockbolt\graf-shb-dark.prf"
-- El plural va con el símbolo ~ ejemplo: Antorcha~ de Madera y solo en el archivo object.txt
-
-## Encoding
-Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (Byte Order Market).
-
-## Archivos que no se traducen
-
-Estos archivos sirven como "puente" entre otros archivos:
-
-- lib\gamedata\object_base.txt: Al parecer solo es una especie de "puntero" del campo "type" de object.txt
-- list-ignore-types.h: tiene tipos pero en string no creo que se muestre eso en pantalla
 
 ## Pendientes de traducción
 - Limpiar y dejar solo traducciones al español que aportan a la salida en pantalla del juego pero no comentarios u otros. A Excepción de nuevos parámetros que implican algo relacionado a la traducción: Pendiente
