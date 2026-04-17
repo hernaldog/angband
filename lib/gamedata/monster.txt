@@ -8518,12 +8518,12 @@ desc: desprevenidos al alcance de sus garras venenosas. Lo primero que la mayor�
 desc: de los aventureros notan del engaño es cuando la tapa del cofre,
 desc: aparentemente abierta y acogedora, de repente le salen dientes y luego se
 desc: cierra de golpe sobre la mano del aventurero...
-mimic:chest:Cofre pequeño de madera
-mimic:chest:Cofre grande de madera
-mimic:chest:Cofre pequeño de hierro
-mimic:chest:Cofre grande de hierro
-mimic:chest:Cofre pequeño de acero
-mimic:chest:Cofre grande de acero
+mimic:chest:Cofre de madera pequeño
+mimic:chest:Cofre de madera grande
+mimic:chest:Cofre de hierro pequeño
+mimic:chest:Cofre de hierro grande
+mimic:chest:Cofre de acero pequeño
+mimic:chest:Cofre de acero grande
 
 name:vigilante silencioso
 base:golem

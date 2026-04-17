@@ -479,10 +479,10 @@ title:Alto Místico
 
 magic:1:350:5
 
-book:nature book:town:[Lesser Charms]:6:nature
+book:nature book:town:[Amuletos Menores]:6:nature
 book-graphics:?:y
 book-properties:25:40:1 to 100
-equip:nature book:[Lesser Charms]:1:1:none
+equip:nature book:[Amuletos Menores]:1:1:none
 
 spell:Detect Life:1:1:23:2
 effect:DETECT_LIVING_MONSTERS
@@ -517,7 +517,7 @@ dice:5+d$S
 expr:S:PLAYER_LEVEL:- 5
 desc:Ralentiza a un monstruo; más efectivo contra animales.
 
-book:nature book:town:[Gifts of Nature]:6:nature
+book:nature book:town:[Dones de la Naturaleza]:6:nature
 book-graphics:?:y
 book-properties:400:40:10 to 100
 
@@ -562,7 +562,7 @@ expr:D:PLAYER_LEVEL:/ 3 + 2
 desc:Hace que fragmentos exploten en una línea desde la tierra, golpeando objetos y
 desc: monstruos. La longitud de la línea aumenta con el nivel del jugador.
 
-book:nature book:dungeon:[Creature Dominion]:5:nature
+book:nature book:dungeon:[Dominio de las Criaturas]:5:nature
 book-graphics:?:o
 book-properties:10000:20:30 to 100
 
@@ -593,7 +593,7 @@ effect:SHAPECHANGE:bear
 desc:Te permite tomar la forma de un gran oso de las montañas, apartando
 desc: a tus enemigos con tus poderosas garras.
 
-book:nature book:dungeon:[Nature Craft]:5:nature
+book:nature book:dungeon:[Arte de la Naturaleza]:5:nature
 book-graphics:?:o
 book-properties:30000:15:40 to 100
 
@@ -636,7 +636,7 @@ dice:80
 desc:Cura todos los cortes, veneno, aturdimiento y aliento negro, y te deja
 desc: bien alimentado.
 
-book:nature book:dungeon:[Wild Forces]:5:nature
+book:nature book:dungeon:[Fuerzas Salvajes]:5:nature
 book-graphics:?:o
 book-properties:50000:10:60 to 100
 
@@ -985,10 +985,10 @@ title:Señor de la Noche
 
 magic:1:300:5
 
-book:shadow book:town:[Into the Shadows]:5:shadow
+book:shadow book:town:[Hacia las Sombras]:5:shadow
 book-graphics:?:P
 book-properties:25:40:1 to 100
-equip:shadow book:[Into the Shadows]:1:1:none
+equip:shadow book:[Hacia las Sombras]:1:1:none
 
 spell:Nether Bolt:1:1:22:2
 effect:BOLT:NETHER
@@ -1024,7 +1024,7 @@ desc:Detecta todos los monstruos que tienen un espíritu en el área inmediata,
 desc: y luego traza un mapa en una región a su alrededor, aumentando de tamaño con
 desc: el nivel de personaje.
 
-book:shadow book:town:[Dark Rituals]:5:shadow
+book:shadow book:town:[Rituales Oscuros]:5:shadow
 book-graphics:?:P
 book-properties:400:40:10 to 100
 
@@ -1068,7 +1068,7 @@ expr:S:PLAYER_LEVEL:* 2 + 10
 desc:Lanza un rayo que hiere, y hace que los monstruos lanzadores de hechizos tengan menos éxito
 desc: al lanzar hechizos.
 
-book:shadow book:town:[Fear and Torment]:5:shadow
+book:shadow book:town:[Miedo y Tormento]:5:shadow
 book-graphics:?:P
 book-properties:1600:20:30 to 100
 
@@ -1104,7 +1104,7 @@ desc:Te transforma en la forma de un huargo, y te otorga fuerza berserker
 desc: temporal, a costa de algunos puntos de vida.
 
 
-book:shadow book:dungeon:[Deadly Powers]:6:shadow
+book:shadow book:dungeon:[Poderes Mortales]:6:shadow
 book-graphics:?:p
 book-properties:30000:15:40 to 100
 
@@ -1161,7 +1161,7 @@ expr:S:PLAYER_LEVEL:* 2
 desc:Invoca una bola de oscuridad de radio 4.
 
 
-book:shadow book:dungeon:[Corruption of Spirit]:5:shadow
+book:shadow book:dungeon:[Corrupción del Espíritu]:5:shadow
 book-graphics:?:p
 book-properties:50000:10:60 to 100
 
@@ -1499,7 +1499,7 @@ equip:sword:Daga de Parada:1:1:none
 equip:bow:Arco Corto:1:1:none
 equip:arrow:Flecha:15:20:none
 equip:scroll:Palabra de Retorno:1:1:birth_no_recall
-equip:nature book:[Lesser Charms]:1:1:none
+equip:nature book:[Amuletos Menores]:1:1:none
 player-flags:FAST_SHOT | CHOOSE_SPELLS
 title:Corredor
 title:Andarín
@@ -1514,7 +1514,7 @@ title:Señor Montaraz
 
 magic:3:400:2
 
-book:nature book:town:[Lesser Charms]:6:nature
+book:nature book:town:[Amuletos Menores]:6:nature
 
 spell:Saciar Hambre:3:1:25:2
 effect:NOURISH:INC_TO
@@ -1553,7 +1553,7 @@ expr:S:PLAYER_LEVEL:/ 30 + 1 * 44
 desc:Traza el mapa del área cercana.
 
 
-book:nature book:dungeon:[Nature Craft]:5:nature
+book:nature book:dungeon:[Arte de la Naturaleza]:5:nature
 
 spell:Cover Tracks:20:20:40:40
 effect:TIMED_INC:COVERTRACKS:0:5
@@ -1603,7 +1603,7 @@ hitdie:8
 max-attacks:5
 min-weight:100
 strength-multiplier:5
-equip:shadow book:[Into the Shadows]:1:1:none
+equip:shadow book:[Hacia las Sombras]:1:1:none
 equip:food:Ración de Comida:1:3:none
 equip:light:Antorcha de Madera:1:3:none
 equip:sword:Talwar:1:1:none
@@ -1625,7 +1625,7 @@ title:Tirano
 
 magic:1:600:3
 
-book:shadow book:town:[Into the Shadows]:6:shadow
+book:shadow book:town:[Hacia las Sombras]:6:shadow
 
 spell:Seek Battle:1:1:15:2
 effect:DETECT_FEARFUL_MONSTERS
@@ -1674,7 +1674,7 @@ effect:CLEAR_VALUE
 desc:Tu mente se vuelve demasiado concentrada para ser ralentizada, paralizada o confundida
 desc: durante 12+d12 turnos.
 
-book:shadow book:town:[Fear and Torment]:5:shadow
+book:shadow book:town:[Miedo y Tormento]:5:shadow
 
 spell:Maim Foe:15:6:35:14
 effect:MELEE_BLOWS:MON_STUN:6
@@ -1708,7 +1708,7 @@ effect:SHAPECHANGE:werewolf
 desc:¡Con un grito desgarrador te conviertes en un hombre lobo!
 desc:  En esta forma te mueves, atacas y curas más rápido.
 
-book:shadow book:dungeon:[Deadly Powers]:4:shadow
+book:shadow book:dungeon:[Poderes Mortales]:4:shadow
 
 spell:Bloodlust:30:25:37:80
 effect:TIMED_INC:BLOODLUST:0:-1

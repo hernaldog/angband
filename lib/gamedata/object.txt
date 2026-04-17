@@ -4916,7 +4916,7 @@ time:100
 
 ##### Cofres #####
 
-name:Cofre~ pequeño~ de madera
+name:Cofre~ de madera pequeño
 type:chest
 graphics:~:s
 level:5
@@ -4926,7 +4926,7 @@ alloc:15:5 to 100
 attack:2d3:0:0
 armor:0:0
 
-name:Cofre~ grande~ de madera
+name:Cofre~ de madera grande
 type:chest
 graphics:~:s
 level:15
@@ -4936,7 +4936,7 @@ alloc:10:15 to 100
 attack:2d5:0:0
 armor:0:0
 
-name:Cofre~ pequeño~ de hierro
+name:Cofre~ de hierro pequeño
 type:chest
 graphics:~:s
 level:25
@@ -4946,7 +4946,7 @@ alloc:15:25 to 100
 attack:2d4:0:0
 armor:0:0
 
-name:Cofre~ grande~ de hierro
+name:Cofre~ de hierro grande
 type:chest
 graphics:~:s
 level:35
@@ -4956,7 +4956,7 @@ alloc:10:35 to 100
 attack:2d6:0:0
 armor:0:0
 
-name:Cofre~ pequeño~ de acero
+name:Cofre~ de acero pequeño
 type:chest
 graphics:~:s
 level:45
@@ -4966,7 +4966,7 @@ alloc:15:45 to 100
 attack:2d4:0:0
 armor:0:0
 
-name:Cofre~ grande~ de acero
+name:Cofre~ de acero grande
 type:chest
 graphics:~:s
 level:55

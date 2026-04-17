@@ -810,31 +810,31 @@ object:prayer book:[Ira de Dios]:0x8C:0x97
 
 # from class.txt
 
-object:nature book:[Lesser Charms]:0x8D:0x80
-object:nature book:[Gifts of Nature]:0x8D:0x81
-object:nature book:[Creature Dominion]:0x8D:0x82
-object:nature book:[Nature Craft]:0x8D:0x83
-object:nature book:[Wild Forces]:0x8C:0x9F
+object:nature book:[Amuletos Menores]:0x8D:0x80
+object:nature book:[Dones de la Naturaleza]:0x8D:0x81
+object:nature book:[Dominio de las Criaturas]:0x8D:0x82
+object:nature book:[Arte de la Naturaleza]:0x8D:0x83
+object:nature book:[Fuerzas Salvajes]:0x8C:0x9F
 
 ##### Shadow Books #####
 
 # from class.txt
 
-object:shadow book:[Into the Shadows]:0x8D:0x88
-object:shadow book:[Dark Rituals]:0x8D:0x89
-object:shadow book:[Fear and Torment]:0x8D:0x8A
-object:shadow book:[Deadly Powers]:0x8D:0x8B
-object:shadow book:[Corruption of Spirit]:0x8C:0x9B
+object:shadow book:[Hacia las Sombras]:0x8D:0x88
+object:shadow book:[Rituales Oscuros]:0x8D:0x89
+object:shadow book:[Miedo y Tormento]:0x8D:0x8A
+object:shadow book:[Poderes Mortales]:0x8D:0x8B
+object:shadow book:[Corrupción del Espíritu]:0x8C:0x9B
 
 
 ##### Chests #####
 
-object:chest:Small wooden chest:0x84:0x99
-object:chest:Large wooden chest:0x84:0x9A
-object:chest:Small iron chest:0x84:0x9B
-object:chest:Large iron chest:0x84:0x9C
-object:chest:Small steel chest:0x84:0x9D
-object:chest:Large steel chest:0x84:0x9E
+object:chest:Cofre de madera pequeño:0x84:0x99
+object:chest:Cofre de madera grande:0x84:0x9A
+object:chest:Cofre de hierro pequeño:0x84:0x9B
+object:chest:Cofre de hierro grande:0x84:0x9C
+object:chest:Cofre de acero pequeño:0x84:0x9D
+object:chest:Cofre de acero grande:0x84:0x9E
 
 
 
