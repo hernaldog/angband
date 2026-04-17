@@ -106,7 +106,7 @@
 ### Light Sources ###
 
 name:of Galadriel
-base-object:light:Phial
+base-object:light:Vial
 graphics:~:y
 level:5
 weight:10
@@ -122,7 +122,7 @@ desc:A small crystal phial containing the light of Eärendil's Star.
 desc:  Its light is imperishable, and near it darkness cannot endure.
 
 name:of Elendil
-base-object:light:Star
+base-object:light:Estrella
 graphics:~:y
 level:30
 weight:5

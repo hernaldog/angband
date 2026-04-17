@@ -758,10 +758,10 @@ object:crown:Corona Masiva de Hierro:0x8A:0x89
 ##### "Special Artifacts" #####
 
 # The Phial of Galadriel
-object:light:Phial:0x8A:0x80
+object:light:Vial:0x8A:0x80
 
 # The Star of Elendil
-object:light:Star:0x8A:0x81
+object:light:Estrella:0x8A:0x81
 
 # The Arkenstone of Thrain
 object:light:Arkenstone:0x8A:0x82

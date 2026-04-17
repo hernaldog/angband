@@ -699,10 +699,10 @@ object:crown:Corona Masiva de Hierro:0x80:0x92
 # These artifacts use numeric SVALs to ensure unique matches
 
 # The Phial of Galadriel
-object:light:Phial:0x87:0xB3
+object:light:Vial:0x87:0xB3
 
 # The Star of Elendil
-object:light:Star:0x87:0xB4
+object:light:Estrella:0x87:0xB4
 
 # The Arkenstone of Thrain
 object:light:Arkenstone:0x87:0xB5
