@@ -2106,11 +2106,11 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 		if (obj->activation)
 			prefix = "Cuando se activa, ";
 		else if (aimed)
-			prefix = "Cuando se dirige, ";
+			prefix = "Al apuntar, ";
 		else if (tval_is_edible(obj))
-			prefix = "Cuando se come, ";
+			prefix = "Al comer, ";
 		else if (tval_is_potion(obj))
-			prefix = "Cuando se bebe, ";
+			prefix = "Al beber, ";
 		else if (tval_is_scroll(obj))
 			prefix = "Cuando se lee, ";
 		else
