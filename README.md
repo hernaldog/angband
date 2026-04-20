@@ -259,6 +259,7 @@ Contenido del script shell:
 | lib\gamedata\blow_methods.txt            | 100      |
 | lib\gamedata\class.txt                   | 100      |
 | lib\gamedata\terrain.txt                 | 100      |
+| lib\gamedata\projection                  | 100      |
 | lib\help\commands.txt                    | 100      |
 | lib\help\index.txt                       | 100      |
 | lib\help\r_index.txt                     | 100      |

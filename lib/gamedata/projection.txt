@@ -97,7 +97,7 @@
 code:ACID
 name:acid
 type:element
-desc:acid
+desc:ácido
 player-desc:acid
 blind-desc:acid
 lash-desc:acid
@@ -113,7 +113,7 @@ color:Slate
 code:ELEC
 name:lightning
 type:element
-desc:lightning
+desc:relámpago
 player-desc:lightning
 blind-desc:lightning
 lash-desc:lightning
@@ -129,7 +129,7 @@ color:Blue
 code:FIRE
 name:fire
 type:element
-desc:fire
+desc:fuego
 player-desc:fire
 blind-desc:fire
 lash-desc:fire
@@ -145,7 +145,7 @@ color:Red
 code:COLD
 name:cold
 type:element
-desc:cold
+desc:frío
 player-desc:frost
 blind-desc:cold
 lash-desc:frost
@@ -161,7 +161,7 @@ color:White
 code:POIS
 name:poison
 type:element
-desc:poison
+desc:veneno
 player-desc:poison gas
 blind-desc:poison
 lash-desc:venom
@@ -177,7 +177,7 @@ color:Green
 code:LIGHT
 name:light
 type:element
-desc:light
+desc:luz
 player-desc:light
 blind-desc:something
 lash-desc:brightness
@@ -193,7 +193,7 @@ color:Orange
 code:DARK
 name:dark
 type:element
-desc:dark
+desc:oscuridad
 player-desc:dark
 blind-desc:something
 lash-desc:blackness
@@ -209,7 +209,7 @@ color:Light Dark
 code:SOUND
 name:sound
 type:element
-desc:sound
+desc:sonido
 player-desc:sound
 blind-desc:noise
 lash-desc:sound
@@ -225,7 +225,7 @@ color:Yellow
 code:SHARD
 name:shards
 type:element
-desc:shards
+desc:fragmentos
 player-desc:shards
 blind-desc:something sharp
 lash-desc:razors
@@ -241,7 +241,7 @@ color:Umber
 code:NEXUS
 name:nexus
 type:element
-desc:nexus
+desc:nexo
 player-desc:nexus
 blind-desc:something strange
 lash-desc:dislocation
@@ -257,7 +257,7 @@ color:Light Red
 code:NETHER
 name:nether
 type:element
-desc:nether
+desc:abismo
 player-desc:nether
 blind-desc:something cold
 lash-desc:withering
@@ -273,7 +273,7 @@ color:Light Green
 code:CHAOS
 name:chaos
 type:element
-desc:chaos
+desc:caos
 player-desc:chaos
 blind-desc:something strange
 lash-desc:confusion
@@ -289,7 +289,7 @@ color:Violet
 code:DISEN
 name:disenchantment
 type:element
-desc:disenchantment
+desc:desencantamiento
 player-desc:disenchantment
 blind-desc:something strange
 lash-desc:unmagic
@@ -305,7 +305,7 @@ color:Violet
 code:WATER
 name:water
 type:element
-desc:water
+desc:agua
 player-desc:water
 blind-desc:water
 lash-desc:water
@@ -319,7 +319,7 @@ color:Slate
 code:ICE
 name:ice
 type:element
-desc:ice
+desc:hielo
 player-desc:ice
 blind-desc:something sharp
 lash-desc:icicles
@@ -335,7 +335,7 @@ color:White
 code:GRAVITY
 name:gravity
 type:element
-desc:gravity
+desc:gravedad
 player-desc:gravity
 blind-desc:something strange
 lash-desc:gravity
@@ -349,7 +349,7 @@ color:Light Slate
 code:INERTIA
 name:inertia
 type:element
-desc:inertia
+desc:inercia
 player-desc:inertia
 blind-desc:something strange
 lash-desc:lassitude
@@ -363,7 +363,7 @@ color:Light Slate
 code:FORCE
 name:force
 type:element
-desc:force
+desc:fuerza
 player-desc:force
 blind-desc:something hard
 lash-desc:impact
@@ -377,7 +377,7 @@ color:Umber
 code:TIME
 name:time
 type:element
-desc:time
+desc:tiempo
 player-desc:time
 blind-desc:something strange
 lash-desc:ruination
@@ -405,7 +405,7 @@ color:Red
 code:METEOR
 name:meteors
 type:element
-desc:a meteor
+desc:un meteorito
 player-desc:meteor
 blind-desc:something
 lash-desc:meteoric iron
@@ -419,7 +419,7 @@ color:Red
 code:MISSILE
 name:magic missiles
 type:element
-desc:a missile
+desc:un proyectil
 player-desc:magical energy
 blind-desc:something
 divisor:6
@@ -446,7 +446,7 @@ color:Light dark
 code:HOLY_ORB
 name:holy power
 type:element
-desc:a holy orb
+desc:un orbe sagrado
 player-desc:holy power
 blind-desc:something
 lash-desc:holy power
@@ -460,7 +460,7 @@ color:Light Dark
 code:ARROW
 name:arrows
 type:element
-desc:an arrow
+desc:una flecha
 player-desc:arrows
 blind-desc:something sharp
 divisor:6
@@ -472,7 +472,7 @@ color:White
 
 code:LIGHT_WEAK
 type:environs
-desc:light
+desc:luz
 player-desc:weak light
 blind-desc:something
 obvious:1
@@ -480,7 +480,7 @@ color:ORANGE
 
 code:DARK_WEAK
 type:environs
-desc:darkness
+desc:oscuridad
 player-desc:darkness
 blind-desc:something
 obvious:0
@@ -488,63 +488,63 @@ color:L_DARK
 
 code:KILL_WALL
 type:environs
-desc:rock remover
+desc:eliminador de roca
 blind-desc:something
 obvious:1
 color:WHITE
 
 code:KILL_DOOR
 type:environs
-desc:destroys doors
+desc:destruye puertas
 blind-desc:something
 obvious:0
 color:WHITE
 
 code:KILL_TRAP
 type:environs
-desc:disables traps
+desc:desactiva trampas
 blind-desc:something
 obvious:0
 color:WHITE
 
 code:MAKE_DOOR
 type:environs
-desc:creates doors
+desc:crea puertas
 blind-desc:something
 obvious:0
 color:WHITE
 
 code:MAKE_TRAP
 type:environs
-desc:creates traps
+desc:crea trampas
 blind-desc:something
 obvious:0
 color:WHITE
 
 code:AWAY_UNDEAD
 type:monster
-desc:teleports undead away
+desc:teletransporta no muertos
 blind-desc:something
 obvious:0
 color:White
 
 code:AWAY_EVIL
 type:monster
-desc:teleports evil monsters away
+desc:teletransporta monstruos malignos
 blind-desc:something
 obvious:0
 color:White
 
 code:AWAY_SPIRIT
 type:monster
-desc:teleports monsters with a spirit away
+desc:teletransporta monstruos con espíritu
 blind-desc:something
 obvious:0
 color:White
 
 code:AWAY_ALL
 type:monster
-desc:teleports monsters away
+desc:teletransporta monstruos
 blind-desc:something
 obvious:1
 wake:1
@@ -552,28 +552,28 @@ color:White
 
 code:TURN_UNDEAD
 type:monster
-desc:turns undead
+desc:ahuyenta no muertos
 blind-desc:something
 obvious:0
 color:White
 
 code:TURN_EVIL
 type:monster
-desc:frightens evil monsters
+desc:asusta a monstruos malignos
 blind-desc:something
 obvious:0
 color:White
 
 code:TURN_LIVING
 type:monster
-desc:scares living monsters
+desc:asusta a monstruos vivos
 blind-desc:something
 obvious:0
 color:White
 
 code:TURN_ALL
 type:monster
-desc:causes monsters to flee
+desc:hace huir a los monstruos
 blind-desc:something
 obvious:0
 wake:1
@@ -581,21 +581,21 @@ color:White
 
 code:DISP_UNDEAD
 type:monster
-desc:damages undead
+desc:daña no muertos
 blind-desc:something
 obvious:0
 color:White
 
 code:DISP_EVIL
 type:monster
-desc:damages evil monsters
+desc:daña monstruos malignos
 blind-desc:something
 obvious:0
 color:White
 
 code:DISP_ALL
 type:monster
-desc:damages all monsters
+desc:daña a todos los monstruos
 blind-desc:something
 obvious:1
 wake:1
@@ -603,42 +603,42 @@ color:White
 
 code:SLEEP_UNDEAD
 type:monster
-desc:attempts to put undead to sleep
+desc:intenta dormir no muertos
 blind-desc:something
 obvious:0
 color:White
 
 code:SLEEP_EVIL
 type:monster
-desc:attempts to put evil monsters to sleep
+desc:intenta dormir monstruos malignos
 blind-desc:something
 obvious:0
 color:White
 
 code:SLEEP_ALL
 type:monster
-desc:attempts to put all monsters to sleep
+desc:intenta dormir a todos los monstruos
 blind-desc:something
 obvious:0
 color:White
 
 code:MON_CLONE
 type:monster
-desc:hastes, heals and magically duplicates monsters
+desc:acelera, sana y duplica mágicamente monstruos
 blind-desc:something
 obvious:1
 color:White
 
 code:MON_POLY
 type:monster
-desc:polymorphs monsters into other kinds of creatures
+desc:polimorfiza monstruos en otros tipos de criaturas
 blind-desc:something
 obvious:0
 color:White
 
 code:MON_HEAL
 type:monster
-desc:heals monsters
+desc:sana monstruos
 blind-desc:something
 obvious:1
 wake:1
@@ -646,7 +646,7 @@ color:White
 
 code:MON_SPEED
 type:monster
-desc:hastes monsters
+desc:acelera monstruos
 blind-desc:something
 obvious:1
 wake:1
@@ -654,7 +654,7 @@ color:White
 
 code:MON_SLOW
 type:monster
-desc:attempts to slow monsters
+desc:intenta ralentizar monstruos
 blind-desc:something
 obvious:1
 wake:1
@@ -662,28 +662,28 @@ color:White
 
 code:MON_CONF
 type:monster
-desc:attempts to confuse monsters
+desc:intenta confundir monstruos
 blind-desc:something
 obvious:0
 color:White
 
 code:MON_HOLD
 type:monster
-desc:attempts to hold monsters still
+desc:intenta paralizar monstruos
 blind-desc:something
 obvious:0
 color:White
 
 code:MON_STUN
 type:monster
-desc:attempts to stun monsters
+desc:intenta aturdir monstruos
 blind-desc:something
 obvious:0
 color:White
 
 code:MON_DRAIN
 type:monster
-desc:damages living monsters
+desc:daña monstruos vivos
 blind-desc:something
 obvious:1
 wake:1
@@ -691,8 +691,7 @@ color:White
 
 code:MON_CRUSH
 type:monster
-desc:kills monsters below a hitpoint threshold
+desc:mata monstruos debilitados
 blind-desc:something
 obvious:1
 color:White
-
