@@ -1,6 +1,6 @@
 /**
  * \file obj-info.c
- * \brief Código de descripción de objetos.
+ * \brief Object description code.
  *
  * Copyright (c) 2010 Andi Sidwell
  * Copyright (c) 2004 Robert Ruehlmann
@@ -40,7 +40,7 @@
 #include "z-textblock.h"
 
 /**
- * Describe el número de golpes posibles para determinados bonos de estadísticas
+ * Describes the number of blows possible for given stat bonuses
  */
 struct blow_info {
 	int str_plus;
@@ -50,7 +50,7 @@ struct blow_info {
 
 /**
  * ------------------------------------------------------------------------
- * Tablas de datos
+ * Data tables
  * ------------------------------------------------------------------------ */
 
 static const struct origin_type {
@@ -66,14 +66,14 @@ static const struct origin_type {
 
 /**
  * ------------------------------------------------------------------------
- * Código auxiliar para escribir listas
+ * List-writing utility code
  * ------------------------------------------------------------------------ */
 
 /**
- * Dado un array de cadenas, como así:
- *  { "inteligencia", "pez", "lente", "primo", "número" },
+ * Given an array of strings, as so:
+ *  { "intelligence", "fish", "lens", "prime", "number" },
  *
- * ... genera una lista como "inteligencia, pez, lente, primo, número.\n".
+ * ... output a list like "intelligence, fish, lens, prime, number.\n".
  */
 static void info_out_list(textblock *tb, const char *list[], size_t count)
 {
@@ -89,7 +89,7 @@ static void info_out_list(textblock *tb, const char *list[], size_t count)
 
 
 /**
- * Llena el receptáculo con todos los elementos que corresponden a la `lista` dada.
+ * Fills recepticle with all the elements that correspond to the given `list`.
  */
 static size_t element_info_collect(const bool list[], const char *recepticle[])
 {
@@ -106,12 +106,12 @@ static size_t element_info_collect(const bool list[], const char *recepticle[])
 
 /**
  * ------------------------------------------------------------------------
- * Código que utiliza las tablas de datos para describir aspectos de la
- * información de un objeto
+ * Code that makes use of the data tables to describe aspects of an 
+ * object's information
  * ------------------------------------------------------------------------ */
 
 /**
- * Describe las maldiciones de un objeto.
+ * Describe an item's curses.
  */
 static bool describe_curses(textblock *tb, const struct object *obj,
 		const bitflag flags[OF_SIZE])
@@ -137,7 +137,7 @@ static bool describe_curses(textblock *tb, const struct object *obj,
 
 
 /**
- * Describe las modificaciones a las estadísticas.
+ * Describe stat modifications.
  */
 static bool describe_stats(textblock *tb, const struct object *obj,
 						   oinfo_detail_t mode)
@@ -145,19 +145,19 @@ static bool describe_stats(textblock *tb, const struct object *obj,
 	size_t count = 0, i;
 	bool detail = false;
 
-	/* No dar los valores exactos para objetos de ego falsos, ya que cada
-	 * objeto real será diferente */
+	/* Don't give exact plusses for faked ego items as each real one will
+	 * be different */
 	bool suppress_details = mode & (OINFO_EGO | OINFO_FAKE) ? true : false;
 
-	/* Se conoce el hecho, pero no la magnitud, para los egos y objetos con
-	 * sabor de los que el jugador tiene conocimiento */
+	/* Fact of but not size of mods is known for egos and flavoured items
+	 * the player is aware of */
 	bool known_effect = false;
 	if (obj->known->ego)
 		known_effect = true;
 	if (tval_can_have_flavor_k(obj->kind) && object_flavor_is_aware(obj))
 		known_effect = true;
 
-	/* Ver qué tenemos */
+	/* See what we've got */
 	for (i = 0; i < OBJ_MOD_MAX; i++)
 		if (obj->known->modifiers[i]) {
 			count++;
@@ -172,12 +172,12 @@ static bool describe_stats(textblock *tb, const struct object *obj,
 		int val = obj->known->modifiers[i];
 		if (!val) continue;
 
-		/* Objeto real */
+		/* Actual object */
 		if (detail && !suppress_details) {
 			int attr = (val > 0) ? COLOUR_L_GREEN : COLOUR_RED;
 			textblock_append_c(tb, attr, "%+i %s.\n", val, desc);
 		} else if (known_effect)
-			/* Tipo de ego o descripción de joyería */
+			/* Ego type or jewellery description */
 			textblock_append(tb, "Afecta a tu %s\n", desc);
 	}
 
@@ -186,7 +186,7 @@ static bool describe_stats(textblock *tb, const struct object *obj,
 
 
 /**
- * Describe inmunidades, resistencias y vulnerabilidades otorgadas por un objeto.
+ * Describe immunities, resistances and vulnerabilities granted by an object.
  */
 static bool describe_elements(textblock *tb,
 							  const struct element_info el_info[])
@@ -198,7 +198,7 @@ static bool describe_elements(textblock *tb,
 
 	bool list[ELEM_MAX], prev = false;
 
-	/* Inmunidades */
+	/* Immunities */
 	for (i = 0; i < ELEM_MAX; i++)
 		list[i] = (el_info[i].res_level == 3);
 	count = element_info_collect(list, i_descs);
@@ -208,7 +208,7 @@ static bool describe_elements(textblock *tb,
 		prev = true;
 	}
 
-	/* Resistencias */
+	/* Resistances */
 	for (i = 0; i < ELEM_MAX; i++)
 		list[i] = (el_info[i].res_level == 1);
 	count = element_info_collect(list, r_descs);
@@ -218,7 +218,7 @@ static bool describe_elements(textblock *tb,
 		prev = true;
 	}
 
-	/* Vulnerabilidades */
+	/* Vulnerabilities */
 	for (i = 0; i < ELEM_MAX; i++)
 		list[i] = (el_info[i].res_level == -1);
 	count = element_info_collect(list, v_descs);
@@ -233,14 +233,14 @@ static bool describe_elements(textblock *tb,
 
 
 /**
- * Describe protecciones otorgadas por un objeto.
+ * Describe protections granted by an object.
  */
 static bool describe_protects(textblock *tb, const bitflag flags[OF_SIZE])
 {
 	const char *p_descs[OF_MAX];
 	int i, count = 0;
 
-	/* Protecciones */
+	/* Protections */
 	for (i = 1; i < OF_MAX; i++) {
 		struct obj_property *prop = lookup_obj_property(OBJ_PROPERTY_FLAG, i);
 		if (prop->subtype != OFT_PROT) continue;
@@ -259,7 +259,7 @@ static bool describe_protects(textblock *tb, const bitflag flags[OF_SIZE])
 }
 
 /**
- * Describe elementos que el objeto ignora.
+ * Describe elements an object ignores.
  */
 static bool describe_ignores(textblock *tb, const struct element_info el_info[])
 {
@@ -281,7 +281,7 @@ static bool describe_ignores(textblock *tb, const struct element_info el_info[])
 }
 
 /**
- * Describe elementos que dañan o destruyen un objeto.
+ * Describe elements that damage or destroy an object.
  */
 static bool describe_hates(textblock *tb, const struct element_info el_info[])
 {
@@ -304,7 +304,7 @@ static bool describe_hates(textblock *tb, const struct element_info el_info[])
 
 
 /**
- * Describe las sustentaciones de estadísticas.
+ * Describe stat sustains.
  */
 static bool describe_sustains(textblock *tb, const bitflag flags[OF_SIZE])
 {
@@ -328,7 +328,7 @@ static bool describe_sustains(textblock *tb, const bitflag flags[OF_SIZE])
 
 
 /**
- * Describe poderes diversos.
+ * Describe miscellaneous powers.
  */
 static bool describe_misc_magic(textblock *tb, const bitflag flags[OF_SIZE])
 {
@@ -353,7 +353,7 @@ static bool describe_misc_magic(textblock *tb, const bitflag flags[OF_SIZE])
 
 
 /**
- * Describe los ataques especiales (slays) en armas
+ * Describe slays and brands on weapons
  */
 static bool describe_slays(textblock *tb, const struct object *obj)
 {
@@ -391,7 +391,7 @@ static bool describe_slays(textblock *tb, const struct object *obj)
 }
 
 /**
- * Describe las marcas elementales (brands) en armas
+ * Describe slays and brands on weapons
  */
 static bool describe_brands(textblock *tb, const struct object *obj)
 {
@@ -429,8 +429,8 @@ static bool describe_brands(textblock *tb, const struct object *obj)
 }
 
 /**
- * Suma los niveles críticos de O-combat para obtener el número esperado de
- * dados añadidos cuando ocurre un crítico.
+ * Sum over the critical levels for O-combat to get the expected number of
+ * dice added when a critical happens.
  */
 static struct my_rational sum_o_criticals(const struct o_critical_level *head)
 {
@@ -438,7 +438,7 @@ static struct my_rational sum_o_criticals(const struct o_critical_level *head)
 	struct my_rational added_dice = my_rational_construct(0, 1);
 
 	while (head) {
-		/* El último nivel de críticos toma el resto. */
+		/* The last level of criticals takes all the remainder. */
 		struct my_rational level_added_dice = my_rational_construct(
 			head->added_dice, (head->next) ? head->chance : 1);
 
@@ -459,19 +459,20 @@ static struct my_rational sum_o_criticals(const struct o_critical_level *head)
 }
 
 /**
- * Considera los críticos en el cálculo de la habilidad de combate cuerpo a cuerpo.
+ * Account for criticals in the calculation of melee prowess
  *
- * Nota: Esto asume que los críticos son una función afín del daño previo,
- * ya que se utiliza para transformar la media de una tirada.
+ * Note -- This relies on the criticals being an affine function
+ * of previous damage, since we are used to transform the mean
+ * of a roll.
  */
 static void calculate_melee_crits(struct player_state *state, int weight,
 		int plus, int *mult, int *add, int *div, int *mult_round,
 		int *add_round, int *scl_round)
 {
 	/*
-	 * Asumir pesimistamente que el objetivo no tiene desventajas;
-	 * de lo contrario, esto debe coincidir con los cálculos en
-	 * player-attack.c's critical_melee().
+	 * Pessimistically assume that the target is not debuffed; otherwise
+	 * this must agree with the calculations in player-attack.c's
+	 * critical_melee().
 	 */
 	int crit_chance = z_info->m_crit_chance_weight_scl * weight
 		+ z_info->m_crit_chance_toh_scl * (state->to_h + plus)
@@ -481,12 +482,12 @@ static void calculate_melee_crits(struct player_state *state, int weight,
 		+ z_info->m_crit_chance_offset;
 	crit_chance = MIN(z_info->m_crit_chance_range, MAX(0, crit_chance));
 
-	/* Los resultados informados (*mult y *add) están escalados por 100. */
+	/* Reported results (*mult and *add) are scaled up by 100. */
 	*div = 100;
 
 	if (crit_chance > 0 && z_info->m_crit_level_head) {
 		/*
-		 * Ahora sumar sobre los posibles valores del poder crítico.
+		 * Now sum over the possible values of the critical power.
 		 */
 		const struct critical_level *this_l = z_info->m_crit_level_head;
 		int min_power = z_info->m_crit_power_weight_scl * weight + 1;
@@ -500,24 +501,23 @@ static void calculate_melee_crits(struct player_state *state, int weight,
 
 			if (max_power < this_l->cutoff || !this_l->next) {
 				/*
-				 * Todos los poderes críticos posibles restantes
-				 * caen en esta banda.
+				 * All the remaining possible critical powers
+				 * fall in this band.
 				 */
 				w = max_power - min_power + 1;
 				min_power = max_power + 1;
 			} else  {
 				if (min_power >= this_l->cutoff) {
 					/*
-					 * Esta banda no se superpone con los
-					 * poderes posibles.
+					 * This band doesn't overlap the
+					 * possible powers.
 					 */
 					this_l = this_l->next;
 					continue;
 				}
 				/*
-				 * Esta banda está completamente cubierta o su
-				 * parte superior está cubierta por los poderes
-				 * posibles.
+				 * This band is either fully covered or has its
+				 * upper part covered by the possible powers.
 				 */
 				w = this_l->cutoff - min_power;
 				min_power = this_l->cutoff;
@@ -527,9 +527,9 @@ static void calculate_melee_crits(struct player_state *state, int weight,
 			this_l = this_l->next;
 		}
 		/*
-		 * En otras palabras, el resultado de sin crítico (multiplicador 1
-		 * y sin término aditivo) más el resultado escalado de sumar sobre
-		 * los críticos posibles truncado al entero más cercano.
+		 * In other words, the result of no critical (multipler of 1
+		 * and no additive term) plus the scaled result of summing over
+		 * the possible criticals truncated to the nearest integer.
 		 */
 		scale = (z_info->m_crit_chance_range / *div)
 			* z_info->m_crit_power_random;
@@ -548,15 +548,15 @@ static void calculate_melee_crits(struct player_state *state, int weight,
 }
 
 /**
- * Considera los críticos en el cálculo de la habilidad de combate cuerpo a
- * cuerpo para O-combat; probabilidad de crítico * número medio de dados añadidos.
+ * Account for criticals in the calculation of melee prowess for O-combat;
+ * crit chance * average number of dice added
  *
- * \param state apunta al estado del jugador de interés.
- * \param obj es el arma cuerpo a cuerpo de interés.
- * \param dice se desreferencia y se establece a 100 * probabilidad de crítico *
- * número medio de dados añadidos.
- * \param frac_dice se desreferencia y se establece a la parte fraccionaria
- * truncada de *dice cuando se convierte a entero.
+ * \param state points to the state for the player of interest.
+ * \param obj is the melee weapon of interest.
+ * \param dice is dereferenced and set to 100 * crit chance * average number
+ * of dice added.
+ * \param frac_dice is dereferenced and set to the fractional part truncated
+ * from *dice when converted to an integer.
  */
 static void o_calculate_melee_crits(struct player_state *state,
 		const struct object *obj, unsigned int *dice,
@@ -564,8 +564,8 @@ static void o_calculate_melee_crits(struct player_state *state,
 {
 	if (z_info->o_m_crit_level_head) {
 		/*
-		 * Asumir pesimistamente que el objetivo no tiene desventajas.
-		 * De lo contrario, estos cálculos deben coincidir con los de
+		 * Pessimistically assume that the target is not debuffed.
+		 * Otherwise, these calculations must agree with those in
 		 * player-attack.c's o_critical_melee().
 		 */
 		struct player_state old_state = player->state;
@@ -589,8 +589,8 @@ static void o_calculate_melee_crits(struct player_state *state,
 
 			if (chance_num < chance_den) {
 				/*
-				 * El crítico solo ocurre parte del tiempo.
-				 * Escalar por la probabilidad y 100.
+				 * Critical only happens some of the time.
+				 * Scale by the chance and 100.
 				 */
 				struct my_rational t = my_rational_construct(
 					chance_num, chance_den);
@@ -600,36 +600,35 @@ static void o_calculate_melee_crits(struct player_state *state,
 				*dice = my_rational_to_uint(&t, 100, &tr);
 				*frac_dice = my_rational_construct(tr, t.d);
 			} else {
-				/* El crítico siempre ocurre. Escalar por 100. */
+				/* Critical always happens.  Scale by 100. */
 				*dice = my_rational_to_uint(
 					&z_info->o_m_max_added, 100, &tr);
 				*frac_dice = my_rational_construct(tr,
 					z_info->o_m_max_added.d);
 			}
 		} else {
-			/* Sin probabilidad de ocurrir, sin daño adicional. */
+			/* No chance of happening so no additional damage. */
 			*dice = 0;
 			*frac_dice = my_rational_construct(0, 1);
 		}
 	} else {
-		/* Sin niveles críticos definidos, sin daño adicional. */
+		/* No critical levels defined so no additional damage. */
 		*dice = 0;
 		*frac_dice = my_rational_construct(0, 1);
 	}
 }
 
 /**
- * Los críticos de proyectil siguen el mismo enfoque que los críticos cuerpo a
- * cuerpo.
+ * Missile crits follow the same approach as melee crits.
  */
 static void calculate_missile_crits(struct player_state *state, int weight,
 		int plus, bool launched, int *mult, int *add, int *div,
 		int *mult_round, int *add_round, int *scl_round)
 {
 	/*
-	 * Asumir pesimistamente que el objetivo no tiene desventajas;
-	 * de lo contrario, esto debe coincidir con los cálculos en
-	 * player-attack.c's critical_shot().
+	 * Pessimistically assume that the target is not debuffed; otherwise
+	 * this must agree with the calculations in player-attack.c's
+	 * critical_shot().
 	 */
 	int crit_chance = z_info->r_crit_chance_weight_scl * weight
 		+ z_info->r_crit_chance_toh_scl * (state->to_h + plus)
@@ -645,12 +644,12 @@ static void calculate_missile_crits(struct player_state *state, int weight,
 	}
 	crit_chance = MIN(z_info->r_crit_chance_range, MAX(0, crit_chance));
 
-	/* Los resultados informados (*mult y *add) están escalados por 100. */
+	/* Reported results (*mult and *add) are scaled up by 100. */
 	*div = 100;
 
 	if (crit_chance > 0 && z_info->r_crit_level_head) {
 		/*
-		 * Ahora sumar sobre los posibles valores del poder crítico.
+		 * Now sum over the possible values of the critical power.
 		 */
 		const struct critical_level *this_l = z_info->r_crit_level_head;
 		int min_power = z_info->r_crit_power_weight_scl * weight + 1;
@@ -664,24 +663,23 @@ static void calculate_missile_crits(struct player_state *state, int weight,
 
 			if (max_power < this_l->cutoff || !this_l->next) {
 				/*
-				 * Todos los poderes críticos posibles restantes
-				 * caen en esta banda.
+				 * All the remaining possible critical powers
+				 * fall in this band.
 				 */
 				w = max_power - min_power + 1;
 				min_power = max_power + 1;
 			} else  {
 				if (min_power >= this_l->cutoff) {
 					/*
-					 * Esta banda no se superpone con los
-					 * poderes posibles.
+					 * This band doesn't overlap the
+					 * possible powers.
 					 */
 					this_l = this_l->next;
 					continue;
 				}
 				/*
-				 * Esta banda está completamente cubierta o su
-				 * parte superior está cubierta por los poderes
-				 * posibles.
+				 * This band is either fully covered or has its
+				 * upper part covered by the possible powers.
 				 */
 				w = this_l->cutoff - min_power;
 				min_power = this_l->cutoff;
@@ -691,9 +689,9 @@ static void calculate_missile_crits(struct player_state *state, int weight,
 			this_l = this_l->next;
 		}
 		/*
-		 * En otras palabras, el resultado de sin crítico (multiplicador 1
-		 * y sin término aditivo) más el resultado escalado de sumar sobre
-		 * los críticos posibles truncado al entero más cercano.
+		 * In other words, the result of no critical (multipler of 1
+		 * and no additive term) plus the scaled result of summing over
+		 * the possible criticals truncated to the nearest integer.
 		 */
 		scale = (z_info->r_crit_chance_range / *div)
 			* z_info->r_crit_power_random;
@@ -712,16 +710,15 @@ static void calculate_missile_crits(struct player_state *state, int weight,
 }
 
 /**
- * Los críticos de proyectil siguen el mismo enfoque que los críticos cuerpo a
- * cuerpo.
+ * Missile crits follow the same approach as melee crits.
  *
- * \param state apunta al estado del jugador de interés.
- * \param obj es el proyectil de interés.
- * \param launcher es el lanzador de interés o NULL para un proyectil arrojado.
- * \param dice se desreferencia y se establece a 100 * probabilidad de crítico *
- * número medio de dados añadidos.
- * \param frac_dice se desreferencia y se establece a la parte fraccionaria
- * truncada de *dice cuando se convierte a entero.
+ * \param state points to the state for the player of interest.
+ * \param obj is the missile of interest.
+ * \param launcher is the launcher of interest or NULL for a thrown missile.
+ * \param dice is dereferenced and set to 100 * crit chance * average number
+ * of dice added.
+ * \param frac_dice is dereferenced and set to the fractional part truncated
+ * from *dice when converted to an integer.
  */
 static void o_calculate_missile_crits(struct player_state *state,
 		const struct object *obj, const struct object *launcher,
@@ -729,8 +726,8 @@ static void o_calculate_missile_crits(struct player_state *state,
 {
 	if (z_info->o_r_crit_level_head) {
 		/*
-		 * Asumir pesimistamente que el objetivo no tiene desventajas.
-		 * De lo contrario, estos cálculos deben coincidir con los de
+		 * Pessimistically assume that the target is not debuffed.
+		 * Otherwise, these calculations must agree with those in
 		 * player-attack.c's o_critical_shot().
 		 */
 		struct player_state old_state = player->state;
@@ -761,8 +758,8 @@ static void o_calculate_missile_crits(struct player_state *state,
 
 			if (chance_num < chance_den) {
 				/*
-				 * El crítico solo ocurre parte del tiempo.
-				 * Escalar por la probabilidad y 100.
+				 * Critical only happens some of the time.
+				 * Scale by the chance and 100.
 				 */
 				struct my_rational t = my_rational_construct(
 					chance_num, chance_den);
@@ -772,7 +769,7 @@ static void o_calculate_missile_crits(struct player_state *state,
 				*dice = my_rational_to_uint(&t, 100, &tr);
 				*frac_dice = my_rational_construct(tr, t.d);
 			} else {
-				/* El crítico siempre ocurre. Escalar por 100. */
+				/* Critical always happens.  Scale by 100. */
 				*dice = my_rational_to_uint(
 					&z_info->o_r_max_added, 100,
 					&tr);
@@ -780,39 +777,39 @@ static void o_calculate_missile_crits(struct player_state *state,
 					z_info->o_r_max_added.d);
 			}
 		} else {
-			/* Sin probabilidad de ocurrir, sin daño adicional. */
+			/* No chance of happening so no additional damage. */
 			*dice = 0;
 			*frac_dice = my_rational_construct(0, 1);
 		}
 	} else {
-		/* Sin niveles críticos definidos, sin daño adicional. */
+		/* No critical levels defined so no additional damage. */
 		*dice = 0;
 		*frac_dice = my_rational_construct(0, 1);
 	}
 }
 
 /**
- * Obtiene los indicadores (flags) del objeto que el jugador debería conocer
- * para la combinación dada de objeto/modo de visualización.
+ * Get the object flags the player should know about for the given object/
+ * viewing mode combination.
  */
 static void get_known_flags(const struct object *obj, const oinfo_detail_t mode,
 							bitflag flags[OF_SIZE])
 {
-	/* Obtener los indicadores del objeto */
+	/* Grab the object flags */
 	if (mode & OINFO_EGO) {
 			object_flags(obj, flags);
 	} else {
 		object_flags_known(obj, flags);
 
-		/* No incluir indicadores base cuando es escueto */
+		/* Don't include base flags when terse */
 		if (mode & OINFO_TERSE)
 			of_diff(flags, obj->kind->base->flags);
 	}
 }
 
 /**
- * Obtiene la información de elementos del objeto que el jugador debería
- * conocer para la combinación dada de objeto/modo de visualización.
+ * Get the object element info the player should know about for the given
+ * object/viewing mode combination.
  */
 static void get_known_elements(const struct object *obj,
 							   const oinfo_detail_t mode,
@@ -820,49 +817,49 @@ static void get_known_elements(const struct object *obj,
 {
 	size_t i;
 
-	/* Obtener la información de elementos */
+	/* Grab the element info */
 	for (i = 0; i < ELEM_MAX; i++) {
-		/* Informar sobre egos falsos o información conocida de elementos */
+		/* Report fake egos or known element info */
 		if (player->obj_k->el_info[i].res_level || (mode & OINFO_SPOIL))
 			el_info[i].res_level = obj->known->el_info[i].res_level;
 		else
 			el_info[i].res_level = 0;
 		el_info[i].flags = obj->known->el_info[i].flags;
 
-		/* Ignorar un elemento: */
+		/* Ignoring an element: */
 		if (obj->el_info[i].flags & EL_INFO_IGNORE) {
-			/* Si el objeto normalmente se destruye, mencionar la ignorancia; */
+			/* If the object is usually destroyed, mention the ignoring; */
 			if (obj->el_info[i].flags & EL_INFO_HATES)
 				el_info[i].flags &= ~(EL_INFO_HATES);
-			/* De lo contrario, no decir nada */
+			/* Otherwise, don't say anything */
 			else
 				el_info[i].flags &= ~(EL_INFO_IGNORE);
 		}
 
-		/* No incluir el indicador de odio cuando es escueto */
+		/* Don't include hates flag when terse */
 		if (mode & OINFO_TERSE)
 			el_info[i].flags &= ~(EL_INFO_HATES);
 	}
 }
 
 /**
- * Obtiene información sobre el número de golpes posibles para el jugador
- * con el objeto dado.
+ * Gets information about the number of blows possible for the player with
+ * the given object.
  *
- * Rellena si el objeto es demasiado pesado para ser empuñado eficazmente,
- * y la información de possible_blows[] de .str_plus y .dex_plus necesarios
- * para lograr el número aproximado de golpes en centiblows.
+ * Fills in whether the object is too heavy to wield effectively,
+ * and the possible_blows[] information of .str_plus and .dex_plus needed
+ * to achieve the approximate number of blows in centiblows. 
  *
- * `max_blows` debe ser al menos 1 para contener el número actual de golpes.
- * `possible_blows` debe tener al menos el tamaño de [`max_blows`] y se limitará
- * a ese número de entradas. El máximo teórico es STAT_RANGE * 2 si se diera
- * un golpe extra/mejora de velocidad para cada combinación de FUE y DES.
+ * `max_blows` must be at least 1 to hold the current number of blows
+ * `possible_blows` must be at least [`max_blows`] in size, and will be limited
+ * to that number of entries.  The theoretical maximum is STAT_RANGE * 2 if
+ * an extra blow/speed boost was given for each combination of STR and DEX.
  *
- * Devuelve el número de entradas realizadas en la tabla possible_blows[], o 0
- * si el objeto no es un arma.
+ * Returns the number of entries made in the possible_blows[] table, or 0
+ * if the object is not a weapon.
  *
- * Nótese que los resultados no tienen sentido si se llama a un objeto de ego
- * falso, ya que el ego real puede tener propiedades diferentes.
+ * Note that the results are meaningless if called on a fake ego object as
+ * the actual ego may have different properties.
  */
 static int obj_known_blows(const struct object *obj, int max_num,
 						   struct blow_info possible_blows[])
@@ -878,35 +875,35 @@ static int obj_known_blows(const struct object *obj, int max_num,
 	struct object *current_weapon = slot_object(player, weapon_slot);
 	int num = 0;
 
-	/* No es un arma - ¡sin golpes! */
+	/* Not a weapon - no blows! */
 	if (!tval_is_melee_weapon(obj)) return 0;
 
-	/* Fingir que estamos empuñando el objeto */
+	/* Pretend we're wielding the object */
 	player->body.slots[weapon_slot].obj = (struct object *) obj;
 
-	/* Calcular el estado hipotético del jugador */
+	/* Calculate the player's hypothetical state */
 	memcpy(&state, &player->state, sizeof(state));
 	state.stat_ind[STAT_STR] = 0; //Hack - NRM
 	state.stat_ind[STAT_DEX] = 0; //Hack - NRM
 	calc_bonuses(player, &state, true, false);
 
-	/* La primera entrada es siempre el número actual de golpes. */
+	/* First entry is always the current num of blows. */
 	possible_blows[num].str_plus = 0;
 	possible_blows[num].dex_plus = 0;
 	possible_blows[num].centiblows = state.num_blows;
 	num++;
 
-	/* Verificar si FUE o DES extra darían golpes adicionales */
+	/* Check to see if extra STR or DEX would yield extra blows */
 	old_blows = state.num_blows;
 	dex_plus_bound = STAT_RANGE - state.stat_ind[STAT_DEX];
 	str_plus_bound = STAT_RANGE - state.stat_ind[STAT_STR];
 
-	/* Recalcular con estadísticas aumentadas */
+	/* Re-calculate with increased stats */
 	for (dex_plus = 0; dex_plus < dex_plus_bound; dex_plus++) {
 		for (str_plus = 0; str_plus < str_plus_bound; str_plus++) {
 			int new_blows = 0;
 
-			/* Improbable */
+			/* Unlikely */
 			if (num == max_num) {
 				player->body.slots[weapon_slot].obj = current_weapon;
 				return num;
@@ -917,8 +914,8 @@ static int obj_known_blows(const struct object *obj, int max_num,
 			calc_bonuses(player, &state, true, false);
 			new_blows = state.num_blows;
 
-			/* Probar que este golpe extra es una combinación nueva
-			 * de fue/des, no una repetición */
+			/* Test to make sure that this extra blow is a
+			 * new str/dex combination, not a repeat */
 			if (((new_blows - new_blows % 10) > (old_blows - old_blows % 10)) &&
 				(str_plus < str_done || str_done == -1)) {
 				possible_blows[num].str_plus = str_plus;
@@ -931,8 +928,9 @@ static int obj_known_blows(const struct object *obj, int max_num,
 				break;
 			}
 
-			/* Si la combinación no incrementa el número de golpes
-			 * mostrado, podría consumir un poco menos de energía */
+			/* If the combination doesn't increment
+			 * the displayed blows number, it might still
+			 * take a little less energy */
 			if ((new_blows > old_blows) &&
 				(str_plus < str_faster || str_faster == -1) &&
 				(str_plus < str_done || str_done == -1)) {
@@ -946,7 +944,7 @@ static int obj_known_blows(const struct object *obj, int max_num,
 		}
 	}
 
-	/* Dejar de fingir */
+	/* Stop pretending */
 	player->body.slots[weapon_slot].obj = current_weapon;
 
 	return num;
@@ -954,25 +952,25 @@ static int obj_known_blows(const struct object *obj, int max_num,
 
 
 /**
- * Describe los golpes.
+ * Describe blows.
  */
 static bool describe_blows(textblock *tb, const struct object *obj)
 {
 	int i;
-	struct blow_info blow_info[STAT_RANGE * 2]; /* Máximo (muy) teórico */
+	struct blow_info blow_info[STAT_RANGE * 2]; /* (Very) theoretical max */
 	int num_entries = 0;
 
 	num_entries = obj_known_blows(obj, STAT_RANGE * 2, blow_info);
 	if (num_entries == 0) return false;
 
-	/* La primera entrada es siempre los golpes actuales (+0, +0) */
+	/* First entry is always current blows (+0, +0) */
 	textblock_append_c(tb, COLOUR_L_GREEN, "%d.%d ",
 			blow_info[0].centiblows / 100, 
 			(blow_info[0].centiblows / 10) % 10);
 	textblock_append(tb, "golpe%s/ronda.\n",
 			(blow_info[0].centiblows > 100) ? "s" : "");
 
-	/* Luego listar combinaciones que dan más golpes / mejora de velocidad */
+	/* Then list combinations that give more blows / speed boost */
 	for (i = 1; i < num_entries; i++) {
 		struct blow_info entry = blow_info[i];
 
@@ -994,31 +992,33 @@ static bool describe_blows(textblock *tb, const struct object *obj)
 
 
 /**
- * Obtiene información sobre el daño medio por turno que se puede infligir si
- * el jugador usa el arma dada. Utiliza los cálculos de daño estándar (no O).
+ * Gets information about the average damage/turn that can be inflicted if
+ * the player uses the given weapon.  Uses the standard (not O) damage
+ * calculations.
  *
- * \param obj es el arma cuerpo a cuerpo o proyectil lanzado/arrojado a evaluar.
- * \param normal_damage se desreferencia y se establece al daño medio por
- * turno multiplicado por diez si no hay marcas o ataques especiales efectivos.
- * \param brand_damage debe apuntar a z_info->brand_max ints. brand_damage[i]
- * se establece al daño medio por turno multiplicado por diez con la i-ésima
- * marca del array global brands si esa marca está presente y no es anulada por
- * una marca más potente también presente para el mismo elemento; en caso
- * contrario, brand_damage[i] no se modifica.
- * \param slay_damage debe apuntar a z_info->slay_max ints. slay_damage[i]
- * se establece al daño medio por turno multiplicado por diez con el i-ésimo
- * ataque especial del array global slays si ese ataque está presente y no es
- * anulado por un ataque más potente también presente para los mismos monstruos;
- * en caso contrario, slay_damage[i] no se modifica.
- * \param nonweap_slay se desreferencia y se establece a true si un ataque
- * especial o marca fuera del arma afecta al daño, o a false si no.
- * \param throw hace que, si es true, el daño se calcule como si obj fuera
- * arrojado.
- * \return true si hay al menos una marca o ataque especial conocido que pueda
- * afectar al daño; en caso contrario, devuelve false.
+ * \param obj is the melee weapon or launched/thrown missile to evaluate.
+ * \param normal_damage is dereferenced and set to the average damage per
+ * turn times ten if no brands or slays are effective.
+ * \param brand_damage must point to z_info->brand_max ints.  brand_damage[i]
+ * is set to the average damage per turn times ten with the ith brand from the
+ * global brands array if that brand is present and is not overridden by a
+ * more powerful brand that is also present for the same element; otherwise,
+ * brand_damage[i] is not modified.
+ * \param slay_damage must point to z_info->slay_max ints.  slay_damage[i]
+ * is set to the average damage per turn times ten with the ith slay from the
+ * global slays array if that slay is present and is not overridden by a
+ * more powerful slay that is also present for the same monsters; otherwise,
+ * slay_damage[i] is not modified.
+ * \param nonweap_slay is dereferenced and set to true if an off-weapon slay
+ * or brand affects the damage or to false if no off-weapon slay or brand
+ * affects the damage.
+ * \param throw causes, if true, the damage to be calculated as if obj is
+ * thrown.
+ * \return true if there is at least one known brand or slay that could
+ * affect the damage; otherwise, return false.
  *
- * Nótese que los resultados no tienen sentido si se llama a un objeto de ego
- * falso, ya que el ego real puede tener propiedades diferentes.
+ * Note that the results are meaningless if called on a fake ego object as
+ * the actual ego may have different properties.
  */
 bool obj_known_damage(const struct object *obj, int *normal_damage,
 							 int *brand_damage, int *slay_damage,
@@ -1045,25 +1045,25 @@ bool obj_known_damage(const struct object *obj, int *normal_damage,
 	int weapon_slot = slot_by_name(player, "weapon");
 	struct object *current_weapon = slot_object(player, weapon_slot);
 
-	/* Fingir que estamos empuñando el objeto si es un arma */
+	/* Pretend we're wielding the object if it's a weapon */
 	if (weapon)
 		player->body.slots[weapon_slot].obj = (struct object *) obj;
 
-	/* Calcular el estado hipotético del jugador */
+	/* Calculate the player's hypothetical state */
 	memcpy(&state, &player->state, sizeof(state));
 	state.stat_ind[STAT_STR] = 0; //Hack - NRM
 	state.stat_ind[STAT_DEX] = 0; //Hack - NRM
 	calc_bonuses(player, &state, true, false);
 
-	/* Dejar de fingir */
+	/* Stop pretending */
 	player->body.slots[weapon_slot].obj = current_weapon;
 
-	/* Terminar si no se conocen los dados */
+	/* Finish if dice not known */
 	dice = obj->known->dd;
 	sides = obj->known->ds;
 	if (!dice || !sides) return false;
 
-	/* Calcular daño */
+	/* Calculate damage */
 	dam = ((sides + 1) * dice * 5);
 
 	plus += object_to_hit(obj->known);
@@ -1094,21 +1094,21 @@ bool obj_known_damage(const struct object *obj, int *normal_damage,
 
 	if (ammo) multiplier = player->state.ammo_mult;
 
-	/* Obtener las marcas */
+	/* Get the brands */
 	total_brands = mem_zalloc(z_info->brand_max * sizeof(bool));
 	copy_brands(&total_brands, obj->known->brands);
 	if (ammo && bow->known)
 		copy_brands(&total_brands, bow->known->brands);
 
-	/* Obtener los ataques especiales */
+	/* Get the slays */
 	total_slays = mem_zalloc(z_info->slay_max * sizeof(bool));
 	copy_slays(&total_slays, obj->known->slays);
 	if (ammo && bow->known)
 		copy_slays(&total_slays, bow->known->slays);
 
 	/*
-	 * Las armas cuerpo a cuerpo pueden obtener ataques especiales y marcas
-	 * de otros objetos o de efectos temporales.
+	 * Melee weapons may get slays and brands from other items or from
+	 * temporary effects.
 	 */
 	*nonweap_slay = false;
 	if (weapon)	{
@@ -1122,7 +1122,7 @@ bool obj_known_damage(const struct object *obj, int *normal_damage,
 			else
 				continue;
 
-			/* Reemplazar las listas antiguas con las nuevas */
+			/* Replace the old lists with new ones */
 			copy_brands(&total_brands, slot_obj->known->brands);
 			copy_slays(&total_slays, slot_obj->known->slays);
 		}
@@ -1142,14 +1142,14 @@ bool obj_known_damage(const struct object *obj, int *normal_damage,
 		}
 	}
 
-	/* Obtener daño para cada marca activa */
+	/* Get damage for each brand that is active */
 	for (i = 1; i < z_info->brand_max; i++) {
 		if (!total_brands[i]) {
 			continue;
 		}
 		has_brands_or_slays = true;
 
-		/* Incluir daño extra y marca en el promedio indicado */
+		/* Include bonus damage and brand in stated average */
 		temp0 = dam * (multiplier + brands[i].multiplier
 			- melee_adj_mult) + xtra_precrit;
 		temp1 = temp0 * crit_mult + 10 * crit_add
@@ -1173,14 +1173,14 @@ bool obj_known_damage(const struct object *obj, int *normal_damage,
 		brand_damage[i] = total_dam;
 	}
 
-	/* Obtener daño para cada ataque especial activo */
+	/* Get damage for each slay that is active */
 	for (i = 1; i < z_info->slay_max; i++) {
 		if (!total_slays[i]) {
 			continue;
 		}
 		has_brands_or_slays = true;
 
-		/* Incluir daño extra y ataque especial en el promedio indicado */
+		/* Include bonus damage and slay in stated average */
 		temp0 = dam * (multiplier + slays[i].multiplier
 			- melee_adj_mult) + xtra_precrit;
 		temp1 = temp0 * crit_mult + 10 * crit_add
@@ -1204,7 +1204,7 @@ bool obj_known_damage(const struct object *obj, int *normal_damage,
 		slay_damage[i] = total_dam;
 	}
 
-	/* Incluir daño extra en el promedio indicado */
+	/* Include bonus damage in stated average */
 	temp0 = dam * multiplier + xtra_precrit;
 	temp1 = temp0 * crit_mult + 10 * crit_add
 		+ (temp0 * crit_round_mult + 10 * crit_round_add)
@@ -1212,7 +1212,7 @@ bool obj_known_damage(const struct object *obj, int *normal_damage,
 	total_dam = temp1 / crit_div + xtra_postcrit;
 	round = temp1 % crit_div;
 
-	/* Daño normal, sin considerar marcas o ataques especiales */
+	/* Normal damage, not considering brands or slays */
 	if (weapon) {
 		temp0 = total_dam * old_blows
 			+ (round * old_blows) / crit_div;
@@ -1234,31 +1234,32 @@ bool obj_known_damage(const struct object *obj, int *normal_damage,
 
 
 /**
- * Obtiene información sobre el daño medio por turno que se puede infligir si
- * el jugador usa el arma dada. Utiliza los cálculos de daño de OAngband.
+ * Gets information about the average damage/turn that can be inflicted if
+ * the player uses the given weapon.  Uses the OAngband damage calculations.
  *
- * \param obj es el arma cuerpo a cuerpo o proyectil lanzado/arrojado a evaluar.
- * \param normal_damage se desreferencia y se establece al daño medio por
- * turno multiplicado por diez si no hay marcas o ataques especiales efectivos.
- * \param brand_damage debe apuntar a z_info->brand_max ints. brand_damage[i]
- * se establece al daño medio por turno multiplicado por diez con la i-ésima
- * marca del array global brands si esa marca está presente y no es anulada por
- * una marca más potente también presente para el mismo elemento; en caso
- * contrario, brand_damage[i] no se modifica.
- * \param slay_damage debe apuntar a z_info->slay_max ints. slay_damage[i]
- * se establece al daño medio por turno multiplicado por diez con el i-ésimo
- * ataque especial del array global slays si ese ataque está presente y no es
- * anulado por un ataque más potente también presente para los mismos monstruos;
- * en caso contrario, slay_damage[i] no se modifica.
- * \param nonweap_slay se desreferencia y se establece a true si un ataque
- * especial o marca fuera del arma afecta al daño, o a false si no.
- * \param throw hace que, si es true, el daño se calcule como si obj fuera
- * arrojado.
- * \return true si hay al menos una marca o ataque especial conocido que pueda
- * afectar al daño; en caso contrario, devuelve false.
+ * \param obj is the melee weapon or launched/thrown missile to evaluate.
+ * \param normal_damage is dereferenced and set to the average damage per
+ * turn times ten if no brands or slays are effective.
+ * \param brand_damage must point to z_info->brand_max ints.  brand_damage[i]
+ * is set to the average damage per turn times ten with the ith brand from the
+ * global brands array if that brand is present and is not overridden by a
+ * more power brand that is also present for the same element; otherwise,
+ * brand_damage[i] is not modified.
+ * \param slay_damage must point to z_info->slay_max ints.  slay_damage[i]
+ * is set to the average damage times ten per turn with the ith slay from the
+ * global slays array if that slay is present and is not overridden by a
+ * more powerful slay that is also present for the same monsters; otherwise,
+ * slay_damage[i] is not modified.
+ * \param nonweap_slay is dereferenced and set to true if an off-weapon slay
+ * or brand affects the damage or to false if no off-weapon slay or brand
+ * affects the damage.
+ * \param throw causes, if true, the damage to be calculated as if obj is
+ * thrown.
+ * \return true if there is at least one known brand or slay that could
+ * affect the damage; otherwise, return false.
  *
- * Nótese que los resultados no tienen sentido si se llama a un objeto de ego
- * falso, ya que el ego real puede tener propiedades diferentes.
+ * Note that the results are meaningless if called on a fake ego object as
+ * the actual ego may have different properties.
  */
 bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 								 int *brand_damage, int *slay_damage,
@@ -1284,25 +1285,25 @@ bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 	int weapon_slot = slot_by_name(player, "weapon");
 	struct object *current_weapon = slot_object(player, weapon_slot);
 
-	/* Fingir que estamos empuñando el objeto si es un arma */
+	/* Pretend we're wielding the object if it's a weapon */
 	if (weapon)
 		player->body.slots[weapon_slot].obj = (struct object *) obj;
 
-	/* Calcular el estado hipotético del jugador */
+	/* Calculate the player's hypothetical state */
 	memcpy(&state, &player->state, sizeof(state));
 	state.stat_ind[STAT_STR] = 0; //Hack - NRM
 	state.stat_ind[STAT_DEX] = 0; //Hack - NRM
 	calc_bonuses(player, &state, true, false);
 
-	/* Dejar de fingir */
+	/* Stop pretending */
 	player->body.slots[weapon_slot].obj = current_weapon;
 
-	/* Terminar si no se conocen los dados */
+	/* Finish if dice not known */
 	dice = obj->known->dd * 100;
 	sides = obj->known->ds;
 	if (!dice || !sides) return false;
 
-	/* Obtener el número de dados adicionales por críticos (x100) */
+	/* Get the number of additional dice from criticals (x100) */
 	if (weapon)	{
 		o_calculate_melee_crits(&state, obj, &added_dice, &frac_dice);
 		dice += added_dice;
@@ -1324,13 +1325,13 @@ bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 
 	if (ammo) multiplier = player->state.ammo_mult;
 
-	/* Obtener el valor medio de un dado de daño. (x10) */
+	/* Get the average value of a single damage die. (x10) */
 	die_average = 5 * (sides + 1);
 
-	/* Aplicar el multiplicador del lanzador. */
+	/* Apply the launcher multiplier. */
 	die_average *= multiplier;
 
-	/* Aplicar letalidad al promedio. (inflación x100) */
+	/* Apply deadliness to average. (100x inflation) */
 	if (ammo) {
 		deadliness += object_to_dam(bow->known) + state.to_d;
 	} else {
@@ -1338,21 +1339,21 @@ bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 	}
 	apply_deadliness(&die_average, MIN(deadliness, 150));
 
-	/* Obtener las marcas */
+	/* Get the brands */
 	total_brands = mem_zalloc(z_info->brand_max * sizeof(bool));
 	copy_brands(&total_brands, obj->known->brands);
 	if (ammo && bow->known)
 		copy_brands(&total_brands, bow->known->brands);
 
-	/* Obtener los ataques especiales */
+	/* Get the slays */
 	total_slays = mem_zalloc(z_info->slay_max * sizeof(bool));
 	copy_slays(&total_slays, obj->known->slays);
 	if (ammo && bow->known)
 		copy_slays(&total_slays, bow->known->slays);
 
 	/*
-	 * Las armas cuerpo a cuerpo pueden obtener ataques especiales y marcas
-	 * de otros objetos o de efectos temporales.
+	 * Melee weapons may get slays and brands from other items or from
+	 * temporary effects.
 	 */
 	*nonweap_slay = false;
 	if (weapon)	{
@@ -1366,7 +1367,7 @@ bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 			else
 				continue;
 
-			/* Reemplazar las listas antiguas con las nuevas */
+			/* Replace the old lists with new ones */
 			copy_brands(&total_brands, slot_obj->known->brands);
 			copy_slays(&total_slays, slot_obj->known->slays);
 		}
@@ -1386,7 +1387,7 @@ bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 		}
 	}
 
-	/* Aumentar el promedio del dado por cada marca activa */
+	/* Increase die average for each active brand */
 	for (i = 1; i < z_info->brand_max; i++) {
 		int brand_average, add = brands[i].o_multiplier - 10;
 
@@ -1395,12 +1396,12 @@ bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 		}
 		has_brands_or_slays = true;
 
-		/* Incluir marca en el promedio indicado (x10), deflactar (/1000) */
+		/* Include brand in stated average (x10), deflate (/1000) */
 		brand_average = die_average * brands[i].o_multiplier;
 		round = brand_average % 1000;
 		brand_average /= 1000;
 
-		/* El daño por golpe es ahora dados * promedio del dado, (aún x1000) */
+		/* Damage per hit is now dice * die average, (still x1000) */
 		temp0 = dice * brand_average + (dice * round) / 1000
 			+ my_rational_to_uint(&frac_dice, brand_average,
 			&remainder);
@@ -1411,7 +1412,7 @@ bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 			++round;
 		}
 
-		/* Ahora ajustar por golpes y disparos y deflactar de nuevo */
+		/* Now adjust for blows and shots and deflate again */
 		if (weapon) {
 			total_dam = old_blows * temp0
 				+ (old_blows * round) / 1000;
@@ -1434,7 +1435,7 @@ bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 		brand_damage[i] = total_dam;
 	}
 
-	/* Obtener daño para cada ataque especial activo */
+	/* Get damage for each active slay */
 	for (i = 1; i < z_info->slay_max; i++) {
 		int slay_average, add = slays[i].o_multiplier - 10;
 
@@ -1443,12 +1444,12 @@ bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 		}
 		has_brands_or_slays = true;
 
-		/* Incluir ataque especial en el promedio indicado (x10), deflactar (/1000) */
+		/* Include slay in stated average (x10), deflate (/1000) */
 		slay_average = die_average * slays[i].o_multiplier;
 		round = slay_average % 1000;
 		slay_average /= 1000;
 
-		/* El daño por golpe es ahora dados * promedio del dado, (aún x1000) */
+		/* Damage per hit is now dice * die average, (still x1000) */
 		temp0 = dice * slay_average + (dice * round) / 1000
 			+ my_rational_to_uint(&frac_dice, slay_average,
 			&remainder);
@@ -1459,7 +1460,7 @@ bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 			++round;
 		}
 
-		/* Ahora ajustar por golpes y disparos y deflactar de nuevo */
+		/* Now adjust for blows and shots and deflate again */
 		if (weapon) {
 			total_dam = old_blows * temp0
 				+ (old_blows * round) / 1000;
@@ -1482,7 +1483,7 @@ bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 		slay_damage[i] = total_dam;
 	}
 
-	/* Daño normal, sin considerar marcas o ataques especiales */
+	/* Normal damage, not considering brands or slays */
 	temp0 = dice * die_average +
 		my_rational_to_uint(&frac_dice, die_average, &remainder);
 	if (remainder >= (frac_dice.d + 1) / 2) {
@@ -1513,7 +1514,7 @@ bool o_obj_known_damage(const struct object *obj, int *normal_damage,
 
 
 /**
- * Describe el daño.
+ * Describe damage.
  */
 static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 {
@@ -1523,14 +1524,14 @@ static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 	int *brand_damage = mem_zalloc(z_info->brand_max * sizeof(int));
 	int *slay_damage = mem_zalloc(z_info->slay_max * sizeof(int));
 
-	/* Recolectar marcas y ataques especiales */
+	/* Collect brands and slays */
 	bool has_brands_or_slays = OPT(player, birth_percent_damage) ?
 		o_obj_known_damage(obj, &normal_damage, brand_damage, slay_damage,
 						   &nonweap_slay, throw) :
 		obj_known_damage(obj, &normal_damage, brand_damage, slay_damage,
 						 &nonweap_slay, throw);
 
-	/* Mencionar ataques especiales y marcas de otros objetos */
+	/* Mention slays and brands from other items */
 	if (nonweap_slay)
 		textblock_append(tb, "Esta arma puede beneficiarse de una o más marcas o ataques especiales fuera del arma.\n");
 
@@ -1542,8 +1543,8 @@ static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 
 	if (has_brands_or_slays) {
 		/*
-		 * Ordenar por daño decreciente para que las entradas con el mismo
-		 * daño se puedan imprimir juntas.
+		 * Sort by decreasing damage so entries with the same damage
+		 * can be printed together.
 		 */
 		int *sortind = mem_alloc(
 			(z_info->brand_max + z_info->slay_max) *
@@ -1554,8 +1555,8 @@ static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 		bool last_is_brand;
 
 		/*
-		 * Ensamblar los índices. Hacer los ataques especiales primero
-		 * para que, si hay empate en daño, aparezcan antes. Es más fácil de leer.
+		 * Assemble the indices.  Do the slays first so, if tied
+		 * for damage, they'll appear first.  That's easier to read.
 		 */
 		for (i = 0; i < z_info->slay_max; i++) {
 			if (slay_damage[i] > 0) {
@@ -1569,7 +1570,7 @@ static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 				++nsort;
 			}
 		}
-		/* Ordenar. Como el número es pequeño, la ordenación por inserción es suficiente. */
+		/* Sort.  Since the number is small, insertion sort is fine. */
 		for (i = 0; i < nsort - 1; i++) {
 			int maxdam = (sortind[i] < z_info->brand_max) ?
 				brand_damage[sortind[i]] :
@@ -1596,7 +1597,7 @@ static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 			}
 		}
 
-		/* Salida. */
+		/* Output. */
 		lastdam = 0;
 		groupn = 0;
 		lastnm = NULL;
@@ -1692,11 +1693,11 @@ static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 }
 
 /**
- * Obtiene información diversa de combate sobre el objeto dado.
+ * Gets miscellaneous combat information about the given object.
  *
- * Rellena si hay un efecto especial al arrojar en `thrown effect`,
- * el `alcance` en pies (o cero si no es munición), el porcentaje de rotura
- * y si es demasiado pesado para ser empuñado eficazmente en el momento.
+ * Fills in whether there is a special effect when thrown in `thrown effect`,
+ * the `range` in ft (or zero if not ammo), the percentage chance of breakage
+ * and whether it is too heavy to be wielded effectively at the moment.
  */
 static void obj_known_misc_combat(const struct object *obj, bool *thrown_effect,
 								  int *range, int *break_chance, bool *heavy)
@@ -1709,7 +1710,7 @@ static void obj_known_misc_combat(const struct object *obj, bool *thrown_effect,
 	*range = *break_chance = 0;
 
 	if (!weapon && !ammo) {
-		/* Las pociones pueden tener texto especial */
+		/* Potions can have special text */
 		if (tval_is_potion(obj) && obj->dd != 0 && obj->ds != 0 &&
 			object_flavor_is_aware(obj))
 			*thrown_effect = true;
@@ -1718,35 +1719,35 @@ static void obj_known_misc_combat(const struct object *obj, bool *thrown_effect,
 	if (ammo)
 		*range = 10 * MIN(6 + 2 * player->state.ammo_mult, z_info->max_range);
 
-	/* Añadir probabilidad de rotura */
+	/* Add breakage chance */
 	*break_chance = breakage_chance(obj, true);
 
-	/* ¿Es el arma demasiado pesada? */
+	/* Is the weapon too heavy? */
 	if (weapon) {
 		struct player_state state;
 		int weapon_slot = slot_by_name(player, "weapon");
 		struct object *current = equipped_item_by_slot_name(player, "weapon");
 
-		/* Fingir que estamos empuñando el objeto */
+		/* Pretend we're wielding the object */
 		player->body.slots[weapon_slot].obj = (struct object *) obj;
 
-		/* Calcular el estado hipotético del jugador */
+		/* Calculate the player's hypothetical state */
 		memcpy(&state, &player->state, sizeof(state));
 		state.stat_ind[STAT_STR] = 0; //Hack - NRM
 		state.stat_ind[STAT_DEX] = 0; //Hack - NRM
 		calc_bonuses(player, &state, true, false);
 
-		/* Dejar de fingir */
+		/* Stop pretending */
 		player->body.slots[weapon_slot].obj = current;
 
-		/* Advertir sobre armas pesadas */
+		/* Warn about heavy weapons */
 		*heavy = state.heavy_wield;
 	}
 }
 
 
 /**
- * Describe las ventajas de combate.
+ * Describe combat advantages.
  */
 static bool describe_combat(textblock *tb, const struct object *obj)
 {
@@ -1794,21 +1795,20 @@ static bool describe_combat(textblock *tb, const struct object *obj)
 		textblock_append(tb, " de probabilidad de romperse al contacto.\n");
 	}
 
-	/* Se ha dicho algo */
+	/* Something has been said */
 	return true;
 }
 
 
 /**
- * Devuelve información sobre objetos que se pueden usar para cavar.
+ * Returns information about objects that can be used for digging.
  *
- * `deciturns` se llenará con el número medio de deciturnos que se tardará
- * en cavar cada tipo de terreno excavable, y debe tener al menos
+ * `deciturns` will be filled in with the avg number of deciturns it will
+ * take to dig through each type of diggable terrain, and must be at least 
  * [DIGGING_MAX].
  *
- * Devuelve false si el objeto no tiene efecto en la excavación, o si los
- * detalles no tienen sentido (es decir, el objeto es una plantilla de ego,
- * no un objeto real).
+ * Returns false if the object has no effect on digging, or if the specifics
+ * are meaningless (i.e. the object is an ego template, not a real item).
  */
 static bool obj_known_digging(struct object *obj, int deciturns[])
 {
@@ -1818,32 +1818,32 @@ static bool obj_known_digging(struct object *obj, int deciturns[])
 	int slot;
 	struct object *current;
 
-	/* No se parece ni remotamente a un cavador */
+	/* Doesn't remotely resemble a digger */
 	if (!tval_is_wearable(obj) ||
 		(!tval_is_melee_weapon(obj) && (obj->modifiers[OBJ_MOD_TUNNEL] <= 0)))
 		return false;
 
-	/* El jugador no tiene información de excavación */
+	/* Player has no digging info */
 	if (!tval_is_melee_weapon(obj) && !obj->known->modifiers[OBJ_MOD_TUNNEL])
 		return false;
 
-	/* Fingir que estamos empuñando el objeto */
+	/* Pretend we're wielding the object */
 	slot = wield_slot(obj);
 	current = slot_object(player, slot);
 	player->body.slots[slot].obj = obj;
 
-	/* Calcular el estado hipotético del jugador */
+	/* Calculate the player's hypothetical state */
 	memcpy(&state, &player->state, sizeof(state));
 	state.stat_ind[STAT_STR] = 0; //Hack - NRM
 	state.stat_ind[STAT_DEX] = 0; //Hack - NRM
 	calc_bonuses(player, &state, true, false);
 
-	/* Dejar de fingir */
+	/* Stop pretending */
 	player->body.slots[slot].obj = current;
 
 	calc_digging_chances(&state, chances);
 
-	/* La probabilidad de excavar es de 1600 */
+	/* Digging chance is out of 1600 */
 	for (i = DIGGING_RUBBLE; i < DIGGING_MAX; i++) {
 		int chance = MIN(1600, chances[i]);
 		deciturns[i] = chance ? (16000 / chance) : 0;
@@ -1853,7 +1853,7 @@ static bool obj_known_digging(struct object *obj, int deciturns[])
 }
 
 /**
- * Describe objetos que se pueden usar para cavar.
+ * Describe objects that can be used for digging.
  */
 static bool describe_digger(textblock *tb, const struct object *obj)
 {
@@ -1863,7 +1863,7 @@ static bool describe_digger(textblock *tb, const struct object *obj)
 	static const char *names[4] = { "escombros", "vetas de magma", "vetas de cuarzo",
 									"granito" };
 
-	/* Obtener información útil o no imprimir nada */
+	/* Get useful info or print nothing */
 	if (!obj_known_digging(obj1, deciturns)) return false;
 
 	for (i = DIGGING_RUBBLE; i < DIGGING_DOORS; i++) {
@@ -1903,13 +1903,13 @@ static bool describe_digger(textblock *tb, const struct object *obj)
 }
 
 /**
- * Proporciona las características conocidas de fuente de luz del objeto dado.
+ * Gives the known light-sourcey characteristics of the given object.
  *
- * Rellena la intensidad de la luz en `intensity`, si usa combustible y
- * cuántos turnos de luz puede recargar en objetos similares.
+ * Fills in the intensity of the light in `intensity`, whether it uses fuel and
+ * how many turns light it can refuel in similar items.
  *
- * Devuelve false si no se sabe que el objeto sea una fuente de luz (lo que
- * incluye que realmente no lo sea).
+ * Return false if the object is not known to be a light source (which 
+ * includes it not actually being a light source).
  */
 static bool obj_known_light(const struct object *obj, oinfo_detail_t mode,
 							int *intensity, bool *uses_fuel, int *refuel_turns)
@@ -1920,15 +1920,15 @@ static bool obj_known_light(const struct object *obj, oinfo_detail_t mode,
 	if (!is_light && (obj->modifiers[OBJ_MOD_LIGHT] <= 0))
 		return false;
 
-	/* Calcular intensidad */
+	/* Work out intensity */
 	if (of_has(obj->flags, OF_LIGHT_2))
 		*intensity = 2;
 	else if (of_has(obj->flags, OF_LIGHT_3))
 		*intensity = 3;
 	*intensity += obj->known->modifiers[OBJ_MOD_LIGHT];
 
-	/* Evitar que objetos no identificados (especialmente luces de artefacto)
-	 * muestren intensidad incorrecta e información de recarga. */
+	/* Prevent unidentified objects (especially artifact lights) from showing
+	 * bad intensity and refueling info. */
 	if (*intensity == 0)
 		return false;
 
@@ -1950,7 +1950,7 @@ static bool obj_known_light(const struct object *obj, oinfo_detail_t mode,
 }
 
 /**
- * Describe objetos que parecen fuentes de luz.
+ * Describe things that look like lights.
  */
 static bool describe_light(textblock *tb, const struct object *obj,
 						   oinfo_detail_t mode)
@@ -1985,7 +1985,7 @@ static bool describe_light(textblock *tb, const struct object *obj,
 
 
 /**
- * Describe libros legibles.
+ * Describe readable books.
  */
 static bool describe_book(textblock *tb, const struct object *obj,
 						   oinfo_detail_t mode)
@@ -1999,16 +1999,16 @@ static bool describe_book(textblock *tb, const struct object *obj,
 
 
 /**
- * Proporciona los efectos conocidos de usar el objeto dado.
+ * Gives the known effects of using the given item.
  *
- * Rellena:
- *  - el efecto
- *  - si el efecto puede ser dirigido
- *  - el tiempo mínimo y máximo en turnos de juego para que el objeto se
- *    recargue (o cero si no se recarga)
- *  - el porcentaje de probabilidad de que el efecto falle al usarse
+ * Fills in:
+ *  - the effect
+ *  - whether the effect can be aimed
+ *  -  the minimum and maximum time in game turns for the item to recharge 
+ *     (or zero if it does not recharge)
+ *  - the percentage chance of the effect failing when used
  *
- * Devuelve false si el objeto no tiene efecto.
+ * Return false if the object has no effect.
  */
 static bool obj_known_effect(const struct object *obj, struct effect **effect,
 								 bool *aimed, int *min_recharge,
@@ -2029,14 +2029,14 @@ static bool obj_known_effect(const struct object *obj, struct effect **effect,
 		if (effect_aim(*effect))
 			*aimed = true;;
 	} else if (object_effect(obj)) {
-		/* No se sabe mucho - ser vago */
+		/* Don't know much - be vague */
 		*effect = NULL;
 		if (tval_is_wand(obj) || tval_is_rod(obj)) {
 			*aimed = true;
 		}
 		return true;
 	} else {
-		/* Sin efecto - sin información */
+		/* No effect - no info */
 		return false;
 	}
 
@@ -2055,7 +2055,7 @@ static bool obj_known_effect(const struct object *obj, struct effect **effect,
 }
 
 /**
- * Describe el efecto de un objeto, si lo hay.
+ * Describe an object's effect, if any.
  */
 static bool describe_effect(textblock *tb, const struct object *obj,
 		bool only_artifacts, bool subjective)
@@ -2064,7 +2064,7 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 	bool aimed = false;
 	int min_time, max_time, failure_chance;
 
-	/* A veces solo imprimimos información de activación de artefactos */
+	/* Sometimes we only print artifact activation info */
 	if (only_artifacts && !obj->artifact) {
 		return false;
 	}
@@ -2074,7 +2074,7 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 		return false;
 	}
 
-	/* Efecto no conocido, decir generalidades */
+	/* Effect not known, mouth platitudes */
 	if (!effect && object_effect(obj)) {
 		if (tval_is_edible(obj)) {
 			textblock_append(tb, "Puede ser comido.\n");
@@ -2091,7 +2091,7 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 		return true;
 	}
 
-	/* Las activaciones tienen un mensaje especial */
+	/* Activations get a special message */
 	if (obj->activation && obj->activation->desc) {
 		textblock_append(tb, "Cuando se activa, ");
 		textblock_append(tb, "%s", obj->activation->desc);
@@ -2127,13 +2127,13 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 	textblock_append(tb, ".\n");
 
 	if (min_time || max_time) {
-		/* A veces ajustar por la velocidad del jugador */
+		/* Sometimes adjust for player speed */
 		int multiplier = turn_energy(player->state.speed);
 		if (!subjective) multiplier = 10;
 
 		textblock_append(tb, "Tarda ");
 
-		/* Corregir por la velocidad del jugador */
+		/* Correct for player speed */
 		min_time = (min_time * multiplier) / 10;
 		max_time = (max_time * multiplier) / 10;
 
@@ -2152,7 +2152,7 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 	}
 
 	if (failure_chance > 0) {
-		textblock_append(tb, "Tu probabilidad de éxito es %d.%d%%\n", 
+		textblock_append(tb, "La probabilidad de éxito es %d.%d%%\n", 
 			(1000 - failure_chance) / 10, (1000 - failure_chance) % 10);
 	}
 
@@ -2160,7 +2160,7 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 }
 
 /**
- * Describe el origen de un objeto
+ * Describe an item's origin
  */
 static bool describe_origin(textblock *tb, const struct object *obj, bool terse)
 {
@@ -2172,24 +2172,24 @@ static bool describe_origin(textblock *tb, const struct object *obj, bool terse)
 	bool unique = false;
 	bool comma = false;
 
-	/* Solo dar esta información en volcados de personaje si se puede equipar */
+	/* Only give this info in chardumps if wieldable */
 	if (terse && !obj_can_wear(obj))
 		return false;
 
-	/* Establecer el origen - cuidado con los imitadores */
+	/* Set the origin - care needed for mimics */
 	if ((obj->origin == ORIGIN_DROP_MIMIC) && (obj->mimicking_m_idx != 0))
 		origin = ORIGIN_FLOOR;
 	else
 		origin = obj->origin;
 
-	/* Nombrar el lugar de origen */
+	/* Name the place of origin */
 	if (obj->origin_depth)
 		strnfmt(loot_spot, sizeof(loot_spot), "a %d pies (nivel %d)",
 		        obj->origin_depth * 50, obj->origin_depth);
 	else
 		my_strcpy(loot_spot, "en la ciudad", sizeof(loot_spot));
 
-	/* Nombrar el monstruo de origen */
+	/* Name the monster of origin */
 	if (obj->origin_race) {
 		dropper = obj->origin_race->name;
 		if (rf_has(obj->origin_race->flags, RF_UNIQUE)) {
@@ -2212,7 +2212,7 @@ static bool describe_origin(textblock *tb, const struct object *obj, bool terse)
 		my_strcat(name, ",", sizeof(name));
 	}
 
-	/* Imprimir una descripción apropiada */
+	/* Print an appropriate description */
 	switch (origins[origin].args)
 	{
 		case -1: return false;
@@ -2230,17 +2230,17 @@ static bool describe_origin(textblock *tb, const struct object *obj, bool terse)
 }
 
 /**
- * Imprime el texto de sabor de un objeto.
+ * Print an item's flavour text.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param obj es el objeto que estamos describiendo.
- * \param ego indica si estamos describiendo una plantilla de ego (en oposición a
- * un objeto real)
+ * \param tb is the textblock to which we are adding.
+ * \param obj is the object we are describing.
+ * \param ego is whether we're describing an ego template (as opposed to a
+ * real object)
  */
 static void describe_flavor_text(textblock *tb, const struct object *obj,
 								 bool ego)
 {
-	/* Mostrar la descripción conocida del artefacto u objeto */
+	/* Display the known artifact or object description */
 	if (!OPT(player, birth_randarts) && obj->artifact &&
 		obj->known->artifact && obj->artifact->text) {
 		textblock_append(tb, "%s\n\n", obj->artifact->text);
@@ -2253,7 +2253,7 @@ static void describe_flavor_text(textblock *tb, const struct object *obj,
 			did_desc = true;
 		}
 
-		/* Mostrar una descripción adicional de objeto de ego */
+		/* Display an additional ego-item description */
 		if ((ego || (obj->known->ego != NULL)) && obj->ego->text) {
 			if (did_desc) textblock_append(tb, "  ");
 			textblock_append(tb, "%s\n\n", obj->ego->text);
@@ -2264,7 +2264,7 @@ static void describe_flavor_text(textblock *tb, const struct object *obj,
 }
 
 /**
- * Describe las propiedades aleatorias que puede tener un objeto de ego
+ * Describe random properties that an ego item may have
  */
 static bool describe_ego(textblock *tb, const struct ego_item *ego)
 {
@@ -2295,10 +2295,10 @@ static bool describe_ego(textblock *tb, const struct ego_item *ego)
 
 /**
  * ------------------------------------------------------------------------
- * Código de salida
+ * Output code
  * ------------------------------------------------------------------------ */
 /**
- * Información de salida del objeto
+ * Output object information
  */
 static textblock *object_info_out(const struct object *obj, int mode)
 {
@@ -2313,16 +2313,16 @@ static textblock *object_info_out(const struct object *obj, int mode)
 
 	assert(obj->known);
 
-	/* Los objetos no conocidos obtienen descripciones simples */
+	/* Unaware objects get simple descriptions */
 	if (obj->kind != obj->known->kind) {
 		textblock_append(tb, "\n\nNo sabes qué es esto.\n");
 		return tb;
 	}
 
-	/* Obtener los indicadores del objeto */
+	/* Grab the object flags */
 	get_known_flags(obj, mode, flags);
 
-	/* Obtener la información de elementos */
+	/* Grab the element info */
 	get_known_elements(obj, mode, el_info);
 
 	if (subjective) describe_origin(tb, obj, terse);
@@ -2348,9 +2348,8 @@ static textblock *object_info_out(const struct object *obj, int mode)
 	if (ego && describe_ego(tb, obj->ego)) something = true;
 	if (something) textblock_append(tb, "\n");
 
-	/* Omitir toda la información muy específica cuando estamos dando
-	   conocimiento general de ego en lugar de para un objeto individual
-	   - las habilidades pueden variar */
+	/* Skip all the very specific information where we are giving general
+	   ego knowledge rather than for a single item - abilities can vary */
 	if (!ego) {
 		if (describe_effect(tb, obj, terse, subjective)) {
 			something = true;
@@ -2365,7 +2364,7 @@ static textblock *object_info_out(const struct object *obj, int mode)
 		if (!terse && subjective && describe_digger(tb, obj)) something = true;
 	}
 
-	/* No añadir nada en modo escueto (para volcado de personaje) */
+	/* Don't append anything in terse (for chararacter dump) */
 	if (!something && !terse)
 		textblock_append(tb, "\n\nEste objeto no parece poseer ninguna habilidad especial.");
 
@@ -2374,10 +2373,10 @@ static textblock *object_info_out(const struct object *obj, int mode)
 
 
 /**
- * Proporciona información sobre un objeto, incluyendo cómo afectaría al estado
- * actual del jugador.
+ * Provide information on an item, including how it would affect the current
+ * player's state.
  *
- * devuelve true si se imprime algo.
+ * returns true if anything is printed.
  */
 textblock *object_info(const struct object *obj, oinfo_detail_t mode)
 {
@@ -2386,7 +2385,7 @@ textblock *object_info(const struct object *obj, oinfo_detail_t mode)
 }
 
 /**
- * Proporciona información sobre un tipo de objeto de ego
+ * Provide information on an ego-item type
  */
 textblock *object_info_ego(struct ego_item *ego)
 {
@@ -2436,8 +2435,8 @@ textblock *object_info_ego(struct ego_item *ego)
 
 
 /**
- * Proporciona información sobre un objeto adecuada para escribir en el volcado
- * de personaje - mantenerlo breve.
+ * Provide information on an item suitable for writing to the character dump
+ * - keep it brief.
  */
 void object_info_chardump(ang_file *f, const struct object *obj, int indent,
 						  int wrap)
@@ -2449,10 +2448,10 @@ void object_info_chardump(ang_file *f, const struct object *obj, int indent,
 
 
 /**
- * Proporciona información de spoiler sobre un objeto.
+ * Provide spoiler information on an item.
  *
- * Prácticamente, esto significa que no debemos imprimir nada que dependa del
- * estado actual del jugador, ya que eso no es adecuado para material de spoiler.
+ * Practically, this means that we should not print anything which relies upon
+ * the player's current state, since that is not suitable for spoiler material.
  */
 void object_info_spoil(ang_file *f, const struct object *obj, int wrap)
 {
