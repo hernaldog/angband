@@ -9,7 +9,7 @@
 {mud}           ^^^^ {/}{red} / _ \ | '_ \ / _` | '_ \ / _` | '_ \ / _` | {/}{mud}^^^^^^  {/}
 {mud}          ^^^^  {/}{red}/ ___ \| | | | (_| | |_) | (_| | | | | (_| | {/}{mud}^^^^^^^ {/}
 {mud}         ^^^^  {/}{red}/_/   \_\_| |_|\__, |_.__/ \__,_|_| |_|\__,_| {/}{mud}^^^^^^^^{/}
-{mud}        ^^^^^                {/}{red} |___/{/}  $VERSION
+{mud}        ^^^^^                {/}{red} |___/{/} ESPAÑOL  $VERSION
 {mud}       ^^^^^^^^^^^^^^^^^^                     ^^^^  ^^^^^^^^^^^^^^^^^^^ {/}
 {light slate}         "Cuando el mundo sea viejo y los Poderes se cansen, entonces Morgoth,{/}
 {light slate}          al ver que el guardián duerme, volverá a través de la             {/}
