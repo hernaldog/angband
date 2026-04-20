@@ -1,4 +1,4 @@
-# projection.txt
+﻿# projection.txt
 
 # Descriptions, colors, message types, and obvious can be edited without
 # bad effects.
@@ -98,9 +98,9 @@ code:ACID
 name:acid
 type:element
 desc:ácido
-player-desc:acid
-blind-desc:acid
-lash-desc:acid
+player-desc:ácido
+blind-desc:ácido
+lash-desc:ácido
 numerator:1  
 denominator:3
 divisor:3
@@ -114,9 +114,9 @@ code:ELEC
 name:lightning
 type:element
 desc:relámpago
-player-desc:lightning
-blind-desc:lightning
-lash-desc:lightning
+player-desc:rayo
+blind-desc:rayo
+lash-desc:rayo
 numerator:1  
 denominator:3
 divisor:3
@@ -130,9 +130,9 @@ code:FIRE
 name:fire
 type:element
 desc:fuego
-player-desc:fire
-blind-desc:fire
-lash-desc:fire
+player-desc:fuego
+blind-desc:fuego
+lash-desc:fuego
 numerator:1  
 denominator:3
 divisor:3
@@ -146,9 +146,9 @@ code:COLD
 name:cold
 type:element
 desc:frío
-player-desc:frost
-blind-desc:cold
-lash-desc:frost
+player-desc:escarcha
+blind-desc:frío
+lash-desc:escarcha
 numerator:1  
 denominator:3
 divisor:3
@@ -162,9 +162,9 @@ code:POIS
 name:poison
 type:element
 desc:veneno
-player-desc:poison gas
-blind-desc:poison
-lash-desc:venom
+player-desc:gas venenoso
+blind-desc:veneno
+lash-desc:toxina
 numerator:1  
 denominator:3
 divisor:3
@@ -178,9 +178,9 @@ code:LIGHT
 name:light
 type:element
 desc:luz
-player-desc:light
-blind-desc:something
-lash-desc:brightness
+player-desc:luz
+blind-desc:algo
+lash-desc:resplandor
 numerator:6
 denominator:8+1d4
 divisor:6
@@ -194,9 +194,9 @@ code:DARK
 name:dark
 type:element
 desc:oscuridad
-player-desc:dark
-blind-desc:something
-lash-desc:blackness
+player-desc:oscuridad
+blind-desc:algo
+lash-desc:negrura
 numerator:6
 denominator:8+1d4
 divisor:6
@@ -210,9 +210,9 @@ code:SOUND
 name:sound
 type:element
 desc:sonido
-player-desc:sound
-blind-desc:noise
-lash-desc:sound
+player-desc:sonido
+blind-desc:ruido
+lash-desc:sonido
 numerator:6
 denominator:8+1d4
 divisor:6
@@ -226,9 +226,9 @@ code:SHARD
 name:shards
 type:element
 desc:fragmentos
-player-desc:shards
-blind-desc:something sharp
-lash-desc:razors
+player-desc:fragmentos
+blind-desc:algo punzante
+lash-desc:cuchillas
 numerator:6
 denominator:8+1d4
 divisor:6
@@ -242,9 +242,9 @@ code:NEXUS
 name:nexus
 type:element
 desc:nexo
-player-desc:nexus
-blind-desc:something strange
-lash-desc:dislocation
+player-desc:nexo
+blind-desc:algo extraño
+lash-desc:dislocación
 numerator:6
 denominator:8+1d4
 divisor:6
@@ -258,9 +258,9 @@ code:NETHER
 name:nether
 type:element
 desc:abismo
-player-desc:nether
-blind-desc:something cold
-lash-desc:withering
+player-desc:inframundo
+blind-desc:algo gélido
+lash-desc:marchitamiento
 numerator:6
 denominator:8+1d4
 divisor:6
