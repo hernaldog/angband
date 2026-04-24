@@ -1163,7 +1163,7 @@ void lore_append_exp(textblock *tb, const struct monster_race *race,
 	if ((level == 8) || (level == 11) || (level == 18)) article = "un";
 
 	/* Mention the dependance on the player's level */
-	textblock_append(tb, " para %s personaje de nivel %u.  ", article, //fin de traduccion personaje de nuevel 3er, por nivel 3 solamente, sin el ordinal
+	textblock_append(tb, " para %s personaje de nivel %u.  ", article, //fix traduc
 					 level);
 }
 
