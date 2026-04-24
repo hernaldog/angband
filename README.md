@@ -257,6 +257,7 @@ Contenido del script shell:
 | lib\gamedata\monster_spell.txt           | 100      |
 | lib\gamedata\monster.txt                 | 100      | Revisar textos se pueden mejorar|
 | lib\gamedata\blow_methods.txt            | 100      |
+| lib\gamedata\flavor.txt                  | 100      |
 | lib\gamedata\class.txt                   | 100      |
 | lib\gamedata\terrain.txt                 | 100      |
 | lib\gamedata\projection                  | 100      |
