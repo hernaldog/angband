@@ -1,6 +1,6 @@
 /**
  * \file obj-desc.c
- * \brief Crear descripciones de nombres de objetos
+ * \brief Create object name descriptions
  *
  * Copyright (c) 1997 - 2007 Angband contributors
  *
@@ -26,7 +26,7 @@
 #include "obj-util.h"
 
 /**
- * Pone el nombre del tipo base del objeto en buf.
+ * Puts the object base kind's name into buf.
  */
 void object_base_name(char *buf, size_t max, int tval, bool plural)
 {
@@ -39,29 +39,29 @@ void object_base_name(char *buf, size_t max, int tval, bool plural)
 
 
 /**
- * Pone una versión muy simplificada del nombre de un objeto en buf.
- * Si easy_know es true, se usan los nombres identificados; de lo contrario,
- * se usarán sabores, nombres de pergaminos, etc.
+ * Puts a very stripped-down version of an object's name into buf.
+ * If easy_know is true, then the IDed names are used, otherwise
+ * flavours, scroll names, etc will be used.
  *
- * Simplemente trunca si el búfer no es lo suficientemente grande.
+ * Just truncates if the buffer isn't big enough.
  */
 void object_kind_name(char *buf, size_t max, const struct object_kind *kind,
 					  bool easy_know)
 {
-	/* Si no es consciente, el sabor simple (ej. Cobre) servirá. */
+	/* If not aware, the plain flavour (e.g. Copper) will do. */
 	if (!easy_know && !kind->aware && kind->flavor)
 		my_strcpy(buf, kind->flavor->text, max);
 
-	/* Usar nombre propio (Curación, o lo que sea) */
+	/* Use proper name (Healing, or whatever) */
 	else
 		(void) obj_desc_name_format(buf, max, 0, kind->name, NULL, false);
 }
 
 
 /**
- * Una cadena modificadora, colocada donde va '#' en el nombre base a continuación.
- * Los extraños juegos con los nombres de los libros son para permitir que la parte
- * no esencial del nombre se pueda abreviar cuando no hay mucho espacio para mostrar.
+ * A modifier string, put where '#' goes in the basename below.  The weird
+ * games played with book names are to allow the non-essential part of the
+ * name to be abbreviated when there is not much room to display.
  */
 static const char *obj_desc_get_modstr(const struct object_kind *kind)
 {
@@ -75,9 +75,9 @@ static const char *obj_desc_get_modstr(const struct object_kind *kind)
 }
 
 /**
- * El nombre básico de un objeto - un nombre genérico para objetos con sabor
- * (con el nombre real añadido después dependiendo del conocimiento), el nombre
- * de object.txt para casi todo lo demás, y un poco extra para los libros.
+ * An object's basic name - a generic name for flavored objects (with the
+ * actual name added later depending on awareness, the name from object.txt
+ * for almost everything else, and a bit extra for books. 
  */
 static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 		bool terse, uint32_t mode, const struct player *p, bool plural)
@@ -88,12 +88,12 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 		show_flavor = false;
 	if (aware && p && !OPT(p, show_flavors)) show_flavor = false;
 
-	/* Los artefactos son especiales */
+	/* Artifacts are special */
 	if (obj->artifact && (aware || object_is_known_artifact(obj) || terse ||
 						  !obj->kind->flavor))
 		return obj->kind->name;
 
-	/* Analizar el objeto */
+	/* Analyze the object */
 	switch (obj->tval)
 	{
 		case TV_FLASK:
@@ -118,29 +118,27 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 		case TV_LIGHT:
 		case TV_FOOD:
 			return obj->kind->name;
-			
-		/* show_flavor: te dice un poco más de lo básico si tienes buen conocimiento */
 
 		case TV_AMULET:
-			return (show_flavor ? "& # Amuleto~" : "& Amuleto~");
+			return (show_flavor ? "& Amuleto~ #" : "& Amuleto~");
 
 		case TV_RING:
-			return (show_flavor ? "& # Anillo~" : "& Anillo~");
+			return (show_flavor ? "& Anillo~ #" : "& Anillo~");
 
 		case TV_STAFF:
-			return (show_flavor ? "& # Báculo~" : "& Báculo~");
+			return (show_flavor ? "& Báculo~ #" : "& Báculo~");
 
 		case TV_WAND:
-			return (show_flavor ? "& # Varita~" : "& Varita~");
+			return (show_flavor ? "& Varita~ #" : "& Varita~");
 
 		case TV_ROD:
-			return (show_flavor ? "& # Vara~" : "& Vara~");
+			return (show_flavor ? "& Vara~ #" : "& Vara~");
 
 		case TV_POTION:			
 			if (plural) { //fix traduc plural
-        		return (show_flavor ? "# Pociones" : "Pociones");
+        		return (show_flavor ? "Pociones #" : "Pociones");
         	} else {        		
-        		return (show_flavor ? "& # Poción" : "& Poción");
+        		return (show_flavor ? "& Poción #" : "& Poción");
         	}      
 
 		case TV_SCROLL:
@@ -177,7 +175,7 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 				return "& Libro~ de Misterios #";
 
 		case TV_MUSHROOM:
-			return (show_flavor ? "& # Seta~" : "& Seta~");
+			return (show_flavor ? "& Seta~ #" : "& Seta~");
 	}
 
 	return "(nada)";
@@ -185,7 +183,7 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 
 
 /**
- * Comienzo de la descripción, indicando número/unicidad (un, el, no más, 7, etc.)
+ * Start to description, indicating number/uniqueness (a, the, no more, 7, etc)
  */
 static size_t obj_desc_name_prefix(char *buf, size_t max, size_t end,
 		const struct object *obj, const char *basename,
@@ -199,22 +197,22 @@ static size_t obj_desc_name_prefix(char *buf, size_t max, size_t end,
 
 
 /**
- * Formatea 'fmt' en 'buf', con los siguientes caracteres de formato:
+ * Formats 'fmt' into 'buf', with the following formatting characters:
  *
- * '~' al final de una palabra (ej. "frigorífico~") pluralizará
+ * '~' at the end of a word (e.g. "fridge~") will pluralise
  *
- * '|x|y|' se mostrará como 'x' si es singular o 'y' si es plural
- *    (ej. "cuchi|llo|llos|")
+ * '|x|y|' will be output as 'x' if singular or 'y' if plural
+ *    (e.g. "kni|fe|ves|")
  *
- * '#' será reemplazado por 'modstr' (que puede contener los formatos de pluralización
- * dados arriba).
+ * '#' will be replaced with 'modstr' (which may contain the pluralising
+ * formats given above).
  */
 size_t obj_desc_name_format(char *buf, size_t max, size_t end,
 		const char *fmt, const char *modstr, bool pluralise)
 {
-	/* Copiar la cadena */
+	/* Copy the string */
 	while (*fmt) {
-		/* Saltar */
+		/* Skip */
 		if (*fmt == '&') {
 			while (*fmt == ' ' || *fmt == '&')
 				fmt++;
@@ -257,7 +255,7 @@ size_t obj_desc_name_format(char *buf, size_t max, size_t end,
 
 			fmt = endmark;
 		} else if (*fmt == '#' && modstr) {
-			/* Añadir modstr, con pluralización si es relevante */
+			/* Add modstr, with pluralisation if relevant */
 			end = obj_desc_name_format(buf, max, end, modstr, NULL,	pluralise);
 		}
 
@@ -274,7 +272,7 @@ size_t obj_desc_name_format(char *buf, size_t max, size_t end,
 
 
 /**
- * Formatear el nombre del objeto obj en 'buf'.
+ * Format object obj's name into 'buf'.
  */
 static size_t obj_desc_name(char *buf, size_t max, size_t end,
 		const struct object *obj, bool prefix, uint32_t mode,
@@ -285,18 +283,18 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 	uint16_t number = (mode & ODESC_ALTNUM) ?
 		(mode & 0xFFFF0000) >> 16 : obj->number;
 	
-	/* Nombre real para objetos con sabor si se es consciente, o en tienda, o en spoiler */
+	/* Actual name for flavoured objects if aware, or in store, or spoiled */
 	bool aware = object_flavor_is_aware(obj) || store || spoil;
-	/* Pluralizar si (no forzado a singular) y
-	 * (no es un artefacto conocido/visible) y
-	 * (no es uno en el montón o forzado a plural) */
+	/* Pluralize if (not forced singular) and
+	 * (not a known/visible artifact) and
+	 * (not one in stack or forced plural) */
 	bool plural = !(mode & ODESC_SINGULAR) &&
 		!obj->artifact &&
 		(number != 1 || (mode & ODESC_PLURAL));
 	const char *basename = obj_desc_get_basename(obj, aware, terse,	mode, p, plural);
 	const char *modstr = obj_desc_get_modstr(obj->kind);
 
-	/* Prefijo de cantidad */
+	/* Quantity prefix */
 	if (prefix)
 		end = obj_desc_name_prefix(buf, max, end, obj, basename, modstr, terse, number);
 
@@ -307,7 +305,7 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 		end = obj_desc_name_format(buf, max, end, basename, modstr, plural);
 	}
 
-	/* Añadir nombres extra de varios tipos */
+	/* Append extra names of various kinds */
 	if (object_is_known_artifact(obj))
 		strnfcat(buf, max, &end, " %s", obj->artifact->name);
 	else if ((obj->known->ego && !(mode & ODESC_NOEGO)) || (obj->ego && store))
@@ -324,7 +322,7 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 }
 
 /**
- * ¿Es obj una armadura?
+ * Is obj armor?
  */
 static bool obj_desc_show_armor(const struct object *obj,
 		const struct player *p)
@@ -333,24 +331,25 @@ static bool obj_desc_show_armor(const struct object *obj,
 }
 
 /**
- * Descripciones especiales para tipos de trampas de cofre
+ * Special descriptions for types of chest traps
  */
 static size_t obj_desc_chest(const struct object *obj, char *buf, size_t max,
 							 size_t end)
 {
 	if (!tval_is_chest(obj)) return end;
 
-	/* El cofre no está abierto, pero no sabemos nada sobre su trampa/cerradura */
+	/* The chest is unopened, but we know nothing about its trap/lock */
 	if (obj->pval && !obj->known->pval) return end;
 
-	/* Describir las trampas */
+	/* Describe the traps */
 	strnfcat(buf, max, &end, " (%s)", chest_trap_name(obj));
 
 	return end;
 }
 
 /**
- * Describir propiedades de combate de un objeto - dados de daño, para-golpear, para-dañar, clase de armadura, multiplicador de proyectiles
+ * Describe combat properties of an item - damage dice, to-hit, to-dam, armor
+ * class, missile multipler
  */
 static size_t obj_desc_combat(const struct object *obj, char *buf, size_t max, 
 		size_t end, uint32_t mode, const struct player *p)
@@ -358,46 +357,46 @@ static size_t obj_desc_combat(const struct object *obj, char *buf, size_t max,
 	bool spoil = mode & ODESC_SPOIL ? true : false;
 	int to_h, to_d, to_a;
 
-	/* Mostrar dados de daño si se conocen */
+	/* Display damage dice if they are known */
 	if (kf_has(obj->kind->kind_flags, KF_SHOW_DICE) &&
 		(!p || (p->obj_k->dd && p->obj_k->ds))) {
 		strnfcat(buf, max, &end, " (%dd%d)", obj->dd, obj->ds);
 	}
 
-	/* Mostrar poder de disparo como parte del multiplicador */
+	/* Display shooting power as part of the multiplier */
 	if (kf_has(obj->kind->kind_flags, KF_SHOW_MULT)) {
 		strnfcat(buf, max, &end, " (x%d)",
 				 obj->pval + obj->modifiers[OBJ_MOD_MIGHT]);
 	}
 
-	/* No más si el objeto no ha sido evaluado */
+	/* No more if the object hasn't been assessed */
 	if (!((obj->notice & OBJ_NOTICE_ASSESSED) || spoil)) return end;
 
 	to_h = object_to_hit(obj);
 	to_d = object_to_dam(obj);
 	to_a = object_to_ac(obj);
 
-	/* Mostrar bonificaciones de arma si conocemos alguna */
+	/* Show weapon bonuses if we know of any */
 	if ((!p || (p->obj_k->to_h && p->obj_k->to_d))
 			&& (tval_is_weapon(obj) || to_d
 			|| (to_h && !tval_is_body_armor(obj))
 			|| ((!object_has_standard_to_h(obj)
 			|| obj->to_h != to_h)
 			&& !obj->artifact && !obj->ego))) {
-		/* En general mostrar bonificaciones completas de combate */
+		/* In general show full combat bonuses */
 		strnfcat(buf, max, &end, " (%+d,%+d)", to_h, to_d);
 	} else if (obj->to_h < 0 && object_has_standard_to_h(obj)) {
-		/* Tratamiento especial para armaduras corporales con solo penalización para-golpear */
+		/* Special treatment for body armor with only a to-hit penalty */
 		strnfcat(buf, max, &end, " (%+d)", obj->to_h);
 	} else if (to_d != 0 && (!p || p->obj_k->to_d)) {
-		/* Solo runa para-dañar conocida */
+		/* To-dam rune known only */
 		strnfcat(buf, max, &end, " (%+d)", to_d);
 	} else if (to_h != 0 && (!p || p->obj_k->to_h)) {
-		/* Solo runa para-golpear conocida */
+		/* To-hit rune known only */
 		strnfcat(buf, max, &end, " (%+d)", to_h);
 	}
 
-	/* Mostrar bonificaciones de armadura */
+	/* Show armor bonuses */
 	if (!p || p->obj_k->to_a) {
 		if (obj_desc_show_armor(obj, p))
 			strnfcat(buf, max, &end, " [%d,%+d]", obj->ac, to_a);
@@ -411,12 +410,12 @@ static size_t obj_desc_combat(const struct object *obj, char *buf, size_t max,
 }
 
 /**
- * Describir luz restante para fuentes de luz recargables
+ * Describe remaining light for refuellable lights
  */
 static size_t obj_desc_light(const struct object *obj, char *buf, size_t max,
 							 size_t end)
 {
-	/* Las fuentes de luz con combustible tienen el número de turnos restantes añadido */
+	/* Fuelled light sources get number of remaining turns appended */
 	if (tval_is_light(obj) && !of_has(obj->flags, OF_NO_FUEL))
 		strnfcat(buf, max, &end, " (%d turnos)", obj->timeout);
 
@@ -424,8 +423,8 @@ static size_t obj_desc_light(const struct object *obj, char *buf, size_t max,
 }
 
 /**
- * Describir modificadores numéricos a estadísticas y otras cualidades del jugador que
- * permiten bonificaciones numéricas - velocidad, sigilo, etc.
+ * Describe numerical modifiers to stats and other player qualities which
+ * allow numerical bonuses - speed, stealth, etc
  */
 static size_t obj_desc_mods(const struct object *obj, char *buf, size_t max,
 							size_t end)
@@ -433,21 +432,21 @@ static size_t obj_desc_mods(const struct object *obj, char *buf, size_t max,
 	int i, j, num_mods = 0;
 	int mods[OBJ_MOD_MAX] = { 0 };
 
-	/* Recorrer posibles modificadores y almacenar los distintos */
+	/* Run through possible modifiers and store distinct ones */
 	for (i = 0; i < OBJ_MOD_MAX; i++) {
-		/* Verificar modificadores conocidos no nulos */
+		/* Check for known non-zero mods */
 		if (obj->modifiers[i] != 0) {
-			/* Si aún no hay modificadores almacenados, almacenar y continuar */
+			/* If no mods stored yet, store and move on */
 			if (!num_mods) {
 				mods[num_mods++] = obj->modifiers[i];
 				continue;
 			}
 
-			/* Recorrer los modificadores existentes, salir si hay duplicados */
+			/* Run through the existing mods, quit on duplicates */
 			for (j = 0; j < num_mods; j++)
 				if (mods[j] == obj->modifiers[i]) break;
 
-			/* Añadir otro modificador si es necesario */
+			/* Add another mod if needed */
 			if (j == num_mods)
 				mods[num_mods++] = obj->modifiers[i];
 		}
@@ -455,7 +454,7 @@ static size_t obj_desc_mods(const struct object *obj, char *buf, size_t max,
 
 	if (!num_mods) return end;
 
-	/* Imprimir los modificadores */
+	/* Print the modifiers */
 	strnfcat(buf, max, &end, " <");
 	for (j = 0; j < num_mods; j++) {
 		if (j) strnfcat(buf, max, &end, ", ");
@@ -467,14 +466,14 @@ static size_t obj_desc_mods(const struct object *obj, char *buf, size_t max,
 }
 
 /**
- * Describir cargas o estado de recarga para objetos reutilizables con efectos mágicos
+ * Describe charges or charging status for re-usable items with magic effects
  */
 static size_t obj_desc_charges(const struct object *obj, char *buf, size_t max,
 		size_t end, uint32_t mode)
 {
 	bool aware = object_flavor_is_aware(obj) || (mode & ODESC_STORE);
 
-	/* Las varitas y báculos tienen cargas, otros pueden estar recargándose */
+	/* Wands and staffs have charges, others may be charging */
 	if (aware && tval_can_have_charges(obj)) {
 		strnfcat(buf, max, &end, " (%d carga%s)", obj->pval,
 				 PLURAL(obj->pval));
@@ -482,7 +481,7 @@ static size_t obj_desc_charges(const struct object *obj, char *buf, size_t max,
 		if (tval_is_rod(obj) && obj->number > 1)
 			strnfcat(buf, max, &end, " (%d recargándose)", number_charging(obj));
 		else if (tval_is_rod(obj) || obj->activation || obj->effect)
-			/* Artefactos, varas individuales */
+			/* Artifacts, single rods */
 			strnfcat(buf, max, &end, " (recargándose)");
 	}
 
@@ -490,7 +489,7 @@ static size_t obj_desc_charges(const struct object *obj, char *buf, size_t max,
 }
 
 /**
- * Añadir inscripciones definidas por el jugador o descripciones definidas por el juego
+ * Add player-defined inscriptions or game-defined descriptions
  */
 static size_t obj_desc_inscrip(const struct object *obj, char *buf,
 		size_t max, size_t end, const struct player *p)
@@ -498,11 +497,11 @@ static size_t obj_desc_inscrip(const struct object *obj, char *buf,
 	const char *u[6] = { 0, 0, 0, 0, 0, 0 };
 	int n = 0;
 
-	/* Obtener inscripción */
+	/* Get inscription */
 	if (obj->note)
 		u[n++] = quark_str(obj->note);
 
-	/* Usar inscripción especial, si la hay */
+	/* Use special inscription, if any */
 	if (!object_flavor_is_aware(obj)) {
 		if (tval_can_have_charges(obj) && (obj->pval == 0))
 			u[n++] = "vacío";
@@ -510,15 +509,15 @@ static size_t obj_desc_inscrip(const struct object *obj, char *buf,
 			u[n++] = "probado";
 	}
 
-	/* Notar maldiciones */
+	/* Note curses */
 	if (obj->known->curses)
 		u[n++] = "maldito";
 
-	/* Notar ignorar */
+	/* Note ignore */
 	if (p && ignore_item_ok(p, obj))
 		u[n++] = "ignorar";
 
-	/* Notar propiedades desconocidas */
+	/* Note unknown properties */
 	if (!object_runes_known(obj) && (obj->known->notice & OBJ_NOTICE_ASSESSED))
 		u[n++] = "??";
 
@@ -540,8 +539,8 @@ static size_t obj_desc_inscrip(const struct object *obj, char *buf,
 
 
 /**
- * Añadir "no visto" al final de objetos no identificados en tiendas,
- * y "??" a objetos sin sabor no completamente conocidos
+ * Add "unseen" to the end of unaware items in stores,
+ * and "??" to not fully known unflavored items 
  */
 static size_t obj_desc_aware(const struct object *obj, char *buf, size_t max,
 							 size_t end)
@@ -559,31 +558,31 @@ static size_t obj_desc_aware(const struct object *obj, char *buf, size_t max,
 
 
 /**
- * Describe el objeto `obj` en el búfer `buf` de tamaño `max`.
+ * Describes item `obj` into buffer `buf` of size `max`.
  *
- * \param buf es el búfer para la descripción. Debe tener espacio para al menos
+ * \param buf is the buffer for the description.  Must have space for at least
  * max bytes.
- * \param max es el tamaño del búfer, en bytes.
- * \param obj es el objeto a describir.
- * \param mode debe ser una combinación bitwise de cero o uno más de los siguientes:
- * ODESC_PREFIX antepone un 'el', 'un' o número
- * ODESC_BASE resulta en una descripción base.
- * ODESC_COMBAT añadirá información de para-golpear, para-dañar y CA.
- * ODESC_EXTRA añadirá información de pval/carga/inscripción/ignorar.
- * ODESC_PLURAL pluralizará independientemente del número en el montón.
- * ODESC_STORE desactiva marcadores de ignorar, para visualización en tienda.
- * ODESC_SPOIL trata el objeto como completamente identificado.
- * ODESC_CAPITAL pone en mayúscula el nombre del objeto.
- * ODESC_TERSE hace que se use un nombre conciso.
- * ODESC_NOEGO omite los nombres de égida.
- * ODESC_ALTNUM hace que los 16 bits superiores de mode se usen como el número
- * de objetos en lugar de usar obj->number. Nótese que usar ODESC_ALTNUM
- * no es completamente compatible con ODESC_EXTRA: la visualización del número de varas
- * recargándose no tiene en cuenta el número alternativo.
- * \param p es el jugador cuyo conocimiento se tiene en cuenta en la descripción.
- * Si p es NULL, la descripción es para un observador omnisciente.
+ * \param max is the size of the buffer, in bytes.
+ * \param obj is the object to describe.
+ * \param mode must be a bitwise-or of zero or one more of the following:
+ * ODESC_PREFIX prepends a 'the', 'a' or number
+ * ODESC_BASE results in a base description.
+ * ODESC_COMBAT will add to-hit, to-dam and AC info.
+ * ODESC_EXTRA will add pval/charge/inscription/ignore info.
+ * ODESC_PLURAL will pluralise regardless of the number in the stack.
+ * ODESC_STORE turns off ignore markers, for in-store display.
+ * ODESC_SPOIL treats the object as fully identified.
+ * ODESC_CAPITAL capitalises the object name.
+ * ODESC_TERSE causes a terse name to be used.
+ * ODESC_NOEGO omits ego names.
+ * ODESC_ALTNUM causes the high 16 bits of mode to be used as the number
+ * of objects instead of using obj->number.  Note that using ODESC_ALTNUM
+ * is not fully compatible with ODESC_EXTRA:  the display of number of rods
+ * charging does not account for the alternate number.
+ * \param p is the player whose knowledge is factored into the description.
+ * If p is NULL, the description is for an omniscient observer.
  *
- * \returns El número de bytes usados del búfer.
+ * \returns The number of bytes used of the buffer.
  */
 size_t object_desc(char *buf, size_t max, const struct object *obj,
 		uint32_t mode, const struct player *p)
@@ -594,11 +593,11 @@ size_t object_desc(char *buf, size_t max, const struct object *obj,
 
 	size_t end = 0;
 
-	/* Descripción simple para objeto nulo */
+	/* Simple description for null item */
 	if (!obj || !obj->known)
 		return strnfmt(buf, max, "(nada)");
 
-	/* Los objetos desconocidos y el dinero obtienen descripciones directas */
+	/* Unknown itema and cash get straightforward descriptions */
 	if (obj->known && obj->kind != obj->known->kind) {
 		if (prefix)
 			return strnfmt(buf, max, "un objeto desconocido");
@@ -610,19 +609,19 @@ size_t object_desc(char *buf, size_t max, const struct object *obj,
 				obj->pval, obj->kind->name,
 				ignore_item_ok(p, obj) ? " {ignorar}" : "");
 
-	/* Las égidas y tipos cuyo nombre conocemos se ven */
+	/* Egos and kinds whose name we know are seen */
 	if (obj->known->ego && !spoil)
 		obj->ego->everseen = true;
 
 	if (object_flavor_is_aware(obj) && !spoil)
 		obj->kind->everseen = true;
 
-	/** Construir el nombre **/
+	/** Construct the name **/
 
-	/* Copiar el nombre base al búfer */
+	/* Copy the base name to the buffer */
 	end = obj_desc_name(buf, max, end, obj, prefix, mode, terse, p);
 
-	/* Propiedades de combate */
+	/* Combat properties */
 	if (mode & ODESC_COMBAT) {
 		if (tval_is_chest(obj))
 			end = obj_desc_chest(obj, buf, max, end);
@@ -632,7 +631,7 @@ size_t object_desc(char *buf, size_t max, const struct object *obj,
 		end = obj_desc_combat(obj->known, buf, max, end, mode, p);
 	}
 
-	/* Modificadores, cargas, detalles de sabor, inscripciones */
+	/* Modifiers, charges, flavour details, inscriptions */
 	if (mode & ODESC_EXTRA) {
 		end = obj_desc_mods(obj->known, buf, max, end);
 
