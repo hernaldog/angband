@@ -1,137 +1,138 @@
-# Archivo: class.txt
+# File: class.txt
 
 
-# Este archivo se utiliza para inicializar la información de las "clases de jugador" para Angband.
+# This file is used to initialize the "player class" information for Angband.
 
-# No modifiques este archivo a menos que sepas exactamente lo que estás haciendo,
-# a menos que quieras arriesgarte a posibles caídas del sistema y archivos guardados dañados.
+# Do not modify this file unless you know exactly what you are doing,
+# unless you wish to risk possible system crashes and broken savefiles.
 
-# === Entendiendo class.txt ===
+# === Understanding class.txt ===
 
-# Formato:
-# name:número de clase:nombre de clase
-# stats:str:int:sab:des:con
-# skill-disarm-phys:base:incremento
-# skill-disarm-magic:base:incremento
-# skill-device:base:incremento
-# skill-save:base:incremento
-# skill-stealth:base:incremento
-# skill-search:base:incremento
-# skill-melee:base:incremento
-# skill-shoot:base:incremento
-# skill-throw:base:incremento
-# skill-dig:base:incremento
-# hitdie:incremento
-# exp:porcentaje
-# max-attacks:cantidad
-# min-weight:peso en décimas de libra
-# strength-multiplier:factor multiplicador
-# title:título
-# equip:tval:sval:mín:máx:opciones
-# obj-flags:banderas de propiedad de objeto
-# player-flags:banderas de propiedad de jugador
-# magic:primer_hechizo:peso_hechizo:número_libros
-# book:tval:calidad:nombre:hechizos:reino
-# book-graphics:símbolo:color
-# book-properties:coste:comunidad:min to max
-# spell:nombre:nivel:maná:fallo:exp
-# effect:efecto:subtipo (si es necesario):radio (si es necesario):parámetro (si es necesario)
-# effect-yx:rango_y:rango_x
-# dice:cadena de dados
-# expr:expresión de dados
-# effect-msg:mensaje
-# desc: descripción
-
-
-# 'name' indica el comienzo de una entrada. El número de serie debe
-# aumentar para cada nueva clase.
-
-# 'stats' es para los modificadores de estadísticas - fuerza, inteligencia, sabiduría,
-# destreza, constitución.
-
-# 'skill-<nombre de habilidad>' es para las habilidades - desarme físico y mágico,
-# dispositivos mágicos, tiradas de salvación, sigilo, probabilidad de golpe (normal),
-# probabilidad de golpe (arcos), probabilidad de golpe (lanzar), excavación. La entrada base
-# es lo que se añade a las habilidades del personaje al nacer, los incrementos se añaden
-# a la habilidad base cada diez niveles.
-
-# 'hitdie' establece la contribución de la clase a los puntos de vida máximos ganados por
-# nivel
-
-# 'exp' establece la contribución aditiva de la clase, en porcentaje, a la penalización
-# de puntos de experiencia. Las clases actuales no establecen esto y obtienen la
-# penalización predeterminada de cero.
-
-# 'max-attacks' establece el número máximo posible de golpes por ronda.
-
-# 'min-weight' es el mínimo, en décimas de libra, impuesto al peso de un arma
-# al calcular el número de golpes por ronda.
-
-# 'strength-multiplier' es el multiplicador para la contribución de la fuerza al
-# número de golpes por ronda; un valor mayor otorga más golpes.
-
-# 'equip' es para el equipo inicial - tval del objeto, sval del objeto,
-# cantidad mínima, cantidad máxima, nombres de las opciones de nacimiento separados por espacios
-# o | (o ninguno si no hay reglas de exclusión) que excluirán el objeto si está activado
-# (o, si el nombre de la opción está precedido por NOT-, excluirá el objeto si
-# no está activado).
-
-# 'obj-flags' es para las propiedades de objeto (de object_property.txt) que
-# tiene la clase.
-
-# 'player-flags' es para las propiedades de jugador (de player_property.txt) que
-# tiene la clase.
-
-# 'title' es para los títulos de clase.
-
-# 'magic' es para la información mágica general - nivel del primer hechizo, peso que
-# perjudica los hechizos, número de libros usados.
-
-# 'book' define uno de estos libros - base de objeto, si es un libro de ciudad o de
-# mazmorra, nombre, número de hechizos, reino del libro. Es necesario definir un libro
-# para cada clase que lo use, ya que de lo contrario no se reconoce como uno de los libros
-# de esa clase.
-
-# 'book-graphics' es para el símbolo y el color como se usa en object.txt.
-# Las líneas 'book-graphics:' se refieren a la línea de libro anterior, y no es necesario
-# incluirlas si ya se ha definido un libro con el mismo nombre anteriormente.
-
-# 'book-properties' es para las propiedades de objeto de un libro - coste, comunidad,
-# y profundidades mínima y máxima de aparición.
-# Las líneas 'book-properties:' se refieren a la línea de libro anterior, y no es necesario
-# incluirlas si ya se ha definido un libro con el mismo nombre anteriormente.
-
-# 'spell' define un hechizo individual - nombre, nivel, maná requerido,
-# tasa de fallo, experiencia por el primer lanzamiento. Las líneas 'spell:' siempre se refieren a
-# los hechizos en la línea 'book:' anterior. Las líneas siguientes se usan todas en
-# referencia a la línea 'spell:' anterior.
-
-# 'effect' define el efecto del hechizo (como se lista en src/list-effects.h),
-# y opcionalmente parámetros para el subtipo de efecto, radio de efecto y
-# un parámetro extra para varias cosas.
-
-# 'effect-yx' establece el rango y (vertical) y el rango x (horizontal)
-# alrededor del centro del efecto. Solo algunos efectos (a menudo detecciones) usan esos
-# rangos.
-
-# 'dice' proporciona un valor aleatorio para ser usado por un efecto (para daño,
-# curación, etc.). Además de los campos de valor aleatorio normales descritos arriba,
-# puede contener expresiones como $B, que se refieren a una línea 'expr' posterior.
-
-# 'expr' proporciona una expresión para usar en los dados de efecto. Consiste en una
-# letra de código (ej. B) para la expresión, una función base a usar (por ejemplo
-# PLAYER_LEVEL), y una secuencia de operaciones a realizar sobre esa base.
-
-# 'effect-msg' proporciona un mensaje que puede ser usado de la manera que el efecto
-# necesite, típicamente para imprimir durante el efecto, o como mensaje de muerte.
-
-# 'desc' es para la descripción. Se pueden usar tantas líneas desc: como sean necesarias
-# para describir el hechizo. Nótese que las líneas necesitarán espacios al final
-# o al principio de la siguiente línea para evitar que las palabras se junten.
+# Format:
+# name:class number:class name
+# stats:str:int:wis:dex:con
+# skill-disarm-phys:base:increment
+# skill-disarm-magic:base:increment
+# skill-device:base:increment
+# skill-save:base:increment
+# skill-stealth:base:increment
+# skill-search:base:increment
+# skill-melee:base:increment
+# skill-shoot:base:increment
+# skill-throw:base:increment
+# skill-dig:base:increment
+# hitdie:increment
+# exp:percent
+# max-attacks:count
+# min-weight:weight in tenths of pounds
+# strength-multiplier:multiplicative factor
+# title:title
+# equip:tval:sval:min:max:eopts
+# obj-flags:object property flags
+# player-flags:player property flags
+# magic:spell_first:spell_weight:num_books
+# book:tval:quality:name:spells:realm
+# book-graphics:symbol:color
+# book-properties:cost:commonness:min to max
+# spell:name:level:mana:fail:exp
+# effect:effect:subtype (if needed):radius (if needed):parameter (if needed)
+# effect-yx:yrange:xrange
+# dice:dice string
+# expr:dice expression
+# effect-msg:message
+# desc: description
 
 
+# 'name' indicates the beginning of an entry. The serial number must
+# increase for each new class.
 
-############### GUERRERO ###############
+# 'stats' is for the stat modifiers - strength, intelligence, wisdom,
+# dexterity, constitution.
+
+# 'skill-<skill name>' is for skills - physical and magical disarming,
+# magic devices, saving throws, stealth, to hit (normal), to hit (bows),
+# to hit (throwing), digging.  The base entry is what gets added to the
+# character's skills at birth, the increments are added to the base skill
+# every ten levels.
+
+# 'hitdie' sets the class's contribution to the maximum hitpoints gained per
+# level
+
+# 'exp' sets the class's additive contribution, in percent, to the experience
+# point penalty.  The current classes don't set this and get the default of
+# no experience point penalty.
+
+# 'max-attacks' sets the maximum possible number of blows per round.
+
+# 'min-weight' is the minimum, in tenths of pounds, imposed on a weapon's weight
+# when computing the number of blows per round.
+
+# 'strength-multiplier' is the multiplier for strength's contribution to the
+# number of blows per round; a bigger value grants more blows.
+
+# 'equip' is for starting equipment - tval of the item, sval of the item,
+# minimum amount, maximum amount, names of birth options separated by spaces
+# or | (or none for no exclusion rules) which will exclude the item if set
+# (or, if the name of the option is preceded by NOT-, will exclude the item if
+# not set).
+
+# 'obj-flags' is for object properties (from object_property.txt) that the
+# class has.
+
+# 'player-flags' is for player properties (from player_property.txt) that the
+# class has.
+
+# 'title' is for class titles.
+
+# 'magic' is for general magic info - level of the first spell, weight that
+# hurts spells, number of books used.
+
+# 'book' defines one of these books - object base, whether a town or a dungeon
+# book, name, number of spells, book realm.  A book needs to be defined for
+# each class which uses it, as otherwise it is not recognised as one of that
+# class's books.
+
+# 'book-graphics' is for symbol and color as used in object.txt.
+# 'book-graphics:' lines refer to the previous book line, and need not be
+# included if a book of the same name has been defined earlier.
+
+# 'book-properties' is for object properties of a book - cost, commonness,
+# and minimum and maximum depths of occurrence.
+# 'book-properties:' lines refer to the previous book line, and need not be
+# included if a book of the same name has been defined earlier.
+
+# 'spell' defines an individual spell - name, level, mana required,
+# fail-rate, experience for first casting.    'spell:' lines always refer to
+# spells in the previous 'book:' line.  The lines below are all used in
+# reference to the previous 'spell:' line.
+
+# 'effect' defines the spell effect (as listed in src/list-effects.h),
+# and optionally parameters for effect subtype, effect radius and
+# an extra parameter for various things
+
+# 'effect-yx' sets the y (i.e. vertical) range and x (i.e. horizontal) range
+# about the effect's centre.  Only some effects (often detections) use those
+# ranges.
+
+# 'dice' provides a random value to be used by an effect (for damage,
+# healing, etc).  As well as the normal random value fields described above,
+# it can contain expressions like $B, which refer forward to an 'expr' line.
+
+# 'expr' provides an expression for use in effect dice.  It consists of a
+# code letter (eg B) for the expression, a base function to use (for example
+# PLAYER_LEVEL), and a sequence of operations to perform on that base.
+
+# 'effect-msg' provides a message which can be used in whatever way the effect
+# needs, typically to print during the effect, or as a death message.
+
+# 'desc' is for description. As many desc: lines may be used as are needed
+# to describe the spell. Note that lines will need spaces at their
+# ends or the beginning of the next line to prevent words from running
+# together.
+
+
+
+############### WARRIOR ###############
 name:Warrior
 stats:3:-2:-2:2:2
 skill-disarm-phys:25:15
@@ -167,7 +168,7 @@ title:Héroe
 title:Señor
 
 
-############### MAGO ###############
+############### MAGE ###############
 name:Mage
 stats:-3:3:0:0:-2
 skill-disarm-phys:30:10
@@ -444,7 +445,7 @@ desc:Dispara una bola de maná de radio 3 que hace daño irresistible
 desc: a cada monstruo en su área de efecto.
 
 
-############### DRUIDA ###############
+############### DRUID ###############
 name:Druid
 stats:-2:0:3:-2:0
 skill-disarm-phys:30:10
@@ -682,7 +683,7 @@ expr:D:PLAYER_LEVEL:+ 10
 desc:Escupe plasma en un cono largo y estrecho desde el jugador.
 
 
-############### SACERDOTE ###############
+############### PRIEST ###############
 name:Priest
 stats:-1:-3:3:-1:1
 skill-disarm-phys:25:12
@@ -951,7 +952,7 @@ desc:Lanza una bola de luz fuerte de radio 4, y luego baña toda el área
 desc: en luz haciendo 100 de daño a cada criatura sensible a la luz.
 
 
-############### NIGROMANTE ###############
+############### NECROMANCER ###############
 name:Necromancer
 stats:-3:3:0:0:-2
 skill-disarm-phys:30:10
@@ -1208,7 +1209,7 @@ dice:5+1d10
 desc:Te permite tomar el control de un monstruo y moverlo en lugar de a ti mismo.
 desc:  Las acciones posibles son mover, quedarse quieto, 's'oltar, 'm'agia o 'l'iberar.
 
-############### PALADÍN ###############
+############### PALADIN ###############
 name:Paladin
 stats:1:-3:1:-1:2
 skill-disarm-phys:20:15
@@ -1370,7 +1371,7 @@ desc:Te encierra a ti y al monstruo objetivo en una celda de piedra de la que so
 desc: vencedor puede salir.
 
 
-############### PÍCARO ###############
+############### ROGUE ###############
 name:Rogue
 stats:0:1:-3:3:-1
 skill-disarm-phys:45:20
@@ -1476,7 +1477,7 @@ desc:Te teletransporta 1 nivel arriba o 1 nivel abajo (elegido al azar).
 desc:  Este hechizo puede no tener efecto cuando la opción de descenso forzado está activada.
 
 
-############### MONTARAZ ###############
+############### RANGER ###############
 name:Ranger
 stats:0:0:2:1:-1
 skill-disarm-phys:40:15
@@ -1586,7 +1587,7 @@ desc:  El hechizo no tiene efecto si la munición ya está marcada, tiene un
 desc: daño aumentado, está rota o maldita.
 
 
-############### GUARDIA NEGRA ###############
+############### BLACKGUARD ###############
 name:Blackguard
 stats:2:0:-3:0:2
 skill-disarm-phys:20:15

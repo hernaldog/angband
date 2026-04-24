@@ -1,15 +1,15 @@
-# Archivo blow_methods.txt
+# File blow_methods.txt
 
-# Métodos de ataque de los monstruos
+# Methods for monster blows
 
-# name: código del método de golpe
-# cut: 1 si el método puede causar cortes, 0 si no
-# stun: 1 si el método puede aturdir, 0 si no
-# miss: 1 si se informa al jugador cuando el golpe falla, 0 si no
-# phys: 1 si el método inflige daño físico, 0 si no
-# msg: tipo de mensaje a mostrar
-# act: cadena de acción a añadir
-# desc: descripción del conocimiento del monstruo (lore)
+# name: blow method code
+# cut: 1 if the method can cut, 0 if not
+# stun: 1 if the method can stun, 0 if not
+# miss: 1 if the player is told when the blow misses, 0 if not
+# phys: 1 if the method does physical damage, 0 if not
+# msg: message type to display
+# act: action string to append
+# desc: monster lore description
 
 name:HIT
 cut:1
