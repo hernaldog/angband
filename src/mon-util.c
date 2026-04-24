@@ -1,6 +1,6 @@
 /**
  * \file mon-util.c
- * \brief Utilidades de manipulación de monstruos.
+ * \brief Monster manipulation utilities.
  *
  * Copyright (c) 1997-2007 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
@@ -49,7 +49,7 @@
 
 /**
  * ------------------------------------------------------------------------
- * Utilidades de registro (lore)
+ * Lore utilities
  * ------------------------------------------------------------------------ */
 static const struct monster_flag monster_flag_table[] =
 {
@@ -60,11 +60,11 @@ static const struct monster_flag monster_flag_table[] =
 };
 
 /**
- * Devuelve una descripción para el flag de raza de monstruo dado.
+ * Return a description for the given monster race flag.
  *
- * Devuelve una cadena vacía si el flag está fuera de rango.
+ * Returns an empty string for an out-of-range flag.
  *
- * \param flag es uno de los flags RF_.
+ * \param flag is one of the RF_ flags.
  */
 const char *describe_race_flag(int flag)
 {
@@ -77,12 +77,12 @@ const char *describe_race_flag(int flag)
 }
 
 /**
- * Crea una máscara de flags de monstruo de un tipo específico.
+ * Create a mask of monster flags of a specific type.
  *
- * \param f es el array de flags que estamos rellenando
- * \param ... es la lista de flags que estamos buscando
+ * \param f is the flag array we're filling
+ * \param ... is the list of flags we're looking for
  *
- * N.B. RFT_MAX debe ser el último elemento en la lista ...
+ * N.B. RFT_MAX must be the last item in the ... list
  */
 void create_mon_flag_mask(bitflag *f, ...)
 {
@@ -109,12 +109,12 @@ void create_mon_flag_mask(bitflag *f, ...)
 
 /**
  * ------------------------------------------------------------------------
- * Utilidades de búsqueda
+ * Lookup utilities
  * ------------------------------------------------------------------------ */
 /**
- * Devuelve el monstruo con el nombre dado. Si ningún monstruo tiene exactamente
- * el nombre indicado, devuelve el primero cuyo nombre contenga la cadena dada
- * (sin distinción de mayúsculas/minúsculas).
+ * Returns the monster with the given name. If no monster has the exact name
+ * given, returns the first monster with the given name as a (case-insensitive)
+ * substring.
  */
 struct monster_race *lookup_monster(const char *name)
 {
@@ -141,7 +141,7 @@ struct monster_race *lookup_monster(const char *name)
 }
 
 /**
- * Devuelve la base de monstruo que coincide con el nombre dado.
+ * Return the monster base matching the given name.
  */
 struct monster_base *lookup_monster_base(const char *name)
 {
@@ -157,11 +157,11 @@ struct monster_base *lookup_monster_base(const char *name)
 }
 
 /**
- * Devuelve si la base dada coincide con alguno de los nombres proporcionados.
+ * Return whether the given base matches any of the names given.
  *
- * Acepta una lista de cadenas de nombres de longitud variable. La lista debe terminar con NULL.
+ * Accepts a variable-length list of name strings. The list must end with NULL.
  *
- * Esta función actualmente no se usa, excepto en un test... -NRM-
+ * This function is currently unused, except in a test... -NRM-
  */
 bool match_monster_bases(const struct monster_base *base, ...)
 {
@@ -178,7 +178,7 @@ bool match_monster_bases(const struct monster_base *base, ...)
 }
 
 /**
- * Devuelve el monstruo actualmente comandado, o NULL
+ * Returns the monster currently commanded, or NULL
  */
 struct monster *get_commanded_monster(void)
 {
@@ -200,11 +200,11 @@ struct monster *get_commanded_monster(void)
 
 /**
  * ------------------------------------------------------------------------
- * Actualizaciones de monstruos
+ * Monster updates
  * ------------------------------------------------------------------------ */
 /**
- * Analiza el camino desde el jugador hasta el monstruo visto por infravision
- * y olvida las casillas que habrían bloqueado la línea de visión
+ * Analyse the path from player to infravision-seen monster and forget any
+ * grids which would have blocked line of sight
  */
 static void path_analyse(struct chunk *c, struct loc grid)
 {
@@ -231,65 +231,62 @@ static void path_analyse(struct chunk *c, struct loc grid)
 }
 
 /**
- * Esta función actualiza el registro del monstruo dado.
+ * This function updates the monster record of the given monster
  *
- * Esto implica calcular la distancia al jugador (si se solicita),
- * y luego comprobar la visibilidad (natural, infravision, ver-invisible,
- * telepatía), actualizando el flag de visibilidad del monstruo, redibujando
- * (o borrando) el monstruo cuando cambia su visibilidad, y tomando nota
- * de cualquier flag interesante del monstruo (sangre fría, invisible, etc).
+ * This involves extracting the distance to the player (if requested),
+ * and then checking for visibility (natural, infravision, see-invis,
+ * telepathy), updating the monster visibility flag, redrawing (or
+ * erasing) the monster when its visibility changes, and taking note
+ * of any interesting monster flags (cold-blooded, invisible, etc).
  *
- * Nótese el nuevo campo "mflag" que codifica varios flags de estado del
- * monstruo, incluyendo "view" para cuando el monstruo está actualmente en
- * línea de visión, y "mark" para cuando el monstruo es visible mediante
- * detección.
+ * Note the new "mflag" field which encodes several monster state flags,
+ * including "view" for when the monster is currently in line of sight,
+ * and "mark" for when the monster is currently visible via detection.
  *
- * Los únicos campos del monstruo que se modifican aquí son "cdis" (la
- * distancia al jugador), "ml" (visible para el jugador), y
- * "mflag" (para mantener el flag "MFLAG_VIEW").
+ * The only monster fields that are changed here are "cdis" (the
+ * distance from the player), "ml" (visible to the player), and
+ * "mflag" (to maintain the "MFLAG_VIEW" flag).
  *
- * Nótese la función especial "update_monsters()" que puede usarse para
- * llamar a esta función una vez por cada monstruo.
+ * Note the special "update_monsters()" function which can be used to
+ * call this function once for every monster.
  *
- * Nótese el flag "full" que solicita que el campo "cdis" sea actualizado;
- * esto solo es necesario cuando el monstruo (o el jugador) se ha movido.
+ * Note the "full" flag which requests that the "cdis" field be updated;
+ * this is only needed when the monster (or the player) has moved.
  *
- * Cada vez que un monstruo se mueve, debemos llamar a esta función para ese
- * monstruo, y actualizar la distancia y la visibilidad. Cada vez que
- * el jugador se mueve, debemos llamar a esta función para cada monstruo, y
- * actualizar la distancia y la visibilidad. Siempre que el "estado" del
- * jugador cambie de ciertas formas ("ceguera", "infravision", "telepatía"
- * y "ver invisible"), debemos llamar a esta función para cada monstruo
- * y actualizar la visibilidad.
+ * Every time a monster moves, we must call this function for that
+ * monster, and update the distance, and the visibility.  Every time
+ * the player moves, we must call this function for every monster, and
+ * update the distance, and the visibility.  Whenever the player "state"
+ * changes in certain ways ("blindness", "infravision", "telepathy",
+ * and "see invisible"), we must call this function for every monster,
+ * and update the visibility.
  *
- * Las rutinas que cambian la "iluminación" de una casilla también deben
- * llamar a esta función para cualquier monstruo en esa casilla, ya que la
- * "visibilidad" de algunos monstruos puede depender de la iluminación
- * de su casilla.
+ * Routines that change the "illumination" of a grid must also call this
+ * function for any monster in that grid, since the "visibility" of some
+ * monsters may be based on the illumination of their grid.
  *
- * Nótese que esta función se llama una vez por monstruo cada vez que el
- * jugador se mueve. Cuando el jugador corre, esta función es uno de los
- * principales cuellos de botella, junto con "update_view()" y el código
- * de "process_monsters()", por lo que la eficiencia es importante.
+ * Note that this function is called once per monster every time the
+ * player moves.  When the player is running, this function is one
+ * of the primary bottlenecks, along with "update_view()" and the
+ * "process_monsters()" code, so efficiency is important.
  *
- * Nótese la versión "inline" optimizada de la función "distance()".
+ * Note the optimized "inline" version of the "distance()" function.
  *
- * Un monstruo es "visible" para el jugador si (1) ha sido detectado
- * por el jugador, (2) está cerca del jugador y el jugador tiene
- * telepatía, o (3) está cerca del jugador, en línea de visión
- * del jugador, y está "iluminado" por alguna combinación de
- * infravision, luz de antorcha, o luz permanente (los monstruos
- * invisibles solo son afectados por la "luz" si el jugador puede ver
- * invisible).
+ * A monster is "visible" to the player if (1) it has been detected
+ * by the player, (2) it is close to the player and the player has
+ * telepathy, or (3) it is close to the player, and in line of sight
+ * of the player, and it is "illuminated" by some combination of
+ * infravision, torch light, or permanent light (invisible monsters
+ * are only affected by "light" if the player can see invisible).
  *
- * Los monstruos que no están en el panel actual pueden ser "visibles" para
- * el jugador, y sus descripciones incluirán una referencia "fuera de pantalla".
- * Actualmente, los monstruos fuera de pantalla no pueden ser apuntados
- * ni vistos directamente, pero los objetivos antiguos permanecerán. XXX XXX
+ * Monsters which are not on the current panel may be "visible" to
+ * the player, and their descriptions will include an "offscreen"
+ * reference.  Currently, offscreen monsters cannot be targeted
+ * or viewed directly, but old targets will remain set.  XXX XXX
  *
- * El jugador puede elegir ser perturbado por varias cosas, incluyendo
- * "OPT(player, disturb_near)" (monstruo que es "fácilmente" visible se mueve
- * de alguna forma). Nótese que "moverse" incluye "aparecer" y "desaparecer".
+ * The player can choose to be disturbed by several things, including
+ * "OPT(player, disturb_near)" (monster which is "easily" viewable moves in some
+ * way).  Note that "moves" includes "appears" and "disappears".
  */
 void update_mon(struct monster *mon, struct chunk *c, bool full)
 {
@@ -479,7 +476,7 @@ void update_mon(struct monster *mon, struct chunk *c, bool full)
 }
 
 /**
- * Actualiza todos los monstruos (no muertos) mediante update_mon().
+ * Updates all the (non-dead) monsters via update_mon().
  */
 void update_monsters(bool full)
 {
@@ -498,10 +495,10 @@ void update_monsters(bool full)
 
 /**
  * ------------------------------------------------------------------------
- * Movimiento real de monstruos (y jugador)
+ * Monster (and player) actual movement
  * ------------------------------------------------------------------------ */
 /**
- * Se llama cuando el jugador acaba de abandonar grid1 hacia grid2.
+ * Called when the player has just left grid1 for grid2.
  */
 static void player_leaving(struct loc grid1, struct loc grid2)
 {
@@ -518,9 +515,9 @@ static void player_leaving(struct loc grid1, struct loc grid2)
 }
 
 /**
- * Función auxiliar para mover un objeto mimético cuando el mimo (desconocido
- * para el jugador) es movido. Asume que el llamador ejecutará
- * square_light_spot() para la casilla de origen.
+ * Is a helper function to move a mimicked object when the mimic (not known
+ * to the player) is moved.  Assumes that the caller will be calling
+ * square_light_spot() for the source grid.
  */
 static void move_mimicked_object(struct chunk *c, struct monster *mon,
 	struct loc src, struct loc dest)
@@ -564,7 +561,7 @@ static void move_mimicked_object(struct chunk *c, struct monster *mon,
 }
 
 /**
- * Intercambia los jugadores/monstruos (si los hay) en dos ubicaciones.
+ * Swap the players/monsters (if any) at two locations.
  */
 void monster_swap(struct loc grid1, struct loc grid2)
 {
@@ -681,10 +678,10 @@ void monster_swap(struct loc grid1, struct loc grid2)
 
 /**
  * ------------------------------------------------------------------------
- * Consciencia y aprendizaje
+ * Awareness and learning
  * ------------------------------------------------------------------------ */
 /**
- * El monstruo se despierta y posiblemente se hace consciente del jugador
+ * Monster wakes up and possibly becomes aware of the player
  */
 void monster_wake(struct monster *mon, bool notify, int aware_chance)
 {
@@ -696,7 +693,7 @@ void monster_wake(struct monster *mon, bool notify, int aware_chance)
 }
 
 /**
- * El monstruo puede ver una casilla
+ * Monster can see a grid
  */
 bool monster_can_see(struct chunk *c, struct monster *mon, struct loc grid)
 {
@@ -704,12 +701,12 @@ bool monster_can_see(struct chunk *c, struct monster *mon, struct loc grid)
 }
 
 /**
- * Hace que el jugador sea plenamente consciente del mimo dado.
+ * Make player fully aware of the given mimic.
  *
- * \param c Es el chunk con el monstruo.
- * \param mon Es el monstruo.
- * Cuando el jugador se hace consciente de un mimo, actualizamos la memoria
- * del monstruo y eliminamos el "objeto falso" que el monstruo estaba mimando.
+ * \param c Is the chunk with the monster.
+ * \param mon Is the monster.
+ * When a player becomes aware of a mimic, we update the monster memory
+ * and delete the "fake item" that the monster was mimicking.
  */
 void become_aware(struct chunk *c, struct monster *mon)
 {
@@ -782,11 +779,11 @@ void become_aware(struct chunk *c, struct monster *mon)
 }
 
 /**
- * El monstruo dado aprende sobre una resistencia "observada" u otra
- * propiedad del estado del jugador, o su ausencia.
+ * The given monster learns about an "observed" resistance or other player
+ * state property, or lack of it.
  *
- * Nótese que esta función es robusta ante ser llamada con `element` como
- * un tipo PROJ_ arbitrario
+ * Note that this function is robust to being called with `element` as an
+ * arbitrary PROJ_ type
  */
 void update_smart_learn(struct monster *mon, struct player *p, int flag,
 						int pflag, int element)
@@ -839,15 +836,15 @@ void update_smart_learn(struct monster *mon, struct player *p, int flag,
 
 /**
  * ------------------------------------------------------------------------
- * Curación de monstruos
+ * Monster healing
  * ------------------------------------------------------------------------ */
 #define MAX_KIN_RADIUS			5
 #define MAX_KIN_DISTANCE		5
 
 /**
- * Dado un chunk de mazmorra, un monstruo y una ubicación, comprueba si hay
- * un monstruo herido del mismo tipo base en línea de visión y a menos de
- * MAX_KIN_DISTANCE de distancia.
+ * Given a dungeon chunk, a monster, and a location, see if there is
+ * an injured monster with the same base kind in LOS and less than
+ * MAX_KIN_DISTANCE away.
  */
 static struct monster *get_injured_kin(struct chunk *c,
 									   const struct monster *mon,
@@ -881,10 +878,9 @@ static struct monster *get_injured_kin(struct chunk *c,
 }
 
 /**
- * Averigua si hay monstruos heridos cercanos.
+ * Find out if there are any injured monsters nearby.
  *
- * Véase get_injured_kin() arriba para más detalles sobre qué monstruos
- * califican.
+ * See get_injured_kin() above for more details on what monsters qualify.
  */
 bool find_any_nearby_injured_kin(struct chunk *c, const struct monster *mon)
 {
@@ -903,12 +899,10 @@ bool find_any_nearby_injured_kin(struct chunk *c, const struct monster *mon)
 }
 
 /**
- * Elige un monstruo herido del mismo tipo base en línea de visión del
- * monstruo indicado.
+ * Choose one injured monster of the same base in LOS of the provided monster.
  *
- * Escanea MAX_KIN_RADIUS casillas alrededor del monstruo para encontrar
- * casillas candidatas, usando muestreo de reserva con k = 1 para elegir
- * una aleatoria.
+ * Scan MAX_KIN_RADIUS grids around the monster to find potential grids,
+ * using reservoir sampling with k = 1 to find a random one.
  */
 struct monster *choose_nearby_injured_kin(struct chunk *c,
                                           const struct monster *mon)
@@ -936,24 +930,21 @@ struct monster *choose_nearby_injured_kin(struct chunk *c,
 
 /**
  * ------------------------------------------------------------------------
- * Utilidades de daño y muerte de monstruos
+ * Monster damage and death utilities
  * ------------------------------------------------------------------------ */
 /**
- * Gestiona la "muerte" de un monstruo.
+ * Handles the "death" of a monster.
  *
- * Dispersa los tesoros transportados por el monstruo centrados en su
- * ubicación. Nótese que los objetos soltados pueden desaparecer en salas
- * abarrotadas.
+ * Disperses treasures carried by the monster centered at the monster location.
+ * Note that objects dropped may disappear in crowded rooms.
  *
- * Comprueba si se completa alguna "Misión" cuando se mata a un monstruo
- * de misión.
+ * Checks for "Quest" completion when a quest monster is killed.
  *
- * Nótese que solo el jugador puede provocar "monster_death()" en los
- * Únicos. Por tanto (por ahora) todos los monstruos de misión deben ser
- * Únicos.
+ * Note that only the player can induce "monster_death()" on Uniques.
+ * Thus (for now) all Quest monsters should be Uniques.
  *
- * Si `stats` es true, se omite la actualización de la memoria del monstruo.
- * Esto lo usa el código de generación de estadísticas, por eficiencia.
+ * If `stats` is true, then we skip updating the monster memory. This is
+ * used by stats-generation code, for efficiency.
  */
 void monster_death(struct monster *mon, struct player *p, bool stats)
 {
@@ -1015,7 +1006,7 @@ void monster_death(struct monster *mon, struct player *p, bool stats)
 }
 
 /**
- * Gestiona las consecuencias de que el jugador mate a un monstruo
+ * Handle the consequences of the killing of a monster by the player
  */
 static void player_kill_monster(struct monster *mon, struct player *p,
 		const char *note)
@@ -1141,7 +1132,7 @@ static void player_kill_monster(struct monster *mon, struct player *p,
 }
 
 /**
- * Analiza cómo reacciona un monstruo al daño recibido
+ * See how a monster reacts to damage
  */
 static bool monster_scared_by_damage(struct monster *mon, int dam)
 {
@@ -1188,17 +1179,16 @@ static bool monster_scared_by_damage(struct monster *mon, int dam)
 }
 
 /**
- * Inflige daño a un monstruo desde otro monstruo (o al menos no del jugador).
+ * Deal damage to a monster from another monster (or at least not the player).
  *
- * Es una función auxiliar para los manejadores de combate cuerpo a cuerpo.
- * Es muy similar a mon_take_hit(), pero elimina las partes orientadas al
- * jugador de esa función.
+ * This is a helper for melee handlers. It is very similar to mon_take_hit(),
+ * but eliminates the player-oriented stuff of that function.
  *
- * \param dam es la cantidad de daño a infligir
- * \param t_mon es el monstruo al que se daña
- * \param hurt_msg es el mensaje, si lo hay, a usar cuando el monstruo resulta herido
- * \param die_msg es el mensaje, si lo hay, a usar cuando el monstruo muere
- * \return true si el monstruo murió, false si sigue con vida
+ * \param dam is the amount of damage to inflict
+ * \param t_mon is the monster to damage
+ * \param hurt_msg is the message, if any, to use when the monster is hurt
+ * \param die_msg is the message, if any to use when the monster dies
+ * \return true if the monster died, false if it is still alive
  */
 bool mon_take_nonplayer_hit(int dam, struct monster *t_mon,
 							enum mon_messages hurt_msg,
@@ -1256,21 +1246,20 @@ bool mon_take_nonplayer_hit(int dam, struct monster *t_mon,
 }
 
 /**
- * Reduce los puntos de vida de un monstruo en `dam` y gestiona su muerte.
+ * Decreases a monster's hit points by `dam` and handle monster death.
  *
- * "Retrasamos" los mensajes de miedo pasando un flag "fear".
+ * We "delay" fear messages by passing around a "fear" flag.
  *
- * Anunciamos la muerte del monstruo (usando un "mensaje de muerte" opcional
- * (`note`) si se proporciona, o de lo contrario un mensaje genérico de
- * matado/destruido).
+ * We announce monster death (using an optional "death message" (`note`)
+ * if given, and a otherwise a generic killed/destroyed message).
  *
- * Devuelve true si el monstruo ha sido eliminado (y borrado).
+ * Returns true if the monster has been killed (and deleted).
  *
- * TODO: Considerar reducir la experiencia del monstruo con el tiempo, por
- * ejemplo usando "(m_exp * m_lev * (m_lev)) / (p_lev * (m_lev + n_killed))"
- * en lugar de simplemente "(m_exp * m_lev) / (p_lev)", para que el primer
- * monstruo valga más que los siguientes. Esto también requeriría cambios
- * en el código de recuerdo de monstruos. XXX XXX XXX
+ * TODO: Consider decreasing monster experience over time, say, by using
+ * "(m_exp * m_lev * (m_lev)) / (p_lev * (m_lev + n_killed))" instead
+ * of simply "(m_exp * m_lev) / (p_lev)", to make the first monster
+ * worth more than subsequent monsters.  This would also need to
+ * induce changes in the monster recall code.  XXX XXX XXX
  **/
 bool mon_take_hit(struct monster *mon, struct player *p, int dam, bool *fear,
 		const char *note)
@@ -1333,7 +1322,7 @@ void kill_arena_monster(struct monster *mon)
 }
 
 /**
- * El terreno daña al monstruo
+ * Terrain damages monster
  */
 void monster_take_terrain_damage(struct monster *mon)
 {
@@ -1353,7 +1342,7 @@ void monster_take_terrain_damage(struct monster *mon)
 }
 
 /**
- * El terreno está dañando actualmente al monstruo
+ * Terrain is currently damaging monster
  */
 bool monster_taking_terrain_damage(struct chunk *c, struct monster *mon)
 {
@@ -1368,14 +1357,13 @@ bool monster_taking_terrain_damage(struct chunk *c, struct monster *mon)
 
 /**
  * ------------------------------------------------------------------------
- * Utilidades de inventario de monstruos
+ * Monster inventory utilities
  * ------------------------------------------------------------------------ */
 /**
- * Añade el objeto dado al inventario del monstruo dado.
+ * Add the given object to the given monster's inventory.
  *
- * Actualmente siempre devuelve true — se deja como bool en lugar de
- * void por si en el futuro se propone un límite al tamaño del inventario
- * del monstruo.
+ * Currently always returns true - it is left as a bool rather than
+ * void in case a limit on monster inventory size is proposed in future.
  */
 bool monster_carry(struct chunk *c, struct monster *mon, struct object *obj)
 {
@@ -1412,7 +1400,7 @@ bool monster_carry(struct chunk *c, struct monster *mon, struct object *obj)
 }
 
 /**
- * Obtiene un objeto aleatorio del inventario de un monstruo
+ * Get a random object from a monster's inventory
  */
 struct object *get_random_monster_object(struct monster *mon)
 {
@@ -1434,10 +1422,10 @@ struct object *get_random_monster_object(struct monster *mon)
 }
 
 /**
- * El jugador o un monstruo con midx roba un objeto a un monstruo
+ * Player or monster midx steals an item from a monster
  *
- * \param mon Monstruo al que se le roba
- * \param midx Índice del ladrón
+ * \param mon Monster stolen from
+ * \param midx Index of the thief
  */
 void steal_monster_item(struct monster *mon, int midx)
 {
@@ -1575,16 +1563,16 @@ void steal_monster_item(struct monster *mon, int midx)
 
 /**
  * ------------------------------------------------------------------------
- * Utilidades de transformación de monstruos
+ * Monster shapechange utilities
  * ------------------------------------------------------------------------ */
 /**
- * La base de forma para las transformaciones
+ * The shape base for shapechanges
  */
 struct monster_base *shape_base;
 
 /**
- * Función predicado para get_mon_num_prep
- * Comprueba si la raza del monstruo tiene la misma base que la forma deseada
+ * Predicate function for get_mon_num_prep
+ * Check to see if the monster race has the same base as the desired shape
  */
 static bool monster_base_shape_okay(struct monster_race *race)
 {
@@ -1597,7 +1585,7 @@ static bool monster_base_shape_okay(struct monster_race *race)
 }
 
 /**
- * Transformación de monstruo
+ * Monster shapechange
  */
 bool monster_change_shape(struct monster *mon)
 {
@@ -1693,7 +1681,7 @@ bool monster_change_shape(struct monster *mon)
 }
 
 /**
- * Reversión de transformación de monstruo
+ * Monster reverse shapechange
  */
 bool monster_revert_shape(struct monster *mon)
 {

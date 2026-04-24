@@ -1,6 +1,6 @@
 /**
  * \file mon-init.c
- * \brief Rutinas de inicialización de monstruos.
+ * \brief Monster initialization routines.
  *
  * Copyright (c) 1997 Ben Harrison
  *
@@ -70,7 +70,7 @@ static const char *obj_flags[] =
 };
 
 /**
- * Devuelve el índice de una bandera a partir de su nombre.
+ * Return the index of a flag from its name.
  */
 static int flag_index_by_name(const char *name)
 {
@@ -86,7 +86,7 @@ static int flag_index_by_name(const char *name)
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar métodos de golpe de monstruo
+ * Initialize monster blow methods
  * ------------------------------------------------------------------------ */
 
 static struct blow_method *findmeth(const char *meth_name) {
@@ -217,7 +217,7 @@ static errr finish_parse_meth(struct parser *p) {
 	struct blow_method *meth, *next = NULL;
 	int count = 1;
 
-	/* Contar las entradas */
+	/* Count the entries */
 	z_info->blow_methods_max = 0;
 	meth = parser_priv(p);
 	while (meth) {
@@ -225,7 +225,7 @@ static errr finish_parse_meth(struct parser *p) {
 		meth = meth->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* Allocate the direct access list and copy the data to it */
 	blow_methods = mem_zalloc((z_info->blow_methods_max + 1) * sizeof(*meth));
 	for (meth = parser_priv(p); meth; meth = next, count++) {
 		memcpy(&blow_methods[count], meth, sizeof(*meth));
@@ -273,7 +273,7 @@ struct file_parser meth_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar efectos de golpe de monstruo
+ * Initialize monster blow effects
  * ------------------------------------------------------------------------ */
 
 static struct blow_effect *findeff(const char *eff_name) {
@@ -434,7 +434,7 @@ static errr finish_parse_eff(struct parser *p) {
 	struct blow_effect *eff, *next = NULL;
 	int count;
 
-	/* Contar las entradas */
+	/* Count the entries */
 	z_info->blow_effects_max = 0;
 	eff = parser_priv(p);
 	while (eff) {
@@ -442,7 +442,7 @@ static errr finish_parse_eff(struct parser *p) {
 		eff = eff->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* Allocate the direct access list and copy the data to it */
 	count = z_info->blow_effects_max - 1;
 	blow_effects = mem_zalloc((z_info->blow_effects_max + 1) * sizeof(*eff));
 	for (eff = parser_priv(p); eff; eff = next, count--) {
@@ -486,7 +486,7 @@ struct file_parser eff_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar mensajes de dolor de monstruos
+ * Initialize monster pain messages
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_pain_type(struct parser *p) {
@@ -529,7 +529,7 @@ static errr run_parse_pain(struct parser *p) {
 static errr finish_parse_pain(struct parser *p) {
 	struct monster_pain *mp, *n;
 		
-	/* Escanear la lista para encontrar la ID máxima */
+	/* scan the list for the max id */
 	z_info->mp_max = 0;
 	mp = parser_priv(p);
 	while (mp) {
@@ -538,7 +538,7 @@ static errr finish_parse_pain(struct parser *p) {
 		mp = mp->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* allocate the direct access list and copy the data to it */
 	pain_messages = mem_zalloc((z_info->mp_max + 1) * sizeof(*mp));
 	for (mp = parser_priv(p); mp; mp = n) {
 		memcpy(&pain_messages[mp->pain_idx], mp, sizeof(*mp));
@@ -577,7 +577,7 @@ struct file_parser pain_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar hechizos de monstruos
+ * Initialize monster spells
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_mon_spell_name(struct parser *p) {
@@ -634,7 +634,7 @@ static enum parser_error parse_mon_spell_effect(struct parser *p) {
 	}
 
 	new_effect = mem_zalloc(sizeof(*new_effect));
-	/* Ir al siguiente efecto vacante y establecerlo al nuevo */
+	/* Go to the next vacant effect and set it to the new one  */
 	if (s->effect) {
 		effect = s->effect;
 		while (effect->next)
@@ -644,7 +644,7 @@ static enum parser_error parse_mon_spell_effect(struct parser *p) {
 		s->effect = new_effect;
 	}
 
-	/* Rellenar los detalles */
+	/* Fill in the detail */
 	return grab_effect_data(p, new_effect);
 }
 
@@ -656,7 +656,7 @@ static enum parser_error parse_mon_spell_effect_yx(struct parser *p) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
 
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	effect = s->effect;
 	if (effect == NULL) {
 		return PARSE_ERROR_NONE;
@@ -678,7 +678,7 @@ static enum parser_error parse_mon_spell_dice(struct parser *p) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
 
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	effect = s->effect;
 	if (effect == NULL) {
 		return PARSE_ERROR_NONE;
@@ -713,14 +713,14 @@ static enum parser_error parse_mon_spell_expr(struct parser *p) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
 
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	effect = s->effect;
 	if (effect == NULL) {
 		return PARSE_ERROR_NONE;
 	}
 	while (effect->next) effect = effect->next;
 
-	/* Si no hay dados, asumir que es humano y no un error del analizador. */
+	/* If there are no dice, assume that this is human and not parser error. */
 	if (effect->dice == NULL) {
 		return PARSE_ERROR_NONE;
 	}
@@ -743,7 +743,7 @@ static enum parser_error parse_mon_spell_expr(struct parser *p) {
 		return PARSE_ERROR_UNBOUND_EXPRESSION;
 	}
 
-	/* El objeto dice hace una copia profunda de la expresión, así que podemos liberarla */
+	/* The dice object makes a deep copy of the expression, so we can free it */
 	expression_free(expression);
 	return PARSE_ERROR_NONE;
 }
@@ -994,7 +994,7 @@ struct file_parser mon_spell_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar bases de monstruos
+ * Initialize monster bases
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_mon_base_name(struct parser *p) {
@@ -1113,7 +1113,7 @@ struct file_parser mon_base_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar monstruos
+ * Initialize monsters
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_monster_name(struct parser *p) {
@@ -1135,10 +1135,10 @@ static enum parser_error parse_monster_base(struct parser *p) {
 	if (r->base == NULL)
 		return PARSE_ERROR_INVALID_MONSTER_BASE;
 
-	/* La plantilla establece el carácter de visualización predeterminado */
+	/* The template sets the default display character */
 	r->d_char = r->base->d_char;
 
-	/* Dar al monstruo sus banderas predeterminadas */
+	/* Give the monster its default flags */
 	rf_union(r->flags, r->base->flags);
 
 	return PARSE_ERROR_NONE;
@@ -1150,7 +1150,7 @@ static enum parser_error parse_monster_glyph(struct parser *p) {
 	if (!r)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 
-	/* Si se especifica el carácter de visualización, anula cualquier plantilla */
+	/* If the display character is specified, it overrides any template */
 	r->d_char = parser_getchar(p, "glyph");
 
 	return PARSE_ERROR_NONE;
@@ -1207,7 +1207,7 @@ static enum parser_error parse_monster_hearing(struct parser *p) {
 
 	if (!r)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
-	/* Asume que max_sight es 20, así que ajustamos en caso de que no lo sea */
+	/* Assumes max_sight is 20, so we adjust in case it isn't */
 	r->hearing = parser_getint(p, "hearing") * z_info->max_sight / 20;
 	return PARSE_ERROR_NONE;
 }
@@ -1217,7 +1217,7 @@ static enum parser_error parse_monster_smell(struct parser *p) {
 
 	if (!r)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
-	/* Asume que max_sight es 20, así que ajustamos en caso de que no lo sea */
+	/* Assumes max_sight is 20, so we adjust in case it isn't */
 	r->smell = parser_getint(p, "smell") * z_info->max_sight / 20;
 	return PARSE_ERROR_NONE;
 }
@@ -1247,7 +1247,7 @@ static enum parser_error parse_monster_depth(struct parser *p) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	r->level = parser_getint(p, "level");
 
-	/* El nivel es el poder de hechizo predeterminado */
+	/* Level is default spell power */
 	r->spell_power = r->level;
 	return PARSE_ERROR_NONE;
 }
@@ -1277,7 +1277,7 @@ static enum parser_error parse_monster_blow(struct parser *p) {
 	if (!r)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 
-	/* Ir al último golpe válido, luego asignar uno nuevo */
+	/* Go to the last valid blow, then allocate a new one */
 	b = r->blow;
 	if (!b) {
 		r->blow = mem_zalloc(sizeof(struct monster_blow));
@@ -1289,7 +1289,7 @@ static enum parser_error parse_monster_blow(struct parser *p) {
 		b = b->next;
 	}
 
-	/* Ahora leer los datos */
+	/* Now read the data */
 	b->method = findmeth(parser_getsym(p, "method"));
 	if (!b->method)
 		return PARSE_ERROR_UNRECOGNISED_BLOW;
@@ -1418,20 +1418,20 @@ static enum parser_error parse_monster_spells(struct parser *p) {
 		s = strtok(NULL, " |");
 	}
 
-	/* Asegurarse de que la frecuencia innata esté establecida si es necesario */
+	/* Make sure innate frequency is set if necessary */
 	create_mon_spell_mask(current_flags, RST_INNATE, RST_NONE);
 	rsf_inter(current_flags, r->spell_flags);
 	if (!rsf_is_empty(current_flags) && !r->freq_innate) {
-		/* Establecer la frecuencia al valor más bajo encontrado */
+		/* Set frequency to the lowest found value */
 		r->freq_innate = 4;
 	}
 
-	/* Asegurarse de que la frecuencia no innata esté establecida si es necesario */
+	/* Make sure non-innate frequency is set if necessary */
 	rsf_copy(current_flags, r->spell_flags);
 	create_mon_spell_mask(test_flags, RST_BREATH, RST_INNATE, RST_NONE);
 	rsf_diff(current_flags, test_flags);
 	if (!rsf_is_empty(current_flags) && !r->freq_spell) {
-		/* Establecer la frecuencia al valor más bajo encontrado */
+		/* Set frequency to the lowest found value */
 		r->freq_spell = 4;
 	}
 
@@ -1758,7 +1758,7 @@ static errr finish_parse_monster(struct parser *p) {
 	size_t i;
 	int ridx;
 
-	/* Escanear la lista para la ID máxima y los golpes máximos */
+	/* Scan the list for the max id and max blows */
 	z_info->r_max = 0;
 	z_info->mon_blows_max = 0;
 	r = parser_priv(p);
@@ -1775,7 +1775,7 @@ static errr finish_parse_monster(struct parser *p) {
 		r = r->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los registros de raza a ella */
+	/* Allocate the direct access list and copy the race records to it */
 	r_info = mem_zalloc((z_info->r_max + 1) * sizeof(*r));
 	ridx = z_info->r_max - 1;
 	for (r = parser_priv(p); r; r = n, ridx--) {
@@ -1783,7 +1783,7 @@ static errr finish_parse_monster(struct parser *p) {
 
 		assert(ridx >= 0);
 
-		/* Registro principal */
+		/* Main record */
 		memcpy(&r_info[ridx], r, sizeof(*r));
 		r_info[ridx].ridx = ridx;
 		n = r->next;
@@ -1792,24 +1792,24 @@ static errr finish_parse_monster(struct parser *p) {
 		else
 			r_info[ridx].next = NULL;
 
-		/* Golpes */
+		/* Blows */
 		b_new = mem_zalloc(z_info->mon_blows_max * sizeof(*b_new));
 		if (r->blow) {
 			struct monster_blow *b_temp, *b_old = r->blow;
 
-			/* Asignar espacio y copiar */
+			/* Allocate space and copy */
 			for (i = 0; i < z_info->mon_blows_max; i++) {
 				memcpy(&b_new[i], b_old, sizeof(*b_old));
 				b_old = b_old->next;
 				if (!b_old) break;
 			}
 
-			/* Hacer que el siguiente apunte correctamente */
+			/* Make next point correctly */
 			for (i = 0; i < z_info->mon_blows_max; i++)
 				if (b_new[i].next)
 					b_new[i].next = &b_new[i + 1];
 
-			/* Ordenar */
+			/* Tidy up */
 			b_old = r->blow;
 			b_temp = b_old;
 			while (b_temp) {
@@ -1824,7 +1824,7 @@ static errr finish_parse_monster(struct parser *p) {
 	}
 	z_info->r_max += 1;
 
-	/* Convertir nombres de amigos y formas en punteros de raza */
+	/* Convert friend and shape names into race pointers */
 	for (i = 0; i < z_info->r_max; i++) {
 		struct monster_race *race = &r_info[i];
 		struct monster_friends *f;
@@ -1853,7 +1853,7 @@ static errr finish_parse_monster(struct parser *p) {
 		}
 	}
 
-	/* Asignar espacio para el conocimiento de monstruos */
+	/* Allocate space for the monster lore */
 	l_list = mem_zalloc(z_info->r_max * sizeof(struct monster_lore));
 	for (i = 0; i < z_info->r_max; i++) {
 		struct monster_lore *l = &l_list[i];
@@ -1935,7 +1935,7 @@ struct file_parser monster_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar fosos de monstruos
+ * Initialize monster pits
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_pit_name(struct parser *p) {
@@ -2165,7 +2165,7 @@ static errr finish_parse_pit(struct parser *p) {
 	struct pit_profile *pit, *n;
 	int pit_idx;
 		
-	/* Escanear la lista para la ID máxima */
+	/* Scan the list for the max id */
 	z_info->pit_max = 0;
 	pit = parser_priv(p);
 	while (pit) {
@@ -2173,7 +2173,7 @@ static errr finish_parse_pit(struct parser *p) {
 		pit = pit->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* Allocate the direct access list and copy the data to it */
 	pit_info = mem_zalloc((z_info->pit_max + 1) * sizeof(*pit));
 	pit_idx = z_info->pit_max - 1;
 	for (pit = parser_priv(p); pit; pit = n, pit_idx--) {
@@ -2240,14 +2240,14 @@ struct file_parser pit_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar conocimiento de monstruos
+ * Initialize monster lore
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_lore_name(struct parser *p) {
 	struct monster_race *race = lookup_monster(parser_getstr(p, "name"));
 	struct monster_lore *l = NULL;
 
-	/* Solo establecer conocimiento si tenemos una raza, para permitir monstruos inexistentes */
+	/* Only set lore if we have a race, to allow for non-existent monsters */
 	if (race) {
 		l = &l_list[race->ridx];
 		l->ridx = race->ridx;
@@ -2265,7 +2265,7 @@ static enum parser_error parse_lore_base(struct parser *p) {
 	if (base == NULL)
 		return PARSE_ERROR_INVALID_MONSTER_BASE;
 
-	/* Saber todo */
+	/* Know everything */
 	l->all_known = true;
 	rf_setall(l->flags);
 
@@ -2298,7 +2298,7 @@ static enum parser_error parse_lore_blow(struct parser *p) {
 	if (!l)
 		return PARSE_ERROR_NONE;
 
-	/* Leer todos los datos */
+	/* Read in all the data */
 	method = findmeth(parser_getsym(p, "method"));
 	if (!method)
 		return PARSE_ERROR_UNRECOGNISED_BLOW;
@@ -2316,7 +2316,7 @@ static enum parser_error parse_lore_blow(struct parser *p) {
 	if (index >= z_info->mon_blows_max)
 		return PARSE_ERROR_TOO_MANY_ENTRIES;
 
-	/* Interpretar */
+	/* Interpret */
 	if (seen) {
 		struct monster_blow *b = &l->blows[index];
 		b->method = method;
@@ -2554,7 +2554,7 @@ static struct parser *init_parse_lore(void) {
 }
 
 static errr run_parse_lore(struct parser *p) {
-	/* El fracaso es siempre una opción */
+	/* Failure is always an option */
 	if (parse_file(p, "lore")) {
 		event_signal_message(EVENT_INITSTATUS, 0, "No se encontró archivo de conocimiento de monstruos");
 	}
@@ -2564,26 +2564,26 @@ static errr run_parse_lore(struct parser *p) {
 static errr finish_parse_lore(struct parser *p) {
 	size_t i;
 
-	/* Procesamiento */
+	/* Processing */
 	for (i = 0; i < z_info->r_max; i++) {
 		struct monster_lore *l = &l_list[i];
 		struct monster_race *r = &r_info[i];
 		struct monster_friends *f;
 		int j;
 
-		/* Conocimiento de banderas base */
+		/* Base flag knowledge */
 		if (r->base) {
 			rf_union(l->flags, r->base->flags);
 		}
 
-		/* Eliminar datos de golpes para no-golpes */
+		/* Remove blows data for non-blows */
 		for (j = 0; j < z_info->mon_blows_max; j++) {
 			if (!r->blow) break;
 			if (!(r->blow[j].effect || r->blow[j].method))
 				l->blows[j].times_seen = 0;
 		}
 
-	   /* Convertir nombres de amigos en punteros de raza - el fracaso deja raza NULL */
+	   /* Convert friend names into race pointers - failure leaves NULL race */
 		for (f = l->friends; f; f = f->next) {
 			if (!my_stricmp(f->name, "same"))
 				f->race = r;
@@ -2593,7 +2593,7 @@ static errr finish_parse_lore(struct parser *p) {
 			string_free(f->name);
 		}
 
-		/* actualizar cualquier valor derivado */
+		/* update any derived values */
 		lore_update(r, l);
 	}
 
@@ -2650,3 +2650,4 @@ struct file_parser lore_parser = {
 	finish_parse_lore,
 	cleanup_lore
 };
+
