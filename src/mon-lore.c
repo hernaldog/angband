@@ -1,6 +1,6 @@
 /**
  * \file mon-lore.c
- * \brief Código de memoria de monstruos.
+ * \brief Monster memory code.
  *
  * Copyright (c) 1997-2007 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
@@ -38,7 +38,7 @@
 #include "z-textblock.h"
 
 /**
- * Géneros de monstruos
+ * Monster genders
  */
 enum monster_sex {
 	MON_SEX_NEUTER = 0,
@@ -50,11 +50,11 @@ enum monster_sex {
 typedef enum monster_sex monster_sex_t;
 
 /**
- * Determinar el color para codificar un hechizo de monstruo
+ * Determine the color to code a monster spell
  *
- * Esta función asigna un color a cada hechizo de monstruo, dependiendo de lo
- * peligroso que sea el ataque para el jugador dado el estado actual. Los hechizos pueden
- * ser coloreados verde (menos peligroso), amarillo, naranja o rojo (más peligroso).
+ * This function assigns a color to each monster spell, depending on how
+ * dangerous the attack is to the player given current state. Spells may be
+ * colored green (least dangerous), yellow, orange, or red (most dangerous).
  */
 static int spell_color(struct player *p, const struct monster_race *race,
 					   int spell_index)
@@ -63,39 +63,39 @@ static int spell_color(struct player *p, const struct monster_race *race,
 	struct monster_spell_level *level = spell->level;
 	struct effect *eff = spell ? spell->effect : NULL;
 
-	/* Sin hechizo */
+	/* No spell */
 	if (!spell) return COLOUR_DARK;
 
-	/* Obtener el nivel correcto */
+	/* Get the right level */
 	while (level->next && race->spell_power >= level->next->power) {
 		level = level->next;
 	}
 
-	/* Los hechizos irresistibles solo usan el color por defecto */
+	/* Unresistable spells just use the default color */
 	if (!level->lore_attr_resist && !level->lore_attr_immune) {
 		return level->lore_attr;
 	}
 
-	/* Hechizos con tirada de salvación */
+	/* Spells with a save */
 	if (level->save_message) {
-		/* Resultados mixtos si la salvación puede fallar, resultado perfecto si no puede */
+		/* Mixed results if the save may fail, perfect result if it can't */
 		if (p->known_state.skills[SKILL_SAVE] < 100) {
 			if (eff->index == EF_TELEPORT_LEVEL) {
-				/* Caso especial - teletransporte de nivel */
+				/* Special case - teleport level */
 				if (p->known_state.el_info[ELEM_NEXUS].res_level > 0) {
 					return level->lore_attr_resist;
 				} else {
 					return level->lore_attr;
 				}
 			} else if (eff->index == EF_TIMED_INC) {
-				/* Efectos temporales simples */
+				/* Simple timed effects */
 				if (player_inc_check(p, eff->subtype, true)) {
 					return level->lore_attr;
 				} else {
 					return level->lore_attr_resist;
 				}
 			} else if (level->lore_attr_immune) {
-				/* Múltiples efectos temporales más daño */
+				/* Multiple timed effects plus damage */
 				for (; eff; eff = eff->next) {
 					if (eff->index != EF_TIMED_INC) continue;
 					if (player_inc_check(p, eff->subtype, true)) {
@@ -104,7 +104,7 @@ static int spell_color(struct player *p, const struct monster_race *race,
 				}
 				return level->lore_attr_resist;
 			} else {
-				/* Daño directo */
+				/* Straight damage */
 				return level->lore_attr;
 			}
 		} else if (level->lore_attr_immune) {
@@ -114,12 +114,12 @@ static int spell_color(struct player *p, const struct monster_race *race,
 		}
 	}
 
-	/* Proyectiles, bolas y alientos */
+	/* Bolts, balls and breaths */
 	if ((eff->index == EF_BOLT) || (eff->index == EF_BALL) ||
 		(eff->index == EF_BREATH)) {
-		/* Tratar por elemento */
+		/* Treat by element */
 		switch (eff->subtype) {
-			/* Caso especial - sonido */
+			/* Special case - sound */
 			case ELEM_SOUND:
 				if (p->known_state.el_info[ELEM_SOUND].res_level > 0) {
 					return level->lore_attr_immune;
@@ -129,7 +129,7 @@ static int spell_color(struct player *p, const struct monster_race *race,
 					return level->lore_attr;
 				}
 				break;
-			/* Caso especial - nexo */
+			/* Special case - nexus */
 			case ELEM_NEXUS:
 				if (p->known_state.el_info[ELEM_NEXUS].res_level > 0) {
 					return level->lore_attr_immune;
@@ -139,7 +139,7 @@ static int spell_color(struct player *p, const struct monster_race *race,
 					return level->lore_attr;
 				}
 				break;
-			/* Elementos que aturden o confunden */
+			/* Elements that stun or confuse */
 			case ELEM_FORCE:
 			case ELEM_ICE:
 			case ELEM_PLASMA:
@@ -153,7 +153,7 @@ static int spell_color(struct player *p, const struct monster_race *race,
 					return level->lore_attr_resist;
 				}
 				break;
-			/* Todos los demás elementos */
+			/* All other elements */
 			default:
 				if (p->known_state.el_info[eff->subtype].res_level == 3) {
 					return level->lore_attr_immune;
@@ -169,22 +169,22 @@ static int spell_color(struct player *p, const struct monster_race *race,
 }
 
 /**
- * Determinar el color para codificar un efecto de golpe cuerpo a cuerpo de monstruo
+ * Determine the color to code a monster melee blow effect
  *
- * Esta función asigna un color a cada efecto de golpe de monstruo, dependiendo de lo
- * peligroso que sea el ataque para el jugador dado el estado actual. Los golpes pueden
- * ser coloreados verde (menos peligroso), amarillo, naranja o rojo (más peligroso).
+ * This function assigns a color to each monster blow effect, depending on how
+ * dangerous the attack is to the player given current state. Blows may be
+ * colored green (least dangerous), yellow, orange, or red (most dangerous).
  */
 static int blow_color(struct player *p, int blow_idx)
 {
 	const struct blow_effect *blow = &blow_effects[blow_idx];
 
-	/* Algunos golpes solo usan el color por defecto */
+	/* Some blows just use the default color */
 	if (!blow->lore_attr_resist && !blow->lore_attr_immune) {
 		return blow->lore_attr;
 	}
 
-	/* Los efectos con inmunidades son sencillos */
+	/* Effects with immunities are straightforward */
 	if (blow->lore_attr_immune) {
 		int i;
 
@@ -203,7 +203,7 @@ static int blow_color(struct player *p, int blow_idx)
 		}
 	}
 
-	/* Ahora ver qué atributos del jugador pueden proteger de los efectos */
+	/* Now look at what player attributes can protect from the effects */
 	if (streq(blow->effect_type, "theft")) {
 		if (p->lev + adj_dex_safe[p->known_state.stat_ind[STAT_DEX]] >= 100) {
 			return blow->lore_attr_resist;
@@ -298,7 +298,7 @@ void lore_learn_flag_if_visible(struct monster_lore *lore, const struct monster 
 
 
 /**
- * Actualizar qué partes del saber se conocen
+ * Update which bits of lore are known
  */
 void lore_update(const struct monster_race *race, struct monster_lore *lore)
 {
@@ -307,11 +307,11 @@ void lore_update(const struct monster_race *race, struct monster_lore *lore)
 
 	if (!race || !lore) return;
 
-	/* Asumir algunas banderas "obvias" */
+	/* Assume some "obvious" flags */
 	create_mon_flag_mask(mask, RFT_OBV, RFT_MAX);
 	rf_union(lore->flags, mask);
 
-	/* Golpes */
+	/* Blows */
 	for (i = 0; i < z_info->mon_blows_max; i++) {
 		if (!race->blow) break;
 		if (lore->blow_known[i] || lore->blows[i].times_seen ||
@@ -323,7 +323,7 @@ void lore_update(const struct monster_race *race, struct monster_lore *lore)
 		}
 	}
 
-	/* Matar a un monstruo revela algunas propiedades */
+	/* Killing a monster reveals some properties */
 	if ((lore->tkills > 0) || lore->all_known) {
 		lore->armour_known = true;
 		lore->drop_known = true;
@@ -332,13 +332,13 @@ void lore_update(const struct monster_race *race, struct monster_lore *lore)
 		rf_on(lore->flags, RF_FORCE_DEPTH);
 	}
 
-	/* Conciencia */
+	/* Awareness */
 	if ((((int)lore->wake * (int)lore->wake) > race->sleep) ||
 	    (lore->ignore == UCHAR_MAX) || lore->all_known ||
 	    ((race->sleep == 0) && (lore->tkills >= 10)))
 		lore->sleep_known = true;
 
-	/* Frecuencia de lanzamiento de hechizos */
+	/* Spellcasting frequency */
 	if (lore->cast_innate > 50 || lore->all_known) {
 		lore->innate_freq_known = true;
 	}
@@ -346,7 +346,7 @@ void lore_update(const struct monster_race *race, struct monster_lore *lore)
 		lore->spell_freq_known = true;
 	}
 
-	/* Banderas para sondear y hacer trampa */
+	/* Flags for probing and cheating */
 	if (lore->all_known) {
 		rf_setall(lore->flags);
 		rsf_copy(lore->spell_flags, race->spell_flags);
@@ -354,22 +354,22 @@ void lore_update(const struct monster_race *race, struct monster_lore *lore)
 }
 
 /**
- * Aprender todo sobre un monstruo.
+ * Learn everything about a monster.
  *
- * Establece la variable all_known, todas las banderas y todas las banderas de hechizo relevantes.
+ * Sets the all_known variable, all flags and all relevant spell flags.
  */
 void cheat_monster_lore(const struct monster_race *race, struct monster_lore *lore)
 {
 	assert(race);
 	assert(lore);
 
-	/* Conocimiento completo */
+	/* Full knowledge */
 	lore->all_known = true;
 	lore_update(race, lore);
 }
 
 /**
- * Olvidar todo sobre un monstruo.
+ * Forget everything about a monster.
  */
 void wipe_monster_lore(const struct monster_race *race, struct monster_lore *lore)
 {
@@ -408,8 +408,8 @@ void wipe_monster_lore(const struct monster_race *race, struct monster_lore *lor
 		mk = mkn;
 	}
 	/*
-	 * Mantener los punteros blows y blow_known - otro código asume que
-	 * no son NULL. Limpiar la memoria a la que apuntan.
+	 * Keep the blows and blow_known pointers - other code assumes they
+	 * are not NULL.  Wipe the pointed to memory.
 	 */
 	blows = lore->blows;
 	memset(blows, 0, z_info->mon_blows_max * sizeof(*blows));
@@ -421,7 +421,7 @@ void wipe_monster_lore(const struct monster_race *race, struct monster_lore *lor
 }
 
 /**
- * Aprender sobre un monstruo (mediante "sonda")
+ * Learn about a monster (by "probing" it)
  */
 void lore_do_probe(struct monster *mon)
 {
@@ -430,26 +430,26 @@ void lore_do_probe(struct monster *mon)
 	lore->all_known = true;
 	lore_update(mon->race, lore);
 
-	/* Actualizar la ventana de recuerdo de monstruos */
+	/* Update monster recall window */
 	if (player->upkeep->monster_race == mon->race)
 		player->upkeep->redraw |= (PR_MONSTER);
 }
 
 /**
- * Determinar si el monstruo es completamente conocido
+ * Determine whether the monster is fully known
  */
 bool lore_is_fully_known(const struct monster_race *race)
 {
 	unsigned i;
 	struct monster_lore *lore = get_lore(race);
 
-	/* Comprobar si ya es conocido */
+	/* Check if already known */
 	if (lore->all_known)
 		return true;
 		
 	if (!lore->armour_known)
 		return false;
-	/* Solo comprobar hechizos si el monstruo puede lanzarlos */
+	/* Only check spells if the monster can cast them */
 	if (!lore->spell_freq_known && race->freq_innate + race->freq_spell)
 		return false;
 	if (!lore->drop_known)
@@ -457,9 +457,9 @@ bool lore_is_fully_known(const struct monster_race *race)
 	if (!lore->sleep_known)
 		return false;
 		
-	/* Comprobar si los golpes son conocidos */
+	/* Check if blows are known */
 	for (i = 0; i < z_info->mon_blows_max; i++){
-		/* Solo comprobar si el golpe existe */
+		/* Only check if the blow exists */
 		if (!race->blow[i].method)
 			break;
 		if (!lore->blow_known[i])
@@ -467,18 +467,18 @@ bool lore_is_fully_known(const struct monster_race *race)
 		
 	}
 		
-	/* Comprobar todas las banderas */
+	/* Check all the flags */
 	for (i = 0; i < RF_SIZE; i++)
 		if (!lore->flags[i])
 			return false;
 		
 		
-	/* Comprobar banderas de hechizo */
+	/* Check spell flags */
 	for (i = 0; i < RSF_SIZE; i++)
 		if (lore->spell_flags[i] != race->spell_flags[i])			
 			return false;
 	
-	/* El jugador lo sabe todo */
+	/* The player knows everything */
 	lore->all_known = true;
 	lore_update(race, lore);
 	return true;
@@ -486,18 +486,18 @@ bool lore_is_fully_known(const struct monster_race *race)
 	
 	
 /**
- * Tomar nota de que el monstruo dado acaba de soltar algún tesoro
+ * Take note that the given monster just dropped some treasure
  *
- * Nótese que aprender las banderas "BUENO"/"EXCELENTE" da información
- * sobre el tesoro (incluso cuando el monstruo es asesinado por primera
- * vez, como los únicos, y el tesoro aún no ha sido examinado).
+ * Note that learning the "GOOD"/"GREAT" flags gives information
+ * about the treasure (even when the monster is killed for the first
+ * time, such as uniques, and the treasure has not been examined yet).
  *
- * Este método "indirecto" se utilizó para evitar que el jugador aprendiera
- * exactamente cuánto tesoro puede soltar un monstruo con solo observar
- * un solo ejemplo de una caída. Este método realmente observa cuánto
- * oro y objetos se dejan caer, y recuerda esa información para ser
- * descrita más tarde por el código de recuerdo de monstruos. Da al jugador la oportunidad
- * de aprender si un monstruo solo deja caer objetos o solo oro.
+ * This "indirect" method was used to prevent the player from learning
+ * exactly how much treasure a monster can drop from observing only
+ * a single example of a drop.  This method actually observes how much
+ * gold and items are dropped, and remembers that information to be
+ * described later by the monster recall code.  It gives the player a chance
+ * to learn if a monster drops only objects or only gold.
  */
 void lore_treasure(struct monster *mon, int num_item, int num_gold)
 {
@@ -506,7 +506,7 @@ void lore_treasure(struct monster *mon, int num_item, int num_gold)
 	assert(num_item >= 0);
 	assert(num_gold >= 0);
 
-	/* Anotar el número de cosas dejadas */
+	/* Note the number of things dropped */
 	if (num_item > lore->drop_item) {
 		lore->drop_item = num_item;
 	}
@@ -514,11 +514,11 @@ void lore_treasure(struct monster *mon, int num_item, int num_gold)
 		lore->drop_gold = num_gold;
 	}
 
-	/* Aprender sobre la calidad de la caída */
+	/* Learn about drop quality */
 	rf_on(lore->flags, RF_DROP_GOOD);
 	rf_on(lore->flags, RF_DROP_GREAT);
 
-	/* Tener la oportunidad de aprender SOLO_OBJETO y SOLO_ORO */
+	/* Have a chance to learn ONLY_ITEM and ONLY_GOLD */
 	if (num_item && (lore->drop_gold == 0) && one_in_(4)) {
 		rf_on(lore->flags, RF_ONLY_ITEM);
 	}
@@ -526,18 +526,18 @@ void lore_treasure(struct monster *mon, int num_item, int num_gold)
 		rf_on(lore->flags, RF_ONLY_GOLD);
 	}
 
-	/* Actualizar la ventana de recuerdo de monstruos */
+	/* Update monster recall window */
 	if (player->upkeep->monster_race == mon->race) {
 		player->upkeep->redraw |= (PR_MONSTER);
 	}
 }
 
 /**
- * Copia en `flags` las banderas de la raza de monstruo dada que son conocidas
- * por la estructura lore dada (normalmente el conocimiento del jugador).
+ * Copies into `flags` the flags of the given monster race that are known
+ * to the given lore structure (usually the player's knowledge).
  *
- * Las banderas conocidas serán 1 si están presentes, o 0 si no lo están. Las banderas
- * desconocidas siempre serán 0.
+ * Known flags will be 1 for present, or 0 for not present. Unknown flags
+ * will always be 0.
  */
 void monster_flags_known(const struct monster_race *race,
 						 const struct monster_lore *lore,
@@ -548,16 +548,16 @@ void monster_flags_known(const struct monster_race *race,
 }
 
 /**
- * Devolver una descripción para el valor de conciencia de la raza de monstruo dada.
+ * Return a description for the given monster race awareness value.
  *
- * Las descripciones están en una tabla dentro de la función. Devuelve una cadena sensata
- * para valores no incluidos en la tabla.
+ * Descriptions are in a table within the function. Returns a sensible string
+ * for values not in the table.
  *
- * \param awareness es el contador de inactividad de la raza (monster_race.sleep).
+ * \param awareness is the inactivity counter of the race (monster_race.sleep).
  */
 static const char *lore_describe_awareness(int16_t awareness)
 {
-	/* Tabla de valores ordenada descendente, por prioridad. El terminador es
+	/* Value table ordered descending, for priority. Terminator is
 	 * {SHRT_MAX, NULL}. */
 	static const struct lore_awareness {
 		int16_t threshold;
@@ -584,21 +584,21 @@ static const char *lore_describe_awareness(int16_t awareness)
 		current++;
 	}
 
-	/* Los valores cero y menos son los más vigilantes */
+	/* Values zero and less are the most vigilant */
 	return "está siempre vigilante por";
 }
 
 /**
- * Devolver una descripción para el valor de velocidad de la raza de monstruo dada.
+ * Return a description for the given monster race speed value.
  *
- * Las descripciones están en una tabla dentro de la función. Devuelve una cadena sensata
- * para valores no incluidos en la tabla.
+ * Descriptions are in a table within the function. Returns a sensible string
+ * for values not in the table.
  *
- * \param speed es la velocidad de la raza (monster_race.speed).
+ * \param speed is the speed rating of the race (monster_race.speed).
  */
 static const char *lore_describe_speed(uint8_t speed)
 {
-	/* Tabla de valores ordenada descendente, por prioridad. El terminador es
+	/* Value table ordered descending, for priority. Terminator is
 	 * {UCHAR_MAX, NULL}. */
 	static const struct lore_speed {
 		uint8_t threshold;
@@ -623,20 +623,20 @@ static const char *lore_describe_speed(uint8_t speed)
 		current++;
 	}
 
-	/* Devolver una descripción extraña, ya que el valor no se encontró en la tabla */
+	/* Return a weird description, since the value wasn't found in the table */
 	return "erróneamente";
 }
 
 /**
- * Añadir la velocidad del monstruo, en palabras, a un textblock.
+ * Append the monster speed, in words, to a textblock.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
  */
 static void lore_adjective_speed(textblock *tb, const struct monster_race *race)
 {
-	/* "a" está separado de la descripción normal de velocidad para usar el
-	 * color de texto normal */
+	/* "at" is separate from the normal speed description in order to use the
+	 * normal text colour */
 	if (race->speed == 110)
 		textblock_append(tb, "a ");
 
@@ -644,14 +644,14 @@ static void lore_adjective_speed(textblock *tb, const struct monster_race *race)
 }
 
 /**
- * Añadir la velocidad del monstruo, en multiplicadores, a un textblock.
+ * Append the monster speed, in multipliers, to a textblock.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
  */
 static void lore_multiplier_speed(textblock *tb, const struct monster_race *race)
 {
-	// se mueve a 2.3x la velocidad normal (0.9x tu velocidad actual)
+	// moves at 2.3x normal speed (0.9x your current speed)
 	textblock_append(tb, "a ");
 
 	char buf[8] = "";
@@ -690,7 +690,7 @@ static void lore_multiplier_speed(textblock *tb, const struct monster_race *race
 }
 
 /**
- * Devolver un valor que describe el sexo de la raza de monstruo proporcionada.
+ * Return a value describing the sex of the provided monster race.
  */
 static monster_sex_t lore_monster_sex(const struct monster_race *race)
 {
@@ -703,14 +703,14 @@ static monster_sex_t lore_monster_sex(const struct monster_race *race)
 }
 
 /**
- * Devolver un pronombre para un monstruo; usado como sujeto de una oración.
+ * Return a pronoun for a monster; used as the subject of a sentence.
  *
- * Las descripciones están en una tabla dentro de la función. La tabla debe coincidir
- * con los valores de monster_sex_t.
+ * Descriptions are in a table within the function. Table must match
+ * monster_sex_t values.
  *
- * \param sex es el valor de género (como lo proporciona `lore_monster_sex()`.
- * \param title_case indica si la letra inicial debe ir en mayúscula;
- * `true` es mayúscula, `false` no lo es.
+ * \param sex is the gender value (as provided by `lore_monster_sex()`.
+ * \param title_case indicates whether the initial letter should be
+ * capitalized; `true` is capitalized, `false` is not.
  */
 static const char *lore_pronoun_nominative(monster_sex_t sex, bool title_case)
 {
@@ -732,14 +732,14 @@ static const char *lore_pronoun_nominative(monster_sex_t sex, bool title_case)
 }
 
 /**
- * Devolver un pronombre posesivo para un monstruo.
+ * Return a possessive pronoun for a monster.
  *
- * Las descripciones están en una tabla dentro de la función. La tabla debe coincidir
- * con los valores de monster_sex_t.
+ * Descriptions are in a table within the function. Table must match
+ * monster_sex_t values.
  *
- * \param sex es el valor de género (como lo proporciona `lore_monster_sex()`.
- * \param title_case indica si la letra inicial debe ir en mayúscula;
- * `true` es mayúscula, `false` no lo es.
+ * \param sex is the gender value (as provided by `lore_monster_sex()`.
+ * \param title_case indicates whether the initial letter should be
+ * capitalized; `true` is capitalized, `false` is not.
  */
 static const char *lore_pronoun_possessive(monster_sex_t sex, bool title_case)
 {
@@ -761,18 +761,18 @@ static const char *lore_pronoun_possessive(monster_sex_t sex, bool title_case)
 }
 
 /**
- * Añadir una cláusula que contiene una lista de descripciones de banderas de monstruo de
- * list-mon-race-flags.h a un textblock.
+ * Append a clause containing a list of descriptions of monster flags from
+ * list-mon-race-flags.h to a textblock.
  *
- * El texto que une la lista se dibuja con los atributos por defecto. La lista
- * utiliza una coma serial ("a, b, c, y d").
+ * The text that joins the list is drawn using the default attributes. The list
+ * uses a serial comma ("a, b, c, and d").
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param f es el conjunto de banderas a describir.
- * \param attr es el atributo con el que se dibujará cada elemento de la lista.
- * \param start es una cadena para comenzar la cláusula.
- * \param conjunction es una cadena que se añade antes del último elemento.
- * \param end es una cadena que se añade después del último elemento.
+ * \param tb is the textblock we are adding to.
+ * \param f is the set of flags to be described.
+ * \param attr is the attribute each list item will be drawn with.
+ * \param start is a string to start the clause.
+ * \param conjunction is a string that is added before the last item.
+ * \param end is a string that is added after the last item.
  */
 static void lore_append_clause(textblock *tb, bitflag *f, uint8_t attr,
 							   const char *start, const char *conjunction,
@@ -785,12 +785,12 @@ static void lore_append_clause(textblock *tb, bitflag *f, uint8_t attr,
 		int flag;
 		textblock_append(tb, "%s", start);
 		for (flag = rf_next(f, FLAG_START); flag; flag = rf_next(f, flag + 1)) {
-			/* La primera entrada comienza inmediatamente */
+			/* First entry starts immediately */
 			if (flag != rf_next(f, FLAG_START)) {
 				if (comma) {
 					textblock_append(tb, ",");
 				}
-				/* Última entrada */
+				/* Last entry */
 				if (rf_next(f, flag + 1) == FLAG_END) {
 					textblock_append(tb, " ");
 					textblock_append(tb, "%s", conjunction);
@@ -805,16 +805,16 @@ static void lore_append_clause(textblock *tb, bitflag *f, uint8_t attr,
 
 
 /**
- * Añadir una lista de descripciones de hechizos.
+ * Append a list of spell descriptions.
  *
- * Esta es una versión modificada de `lore_append_clause()` para formatear hechizos.
+ * This is a modified version of `lore_append_clause()` to format spells.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param f es el conjunto de banderas a describir.
- * \param know_hp es si el jugador conoce la CA del monstruo.
- * \param race es la raza de monstruo.
- * \param conjunction es una cadena que se añade antes del último elemento.
- * \param end es una cadena que se añade después del último elemento.
+ * \param tb is the textblock we are adding to.
+ * \param f is the set of flags to be described.
+ * \param know_hp is whether the player knows the monster's AC.
+ * \param race is the monster race.
+ * \param conjunction is a string that is added before the last item.
+ * \param end is a string that is added after the last item.
  */
 static void lore_append_spell_clause(textblock *tb, bitflag *f, bool know_hp,
 									 const struct monster_race *race,
@@ -831,12 +831,12 @@ static void lore_append_spell_clause(textblock *tb, bitflag *f, bool know_hp,
 			int color = spell_color(player, race, spell);
 			int damage = mon_spell_lore_damage(spell, race, know_hp);
 
-			/* La primera entrada comienza inmediatamente */
+			/* First entry starts immediately */
 			if (spell != rsf_next(f, FLAG_START)) {
 				if (comma) {
 					textblock_append(tb, ",");
 				}
-				/* Última entrada */
+				/* Last entry */
 				if (rsf_next(f, spell + 1) == FLAG_END) {
 					textblock_append(tb, " ");
 					textblock_append(tb, "%s", conjunction);
@@ -854,15 +854,15 @@ static void lore_append_spell_clause(textblock *tb, bitflag *f, bool know_hp,
 }
 
 /**
- * Añadir el historial de muertes a un textblock para una raza de monstruo dada.
+ * Append the kill history to a texblock for a given monster race.
  *
- * Las banderas de raza conocidas se pasan por simplicidad/eficiencia.
+ * Known race flags are passed in for simplicity/efficiency.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
- * \param lore es la información conocida sobre la raza de monstruo.
- * \param known_flags es el campo de bits preprocesado de las banderas de raza conocidas por el
- *        jugador.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
+ * \param lore is the known information about the monster race.
+ * \param known_flags is the preprocessed bitfield of race flags known to the
+ *        player.
  */
 void lore_append_kills(textblock *tb, const struct monster_race *race,
 					   const struct monster_lore *lore,
@@ -873,72 +873,72 @@ void lore_append_kills(textblock *tb, const struct monster_race *race,
 
 	assert(tb && race && lore);
 
-	/* Extraer un género (si corresponde) */
+	/* Extract a gender (if applicable) */
 	msex = lore_monster_sex(race);
 
-	/* Tratar según si es único, luego según si tienen muertes de jugador */
+	/* Treat by whether unique, then by whether they have any player kills */
 	if (rf_has(known_flags, RF_UNIQUE)) {
-		/* Determinar si el único está "muerto" */
+		/* Determine if the unique is "dead" */
 		bool dead = (race->max_num == 0) ? true : false;
 
-		/* Hemos sido asesinados... */
+		/* We've been killed... */
 		if (lore->deaths) {
-			/* Antepasados asesinados */
+			/* Killed ancestors */
 			textblock_append(tb, "%s ha matado a %d de tus antepasados",
 							 lore_pronoun_nominative(msex, true), lore->deaths);
 
-			/* Pero también lo hemos matado */
+			/* But we've also killed it */
 			if (dead)
 				textblock_append(tb, ", ¡pero te has vengado!  ");
 
-			/* Sin vengar (nunca) */
+			/* Unavenged (ever) */
 			else
 				textblock_append(tb, ", que %s sin vengar.  ",
 								 VERB_AGREEMENT(lore->deaths, "permanece",
 												"permanecen"));
-		} else if (dead) { /* Único muerto que nunca nos hizo daño */
+		} else if (dead) { /* Dead unique who never hurt us */
 			textblock_append(tb, "Has matado a este enemigo.  ");
 		} else {
-			/* Vivo y nunca nos mató */
+			/* Alive and never killed us */
 			out = false;
 		}
 	} else if (lore->deaths) {
-		/* Antepasados muertos */
+		/* Dead ancestors */
 		textblock_append(tb, "%d de tus antepasados %s sido asesinados por esta criatura, ", lore->deaths, VERB_AGREEMENT(lore->deaths, "ha", "han"));
 
 		if (lore->pkills) {
-			/* Algunas muertes en esta vida */
+			/* Some kills this life */
 			textblock_append(tb, "y has exterminado al menos %d de las criaturas.  ", lore->pkills);
 		} else if (lore->tkills) {
-			/* Algunas muertes en vidas pasadas */
+			/* Some kills past lives */
 			textblock_append(tb, "y tus antepasados han exterminado al menos %d de las criaturas.  ", lore->tkills);
 		} else {
-			/* Sin muertes */
+			/* No kills */
 			textblock_append_c(tb, COLOUR_RED, "y %s no se sabe que haya sido derrotado nunca.  ", lore_pronoun_nominative(msex, false));
 		}
 	} else {
 		if (lore->pkills) {
-			/* Mató algunos en esta vida */
+			/* Killed some this life */
 			textblock_append(tb, "Has matado al menos %d de estas criaturas.  ", lore->pkills);
 		} else if (lore->tkills) {
-			/* Mató algunos en vidas pasadas */
+			/* Killed some last life */
 			textblock_append(tb, "Tus antepasados han matado al menos %d de estas criaturas.  ", lore->tkills);
 		} else {
-			/* No mató ninguno */
+			/* Killed none */
 			textblock_append(tb, "No se recuerdan batallas a muerte.  ");
 		}
 	}
 
-	/* Separar */
+	/* Separate */
 	if (out)
 		textblock_append(tb, "\n");
 }
 
 /**
- * Añadir la descripción de la raza de monstruo a un textblock.
+ * Append the monster race description to a textblock.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
  */
 void lore_append_flavor(textblock *tb, const struct monster_race *race)
 {
@@ -948,15 +948,15 @@ void lore_append_flavor(textblock *tb, const struct monster_race *race)
 }
 
 /**
- * Añadir el tipo de monstruo, ubicación y patrones de movimiento a un textblock.
+ * Append the monster type, location, and movement patterns to a textblock.
  *
- * Las banderas de raza conocidas se pasan por simplicidad/eficiencia.
+ * Known race flags are passed in for simplicity/efficiency.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
- * \param lore es la información conocida sobre la raza de monstruo.
- * \param known_flags es el campo de bits preprocesado de las banderas de raza conocidas por el
- *        jugador.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
+ * \param lore is the known information about the monster race.
+ * \param known_flags is the preprocessed bitfield of race flags known to the
+ *        player.
  */
 void lore_append_movement(textblock *tb, const struct monster_race *race,
 						  const struct monster_lore *lore,
@@ -968,9 +968,10 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 	assert(tb && race && lore);
 
 	textblock_append(tb, "Esta");
+	/* Get adjectives */
 	
 
-	/* Obtener sustantivo */
+	/* Get noun */
 	create_mon_flag_mask(flags, RFT_RACE_N, RFT_MAX);
 	rf_inter(flags, race->flags);
 	f = rf_next(flags, FLAG_START);
@@ -980,16 +981,14 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 		textblock_append_c(tb, COLOUR_L_BLUE, " criatura");
 	}
 
-	// mejora de traducción se inverte sustantivo antes de adjetivo, en español es así
-	 
-	/* Obtener adjetivos */
+	/* Fix traduc mejora de traducción se inverte sustantivo antes de adjetivo, en español es así */
 	create_mon_flag_mask(flags, RFT_RACE_A, RFT_MAX);
 	rf_inter(flags, race->flags);
 	for (f = rf_next(flags, FLAG_START); f; f = rf_next(flags, f + 1)) {
 		textblock_append_c(tb, COLOUR_L_BLUE, " %s", describe_race_flag(f));
 	}
 
-	/* Describir ubicación */
+	/* Fix traduc Describir ubicación */
 	if (race->level == 0) {
 		textblock_append(tb, " vive en la ciudad");
 	} else {
@@ -1010,9 +1009,9 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 
 	textblock_append(tb, ", y se mueve");
 
-	/* Aleatoriedad */
+	/* Random-ness */
 	if (flags_test(known_flags, RF_SIZE, RF_RAND_50, RF_RAND_25, FLAG_END)) {
-		/* Adverbio */
+		/* Adverb */
 		if (rf_has(known_flags, RF_RAND_50) && rf_has(known_flags, RF_RAND_25))
 			textblock_append(tb, " extremadamente");
 		else if (rf_has(known_flags, RF_RAND_50))
@@ -1020,14 +1019,14 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 		else if (rf_has(known_flags, RF_RAND_25))
 			textblock_append(tb, " un poco");
 
-		/* Adjetivo */
+		/* Adjective */
 		textblock_append(tb, " erráticamente");
 
-		/* Conjunción ocasional */
+		/* Occasional conjunction */
 		if (race->speed != 110) textblock_append(tb, ", y");
 	}
 
-	/* Velocidad */
+	/* Speed */
 	textblock_append(tb, " ");
 
 	if (OPT(player, effective_speed))
@@ -1035,43 +1034,43 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 	else
 		lore_adjective_speed(tb, race);
 
-	/* La descripción de la velocidad también describe la "velocidad de ataque" */
+	/* The speed description also describes "attack speed" */
 	if (rf_has(known_flags, RF_NEVER_MOVE)) {
 		textblock_append(tb, ", pero ");
 		textblock_append_c(tb, COLOUR_L_GREEN,
 						   "no se digna a perseguir a los intrusos");
 	}
 
-	/* Terminar esta oración */
+	/* End this sentence */
 	textblock_append(tb, ".  ");
 }
 
 /**
- * Añadir la CA, PG y probabilidad de impacto del monstruo a un textblock.
+ * Append the monster AC, HP, and hit chance to a textblock.
  *
- * Las banderas de raza conocidas se pasan por simplicidad/eficiencia.
+ * Known race flags are passed in for simplicity/efficiency.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
- * \param lore es la información conocida sobre la raza de monstruo.
- * \param known_flags es el campo de bits preprocesado de las banderas de raza conocidas por el
- *        jugador.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
+ * \param lore is the known information about the monster race.
+ * \param known_flags is the preprocessed bitfield of race flags known to the
+ *        player.
  */
 void lore_append_toughness(textblock *tb, const struct monster_race *race,
 						   const struct monster_lore *lore,
 						   bitflag known_flags[RF_SIZE])
 {
-	//monster_sex_t msex = MON_SEX_NEUTER; // no usado por fix de traducción
+	//monster_sex_t msex = MON_SEX_NEUTER; // fix traduc no usado
 	struct object *weapon = equipped_item_by_slot_name(player, "weapon");
 
 	assert(tb && race && lore);
 
-	/* Extraer un género (si corresponde) */
+	/* Extract a gender (if applicable) */
 	//msex = lore_monster_sex(race); // no se usa ahora con fix de traducción
 
-	/* Describir la "resistencia" del monstruo */
+	/* Describe monster "toughness" */
 	if (lore->armour_known) {
-		/* Puntos de golpe */
+		/* Hitpoints */
 		textblock_append(tb, "Tiene un nivel");  //Fin de traducción Ella tiene se saca el Ella
 
         // fix traducción, orden en español con otra lectura
@@ -1081,47 +1080,47 @@ void lore_append_toughness(textblock *tb, const struct monster_race *race,
 		textblock_append(tb, " de vida de ");
 		textblock_append_c(tb, COLOUR_L_BLUE, "%d", race->avg_hp);
 
-		/* Armadura */
+		/* Armor */
 		textblock_append(tb, ", y una valoración de armadura de ");
 		textblock_append_c(tb, COLOUR_L_BLUE, "%d", race->ac);
 		textblock_append(tb, ".  ");
 
-		/* Probabilidad base del jugador de golpear */
+		/* Player's base chance to hit */
 		random_chance c;
 		hit_chance(&c, chance_of_melee_hit_base(player, weapon), race->ac);
 		int percent = random_chance_scaled(c, 100);
 
 		textblock_append(tb, "Tienes una probabilidad del");
 		textblock_append_c(tb, COLOUR_L_BLUE, " %d", percent);
-		textblock_append(tb, "%% de golpear a tal criatura en combate cuerpo a cuerpo (si puedes verla).  ");
+		textblock_append(tb, "%% de golpear a la criatura en combate cuerpo a cuerpo (si puedes verla).  ");
 	}
 }
 
 /**
- * Añadir la descripción del valor de experiencia a un textblock.
+ * Append the experience value description to a textblock.
  *
- * Las banderas de raza conocidas se pasan por simplicidad/eficiencia.
+ * Known race flags are passed in for simplicity/efficiency.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
- * \param lore es la información conocida sobre la raza de monstruo.
- * \param known_flags es el campo de bits preprocesado de las banderas de raza conocidas por el
- *        jugador.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
+ * \param lore is the known information about the monster race.
+ * \param known_flags is the preprocessed bitfield of race flags known to the
+ *        player.
  */
 void lore_append_exp(textblock *tb, const struct monster_race *race,
 					 const struct monster_lore *lore,
 					 bitflag known_flags[RF_SIZE])
 {
-	const char /*ordinal, fix de traducción no se usa ordinal*/ *article;
+	const char /*ordinal, fix traduc no se usa*/ *article;
 	char buf[20] = "";
 	long exp_integer, exp_fraction;
 	int16_t level;
 
-	/* Verificar legalidad y que este es un monstruo colocable */
+	/* Check legality and that this is a placeable monster */
 	assert(tb && race && lore);
 	if (!race->rarity) return;
 
-	/* Introducción */
+	/* Introduction */
 	if (rf_has(known_flags, RF_UNIQUE))
 		textblock_append(tb, "Matar");
 	else
@@ -1129,25 +1128,25 @@ void lore_append_exp(textblock *tb, const struct monster_race *race,
 
 	textblock_append(tb, " esta criatura");
 
-	/* calcular la parte entera de la exp */
+	/* calculate the integer exp part */
 	exp_integer = (long)race->mexp * race->level / player->lev;
 
-	/* calcular la parte fraccionaria de la exp escalada por 100, debe usar aritmética
-	 * larga para evitar desbordamiento */
+	/* calculate the fractional exp part scaled by 100, must use long
+	 * arithmetic to avoid overflow */
 	exp_fraction = ((((long)race->mexp * race->level % player->lev) *
 					 (long)1000 / player->lev + 5) / 10);
 
-	/* Calcular representación textual */
+	/* Calculate textual representation */
 	strnfmt(buf, sizeof(buf), "%ld", exp_integer);
 	if (exp_fraction)
 		my_strcat(buf, format(".%02ld", exp_fraction), sizeof(buf));
 
-	/* Mencionar la experiencia */
+	/* Mention the experience */
 	textblock_append(tb, " equivale a ");
 	textblock_append_c(tb, COLOUR_BLUE, "%s punto%s", buf,
 		PLURAL((exp_integer == 1) && (exp_fraction == 0)));
 
-	/* Tener en cuenta el molesto inglés */
+	/* Take account of annoying English */
 	/*ordinal = "º";
 	level = player->lev % 10;*/
 	//if ((player->lev / 10) == 1) /* nada */;
@@ -1158,26 +1157,26 @@ void lore_append_exp(textblock *tb, const struct monster_race *race,
 	else if (level == 3) ordinal = "er";
 	else if (level == 7) ordinal = "mo";*/
 
-	/* Tener en cuenta las "vocales iniciales" en los números */
+	/* Take account of "leading vowels" in numbers */
 	article = "un";
 	level = player->lev;
 	if ((level == 8) || (level == 11) || (level == 18)) article = "un";
 
-	/* Mencionar la dependencia del nivel del jugador */
+	/* Mention the dependance on the player's level */
 	textblock_append(tb, " para %s personaje de nivel %u.  ", article, //fin de traduccion personaje de nuevel 3er, por nivel 3 solamente, sin el ordinal
 					 level);
 }
 
 /**
- * Añadir la descripción de la caída del monstruo a un textblock.
+ * Append the monster drop description to a textblock.
  *
- * Las banderas de raza conocidas se pasan por simplicidad/eficiencia.
+ * Known race flags are passed in for simplicity/efficiency.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
- * \param lore es la información conocida sobre la raza de monstruo.
- * \param known_flags es el campo de bits preprocesado de las banderas de raza conocidas por el
- *        jugador.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
+ * \param lore is the known information about the monster race.
+ * \param known_flags is the preprocessed bitfield of race flags known to the
+ *        player.
  */
 void lore_append_drop(textblock *tb, const struct monster_race *race,
 					  const struct monster_lore *lore,
@@ -1189,18 +1188,18 @@ void lore_append_drop(textblock *tb, const struct monster_race *race,
 	assert(tb && race && lore);
 	if (!lore->drop_known) return;
 
-	/* Extraer un género (si corresponde) */
+	/* Extract a gender (if applicable) */
 	msex = lore_monster_sex(race);
 
-	/* Contar el máximo de caída */
+	/* Count maximum drop */
 	n = mon_create_drop_count(race, true, false, &nspec);
 
-	/* Suelta oro y/u objetos */
+	/* Drops gold and/or items */
 	if (n > 0 || nspec > 0) {
 		textblock_append(tb, "%s puede llevar",
 			lore_pronoun_nominative(msex, true));
 
-		/* Informar de caídas generales */
+		/* Report general drops */
 		if (n > 0) {
 			bool only_item = rf_has(known_flags, RF_ONLY_ITEM);
 			bool only_gold = rf_has(known_flags, RF_ONLY_GOLD);
@@ -1216,7 +1215,7 @@ void lore_append_drop(textblock *tb, const struct monster_race *race,
 				textblock_append_c(tb, COLOUR_BLUE, "%d ", n);
 			}
 
-			/* Calidad */
+			/* Quality */
 			if (rf_has(known_flags, RF_DROP_GREAT)) {
 				textblock_append_c(tb, COLOUR_BLUE,
 					"excepcional ");
@@ -1224,7 +1223,7 @@ void lore_append_drop(textblock *tb, const struct monster_race *race,
 				textblock_append_c(tb, COLOUR_BLUE, "buen ");
 			}
 
-			/* Objetos o tesoros */
+			/* Objects or treasures */
 			if (only_item && only_gold) {
 				textblock_append_c(tb, COLOUR_BLUE,
 					"error%s", PLURAL(n));
@@ -1242,8 +1241,8 @@ void lore_append_drop(textblock *tb, const struct monster_race *race,
 		}
 
 		/*
-		 * Informar de caídas específicas (solo número máximo, sin tipos,
-		 * no incluye artefactos de misión).
+		 * Report specific drops (just maximum number, no types,
+		 * does not include quest artifacts).
 		 */
 		if (nspec > 0) {
 			if (n > 0) {
@@ -1266,17 +1265,17 @@ void lore_append_drop(textblock *tb, const struct monster_race *race,
 }
 
 /**
- * Añadir las habilidades del monstruo (resistencias, debilidades, otros rasgos) a un
+ * Append the monster abilities (resists, weaknesses, other traits) to a
  * textblock.
  *
- * Las banderas de raza conocidas se pasan por simplicidad/eficiencia. Nótese las macros
- * que se utilizan para simplificar el código.
+ * Known race flags are passed in for simplicity/efficiency. Note the macros
+ * that are used to simplify the code.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
- * \param lore es la información conocida sobre la raza de monstruo.
- * \param known_flags es el campo de bits preprocesado de las banderas de raza conocidas por el
- *        jugador.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
+ * \param lore is the known information about the monster race.
+ * \param known_flags is the preprocessed bitfield of race flags known to the
+ *        player.
  */
 void lore_append_abilities(textblock *tb, const struct monster_race *race,
 						   const struct monster_lore *lore,
@@ -1291,25 +1290,25 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 
 	assert(tb && race && lore);
 
-	/* Extraer un género (si corresponde) y obtener un pronombre para el inicio de
+	/* Extract a gender (if applicable) and get a pronoun for the start of
 	 * las oraciones */
 	msex = lore_monster_sex(race);
-	initial_pronoun = "La criatura"; //lore_pronoun_nominative(msex, true);
+	initial_pronoun = "La criatura"; //fix traduc lore_pronoun_nominative(msex, true);
 	
 
-	/* Describir habilidades que moldean el entorno. */
+	/* Describe environment-shaping abilities. */
 	create_mon_flag_mask(current_flags, RFT_ALTER, RFT_MAX);
 	rf_inter(current_flags, known_flags);
 	strnfmt(start, sizeof(start), "%s puede ", initial_pronoun);
 	lore_append_clause(tb, current_flags, COLOUR_WHITE, start, "y", ".  ");
 
-	/* Describir rasgos de detección */
+	/* Describe detection traits */
 	create_mon_flag_mask(current_flags, RFT_DET, RFT_MAX);
 	rf_inter(current_flags, known_flags);
 	strnfmt(start, sizeof(start), "%s es ", initial_pronoun);
 	lore_append_clause(tb, current_flags, COLOUR_WHITE, start, "y", ".  ");
 
-	/* Describir cosas especiales */
+	/* Describe special things */
 	if (rf_has(known_flags, RF_UNAWARE))
 		textblock_append(tb, "%s se disfraza de otra cosa.  ",
 						 initial_pronoun);
@@ -1319,7 +1318,7 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 	if (rf_has(known_flags, RF_REGENERATE))
 		textblock_append(tb, "%s se regenera rápidamente.  ", initial_pronoun);
 
-	/* Describir luz */
+	/* Describe light */
 	if (race->light > 1) {
 		textblock_append(tb, "%s ilumina %s alrededores.  ",
 						 initial_pronoun, lore_pronoun_possessive(msex, false));
@@ -1332,20 +1331,20 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 						 initial_pronoun, lore_pronoun_possessive(msex, false));
 	}
 
-	/* Recoger susceptibilidades */
+	/* Collect susceptibilities */
 	create_mon_flag_mask(current_flags, RFT_VULN, RFT_VULN_I, RFT_MAX);
 	rf_inter(current_flags, known_flags);
-	strnfmt(start, sizeof(start), "%s tiene debilidad por el ", initial_pronoun); //fix traducción
+	strnfmt(start, sizeof(start), "%s tiene debilidad por el ", initial_pronoun); //fix traduc
 	lore_append_clause(tb, current_flags, COLOUR_VIOLET, start, "y", "");
 	if (!rf_is_empty(current_flags)) {
 		prev = true;
 	}
 
-	/* Recoger inmunidades y resistencias */
+	/* Collect immunities and resistances */
 	create_mon_flag_mask(current_flags, RFT_RES, RFT_MAX);
 	rf_inter(current_flags, known_flags);
 
-	/* Notar la falta de vulnerabilidad como una resistencia */
+	/* Note lack of vulnerability as a resistance */
 	create_mon_flag_mask(test_flags, RFT_VULN, RFT_MAX);
 	for (flag = rf_next(test_flags, FLAG_START); flag;
 		 flag = rf_next(test_flags, flag + 1)) {
@@ -1363,7 +1362,7 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 		prev = true;
 	}
 
-	/* Recoger susceptibilidades conocidas pero promedio */
+	/* Collect known but average susceptibilities */
 	rf_wipe(current_flags);
 	create_mon_flag_mask(test_flags, RFT_RES, RFT_MAX);
 	for (flag = rf_next(test_flags, FLAG_START); flag;
@@ -1373,7 +1372,7 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 		}
 	}
 
-	/* Las vulnerabilidades deben eliminarse específicamente */
+	/* Vulnerabilities need to be specifically removed */
 	create_mon_flag_mask(test_flags, RFT_VULN_I, RFT_MAX);
 	rf_inter(test_flags, known_flags);
 	for (flag = rf_next(test_flags, FLAG_START); flag;
@@ -1392,7 +1391,7 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 			initial_pronoun);
 	}
 
-	/* Caso especial para no muertos */
+	/* Special case for undead */
 	if (rf_has(known_flags, RF_UNDEAD)) {
 		rf_off(current_flags, RF_IM_NETHER);
 	}
@@ -1402,7 +1401,7 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 		prev = true;
 	}
 
-	/* Recoger no-efectos */
+	/* Collect non-effects */
 	create_mon_flag_mask(current_flags, RFT_PROT, RFT_MAX);
 	rf_inter(current_flags, known_flags);
 	if (prev) {
@@ -1420,13 +1419,13 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 }
 
 /**
- * Añadir cómo reacciona el monstruo a los intrusos y a qué distancia lo hace.
+ * Append how the monster reacts to intruders and at what distance it does so.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
- * \param lore es la información conocida sobre la raza de monstruo.
- * \param known_flags es el campo de bits preprocesado de las banderas de raza conocidas por el
- *        jugador.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
+ * \param lore is the known information about the monster race.
+ * \param known_flags is the preprocessed bitfield of race flags known to the
+ *        player.
  */
 void lore_append_awareness(textblock *tb, const struct monster_race *race,
 						   const struct monster_lore *lore,
@@ -1436,10 +1435,10 @@ void lore_append_awareness(textblock *tb, const struct monster_race *race,
 
 	assert(tb && race && lore);
 
-	/* Extraer un género (si corresponde) */
+	/* Extract a gender (if applicable) */
 	msex = lore_monster_sex(race);
 
-	/* ¿Sabemos lo consciente que es? */
+	/* Do we know how aware it is? */
 	if (lore->sleep_known)
 	{
 		const char *aware = lore_describe_awareness(race->sleep);
@@ -1451,14 +1450,14 @@ void lore_append_awareness(textblock *tb, const struct monster_race *race,
 }
 
 /**
- * Añadir información sobre con qué otras razas aparece el monstruo y si
- * trabajan juntos.
+ * Append information about what other races the monster appears with and if
+ * they work together.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
- * \param lore es la información conocida sobre la raza de monstruo.
- * \param known_flags es el campo de bits preprocesado de las banderas de raza conocidas por el
- *        jugador.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
+ * \param lore is the known information about the monster race.
+ * \param known_flags is the preprocessed bitfield of race flags known to the
+ *        player.
  */
 void lore_append_friends(textblock *tb, const struct monster_race *race,
 						 const struct monster_lore *lore,
@@ -1468,10 +1467,10 @@ void lore_append_friends(textblock *tb, const struct monster_race *race,
 
 	assert(tb && race && lore);
 
-	/* Extraer un género (si corresponde) */
+	/* Extract a gender (if applicable) */
 	msex = lore_monster_sex(race);
 
-	/* Describir compañeros */
+	/* Describe friends */
 	if (race->friends || race->friends_base) {
 		textblock_append(tb, "%s puede aparecer con otros monstruos",
 						 lore_pronoun_nominative(msex, true));
@@ -1482,16 +1481,16 @@ void lore_append_friends(textblock *tb, const struct monster_race *race,
 }
 
 /**
- * Añadir los hechizos de ataque del monstruo a un textblock.
+ * Append the monster's attack spells to a textblock.
  *
- * Las banderas de raza conocidas se pasan por simplicidad/eficiencia. Nótese las macros
- * que se utilizan para simplificar el código.
+ * Known race flags are passed in for simplicity/efficiency. Note the macros
+ * that are used to simplify the code.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
- * \param lore es la información conocida sobre la raza de monstruo.
- * \param known_flags es el campo de bits preprocesado de las banderas de raza conocidas por el
- *        jugador.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
+ * \param lore is the known information about the monster race.
+ * \param known_flags is the preprocessed bitfield of race flags known to the
+ *        player.
  */
 void lore_append_spells(textblock *tb, const struct monster_race *race,
 						const struct monster_lore *lore,
@@ -1507,18 +1506,18 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 
 	assert(tb && race && lore);
 
-	/* Establecer la raza para expresiones en los hechizos. */
+	/* Set the race for expressions in the spells. */
 	old_ref = ref_race;
 	ref_race = race;
 
 	know_hp = lore->armour_known;
 
-	/* Extraer un género (si corresponde) y obtener un pronombre para el inicio de
-	 * las oraciones */
+	/* Extract a gender (if applicable) and get a pronoun for the start of
+	 * sentences */
 	msex = lore_monster_sex(race);
 	initial_pronoun = lore_pronoun_nominative(msex, true);
 
-	/* Recoger ataques innatos (no aliento) */
+	/* Collect innate (non-breath) attacks */
 	create_mon_spell_mask(current_flags, RST_INNATE, RST_NONE);
 	rsf_inter(current_flags, lore->spell_flags);
 	create_mon_spell_mask(test_flags, RST_BREATH, RST_NONE);
@@ -1529,7 +1528,7 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 		innate = true;
 	}
 
-	/* Recoger alientos */
+	/* Collect breaths */
 	create_mon_spell_mask(current_flags, RST_BREATH, RST_NONE);
 	rsf_inter(current_flags, lore->spell_flags);
 	if (!rsf_is_empty(current_flags)) {
@@ -1543,17 +1542,17 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 		breath = true;
 	}
 
-	/* Terminar la oración sobre hechizos innatos y alientos */
+	/* End the sentence about innate spells and breaths */
 	if ((innate || breath) && race->freq_innate) {
 		if (lore->innate_freq_known) {
-			/* Describir la frecuencia de hechizos */
+			/* Describe the spell frequency */
 			textblock_append(tb, "; ");
 			textblock_append_c(tb, COLOUR_L_GREEN, "1");
 			textblock_append(tb, " vez cada ");
 			textblock_append_c(tb, COLOUR_L_GREEN, "%d",
 							   100 / race->freq_innate);
 		} else if (lore->cast_innate) {
-			/* Suponer la frecuencia */
+			/* Guess at the frequency */
 			int approx_frequency = MAX(((race->freq_innate + 9) / 10) * 10, 1);
 			textblock_append(tb, "; aproximadamente ");
 			textblock_append_c(tb, COLOUR_L_GREEN, "1");
@@ -1565,7 +1564,7 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 		textblock_append(tb, ".  ");
 	}
 
-	/* Recoger información de hechizos */
+	/* Collect spell information */
 	rsf_copy(current_flags, lore->spell_flags);
 	create_mon_spell_mask(test_flags, RST_BREATH, RST_INNATE, RST_NONE);
 	rsf_diff(current_flags, test_flags);
@@ -1573,7 +1572,7 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 		/* Introducción */
 		textblock_append(tb, "%s puede ", initial_pronoun);
 
-		/* Frase verbal */
+		/* Verb Phrase */
 		textblock_append_c(tb, COLOUR_L_RED, "lanzar hechizos");
 
 		/* Adverbio */
@@ -1584,17 +1583,17 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 		textblock_append(tb, " que ");
 		lore_append_spell_clause(tb, current_flags, know_hp, race, "o", "");
 
-		/* Terminar la oración sobre hechizos innatos/otros */
+		/* End the sentence about innate/other spells */
 		if (race->freq_spell) {
 			if (lore->spell_freq_known) {
-				/* Describir la frecuencia de hechizos */
+				/* Describe the spell frequency */
 				textblock_append(tb, "; ");
 				textblock_append_c(tb, COLOUR_L_GREEN, "1");
 				textblock_append(tb, " vez cada ");
 				textblock_append_c(tb, COLOUR_L_GREEN, "%d",
 								   100 / race->freq_spell);
 			} else if (lore->cast_spell) {
-				/* Suponer la frecuencia */
+				/* Guess at the frequency */
 				int approx_frequency = MAX(((race->freq_spell + 9) / 10) * 10,
 										   1);
 				textblock_append(tb, "; aproximadamente ");
@@ -1608,20 +1607,20 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 		textblock_append(tb, ".  ");
 	}
 
-	/* Restaurar la referencia anterior. */
+	/* Restore the previous reference. */
 	ref_race = old_ref;
 }
 
 /**
- * Añadir los ataques cuerpo a cuerpo del monstruo a un textblock.
+ * Append the monster's melee attacks to a textblock.
  *
- * Las banderas de raza conocidas se pasan por simplicidad/eficiencia.
+ * Known race flags are passed in for simplicity/efficiency.
  *
- * \param tb es el textblock al que estamos añadiendo.
- * \param race es la raza de monstruo que estamos describiendo.
- * \param lore es la información conocida sobre la raza de monstruo.
- * \param known_flags es el campo de bits preprocesado de las banderas de raza conocidas por el
- *        jugador.
+ * \param tb is the textblock we are adding to.
+ * \param race is the monster race we are describing.
+ * \param lore is the known information about the monster race.
+ * \param known_flags is the preprocessed bitfield of race flags known to the
+ *        player.
  */
 void lore_append_attack(textblock *tb, const struct monster_race *race,
 						const struct monster_lore *lore,
@@ -1632,10 +1631,10 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 
 	assert(tb && race && lore);
 
-	/* Extraer un género (si corresponde) */
+	/* Extract a gender (if applicable) */
 	msex = lore_monster_sex(race);
 
-	/* Notar la falta de ataques */
+	/* Notice lack of attacks */
 	if (rf_has(known_flags, RF_NEVER_BLOW)) {
 		textblock_append(tb, "%s no tiene ataques físicos.  ",
 						 lore_pronoun_nominative(msex, true));
@@ -1645,9 +1644,9 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 	total_attacks = 0;
 	known_attacks = 0;
 
-	/* Contar el número de ataques definidos y conocidos */
+	/* Count the number of defined and known attacks */
 	for (i = 0; i < z_info->mon_blows_max; i++) {
-		/* Saltar no-ataques */
+		/* Skip non-attacks */
 		if (!race->blow[i].method) continue;
 
 		total_attacks++;
@@ -1655,7 +1654,7 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 			known_attacks++;
 	}
 
-	/* Describir la falta de conocimiento */
+	/* Describe the lack of knowledge */
 	if (known_attacks == 0) {
 		textblock_append_c(tb, COLOUR_ORANGE, "No sabes nada acerca de su ataque.  "
 						 );
@@ -1663,21 +1662,21 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 	}
 
 	described_count = 0;
-	total_centidamage = 99; // redondear el resultado final al punto entero superior
+	total_centidamage = 99; // round up the final result to the next higher point
 
-	/* Describir cada ataque cuerpo a cuerpo */
+	/* Describe each melee attack */
 	for (i = 0; i < z_info->mon_blows_max; i++) {
 		random_value dice;
 		const char *effect_str = NULL;
 
-		/* Saltar ataques desconocidos e indefinidos */
+		/* Skip unknown and undefined attacks */
 		if (!race->blow[i].method || !lore->blow_known[i]) continue;
 
-		/* Extraer la información del ataque */
+		/* Extract the attack info */
 		dice = race->blow[i].dice;
 		effect_str = race->blow[i].effect->desc;
 
-		/* Introducir la descripción del ataque */
+		/* Introduce the attack description */
 		if (described_count == 0)
 			textblock_append(tb, "%s puede ",
 							 lore_pronoun_nominative(msex, true));
@@ -1686,18 +1685,18 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 		else
 			textblock_append(tb, ", y ");
 
-		/* Describir el método */
+		/* Describe the method */
 		textblock_append(tb, "%s", race->blow[i].method->desc);
 
-		/* Describir el efecto (si lo hay) */
+		/* Describe the effect (if any) */
 		if (effect_str && strlen(effect_str) > 0) {
 			int index = blow_index(race->blow[i].effect->name);
-			/* Describir el tipo de ataque */
+			/* Describe the attack type */
 			textblock_append(tb, " para ");
 			textblock_append_c(tb, blow_color(player, index), "%s", effect_str);
 
 			textblock_append(tb, " (");
-			/* Describir el daño (si se conoce) */
+			/* Describe damage (if known) */
 			if (dice.base || (dice.dice && dice.sides) || dice.m_bonus) {
 				if (dice.base)
 					textblock_append_c(tb, COLOUR_L_GREEN, "%d", dice.base);
@@ -1711,7 +1710,7 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 				textblock_append(tb, ", ");
 			}
 
-			/* Describir las probabilidades de golpear */
+			/* Describe hit chances */
 			random_chance c;
 			hit_chance(&c, chance_of_monster_hit_base(race, race->blow[i].effect),
 				player->state.ac + player->state.to_a);
@@ -1735,7 +1734,7 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 }
 
 /**
- * Obtener el registro de saber para esta raza de monstruo.
+ * Get the lore record for this monster race.
  */
 struct monster_lore *get_lore(const struct monster_race *race)
 {
@@ -1745,70 +1744,70 @@ struct monster_lore *get_lore(const struct monster_race *race)
 
 
 /**
- * Escribir las entradas de saber de monstruos
+ * Write the monster lore
  */
 static void write_lore_entries(ang_file *fff)
 {
 	int i, n;
 
 	for (i = 0; i < z_info->r_max; i++) {
-		/* Entrada actual */
+		/* Current entry */
 		struct monster_race *race = &r_info[i];
 		struct monster_lore *lore = &l_list[i];
 
-		/* Ignorar monstruos inexistentes o no vistos */
+		/* Ignore non-existent or unseen monsters */
 		if (!race->name) continue;
 		if (!lore->sights && !lore->all_known) continue;
 
-		/* Salida 'name' */
+		/* Output 'name' */
 		file_putf(fff, "name:%s\n", race->name);
 
-		/* Salida base si estamos recordando todo */
+		/* Output base if we're remembering everything */
 		if (lore->all_known)
 			file_putf(fff, "base:%s\n", race->base->name);
 
-		/* Salida de recuentos */
+		/* Output counts */
 		file_putf(fff, "counts:%d:%d:%d:%d:%d:%d:%d\n", lore->sights,
 				  lore->deaths, lore->tkills, lore->wake, lore->ignore,
 				  lore->cast_innate, lore->cast_spell);
 
-		/* Salida de golpes (hasta el máximo de golpes) */
+		/* Output blow (up to max blows) */
 		for (n = 0; n < z_info->mon_blows_max; n++) {
-			/* Fin de los golpes */
+			/* End of blows */
 			if (!lore->blow_known[n] && !lore->all_known) continue;
 			if (!lore->blows[n].method) continue;
 
-			/* Salida del método del golpe */
+			/* Output blow method */
 			file_putf(fff, "blow:%s", lore->blows[n].method->name);
 
-			/* Salida del efecto del golpe (puede ser ninguno) */
+			/* Output blow effect (may be none) */
 			file_putf(fff, ":%s", lore->blows[n].effect->name);
 
-			/* Salida del daño del golpe (puede ser 0) */
+			/* Output blow damage (may be 0) */
 			file_putf(fff, ":%d+%dd%dM%d", lore->blows[n].dice.base,
 					lore->blows[n].dice.dice,
 					lore->blows[n].dice.sides,
 					lore->blows[n].dice.m_bonus);
 
-			/* Salida del número de veces que se ha visto ese golpe */
+			/* Output number of times that blow has been seen */
 			file_putf(fff, ":%d", lore->blows[n].times_seen);
 
-			/* Salida del índice del golpe */
+			/* Output blow index */
 			file_putf(fff, ":%d", n);
 
-			/* Fin de línea */
+			/* End line */
 			file_putf(fff, "\n");
 		}
 
-		/* Salida de banderas */
+		/* Output flags */
 		write_flags(fff, "flags:", lore->flags, RF_SIZE, r_info_flags);
 
-		/* Salida de banderas de hechizo (múltiples líneas) */
+		/* Output spell flags (multiple lines) */
 		rsf_inter(lore->spell_flags, race->spell_flags);
 		write_flags(fff, "spells:", lore->spell_flags, RSF_SIZE,
 					r_info_spell_flags);
 
-		/* Salida de 'drop' */
+		/* Output 'drop' */
 		if (lore->drops) {
 			struct monster_drop *drop = lore->drops;
 			char name[120] = "";
@@ -1831,7 +1830,7 @@ static void write_lore_entries(ang_file *fff)
 			}
 		}
 
-		/* Salida de 'friends' */
+		/* Output 'friends' */
 		if (lore->friends) {
 			struct monster_friends *f = lore->friends;
 
@@ -1855,7 +1854,7 @@ static void write_lore_entries(ang_file *fff)
 			}
 		}
 
-		/* Salida de 'friends-base' */
+		/* Output 'friends-base' */
 		if (lore->friends_base) {
 			struct monster_friends_base *b = lore->friends_base;
 
@@ -1880,7 +1879,7 @@ static void write_lore_entries(ang_file *fff)
 			}
 		}
 
-		/* Salida de 'mimic' */
+		/* Output 'mimic' */
 		if (lore->mimic_kinds) {
 			struct monster_mimic *m = lore->mimic_kinds;
 			struct object_kind *kind = m->kind;
@@ -1900,17 +1899,17 @@ static void write_lore_entries(ang_file *fff)
 
 
 /**
- * Guardar el saber en un archivo en el directorio de usuario.
+ * Save the lore to a file in the user directory.
  *
- * \param name es el nombre del archivo
+ * \param name is the filename
  *
- * \returns true en caso de éxito, false en caso contrario.
+ * \returns true on success, false otherwise.
  */
 bool lore_save(const char *name)
 {
 	char path[1024];
 
-	/* Escribir en el directorio de usuario */
+	/* Write to the user directory */
 	path_build(path, sizeof(path), ANGBAND_DIR_USER, name);
 
 	if (text_lines_to_file(path, write_lore_entries)) {
