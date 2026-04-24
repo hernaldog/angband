@@ -1,4 +1,4 @@
-﻿# projection.txt
+# projection.txt 
 
 # Descriptions, colors, message types, and obvious can be edited without
 # bad effects.
@@ -274,9 +274,9 @@ code:CHAOS
 name:chaos
 type:element
 desc:caos
-player-desc:chaos
-blind-desc:something strange
-lash-desc:confusion
+player-desc:caos
+blind-desc:algo extraño
+lash-desc:confusión
 numerator:6
 denominator:8+1d4
 divisor:6
@@ -290,9 +290,9 @@ code:DISEN
 name:disenchantment
 type:element
 desc:desencantamiento
-player-desc:disenchantment
-blind-desc:something strange
-lash-desc:unmagic
+player-desc:desencantamiento
+blind-desc:algo extraño
+lash-desc:antimagia
 numerator:6
 denominator:8+1d4
 divisor:6
@@ -306,9 +306,9 @@ code:WATER
 name:water
 type:element
 desc:agua
-player-desc:water
-blind-desc:water
-lash-desc:water
+player-desc:agua
+blind-desc:agua
+lash-desc:agua
 divisor:6
 damage-cap:0
 msgt:GENERIC
@@ -320,9 +320,9 @@ code:ICE
 name:ice
 type:element
 desc:hielo
-player-desc:ice
-blind-desc:something sharp
-lash-desc:icicles
+player-desc:hielo
+blind-desc:algo punzante
+lash-desc:carámbanos
 numerator:1
 denominator:3
 divisor:6
@@ -336,9 +336,9 @@ code:GRAVITY
 name:gravity
 type:element
 desc:gravedad
-player-desc:gravity
-blind-desc:something strange
-lash-desc:gravity
+player-desc:gravedad
+blind-desc:algo extraño
+lash-desc:gravedad
 divisor:3
 damage-cap:200
 msgt:BR_GRAVITY
@@ -350,9 +350,9 @@ code:INERTIA
 name:inertia
 type:element
 desc:inercia
-player-desc:inertia
-blind-desc:something strange
-lash-desc:lassitude
+player-desc:inercia
+blind-desc:algo extraño
+lash-desc:fatiga
 divisor:6
 damage-cap:200
 msgt:BR_INERTIA
@@ -364,9 +364,9 @@ code:FORCE
 name:force
 type:element
 desc:fuerza
-player-desc:force
-blind-desc:something hard
-lash-desc:impact
+player-desc:fuerza
+blind-desc:algo sólido
+lash-desc:impacto
 divisor:6
 damage-cap:200
 msgt:BR_FORCE
@@ -378,9 +378,9 @@ code:TIME
 name:time
 type:element
 desc:tiempo
-player-desc:time
-blind-desc:something strange
-lash-desc:ruination
+player-desc:tiempo
+blind-desc:algo extraño
+lash-desc:ruina
 divisor:3
 damage-cap:150
 msgt:BR_TIME
@@ -393,8 +393,8 @@ name:plasma
 type:element
 desc:plasma
 player-desc:plasma
-blind-desc:something
-lash-desc:living fire
+blind-desc:algo
+lash-desc:fuego vivo
 divisor:6
 damage-cap:150
 msgt:BR_PLASMA
@@ -406,9 +406,9 @@ code:METEOR
 name:meteors
 type:element
 desc:un meteorito
-player-desc:meteor
-blind-desc:something
-lash-desc:meteoric iron
+player-desc:meteoro
+blind-desc:algo
+lash-desc:hierro meteórico
 divisor:6
 damage-cap:0
 msgt:GENERIC
@@ -420,8 +420,8 @@ code:MISSILE
 name:magic missiles
 type:element
 desc:un proyectil
-player-desc:magical energy
-blind-desc:something
+player-desc:energía mágica
+blind-desc:algo
 divisor:6
 damage-cap:0
 msgt:GENERIC
@@ -433,9 +433,9 @@ code:MANA
 name:mana
 type:element
 desc:mana
-player-desc:the elements
-blind-desc:something
-lash-desc:raw magic
+player-desc:los elementos
+blind-desc:algo
+lash-desc:magia pura
 divisor:3
 damage-cap:1600
 msgt:BR_ELEMENTS
@@ -447,9 +447,9 @@ code:HOLY_ORB
 name:holy power
 type:element
 desc:un orbe sagrado
-player-desc:holy power
-blind-desc:something
-lash-desc:holy power
+player-desc:poder sagrado
+blind-desc:algo
+lash-desc:poder sagrado
 divisor:6
 damage-cap:0
 msgt:GENERIC
@@ -461,8 +461,8 @@ code:ARROW
 name:arrows
 type:element
 desc:una flecha
-player-desc:arrows
-blind-desc:something sharp
+player-desc:flechas
+blind-desc:algo punzante
 divisor:6
 damage-cap:0
 msgt:GENERIC
@@ -473,79 +473,79 @@ color:White
 code:LIGHT_WEAK
 type:environs
 desc:luz
-player-desc:weak light
-blind-desc:something
+player-desc:luz tenue
+blind-desc:algo
 obvious:1
 color:ORANGE
 
 code:DARK_WEAK
 type:environs
 desc:oscuridad
-player-desc:darkness
-blind-desc:something
+player-desc:oscuridad
+blind-desc:algo
 obvious:0
 color:L_DARK
 
 code:KILL_WALL
 type:environs
 desc:eliminador de roca
-blind-desc:something
+blind-desc:algo
 obvious:1
 color:WHITE
 
 code:KILL_DOOR
 type:environs
 desc:destruye puertas
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:WHITE
 
 code:KILL_TRAP
 type:environs
 desc:desactiva trampas
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:WHITE
 
 code:MAKE_DOOR
 type:environs
 desc:crea puertas
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:WHITE
 
 code:MAKE_TRAP
 type:environs
 desc:crea trampas
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:WHITE
 
 code:AWAY_UNDEAD
 type:monster
 desc:teletransporta no muertos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:AWAY_EVIL
 type:monster
 desc:teletransporta monstruos malignos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:AWAY_SPIRIT
 type:monster
 desc:teletransporta monstruos con espíritu
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:AWAY_ALL
 type:monster
 desc:teletransporta monstruos
-blind-desc:something
+blind-desc:algo
 obvious:1
 wake:1
 color:White
@@ -553,28 +553,28 @@ color:White
 code:TURN_UNDEAD
 type:monster
 desc:ahuyenta no muertos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:TURN_EVIL
 type:monster
 desc:asusta a monstruos malignos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:TURN_LIVING
 type:monster
 desc:asusta a monstruos vivos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:TURN_ALL
 type:monster
 desc:hace huir a los monstruos
-blind-desc:something
+blind-desc:algo
 obvious:0
 wake:1
 color:White
@@ -582,21 +582,21 @@ color:White
 code:DISP_UNDEAD
 type:monster
 desc:daña no muertos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:DISP_EVIL
 type:monster
 desc:daña monstruos malignos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:DISP_ALL
 type:monster
 desc:daña a todos los monstruos
-blind-desc:something
+blind-desc:algo
 obvious:1
 wake:1
 color:White
@@ -604,42 +604,42 @@ color:White
 code:SLEEP_UNDEAD
 type:monster
 desc:intenta dormir no muertos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:SLEEP_EVIL
 type:monster
 desc:intenta dormir monstruos malignos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:SLEEP_ALL
 type:monster
 desc:intenta dormir a todos los monstruos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:MON_CLONE
 type:monster
 desc:acelera, sana y duplica mágicamente monstruos
-blind-desc:something
+blind-desc:algo
 obvious:1
 color:White
 
 code:MON_POLY
 type:monster
 desc:polimorfiza monstruos en otros tipos de criaturas
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:MON_HEAL
 type:monster
 desc:sana monstruos
-blind-desc:something
+blind-desc:algo
 obvious:1
 wake:1
 color:White
@@ -647,7 +647,7 @@ color:White
 code:MON_SPEED
 type:monster
 desc:acelera monstruos
-blind-desc:something
+blind-desc:algo
 obvious:1
 wake:1
 color:White
@@ -655,7 +655,7 @@ color:White
 code:MON_SLOW
 type:monster
 desc:intenta ralentizar monstruos
-blind-desc:something
+blind-desc:algo
 obvious:1
 wake:1
 color:White
@@ -663,28 +663,28 @@ color:White
 code:MON_CONF
 type:monster
 desc:intenta confundir monstruos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:MON_HOLD
 type:monster
 desc:intenta paralizar monstruos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:MON_STUN
 type:monster
 desc:intenta aturdir monstruos
-blind-desc:something
+blind-desc:algo
 obvious:0
 color:White
 
 code:MON_DRAIN
 type:monster
 desc:daña monstruos vivos
-blind-desc:something
+blind-desc:algo
 obvious:1
 wake:1
 color:White
@@ -692,6 +692,7 @@ color:White
 code:MON_CRUSH
 type:monster
 desc:mata monstruos debilitados
-blind-desc:something
+blind-desc:algo
 obvious:1
 color:White
+
