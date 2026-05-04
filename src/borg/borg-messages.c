@@ -1,6 +1,6 @@
 /**
  * \file borg-messages.c
- * \brief Código para leer y analizar los mensajes que provienen del juego
+ * \brief Code to read and parse messages that come from the game
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2007-9 Andi Sidwell, Chris Carr, Ed Graham, Erik Osheim
@@ -39,7 +39,7 @@
 #include "borg.h"
 
 /*
- * Memoria de mensajes
+ * Message memory
  */
 int16_t  borg_msg_len;
 int16_t  borg_msg_siz;
@@ -52,14 +52,14 @@ int16_t *borg_msg_use;
 static char **suffix_pain;
 
 /*
- * Cadena de búsqueda de mensajes de estado
+ * Status message search string
  */
 char borg_match[128] = "anillo de oro liso";
 
 /*
- * Métodos para matar a un monstruo (el orden no es importante).
+ * Methods of killing a monster (order not important).
  *
- * Véase "mon_take_hit()" para más detalles.
+ * See "mon_take_hit()" for details.
  */
 static const char *prefix_kill[]
     = { "Has matado a ", 
@@ -68,9 +68,9 @@ static const char *prefix_kill[]
         NULL };
 
 /*
- * Métodos de muerte de monstruos (el orden no es importante).
+ * Methods of monster death (order not important).
  *
- * Véase "project_m()", "do_cmd_fire()", "mon_take_hit()" para más detalles.
+ * See "project_m()", "do_cmd_fire()", "mon_take_hit()" for details.
  * !FIX this should use MON_MSG* 
  */
 static const char *suffix_died[] = { 
@@ -141,10 +141,10 @@ static bool borg_message_contains(
 }
 
 /*
- * Sensaciones espontáneas del nivel (el orden es importante).
+ * Spontaneous level feelings (order important).
  *
- * Véase "do_cmd_feeling()" para más detalles.
- * !FIX !TODO: Hacer esto más robusto a cambios en los mensajes de sensación del nivel.
+ * See "do_cmd_feeling()" for details.
+ * !FIX !TODO: Make this more robust to changes in level feeling messages.
  */
 static const char *prefix_feeling_danger[] = {
     "Aún no estás seguro sobre este lugar",
@@ -175,41 +175,40 @@ static const char *suffix_feeling_stuff[] = {
     NULL };
 
 /*
- * Analizar un mensaje del mundo
+ * Parse a message from the world
  *
- * Nótese que detectar la "muerte" es EXTREMADAMENTE importante para prevenir
- * todo tipo de errores que surgen al intentar analizar la pantalla de
- * "tumba", y para permitir al usuario "observar" la "causa" de la muerte.
+ * Note that detecting "death" is EXTREMELY important, to prevent
+ * all sorts of errors arising from attempting to parse the "tomb"
+ * screen, and to allow the user to "observe" the "cause" of death.
  *
- * Nótese que detectar el "fallo" es EXTREMADAMENTE importante para prevenir
- * situaciones extrañas al fallar el uso de un bastón de percepciones,
- * que de lo contrario enviaría el "índice de objeto" que podría ser un
- * comando válido (como "a" para "apuntar"). Este método es necesario porque
- * el Borg no puede analizar "solicitudes", y debe asumir el éxito del
- * comando que genera la solicitud, salvo que se le indique lo contrario
- * mediante un mensaje de fallo. Además, necesitamos detectar el fallo
- * porque algunos comandos, como los hechizos de detección, necesitan
- * desencadenar procesamiento adicional si tienen éxito, pero los mensajes
- * solo se emiten si el comando falla.
+ * Note that detecting "failure" is EXTREMELY important, to prevent
+ * bizarre situations after failing to use a staff of perceptions,
+ * which would otherwise go ahead and send the "item index" which
+ * might be a legal command (such as "a" for "aim").  This method
+ * is necessary because the Borg cannot parse "prompts", and must
+ * assume the success of the prompt-inducing command, unless told
+ * otherwise by a failure message.  Also, we need to detect failure
+ * because some commands, such as detection spells, need to induce
+ * further processing if they succeed, but messages are only given
+ * if the command fails.
  *
- * Nótese que ciertos otros mensajes pueden contener información útil,
- * por lo que se "analizan" y se envían a "borg_react()", que simplemente
- * pone en cola los mensajes para su análisis posterior en el contexto adecuado.
+ * Note that certain other messages may contain useful information,
+ * and so they are "analyzed" and sent to "borg_react()", which just
+ * queues the messages for later analysis in the proper context.
  *
- * Junto con el mensaje real, enviamos un buffer con formato especial,
- * que contiene un "código de operación" inicial, que puede contener información
- * adicional, como el índice de un hechizo, y un "argumento" (por ejemplo, el
- * nombre en mayúsculas de un monstruo), con "dos puntos" como separador.
+ * Along with the actual message, we send a special formatted buffer,
+ * containing a leading "opcode", which may contain extra information,
+ * such as the index of a spell, and an "argument" (for example, the
+ * capitalized name of a monster), with a "colon" to separate them.
  *
- * XXX XXX XXX Varias cadenas de mensajes incluyen un "posesivo" de la forma
- * "his" o "her" o "its". Estas cadenas están todas representadas por la
- * forma codificada "XXX" en las distintas cadenas de coincidencia.
- * Desafortunadamente, la forma codificada nunca se decodifica, por lo que el
- * Borg actualmente ignora los mensajes sobre varios hechizos (curarse a sí
- * mismo y acelerarse a sí mismo).
+ * XXX XXX XXX Several message strings take a "possessive" of the form
+ * "his" or "her" or "its".  These strings are all represented by the
+ * encoded form "XXX" in the various match strings.  Unfortunately,
+ * the encode form is never decoded, so the Borg currently ignores
+ * messages about several spells (heal self and haste self).
  *
- * XXX XXX XXX Detectamos algunos mensajes de "características del terreno"
- * para adquirir conocimiento sobre tipos de paredes y tipos de puertas.
+ * XXX XXX XXX We notice a few "terrain feature" messages here so
+ * we can acquire knowledge about wall types and door types.
  */
 static void borg_parse_aux(char *msg, int len)
 {
@@ -229,7 +228,7 @@ static void borg_parse_aux(char *msg, int len)
     if (borg_cfg[BORG_VERBOSE])
         borg_note(format("# Analizar Msg <%s>", msg));
 
-    /* Detectar muerte */
+    /* Notice death */
     if (prefix(msg, "Moriste.")) {
         /* Abort (unless cheating) */
         if (!(player->wizard || OPT(player, cheat_live) || borg_cheat_death)) {
@@ -246,7 +245,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* Detectar "fallo" */
+    /* Notice "failure" */
     if (prefix(msg, "Fallaste ")) {
         /* Store the keypress */
         borg_note("# Fallo normal.");
@@ -280,15 +279,15 @@ static void borg_parse_aux(char *msg, int len)
         borg_cancel = true;
     }
 
-    /* Ignorar trampa de teletransporte */
+    /* Ignore teleport trap */
     if (prefix(msg, "Golpeaste una teletransportación"))
         return;
 
-    /* Ignorar trampas de flechas */
+    /* Ignore arrow traps */
     if (prefix(msg, "Una flecha "))
         return;
 
-    /* Ignorar trampas de dardos */
+    /* Ignore dart traps */
     if (prefix(msg, "Un pequeño dardo "))
         return;
 
@@ -324,7 +323,7 @@ static void borg_parse_aux(char *msg, int len)
         borg_dont_react = true;
     }
 
-    /* Alucinación -- Inicio */
+    /* Hallucination -- Open */
     if (streq(msg, "¡Te sientes drogado!")) {
         borg_note("# Alucinando. Control especial de varitas.");
         borg.trait[BI_ISIMAGE] = true;
@@ -335,13 +334,13 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* Alucinación -- Fin */
+    /* Hallucination -- Close */
     if (streq(msg, "Puedes ver claramente de nuevo.")) {
         borg_note("# Alucinación terminada. Control normal de varitas.");
         borg.trait[BI_ISIMAGE] = false;
     }
 
-    /* Golpear a alguien */
+    /* Hit somebody */
     if (prefix(msg, "Golpeas a ")) {
         tmp = strlen("Golpeas a ");
         strnfmt(who, 1 + len - (tmp + 1), "%s", msg + tmp);
@@ -374,7 +373,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* Fallar a alguien */
+    /* Miss somebody */
     if (prefix(msg, "Fallas a ")) {
         tmp = strlen("Fallas a ");
         strnfmt(who, 1 + len - (tmp + 1), "%s", msg + tmp);
@@ -383,7 +382,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* Fallar a alguien (por miedo) */
+    /* Miss somebody (because of fear) */
     if (prefix(msg, "Tienes demasiado miedo para atacar ")) {
         tmp = strlen("Tienes demasiado miedo para atacar ");
         strnfmt(who, 1 + len - (tmp + 1), "%s", msg + tmp);
@@ -454,7 +453,7 @@ static void borg_parse_aux(char *msg, int len)
             }
         }
 
-        /* "Te falla." */
+        /* "It misses you." */
         if (suffix(msg, " te falla.")) {
             tmp = strlen(" te falla.");
             strnfmt(who, 1 + len - tmp, "%s", msg);
@@ -463,8 +462,8 @@ static void borg_parse_aux(char *msg, int len)
             return;
         }
 
-        /* "Es repelido.." */
-        /* tratar como fallo */
+        /* "It is repelled.." */
+        /* treat as a miss */
         if (suffix(msg, " es repelido.")) {
             tmp = strlen(" es repelido.");
             strnfmt(who, 1 + len - tmp, "%s", msg);
@@ -511,7 +510,7 @@ static void borg_parse_aux(char *msg, int len)
         }
 
         for (i = 0; spell_invis_msgs.messages[i].message_p1; i++) {
-            /* eliminar los mensajes que no sean de hechizos invisibles */
+            /* get rid of the messages that aren't for invisible spells */
             if (!prefix(msg, "Algo ") && !prefix(msg, "Tú "))
                 break;
             if (borg_message_contains(msg, &spell_invis_msgs.messages[i])) {
@@ -534,7 +533,7 @@ static void borg_parse_aux(char *msg, int len)
             }
         }
 
-        /* Estado -- Dormido */
+        /* State -- Asleep */
         if (suffix(msg, " se queda dormido!")) {
             tmp = strlen(" se queda dormido!");
             strnfmt(who, 1 + len - tmp, "%s", msg);
@@ -543,7 +542,7 @@ static void borg_parse_aux(char *msg, int len)
             return;
         }
 
-        /* Estado -- Confundido */
+        /* State -- confused */
         if (suffix(msg, " parece confundido.")) {
             tmp = strlen(" parece confundido.");
             strnfmt(who, 1 + len - tmp, "%s", msg);
@@ -552,7 +551,7 @@ static void borg_parse_aux(char *msg, int len)
             return;
         }
 
-        /* Estado -- Confundido */
+        /* State -- confused */
         if (suffix(msg, " parece más confundido.")) {
             tmp = strlen(" parece más confundido.");
             strnfmt(who, 1 + len - tmp, "%s", msg);
@@ -561,7 +560,7 @@ static void borg_parse_aux(char *msg, int len)
             return;
         }
 
-        /* Estado -- Despierto */
+        /* State -- Not Asleep */
         if (suffix(msg, " se despierta.")) {
             tmp = strlen(" se despierta.");
             strnfmt(who, 1 + len - tmp, "%s", msg);
@@ -570,7 +569,7 @@ static void borg_parse_aux(char *msg, int len)
             return;
         }
 
-        /* Estado -- Aterrorizado */
+        /* State -- Afraid */
         if (suffix(msg, " huye aterrorizado!")) {
             tmp = strlen(" huye aterrorizado!");
             strnfmt(who, 1 + len - tmp, "%s", msg);
@@ -579,7 +578,7 @@ static void borg_parse_aux(char *msg, int len)
             return;
         }
 
-        /* Estado -- Sin miedo */
+        /* State -- Not Afraid */
         if (suffix(msg, " recobra su valentía.")) {
             tmp = strlen(" recobra su valentía.");
             strnfmt(who, 1 + len - tmp, "%s", msg);
@@ -588,7 +587,7 @@ static void borg_parse_aux(char *msg, int len)
             return;
         }
 
-        /* Estado -- Sin miedo */
+        /* State -- Not Afraid */
         if (suffix(msg, " recobra su valentía.")) {
             tmp = strlen(" recobra su valentía.");
             strnfmt(who, 1 + len - tmp, "%s", msg);
@@ -597,7 +596,7 @@ static void borg_parse_aux(char *msg, int len)
             return;
         }
 
-        /* Estado -- Sin miedo */
+        /* State -- Not Afraid */
         if (suffix(msg, " recobra su valentía.")) {
             tmp = strlen(" recobra su valentía.");
             strnfmt(who, 1 + len - tmp, "%s", msg);
@@ -706,7 +705,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
 
-    /* Palabra de Recuerdo -- Ignición */
+    /* Word of Recall -- Ignition */
     if (prefix(msg, "El aire a tu alrededor se vuelve ")) {
         /* Initiate recall */
         /* Guess how long it will take to lift off */
@@ -715,7 +714,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* Descenso Profundo -- Ignición */
+    /* Deep Descent -- Ignition */
     if (prefix(msg, "El aire a tu alrededor comienza ")) {
         /* Initiate descent */
         /* Guess how long it will take to lift off */
@@ -724,7 +723,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* Palabra de Recuerdo -- Despegue */
+    /* Word of Recall -- Lift off */
     if (prefix(msg, "Sientes que eres jalado ")) {
         /* Flush our key-buffer */
         /* this is done in case the borg had been aiming a */
@@ -736,7 +735,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* Descenso Profundo -- Despegue */
+    /* Deep Descent  -- Lift off */
     if (prefix(msg, "¡El suelo se abre bajo tus pies!")) {
         /* Flush our key-buffer */
         /* this is done in case the borg had been aiming a */
@@ -748,21 +747,21 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* Palabra de Recuerdo -- Cancelada */
+    /* Word of Recall -- Cancelled */
     if (prefix(msg, "Una tensión abandona ")) {
         /* Oops */
         borg.goal.recalling = 0;
         return;
     }
 
-    /* Descenso Profundo -- Cancelado (solo ocurre al morir) */
+    /* Deep Descent -- Cancelled (only happens on death) */
     if (prefix(msg, "El aire a tu alrededor se detiene ")) {
         /* Oops */
         borg.goal.descending = 0;
         return;
     }
 
-    /* Llevando objeto maldito */
+    /* Wearing Cursed Item */
     if (prefix(msg, "¡Vaya! ¡Se siente mortalmente frío!")) {
         /* this should only happen with STICKY items, The Crown of Morgoth or
          * The One Ring */
@@ -770,7 +769,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* protección del mal */
+    /* protect from evil */
     if (prefix(msg, "¡Te sientes a salvo del mal!")) {
         borg.temp.prot_from_evil = true;
         return;
@@ -779,7 +778,7 @@ static void borg_parse_aux(char *msg, int len)
         borg.temp.prot_from_evil = false;
         return;
     }
-    /* acelerarse */
+    /* haste self */
     if (prefix(msg, "¡Sientes que te mueves más rápido!")) {
         borg.temp.fast = true;
         return;
@@ -788,7 +787,7 @@ static void borg_parse_aux(char *msg, int len)
         borg.temp.fast = false;
         return;
     }
-    /* Bendición */
+    /* Bless */
     if (prefix(msg, "Te sientes virtuoso")) {
         borg.temp.bless = true;
         return;
@@ -798,7 +797,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* lanzamiento rápido */
+    /* fastcast */
     if (prefix(msg, "Sientes que tu mente se acelera.")) {
         borg.temp.fastcast = true;
         return;
@@ -808,7 +807,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* heroísmo */
+    /* hero */
     if (prefix(msg, "¡Te sientes como un héroe!")) {
         borg.temp.hero = true;
         return;
@@ -818,7 +817,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* berserker */
+    /* berserk */
     if (prefix(msg, "¡Te sientes como una máquina de matar!")) {
         borg.temp.berserk = true;
         return;
@@ -828,7 +827,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* Ver Invisible */
+    /* Sense Invisible */
     if (prefix(msg, "¡Tus ojos se sienten muy sensibles!")) {
         borg.see_inv = 30000;
         return;
@@ -838,7 +837,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* verificar si hay una pared bloqueando pero no cuando está confundido */
+    /* check for wall blocking but not when confused*/
     if ((prefix(msg, "Hay una pared ") && (!borg.trait[BI_ISCONFUSED]))) {
         my_need_redraw = true;
         my_need_alter  = true;
@@ -846,7 +845,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* verificar si hay puerta cerrada pero no cuando está confundido */
+    /* check for closed door but not when confused*/
     if ((prefix(msg, "Hay una puerta cerrada bloqueando tu camino.")
             && (!borg.trait[BI_ISCONFUSED] && !borg.trait[BI_ISIMAGE]))) {
         my_need_redraw = true;
@@ -967,7 +966,7 @@ static void borg_parse_aux(char *msg, int len)
         borg.time_this_panel += 100;
     }
 
-    /* resistencia al ácido */
+    /* resist acid */
     if (prefix(msg, "¡Te sientes resistente al ácido!")) {
         borg.temp.res_acid = true;
         return;
@@ -976,7 +975,7 @@ static void borg_parse_aux(char *msg, int len)
         borg.temp.res_acid = false;
         return;
     }
-    /* resistencia a la electricidad */
+    /* resist electricity */
     if (prefix(msg, "¡Te sientes resistente a la electricidad!")) {
         borg.temp.res_elec = true;
         return;
@@ -985,7 +984,7 @@ static void borg_parse_aux(char *msg, int len)
         borg.temp.res_elec = false;
         return;
     }
-    /* resistencia al fuego */
+    /* resist fire */
     if (prefix(msg, "¡Te sientes resistente al fuego!")) {
         borg.temp.res_fire = true;
         return;
@@ -994,7 +993,7 @@ static void borg_parse_aux(char *msg, int len)
         borg.temp.res_fire = false;
         return;
     }
-    /* resistencia al frío */
+    /* resist cold */
     if (prefix(msg, "¡Te sientes resistente al frío!")) {
         borg.temp.res_cold = true;
         return;
@@ -1003,7 +1002,7 @@ static void borg_parse_aux(char *msg, int len)
         borg.temp.res_cold = false;
         return;
     }
-    /* resistencia al veneno */
+    /* resist poison */
     if (prefix(msg, "¡Te sientes resistente al veneno!")) {
         borg.temp.res_pois = true;
         return;
@@ -1013,7 +1012,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* Escudo */
+    /* Shield */
     if (prefix(msg, "¡Un escudo místico se forma alrededor de tu cuerpo!")
         || prefix(msg, "Tu piel se convierte en piedra.")) {
         borg.temp.shield = true;
@@ -1025,8 +1024,8 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* Glifo de Protección (el hechizo ya no da aviso)*/
-    /* Lamentablemente, la Runa de Protección no tiene mensaje */
+    /* Glyph of Warding (the spell no longer gives a report)*/
+    /* Sadly  Rune of Protection has no message */
     if (prefix(msg, "¡Inscribes un símbolo místico en el suelo!")) {
         /* Check for an existing glyph */
         for (i = 0; i < track_glyph.num; i++) {
@@ -1089,7 +1088,7 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    /* Escombros eliminados. Importante cuando no hay luz */
+    /* Removed rubble.  Important when out of lite */
     if (prefix(msg, "Has eliminado los ")) {
         int x, y;
         /* remove rubbles from array */
@@ -1160,7 +1159,8 @@ static void borg_parse_aux(char *msg, int len)
     if (prefix(msg, "te ordena regresar.")
         || prefix(msg, "te teletransporta.")
         || prefix(msg, "gesticula a tus pies.")) {
-        /* Si está en modo Lunal mejor desactivarlo, ya no está en las escaleras */
+        /* If in Lunal mode better shut that off, he is not on the stairs
+         * anymore */
         borg.lunal_mode = false;
         borg_note("# Desconectando el modo Lunal debido a hechizo de monstruo.");
     }
