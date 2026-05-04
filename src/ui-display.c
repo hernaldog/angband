@@ -2627,11 +2627,8 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		/* Message */
 		event_signal(EVENT_MESSAGE_FLUSH);
 		
-		/* fix traduc Armar el mensaje con número si hay más de uno */
-		if (obj->number > 1)
-			strnfmt(o_name_final, sizeof(o_name_final), "%d %s", obj->number, o_name);
-		else
-			my_strcpy(o_name_final, o_name, sizeof(o_name_final));
+		/* fix traduc Se arma el mensaje con número si hay más de uno, ejemplo "1 Manzana." */		
+		strnfmt(o_name_final, sizeof(o_name_final), "%d %s", obj->number, o_name);		
 
 		msg("%s %s.", p, o_name_final); ///Fix traduc Ves X objeto
 		 
