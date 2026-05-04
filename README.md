@@ -204,8 +204,7 @@ Contenido del script shell:
 - Limpiar y dejar solo traducciones al español que aportan a la salida en pantalla del juego pero no comentarios u otros. A Excepción de nuevos parámetros que implican algo relacionado a la traducción: Pendiente
 - Cambios de imágenes gráficas General Store, Armory, Magic Items, Black Market, Temple.
 - Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
-- Has encontrado 18 piezas de oro en gold, buscar mejor traducción
-- enemigo bites you, enemigo misses you, etc
+- Enemigo bites you, enemigo misses you, etc
 - En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
 - Has detectado X objetos: 6 Light Teal Pocións. Acá o inglés o español y la s está rara. Archivo "obj-desc.c"
 - Mejorar: The fruit bat (offscreen) se despertan.
@@ -214,6 +213,7 @@ Contenido del script shell:
 - Mejorar mensaje inferior-izq: "The"... ej: "The masa de gusanos blancos empiezaa moverse más rápido"
 
 ## Varios ok
+- Has encontrado 18 piezas de oro en gold, buscar mejor traducción
 - No se pueden traducir nombres de monstruos (monster.txt) si se hace indica error al cargar partida: ok, al traducir un txt debe compilarserse e iniciar una nueva partida
 - Mejorar lista de items: un Apple: ok
 - The cutpurse ¡huye aterrorizados!. Dice con "s" y es uno solo: ok se dejó sin s fijo por ahora
