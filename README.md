@@ -212,6 +212,7 @@ Contenido del script shell:
 - Mejorar: The fruit bat (offscreen) se despertan.
 - Mejorar: "Ves un fruit bat (unhurt, hasted)
 - Mejorar: "Puedes aprender 2 rituals más."
+- Mejorar mensaje inferior-izq: "The"... ej: "The masa de gusanos blancos empiezaa moverse más rápido"
 
 ## Varios ok
 - No se pueden traducir nombres de monstruos (monster.txt) si se hace indica error al cargar partida: ok, al traducir un txt debe compilarserse e iniciar una nueva partida
