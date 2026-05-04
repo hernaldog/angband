@@ -15,3 +15,4 @@ src/.ninja_deps
 src/CMakeCache.txt
 src/libangband.dll.a
 *.epp
+src/.ninja_lock

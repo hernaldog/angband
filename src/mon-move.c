@@ -1,11 +1,11 @@
 /**
  * \file mon-move.c
- * \brief Movimiento de monstruos
+ * \brief Monster movement
  *
- * IA de monstruos que afecta el movimiento y los hechizos, procesa un monstruo
- * (con hechizos y acciones de todo tipo, reproducción, efectos de cualquier
- * terreno en el movimiento del monstruo, recoger y destruir objetos),
- * procesa todos los monstruos.
+ * Monster AI affecting movement and spells, process a monster 
+ * (with spells and actions of all kinds, reproduction, effects of any 
+ * terrain on monster movement, picking up and destroying objects), 
+ * process all monsters.
  *
  * Copyright (c) 1997 Ben Harrison, David Reeve Sward, Keldon Jones.
  *
@@ -53,30 +53,30 @@
 
 /**
  * ------------------------------------------------------------------------
- * Rutinas para permitir decisiones sobre el comportamiento del monstruo
+ * Routines to enable decisions on monster behaviour
  * ------------------------------------------------------------------------ */
 /**
- * De Will Asher en DJA:
- * Encontrar si un monstruo está cerca de una pared permanente
+ * From Will Asher in DJA:
+ * Find whether a monster is near a permanent wall
  *
- * esto decide si los monstruos PASS_WALL & KILL_WALL usan el código de flujo de monstruos
+ * this decides whether PASS_WALL & KILL_WALL monsters use the monster flow code
  */
 static bool monster_near_permwall(const struct monster *mon)
 {
 	struct loc gp[512];
 	int path_grids, j;
 
-	/* Si el jugador está en LdV, no hay necesidad de rodear paredes */
+	/* If player is in LOS, there's no need to go around walls */
     if (projectable(cave, mon->grid, player->grid, PROJECT_SHORT)) return false;
 
-    /* Los monstruos PASS_WALL & KILL_WALL ocasionalmente fluyen por un turno de todos modos */
+    /* PASS_WALL & KILL_WALL monsters occasionally flow for a turn anyway */
     if (randint0(99) < 5) return true;
 
-	/* Encontrar la ruta más corta */
+	/* Find the shortest path */
 	path_grids = project_path(cave, gp, z_info->max_sight, mon->grid,
 		player->grid, PROJECT_ROCK);
 
-	/* Ver si podemos "ver" al jugador sin golpear pared permanente */
+	/* See if we can "see" the player without hitting permanent wall */
 	for (j = 0; j < path_grids; j++) {
 		if (square_isperm(cave, gp[j])) return true;
 		if (square_isplayer(cave, gp[j])) return false;
@@ -86,7 +86,7 @@ static bool monster_near_permwall(const struct monster *mon)
 }
 
 /**
- * Verificar si el monstruo puede ver al jugador
+ * Check if the monster can see the player
  */
 static bool monster_can_see_player(struct monster *mon)
 {
@@ -98,7 +98,7 @@ static bool monster_can_see_player(struct monster *mon)
 }
 
 /**
- * Verificar si el monstruo puede oír algo
+ * Check if the monster can hear anything
  */
 static bool monster_can_hear(struct monster *mon)
 {
@@ -111,7 +111,7 @@ static bool monster_can_hear(struct monster *mon)
 }
 
 /**
- * Verificar si el monstruo puede oler algo
+ * Check if the monster can smell anything
  */
 static bool monster_can_smell(struct monster *mon)
 {
@@ -122,7 +122,7 @@ static bool monster_can_smell(struct monster *mon)
 }
 
 /**
- * Comparar la "fuerza" de dos monstruos XXX XXX XXX
+ * Compare the "strength" of two monsters XXX XXX XXX
  */
 static int compare_monsters(const struct monster *mon1,
 							const struct monster *mon2)
@@ -132,25 +132,25 @@ static int compare_monsters(const struct monster *mon1,
 	uint32_t mexp2 = (mon2->original_race) ?
 		mon2->original_race->mexp : mon2->race->mexp;
 
-	/* Comparar */
+	/* Compare */
 	if (mexp1 < mexp2) return (-1);
 	if (mexp1 > mexp2) return (1);
 
-	/* Asumir iguales */
+	/* Assume equal */
 	return (0);
 }
 
 /**
- * Verificar si el monstruo puede matar a cualquier monstruo en la casilla relevante
+ * Check if the monster can kill any monster on the relevant grid
  */
 static bool monster_can_kill(struct monster *mon, struct loc grid)
 {
 	struct monster *mon1 = square_monster(cave, grid);
 
-	/* Sin monstruo */
+	/* No monster */
 	if (!mon1) return true;
 
-	/* No pisotear únicos */
+	/* No trampling uniques */
 	if (monster_is_unique(mon1)) {
 		return false;
 	}
@@ -164,13 +164,13 @@ static bool monster_can_kill(struct monster *mon, struct loc grid)
 }
 
 /**
- * Verificar si el monstruo puede mover a cualquier monstruo en la casilla relevante
+ * Check if the monster can move any monster on the relevant grid
  */
 static bool monster_can_move(struct monster *mon, struct loc grid)
 {
 	struct monster *mon1 = square_monster(cave, grid);
 
-	/* Sin monstruo */
+	/* No monster */
 	if (!mon1) return true;
 
 	if (rf_has(mon->race->flags, RF_MOVE_BODY) &&
@@ -182,11 +182,11 @@ static bool monster_can_move(struct monster *mon, struct loc grid)
 }
 
 /**
- * Verificar si el monstruo puede ocupar una casilla de forma segura
+ * Check if the monster can occupy a grid safely
  */
 static bool monster_hates_grid(struct monster *mon, struct loc grid)
 {
-	/* Solo algunas criaturas pueden manejar terreno dañino */
+	/* Only some creatures can handle damaging terrain */
 	if (square_isdamaging(cave, grid) &&
 		!rf_has(mon->race->flags, square_feat(cave, grid)->resist_flag)) {
 		return true;
@@ -196,17 +196,17 @@ static bool monster_hates_grid(struct monster *mon, struct loc grid)
 
 /**
  * ------------------------------------------------------------------------
- * Rutinas de movimiento de monstruos
- * Estas rutinas, que culminan en get_move(), eligen si y dónde se moverá
- * un monstruo en su turno
+ * Monster movement routines
+ * These routines, culminating in get_move(), choose if and where a monster
+ * will move on its turn
  * ------------------------------------------------------------------------ */
 /**
- * Calcular los rangos de combate mínimo y deseado.  -BR-
+ * Calculate minimum and desired combat ranges.  -BR-
  *
- * Los monstruos asustados establecerán esto a su distancia de huida máxima.
- * Actualmente esto se recalcula cada turno - si se convierte en una sobrecarga
- * significativa podría calcularse solo cuando algo ha cambiado (PG del monstruo,
- * probabilidad de escapar, etc.)
+ * Afraid monsters will set this to their maximum flight distance.
+ * Currently this is recalculated every turn - if it becomes a significant
+ * overhead it could be calculated only when something has changed (monster HP,
+ * chance of escaping, etc)
  */
 static void get_move_find_range(struct monster *mon)
 {
@@ -215,95 +215,95 @@ static void get_move_find_range(struct monster *mon)
 	uint16_t m_chp, m_mhp;
 	uint32_t p_val, m_val;
 
-	/* Los monstruos huirán hasta z_info->flee_range casillas fuera de la vista */
+	/* Monsters will run up to z_info->flee_range grids out of sight */
 	int flee_range = z_info->max_sight + z_info->flee_range;
 
-	/* Todos los monstruos "asustados" huirán */
+	/* All "afraid" monsters will run away */
 	if (mon->m_timed[MON_TMD_FEAR] || rf_has(mon->race->flags, RF_FRIGHTENED)) {
 		mon->min_range = flee_range;
 	} else if (mon->group_info[PRIMARY_GROUP].role == MON_GROUP_BODYGUARD) {
-		/* Los guardaespaldas no huyen */
+		/* Bodyguards don't flee */
 		mon->min_range = 1;
 	} else {
-		/* Distancia mínima - permanecer al menos a esta distancia si es posible */
+		/* Minimum distance - stay at least this far if possible */
 		mon->min_range = 1;
 
-		/* Los monstruos provocados solo quieren enfrentarse */
+		/* Taunted monsters just want to get in your face */
 		if (player->timed[TMD_TAUNT]) return;
 
-		/* Examinar el poder del jugador (nivel) */
+		/* Examine player power (level) */
 		p_lev = player->lev;
 
-		/* Truco - aumentar p_lev basado en habilidades especiales */
+		/* Hack - increase p_lev based on specialty abilities */
 
-		/* Examinar el poder del monstruo (nivel más moral) */
+		/* Examine monster power (level plus morale) */
 		m_lev = mon->race->level + (mon->midx & 0x08) + 25;
 
-		/* Casos simples primero */
+		/* Simple cases first */
 		if (m_lev + 3 < p_lev) {
 			mon->min_range = flee_range;
 		} else if (m_lev - 5 < p_lev) {
 
-			/* Examinar la salud del jugador */
+			/* Examine player health */
 			p_chp = player->chp;
 			p_mhp = player->mhp;
 
-			/* Examinar la salud del monstruo */
+			/* Examine monster health */
 			m_chp = mon->hp;
 			m_mhp = mon->maxhp;
 
-			/* Prepararse para optimizar el cálculo */
+			/* Prepare to optimize the calculation */
 			p_val = (p_lev * p_mhp) + (p_chp << 2);	/* div p_mhp */
 			m_val = (m_lev * m_mhp) + (m_chp << 2);	/* div m_mhp */
 
-			/* Los jugadores fuertes asustan a los monstruos fuertes */
+			/* Strong players scare strong monsters */
 			if (p_val * m_mhp > m_val * p_mhp)
 				mon->min_range = flee_range;
 		}
 	}
 
 	if (mon->min_range < flee_range) {
-		/* A las criaturas que no se mueven nunca les gusta acercarse demasiado */
+		/* Creatures that don't move never like to get too close */
 		if (rf_has(mon->race->flags, RF_NEVER_MOVE))
 			mon->min_range += 3;
 
-		/* A los lanzadores de hechizos que nunca golpean nunca les gusta acercarse demasiado */
+		/* Spellcasters that don't strike never like to get too close */
 		if (rf_has(mon->race->flags, RF_NEVER_BLOW))
 			mon->min_range += 3;
 	}
 
-	/* Rango máximo para huir */
+	/* Maximum range to flee to */
 	if (!(mon->min_range < flee_range)) {
 		mon->min_range = flee_range;
 	} else if (mon->cdis < z_info->turn_range) {
-		/* Los monstruos cercanos no huirán */
+		/* Nearby monsters won't run away */
 		mon->min_range = 1;
 	}
 
-	/* Ahora encontrar el rango preferido */
+	/* Now find preferred range */
 	mon->best_range = mon->min_range;
 
-	/* Los arqueros están bastante contentos a buena distancia */
+	/* Archers are quite happy at a good distance */
 	if (monster_loves_archery(mon)) {
 		mon->best_range += 3;
 	}
 
-	/* Los que exhalan aliento prefieren el alcance de punto en blanco */
+	/* Breathers like point blank range */
 	if (mon->race->freq_innate > 24) {
 		if (monster_breathes(mon) && (mon->hp > mon->maxhp / 2)) {
 			mon->best_range = MAX(1, mon->best_range);
 		}
 	} else if (mon->race->freq_spell > 24) {
-		/* Otros lanzadores de hechizos se mantendrán atrás y lanzarán */
+		/* Other spell casters will sit back and cast */
 		mon->best_range += 3;
 	}
 }
 
 /**
- * Elegir la mejor dirección para un guardaespaldas.
+ * Choose the best direction for a bodyguard.
  *
- * La idea es permanecer cerca del líder del grupo, pero atacar al jugador si
- * surge la oportunidad
+ * The idea is to stay close to the group leader, but attack the player if the
+ * chance arises
  */
 static bool get_move_bodyguard(struct monster *mon)
 {
@@ -315,49 +315,49 @@ static bool get_move_bodyguard(struct monster *mon)
 
 	if (!leader) return false;
 
-	/* Obtener distancia */
+	/* Get distance */
 	dist = distance(mon->grid, leader->grid);
 
-	/* Si actualmente está adyacente al líder, podemos permitirnos un movimiento */
+	/* If currently adjacent to the leader, we can afford a move */
 	if (dist <= 1) return false;
 
-	/* Si el líder está demasiado fuera de la vista y lejos, sálvate */
+	/* If the leader's too out of sight and far away, save yourself */
 	if (!los(cave, mon->grid, leader->grid) && (dist > 10)) return false;
 
-	/* Verificar las casillas adyacentes cercanas y evaluar */
+	/* Check nearby adjacent grids and assess */
 	for (i = 0; i < 8; i++) {
-		/* Obtener la ubicación */
+		/* Get the location */
 		struct loc grid = loc_sum(mon->grid, ddgrid_ddd[i]);
 		int new_dist = distance(grid, leader->grid);
 		int char_dist = distance(grid, player->grid);
 
-		/* Verificar límites */
+		/* Bounds check */
 		if (!square_in_bounds(cave, grid)) {
 			continue;
 		}
 
-		/* Hay un monstruo bloqueando que no podemos manejar */
+		/* There's a monster blocking that we can't deal with */
 		if (!monster_can_kill(mon, grid) && !monster_can_move(mon, grid)){
 			continue;
 		}
 
-		/* Hay terreno dañino */
+		/* There's damaging terrain */
 		if (monster_hates_grid(mon, grid)) {
 			continue;
 		}
 
-		/* Más cerca del líder siempre es mejor */
+		/* Closer to the leader is always better */
 		if (new_dist < dist) {
 			best = grid;
 			found = true;
-			/* Si hay una casilla que también está más cerca del jugador, esa gana */
+			/* If there's a grid that's also closer to the player, that wins */
 			if (char_dist < mon->cdis) {
 				break;
 			}
 		}
 	}
 
-	/* Si encontramos una, establecer el objetivo */
+	/* If we found one, set the target */
 	if (found) {
 		mon->target.grid = best;
 		return true;
@@ -368,24 +368,24 @@ static bool get_move_bodyguard(struct monster *mon)
 
 
 /**
- * Elegir la mejor dirección para avanzar hacia el jugador, usando sonido u olor.
+ * Choose the best direction to advance toward the player, using sound or scent.
  *
- * Los fantasmas y devoradores de rocas generalmente van directamente hacia el jugador.
- * Otros monstruos intentan ver, luego el sonido actual guardado en cave->noise.grids[y][x],
- * luego el olor actual guardado en cave->scent.grids[y][x].
+ * Ghosts and rock-eaters generally just head straight for the player. Other
+ * monsters try sight, then current sound as saved in cave->noise.grids[y][x],
+ * then current scent as saved in cave->scent.grids[y][x].
  *
- * Esta función asume que el monstruo se mueve a una casilla adyacente, y por lo tanto el
- * ruido puede ser más fuerte como máximo en 1. La casilla objetivo del monstruo establecida por
- * rastreo de sonido u olor en esta función será una casilla a la que pueden dar un paso en un turno,
- * por lo que es la opción preferida para get_move() a menos que haya alguna razón
- * para no usarla.
+ * This function assumes the monster is moving to an adjacent grid, and so the
+ * noise can be louder by at most 1.  The monster target grid set by sound or
+ * scent tracking in this function will be a grid they can step to in one turn,
+ * so is the preferred option for get_move() unless there's some reason
+ * not to use it.
  *
- * El rastreo por 'olor' significa que los monstruos terminan lo suficientemente cerca del
- * jugador para cambiar a 'sonido' (ruido), o terminan en algún lugar al que el jugador
- * se teletransportó. Teletransportarse lejos de una ubicación hará que los monstruos
- * que estaban persiguiendo al jugador converjan en esa ubicación mientras el jugador
- * todavía esté lo suficientemente cerca como para "molestarlos" sin estar lo suficientemente
- * cerca para perseguirlos directamente.
+ * Tracking by 'scent' means that monsters end up near enough the player to
+ * switch to 'sound' (noise), or they end up somewhere the player left via 
+ * teleport.  Teleporting away from a location will cause the monsters who
+ * were chasing the player to converge on that location as long as the player
+ * is still near enough to "annoy" them without being close enough to chase
+ * directly.
  */
 static bool get_move_advance(struct monster *mon, bool *track)
 {
@@ -404,60 +404,60 @@ static bool get_move_advance(struct monster *mon, bool *track)
 	bool found = false;
 	bool found_backup = false;
 
-	/* Los guardaespaldas son especiales */
+	/* Bodyguards are special */
 	if (mon->group_info[PRIMARY_GROUP].role == MON_GROUP_BODYGUARD) {
 		if (get_move_bodyguard(mon)) {
 			return true;
 		}
 	}
 
-	/* Si el monstruo puede pasar a través de paredes cercanas, hacer eso */
+	/* If the monster can pass through nearby walls, do that */
 	if (monster_passes_walls(mon) && !monster_near_permwall(mon)) {
 		mon->target.grid = target;
 		return true;
 	}
 
-	/* Si el jugador puede ver al monstruo, establecer objetivo y correr hacia ellos */
+	/* If the player can see monster, set target and run towards them */
 	if (monster_can_see_player(mon)) {
 		mon->target.grid = target;
 		return true;
 	}
 
-	/* Intentar usar el sonido */
+	/* Try to use sound */
 	if (monster_can_hear(mon)) {
-		/* Verificar sonido cercano, dando preferencia a las direcciones cardinales */
+		/* Check nearby sound, giving preference to the cardinal directions */
 		for (i = 0; i < 8; i++) {
-			/* Obtener la ubicación */
+			/* Get the location */
 			struct loc grid = loc_sum(mon->grid, ddgrid_ddd[i]);
 			int heard_noise = base_hearing - cave->noise.grids[grid.y][grid.x];
 
-			/* Verificar límites */
+			/* Bounds check */
 			if (!square_in_bounds(cave, grid)) {
 				continue;
 			}
 
-			/* Debe haber algo de ruido */
+			/* Must be some noise */
 			if (cave->noise.grids[grid.y][grid.x] == 0) {
 				continue;
 			}
 
-			/* Hay un monstruo bloqueando que no podemos manejar */
+			/* There's a monster blocking that we can't deal with */
 			if (!monster_can_kill(mon, grid) && !monster_can_move(mon, grid)) {
 				continue;
 			}
 
-			/* Hay terreno dañino */
+			/* There's damaging terrain */
 			if (monster_hates_grid(mon, grid)) {
 				continue;
 			}
 
-			/* Si es mejor que el ruido actual, elegir esta dirección */
+			/* If it's better than the current noise, choose this direction */
 			if (heard_noise > current_noise) {
 				best_grid = grid;
 				found = true;
 				break;
 			} else if (heard_noise == current_noise) {
-				/* Movimiento posible si no podemos acercarnos realmente */
+				/* Possible move if we can't actually get closer */
 				backup_grid = grid;
 				found_backup = true;
 				continue;
@@ -465,14 +465,14 @@ static bool get_move_advance(struct monster *mon, bool *track)
 		}
 	}
 
-	/* Si tanto la visión como el sonido no sirven, usar el olor */
+	/* If both vision and sound are no good, use scent */
 	if (monster_can_smell(mon) && !found) {
 		for (i = 0; i < 8; i++) {
-			/* Obtener la ubicación */
+			/* Get the location */
 			struct loc grid = loc_sum(mon->grid, ddgrid_ddd[i]);
 			int smelled_scent;
 
-			/* Si aún no hay buen sonido, usar el olor */
+			/* If no good sound yet, use scent */
 			smelled_scent = mon->race->smell
 				- cave->scent.grids[grid.y][grid.x];
 			if ((smelled_scent > best_scent) &&
@@ -484,25 +484,25 @@ static bool get_move_advance(struct monster *mon, bool *track)
 		}
 	}
 
-	/* Establecer el objetivo */
+	/* Set the target */
 	if (found) {
 		mon->target.grid = best_grid;
 		*track = true;
 		return true;
 	} else if (found_backup) {
-		/* Moverse para intentar mejorar la posición */
+		/* Move around to try and improve position */
 		mon->target.grid = backup_grid;
 		*track = true;
 		return true;
 	}
 
-	/* Sin razón para avanzar */
+	/* No reason to advance */
 	return false;
 }
 
 /**
- * Elegir una casilla adyacente transitable aleatoria cerca del monstruo ya que no tiene mejor
- * estrategia.
+ * Choose a random passable grid adjacent to the monster since is has no better
+ * strategy.
  */
 static struct loc get_move_random(struct monster *mon)
 {
@@ -530,16 +530,16 @@ static struct loc get_move_random(struct monster *mon)
 }
 
 /**
- * Elegir una ubicación "segura" cerca de un monstruo para que huya hacia ella.
+ * Choose a "safe" location near a monster for it to run toward.
  *
- * Una ubicación es "segura" si puede ser alcanzada rápidamente y el jugador
- * no puede disparar hacia ella (no es un "tiro limpio"). Así que esto hará
- * que los monstruos se "agachen" detrás de las paredes. Con suerte, los monstruos también
- * intentarán correr hacia las aberturas de los pasillos si están en una habitación.
+ * A location is "safe" if it can be reached quickly and the player
+ * is not able to fire into it (it isn't a "clean shot").  So, this will
+ * cause monsters to "duck" behind walls.  Hopefully, monsters will also
+ * try to run towards corridor openings if they are in a room.
  *
- * Esta función puede consumir mucho tiempo de CPU si muchos monstruos están huyendo.
+ * This function may take lots of CPU time if lots of monsters are fleeing.
  *
- * Devolver true si hay una ubicación segura disponible.
+ * Return true if a safe location is available.
  */
 static bool get_move_find_safety(struct monster *mon)
 {
@@ -548,40 +548,40 @@ static bool get_move_find_safety(struct monster *mon)
 	const int *y_offsets;
 	const int *x_offsets;
 
-	/* Comenzar con ubicaciones adyacentes, extenderse más */
+	/* Start with adjacent locations, spread further */
 	for (d = 1; d < 10; d++) {
 		struct loc best = loc(0, 0);
 
-		/* Obtener las listas de puntos con una distancia d desde (fx, fy) */
+		/* Get the lists of points with a distance d from (fx, fy) */
 		y_offsets = dist_offsets_y[d];
 		x_offsets = dist_offsets_x[d];
 
-		/* Verificar las ubicaciones */
+		/* Check the locations */
 		for (i = 0, dx = x_offsets[0], dy = y_offsets[0];
 		     dx != 0 || dy != 0;
 		     i++, dx = x_offsets[i], dy = y_offsets[i]) {
 			struct loc grid = loc_sum(mon->grid, loc(dx, dy));
 
-			/* Saltar ubicaciones ilegales */
+			/* Skip illegal locations */
 			if (!square_in_bounds_fully(cave, grid)) continue;
 
-			/* Saltar ubicaciones en una pared */
+			/* Skip locations in a wall */
 			if (!square_ispassable(cave, grid)) continue;
 
-			/* Ignorar casillas demasiado distantes */
+			/* Ignore too-distant grids */
 			if (cave->noise.grids[grid.y][grid.x] >
 				cave->noise.grids[mon->grid.y][mon->grid.x] + 2 * d)
 				continue;
 
-			/* Ignorar terreno dañino si no pueden manejarlo */
+			/* Ignore damaging terrain if they can't handle it */
 			if (monster_hates_grid(mon, grid)) continue;
 
-			/* Verificar ausencia de tiro (más o menos) */
+			/* Check for absence of shot (more or less) */
 			if (!square_isview(cave, grid)) {
-				/* Calcular distancia desde el jugador */
+				/* Calculate distance from player */
 				dis = distance(grid, player->grid);
 
-				/* Recordar si más lejos que el anterior */
+				/* Remember if further than previous */
 				if (dis > gdis) {
 					best = grid;
 					gdis = dis;
@@ -589,25 +589,25 @@ static bool get_move_find_safety(struct monster *mon)
 			}
 		}
 
-		/* Verificar éxito */
+		/* Check for success */
 		if (gdis > 0) {
-			/* Buena ubicación */
+			/* Good location */
 			mon->target.grid = best;
 			return (true);
 		}
 	}
 
-	/* Sin lugar seguro */
+	/* No safe place */
 	return (false);
 }
 
 /**
- * Elegir un buen escondite cerca de un monstruo para que huya hacia él.
+ * Choose a good hiding place near a monster for it to run toward.
  *
- * Los monstruos en manada usarán esto para "emboscar" al jugador y atraerlo
- * fuera de los pasillos hacia el espacio abierto para que puedan acosarlo.
+ * Pack monsters will use this to "ambush" the player and lure him out
+ * of corridors into open space so they can swarm him.
  *
- * Devolver true si hay una buena ubicación disponible.
+ * Return true if a good location is available.
  */
 static bool get_move_find_hiding(struct monster *mon)
 {
@@ -615,36 +615,36 @@ static bool get_move_find_hiding(struct monster *mon)
 
 	const int *y_offsets, *x_offsets;
 
-	/* Distancia más cercana a alcanzar */
+	/* Closest distance to get */
 	min = distance(player->grid, mon->grid) * 3 / 4 + 2;
 
-	/* Comenzar con ubicaciones adyacentes, extenderse más */
+	/* Start with adjacent locations, spread further */
 	for (d = 1; d < 10; d++) {
 		struct loc best = loc(0, 0);
 
-		/* Obtener las listas de puntos con una distancia d desde el monstruo */
+		/* Get the lists of points with a distance d from monster */
 		y_offsets = dist_offsets_y[d];
 		x_offsets = dist_offsets_x[d];
 
-		/* Verificar las ubicaciones */
+		/* Check the locations */
 		for (i = 0, dx = x_offsets[0], dy = y_offsets[0];
 		     dx != 0 || dy != 0;
 		     i++, dx = x_offsets[i], dy = y_offsets[i]) {
 			struct loc grid = loc_sum(mon->grid, loc(dx, dy));
 
-			/* Saltar ubicaciones ilegales */
+			/* Skip illegal locations */
 			if (!square_in_bounds_fully(cave, grid)) continue;
 
-			/* Saltar ubicaciones ocupadas */
+			/* Skip occupied locations */
 			if (!square_isempty(cave, grid)) continue;
 
-			/* Verificar si hay una casilla oculta y disponible */
+			/* Check for hidden, available grid */
 			if (!square_isview(cave, grid) &&
 				projectable(cave, mon->grid, grid, PROJECT_STOP)) {
-				/* Calcular distancia desde el jugador */
+				/* Calculate distance from player */
 				dis = distance(grid, player->grid);
 
-				/* Recordar si más cerca que el anterior */
+				/* Remember if closer than previous */
 				if (dis < gdis && dis >= min) {
 					best = grid;
 					gdis = dis;
@@ -652,24 +652,24 @@ static bool get_move_find_hiding(struct monster *mon)
 			}
 		}
 
-		/* Verificar éxito */
+		/* Check for success */
 		if (gdis < 999) {
-			/* Buena ubicación */
+			/* Good location */
 			mon->target.grid = best;
 			return (true);
 		}
 	}
 
-	/* Sin buen lugar */
+	/* No good place */
 	return (false);
 }
 
 /**
- * Proporcionar una ubicación para huir, pero darle un amplio margen al jugador.
+ * Provide a location to flee to, but give the player a wide berth.
  *
- * Un monstruo puede desear huir a una ubicación que está detrás del jugador,
- * pero en lugar de dirigirse directamente hacia ella, el monstruo debería "desviarse"
- * alrededor del jugador para que tenga menos probabilidades de ser golpeado.
+ * A monster may wish to flee to a location that is behind the player,
+ * but instead of heading directly for it, the monster should "swerve"
+ * around the player so that it has a smaller chance of getting hit.
  */
 static bool get_move_flee(struct monster *mon)
 {
@@ -677,132 +677,132 @@ static bool get_move_flee(struct monster *mon)
 	struct loc best = loc(0, 0);
 	int best_score = -1;
 
-	/* Recibir daño del terreno hace que moverse sea vital */
+	/* Taking damage from terrain makes moving vital */
 	if (!monster_taking_terrain_damage(cave, mon)) {
-		/* Si el jugador no está actualmente cerca del monstruo, no hay razón para fluir */
+		/* If the player is not currently near the monster, no reason to flow */
 		if (mon->cdis >= mon->best_range) {
 			return false;
 		}
 
-		/* El monstruo está demasiado lejos para usar el sonido o el olor */
+		/* Monster is too far away to use sound or scent */
 		if (!monster_can_hear(mon) && !monster_can_smell(mon)) {
 			return false;
 		}
 	}
 
-	/* Verificar casillas cercanas, diagonales primero */
+	/* Check nearby grids, diagonals first */
 	for (i = 7; i >= 0; i--) {
 		int dis, score;
 
-		/* Obtener la ubicación */
+		/* Get the location */
 		struct loc grid = loc_sum(mon->grid, ddgrid_ddd[i]);
 
-		/* Verificar límites */
+		/* Bounds check */
 		if (!square_in_bounds(cave, grid)) continue;
 
-		/* Calcular distancia de esta casilla desde nuestro objetivo */
+		/* Calculate distance of this grid from our target */
 		dis = distance(grid, mon->target.grid);
 
-		/* Puntuar esta casilla
-		 * La primera mitad del cálculo es inversamente proporcional a la distancia
-		 * La segunda mitad es inversamente proporcional a la distancia de la casilla al jugador
+		/* Score this grid
+		 * First half of calculation is inversely proportional to distance
+		 * Second half is inversely proportional to grid's distance from player
 		 */
 		score = 5000 / (dis + 3) - 500 /(cave->noise.grids[grid.y][grid.x] + 1);
 
-		/* Sin puntuaciones negativas */
+		/* No negative scores */
 		if (score < 0) score = 0;
 
-		/* Ignorar puntuaciones más bajas */
+		/* Ignore lower scores */
 		if (score < best_score) continue;
 
-		/* Guardar la puntuación */
+		/* Save the score */
 		best_score = score;
 
-		/* Guardar la ubicación */
+		/* Save the location */
 		best = grid;
 	}
 
-	/* Establecer el objetivo inmediato */
+	/* Set the immediate target */
 	mon->target.grid = best;
 
-	/* Éxito */
+	/* Success */
 	return true;
 }
 
 /**
- * Elegir la dirección básica de movimiento, y si inclinarse a la izquierda o derecha
- * si la dirección principal está bloqueada.
+ * Choose the basic direction of movement, and whether to bias left or right
+ * if the main direction is blocked.
  *
- * Nótese que la entrada es un desplazamiento de la posición actual del monstruo, y
- * la dirección de salida está pensada como un índice en la matriz side_dirs.
+ * Note that the input is an offset to the monster's current position, and
+ * the output direction is intended as an index into the side_dirs array.
  */
 static int get_move_choose_direction(struct loc offset)
 {
 	int dir = 0;
 	int dx = offset.x, dy = offset.y;
 
-	/* Extraer las "distancias absolutas" */
+	/* Extract the "absolute distances" */
 	int ay = ABS(dy);
 	int ax = ABS(dx);
 
-	/* Principalmente queremos movernos verticalmente */
+	/* We mostly want to move vertically */
 	if (ay > (ax * 2)) {
-		/* Elegir entre las direcciones '8' y '2' */
+		/* Choose between directions '8' and '2' */
 		if (dy > 0) {
-			/* Nos dirigimos hacia abajo */
+			/* We're heading down */
 			dir = 2;
 			if ((dx > 0) || (dx == 0 && turn % 2 == 0))
 				dir += 10;
 		} else {
-			/* Nos dirigimos hacia arriba */
+			/* We're heading up */
 			dir = 8;
 			if ((dx < 0) || (dx == 0 && turn % 2 == 0))
 				dir += 10;
 		}
 	}
 
-	/* Principalmente queremos movernos horizontalmente */
+	/* We mostly want to move horizontally */
 	else if (ax > (ay * 2)) {
-		/* Elegir entre las direcciones '4' y '6' */
+		/* Choose between directions '4' and '6' */
 		if (dx > 0) {
-			/* Nos dirigimos hacia la derecha */
+			/* We're heading right */
 			dir = 6;
 			if ((dy < 0) || (dy == 0 && turn % 2 == 0))
 				dir += 10;
 		} else {
-			/* Nos dirigimos hacia la izquierda */
+			/* We're heading left */
 			dir = 4;
 			if ((dy > 0) || (dy == 0 && turn % 2 == 0))
 				dir += 10;
 		}
 	}
 
-	/* Queremos movernos hacia abajo y lateralmente */
+	/* We want to move down and sideways */
 	else if (dy > 0) {
-		/* Elegir entre las direcciones '1' y '3' */
+		/* Choose between directions '1' and '3' */
 		if (dx > 0) {
-			/* Nos dirigimos hacia abajo y derecha */
+			/* We're heading down and right */
 			dir = 3;
 			if ((ay < ax) || (ay == ax && turn % 2 == 0))
 				dir += 10;
 		} else {
-			/* Nos dirigimos hacia abajo e izquierda */
+			/* We're heading down and left */
 			dir = 1;
 			if ((ay > ax) || (ay == ax && turn % 2 == 0))
 				dir += 10;
 		}
 	}
 
-	/* Queremos movernos hacia arriba y lateralmente */
+	/* We want to move up and sideways */
 	else {
-		/* Elegir entre las direcciones '7' y '9' */
+		/* Choose between directions '7' and '9' */
 		if (dx > 0) {
-			/* Nos dirigimos hacia arriba y derecha */
+			/* We're heading up and right */
 			dir = 9;
 			if ((ay > ax) || (ay == ax && turn % 2 == 0))
 				dir += 10;
 		} else {
-			/* Nos dirigimos hacia arriba e izquierda */
+			/* We're heading up and left */
 			dir = 7;
 			if ((ay < ax) || (ay == ax && turn % 2 == 0))
 				dir += 10;
@@ -813,24 +813,24 @@ static int get_move_choose_direction(struct loc offset)
 }
 
 /**
- * Elegir direcciones "lógicas" para el movimiento del monstruo
+ * Choose "logical" directions for monster movement
  *
- * Esta función es responsable de decidir hacia dónde quiere moverse el monstruo,
- * y por lo tanto es el núcleo de la "IA" del monstruo.
+ * This function is responsible for deciding where the monster wants to move,
+ * and so is the core of monster "AI".
  *
- * Primero, calculamos la mejor manera de avanzar hacia el jugador:
- * - Intentar dirigirse hacia el jugador directamente si podemos atravesar paredes o
- *   si podemos verlos
- * - Si eso falla, seguir al jugador por el sonido, o si eso falla, por el olor
- * - Si nada de eso funciona, simplemente ir en la dirección general
- * Luego observamos posibles razones para no solo avanzar:
- * - Si somos parte de una manada, intentar atraer al jugador al espacio abierto
- * - Si tenemos miedo, intentar encontrar un lugar seguro para huir, y si no hay lugar seguro
- *   simplemente correr en la dirección opuesta al movimiento de avance
- * - Si podemos ver al jugador y somos parte de un grupo, intentar rodearlos
+ * First, we work out how best to advance toward the player:
+ * - Try to head toward the player directly if we can pass through walls or
+ *   if we can see them
+ * - Failing that follow the player by sound, or failing that by scent
+ * - If none of that works, just head in the general direction
+ * Then we look at possible reasons not to just advance:
+ * - If we're part of a pack, try to lure the player into the open
+ * - If we're afraid, try to find a safe place to run to, and if no safe place
+ *   just run in the opposite direction to the advance move
+ * - If we can see the player and we're part of a group, try and surround them
  *
- * La función luego devuelve false si ya estamos donde queremos estar, y
- * de lo contrario establece la dirección elegida para dar un paso y devuelve true.
+ * The function then returns false if we're already where we want to be, and
+ * otherwise sets the chosen direction to step and returns true.
  */
 static bool get_move(struct monster *mon, int *dir, bool *good)
 {
@@ -838,146 +838,146 @@ static bool get_move(struct monster *mon, int *dir, bool *good)
 		player->grid;
 	bool group_ai = rf_has(mon->race->flags, RF_GROUP_AI);
 
-	/* Desplazamiento a la posición actual para moverse hacia */
+	/* Offset to current position to move toward */
 	struct loc grid = loc(0, 0);
 
-	/* Los monstruos huirán hasta z_info->flee_range casillas fuera de la vista */
+	/* Monsters will run up to z_info->flee_range grids out of sight */
 	int flee_range = z_info->max_sight + z_info->flee_range;
 
 	bool done = false;
 
-	/* Calcular rango */
+	/* Calculate range */
 	get_move_find_range(mon);
 
-	/* Asumir que nos dirigimos hacia el jugador */
+	/* Assume we're heading towards the player */
 	if (get_move_advance(mon, good)) {
-		/* Tenemos un buen movimiento, usarlo */
+		/* We have a good move, use it */
 		grid = loc_diff(mon->target.grid, mon->grid);
 		mflag_on(mon->mflag, MFLAG_TRACKING);
 	} else {
-		/* Intentar seguir a alguien que sabe a dónde va */
+		/* Try to follow someone who knows where they're going */
 		struct monster *tracker = group_monster_tracking(cave, mon);
-		if (tracker && los(cave, mon->grid, tracker->grid)) { /* ¿Necesita LdV? */
+		if (tracker && los(cave, mon->grid, tracker->grid)) { /* Need los? */
 			grid = loc_diff(tracker->grid, mon->grid);
-			/* Ya no está rastreando */
+			/* No longer tracking */
 			mflag_off(mon->mflag, MFLAG_TRACKING);
 		} else {
 			if (mflag_has(mon->mflag, MFLAG_TRACKING)) {
-				/* Seguir dirigiéndose al objetivo más reciente. */
+				/* Keep heading to the most recent goal. */
 				grid = loc_diff(mon->target.grid, mon->grid);
 			}
 			if (loc_is_zero(grid)) {
-				/* Intentar un movimiento aleatorio y ya no rastrear. */
+				/* Try a random move and no longer track. */
 				grid = get_move_random(mon);
 				mflag_off(mon->mflag, MFLAG_TRACKING);
 			}
 		}
 	}
 
-	/* El monstruo está recibiendo daño del terreno */
+	/* Monster is taking damage from terrain */
 	if (monster_taking_terrain_damage(cave, mon)) {
-		/* Intentar encontrar un lugar seguro */
+		/* Try to find safe place */
 		if (get_move_find_safety(mon)) {
-			/* Establecer un rumbo hacia el lugar seguro */
+			/* Set a course for the safe place */
 			get_move_flee(mon);
 			grid = loc_diff(mon->target.grid, mon->grid);
 			done = true;
 		}
 	}
 
-	/* Las manadas de animales normales intentan sacar al jugador de los pasillos. */
+	/* Normal animal packs try to get the player out of corridors. */
 	if (!done && group_ai && !monster_passes_walls(mon)) {
 		int i, open = 0;
 
-		/* Contar casillas vacías junto al jugador */
+		/* Count empty grids next to player */
 		for (i = 0; i < 8; i++) {
-			/* Verificar casilla alrededor del jugador para interior de habitación (las paredes de habitación cuentan)
-			 * u otro espacio vacío */
+			/* Check grid around the player for room interior (room walls count)
+			 * or other empty space */
 			struct loc test = loc_sum(target, ddgrid_ddd[i]);
 			if (square_ispassable(cave, test) || square_isroom(cave, test)) {
-				/* Una casilla abierta más */
+				/* One more open grid */
 				open++;
 			}
 		}
 
-		/* No en un espacio vacío y jugador fuerte */
+		/* Not in an empty space and strong player */
 		if ((open < 5) && (player->chp > player->mhp / 2)) {
-			/* Encontrar escondite para una emboscada */
+			/* Find hiding place for an ambush */
 			if (get_move_find_hiding(mon)) {
 				done = true;
 				grid = loc_diff(mon->target.grid, mon->grid);
 
-				/* Ya no está rastreando */
+				/* No longer tracking */
 				mflag_off(mon->mflag, MFLAG_TRACKING);
 			}
 		}
 	}
 
-	/* No escondiéndose y el monstruo tiene miedo */
+	/* Not hiding and monster is afraid */
 	if (!done && (mon->min_range == flee_range)) {
-		/* Intentar encontrar un lugar seguro */
+		/* Try to find safe place */
 		if (get_move_find_safety(mon)) {
-			/* Establecer un rumbo hacia el lugar seguro */
+			/* Set a course for the safe place */
 			get_move_flee(mon);
 			grid = loc_diff(mon->target.grid, mon->grid);
 		} else {
-			/* Simplemente huir del jugador */
+			/* Just leg it away from the player */
 			grid = loc_diff(loc(0, 0), grid);
 		}
 
-		/* Ya no está rastreando */
+		/* No longer tracking */
 		mflag_off(mon->mflag, MFLAG_TRACKING);
 		done = true;
 	}
 
-	/* Los grupos de monstruos intentan rodear al jugador si están a la vista */
+	/* Monster groups try to surround the player if they're in sight */
 	if (!done && group_ai && square_isview(cave, mon->grid)) {
 		int i;
 		struct loc grid1 = mon->target.grid;
 
-		/* Si aún no estamos adyacentes */
+		/* If we are not already adjacent */
 		if (mon->cdis > 1) {
-			/* Encontrar una casilla vacía cerca del jugador para llenar */
+			/* Find an empty square near the player to fill */
 			int tmp = randint0(8);
 			for (i = 0; i < 8; i++) {
-				/* Elegir casillas cerca del jugador (pseudoaleatoriamente) */
+				/* Pick squares near player (pseudo-randomly) */
 				grid1 = loc_sum(target, ddgrid_ddd[(tmp + i) % 8]);
 
-				/* Ignorar casillas ocupadas */
+				/* Ignore filled grids */
 				if (!square_isempty(cave, grid1)) continue;
 
-				/* Intentar llenar este hueco */
+				/* Try to fill this hole */
 				break;
 			}
 		}
 
-		/* Dirigirse en la dirección de la casilla elegida */
+		/* Head in the direction of the chosen grid */
 		grid = loc_diff(grid1, mon->grid);
 	}
 
-	/* Verificar si el monstruo ya ha alcanzado su objetivo */
+	/* Check if the monster has already reached its target */
 	if (loc_is_zero(grid)) return (false);
 
-	/* Elegir la dirección correcta */
+	/* Pick the correct direction */
 	*dir = get_move_choose_direction(grid);
 
-	/* Quiere moverse */
+	/* Want to move */
 	return (true);
 }
 
 
 /**
  * ------------------------------------------------------------------------
- * Rutinas de turno de monstruo
- * Estas rutinas, que culminan en monster_turn(), deciden cómo un monstruo
- * usa su turno
+ * Monster turn routines
+ * These routines, culminating in monster_turn(), decide how a monster uses
+ * its turn
  * ------------------------------------------------------------------------ */
 /**
- * Permite que el monstruo dado intente reproducirse.
+ * Lets the given monster attempt to reproduce.
  *
- * Nótese que la "reproducción" REQUIERE espacio vacío.
+ * Note that "reproduction" REQUIRES empty space.
  *
- * Devuelve true si el monstruo se reprodujo con éxito.
+ * Returns true if the monster successfully reproduced.
  */
 bool multiply_monster(const struct monster *mon)
 {
@@ -986,20 +986,20 @@ bool multiply_monster(const struct monster *mon)
 	struct monster_group_info info = { 0, 0 };
 
 	/*
-	 * Elegir una ubicación vacía excepto para únicos: nunca pueden
-	 * multiplicarse (necesidad de verificación aquí ya que las de place_new_monster()
-	 * no son suficientes para una forma única de un monstruo con forma cambiada
-	 * ya que puede tener cero para cur_num en la estructura de raza para la
-	 * forma).
+	 * Pick an empty location except for uniques:  they can never
+	 * multiply (need a check here as the ones in place_new_monster()
+	 * are not sufficient for a unique shape of a shapechanged monster
+	 * since it may have zero for cur_num in the race structure for the
+	 * shape).
 	 */
 	if (!monster_is_shape_unique(mon) && scatter_ext(cave, &grid,
 			1, mon->grid, 1, true, square_isempty) > 0) {
-		/* Crear un nuevo monstruo (despierto, sin grupos) */
+		/* Create a new monster (awake, no groups) */
 		result = place_new_monster(cave, grid, mon->race, false, false,
 			info, ORIGIN_DROP_BREED);
 		/*
-		 * Arreglar para que multiplicar un monstruo camuflado revelado cree
-		 * otro monstruo camuflado revelado.
+		 * Fix so multiplying a revealed camouflaged monster creates
+		 * another revealed camouflaged monster.
 		 */
 		if (result) {
 			struct monster *child = square_monster(cave, grid);
@@ -1013,13 +1013,13 @@ bool multiply_monster(const struct monster *mon)
 		result = false;
 	}
 
-	/* Resultado */
+	/* Result */
 	return (result);
 }
 
 /**
- * Intentar reproducirse, si es posible. Todos los monstruos se verifican aquí para
- * propósitos de saber, los no aptos fallan.
+ * Attempt to reproduce, if possible.  All monsters are checked here for
+ * lore purposes, the unfit fail.
  */
 static bool monster_turn_multiply(struct monster *mon)
 {
@@ -1027,34 +1027,34 @@ static bool monster_turn_multiply(struct monster *mon)
 
 	struct monster_lore *lore = get_lore(mon->race);
 
-	/* Demasiados reproductores en el nivel ya */
+	/* Too many breeders on the level already */
 	if (cave->num_repro >= z_info->repro_monster_max) return false;
 
-	/* Sin reproducción en combate singular */
+	/* No breeding in single combat */
 	if (player->upkeep->arena_level) return false;  
 
-	/* Contar los monstruos adyacentes */
+	/* Count the adjacent monsters */
 	for (y = mon->grid.y - 1; y <= mon->grid.y + 1; y++)
 		for (x = mon->grid.x - 1; x <= mon->grid.x + 1; x++)
 			if (square(cave, loc(x, y))->mon > 0) k++;
 
-	/* Multiplicar más lento en áreas concurridas */
+	/* Multiply slower in crowded areas */
 	if ((k < 4) && (k == 0 || one_in_(k * z_info->repro_monster_rate))) {
-		/* Intento de reproducción exitoso, aprender sobre eso ahora */
+		/* Successful breeding attempt, learn about that now */
 		if (monster_is_visible(mon))
 			rf_on(lore->flags, RF_MULTIPLY);
 
-		/* Salir ahora si no es un reproductor */
+		/* Leave now if not a breeder */
 		if (!rf_has(mon->race->flags, RF_MULTIPLY))
 			return false;
 
-		/* Intentar multiplicarse */
+		/* Try to multiply */
 		if (multiply_monster(mon)) {
-			/* Hacer un sonido */
+			/* Make a sound */
 			if (monster_is_visible(mon))
 				sound(MSG_MULTIPLY);
 
-			/* Multiplicarse consume energía */
+			/* Multiplying takes energy */
 			return true;
 		}
 	}
@@ -1063,16 +1063,16 @@ static bool monster_turn_multiply(struct monster *mon)
 }
 
 /**
- * Verificar si un monstruo debería tambalearse (es decir, dar un paso al azar) o no.
- * Siempre tambalearse cuando está confundido, pero también lidiar con movimiento
- * aleatorio para monstruos RAND_25 y RAND_50.
+ * Check if a monster should stagger (that is, step at random) or not.
+ * Always stagger when confused, but also deal with random movement for
+ * RAND_25 and RAND_50 monsters.
  */
 static enum monster_stagger monster_turn_should_stagger(struct monster *mon)
 {
 	struct monster_lore *lore = get_lore(mon->race);
 	int chance = 0, confused_chance, roll;
 
-	/* Aumentar la probabilidad de ser errático por cada nivel de confusión */
+	/* Increase chance of being erratic for every level of confusion */
 	int conf_level = monster_effect_level(mon, MON_TMD_CONF);
 	while (conf_level) {
 		int accuracy = 100 - chance;
@@ -1083,7 +1083,7 @@ static enum monster_stagger monster_turn_should_stagger(struct monster *mon)
 	}
 	confused_chance = chance;
 
-	/* RAND_25 y RAND_50 son acumulativos */
+	/* RAND_25 and RAND_50 are cumulative */
 	if (rf_has(mon->race->flags, RF_RAND_25)) {
 		chance += 25;
 		if (monster_is_visible(mon))
@@ -1104,8 +1104,8 @@ static enum monster_stagger monster_turn_should_stagger(struct monster *mon)
 
 
 /**
- * Función auxiliar para monster_turn_can_move() para mostrar un mensaje para un
- * movimiento confundido hacia terreno no transitable.
+ * Helper function for monster_turn_can_move() to display a message for a
+ * confused move into non-passable terrain.
  */
 static void monster_display_confused_move_msg(struct monster *mon,
 											  const char *m_name,
@@ -1120,8 +1120,8 @@ static void monster_display_confused_move_msg(struct monster *mon,
 
 
 /**
- * Función auxiliar para monster_turn_can_move() para aturdir ligeramente a un monstruo
- * ocasionalmente debido a chocar con algo.
+ * Helper function for monster_turn_can_move() to slightly stun a monster
+ * on occasion due to bumbling into something.
  */
 static void monster_slightly_stun_by_move(struct monster *mon)
 {
@@ -1132,10 +1132,10 @@ static void monster_slightly_stun_by_move(struct monster *mon)
 
 
 /**
- * Determinar si un monstruo puede moverse a través de la casilla, si es necesario derribando
- * puertas en el camino.
+ * Work out if a monster can move through the grid, if necessary bashing 
+ * down doors in the way.
  *
- * Devuelve true si el monstruo puede moverse a través de la casilla.
+ * Returns true if the monster is able to move through the grid.
  */
 static bool monster_turn_can_move(struct monster *mon, const char *m_name,
 								  struct loc new, bool confused,
@@ -1143,22 +1143,22 @@ static bool monster_turn_can_move(struct monster *mon, const char *m_name,
 {
 	struct monster_lore *lore = get_lore(mon->race);
 
-	/* Siempre permitir un ataque al jugador o señuelo. */
+	/* Always allow an attack upon the player or decoy. */
 	if (square_isplayer(cave, new) || square_isdecoyed(cave, new)) {
 		return true;
 	}
 
-	/* Terreno peligroso en el camino */
+	/* Dangerous terrain in the way */
 	if (!confused && monster_hates_grid(mon, new)) {
 		return false;
 	}
 
-	/* ¿El suelo está despejado? */
+	/* Floor is open? */
 	if (square_ispassable(cave, new)) {
 		return true;
 	}
 
-	/* Pared permanente en el camino */
+	/* Permanent wall in the way */
 	if (square_isperm(cave, new)) {
 		if (confused) {
 			*did_something = true;
@@ -1168,65 +1168,65 @@ static bool monster_turn_can_move(struct monster *mon, const char *m_name,
 		return false;
 	}
 
-	/* Pared normal, puerta o puerta secreta en el camino */
+	/* Normal wall, door, or secret door in the way */
 
-	/* Hay algún tipo de característica en el camino, así que aprender sobre
-	 * kill-wall y pass-wall ahora */
+	/* There's some kind of feature in the way, so learn about
+	 * kill-wall and pass-wall now */
 	if (monster_is_visible(mon)) {
 		rf_on(lore->flags, RF_PASS_WALL);
 		rf_on(lore->flags, RF_KILL_WALL);
 		rf_on(lore->flags, RF_SMASH_WALL);
 	}
 
-	/* El monstruo puede ser capaz de lidiar con paredes y puertas */
+	/* Monster may be able to deal with walls and doors */
 	if (rf_has(mon->race->flags, RF_PASS_WALL)) {
 		return true;
 	} else if (rf_has(mon->race->flags, RF_SMASH_WALL)) {
-		/* Eliminar la pared y gran parte de lo que está cerca */
+		/* Remove the wall and much of what's nearby */
 		square_smash_wall(cave, new);
 
-		/* Notar cambios en la región visible */
+		/* Note changes to viewable region */
 		player->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 
 		return true;
 	} else if (rf_has(mon->race->flags, RF_KILL_WALL)) {
-		/* Eliminar la pared */
+		/* Remove the wall */
 		square_destroy_wall(cave, new);
 
-		/* Notar cambios en la región visible */
+		/* Note changes to viewable region */
 		if (square_isview(cave, new))
 			player->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 
 		return true;
 	} else if (square_iscloseddoor(cave, new)|| square_issecretdoor(cave, new)){
-		/* No permitir que un movimiento confundido abra una puerta. */
+		/* Don't allow a confused move to open a door. */
 		bool can_open = rf_has(mon->race->flags, RF_OPEN_DOOR) &&
 			!confused;
-		/* Durante un movimiento confundido, un monstruo solo derriba a veces. */
+		/* During a confused move, a monster only bashes sometimes. */
 		bool can_bash = rf_has(mon->race->flags, RF_BASH_DOOR) &&
 			(!confused || one_in_(3));
 		bool will_bash = false;
 
-		/* Gastar un turno */
+		/* Take a turn */
 		if (can_open || can_bash) *did_something = true;
 
-		/* Aprender sobre habilidades con puertas */
+		/* Learn about door abilities */
 		if (!confused && monster_is_visible(mon)) {
 			rf_on(lore->flags, RF_OPEN_DOOR);
 			rf_on(lore->flags, RF_BASH_DOOR);
 		}
 
-		/* Si la criatura puede abrir o derribar puertas, tomar una decisión */
+		/* If creature can open or bash doors, make a choice */
 		if (can_open) {
-			/* A veces derribar de todos modos (impaciente) */
+			/* Sometimes bash anyway (impatient) */
 			if (can_bash) {
 				will_bash = one_in_(2) ? true : false;
 			}
 		} else if (can_bash) {
-			/* Única opción */
+			/* Only choice */
 			will_bash = true;
 		} else {
-			/* La puerta es un obstáculo insuperable */
+			/* Door is an insurmountable obstacle */
 			if (confused) {
 				*did_something = true;
 				monster_display_confused_move_msg(mon, m_name, new);
@@ -1235,9 +1235,9 @@ static bool monster_turn_can_move(struct monster *mon, const char *m_name,
 			return false;
 		}
 
-		/* Ahora el resultado depende del tipo de puerta */
+		/* Now outcome depends on type of door */
 		if (square_islockeddoor(cave, new)) {
-			/* Puerta cerrada con llave -- probar fuerza del monstruo contra fuerza de la puerta */
+			/* Locked door -- test monster strength against door strength */
 			int k = square_door_power(cave, new);
 			if (randint0(mon->hp / 10) > k) {
 				if (will_bash) {
@@ -1246,19 +1246,19 @@ static bool monster_turn_can_move(struct monster *mon, const char *m_name,
 					msg("%s manipula la cerradura.", m_name);
 				}
 
-				/* Reducir la fuerza de la puerta en uno */
+				/* Reduce the power of the door by one */
 				square_set_door_lock(cave, new, k - 1);
 			}
 			if (confused) {
-				/* No aprendió arriba; aplicar ahora ya que intentó derribar. */
+				/* Didn't learn above; apply now since attempted to bash. */
 				if (monster_is_visible(mon)) {
 					rf_on(lore->flags, RF_BASH_DOOR);
 				}
-				/* Cuando está confundido, puede aturdirse mientras derriba. */
+				/* When confused, can stun itself while bashing. */
 				monster_slightly_stun_by_move(mon);
 			}
 		} else {
-			/* Puerta cerrada o secreta -- siempre abrir o derribar */
+			/* Closed or secret door -- always open or bash */
 			if (square_isview(cave, new))
 				player->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 
@@ -1269,15 +1269,15 @@ static bool monster_turn_can_move(struct monster *mon, const char *m_name,
 				disturb(player);
 
 				if (confused) {
-					/* No aprendió arriba; aplicar ya que derribó la puerta. */
+					/* Didn't learn above; apply since bashed the door. */
 					if (monster_is_visible(mon)) {
 						rf_on(lore->flags, RF_BASH_DOOR);
 					}
-					/* Cuando está confundido, puede aturdirse mientras derriba. */
+					/* When confused, can stun itself while bashing. */
 					monster_slightly_stun_by_move(mon);
 				}
 
-				/* Caer en la puerta */
+				/* Fall into doorway */
 				return true;
 			} else {
 				square_open_door(cave, new);
@@ -1293,34 +1293,34 @@ static bool monster_turn_can_move(struct monster *mon, const char *m_name,
 }
 
 /**
- * Intentar romper un glifo.
+ * Try to break a glyph.
  */
 static bool monster_turn_attack_glyph(struct monster *mon, struct loc new)
 {
 	assert(square_iswarded(cave, new));
 
-	/* Romper la protección */
+	/* Break the ward */
 	if (randint1(z_info->glyph_hardness) < mon->race->level) {
 		struct trap_kind *rune = lookup_trap("glyph of warding");
 
-		/* Describir rotura observable */
+		/* Describe observable breakage */
 		if (square_isseen(cave, new)) {
 			msg("¡La runa de protección está rota!");
 		}
 
-		/* Romper la runa */
+		/* Break the rune */
 		assert(rune);
 		square_remove_all_traps_of_type(cave, new, rune->tidx);
 
 		return true;
 	}
 
-	/* Protección no rota - no puede moverse */
+	/* Unbroken ward - can't move */
 	return false;
 }
 
 /**
- * Intentar empujar / matar a otro monstruo. Devuelve true en caso de éxito.
+ * Try to push past / kill another monster.  Returns true on success.
  */
 static bool monster_turn_try_push(struct monster *mon, const char *m_name,
 								  struct loc new)
@@ -1328,35 +1328,35 @@ static bool monster_turn_try_push(struct monster *mon, const char *m_name,
 	struct monster *mon1 = square_monster(cave, new);
 	struct monster_lore *lore = get_lore(mon->race);
 
-	/* Matar monstruos más débiles */
+	/* Kill weaker monsters */
 	int kill_ok = monster_can_kill(mon, new);
 
-	/* Mover monstruos más débiles si pueden intercambiar lugares */
-	/* (no en una pared) */
+	/* Move weaker monsters if they can swap places */
+	/* (not in a wall) */
 	int move_ok = (monster_can_move(mon, new) &&
 				   square_ispassable(cave, mon->grid));
 
 	if (kill_ok || move_ok) {
-		/* Obtener los nombres de los monstruos involucrados */
+		/* Get the names of the monsters involved */
 		char n_name[80];
 		monster_desc(n_name, sizeof(n_name), mon1, MDESC_IND_HID);
 
-		/* Aprender sobre empujar y dar empujones */
+		/* Learn about pushing and shoving */
 		if (monster_is_visible(mon)) {
 			rf_on(lore->flags, RF_KILL_BODY);
 			rf_on(lore->flags, RF_MOVE_BODY);
 		}
 
-		/* Revelar monstruos camuflados */
+		/* Reveal camouflaged monsters */
 		if (monster_is_camouflaged(mon1))
 			become_aware(cave, mon1);
 
-		/* Notar si es visible */
+		/* Note if visible */
 		if (monster_is_visible(mon) && monster_is_in_view(mon))
 			msg("%s %s %s.", m_name, kill_ok ? "pisotea" : "empuja a",
 				n_name);
 
-		/* El monstruo se comió a otro monstruo */
+		/* Monster ate another monster */
 		if (kill_ok)
 			delete_monster(cave, new);
 
@@ -1368,7 +1368,7 @@ static bool monster_turn_try_push(struct monster *mon, const char *m_name,
 }
 
 /**
- * Agarrar todos los objetos de la casilla.
+ * Grab all objects from the grid.
  */
 static void monster_turn_grab_objects(struct monster *mon, const char *m_name,
 									  struct loc new)
@@ -1377,7 +1377,7 @@ static void monster_turn_grab_objects(struct monster *mon, const char *m_name,
 	struct object *obj;
 	bool visible = monster_is_visible(mon);
 
-	/* Aprender sobre comportamiento de recogida de objetos */
+	/* Learn about item pickup behavior */
 	for (obj = square_object(cave, new); obj; obj = obj->next) {
 		if (!tval_is_money(obj) && visible) {
 			rf_on(lore->flags, RF_TAKE_ITEM);
@@ -1386,54 +1386,54 @@ static void monster_turn_grab_objects(struct monster *mon, const char *m_name,
 		}
 	}
 
-	/* Abortar si no puede recoger/matar */
+	/* Abort if can't pickup/kill */
 	if (!rf_has(mon->race->flags, RF_TAKE_ITEM) &&
 		!rf_has(mon->race->flags, RF_KILL_ITEM)) {
 		return;
 	}
 
-	/* Tomar o matar objetos en el suelo */
+	/* Take or kill objects on the floor */
 	obj = square_object(cave, new);
 	while (obj) {
 		char o_name[80];
 		bool safe = obj->artifact ? true : false;
 		struct object *next = obj->next;
 
-		/* Saltar oro */
+		/* Skip gold */
 		if (tval_is_money(obj)) {
 			obj = next;
 			continue;
 		}
 
-		/* Saltar objetos imitados */
+		/* Skip mimicked objects */
 		if (obj->mimicking_m_idx) {
 			obj = next;
 			continue;
 		}
 
-		/* Obtener el nombre del objeto */
+		/* Get the object name */
 		object_desc(o_name, sizeof(o_name), obj,
 			ODESC_PREFIX | ODESC_FULL, player);
 
-		/* Reaccionar a objetos que dañan al monstruo */
+		/* React to objects that hurt the monster */
 		if (react_to_slay(obj, mon))
 			safe = true;
 
-		/* Intentar recoger, o aplastar */
+		/* Try to pick up, or crush */
 		if (safe) {
-			/* Solo dar un mensaje para "take_item" */
+			/* Only give a message for "take_item" */
 			if (rf_has(mon->race->flags, RF_TAKE_ITEM)
 					&& visible
 					&& square_isview(cave, new)
 					&& !ignore_item_ok(player, obj)) {
-				/* Volcar un mensaje */
+				/* Dump a message */
 				msg("%s intenta recoger %s, pero falla.", m_name, o_name);
 			}
 		} else if (rf_has(mon->race->flags, RF_TAKE_ITEM)) {
 			/*
-			 * Hacer una copia para que el original pueda permanecer como
-			 * marcador de posición si el jugador recuerda haber visto el
-			 * objeto.
+			 * Make a copy so the original can remain as a
+			 * placeholder if the player remembers seeing the
+			 * object.
 			 */
 			struct object *taken = object_new();
 
@@ -1446,14 +1446,14 @@ static void monster_turn_grab_objects(struct monster *mon, const char *m_name,
 				taken->known->grid = loc(0, 0);
 			}
 
-			/* Intentar llevar la copia */
+			/* Try to carry the copy */
 			if (monster_carry(cave, mon, taken)) {
-				/* Describir situaciones observables */
+				/* Describe observable situations */
 				if (square_isseen(cave, new) && !ignore_item_ok(player, obj)) {
 					msg("%s recoge %s.", m_name, o_name);
 				}
 
-				/* Eliminar el objeto */
+				/* Delete the object */
 				square_delete_object(cave, new, obj, true, true);
 			} else {
 				if (taken->known) {
@@ -1462,42 +1462,42 @@ static void monster_turn_grab_objects(struct monster *mon, const char *m_name,
 				object_delete(cave, player->cave, &taken);
 			}
 		} else {
-			/* Describir situaciones observables */
+			/* Describe observable situations */
 			if (square_isseen(cave, new) && !ignore_item_ok(player, obj)) {
 				msgt(MSG_DESTROY, "%s aplasta %s.", m_name, o_name);
 			}
 
-			/* Eliminar el objeto */
+			/* Delete the object */
 			square_delete_object(cave, new, obj, true, true);
 		}
 
-		/* Siguiente objeto */
+		/* Next object */
 		obj = next;
 	}
 }
 
 
 /**
- * Procesar el turno de un monstruo
+ * Process a monster's turn
  *
- * En varios casos, actualizamos directamente el saber del monstruo
+ * In several cases, we directly update the monster lore
  *
- * Nótese que a un monstruo solo se le permite "reproducirse" si hay
- * un número limitado de monstruos "reproductores" en el nivel
- * actual. Esto debería evitar que el nivel sea "invadido" por
- * monstruos reproductores. También permite que una gran masa de ratones
- * evite que un piojo se multiplique, pero este es un pequeño precio a
- * pagar por un método de multiplicación simple.
+ * Note that a monster is only allowed to "reproduce" if there
+ * are a limited number of "reproducing" monsters on the current
+ * level.  This should prevent the level from being "swamped" by
+ * reproducing monsters.  It also allows a large mass of mice to
+ * prevent a louse from multiplying, but this is a small price to
+ * pay for a simple multiplication method.
  *
- * XXX El miedo del monstruo es ligeramente extraño, en particular, los monstruos
- * se fijarán en abrir una puerta incluso si no pueden abrirla. En realidad,
- * lo mismo le sucede a los monstruos normales cuando golpean una puerta
+ * XXX Monster fear is slightly odd, in particular, monsters will
+ * fixate on opening a door even if they cannot open it.  Actually,
+ * the same thing happens to normal monsters when they hit a door
  *
- * Además, los monstruos que *no pueden* abrir o derribar una puerta
- * seguirán parados allí intentando abrirla... XXX XXX XXX
+ * In addition, monsters which *cannot* open or bash down a door
+ * will still stand there trying to open it...  XXX XXX XXX
  *
- * Técnicamente, necesitan verificar si hay un monstruo en el camino combinado
- * con que ese monstruo esté en una pared (¿o puerta?) XXX
+ * Technically, need to check for monster in the way combined
+ * with that monster being in a wall (or door?) XXX
  */
 static void monster_turn(struct monster *mon)
 {
@@ -1511,38 +1511,38 @@ static void monster_turn(struct monster *mon)
 	bool tracking = false;
 	char m_name[80];
 
-	/* Obtener el nombre del monstruo */
+	/* Get the monster name */
 	monster_desc(m_name, sizeof(m_name), mon,
 		MDESC_CAPITAL | MDESC_IND_HID | MDESC_COMMA);
 
-	/* Si estamos en una telaraña, lidiar con eso */
+	/* If we're in a web, deal with that */
 	if (square_iswebbed(cave, mon->grid)) {
-		/* Aprender comportamiento de telarañas */
+		/* Learn web behaviour */
 		if (monster_is_visible(mon)) {
 			rf_on(lore->flags, RF_CLEAR_WEB);
 			rf_on(lore->flags, RF_PASS_WEB);
 		}
 
-		/* Si podemos pasar, no es necesario limpiar */
+		/* If we can pass, no need to clear */
 		if (!rf_has(mon->race->flags, RF_PASS_WEB)) {
-			/* Aprender comportamiento de paredes */
+			/* Learn wall behaviour */
 			if (monster_is_visible(mon)) {
 				rf_on(lore->flags, RF_PASS_WALL);
 				rf_on(lore->flags, RF_KILL_WALL);
 			}
 
-			/* Ahora varias posibilidades */
+			/* Now several possibilities */
 			if (rf_has(mon->race->flags, RF_PASS_WALL)) {
-				/* Los monstruos insustanciales atraviesan directamente */
+				/* Insubstantial monsters go right through */
 			} else if (monster_passes_walls(mon)) {
-				/* Si puedes destruir una pared, puedes destruir una telaraña */
+				/* If you can destroy a wall, you can destroy a web */
 				struct trap_kind *web = lookup_trap("web");
 
 				assert(web);
 				square_remove_all_traps_of_type(cave,
 					mon->grid, web->tidx);
 			} else if (rf_has(mon->race->flags, RF_CLEAR_WEB)) {
-				/* Limpiar cuesta un turno (asumir que no hay otras "trampas") */
+				/* Clearing costs a turn (assume there are no other "traps") */
 				struct trap_kind *web = lookup_trap("web");
 
 				assert(web);
@@ -1550,91 +1550,91 @@ static void monster_turn(struct monster *mon)
 					mon->grid, web->tidx);
 				return;
 			} else {
-				/* Atascado */
+				/* Stuck */
 				return;
 			}
 		}
 	}
 
-	/* Informar a otros monstruos del grupo sobre el jugador */
+	/* Let other group monsters know about the player */
 	monster_group_rouse(cave, mon);
 
-	/* Intentar multiplicarse - esto puede consumir un turno */
+	/* Try to multiply - this can use up a turn */
 	if (monster_turn_multiply(mon))
 		return;
 
-	/* Intentar un ataque a distancia */
+	/* Attempt a ranged attack */
 	if (make_ranged_attack(mon)) return;
 
-	/* Determinar qué tipo de movimiento usar - movimiento aleatorio o IA */
+	/* Work out what kind of movement to use - random movement or AI */
 	stagger = monster_turn_should_stagger(mon);
 	if (stagger == NO_STAGGER) {
-		/* Si no hay movimiento sensato, hemos terminado */
+		/* If there's no sensible move, we're done */
 		if (!get_move(mon, &dir, &tracking)) return;
 	}
 
-	/* Intentar moverse primero en la dirección elegida, o luego a cada lado de la
-	 * dirección elegida, o luego en ángulo recto con la dirección elegida.
-	 * Los monstruos que rastrean por sonido u olor no se moverán si no
-	 * pueden moverse en su dirección elegida. */
+	/* Try to move first in the chosen direction, or next either side of the
+	 * chosen direction, or next at right angles to the chosen direction.
+	 * Monsters which are tracking by sound or scent will not move if they
+	 * can't move in their chosen direction. */
 	for (i = 0; i < 5 && !did_something; i++) {
-		/* Obtener la dirección (o tambaleo) */
+		/* Get the direction (or stagger) */
 		int d = (stagger != NO_STAGGER) ? ddd[randint0(8)] : side_dirs[dir][i];
 
-		/* Obtener la casilla a la que dar un paso o atacar */
+		/* Get the grid to step to or attack */
 		struct loc new = loc_sum(mon->grid, ddgrid[d]);
 
-		/* Los monstruos que rastrean tienen su mejor dirección, no cambiar */
+		/* Tracking monsters have their best direction, don't change */
 		if ((i > 0) && stagger == NO_STAGGER &&
 			!square_isview(cave, mon->grid) && tracking) {
 			break;
 		}
 
-		/* Verificar si podemos movernos */
+		/* Check if we can move */
 		if (!monster_turn_can_move(mon, m_name, new,
 								   stagger == CONFUSED_STAGGER, &did_something))
 			continue;
 
-		/* Intentar romper el glifo si lo hay. Esto puede suceder varias veces
-		 * por turno porque el fallo no rompe el bucle */
+		/* Try to break the glyph if there is one.  This can happen multiple
+		 * times per turn because failure does not break the loop */
 		if (square_iswarded(cave, new) && !monster_turn_attack_glyph(mon, new))
 			continue;
 
-		/* Romper un señuelo si lo hay */
+		/* Break a decoy if there is one */
 		if (square_isdecoyed(cave, new)) {
-			/* Aprender sobre si el monstruo ataca */
+			/* Learn about if the monster attacks */
 			if (monster_is_visible(mon))
 				rf_on(lore->flags, RF_NEVER_BLOW);
 
-			/* Algunos monstruos nunca atacan */
+			/* Some monsters never attack */
 			if (rf_has(mon->race->flags, RF_NEVER_BLOW))
 				continue;
 
-			/* Esperar un minuto... */
+			/* Wait a minute... */
 			square_destroy_decoy(cave, new);
 			did_something = true;
 			break;
 		}
 
-		/* El jugador está en el camino. */
+		/* The player is in the way. */
 		if (square_isplayer(cave, new)) {
-			/* Aprender sobre si el monstruo ataca */
+			/* Learn about if the monster attacks */
 			if (monster_is_visible(mon))
 				rf_on(lore->flags, RF_NEVER_BLOW);
 
-			/* Algunos monstruos nunca atacan */
+			/* Some monsters never attack */
 			if (rf_has(mon->race->flags, RF_NEVER_BLOW))
 				continue;
 
-			/* De lo contrario, atacar al jugador */
+			/* Otherwise, attack the player */
 			make_attack_normal(mon, player);
 
 			did_something = true;
 			break;
 		} else {
-			/* Algunos monstruos nunca se mueven */
+			/* Some monsters never move */
 			if (rf_has(mon->race->flags, RF_NEVER_MOVE)) {
-				/* Aprender sobre falta de movimiento */
+				/* Learn about lack of movement */
 				if (monster_is_visible(mon))
 					rf_on(lore->flags, RF_NEVER_MOVE);
 
@@ -1642,40 +1642,40 @@ static void monster_turn(struct monster *mon)
 			}
 		}
 
-		/* Un monstruo está en el camino, intentar empujar/matar */
+		/* A monster is in the way, try to push past/kill */
 		if (square_monster(cave, new)) {
 			did_something = monster_turn_try_push(mon, m_name, new);
 		} else {
-			/* De lo contrario, podemos simplemente movernos */
+			/* Otherwise we can just move */
 			monster_swap(mon->grid, new);
 			did_something = true;
 		}
 
-		/* Escanear todos los objetos en la casilla, si la alcanzamos */
+		/* Scan all objects in the grid, if we reached it */
 		if (mon == square_monster(cave, new)) {
 			monster_turn_grab_objects(mon, m_name, new);
 		}
 	}
 
 	if (did_something) {
-		/* Aprender sobre no falta de movimiento */
+		/* Learn about no lack of movement */
 		if (monster_is_visible(mon))
 			rf_on(lore->flags, RF_NEVER_MOVE);
 
-		/* Posible molestia */
+		/* Possible disturb */
 		if (monster_is_visible(mon) && monster_is_in_view(mon) && 
 			OPT(player, disturb_near))
 			disturb(player);		
 	}
 
-	/* Sin opciones - el monstruo está paralizado por el miedo (a menos que sea atacado) */
+	/* Out of options - monster is paralyzed by fear (unless attacked) */
 	if (!did_something && mon->m_timed[MON_TMD_FEAR]) {
 		int amount = mon->m_timed[MON_TMD_FEAR];
 		mon_clear_timed(mon, MON_TMD_FEAR, MON_TMD_FLG_NOMESSAGE);
 		mon_inc_timed(mon, MON_TMD_HOLD, amount, MON_TMD_FLG_NOTIFY);
 	}
 
-	/* Si vemos que un monstruo no consciente hace algo, volverse consciente de él */
+	/* If we see an unaware monster do something, become aware of it */
 	if (did_something && monster_is_camouflaged(mon))
 		become_aware(cave, mon);
 }
@@ -1683,34 +1683,34 @@ static void monster_turn(struct monster *mon)
 
 /**
  * ------------------------------------------------------------------------
- * Rutinas de procesamiento que le suceden a un monstruo independientemente de si
- * obtiene un turno, y/o para decidir si obtiene un turno
+ * Processing routines that happen to a monster regardless of whether it
+ * gets a turn, and/or to decide whether it gets a turn
  * ------------------------------------------------------------------------ */
 /**
- * Determinar si un monstruo está activo o pasivo
+ * Determine whether a monster is active or passive
  */
 static bool monster_check_active(struct monster *mon)
 {
 	if ((mon->cdis <= mon->race->hearing) && monster_passes_walls(mon)) {
-		/* El personaje está dentro del rango de escaneo, el monstruo puede ir directamente allí */
+		/* Character is inside scanning range, monster can go straight there */
 		mflag_on(mon->mflag, MFLAG_ACTIVE);
 	} else if (mon->hp < mon->maxhp) {
-		/* El monstruo está herido */
+		/* Monster is hurt */
 		mflag_on(mon->mflag, MFLAG_ACTIVE);
 	} else if (square_isview(cave, mon->grid)) {
-		/* El monstruo puede "ver" al jugador (verificado al revés) */
+		/* Monster can "see" the player (checked backwards) */
 		mflag_on(mon->mflag, MFLAG_ACTIVE);
 	} else if (monster_can_hear(mon)) {
-		/* El monstruo puede oír al jugador */
+		/* Monster can hear the player */
 		mflag_on(mon->mflag, MFLAG_ACTIVE);
 	} else if (monster_can_smell(mon)) {
-		/* El monstruo puede oler al jugador */
+		/* Monster can smell the player */
 		mflag_on(mon->mflag, MFLAG_ACTIVE);
 	} else if (monster_taking_terrain_damage(cave, mon)) {
-		/* El monstruo está recibiendo daño del terreno */
+		/* Monster is taking damage from the terrain */
 		mflag_on(mon->mflag, MFLAG_ACTIVE);
 	} else {
-		/* De lo contrario, volverse pasivo */
+		/* Otherwise go passive */
 		mflag_off(mon->mflag, MFLAG_ACTIVE);
 	}
 
@@ -1718,12 +1718,12 @@ static bool monster_check_active(struct monster *mon)
 }
 
 /**
- * Despertar a un monstruo o reducir su profundidad de sueño
+ * Wake a monster or reduce its depth of sleep
  *
- * La probabilidad de despertar depende solo del sigilo del jugador, pero la
- * cantidad de reducción de sueño tiene en cuenta la distancia del monstruo al
- * jugador. Actualmente se usa la distancia en línea recta; posiblemente esto
- * debería tener en cuenta la estructura de la mazmorra.
+ * Chance of waking up is dependent only on the player's stealth, but the
+ * amount of sleep reduction takes into account the monster's distance from
+ * the player.  Currently straight line distance is used; possibly this
+ * should take into account dungeon structure.
  */
 static void monster_reduce_sleep(struct monster *mon)
 {
@@ -1732,18 +1732,18 @@ static void monster_reduce_sleep(struct monster *mon)
 	uint32_t notice = (uint32_t) randint0(1024);
 	struct monster_lore *lore = get_lore(mon->race);
 
-	/* Agravación */
+	/* Aggravation */
 	if (player_of_has(player, OF_AGGRAVATE)) {
 		char m_name[80];
 
-		/* Despertar al monstruo, hacerlo consciente */
+		/* Wake the monster, make it aware */
 		monster_wake(mon, false, 100);
 
-		/* Obtener el nombre del monstruo */
+		/* Get the monster name */
 		monster_desc(m_name, sizeof(m_name), mon,
 			MDESC_CAPITAL | MDESC_IND_HID | MDESC_COMMA);
 
-		/* Notificar al jugador si está consciente */
+		/* Notify the player if aware */
 		if (monster_is_obvious(mon)) {
 			msg("%s se despierta.", m_name);
 			equip_learn_flag(player, OF_AGGRAVATE);
@@ -1753,21 +1753,21 @@ static void monster_reduce_sleep(struct monster *mon)
 		int local_noise = cave->noise.grids[mon->grid.y][mon->grid.x];
 		bool woke_up = false;
 
-		/* Probar - despertar más rápido en la distancia de oído del jugador
-		 * Notar que no hay dependencia del sigilo por ahora */
+		/* Test - wake up faster in hearing distance of the player 
+		 * Note no dependence on stealth for now */
 		if ((local_noise > 0) && (local_noise < 50)) {
 			sleep_reduction = (100 / local_noise);
 		}
 
-		/* Notar un despertar completo */
+		/* Note a complete wakeup */
 		if (mon->m_timed[MON_TMD_SLEEP] <= sleep_reduction) {
 			woke_up = true;
 		}
 
-		/* El monstruo se despierta un poco */
+		/* Monster wakes up a bit */
 		mon_dec_timed(mon, MON_TMD_SLEEP, sleep_reduction, MON_TMD_FLG_NOTIFY);
 
-		/* Actualizar conocimiento */
+		/* Update knowledge */
 		if (monster_is_obvious(mon)) {
 			if (!woke_up && lore->ignore < UCHAR_MAX)
 				lore->ignore++;
@@ -1779,18 +1779,18 @@ static void monster_reduce_sleep(struct monster *mon)
 }
 
 /**
- * Procesar los efectos temporales de un monstruo, ej. disminuirlos.
+ * Process a monster's timed effects, e.g. decrease them.
  *
- * Devuelve true si el monstruo está saltándose su turno.
+ * Returns true if the monster is skipping its turn.
  */
 static bool process_monster_timed(struct monster *mon)
 {
-	/* Si el monstruo está dormido o acaba de despertarse, entonces no actúa */
+	/* If the monster is asleep or just woke up, then it doesn't act */
 	if (mon->m_timed[MON_TMD_SLEEP]) {
 		monster_reduce_sleep(mon);
 		return true;
 	} else {
-		/* Los monstruos despiertos y activos pueden volverse conscientes */
+		/* Awake, active monsters may become aware */
 		if (one_in_(10) && mflag_has(mon->mflag, MFLAG_ACTIVE)) {
 			mflag_on(mon->mflag, MFLAG_AWARE);
 		}
@@ -1824,8 +1824,8 @@ static bool process_monster_timed(struct monster *mon)
 		mon_dec_timed(mon, MON_TMD_FEAR, d, MON_TMD_FLG_NOTIFY);
 	}
 
-	/* Siempre perder el turno si está paralizado o comandado, una de cada STUN_MISS_CHANCE
-	 * probabilidad de perderlo si está aturdido */
+	/* Always miss turn if held or commanded, one in STUN_MISS_CHANCE chance
+	 * of missing if stunned,  */
 	if (mon->m_timed[MON_TMD_HOLD] || mon->m_timed[MON_TMD_COMMAND]) {
 		return true;
 	} else if (mon->m_timed[MON_TMD_STUN]) {
@@ -1836,31 +1836,31 @@ static bool process_monster_timed(struct monster *mon)
 }
 
 /**
- * Regeneración de PG del monstruo.
+ * Monster regeneration of HPs.
  */
 static void regen_monster(struct monster *mon, int num)
 {
-	/* Regenerar (si es necesario) */
+	/* Regenerate (if needed) */
 	if (mon->hp < mon->maxhp) {
-		/* Regeneración base */
+		/* Base regeneration */
 		int frac = mon->maxhp / 100;
 
-		/* Tasa de regeneración mínima */
+		/* Minimal regeneration rate */
 		if (!frac) frac = 1;
 
-		/* Algunos monstruos se regeneran rápidamente */
+		/* Some monsters regenerate quickly */
 		if (rf_has(mon->race->flags, RF_REGENERATE)) frac *= 2;
 
-		/* Multiplicar por número de regeneraciones */
+		/* Multiply by number of regenerations */
 		frac *= num;
 
-		/* Regenerar */
+		/* Regenerate */
 		mon->hp += frac;
 
-		/* No sobre-regenerar */
+		/* Do not over-regenerate */
 		if (mon->hp > mon->maxhp) mon->hp = mon->maxhp;
 
-		/* Redibujar (después) si es necesario */
+		/* Redraw (later) if needed */
 		if (player->upkeep->health_who == mon)
 			player->upkeep->redraw |= (PR_HEALTH);
 	}
@@ -1869,62 +1869,61 @@ static void regen_monster(struct monster *mon, int num)
 
 /**
  * ------------------------------------------------------------------------
- * Rutinas de procesamiento de monstruos para ser llamadas por el bucle principal del juego
+ * Monster processing routines to be called by the main game loop
  * ------------------------------------------------------------------------ */
 /**
- * Procesar todos los monstruos "vivos", una vez por turno de juego.
+ * Process all the "live" monsters, once per game turn.
  *
- * Durante cada turno de juego, escaneamos la lista de todos los monstruos "vivos",
- * (hacia atrás, para poder eliminar cualquier monstruo "recién muerto"), energizando
- * cada monstruo, y permitiendo que los monstruos completamente energizados se muevan,
- * ataquen, pasen, etc.
+ * During each game turn, we scan through the list of all the "live" monsters,
+ * (backwards, so we can excise any "freshly dead" monsters), energizing each
+ * monster, and allowing fully energized monsters to move, attack, pass, etc.
  *
- * Esta función y sus hijas son responsables de una fracción considerable
- * del tiempo de procesador en situaciones normales, mayor si el personaje está
- * descansando.
+ * This function and its children are responsible for a considerable fraction
+ * of the processor time in normal situations, greater if the character is
+ * resting.
  */
 void process_monsters(int minimum_energy)
 {
 	int i;
 	int mspeed;
 
-	/* Solo procesar algunas cosas de vez en cuando */
+	/* Only process some things every so often */
 	bool regen = false;
 
-	/* Regenerar puntos de golpe y maná cada 100 turnos de juego */
+	/* Regenerate hitpoints and mana every 100 game turns */
 	if (turn % 100 == 0)
 		regen = true;
 
-	/* Procesar los monstruos (hacia atrás) */
+	/* Process the monsters (backwards) */
 	for (i = cave_monster_max(cave) - 1; i >= 1; i--) {
 		struct monster *mon;
 		bool moving;
 
-		/* Manejar "salir" */
+		/* Handle "leaving" */
 		if (player->is_dead || player->upkeep->generate_level) break;
 
-		/* Obtener un monstruo 'vivo' */
+		/* Get a 'live' monster */
 		mon = cave_monster(cave, i);
 		if (!mon->race) continue;
 
-		/* Ignorar monstruos que ya han sido manejados */
+		/* Ignore monsters that have already been handled */
 		if (mflag_has(mon->mflag, MFLAG_HANDLED))
 			continue;
 
-		/* No tiene suficiente energía para moverse todavía */
+		/* Not enough energy to move yet */
 		if (mon->energy < minimum_energy) continue;
 
-		/* ¿Tiene este monstruo suficiente energía para moverse? */
+		/* Does this monster have enough energy to move? */
 		moving = mon->energy >= z_info->move_energy ? true : false;
 
-		/* Prevenir reprocesamiento */
+		/* Prevent reprocessing */
 		mflag_on(mon->mflag, MFLAG_HANDLED);
 
-		/* Manejar la regeneración del monstruo si se solicita */
+		/* Handle monster regeneration if requested */
 		if (regen)
 			regen_monster(mon, 1);
 
-		/* Calcular la velocidad neta */
+		/* Calculate the net speed */
 		mspeed = mon->mspeed;
 		if (mon->m_timed[MON_TMD_FAST])
 			mspeed += 10;
@@ -1933,89 +1932,89 @@ void process_monsters(int minimum_energy)
 			mspeed -= (2 * slow_level);
 		}
 
-		/* Dar algo de energía a este monstruo */
+		/* Give this monster some energy */
 		mon->energy += turn_energy(mspeed);
 
-		/* Terminar el turno de monstruos sin suficiente energía para moverse */
+		/* End the turn of monsters without enough energy to move */
 		if (!moving)
 			continue;
 
-		/* Usar "algo" de energía */
+		/* Use up "some" energy */
 		mon->energy -= z_info->move_energy;
 
-		/* Los imitadores esperan al acecho */
+		/* Mimics lie in wait */
 		if (monster_is_mimicking(mon)) continue;
 
-		/* Verificar si el monstruo está activo */
+		/* Check if the monster is active */
 		if (monster_check_active(mon)) {
-			/* Procesar efectos temporales - saltar turno si es necesario */
+			/* Process timed effects - skip turn if necessary */
 			if (process_monster_timed(mon))
 				continue;
 
-			/* Establecer este monstruo como el actor actual */
+			/* Set this monster to be the current actor */
 			cave->mon_current = i;
 
-			/* El monstruo toma su turno */
+			/* The monster takes its turn */
 			monster_turn(mon);
 
 			/*
-			 * Por simetría con el jugador, el monstruo puede recibir
-			 * daño del terreno después de su turno.
+			 * For symmetry with the player, monster can take
+			 * terrain damage after its turn.
 			 */
 			monster_take_terrain_damage(mon);
 
-			/* El monstruo ya no es el actual */
+			/* Monster is no longer current */
 			cave->mon_current = -1;
 		}
 	}
 
-	/* Actualizar la visibilidad de los monstruos después de esto */
-	/* XXX Esto puede no ser necesario */
+	/* Update monster visibility after this */
+	/* XXX This may not be necessary */
 	player->upkeep->update |= PU_MONSTERS;
 }
 
 /**
- * Limpiar el estado 'movido' de todos los monstruos.
+ * Clear 'moved' status from all monsters.
  *
- * Limpiar el ruido si corresponde.
+ * Clear noise if appropriate.
  */
 void reset_monsters(void)
 {
 	int i;
 	struct monster *mon;
 
-	/* Procesar los monstruos (hacia atrás) */
+	/* Process the monsters (backwards) */
 	for (i = cave_monster_max(cave) - 1; i >= 1; i--) {
-		/* Acceder al monstruo */
+		/* Access the monster */
 		mon = cave_monster(cave, i);
 
-		/* El monstruo está listo para actuar de nuevo */
+		/* Monster is ready to go again */
 		mflag_off(mon->mflag, MFLAG_HANDLED);
 	}
 }
 
 /**
- * Permitir que los monstruos en un nivel persistente congelado se recuperen
+ * Allow monsters on a frozen persistent level to recover
  */
 void restore_monsters(void)
 {
 	int i;
 	struct monster *mon;
 
-	/* Obtener el número de turnos que han pasado */
+	/* Get the number of turns that have passed */
 	int num_turns = turn - cave->turn;
 
-	/* Procesar los monstruos (hacia atrás) */
+	/* Process the monsters (backwards) */
 	for (i = cave_monster_max(cave) - 1; i >= 1; i--) {
 		int status, status_red;
 
-		/* Acceder al monstruo */
+		/* Access the monster */
 		mon = cave_monster(cave, i);
 
-		/* Regenerar */
+		/* Regenerate */
 		regen_monster(mon, num_turns / 100);
 
-		/* Manejar efectos temporales */
+		/* Handle timed effects */
 		status_red = num_turns * turn_energy(mon->mspeed) / z_info->move_energy;
 		if (status_red > 0) {
 			for (status = 0; status < MON_TMD_MAX; status++) {

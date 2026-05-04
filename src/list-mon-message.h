@@ -1,11 +1,11 @@
 /**
  * \file list-mon-message.h
- * \brief Lista de tipos de mensajes de monstruos
+ * \brief List of monster message types
  *
- * id           - el nombre constante del mensaje
- * msg          - tipo MSG_ para el mensaje impreso
- * omit_subject - true para omitir el nombre del monstruo antes (ver mon-msg.c)
- * text         - el texto del mensaje
+ * id           - the message constant name
+ * msg          - MSG_ type for the printed message
+ * omit_subject - true to omit a monster name beforehand (see mon-msg.c)
+ * text         - the message text
  */
 
 /* id						MSG_GENERIC,	texto */
@@ -47,7 +47,7 @@ MON_MSG(MORE_AFRAID,		MSG_GENERIC,	false,	"¡parece[n] más aterrorizado[s]!")
 MON_MSG(FLEE_IN_TERROR,		MSG_FLEE,		false,	"¡huye aterrorizado!")   /*"fix traduc, resp ¡[huye|huyen] aterrorizado[s]!")*/
 MON_MSG(NOT_AFRAID,			MSG_GENERIC,	false,	"ya no [tiene|tienen] miedo.")
 MON_MSG(HELD,				MSG_GENERIC,    false,  "¡[está|están] paralizado[s] en el lugar!")
-MON_MSG(NOT_HELD,			MSG_GENERIC,    false,  "puede[n] moverse de nuevo.")
+MON_MSG(NOT_HELD,			MSG_GENERIC,    false,  "puede moverse de nuevo.")
 MON_MSG(DISEN,				MSG_GENERIC,    false,  "¡parece[n] menos mágico[s]!")
 MON_MSG(NOT_DISEN,			MSG_GENERIC,    false,  "parece[n] mágico[s] de nuevo.")
 MON_MSG(COMMAND,			MSG_GENERIC,    false,  "¡cae bajo tu hechizo!")
@@ -64,7 +64,7 @@ MON_MSG(APPEAR,			MSG_GENERIC,	false,	"¡[aparece|aparecen]!")
 MON_MSG(HIT_AND_RUN,		MSG_GENERIC,	true,	"¡Hay una bocanada de humo!")
 MON_MSG(QUAKE_DEATH,		MSG_KILL,	false,	"¡[es|son] incrustado[s] en la roca!")
 MON_MSG(QUAKE_HURT,		MSG_GENERIC,	false,	"¡[gime|gimen] de dolor!")
-/* Mensajes ficticios para el dolor del monstruo - usamos la información del archivo de edición. */
+/* Dummy messages for monster pain - we use edit file info instead. */
 MON_MSG(95,					MSG_GENERIC,	false,	"")
 MON_MSG(75,					MSG_GENERIC,	false,	"")
 MON_MSG(50,					MSG_GENERIC,	false,	"")
