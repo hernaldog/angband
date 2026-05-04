@@ -327,14 +327,14 @@ static void get_subject(char *buf, size_t buflen,
 		if (count == 1) {
 			my_strcpy(buf, "It", buflen);
 		} else {
-			strnfmt(buf, buflen, "%d monsters", count);
+			strnfmt(buf, buflen, "%d monstruos", count);
 		}
 	} else {
 		/* Uniques, multiple monsters, or just one */
 		if (rf_has(race->flags, RF_UNIQUE)) {
 			my_strcpy(buf, race->name, buflen);
 		} else if (count == 1) {
-			strnfmt(buf, buflen, "The %s", race->name);
+			strnfmt(buf, buflen, "La criatura %s", race->name); //Fix traduc, ejemplo: La criatura X se despierta
 		} else {
 			/* Get the plural of the race name */
 			if (race->plural != NULL) {
