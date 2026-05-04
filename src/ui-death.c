@@ -1,6 +1,6 @@
 /**
  * \file ui-death.c
- * \brief Manejar las partes de la interfaz de usuario que ocurren después de que el personaje muere.
+ * \brief Handle the UI bits that happen after the character dies.
  *
  * Copyright (c) 1987 - 2007 Angband contributors
  *
@@ -35,7 +35,7 @@
 #include "ui-spoil.h"
 
 /**
- * Escribir cadena formateada `fmt` en la línea `y`, centrada entre los puntos x1 y x2.
+ * Write formatted string `fmt` on line `y`, centred between points x1 and x2.
  */
 static void put_str_centred(int y, int x1, int x2, const char *fmt, ...)
 {
@@ -44,12 +44,12 @@ static void put_str_centred(int y, int x1, int x2, const char *fmt, ...)
 	size_t len;
 	int x;
 
-	/* Formatear en el tmp (expandible) */
+	/* Format into the (growable) tmp */
 	va_start(vp, fmt);
 	tmp = vformat(fmt, vp);
 	va_end(vp);
 
-	/* Centrar ahora; tener en cuenta posibles caracteres multibyte */
+	/* Centre now; account for possible multibyte characters */
 	len = utf8_strlen(tmp);
 	x = x1 + ((x2-x1)/2 - len/2);
 
@@ -58,7 +58,7 @@ static void put_str_centred(int y, int x1, int x2, const char *fmt, ...)
 
 
 /**
- * Mostrar la pantalla de lápida/jubilación
+ * Display the tombstone/retirement screen
  */
 static void display_exit_screen(void)
 {
@@ -71,7 +71,7 @@ static void display_exit_screen(void)
 	Term_clear();
 	(void)time(&death_time);
 
-	/* Abrir la imagen de fondo */
+	/* Open the background picture */
 	path_build(buf, sizeof(buf), ANGBAND_DIR_SCREENS,
 		(retired) ? "retire.txt" : "dead.txt");
 	fp = file_open(buf, MODE_READ, FTYPE_TEXT);
@@ -114,7 +114,7 @@ static void display_exit_screen(void)
 
 
 /**
- * Mostrar la corona del ganador
+ * Display the winner crown
  */
 static void display_winner(void)
 {
@@ -135,13 +135,13 @@ static void display_winner(void)
 		long lw;
 		int width;
 
-		/* Obtener la primera línea del archivo, que nos dice la longitud de la */
-		/* línea más larga */
+		/* Get us the first line of file, which tells us how long the */
+		/* longest line is */
 		file_getl(fp, buf, sizeof(buf));
 		lw = strtol(buf, &pe, 10);
 		width = (pe != buf && lw > 0 && lw < INT_MAX) ? (int)lw : 25;
 
-		/* Volcar el archivo a la pantalla */
+		/* Dump the file to the screen */
 		while (file_getl(fp, buf, sizeof(buf))) {
 			put_str(buf, i++, (wid / 2) - (width / 2));
 		}
@@ -157,38 +157,38 @@ static void display_winner(void)
 
 
 /**
- * Comando del menú: volcar resumen del personaje a un archivo.
+ * Menu command: dump character dump to file.
  */
 static void death_file(const char *title, int row)
 {
 	char buf[1024];
 	char ftmp[80];
 
-	/* Obtener el nombre seguro para el sistema de archivos y añadir .txt */
+	/* Get the filesystem-safe name and append .txt */
 	player_safe_name(ftmp, sizeof(ftmp), player->full_name, false);
 	my_strcat(ftmp, ".txt", sizeof(ftmp));
 
 	if (get_file(ftmp, buf, sizeof buf)) {
 		bool success;
 
-		/* Volcar un archivo de personaje */
+		/* Dump a character file */
 		screen_save();
 		success = dump_save(buf);
 		screen_load();
 
-		/* Verificar resultado */
+		/* Check result */
 		if (success)
 			msg("Volcado de personaje exitoso.");
 		else
 			msg("¡Volcado de personaje falló!");
 
-		/* Vaciar mensajes */
+		/* Flush messages */
 		event_signal(EVENT_MESSAGE_FLUSH);
 	}
 }
 
 /**
- * Comando del menú: ver resumen e inventario del personaje.
+ * Menu command: view character dump and inventory.
  */
 static void death_info(const char *title, int row)
 {
@@ -196,19 +196,19 @@ static void death_info(const char *title, int row)
 
 	screen_save();
 
-	/* Mostrar jugador */
+	/* Display player */
 	display_player(0);
 
-	/* Solicitar inventario */
+	/* Prompt for inventory */
 	prt("Pulsa cualquier tecla para ver más información: ", 0, 0);
 
-	/* Permitir abortar en este punto */
+	/* Allow abort at this point */
 	(void)anykey();
 
 
-	/* Mostrar equipo e inventario */
+	/* Show equipment and inventory */
 
-	/* Equipo -- si lo hay */
+	/* Equipment -- if any */
 	if (player->upkeep->equip_cnt) {
 		Term_clear();
 		show_equip(OLIST_WEIGHT | OLIST_SEMPTY | OLIST_DEATH, NULL);
@@ -216,7 +216,7 @@ static void death_info(const char *title, int row)
 		(void)anykey();
 	}
 
-	/* Inventario -- si lo hay */
+	/* Inventory -- if any */
 	if (player->upkeep->inven_cnt) {
 		Term_clear();
 		show_inven(OLIST_WEIGHT | OLIST_DEATH, NULL);
@@ -224,7 +224,7 @@ static void death_info(const char *title, int row)
 		(void)anykey();
 	}
 
-	/* Carcaj -- si lo hay */
+	/* Quiver -- if any */
 	if (player->upkeep->quiver_cnt) {
 		Term_clear();
 		show_quiver(OLIST_WEIGHT | OLIST_DEATH, NULL);
@@ -232,44 +232,44 @@ static void death_info(const char *title, int row)
 		(void)anykey();
 	}
 
-	/* Hogar -- si hay algo allí */
+	/* Home -- if anything there */
 	if (home->stock) {
 		int page;
 		struct object *obj = home->stock;
 
-		/* Mostrar contenido del hogar */
+		/* Display contents of the home */
 		for (page = 1; obj; page++) {
 			int line;
 
-			/* Limpiar pantalla */
+			/* Clear screen */
 			Term_clear();
 
-			/* Mostrar 12 objetos */
+			/* Show 12 items */
 			for (line = 0; obj && line < 12; obj = obj->next, line++) {
 				uint8_t attr;
 
 				char o_name[80];
 				char tmp_val[80];
 
-				/* Imprimir encabezado, limpiar línea */
+				/* Print header, clear line */
 				strnfmt(tmp_val, sizeof(tmp_val), "%c) ", I2A(line));
 				prt(tmp_val, line + 2, 4);
 
-				/* Obtener la descripción del objeto */
+				/* Get the object description */
 				object_desc(o_name, sizeof(o_name), obj,
 					ODESC_PREFIX | ODESC_FULL, player);
 
-				/* Obtener el color del inventario */
+				/* Get the inventory color */
 				attr = obj->kind->base->attr;
 
-				/* Mostrar el objeto */
+				/* Display the object */
 				c_put_str(attr, o_name, line + 2, 7);
 			}
 
-			/* Título */
+			/* Caption */
 			prt(format("Tu hogar contiene (página %d): -más-", page), 0, 0);
 
-			/* Esperar */
+			/* Wait for it */
 			(void)anykey();
 		}
 	}
@@ -278,7 +278,7 @@ static void death_info(const char *title, int row)
 }
 
 /**
- * Comando del menú: examinar mensajes previos a la muerte.
+ * Menu command: peruse pre-death messages.
  */
 static void death_messages(const char *title, int row)
 {
@@ -288,7 +288,7 @@ static void death_messages(const char *title, int row)
 }
 
 /**
- * Comando del menú: ver las veinte mejores puntuaciones.
+ * Menu command: see top twenty scores.
  */
 static void death_scores(const char *title, int row)
 {
@@ -298,14 +298,14 @@ static void death_scores(const char *title, int row)
 }
 
 /**
- * Comando del menú: examinar objetos en el inventario.
+ * Menu command: examine items in the inventory.
  */
 static void death_examine(const char *title, int row)
 {
 	struct object *obj;
 	const char *q, *s;
 
-	/* Obtener un objeto */
+	/* Get an item */
 	q = "¿Examinar qué objeto? ";
 	s = "No tienes nada que examinar.";
 
@@ -326,7 +326,7 @@ static void death_examine(const char *title, int row)
 
 
 /**
- * Comando del menú: ver historial del personaje.
+ * Menu command: view character history.
  */
 static void death_history(const char *title, int row)
 {
@@ -334,7 +334,7 @@ static void death_history(const char *title, int row)
 }
 
 /**
- * Comando del menú: permitir generación de spoilers (principalmente para randarts).
+ * Menu command: allow spoiler generation (mainly for randarts).
  */
 static void death_spoilers(const char *title, int row)
 {
@@ -342,7 +342,7 @@ static void death_spoilers(const char *title, int row)
 }
 
 /***
- * Comando del menú: comenzar una nueva partida
+ * Menu command: start a new game
  */
 static void death_new_game(const char *title, int row)
 {
@@ -350,8 +350,8 @@ static void death_new_game(const char *title, int row)
 }
 
 /**
- * Estructuras de menú para el menú de muerte. Nótese que Salir debe ser siempre la
- * última opción, debido a una verificación codificada en death_screen
+ * Menu structures for the death menu. Note that Quit must always be the
+ * last option, due to a hard-coded check in death_screen
  */
 static menu_action death_actions[] =
 {
@@ -369,7 +369,7 @@ static menu_action death_actions[] =
 
 
 /**
- * Manejar la muerte del personaje
+ * Handle character death
  */
 void death_screen(void)
 {
@@ -377,20 +377,20 @@ void death_screen(void)
 	bool done = false;
 	const region area = { 51, 2, 0, N_ELEMENTS(death_actions) };
 
-	/* Ganador */
+	/* Winner */
 	if (player->total_winner)
 	{
 		display_winner();
 	}
 
-	/* Lápida/Jubilación */
+	/* Tombstone/retiring */
 	display_exit_screen();
 
-	/* Vaciar toda la entrada y salida */
+	/* Flush all input and output */
 	event_signal(EVENT_INPUT_FLUSH);
 	event_signal(EVENT_MESSAGE_FLUSH);
 
-	/* Mostrar y usar el menú de muerte */
+	/* Display and use the death menu */
 	death_menu = menu_new_action(death_actions,
 			N_ELEMENTS(death_actions));
 
