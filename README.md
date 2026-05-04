@@ -208,7 +208,6 @@ Contenido del script shell:
 - enemigo bites you, enemigo misses you, etc
 - En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
 - Has detectado X objetos: 6 Light Teal Pocións. Acá o inglés o español y la s está rara. Archivo "obj-desc.c"
-- The flotating eye se despiertan. Y es uno solo. Está demás la "n"
 - Mejorar: The fruit bat (offscreen) se despertan.
 - Mejorar: "Ves un fruit bat (unhurt, hasted)
 - Mejorar: "Puedes aprender 2 rituals más."
