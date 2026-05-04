@@ -1,6 +1,6 @@
 /**
  * \file ui-display.c
- * \brief Maneja la configuración, actualización y limpieza de la visualización del juego.
+ * \brief Handles the setting up updating, and cleaning up of the game display.
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2007 Antony Sidwell
@@ -60,9 +60,9 @@
 #include "wizard.h"
 
 /**
- * Hay algunas funciones instaladas para ser activadas por varios de los
- * eventos básicos del jugador. Por conveniencia, se han agrupado
- * en esta lista.
+ * There are a few functions installed to be triggered by several 
+ * of the basic player events.  For convenience, these have been grouped 
+ * in this list.
  */
 static game_event_type player_events[] =
 {
@@ -71,7 +71,7 @@ static game_event_type player_events[] =
 	EVENT_EXPERIENCE,
 	EVENT_PLAYERLEVEL,
 	EVENT_GOLD,
-	EVENT_EQUIPMENT,  /* Para los caracteres "equippy" */
+	EVENT_EQUIPMENT,  /* For equippy chars */
 	EVENT_STATS,
 	EVENT_HP,
 	EVENT_MANA,
@@ -94,7 +94,7 @@ static game_event_type statusline_events[] =
 };
 
 /**
- * Abreviaturas de estadísticas saludables
+ * Abbreviations of healthy stats
  */
 const char *stat_names[STAT_MAX] =
 {
@@ -102,7 +102,7 @@ const char *stat_names[STAT_MAX] =
 };
 
 /**
- * Abreviaturas de estadísticas dañadas
+ * Abbreviations of damaged stats
  */
 const char *stat_names_reduced[STAT_MAX] =
 {
@@ -110,11 +110,11 @@ const char *stat_names_reduced[STAT_MAX] =
 };
 
 /**
- * Convierte un número de estadística en una cadena de seis caracteres (justificada a la derecha)
+ * Converts stat num into a six-char (right justified) string
  */
 void cnv_stat(int val, char *out_val, size_t out_len)
 {
-	/* Las estadísticas por encima de 18 necesitan tratamiento especial */
+	/* Stats above 18 need special treatment*/
 	if (val > 18) {
 		int bonus = (val - 18);
 
@@ -131,30 +131,30 @@ void cnv_stat(int val, char *out_val, size_t out_len)
 
 /**
  * ------------------------------------------------------------------------
- * Funciones de visualización de la barra lateral
+ * Sidebar display functions
  * ------------------------------------------------------------------------ */
 
 /**
- * Imprimir información del personaje en la fila, columna dadas en un campo de 13 caracteres
+ * Print character info at given row, column in a 13 char field
  */
 static void prt_field(const char *info, int row, int col)
 {
-	/* Volcar 13 espacios para limpiar */
+	/* Dump 13 spaces to clear */
 	c_put_str(COLOUR_WHITE, "             ", row, col);
 
-	/* Volcar la información en sí */
+	/* Dump the info itself */
 	c_put_str(COLOUR_L_BLUE, info, row, col);
 }
 
 
 /**
- * Imprimir estadística del personaje en la fila, columna dadas
+ * Print character stat in given row, column
  */
 static void prt_stat(int stat, int row, int col)
 {
 	char tmp[32];
 
-	/* Estadística dañada o saludable */
+	/* Injured or healthy stat */
 	if (player->stat_cur[stat] < player->stat_max[stat]) {
 		put_str(stat_names_reduced[stat], row, col);
 		cnv_stat(player->state.stat_use[stat], tmp, sizeof(tmp));
@@ -165,7 +165,7 @@ static void prt_stat(int stat, int row, int col)
 		c_put_str(COLOUR_L_GREEN, tmp, row, col + 6);
 	}
 
-	/* Indicar máximo natural */
+	/* Indicate natural maximum */
 	if (player->stat_max[stat] == 18+100)
 		put_str("!", row, col + 3);
 }
@@ -174,7 +174,7 @@ static int fmt_title(char buf[], int max, bool short_mode)
 {
 	buf[0] = 0;
 
-	/* Mago, ganador o ninguno */
+	/* Wizard, winner or neither */
 	if (player->wizard) {
 		my_strcpy(buf, "[=-MAGO-=]", max);
 	} else if (player->total_winner || (player->lev > PY_MAX_LEVEL)) {
@@ -190,7 +190,7 @@ static int fmt_title(char buf[], int max, bool short_mode)
 }
 
 /**
- * Imprime el título, incluyendo mago, ganador o forma según sea necesario.
+ * Prints title, including wizard, winner or shape as needed.
  */
 static void prt_title(int row, int col)
 {	
@@ -202,7 +202,7 @@ static void prt_title(int row, int col)
 }
 
 /**
- * Imprime nivel
+ * Prints level
  */
 static void prt_level(int row, int col)
 {
@@ -221,7 +221,7 @@ static void prt_level(int row, int col)
 
 
 /**
- * Mostrar la experiencia
+ * Display the experience
  */
 static void prt_exp(int row, int col)
 {
@@ -231,12 +231,12 @@ static void prt_exp(int row, int col)
 	long xp = (long)player->exp;
 
 
-	/* Calcular XP para el siguiente nivel */
+	/* Calculate XP for next level */
 	if (!lev50)
 		xp = (long)(player_exp[player->lev - 1] * player->expfact / 100L) -
 			player->exp;
 
-	/* Formatear XP */
+	/* Format XP */
 	strnfmt(out_val, sizeof(out_val), "%8ld", xp);
 
 
@@ -251,7 +251,7 @@ static void prt_exp(int row, int col)
 
 
 /**
- * Imprime el oro actual
+ * Prints current gold
  */
 static void prt_gold(int row, int col)
 {
@@ -264,7 +264,7 @@ static void prt_gold(int row, int col)
 
 
 /**
- * Caracteres "equippy" (representación ASCII del equipo en orden de ranura)
+ * Equippy chars (ASCII representation of gear in equipment slot order)
  */
 static void prt_equippy(int row, int col)
 {
@@ -275,12 +275,12 @@ static void prt_equippy(int row, int col)
 
 	struct object *obj;
 
-	/* Volcar caracteres "equippy" */
+	/* Dump equippy chars */
 	for (i = 0; i < player->body.count; i++) {
-		/* Objeto */
+		/* Object */
 		obj = slot_object(player, i);
 
-		/* Obtener atributo/carácter para mostrar; limpiar si hay mosaicos grandes o ningún objeto */
+		/* Get attr/char for display; clear if big tiles or no object */
 		if (obj && tile_width == 1 && tile_height == 1) {
 			c = object_char(obj);
 			a = object_attr(obj);
@@ -289,14 +289,14 @@ static void prt_equippy(int row, int col)
 			a = COLOUR_WHITE;
 		}
 
-		/* Volcar */
+		/* Dump */
 		Term_putch(col + i, row, a, c);
 	}
 }
 
 
 /**
- * Imprime la CA actual
+ * Prints current AC
  */
 static void prt_ac(int row, int col)
 {
@@ -309,7 +309,7 @@ static void prt_ac(int row, int col)
 }
 
 /**
- * Imprime los puntos de golpe actuales
+ * Prints current hitpoints
  */
 static void prt_hp(int row, int col)
 {
@@ -327,19 +327,19 @@ static void prt_hp(int row, int col)
 }
 
 /**
- * Imprime los puntos de hechizo máximos/actuales del jugador
+ * Prints players max/cur spell points
  */
 static void prt_sp(int row, int col)
 {
 	char cur_sp[32], max_sp[32];
 	uint8_t color = player_sp_attr(player);
 
-	/* No mostrar maná a menos que debamos tener algo */
+	/* Do not show mana unless we should have some */
 	if (!player->class->magic.total_spells
 			|| (player->lev < player->class->magic.spell_first)) {
 		/*
-		 * Pero limpiar si el drenaje de experiencia puede haber dejado sin puntos después
-		 * de tener puntos.
+		 * But clear if experience drain may have left no points after
+		 * having points.
 		 */
 		if (player->class->magic.total_spells
 				&& player->exp < player->max_exp) {
@@ -353,14 +353,14 @@ static void prt_sp(int row, int col)
 	strnfmt(max_sp, sizeof(max_sp), "%4d", player->msp);
 	strnfmt(cur_sp, sizeof(cur_sp), "%4d", player->csp);
 
-	/* Mostrar maná */
+	/* Show mana */
 	c_put_str(color, cur_sp, row, col + 3);
 	c_put_str(COLOUR_WHITE, "/", row, col + 7);
 	c_put_str(COLOUR_L_GREEN, max_sp, row, col + 8);
 }
 
 /**
- * Calcular el color de la barra de monstruo por separado, para los puertos.
+ * Calculate the monster bar color separately, for ports.
  */
 uint8_t monster_health_attr(void)
 {
@@ -368,54 +368,54 @@ uint8_t monster_health_attr(void)
 	uint8_t attr;
 
 	if (!mon) {
-		/* No rastreando */
+		/* Not tracking */
 		attr = COLOUR_DARK;
 
 	} else if (!monster_is_visible(mon) || mon->hp < 0 ||
 			   player->timed[TMD_IMAGE]) {
-		/* La salud del monstruo es "desconocida" */
+		/* The monster health is "unknown" */
 		attr = COLOUR_WHITE;
 
 	} else {
 		int pct;
 
-		/* Por defecto, casi muerto */
+		/* Default to almost dead */
 		attr = COLOUR_RED;
 
-		/* Extraer el "porcentaje" de salud */
+		/* Extract the "percent" of health */
 		pct = 100L * mon->hp / mon->maxhp;
 
-		/* Gravemente herido */
+		/* Badly wounded */
 		if (pct >= 10) attr = COLOUR_L_RED;
 
-		/* Herido */
+		/* Wounded */
 		if (pct >= 25) attr = COLOUR_ORANGE;
 
-		/* Algo herido */
+		/* Somewhat Wounded */
 		if (pct >= 60) attr = COLOUR_YELLOW;
 
-		/* Saludable */
+		/* Healthy */
 		if (pct >= 100) attr = COLOUR_L_GREEN;
 
-		/* Asustado */
+		/* Afraid */
 		if (mon->m_timed[MON_TMD_FEAR]) attr = COLOUR_VIOLET;
 
-		/* Desencantado */
+		/* Disenchanted */
 		if (mon->m_timed[MON_TMD_DISEN]) attr = COLOUR_L_UMBER;
 
-		/* Comandado */
+		/* Commanded */
 		if (mon->m_timed[MON_TMD_COMMAND]) attr = COLOUR_L_PURPLE;
 
-		/* Confundido */
+		/* Confused */
 		if (mon->m_timed[MON_TMD_CONF]) attr = COLOUR_UMBER;
 
-		/* Aturdido */
+		/* Stunned */
 		if (mon->m_timed[MON_TMD_STUN]) attr = COLOUR_L_BLUE;
 
-		/* Dormido */
+		/* Asleep */
 		if (mon->m_timed[MON_TMD_SLEEP]) attr = COLOUR_BLUE;
 
-		/* Paralizado */
+		/* Held */
 		if (mon->m_timed[MON_TMD_HOLD]) attr = COLOUR_BLUE;
 	}
 
@@ -427,30 +427,30 @@ static int prt_health_aux(int row, int col)
 	uint8_t attr = monster_health_attr();
 	struct monster *mon = player->upkeep->health_who;
 
-	/* No rastreando */
+	/* Not tracking */
 	if (!mon) {
-		/* Borrar la barra de salud */
+		/* Erase the health bar */
 		Term_erase(col, row, 12);
 		return 0;
 	}
 
-	/* Rastreando un monstruo no visto, alucinado o muerto */
-	if (!monster_is_visible(mon) || /* No visto */
-		(player->timed[TMD_IMAGE]) || /* Alucinación */
-		(mon->hp < 0)) { /* Muerto (?) */
-		/* La salud del monstruo es "desconocida" */
+	/* Tracking an unseen, hallucinatory, or dead monster */
+	if (!monster_is_visible(mon) || /* Unseen */
+		(player->timed[TMD_IMAGE]) || /* Hallucination */
+		(mon->hp < 0)) { /* Dead (?) */
+		/* The monster health is "unknown" */
 		Term_putstr(col, row, 12, attr, "[----------]");
 	} else { /* Visible */
-		/* Extraer el "porcentaje" de salud */
+		/* Extract the "percent" of health */
 		int pct = 100L * mon->hp / mon->maxhp;
 
-		/* Convertir porcentaje en "salud" */
+		/* Convert percent into "health" */
 		int len = (pct < 10) ? 1 : (pct < 90) ? (pct / 10 + 1) : 10;
 
-		/* Por defecto, "desconocido" */
+		/* Default to "unknown" */
 		Term_putstr(col, row, 12, COLOUR_WHITE, "[----------]");
 
-		/* Volcar la "salud" actual (usar símbolos '*') */
+		/* Dump the current "health" (use '*' symbols) */
 		Term_putstr(col + 1, row, len, attr, "**********");
 	}
 
@@ -458,14 +458,14 @@ static int prt_health_aux(int row, int col)
 }
 
 /**
- * Redibujar la "barra de salud del monstruo"
+ * Redraw the "monster health bar"
  *
- * La "barra de salud del monstruo" proporciona retroalimentación visual sobre la "salud"
- * del monstruo que se está "rastreando" actualmente. Hay varias formas
- * de "rastrear" un monstruo, incluyendo apuntarle, atacarlo y
- * afectarlo (y a nadie más) con un ataque a distancia. Cuando no se
- * está rastreando nada, limpiamos la barra de salud. Si el monstruo que se está
- * rastreando no es visible actualmente, se muestra una barra de salud especial.
+ * The "monster health bar" provides visual feedback on the "health"
+ * of the monster currently being "tracked".  There are several ways
+ * to "track" a monster, including targetting it, attacking it, and
+ * affecting it (and nobody else) with a ranged attack.  When nothing
+ * is being tracked, we clear the health bar.  If the monster being
+ * tracked is not currently visible, a special health bar is shown.
  */
 static void prt_health(int row, int col)
 {
@@ -480,7 +480,7 @@ static int prt_speed_aux(char buf[], int max, uint8_t *attr)
 	*attr = COLOUR_WHITE;
 	buf[0] = 0;
 
-	/* 110 es velocidad normal, y no requiere visualización */
+	/* 110 is normal speed, and requires no display */
 	if (i > 110) {
 		*attr = COLOUR_L_GREEN;
 		type = "Rápido";
@@ -503,7 +503,7 @@ static int prt_speed_aux(char buf[], int max, uint8_t *attr)
 }
 
 /**
- * Imprime la velocidad de un personaje.
+ * Prints the speed of a character.
  */
 static void prt_speed(int row, int col)
 {
@@ -512,7 +512,7 @@ static void prt_speed(int row, int col)
 
 	prt_speed_aux(buf, sizeof(buf), &attr);
 
-	/* Mostrar la velocidad */
+	/* Display the speed */
 	c_put_str(attr, format("%-11s", buf), row, col);
 }
 
@@ -527,7 +527,7 @@ static int fmt_depth(char buf[], int max)
 }
 
 /**
- * Imprime la profundidad en el área de estadísticas
+ * Prints depth in stat area
  */
 static void prt_depth(int row, int col)
 {
@@ -535,7 +535,7 @@ static void prt_depth(int row, int col)
 
 	fmt_depth(depths, sizeof(depths));
 
-	/* Alinear a la derecha la "profundidad" y limpiar valores antiguos */
+	/* Right-Adjust the "depth", and clear old values */
 	put_str(format("%-13s", depths), row, col);
 }
 
@@ -543,7 +543,7 @@ static void prt_depth(int row, int col)
 
 
 /**
- * Algunas funciones envoltorio simples
+ * Some simple wrapper functions
  */
 static void prt_str(int row, int col) { prt_stat(STAT_STR, row, col); }
 static void prt_dex(int row, int col) { prt_stat(STAT_DEX, row, col); }
@@ -582,7 +582,7 @@ static void prt_class(int row, int col) {
 }
 
 /**
- * Imprime nivel
+ * Prints level
  */
 static int prt_level_short(int row, int col)
 {
@@ -605,17 +605,17 @@ static int prt_stat_short(int stat, int row, int col)
 {
 	char tmp[32];
 
-	/* Estadística dañada o saludable */
+	/* Injured or healthy stat */
 	if (player->stat_cur[stat] < player->stat_max[stat]) {
 		put_str(format("%c:", stat_names_reduced[stat][0]), row, col);		
 		cnv_stat(player->state.stat_use[stat], tmp, sizeof(tmp));
-		/* Eliminar espacios en blanco */
+		/* Trim whitespace */
 		strskip(tmp,' ', 0);
 		c_put_str(COLOUR_YELLOW, tmp, row, col + 2);
 	} else {
 		put_str(format("%c:", stat_names[stat][0]), row, col);
 		cnv_stat(player->state.stat_use[stat], tmp, sizeof(tmp));
-		/* Eliminar espacios en blanco */
+		/* Trim whitespace */
 		strskip(tmp,' ', 0);
 		if (player->stat_max[stat] == 18+100) {
 			c_put_str(COLOUR_L_BLUE, tmp, row, col + 2);
@@ -635,12 +635,12 @@ static int prt_exp_short(int row, int col)
 
 	long xp = (long)player->exp;
 
-	/* Calcular XP para el siguiente nivel */
+	/* Calculate XP for next level */
 	if (!lev50)
 		xp = (long)(player_exp[player->lev - 1] * player->expfact / 100L) -
 			player->exp;
 
-	/* Formatear XP */
+	/* Format XP */
 	strnfmt(out_val, sizeof(out_val), "%ld", xp);
 
 	if (player->exp >= player->max_exp) {
@@ -699,7 +699,7 @@ static int prt_sp_short(int row, int col)
 	char cur_sp[32], max_sp[32];
 	uint8_t color = player_sp_attr(player);
 
-	/* No mostrar maná a menos que debamos tener algo */
+	/* Do not show mana unless we should have some */
 	if (!player->class->magic.total_spells
 			|| (player->lev < player->class->magic.spell_first))
 		return 0;
@@ -710,7 +710,7 @@ static int prt_sp_short(int row, int col)
 	strnfmt(max_sp, sizeof(max_sp), "%d", player->msp);
 	strnfmt(cur_sp, sizeof(cur_sp), "%d", player->csp);
 
-	/* Mostrar maná */
+	/* Show mana */
 	c_put_str(color, cur_sp, row, col);
 	col += strlen(cur_sp);
 	c_put_str(COLOUR_WHITE, "/", row, col);
@@ -800,13 +800,13 @@ static void update_topbar(game_event_type type, game_event_data *data,
 
 
 /**
- * Estructura de manejadores de la barra lateral.
+ * Struct of sidebar handlers.
  */
 static const struct side_handler_t
 {
-	void (*hook)(int, int);	 /* int fila, int columna */
-	int priority;		 /* 1 es el más importante (siempre mostrado) */
-	game_event_type type;	 /* bandera PR_* a la que corresponde */
+	void (*hook)(int, int);	 /* int row, int col */
+	int priority;		 /* 1 is most important (always displayed) */
+	game_event_type type;	 /* PR_* flag this corresponds to */
 } side_handlers[] = {
 	{ prt_race,    19, EVENT_RACE_CLASS },
 	{ prt_title,   18, EVENT_PLAYERTITLE },
@@ -828,18 +828,18 @@ static const struct side_handler_t
 	{ prt_health,  12, EVENT_MONSTERHEALTH },
 	{ NULL,        20, 0 },
 	{ NULL,        22, 0 },
-	{ prt_speed,   13, EVENT_PLAYERSPEED }, /* Lento (-NN) / Rápido (+NN) */
-	{ prt_depth,   14, EVENT_DUNGEONLEVEL }, /* Nivel NNN / NNNN pies */
+	{ prt_speed,   13, EVENT_PLAYERSPEED }, /* Slow (-NN) / Fast (+NN) */
+	{ prt_depth,   14, EVENT_DUNGEONLEVEL }, /* Lev NNN / NNNN ft */
 };
 
 
 /**
- * Esto imprime la barra lateral, utilizando un método inteligente que significa que solo
- * imprimirá tanto como se pueda mostrar en pantallas de <24 líneas.
+ * This prints the sidebar, using a clever method which means that it will only
+ * print as much as can be displayed on <24-line screens.
  *
- * A cada fila se le da una prioridad; los números más altos son los menos importantes y los números
- * más bajos los más importantes. A medida que la pantalla se hace más pequeña, las filas comienzan a
- * desaparecer en el orden de menor a mayor importancia.
+ * Each row is given a priority; the least important higher numbers and the most
+ * important lower numbers.  As the screen gets smaller, the rows start to
+ * disappear in the order of lowest to highest importance.
  */
 static void update_sidebar(game_event_type type, game_event_data *data,
 						   void *user)
@@ -859,22 +859,22 @@ static void update_sidebar(game_event_type type, game_event_data *data,
 
 	Term_get_size(&x, &y);
 
-	/* Mantener las líneas superior e inferior limpias. */
+	/* Keep the top and bottom lines clear. */
 	max_priority = y - 2;
 
-	/* Mostrar entradas de la lista */
+	/* Display list entries */
 	for (i = 0, row = 1; i < N_ELEMENTS(side_handlers); i++) {
 		const struct side_handler_t *hnd = &side_handlers[i];
 		int priority = hnd->priority;
 		bool from_bottom = false;
 
-		/* Negativo significa imprimir desde abajo */
+		/* Negative means print from bottom */
 		if (priority < 0) {
 			priority = -priority;
 			from_bottom = true;
 		}
 
-		/* Si esto tiene la prioridad suficientemente alta, mostrarlo */
+		/* If this is high enough priority, display it */
 		if (priority <= max_priority) {
 			if (hnd->type == type && hnd->hook) {
 				if (from_bottom)
@@ -883,16 +883,16 @@ static void update_sidebar(game_event_type type, game_event_data *data,
 				    hnd->hook(row, 0);
 			}
 
-			/* Incrementar para la próxima vez */
+			/* Increment for next time */
 			row++;
 		}
 	}
 }
 
 /**
- * Redibujar al jugador, ya que el color del jugador indica la salud aproximada. Nótese
- * que usar este comando es solo para cuando el modo gráfico está desactivado, ya que
- * de lo contrario hace que el carácter sea un cuadrado negro.
+ * Redraw player, since the player's color indicates approximate health.  Note
+ * that using this command is only for when graphics mode is off, as
+ * otherwise it causes the character to be a black square.
  */
 static void hp_colour_change(game_event_type type, game_event_data *data,
 							 void *user)
@@ -905,11 +905,11 @@ static void hp_colour_change(game_event_type type, game_event_data *data,
 
 /**
  * ------------------------------------------------------------------------
- * Funciones de visualización de la línea de estado
+ * Status line display functions
  * ------------------------------------------------------------------------ */
 
 /**
- * Estructura para describir diferentes efectos temporales
+ * Struct to describe different timed effects
  */
 struct state_info
 {
@@ -920,7 +920,7 @@ struct state_info
 };
 
 /**
- * Imprimir estado de retorno.
+ * Print recall status.
  */
 static size_t prt_recall(int row, int col)
 {
@@ -934,7 +934,7 @@ static size_t prt_recall(int row, int col)
 
 
 /**
- * Imprimir estado de descenso profundo.
+ * Print deep descent status.
  */
 static size_t prt_descent(int row, int col)
 {
@@ -948,11 +948,11 @@ static size_t prt_descent(int row, int col)
 
 
 /**
- * Imprime el estado de Descanso o 'contador'
- * La pantalla tiene siempre exactamente 10 caracteres de ancho (ver abajo)
+ * Prints Resting, or 'count' status
+ * Display is always exactly 10 characters wide (see below)
  *
- * Esta función era un cuello de botella importante al descansar, por lo que gran parte
- * del código de formato de texto se optimizó in situ a continuación.
+ * This function was a major bottleneck when resting, so a lot of
+ * the text formatting code was optimized in place below.
  */
 static size_t prt_state(int row, int col)
 {
@@ -961,15 +961,15 @@ static size_t prt_state(int row, int col)
 	char text[16] = "";
 
 
-	/* Los estados mostrados son descanso y repetición */
+	/* Displayed states are resting and repeating */
 	if (player_is_resting(player)) {
 		int i;
 		int n = player_resting_count(player);
 
-		/* Empezar con "Desc" */
+		/* Start with "Rest" */
 		my_strcpy(text, "Desc      ", sizeof(text));
 
-		/* Mostrar según la longitud o la intención del descanso */
+		/* Display according to length or intent of rest */
 		if (n >= 1000) {
 			i = n / 100;
 			text[9] = '0';
@@ -1010,7 +1010,7 @@ static size_t prt_state(int row, int col)
 			strnfmt(text, sizeof(text), "Repetir %3d", nrepeats);
 	}
 
-	/* Mostrar la información (o espacios en blanco) */
+	/* Display the info (or blanks) */
 	c_put_str(attr, text, row, col);
 
 	return strlen(text) + 1;
@@ -1018,37 +1018,37 @@ static size_t prt_state(int row, int col)
 
 static const uint8_t obj_feeling_color[] =
 {
-	/* Colores utilizados para mostrar cada sensación de objeto */
-	COLOUR_WHITE,  /* "Parece un nivel cualquiera." */
-	COLOUR_L_PURPLE, /* "¡sientes un objeto de poder maravilloso!" */
-	COLOUR_L_RED, /* "hay tesoros soberbios aquí." */
-	COLOUR_ORANGE, /* "hay tesoros excelentes aquí." */
-	COLOUR_YELLOW, /* "hay tesoros muy buenos aquí." */
-	COLOUR_YELLOW, /* "hay tesoros buenos aquí." */
-	COLOUR_L_GREEN, /* "puede haber algo que valga la pena aquí." */
-	COLOUR_L_GREEN, /* "no parece haber nada interesante por aquí." */
-	COLOUR_L_GREEN, /* "no hay muchos tesoros aquí." */
-	COLOUR_L_BLUE, /* "solo hay restos de basura aquí." */
-	COLOUR_L_BLUE  /* "no hay más que telarañas aquí. */
+	/* Colors used to display each obj feeling 	*/
+	COLOUR_WHITE,  /* "Looks like any other level." */
+	COLOUR_L_PURPLE, /* "you sense an item of wondrous power!" */
+	COLOUR_L_RED, /* "there are superb treasures here." */
+	COLOUR_ORANGE, /* "there are excellent treasures here." */
+	COLOUR_YELLOW, /* "there are very good treasures here." */
+	COLOUR_YELLOW, /* "there are good treasures here." */
+	COLOUR_L_GREEN, /* "there may be something worthwhile here." */
+	COLOUR_L_GREEN, /* "there may not be much interesting here." */
+	COLOUR_L_GREEN, /* "there aren't many treasures here." */
+	COLOUR_L_BLUE, /* "there are only scraps of junk here." */
+	COLOUR_L_BLUE  /* "there is naught but cobwebs here. */
 };
 
 static const uint8_t mon_feeling_color[] =
 {
-	/* Colores utilizados para mostrar cada sensación de monstruo */
-	COLOUR_WHITE, /* "Aún no estás seguro sobre este lugar" */
-	COLOUR_RED, /* "Augurios de muerte acechan este lugar" */
-	COLOUR_ORANGE, /* "Este lugar parece asesino" */
-	COLOUR_ORANGE, /* "Este lugar parece terriblemente peligroso" */
-	COLOUR_YELLOW, /* "Te sientes ansioso sobre este lugar" */
-	COLOUR_YELLOW, /* "Te sientes nervioso sobre este lugar" */
-	COLOUR_GREEN, /* "Este lugar no parece demasiado arriesgado" */
-	COLOUR_GREEN, /* "Este lugar parece razonablemente seguro" */
-	COLOUR_BLUE, /* "Este parece un lugar manso y resguardado" */
-	COLOUR_BLUE, /* "Este parece un lugar tranquilo y pacífico" */
+	/* Colors used to display each monster feeling */
+	COLOUR_WHITE, /* "You are still uncertain about this place" */
+	COLOUR_RED, /* "Omens of death haunt this place" */
+	COLOUR_ORANGE, /* "This place seems murderous" */
+	COLOUR_ORANGE, /* "This place seems terribly dangerous" */
+	COLOUR_YELLOW, /* "You feel anxious about this place" */
+	COLOUR_YELLOW, /* "You feel nervous about this place" */
+	COLOUR_GREEN, /* "This place does not seem too risky" */
+	COLOUR_GREEN, /* "This place seems reasonably safe" */
+	COLOUR_BLUE, /* "This seems a tame, sheltered place" */
+	COLOUR_BLUE, /* "This seems a quiet, peaceful place" */
 };
 
 /**
- * Imprime las sensaciones de nivel en el estado si están habilitadas.
+ * Prints level feelings at status if they are enabled.
  */
 static size_t prt_level_feeling(int row, int col)
 {
@@ -1059,30 +1059,30 @@ static size_t prt_level_feeling(int row, int col)
 	int new_col;
 	uint8_t obj_feeling_color_print;
 
-	/* No mostrar sensaciones para personajes de corazón frío */
+	/* Don't show feelings for cold-hearted characters */
 	if (!OPT(player, birth_feelings)) return 0;
 
-	/* Sin sensación útil en la ciudad */
+	/* No useful feeling in town */
 	if (!player->depth) return 0;
 
-	/* Obtener sensaciones */
+	/* Get feelings */
 	obj_feeling = cave->feeling / 10;
 	mon_feeling = cave->feeling - (10 * obj_feeling);
 
 	/*
-	 *   Convertir la sensación de objeto a un símbolo más fácil de interpretar
-	 * para un humano.
-	 *   0 -> * "Parece un nivel cualquiera."
-	 *   1 -> $ "¡sientes un objeto de poder maravilloso!" (sensación especial)
-	 *   2 a 10 son sensaciones desde 2 que significa sensación soberbia hasta 10
-	 * que significa no hay más que telarañas.
-	 *   Es más fácil para el jugador tener las sensaciones malas como un
-	 * número bajo y las sensaciones soberbias como uno más alto. Así que para
-	 * la pantalla invertimos estos números y restamos 1.
-	 *   Así (2-10) se convierte en (1-9 invertido)
+	 *   Convert object feeling to a symbol easier to parse
+	 * for a human.
+	 *   0 -> * "Looks like any other level."
+	 *   1 -> $ "you sense an item of wondrous power!" (special feeling)
+	 *   2 to 10 are feelings from 2 meaning superb feeling to 10
+	 * meaning naught but cobwebs.
+	 *   It is easier for the player to have poor feelings as a
+	 * low number and superb feelings as a higher one. So for
+	 * display we reverse this numbers and subtract 1.
+	 *   Thus (2-10) becomes (1-9 reversed)
 	 *
-	 *   Pero antes de eso comprobar si el jugador ha explorado lo suficiente
-	 * para obtener una sensación. Si no, mostrar como ?
+	 *   But before that check if the player has explored enough
+	 * to get a feeling. If not display as ?
 	 */
 	if (cave->feeling_squares < z_info->feeling_need) {
 		my_strcpy(obj_feeling_str, "?", sizeof(obj_feeling_str));
@@ -1098,19 +1098,19 @@ static size_t prt_level_feeling(int row, int col)
 	}
 
 	/* 
-	 *   Convertir la sensación de monstruo a un símbolo más fácil de interpretar
-	 * para un humano.
-	 *   0 -> ? . La sensación de monstruo nunca debería ser 0, pero lo comprobamos
-	 * por si acaso.
-	 *   1 a 9 son sensaciones desde augurios de muerte hasta tranquilo y pacífico.
-	 * También invertimos esto para que lo que mostramos sea una sensación de peligro.
+	 *   Convert monster feeling to a symbol easier to parse
+	 * for a human.
+	 *   0 -> ? . Monster feeling should never be 0, but we check
+	 * it just in case.
+	 *   1 to 9 are feelings from omens of death to quiet, paceful.
+	 * We also reverse this so that what we show is a danger feeling.
 	 */
 	if (mon_feeling == 0)
 		my_strcpy( mon_feeling_str, "?", sizeof(mon_feeling_str) );
 	else
 		strnfmt(mon_feeling_str, 5, "%d", (unsigned int) ( 10-mon_feeling ));
 
-	/* Mostrarlo */
+	/* Display it */
 	c_put_str(COLOUR_WHITE, "SN:", row, col);
 	new_col = col + 3;
 	c_put_str(mon_feeling_color[mon_feeling], mon_feeling_str, row, new_col);
@@ -1124,7 +1124,7 @@ static size_t prt_level_feeling(int row, int col)
 }
 
 /**
- * Imprime el nivel de luz de la casilla del jugador
+ * Prints player grid light level
  */
 static size_t prt_light(int row, int col)
 {
@@ -1140,27 +1140,27 @@ static size_t prt_light(int row, int col)
 }
 
 /**
- * Imprime la velocidad de movimiento de un personaje.
+ * Prints the movement speed of a character.
  */
 static size_t prt_moves(int row, int col)
 {
 	int i = player->state.num_moves;
 
-	/* 1 movimiento es normal y no requiere visualización */
+	/* 1 move is normal and requires no display */
 	if (i > 0) {
-		/* Mostrar el número de movimientos */
+		/* Display the number of moves */
 		c_put_str(COLOUR_L_TEAL, format("Mov +%d ", i), row, col);
 	} else if (i < 0) {
-		/* Mostrar el número de movimientos */
+		/* Display the number of moves */
 		c_put_str(COLOUR_L_TEAL, format("Mov -%d ", ABS(i)), row, col);
 	}
 
-	/* No debería tener doble dígito, pero seamos paranoicos */
+	/* Shouldn't be double digits, but be paranoid */
 	return (i != 0) ? (9 + ABS(i) / 10) : 0;
 }
 
 /**
- * Obtener el nombre de terreno o trampa relevante más largo para prt_terrain()
+ * Get the longest relevant terrain or trap name for prt_terrain()
  */
 static int longest_terrain_name(void)
 {
@@ -1179,7 +1179,7 @@ static int longest_terrain_name(void)
 }
 
 /**
- * Imprime la trampa del jugador (si la hay) o el terreno
+ * Prints player trap (if any) or terrain
  */
 static size_t prt_terrain(int row, int col)
 {
@@ -1202,13 +1202,13 @@ static size_t prt_terrain(int row, int col)
 }
 
 /**
- * Imprime el estado de detección de trampas
+ * Prints trap detection status
  */
 static size_t prt_dtrap(int row, int col)
 {
-	/* El jugador está en una casilla con trampas detectadas */
+	/* The player is in a trap-detected grid */
 	if (square_isdtrap(cave, player->grid)) {
-		/* El jugador está en el borde */
+		/* The player is on the border */
 		if (square_dtrap_edge(cave, player->grid))
 			c_put_str(COLOUR_YELLOW, "DTrampa ", row, col);
 		else
@@ -1221,21 +1221,21 @@ static size_t prt_dtrap(int row, int col)
 }
 
 /**
- * Imprime cuántos hechizos puede estudiar el jugador.
+ * Print how many spells the player can study.
  */
 static size_t prt_study(int row, int col)
 {
 	char *text;
 	int attr = COLOUR_WHITE;
 
-	/* ¿Puede el jugador aprender nuevos hechizos? */
+	/* Can the player learn new spells? */
 	if (player->upkeep->new_spells) {
-		/* Si el jugador no lleva un libro con hechizos que pueda estudiar,
-		   el mensaje se muestra en un color más oscuro */
+		/* If the player does not carry a book with spells they can study,
+		   the message is displayed in a darker colour */
 		if (!player_book_has_unlearned_spells(player))
 			attr = COLOUR_L_DARK;
 
-		/* Imprimir mensaje de estudio */
+		/* Print study message */
 		text = format("Estudio (%d)", player->upkeep->new_spells);
 		c_put_str(attr, text, row, col);
 		return strlen(text) + 1;
@@ -1246,7 +1246,7 @@ static size_t prt_study(int row, int col)
 
 
 /**
- * Imprime todos los efectos temporales.
+ * Print all timed effects.
  */
 static size_t prt_tmd(int row, int col)
 {
@@ -1262,7 +1262,7 @@ static size_t prt_tmd(int row, int col)
 			c_put_str(grade->color, grade->name, row, col + len);
 			len += strlen(grade->name) + 1;
 
-			/* Medidor de comida */
+			/* Food meter */
 			if (i == TMD_FOOD) {
 				char *meter = format("%d %%", player->timed[i] / 100);
 				c_put_str(grade->color, meter, row, col + len);
@@ -1275,7 +1275,7 @@ static size_t prt_tmd(int row, int col)
 }
 
 /**
- * Imprime el estado de "no ignorar"
+ * Print "unignoring" status
  */
 static size_t prt_unignore(int row, int col)
 {
@@ -1289,7 +1289,7 @@ static size_t prt_unignore(int row, int col)
 }
 
 /**
- * Definición de tipo descriptivo para manejadores de estado
+ * Descriptive typedef for status handlers
  */
 typedef size_t status_f(int row, int col);
 
@@ -1302,16 +1302,16 @@ static void update_statusline_aux(int row, int col)
 {
 	size_t i;
 
-	/* Limpiar el resto de la línea */
+	/* Clear the remainder of the line */
 	prt("", row, col);
 
-	/* Mostrar aquellos que necesitan redibujado */
+	/* Display those which need redrawing */
 	for (i = 0; i < N_ELEMENTS(status_handlers); i++)
 		col += status_handlers[i](row, col);
 }
 
 /**
- * Imprimir la línea de estado.
+ * Print the status line.
  */
 static void update_statusline(game_event_type type, game_event_data *data, void *user)
 {
@@ -1327,7 +1327,7 @@ static void update_statusline(game_event_type type, game_event_data *data, void 
 
 /**
  * ------------------------------------------------------------------------
- * Redibujado del mapa.
+ * Map redraw.
  * ------------------------------------------------------------------------ */
 
 #ifdef MAP_DEBUG
@@ -1342,17 +1342,17 @@ static void trace_map_updates(game_event_type type, game_event_data *data,
 #endif
 
 /**
- * Actualizar ya sea una sola casilla del mapa o un mapa completo
+ * Update either a single map grid or a whole map
  */
 static void update_maps(game_event_type type, game_event_data *data, void *user)
 {
 	term *t = user;
 
-	/* Esto señala un redibujado de mapa completo. */
+	/* This signals a whole-map redraw. */
 	if (data->point.x == -1 && data->point.y == -1)
 		prt_map();
 
-	/* Punto único a redibujar */
+	/* Single point to be redrawn */
 	else {
 		struct grid_data g;
 		int a, ta;
@@ -1362,41 +1362,41 @@ static void update_maps(game_event_type type, game_event_data *data, void *user)
 		int vy, vx;
 		int clipy;
 
-		/* Ubicación relativa al panel */
+		/* Location relative to panel */
 		ky = data->point.y - t->offset_y;
 		kx = data->point.x - t->offset_x;
 
 		if (t == angband_term[0]) {
-			/* Verificar ubicación */
+			/* Verify location */
 			if ((ky < 0) || (ky >= SCREEN_HGT)) return;
 			if ((kx < 0) || (kx >= SCREEN_WID)) return;
 
-			/* Ubicación en la ventana */
+			/* Location in window */
 			vy = tile_height * ky + ROW_MAP;
 			vx = tile_width * kx + COL_MAP;
 
-			/* Proteger la línea de estado contra modificación. */
+			/* Protect the status line against modification. */
 			clipy = ROW_MAP + SCREEN_ROWS;
 		} else {
-			/* Verificar ubicación */
+			/* Verify location */
 			if ((ky < 0) || (ky >= t->hgt / tile_height)) return;
 			if ((kx < 0) || (kx >= t->wid / tile_width)) return;
 
-			/* Ubicación en la ventana */
+			/* Location in window */
 			vy = tile_height * ky;
 			vx = tile_width * kx;
 
-			/* Todas las filas pueden ser usadas para el mapa. */
+			/* All the rows may be used for the map. */
 			clipy = t->hgt;
 		}
 
 
-		/* Redibujar la casilla */
+		/* Redraw the grid spot */
 		map_info(data->point, &g);
 		grid_data_as_text(&g, &a, &c, &ta, &tc);
 		Term_queue_char(t, vx, vy, a, c, ta, tc);
 #ifdef MAP_DEBUG
-		/* Trazar actualizaciones 'puntuales' en verde claro para hacerlas visibles */
+		/* Plot 'spot' updates in light green to make them visible */
 		Term_queue_char(t, vx, vy, COLOUR_L_GREEN, c, ta, tc);
 #endif
 
@@ -1404,7 +1404,7 @@ static void update_maps(game_event_type type, game_event_data *data, void *user)
 			Term_big_queue_char(t, vx, vy, clipy, a, c, COLOUR_WHITE, L' ');
 	}
 
-	/* Refrescar la pantalla principal a menos que el mapa necesite centrarse */
+	/* Refresh the main screen unless the map needs to center */
 	if (player->upkeep->update & (PU_PANEL) && OPT(player, center_player)) {
 		int hgt = (t == angband_term[0]) ? SCREEN_HGT / 2 :
 			t->hgt / (tile_height * 2);
@@ -1420,17 +1420,17 @@ static void update_maps(game_event_type type, game_event_data *data, void *user)
 
 /**
  * ------------------------------------------------------------------------
- * Animaciones.
+ * Animations.
  * ------------------------------------------------------------------------ */
 
 static bool animations_allowed = true;
 /**
- * Un contador para seleccionar el color del paso de la tabla de parpadeo.
+ * A counter to select the step color from the flicker table.
  */
 static uint8_t flicker = 0;
 
 /**
- * Esto anima monstruos y/u objetos según sea necesario.
+ * This animates monsters and/or items as necessary.
  */
 static void do_animation(void)
 {
@@ -1447,16 +1447,16 @@ static void do_animation(void)
 		else if (rf_has(mon->race->flags, RF_ATTR_FLICKER)) {
 			uint8_t base_attr = monster_x_attr[mon->race->ridx];
 
-			/* Obtener el atributo de color cíclico, si está disponible. */
+			/* Get the color cycled attribute, if available. */
 			attr = visuals_cycler_get_attr_for_race(mon->race, flicker);
 
 			if (attr == BASIC_COLORS) {
-				/* Recurrir al atributo de parpadeo. */
+				/* Fall back to the flicker attribute. */
 				attr = visuals_flicker_get_attr_for_frame(base_attr, flicker);
 			}
 
 			if (attr == BASIC_COLORS) {
-				/* Recurrir al atributo estático si falla el ciclo. */
+				/* Fall back to the static attribute if cycling fails. */
 				attr = base_attr;
 			}
 		}
@@ -1471,7 +1471,7 @@ static void do_animation(void)
 }
 
 /**
- * Permitir animaciones
+ * Set animations to allowed
  */
 void allow_animations(void)
 {
@@ -1479,7 +1479,7 @@ void allow_animations(void)
 }
 
 /**
- * Deshabilitar animaciones
+ * Set animations to disallowed
  */
 void disallow_animations(void)
 {
@@ -1487,7 +1487,7 @@ void disallow_animations(void)
 }
 
 /**
- * Actualizar animaciones a petición
+ * Update animations on request
  */
 static void animate(game_event_type type, game_event_data *data, void *user)
 {
@@ -1495,8 +1495,8 @@ static void animate(game_event_type type, game_event_data *data, void *user)
 }
 
 /**
- * Esto se usa cuando el usuario está inactivo para permitir animaciones simples.
- * Actualmente lo único que realmente hace es animar monstruos brillantes.
+ * This is used when the user is idle to allow for simple animations.
+ * Currently the only thing it really does is animate shimmering monsters.
  */
 void idle_update(void)
 {
@@ -1506,27 +1506,27 @@ void idle_update(void)
 	if (!OPT(player, animate_flicker) || (use_graphics != GRAPHICS_NONE))
 		return;
 
-	/* Animar y redibujar si es necesario */
+	/* Animate and redraw if necessary */
 	do_animation();
 	redraw_stuff(player);
 
-	/* Refrescar la pantalla principal */
+	/* Refresh the main screen */
 	Term_fresh();
 }
 
 
 /**
- * Encontrar el par atributo/carácter a usar para un efecto de hechizo
+ * Find the attr/char pair to use for a spell effect
  *
- * Se está moviendo (o se ha movido) desde (x, y) a (nx, ny); si la distancia no es
- * "uno", podemos devolver "*".
+ * It is moving (or has moved) from (x, y) to (nx, ny); if the distance is not
+ * "one", we (may) return "*".
  */
 static void bolt_pict(int y, int x, int ny, int nx, int typ, uint8_t *a,
 					  wchar_t *c)
 {
 	int motion;
 
-	/* Convertir coordenadas en movimiento */
+	/* Convert co-ordinates into motion */
 	if ((ny == y) && (nx == x))
 		motion = BOLT_NO_MOTION;
 	else if (nx == x)
@@ -1540,9 +1540,9 @@ static void bolt_pict(int y, int x, int ny, int nx, int typ, uint8_t *a,
 	else
 		motion = BOLT_NO_MOTION;
 
-	/* Decidir el carácter de salida */
+	/* Decide on output char */
 	if (use_graphics == GRAPHICS_NONE) {
-		/* ASCII es simple */
+		/* ASCII is simple */
 		wchar_t chars[] = L"*|/-\\";
 
 		*c = chars[motion];
@@ -1554,7 +1554,7 @@ static void bolt_pict(int y, int x, int ny, int nx, int typ, uint8_t *a,
 }
 
 /**
- * Dibujar una explosión
+ * Draw an explosion
  */
 static void display_explosion(game_event_type type, game_event_data *data,
 							  void *user)
@@ -1571,43 +1571,43 @@ static void display_explosion(game_event_type type, game_event_data *data,
 	struct loc *blast_grid = data->explosion.blast_grid;
 	struct loc centre = data->explosion.centre;
 
-	/* Dibujar la explosión de adentro hacia afuera */
+	/* Draw the blast from inside out */
 	for (i = 0; i < num_grids; i++) {
-		/* Extraer la ubicación */
+		/* Extract the location */
 		y = blast_grid[i].y;
 		x = blast_grid[i].x;
 
-		/* Solo hacer efectos visuales si el jugador puede ver la explosión */
+		/* Only do visuals if the player can see the blast */
 		if (player_sees_grid[i]) {
 			uint8_t a;
 			wchar_t c;
 
 			drawn = true;
 
-			/* Obtener la imagen de la explosión */
+			/* Obtain the explosion pict */
 			bolt_pict(y, x, y, x, proj_type, &a, &c);
 
-			/* Solo mostrar la imagen, ignorando lo que había debajo */
+			/* Just display the pict, ignoring what was under it */
 			print_rel(c, a, y, x);
 		}
 
-		/* Centrar el cursor para evitar que siga las casillas de la explosión */
+		/* Center the cursor to stop it tracking the blast grids  */
 		move_cursor_relative(centre.y, centre.x);
 
-		/* Verificar nuevo radio, teniendo cuidado de no sobrepasar la matriz */
+		/* Check for new radius, taking care not to overrun array */
 		if (i == num_grids - 1)
 			new_radius = true;
 		else if (distance_to_grid[i + 1] > distance_to_grid[i])
 			new_radius = true;
 
-		/* Tenemos todas las casillas en el radio actual, así que dibujarlo */
+		/* We have all the grids at the current radius, so draw it */
 		if (new_radius) {
-			/* Vaciar todas las casillas en este radio */
+			/* Flush all the grids at this radius */
 			Term_fresh();
 			if (player->upkeep->redraw)
 				redraw_stuff(player);
 
-			/* Demora para mostrar este radio apareciendo */
+			/* Delay to show this radius appearing */
 			if (drawn || drawing) {
 				Term_xtra(TERM_XTRA_DELAY, msec);
 			}
@@ -1616,23 +1616,23 @@ static void display_explosion(game_event_type type, game_event_data *data,
 		}
 	}
 
-	/* Borrar y vaciar */
+	/* Erase and flush */
 	if (drawn) {
-		/* Borrar la explosión dibujada arriba */
+		/* Erase the explosion drawn above */
 		for (i = 0; i < num_grids; i++) {
-			/* Extraer la ubicación */
+			/* Extract the location */
 			y = blast_grid[i].y;
 			x = blast_grid[i].x;
 
-			/* Borrar casillas visibles y válidas */
+			/* Erase visible, valid grids */
 			if (player_sees_grid[i])
 				event_signal_point(EVENT_MAP, x, y);
 		}
 
-		/* Centrar el cursor */
+		/* Center the cursor */
 		move_cursor_relative(centre.y, centre.x);
 
-		/* Vaciar la explosión */
+		/* Flush the explosion */
 		Term_fresh();
 		if (player->upkeep->redraw)
 			redraw_stuff(player);
@@ -1640,7 +1640,7 @@ static void display_explosion(game_event_type type, game_event_data *data,
 }
 
 /**
- * Dibujar un efecto de hechizo en movimiento (proyectil o haz)
+ * Draw a moving spell effect (bolt or beam)
  */
 static void display_bolt(game_event_type type, game_event_data *data,
 						 void *user)
@@ -1655,15 +1655,15 @@ static void display_bolt(game_event_type type, game_event_data *data,
 	int y = data->bolt.y;
 	int x = data->bolt.x;
 
-	/* Solo hacer efectos visuales si el jugador puede "ver" el proyectil */
+	/* Only do visuals if the player can "see" the bolt */
 	if (seen) {
 		uint8_t a;
 		wchar_t c;
 
-		/* Obtener la imagen del proyectil */
+		/* Obtain the bolt pict */
 		bolt_pict(oy, ox, y, x, proj_type, &a, &c);
 
-		/* Efectos visuales */
+		/* Visual effects */
 		print_rel(c, a, y, x);
 		move_cursor_relative(y, x);
 		Term_fresh();
@@ -1675,23 +1675,23 @@ static void display_bolt(game_event_type type, game_event_data *data,
 		if (player->upkeep->redraw)
 			redraw_stuff(player);
 
-		/* Mostrar casillas de "haz" */
+		/* Display "beam" grids */
 		if (beam) {
 
-			/* Obtener la imagen de la explosión */
+			/* Obtain the explosion pict */
 			bolt_pict(y, x, y, x, proj_type, &a, &c);
 
-			/* Efectos visuales */
+			/* Visual effects */
 			print_rel(c, a, y, x);
 		}
 	} else if (drawing) {
-		/* Demora para mantener la consistencia */
+		/* Delay for consistency */
 		Term_xtra(TERM_XTRA_DELAY, msec);
 	}
 }
 
 /**
- * Dibujar un proyectil en movimiento
+ * Draw a moving missile
  */
 static void display_missile(game_event_type type, game_event_data *data,
 							void *user)
@@ -1702,7 +1702,7 @@ static void display_missile(game_event_type type, game_event_data *data,
 	int y = data->missile.y;
 	int x = data->missile.x;
 
-	/* Solo hacer efectos visuales si el jugador puede "ver" el proyectil */
+	/* Only do visuals if the player can "see" the missile */
 	if (seen) {
 		print_rel(object_char(obj), object_attr(obj), y, x);
 		move_cursor_relative(y, x);
@@ -1720,12 +1720,12 @@ static void display_missile(game_event_type type, game_event_data *data,
 
 /**
  * ------------------------------------------------------------------------
- * Visualizaciones de subventanas
+ * Subwindow displays
  * ------------------------------------------------------------------------ */
 
 /**
- * true cuando se supone que debemos mostrar el equipo en la ventana de inventario,
- * o viceversa.
+ * true when we're supposed to display the equipment in the inventory 
+ * window, or vice-versa.
  */
 static bool flip_inven;
 
@@ -1735,7 +1735,7 @@ static void update_inven_subwindow(game_event_type type, game_event_data *data,
 	term *old = Term;
 	term *inv_term = user;
 
-	/* Activar */
+	/* Activate */
 	Term_activate(inv_term);
 
 	if (!flip_inven)
@@ -1745,7 +1745,7 @@ static void update_inven_subwindow(game_event_type type, game_event_data *data,
 
 	Term_fresh();
 	
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
@@ -1755,7 +1755,7 @@ static void update_equip_subwindow(game_event_type type, game_event_data *data,
 	term *old = Term;
 	term *inv_term = user;
 
-	/* Activar */
+	/* Activate */
 	Term_activate(inv_term);
 
 	if (!flip_inven)
@@ -1765,24 +1765,24 @@ static void update_equip_subwindow(game_event_type type, game_event_data *data,
 
 	Term_fresh();
 	
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
 /**
- * Invertir "inventario" y "equipo" en cualquier subventana
+ * Flip "inven" and "equip" in any sub-windows
  */
 void toggle_inven_equip(void)
 {
 	term *old = Term;
 	int i;
 
-	/* Cambiar la configuración real */
+	/* Change the actual setting */
 	flip_inven = !flip_inven;
 
-	/* Redibujar cualquier subventana que muestre las listas de inventario/equipo */
+	/* Redraw any subwindows showing the inventory/equipment lists */
 	for (i = 0; i < ANGBAND_TERM_MAX; i++) {
-		/* Omitir subventanas no utilizadas. */
+		/* Skip unused subwindows. */
 		if (!angband_term[i]) continue;
 
 		Term_activate(angband_term[i]); 
@@ -1813,14 +1813,14 @@ static void update_itemlist_subwindow(game_event_type type,
 	term *old = Term;
 	term *inv_term = user;
 
-	/* Activar */
+	/* Activate */
 	Term_activate(inv_term);
 
     clear_from(0);
     object_list_show_subwindow(Term->hgt, Term->wid);
 	Term_fresh();
 	
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
@@ -1830,14 +1830,14 @@ static void update_monlist_subwindow(game_event_type type,
 	term *old = Term;
 	term *inv_term = user;
 
-	/* Activar */
+	/* Activate */
 	Term_activate(inv_term);
 
 	clear_from(0);
 	monster_list_show_subwindow(Term->hgt, Term->wid);
 	Term_fresh();
 	
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
@@ -1848,17 +1848,17 @@ static void update_monster_subwindow(game_event_type type,
 	term *old = Term;
 	term *inv_term = user;
 
-	/* Activar */
+	/* Activate */
 	Term_activate(inv_term);
 
-	/* Mostrar información de raza de monstruo */
+	/* Display monster race info */
 	if (player->upkeep->monster_race)
 		lore_show_subwindow(player->upkeep->monster_race, 
 							get_lore(player->upkeep->monster_race));
 
 	Term_fresh();
 	
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
@@ -1869,7 +1869,7 @@ static void update_object_subwindow(game_event_type type,
 	term *old = Term;
 	term *inv_term = user;
 	
-	/* Activar */
+	/* Activate */
 	Term_activate(inv_term);
 	
 	if (player->upkeep->object != NULL)
@@ -1878,7 +1878,7 @@ static void update_object_subwindow(game_event_type type,
 		display_object_kind_recall(player->upkeep->object_kind);
 	Term_fresh();
 	
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
@@ -1897,13 +1897,13 @@ static void update_messages_subwindow(game_event_type type,
 
 	const char *msg;
 
-	/* Activar */
+	/* Activate */
 	Term_activate(inv_term);
 
-	/* Obtener tamaño */
+	/* Get size */
 	Term_get_size(&w, &h);
 
-	/* Volcar mensajes */
+	/* Dump messages */
 	const char* last_msg = NULL;
 	for (i = 0; i < h; i++) {
 		uint16_t count = message_count(i);
@@ -1927,7 +1927,7 @@ static void update_messages_subwindow(game_event_type type,
 		/* Cursor */
 		Term_locate(&x, &y);
 
-		/* Limpiar hasta el final de la línea */
+		/* Clear to end of line */
 		Term_erase(x, y, 255);
 		if (i == 0){
 			last_msg = str;
@@ -1937,7 +1937,7 @@ static void update_messages_subwindow(game_event_type type,
 
 	Term_fresh();
 	
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
@@ -1958,29 +1958,30 @@ static void update_minimap_subwindow(game_event_type type,
 		term *old = Term;
 		term *t = angband_term[flags->win_idx];
 
-		/* Activar */
+		/* Activate */
 		Term_activate(t);
 
-		/* Si es redibujado de mapa completo, limpiar ventana primero. */
+		/* If whole-map redraw, clear window first. */
 		if (flags->needs_redraw)
 			Term_clear();
 
-		/* Redibujar mapa */
+		/* Redraw map */
 		display_map(NULL, NULL);
 		Term_fresh();
 
-		/* Restaurar */
+		/* Restore */
 		Term_activate(old);
 
 		flags->needs_redraw = false;
 	} else if (type == EVENT_DUNGEONLEVEL) {
-		/* XXX map_height y map_width deben mantenerse sincronizados con
+		/* XXX map_height and map_width need to be kept in sync with
 		 * display_map() */
 		term *t = angband_term[flags->win_idx];
 		int map_height = t->hgt - 2;
 		int map_width = t->wid - 2;
 
-		/* Limpiar todo el terminal si el nuevo mapa no va a caber en su totalidad */
+		/* Clear the entire term if the new map isn't going to fit the
+		 * entire thing */
 		if (cave->height <= map_height || cave->width <= map_width) {
 			flags->needs_redraw = true;
 		}
@@ -1989,7 +1990,7 @@ static void update_minimap_subwindow(game_event_type type,
 
 
 /**
- * Mostrar jugador en subventanas (modo 0)
+ * Display player in sub-windows (mode 0)
  */
 static void update_player0_subwindow(game_event_type type,
 									 game_event_data *data, void *user)
@@ -1997,20 +1998,20 @@ static void update_player0_subwindow(game_event_type type,
 	term *old = Term;
 	term *inv_term = user;
 
-	/* Activar */
+	/* Activate */
 	Term_activate(inv_term);
 
-	/* Mostrar banderas */
+	/* Display flags */
 	display_player(0);
 
 	Term_fresh();
 	
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
 /**
- * Mostrar jugador en subventanas (modo 1)
+ * Display player in sub-windows (mode 1)
  */
 static void update_player1_subwindow(game_event_type type,
 									 game_event_data *data, void *user)
@@ -2018,15 +2019,15 @@ static void update_player1_subwindow(game_event_type type,
 	term *old = Term;
 	term *inv_term = user;
 
-	/* Activar */
+	/* Activate */
 	Term_activate(inv_term);
 
-	/* Mostrar banderas */
+	/* Display flags */
 	display_player(1);
 
 	Term_fresh();
 	
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
@@ -2036,10 +2037,10 @@ static void update_topbar_subwindow(game_event_type type,
 	term *old = Term;
 	term *inv_term = user;
 
-	/* Verificar cordura */
+	/* Check sanity */
 	if (!(player && player->race && player->class && cave)) return;
 
-	/* Activar */
+	/* Activate */
 	Term_activate(inv_term);
 
 	update_topbar(type, data, user, 0);
@@ -2048,12 +2049,12 @@ static void update_topbar_subwindow(game_event_type type,
 
 	Term_fresh();
 	
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
 /**
- * Mostrar el lado izquierdo del terminal principal, de forma más compacta.
+ * Display the left-hand-side of the main term, in more compact fashion.
  */
 static void update_player_compact_subwindow(game_event_type type,
 											game_event_data *data, void *user)
@@ -2065,47 +2066,47 @@ static void update_player_compact_subwindow(game_event_type type,
 	term *old = Term;
 	term *inv_term = user;
 
-	/* Activar */
+	/* Activate */
 	Term_activate(inv_term);
 
-	/* Raza y Clase */
+	/* Race and Class */
 	prt_field(player->race->name, row++, col);
 	prt_field(player->class->name, row++, col);
 
-	/* Título */
+	/* Title */
 	prt_title(row++, col);
 
-	/* Nivel/Experiencia */
+	/* Level/Experience */
 	prt_level(row++, col);
 	prt_exp(row++, col);
 
-	/* Oro */
+	/* Gold */
 	prt_gold(row++, col);
 
-	/* Caracteres "equippy" */
+	/* Equippy chars */
 	prt_equippy(row++, col);
 
-	/* Todas las estadísticas */
+	/* All Stats */
 	for (i = 0; i < STAT_MAX; i++) prt_stat(i, row++, col);
 
-	/* Fila vacía */
+	/* Empty row */
 	row++;
 
-	/* Armadura */
+	/* Armor */
 	prt_ac(row++, col);
 
-	/* Puntos de golpe */
+	/* Hitpoints */
 	prt_hp(row++, col);
 
-	/* Puntos de hechizo */
+	/* Spellpoints */
 	prt_sp(row++, col);
 
-	/* Salud del monstruo */
+	/* Monster health */
 	prt_health(row, col);
 
 	Term_fresh();
 	
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
@@ -2116,22 +2117,22 @@ static void flush_subwindow(game_event_type type, game_event_data *data,
 	term *old = Term;
 	term *t = user;
 
-	/* Activar */
+	/* Activate */
 	Term_activate(t);
 
 	Term_fresh();
 	
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
 /**
- * Ciertas "pantallas" siempre usan la pantalla principal, incluyendo Noticias, Nacimiento,
- * Mazmorra, Lápida, Puntuaciones Altas, Macros, Colores, Visuales, Opciones.
+ * Certain "screens" always use the main screen, including News, Birth,
+ * Dungeon, Tomb-stone, High-scores, Macros, Colors, Visuals, Options.
  *
- * Más tarde, banderas especiales pueden permitir que las subventanas "roben" cosas de la
- * ventana principal, incluyendo Volcado de archivo (ayuda), Volcado de archivo (artefactos, únicos),
- * Pantalla de personaje, Mapa a pequeña escala, Mensajes anteriores, Pantalla de tienda, etc.
+ * Later, special flags may allow sub-windows to "steal" stuff from the
+ * main window, including File dump (help), File dump (artifacts, uniques),
+ * Character screen, Small scale map, Previous Messages, Store screen, etc.
  */
 const char *window_flag_desc[32] =
 {
@@ -2181,7 +2182,7 @@ static void subwindow_flag_changed(int win_idx, uint32_t flag, bool new_state)
 	void (*set_register_or_deregister)(game_event_type *type, size_t n_events,
 									   game_event_handler *fn, void *user);
 
-	/* Decidir si registrar o cancelar el registro de un manejador de eventos */
+	/* Decide whether to register or deregister an evenrt handler */
 	if (new_state == false) {
 		register_or_deregister = event_remove_handler;
 		set_register_or_deregister = event_remove_handler_set;
@@ -2237,13 +2238,13 @@ static void subwindow_flag_changed(int win_idx, uint32_t flag, bool new_state)
 
 		case PW_PLAYER_3:
 		{
-			/* Barra superior */
+			/* Topbar */
 			set_register_or_deregister(player_events, 
 						   N_ELEMENTS(player_events),						 
 						   update_topbar_subwindow,
 						   angband_term[win_idx]);
 
-			/* También actualizar estado */
+			/* Also update status */
 			set_register_or_deregister(statusline_events,
 						   N_ELEMENTS(statusline_events),
 						   update_topbar_subwindow,
@@ -2325,18 +2326,18 @@ static void subwindow_flag_changed(int win_idx, uint32_t flag, bool new_state)
 
 
 /**
- * Establecer las banderas para un Terminal, llamando a "subwindow_flag_changed" con cada bandera
- * que ha cambiado de configuración para que pueda hacer cualquier tarea de mantenimiento relacionada con
- * mostrar lo nuevo o ya no mostrar lo antiguo.
+ * Set the flags for one Term, calling "subwindow_flag_changed" with each flag
+ * that has changed setting so that it can do any housekeeping to do with 
+ * displaying the new thing or no longer displaying the old one.
  */
 static void subwindow_set_flags(int win_idx, uint32_t new_flags)
 {
 	term *old = Term;
 	int i;
 
-	/* Lidiar con las banderas cambiadas viendo qué ha cambiado */
+	/* Deal with the changed flags by seeing what's changed */
 	for (i = 0; i < 32; i++)
-		/* Solo procesar banderas válidas */
+		/* Only process valid flags */
 		if (window_flag_desc[i]) {
 			uint32_t flag = ((uint32_t) 1) << i;
 
@@ -2347,35 +2348,35 @@ static void subwindow_set_flags(int win_idx, uint32_t new_flags)
 			}
 		}
 
-	/* Almacenar las nuevas banderas */
+	/* Store the new flags */
 	window_flag[win_idx] = new_flags;
 	
-	/* Activar */
+	/* Activate */
 	Term_activate(angband_term[win_idx]);
 	
-	/* Borrar */
+	/* Erase */
 	Term_clear();
 	
-	/* Refrescar */
+	/* Refresh */
 	Term_fresh();
 			
-	/* Restaurar */
+	/* Restore */
 	Term_activate(old);
 }
 
 /**
- * Llamado con una matriz de las nuevas banderas para todas las subventanas, en orden
- * para establecerlas a los nuevos valores, con la oportunidad de realizar tareas de mantenimiento.
+ * Called with an array of the new flags for all the subwindows, in order
+ * to set them to the new values, with a chance to perform housekeeping.
  */
 void subwindows_set_flags(uint32_t *new_flags, size_t n_subwindows)
 {
 	size_t j;
 
 	for (j = 0; j < n_subwindows; j++) {
-		/* Ventana muerta */
+		/* Dead window */
 		if (!angband_term[j]) continue;
 
-		/* Ignorar no cambios */
+		/* Ignore non-changes */
 		if (window_flag[j] != new_flags[j])
 			subwindow_set_flags(j, new_flags[j]);
 	}
@@ -2383,10 +2384,10 @@ void subwindows_set_flags(uint32_t *new_flags, size_t n_subwindows)
 
 /**
  * ------------------------------------------------------------------------
- * Mostrar y actualizar la pantalla de presentación.
+ * Showing and updating the splash screen.
  * ------------------------------------------------------------------------ */
 /**
- * Explicar una carpeta "lib" rota y salir (ver abajo).
+ * Explain a broken "lib" folder and quit (see below).
  */
 static void init_angband_aux(const char *why)
 {
@@ -2397,7 +2398,7 @@ static void init_angband_aux(const char *why)
 }
 
 /*
- * Tomar notas en la línea 23
+ * Take notes on line 23
  */
 static void splashscreen_note(game_event_type type, game_event_data *data,
 							  void *user)
@@ -2405,11 +2406,11 @@ static void splashscreen_note(game_event_type type, game_event_data *data,
 	if (data->message.type == MSG_BIRTH) {
 		static int y = 2;
 
-		/* Dibujar el mensaje */
+		/* Draw the message */
 		prt(data->message.msg, y, 0);
 		pause_line(Term);
 
-		/* Avanzar una línea (envolver si es necesario) */
+		/* Advance one line (wrap if needed) */
 		if (++y >= 24) y = 2;
 	} else {
 		char *s = format("[%s]", data->message.msg);
@@ -2428,33 +2429,33 @@ static void show_splashscreen(game_event_type type, game_event_data *data,
 
 	char buf[1024];
 
-	/* Verificar el archivo "news" */
+	/* Verify the "news" file */
 	path_build(buf, sizeof(buf), ANGBAND_DIR_SCREENS, "news.txt");
 	if (!file_exists(buf)) {
 		char why[1024];
 
-		/* Chocar y arder */
+		/* Crash and burn */
 		strnfmt(why, sizeof(why), "¡No se puede acceder al archivo '%s'!", buf);
 		init_angband_aux(why);
 	}
 
 
-	/* Prepararse para mostrar el archivo "news" */
+	/* Prepare to display the "news" file */
 	Term_clear();
 
-	/* Abrir el archivo de Noticias */
+	/* Open the News file */
 	path_build(buf, sizeof(buf), ANGBAND_DIR_SCREENS, "news.txt");
 	fp = file_open(buf, MODE_READ, FTYPE_TEXT);
 
 	text_out_hook = text_out_to_screen;
 
-	/* Volcar */
+	/* Dump */
 	if (fp) {
-		/* Centrar la pantalla de presentación - asumir que news.txt tiene 80 de ancho, 23 de alto */
+		/* Centre the splashscreen - assume news.txt has width 80, height 23 */
 		text_out_indent = (Term->wid - 80) / 2;
 		Term_gotoxy(0, (Term->hgt - 23) / 5);
 
-		/* Volcar el archivo a la pantalla */
+		/* Dump the file to the screen */
 		while (file_getl(fp, buf, sizeof(buf))) {
 			char *version_marker = strstr(buf, "$VERSION");
 			if (version_marker) {
@@ -2470,18 +2471,18 @@ static void show_splashscreen(game_event_type type, game_event_data *data,
 		file_close(fp);
 	}
 
-	/* Vaciar */
+	/* Flush it */
 	Term_fresh();
 }
 
 
 /**
  * ------------------------------------------------------------------------
- * Actualizaciones visuales entre turnos de jugador.
+ * Visual updates betweeen player turns.
  * ------------------------------------------------------------------------ */
 static void refresh(game_event_type type, game_event_data *data, void *user)
 {
-	/* Colocar cursor sobre jugador/objetivo */
+	/* Place cursor on player/target */
 	if (OPT(player, show_target) && target_sighted()) {
 		struct loc target;
 		target_get(&target);
@@ -2494,75 +2495,75 @@ static void refresh(game_event_type type, game_event_data *data, void *user)
 static void repeated_command_display(game_event_type type,
 									 game_event_data *data, void *user)
 {
-	/* Asumir que los mensajes fueron vistos */
+	/* Assume messages were seen */
 	msg_flag = false;
 
-	/* Limpiar la línea superior */
+	/* Clear the top line */
 	prt("", 0, 0);
 }
 
 /**
- * Tareas de mantenimiento al llegar a un nuevo nivel
+ * Housekeeping on arriving on a new level
  */
 static void new_level_display_update(game_event_type type,
 									 game_event_data *data, void *user)
 {
-	/* Forzar panel ilegal */
+	/* Enforce illegal panel */
 	Term->offset_y = z_info->dungeon_hgt;
 	Term->offset_x = z_info->dungeon_wid;
 
-	/* Elegir panel */
+	/* Choose panel */
 	verify_panel();
 
-	/* Limpiar */
+	/* Clear */
 	Term_clear();
 
-	/* Invocar modo de actualización parcial */
+	/* Invoke partial update mode */
 	player->upkeep->only_partial = true;
 
-	/* Actualizar cosas */
+	/* Update stuff */
 	player->upkeep->update |= (PU_BONUS | PU_HP | PU_SPELLS);
 
-	/* Calcular radio de la antorcha */
+	/* Calculate torch radius */
 	player->upkeep->update |= (PU_TORCH);
 
-	/* Actualizar completamente los visuales (y distancias de monstruos) */
+	/* Fully update the visuals (and monster distances) */
 	player->upkeep->update |= (PU_UPDATE_VIEW | PU_DISTANCE);
 
-	/* Redibujar mazmorra */
+	/* Redraw dungeon */
 	player->upkeep->redraw |= (PR_BASIC | PR_EXTRA | PR_MAP);
 
-	/* Redibujar cosas de "estado" */
+	/* Redraw "statusy" things */
 	player->upkeep->redraw |= (PR_INVEN | PR_EQUIP | PR_MONSTER | PR_MONLIST | PR_ITEMLIST);
 
-	/* Porque cambiar de nivel no gasta un turno y PR_MONLIST podría no
-	 * establecerse durante algunos turnos de juego, forzar manualmente una actualización al cambiar de nivel. */
+	/* Because changing levels doesn't take a turn and PR_MONLIST might not be
+	 * set for a few game turns, manually force an update on level change. */
 	monster_list_force_subwindow_update();
 
-	/* Si el autoguardado está pendiente, hacerlo ahora. */
+	/* If autosave is pending, do it now. */
 	if (player->upkeep->autosave) {
 		save_game();
 		player->upkeep->autosave = false;
 	}
 
 	/*
-	 * Guardar tiene el efecto secundario de llamar a handle_stuff(), pero si no
-	 * guardamos o guardar ya no llama a handle_stuff(), llamar a
-	 * handle_stuff() ahora para procesar las actualizaciones y redibujados pendientes.
+	 * Saving has side effect of calling handle_stuff(), but if we did
+	 * not save or saving no longer calls handle_stuff(), call
+	 * handle_stuff() now to process the pending updates and redraws.
 	 */
 	handle_stuff(player);
 
-	/* Matar modo de actualización parcial */
+	/* Kill partial update mode */
 	player->upkeep->only_partial = false;
 
-	/* Refrescar */
+	/* Refresh */
 	Term_fresh();
 }
 
 
 /**
  * ------------------------------------------------------------------------
- * Soluciones temporales (con suerte) poco elegantes.
+ * Temporary (hopefully) hackish solutions.
  * ------------------------------------------------------------------------ */
 static void cheat_death(game_event_type type, game_event_data *data, void *user)
 {
@@ -2589,7 +2590,7 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 	bool can_pickup = false;
 	int i;
 
-	/* Escanear todos los objetos visibles y detectados en la casilla */
+	/* Scan all visible, sensed objects in the grid */
 	floor_num = scan_floor(floor_list, floor_max, player,
 		OFLOOR_SENSE | OFLOOR_VISIBLE, NULL);
 	if (floor_num == 0) {
@@ -2597,14 +2598,14 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		return;
 	}
 
-	/* ¿Podemos recoger alguno? */
+	/* Can we pick any up? */
 	for (i = 0; i < floor_num; i++)
 	    if (inven_carry_okay(floor_list[i]))
 			can_pickup = true;
 
-	/* Un objeto */
+	/* One object */
 	if (floor_num == 1) {
-		/* Obtener el objeto */
+		/* Get the object */
 		struct object *obj = floor_list[0];
 		char o_name[80];
 		char o_name_final[80];
@@ -2614,7 +2615,7 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		else if (blind)
 			p = "sientes";
 
-		/* Describir el objeto. Menos detalle si está ciego. */
+		/* Describe the object.  Less detail if blind. */
 		if (blind) {
 			object_desc(o_name, sizeof(o_name), obj,
 				ODESC_PREFIX | ODESC_BASE, player);
@@ -2623,7 +2624,7 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 				ODESC_PREFIX | ODESC_FULL, player);
 		}
 
-		/* Mensaje */
+		/* Message */
 		event_signal(EVENT_MESSAGE_FLUSH);
 		
 		/* fix traduc Armar el mensaje con número si hay más de uno */
@@ -2643,16 +2644,16 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		else if (blind)
 			p = "sientes algo en el suelo";
 
-		/* Mostrar objetos en el suelo */
+		/* Display objects on the floor */
 		screen_save();
 		show_floor(floor_list, floor_num, OLIST_WEIGHT, NULL);
 		prt(format("Aquí se ve: "), 0, 0);  //fix traduc
 
-		/* Esperar. Usar tecla como siguiente comando. */
+		/* Wait for it.  Use key as next command. */
 		e = inkey_ex();
 		Term_event_push(&e);
 
-		/* Restaurar pantalla */
+		/* Restore screen */
 		screen_load();
 	}
 
@@ -2661,30 +2662,30 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 
 /**
  * ------------------------------------------------------------------------
- * Inicialización
+ * Initialising
  * ------------------------------------------------------------------------ */
 
 /**
- * Procesar los archivos de preferencias de usuario relevantes para un personaje recién cargado
+ * Process the user pref files relevant to a newly loaded character
  */
 static void process_character_pref_files(void)
 {
 	bool found;
 	char buf[1024];
 
-	/* Procesar el archivo "window.prf" */
+	/* Process the "window.prf" file */
 	process_pref_file("window.prf", true, true);
 
-	/* Procesar el archivo "user.prf" */
+	/* Process the "user.prf" file */
 	process_pref_file("user.prf", true, true);
 
-	/* Obtener el nombre seguro para el sistema de archivos y añadir .prf */
+	/* Get the filesystem-safe name and append .prf */
 	player_safe_name(buf, sizeof(buf), player->full_name, true);
 	my_strcat(buf, ".prf", sizeof(buf));
 
 	found = process_pref_file(buf, true, true);
 
-    /* Intentar archivo de preferencias usando el nombre del archivo guardado si fallamos usando el nombre del personaje */
+    /* Try pref file using savefile name if we fail using character name */
     if (!found) {
 		int filename_index = path_filename_index(savefile);
 		char filename[128];
@@ -2701,195 +2702,195 @@ static void ui_enter_init(game_event_type type, game_event_data *data,
 {
 	show_splashscreen(type, data, user);
 
-	/* Configurar nuestros manejadores de pantalla de presentación */
+	/* Set up our splashscreen handlers */
 	event_add_handler(EVENT_INITSTATUS, splashscreen_note, NULL);
 }
 
 static void ui_leave_init(game_event_type type, game_event_data *data,
 						  void *user)
 {
-	/* Reiniciar visuales, luego cargar preferencias y reaccionar a cambios */
+	/* Reset visuals, then load prefs, and react to changes */
 	reset_visuals(true);
 	process_character_pref_files();
 	Term_xtra(TERM_XTRA_REACT, 0);
 	(void) Term_redraw_all();
 
-	/* Eliminar nuestros manejadores de pantalla de presentación */
+	/* Remove our splashscreen handlers */
 	event_remove_handler(EVENT_INITSTATUS, splashscreen_note, NULL);
 
-	/* Mostrar un mensaje */
+	/* Flash a message */
 	prt("Espera por favor...", 0, 0);
 
-	/* Vaciar el mensaje */
+	/* Flush the message */
 	Term_fresh();
 }
 
 static void ui_enter_world(game_event_type type, game_event_data *data,
 						  void *user)
 {
-	/* Permitir cursor grande */
+	/* Allow big cursor */
 	smlcurs = false;
 
-	/* Redibujar cosas */
+	/* Redraw stuff */
 	player->upkeep->redraw |= (PR_INVEN | PR_EQUIP | PR_MONSTER | PR_MESSAGE);
 	redraw_stuff(player);
 
-	/* Debido a la barra lateral "flexible", todas estas cosas activan
-	   la misma función. */
+	/* Because of the "flexible" sidebar, all these things trigger
+	   the same function. */
 	event_add_handler_set(player_events, N_ELEMENTS(player_events),
 			      update_sidebar, NULL);
 
-	/* La barra de estado flexible tiene requisitos similares, por lo que
-	   también es activada por un gran conjunto de eventos. */
+	/* The flexible statusbar has similar requirements, so is
+	   also trigger by a large set of events. */
 	event_add_handler_set(statusline_events, N_ELEMENTS(statusline_events),
 			      update_statusline, NULL);
 
-	/* Los PG del jugador pueden opcionalmente cambiar el color del '@' ahora. */
+	/* Player HP can optionally change the colour of the '@' now. */
 	event_add_handler(EVENT_HP, hp_colour_change, NULL);
 
-	/* La forma más simple de mantener el mapa actualizado - servirá por ahora */
+	/* Simplest way to keep the map up to date - will do for now */
 	event_add_handler(EVENT_MAP, update_maps, angband_term[0]);
 #ifdef MAP_DEBUG
 	event_add_handler(EVENT_MAP, trace_map_updates, angband_term[0]);
 #endif
 
-	/* Verificar si el panel debería desplazarse cuando el jugador se mueve */
+	/* Check if the panel should shift when the player's moved */
 	event_add_handler(EVENT_PLAYERMOVED, check_panel, NULL);
 
-	/* Tomar nota de lo que hay en el suelo */
+	/* Take note of what's on the floor */
 	event_add_handler(EVENT_SEEFLOOR, see_floor_items, NULL);
 
-	/* Entrar a una tienda */
+	/* Enter a store */
 	event_add_handler(EVENT_ENTER_STORE, enter_store, NULL);
 
-	/* Mostrar una explosión */
+	/* Display an explosion */
 	event_add_handler(EVENT_EXPLOSION, display_explosion, NULL);
 
-	/* Mostrar un hechizo de proyectil */
+	/* Display a bolt spell */
 	event_add_handler(EVENT_BOLT, display_bolt, NULL);
 
-	/* Mostrar un proyectil físico */
+	/* Display a physical missile */
 	event_add_handler(EVENT_MISSILE, display_missile, NULL);
 
-	/* Verificar si el jugador ha intentado cancelar el procesamiento del juego */
+	/* Check to see if the player has tried to cancel game processing */
 	event_add_handler(EVENT_CHECK_INTERRUPT, check_for_player_interrupt, NULL);
 
-	/* Refrescar la pantalla y colocar el cursor en el lugar apropiado */
+	/* Refresh the screen and put the cursor in the appropriate place */
 	event_add_handler(EVENT_REFRESH, refresh, NULL);
 
-	/* Hacer las actualizaciones visuales requeridas en un nuevo nivel de mazmorra */
+	/* Do the visual updates required on a new dungeon level */
 	event_add_handler(EVENT_NEW_LEVEL_DISPLAY, new_level_display_update, NULL);
 
-	/* Limpiar mensajes automáticamente mientras el juego repite comandos */
+	/* Automatically clear messages while the game is repeating commands */
 	event_add_handler(EVENT_COMMAND_REPEAT, repeated_command_display, NULL);
 
-	/* Hacer animaciones (ej. cambios de color de monstruos) */
+	/* Do animations (e.g. monster colour changes) */
 	event_add_handler(EVENT_ANIMATE, animate, NULL);
 
-	/* Permitir al jugador burlar a la muerte, si corresponde */
+	/* Allow the player to cheat death, if appropriate */
 	event_add_handler(EVENT_CHEAT_DEATH, cheat_death, NULL);
 
-	/* Disminuir la profundidad "icky" */
+	/* Decrease "icky" depth */
 	screen_save_depth--;
 }
 
 static void ui_leave_world(game_event_type type, game_event_data *data,
 						  void *user)
 {
-	/* Deshabilitar cursor grande */
+	/* Disallow big cursor */
 	smlcurs = true;
 
-	/* Debido a la barra lateral "flexible", todas estas cosas activaban
-	   la misma función. */
+	/* Because of the "flexible" sidebar, all these things trigger
+	   the same function. */
 	event_remove_handler_set(player_events, N_ELEMENTS(player_events),
 			      update_sidebar, NULL);
 
-	/* La barra de estado flexible tenía requisitos similares, por lo que
-	   también era activada por un gran conjunto de eventos. */
+	/* The flexible statusbar has similar requirements, so is
+	   also trigger by a large set of events. */
 	event_remove_handler_set(statusline_events, N_ELEMENTS(statusline_events),
 			      update_statusline, NULL);
 
-	/* Los PG del jugador podían opcionalmente cambiar el color del '@'. */
+	/* Player HP can optionally change the colour of the '@' now. */
 	event_remove_handler(EVENT_HP, hp_colour_change, NULL);
 
-	/* La forma más simple de mantener el mapa actualizado - servirá por ahora */
+	/* Simplest way to keep the map up to date - will do for now */
 	event_remove_handler(EVENT_MAP, update_maps, angband_term[0]);
 #ifdef MAP_DEBUG
 	event_remove_handler(EVENT_MAP, trace_map_updates, angband_term[0]);
 #endif
 
-	/* Verificar si el panel debería desplazarse cuando el jugador se mueve */
+	/* Check if the panel should shift when the player's moved */
 	event_remove_handler(EVENT_PLAYERMOVED, check_panel, NULL);
 
-	/* Tomar nota de lo que hay en el suelo */
+	/* Take note of what's on the floor */
 	event_remove_handler(EVENT_SEEFLOOR, see_floor_items, NULL);
 
-	/* Mostrar una explosión */
+	/* Display an explosion */
 	event_remove_handler(EVENT_EXPLOSION, display_explosion, NULL);
 
-	/* Mostrar un hechizo de proyectil */
+	/* Display a bolt spell */
 	event_remove_handler(EVENT_BOLT, display_bolt, NULL);
 
-	/* Mostrar un proyectil físico */
+	/* Display a physical missile */
 	event_remove_handler(EVENT_MISSILE, display_missile, NULL);
 
-	/* Verificar si el jugador ha intentado cancelar el procesamiento del juego */
+	/* Check to see if the player has tried to cancel game processing */
 	event_remove_handler(EVENT_CHECK_INTERRUPT, check_for_player_interrupt, NULL);
 
-	/* Refrescar la pantalla y colocar el cursor en el lugar apropiado */
+	/* Refresh the screen and put the cursor in the appropriate place */
 	event_remove_handler(EVENT_REFRESH, refresh, NULL);
 
-	/* Hacer las actualizaciones visuales requeridas en un nuevo nivel de mazmorra */
+	/* Do the visual updates required on a new dungeon level */
 	event_remove_handler(EVENT_NEW_LEVEL_DISPLAY, new_level_display_update, NULL);
 
-	/* Limpiar mensajes automáticamente mientras el juego repite comandos */
+	/* Automatically clear messages while the game is repeating commands */
 	event_remove_handler(EVENT_COMMAND_REPEAT, repeated_command_display, NULL);
 
-	/* Hacer animaciones (ej. cambios de color de monstruos) */
+	/* Do animations (e.g. monster colour changes) */
 	event_remove_handler(EVENT_ANIMATE, animate, NULL);
 
-	/* Permitir al jugador burlar a la muerte, si corresponde */
+	/* Allow the player to cheat death, if appropriate */
 	event_remove_handler(EVENT_CHEAT_DEATH, cheat_death, NULL);
 
-	/* Prepararse para interactuar con una tienda */
+	/* Prepare to interact with a store */
 	event_add_handler(EVENT_USE_STORE, use_store, NULL);
 
-	/* Si hemos entrado en una tienda, necesitamos saber cómo salir */
+	/* If we've gone into a store, we need to know how to leave */
 	event_add_handler(EVENT_LEAVE_STORE, leave_store, NULL);
 
-	/* Aumentar la profundidad "icky" */
+	/* Increase "icky" depth */
 	screen_save_depth++;
 }
 
 static void ui_enter_game(game_event_type type, game_event_data *data,
 						  void *user)
 {
-	/* Mostrar un mensaje al jugador */
+	/* Display a message to the player */
 	event_add_handler(EVENT_MESSAGE, display_message, NULL);
 
-	/* Mostrar un mensaje y hacer ruido al jugador */
+	/* Display a message and make a noise to the player */
 	event_add_handler(EVENT_BELL, bell_message, NULL);
 
-	/* Decir a la UI que ignore toda la entrada pendiente */
+	/* Tell the UI to ignore all pending input */
 	event_add_handler(EVENT_INPUT_FLUSH, flush, NULL);
 
-	/* Imprimir todos los mensajes en espera */
+	/* Print all waiting messages */
 	event_add_handler(EVENT_MESSAGE_FLUSH, message_flush, NULL);
 }
 
 static void ui_leave_game(game_event_type type, game_event_data *data,
 						  void *user)
 {
-	/* Mostrar un mensaje al jugador */
+	/* Display a message to the player */
 	event_remove_handler(EVENT_MESSAGE, display_message, NULL);
 
-	/* Mostrar un mensaje y hacer ruido al jugador */
+	/* Display a message and make a noise to the player */
 	event_remove_handler(EVENT_BELL, bell_message, NULL);
 
-	/* Decir a la UI que ignore toda la entrada pendiente */
+	/* Tell the UI to ignore all pending input */
 	event_remove_handler(EVENT_INPUT_FLUSH, flush, NULL);
 
-	/* Imprimir todos los mensajes en espera */
+	/* Print all waiting messages */
 	event_remove_handler(EVENT_MESSAGE_FLUSH, message_flush, NULL);
 }
 
