@@ -52,7 +52,7 @@ void lore_title(textblock *tb, const struct monster_race *race)
 
 	/* A title (use "The" for non-uniques) */
 	if (!rf_has(race->flags, RF_UNIQUE))
-		textblock_append(tb, "The ");
+		textblock_append(tb, "Criatura "); //fix traduc: revisar donde se ve en pantalla
 	else if (OPT(player, purple_uniques)) {
 		standard_attr = COLOUR_VIOLET;
 		if (!(optional_attr & 0x80))
