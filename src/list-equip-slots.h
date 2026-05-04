@@ -1,17 +1,17 @@
 /**
  * \file list-equip-slots.h
- * \brief tipos de ranura para el equipo
+ * \brief types of slot for equipment
  *
- * Campos:
- * slot - El nombre índice de la ranura
- * acid_v - si el equipo en la ranura necesita comprobación de daño por ácido
- * name - si se menciona el nombre real del objeto cuando le suceden cosas
- * mention - descripción para cuando se menciona la ranura brevemente
- * heavy describe - descripción para cuando el objeto de la ranura es demasiado pesado
- * describe - descripción para cuando la ranura se describe extensamente
+ * Fields:
+ * slot - The index name of the slot
+ * acid_v - whether equipment in the slot needs checking for acid damage
+ * name - whether the actual item name is mentioned when things happen to it
+ * mention - description for when the slot is mentioned briefly
+ * heavy describe - description for when the slot item is too heavy
+ * describe - description for when the slot is described at length
  */
-/* ranura			acid_v	nombre	mencion				desc_pesado		descripcion */
-EQUIP(NONE,			false,	false,	"",					"",				"")
+/* slot				acid_v	name	mention			heavy decribe	describe */
+EQUIP(NONE,			false,	false,	"",				"",				"")
 EQUIP(WEAPON,		false,	false,	"Empuñado",		"solo levantando",	"atacar monstruos con")
 EQUIP(BOW,			false,	false,	"A distancia",		"solo sujetando",	"disparar proyectiles con")
 EQUIP(RING,			false,	true,	"En %s",			"",				"llevar puesto en tu %s")

@@ -1,6 +1,6 @@
 /**
- * \archivo effect-handler-general.c
- * \brief Funciones manejadoras para efectos generales
+ * \file effect-handler-general.c
+ * \brief Handler functions for general effects
  *
  * Copyright (c) 2007 Andi Sidwell
  * Copyright (c) 2016 Ben Semmler, Nick McConnell
@@ -51,7 +51,7 @@
 
 
 /**
- * Establece el valor para una cadena de efectos
+ * Set value for a chain of effects
  */
 static int set_value = 0;
 
@@ -69,7 +69,7 @@ int effect_calculate_value(effect_handler_context_t *context, bool use_boost)
 			damroll(context->value.dice, context->value.sides);
 	}
 
-	/* Aumento por dispositivo */
+	/* Device boost */
 	if (use_boost) {
 		final *= (100 + context->boost);
 		final /= 100;
@@ -79,7 +79,7 @@ int effect_calculate_value(effect_handler_context_t *context, bool use_boost)
 }
 
 /**
- * Adjetivos de estadísticas
+ * Stat adjectives
  */
 static const char *desc_stat(int stat, bool positive)
 {
@@ -91,7 +91,7 @@ static const char *desc_stat(int stat, bool positive)
 }
 
 /**
- * Comprueba si un monstruo está apuntando a otro monstruo
+ * Check for monster targeting another monster
  */
 struct monster *monster_target_monster(effect_handler_context_t *context)
 {
@@ -108,25 +108,25 @@ struct monster *monster_target_monster(effect_handler_context_t *context)
 }
 
 /**
- * Comprueba si una cuadrícula es suficiente para usarla como destino de teletransporte.
+ * Check that a grid is sufficient for use as teleport destination.
  *
- * \param c es el chunk a examinar.
- * \param grid es la cuadrícula a probar.
- * \param is_player_moving es verdadero si un jugador está siendo teletransportado;
- * es falso si un monstruo está siendo teletransportado.
- * \return verdadero si la cuadrícula especificada es suficiente para usarla como destino
- * de teletransporte; de lo contrario, devuelve falso
+ * \param c is the chunk to examine.
+ * \param grid is the grid to test.
+ * \param is_player_moving is true if a player is being teleported; it is
+ * false if a monster is being teleported.
+ * \return true if the specified grid is sufficient for use as a telepoort
+ * destination; otherwise, return false
  *
- * En 4.2.4, los requisitos suficientes eran una cuadrícula de suelo sin jugadores
- * ni monstruos, sin trampas de jugador, sin telarañas y sin objetos. Después de 4.2.4,
- * los requisitos son:
- *     1) transitable pero no dañino ni que active automáticamente una transición
- *         a un nivel o entorno diferente (es decir, una tienda)
- *     2) no tiene ya un jugador o monstruo
- *     3) no tiene telarañas
- *     4) si se mueve un jugador, no tiene trampas de jugador
- *     5) si se mueve un monstruo, no tiene un glifo de protección
- * Hay algo de discusión aquí,
+ * In 4.2.4, the sufficient requirements were a floor grid with no players
+ * or monsters, no player traps, no webs, and no objects.  Post 4.2.4,
+ * the requirements are:
+ *     1) passable but not damaging nor automatically triggers a transition
+ *         to a different level or environment (i.e. a shop)
+ *     2) does not already have a player or monster
+ *     3) does not have webs
+ *     3) if a player is moving, it does not have player traps
+ *     4) if a monster is moving, it does not have a glyph of warding
+ * There's some discussion here,
  * https://angband.live/forums/forum/angband/vanilla/10323-the-evil-eye-commands-you-to-return-or-not .
  */
 static bool has_teleport_destination_prereqs(struct chunk *c, struct loc grid,
@@ -157,7 +157,7 @@ static bool has_teleport_destination_prereqs(struct chunk *c, struct loc grid,
 }
 
 /**
- * Selecciona objetos que tienen al menos una maldición removible.
+ * Selects items that have at least one removable curse.
  */
 static bool item_tester_uncursable(const struct object *obj)
 {
@@ -174,7 +174,7 @@ static bool item_tester_uncursable(const struct object *obj)
 }
 
 /**
- * Intenta eliminar una maldición de un objeto.
+ * Attempts to remove a curse from an object.
  */
 static bool uncurse_object(struct object *obj, int strength, char *dice_string)
 {
@@ -187,22 +187,22 @@ static bool uncurse_object(struct object *obj, int strength, char *dice_string)
 		char o_name[80];
 
 		if (curse.power >= 100) {
-			/* La maldición es permanente */
+			/* Curse is permanent */
 			return false;
 		} else if (strength >= curse.power) {
-			/* Se eliminó esta maldición con éxito */
+			/* Successfully removed this curse */
 			remove_object_curse(obj->known, index, false);
 			remove_object_curse(obj, index, true);
 			new_weight = obj->number * object_weight_one(obj);
 		} else if (!of_has(obj->flags, OF_FRAGILE)) {
-			/* Fallo al eliminar, el objeto ahora es frágil */
+			/* Failure to remove, object is now fragile */
 			object_desc(o_name, sizeof(o_name), obj, ODESC_FULL,
 				player);
 			msgt(MSG_CURSED, "El hechizo falla; tu %s ahora es frágil.", o_name);
 			of_on(obj->flags, OF_FRAGILE);
 			player_learn_flag(player, OF_FRAGILE);
 		} else if (one_in_(4)) {
-			/* Falla - el objeto frágil desafortunado es destruido */
+			/* Failure - unlucky fragile object is destroyed */
 			struct object *destroyed;
 			bool none_left = false;
 			int dam = damroll(5, 5);
@@ -218,7 +218,7 @@ static bool uncurse_object(struct object *obj, int strength, char *dice_string)
 				destroyed = gear_object_for_use(player, obj,
 					1, false, &none_left);
 				if (destroyed->artifact) {
-					/* Los artefactos se marcan como perdidos */
+					/* Artifacts are marked as lost */
 					history_lose_artifact(player, destroyed->artifact);
 				}
 				object_delete(player->cave, NULL, &destroyed->known);
@@ -228,7 +228,7 @@ static bool uncurse_object(struct object *obj, int strength, char *dice_string)
 			}
 			take_hit(player, dam, "Fallo al eliminar maldición");
 		} else {
-			/* Falla no destructiva */
+			/* Non-destructive failure */
 			msg("La eliminación falla.");
 		}
 	} else {
@@ -242,7 +242,7 @@ static bool uncurse_object(struct object *obj, int strength, char *dice_string)
 }
 
 /**
- * Selecciona objetos que tienen al menos una runa desconocida.
+ * Selects items that have at least one unknown rune.
  */
 static bool item_tester_unknown(const struct object *obj)
 {
@@ -250,7 +250,7 @@ static bool item_tester_unknown(const struct object *obj)
 }
 
 /**
- * Utilizado por la función enchant() (probabilidad de fallo)
+ * Used by the enchant() function (chance of failure)
  */
 static const int enchant_table[16] =
 {
@@ -261,35 +261,35 @@ static const int enchant_table[16] =
 };
 
 /**
- * Intenta aumentar la puntuación de bonificación de un objeto, si es posible.
+ * Tries to increase an items bonus score, if possible.
  *
- * \returns verdadero si la bonificación aumentó
+ * \returns true if the bonus was increased
  */
 static bool enchant_score(int16_t *score, bool is_artifact)
 {
 	int chance;
 
-	/* Los artefactos resisten el encantamiento la mitad de las veces */
+	/* Artifacts resist enchantment half the time */
 	if (is_artifact && randint0(100) < 50) return false;
 
-	/* Calcular la probabilidad de encantar */
+	/* Figure out the chance to enchant */
 	if (*score < 0) chance = 0;
 	else if (*score > 15) chance = 1000;
 	else chance = enchant_table[*score];
 
-	/* Si tiramos menor o igual que la probabilidad, falla */
+	/* If we roll less-than-or-equal to chance, it fails */
 	if (randint1(1000) <= chance) return false;
 
-	/* Incrementar la puntuación */
+	/* Increment the score */
 	++*score;
 
 	return true;
 }
 
 /**
- * Función auxiliar para enchant() que intenta aumentar las bonificaciones de un objeto
+ * Helper function for enchant() which tries increasing an item's bonuses
  *
- * \returns verdadero si se aumentó una bonificación
+ * \returns true if a bonus was increased
  */
 static bool enchant2(struct object *obj, int16_t *score)
 {
@@ -300,75 +300,75 @@ static bool enchant2(struct object *obj, int16_t *score)
 }
 
 /**
- * Encantar un objeto
+ * Enchant an item
  *
- * ¡Revisado! Ahora toma un puntero al objeto, número de veces para intentar encantar, y una
- * bandera de qué intentar encantar. Los artefactos resisten el encantamiento algunas
- * veces. Además, cualquier intento de encantamiento (incluso si falla) inicia un intento
- * paralelo de eliminar la maldición de un objeto maldito.
+ * Revamped!  Now takes item pointer, number of times to try enchanting, and a
+ * flag of what to try enchanting.  Artifacts resist enchantment some of the
+ * time. Also, any enchantment attempt (even unsuccessful) kicks off a parallel
+ * attempt to uncurse a cursed item.
  *
- * Ten en cuenta que un objeto técnicamente puede ser encantado hasta +15 si esperas
- * mucho, mucho tiempo. Pasar de +9 a +10 funciona solo alrededor del 5% de las veces,
- * y de +10 a +11 solo alrededor del 1% de las veces.
+ * Note that an item can technically be enchanted all the way to +15 if you
+ * wait a very, very, long time.  Going from +9 to +10 only works about 5% of
+ * the time, and from +10 to +11 only about 1% of the time.
  *
- * Ten en cuenta que esta función ahora se puede usar en "montones" de objetos, y cuanto
- * más grande es el montón, menor es la probabilidad de éxito.
+ * Note that this function can now be used on "piles" of items, and the larger
+ * the pile, the lower the chance of success.
  *
- * \returns verdadero si el objeto fue modificado de alguna manera
+ * \returns true if the item was changed in some way
  */
 static bool enchant(struct object *obj, int n, int eflag)
 {
 	int i, prob;
 	bool res = false;
 
-	/* Los montones grandes resisten el encantamiento */
+	/* Large piles resist enchantment */
 	prob = obj->number * 100;
 
-	/* Los proyectiles son fáciles de encantar */
+	/* Missiles are easy to enchant */
 	if (tval_is_ammo(obj)) prob = prob / 20;
 
-	/* Intentar "n" veces */
+	/* Try "n" times */
 	for (i = 0; i < n; i++)
 	{
-		/* Tirada para resistencia del montón */
+		/* Roll for pile resistance */
 		if (prob > 100 && randint0(prob) >= 100) continue;
 
-		/* Intentar los tres tipos de encantamiento que podemos hacer */
+		/* Try the three kinds of enchantment we can do */
 		if ((eflag & ENCH_TOHIT) && enchant2(obj, &obj->to_h)) res = true;
 		if ((eflag & ENCH_TODAM) && enchant2(obj, &obj->to_d)) res = true;
 		if ((eflag & ENCH_TOAC)  && enchant2(obj, &obj->to_a)) res = true;
 	}
 
-	/* Actualizar conocimiento */
+	/* Update knowledge */
 	assert(obj->known);
 	obj->known->to_h = obj->to_h;
 	obj->known->to_d = obj->to_d;
 	obj->known->to_a = obj->to_a;
 
-	/* Falla */
+	/* Failure */
 	if (!res) return (false);
 
-	/* Recalcular bonificaciones, equipo */
+	/* Recalculate bonuses, gear */
 	player->upkeep->update |= (PU_BONUS | PU_INVEN);
 
-	/* Combinar la mochila (más tarde) */
+	/* Combine the pack (later) */
 	player->upkeep->notice |= (PN_COMBINE);
 
-	/* Redibujar cosas */
+	/* Redraw stuff */
 	player->upkeep->redraw |= (PR_INVEN | PR_EQUIP );
 
-	/* Éxito */
+	/* Success */
 	return (true);
 }
 
 /**
- * Encantar un objeto (en el inventario o en el suelo)
- * Ten en cuenta que "num_ac" requiere armadura, de lo contrario arma
- * Devuelve verdadero si se intentó, falso si se canceló
+ * Enchant an item (in the inventory or on the floor)
+ * Note that "num_ac" requires armour, else weapon
+ * Returns true if attempted, false if cancelled
  *
- * Encantar con la bandera TOBOTH intentará encantar
- * tanto to_hit como to_dam con la misma bandera. Esto
- * puede no ser el comportamiento más deseable (ACB).
+ * Enchanting with the TOBOTH flag will try to enchant
+ * both to_hit and to_dam with the same flag.  This
+ * may not be the most desirable behavior (ACB).
  */
 static bool enchant_spell(int num_hit, int num_dam, int num_ac, struct command *cmd)
 {
@@ -382,7 +382,7 @@ static bool enchant_spell(int num_hit, int num_dam, int num_ac, struct command *
 	int itemmode = (USE_EQUIP | USE_INVEN | USE_QUIVER | USE_FLOOR);
 	item_tester filter = num_ac ? tval_is_armor : tval_is_weapon;
 
-	/* Obtener un objeto */
+	/* Get an item */
 	q = "¿Encantar qué objeto? ";
 	s = "No tienes nada para encantar.";
 	if (cmd) {
@@ -393,36 +393,36 @@ static bool enchant_spell(int num_hit, int num_dam, int num_ac, struct command *
 	} else if (!get_item(&obj, q, s, 0, filter, itemmode))
 		return false;
 
-	/* Descripción */
+	/* Description */
 	object_desc(o_name, sizeof(o_name), obj, ODESC_BASE, player);
 
-	/* Describir */
+	/* Describe */
 	msg("%s %s brilla%s intensamente!",
 		(object_is_carried(player, obj) ? "Tu" : "El"), o_name,
 			   ((obj->number > 1) ? "n" : ""));
 
-	/* Encantar */
+	/* Enchant */
 	if (num_dam && enchant(obj, num_hit, ENCH_TOBOTH)) okay = true;
 	else if (enchant(obj, num_hit, ENCH_TOHIT)) okay = true;
 	else if (enchant(obj, num_dam, ENCH_TODAM)) okay = true;
 	if (enchant(obj, num_ac, ENCH_TOAC)) okay = true;
 
-	/* Falla */
+	/* Failure */
 	if (!okay) {
 		event_signal(EVENT_INPUT_FLUSH);
 
-		/* Mensaje */
+		/* Message */
 		msg("El encantamiento falló.");
 	}
 
-	/* Algo sucedió */
+	/* Something happened */
 	return (true);
 }
 
 /**
- * Marcar armas (o munición)
+ * Brand weapons (or ammo)
  *
- * Convierte el objeto (no mágico) en un objeto-ego de 'brand_type'.
+ * Turns the (non-magical) object into an ego-item of 'brand_type'.
  */
 static void brand_object(struct object *obj, const char *name)
 {
@@ -430,7 +430,7 @@ static void brand_object(struct object *obj, const char *name)
 	struct ego_item *ego;
 	bool ok = false;
 
-	/* Nunca puedes modificar artefactos, objetos ego u objetos sin valor */
+	/* You can never modify artifacts, ego items or worthless items */
 	if (obj && obj->kind->cost && !obj->artifact && !obj->ego) {
 		char o_name[80];
 		char brand[20];
@@ -443,11 +443,11 @@ static void brand_object(struct object *obj, const char *name)
 			(obj->number > 1) ? "están" : "está",
 			(obj->number > 1) ? "s" : "", name);
 
-		/* Obtener el tipo ego correcto para el objeto */
+		/* Get the right ego type for the object */
 		for (i = 0; i < z_info->e_max; i++) {
 			ego = &e_info[i];
 
-			/* Coincidir con el nombre */
+			/* Match the name */
 			if (!ego->name) continue;
 			if (streq(ego->name, brand)) {
 				struct poss_item *poss;
@@ -460,21 +460,21 @@ static void brand_object(struct object *obj, const char *name)
 
 		assert(ok);
 
-		/* Convertirlo en un objeto ego */
+		/* Make it an ego item */
 		obj->ego = &e_info[i];
 		ego_apply_magic(obj, 0);
 		player_know_object(player, obj);
 
-		/* Actualizar el equipo */
+		/* Update the gear */
 		player->upkeep->update |= (PU_INVEN);
 
-		/* Combinar la mochila (más tarde) */
+		/* Combine the pack (later) */
 		player->upkeep->notice |= (PN_COMBINE);
 
-		/* Cosas de ventana */
+		/* Window stuff */
 		player->upkeep->redraw |= (PR_INVEN | PR_EQUIP);
 
-		/* Encantar */
+		/* Enchant */
 		enchant(obj, randint0(3) + 4, ENCH_TOHIT | ENCH_TODAM);
 	} else {
 		event_signal(EVENT_INPUT_FLUSH);
@@ -484,11 +484,11 @@ static void brand_object(struct object *obj, const char *name)
 
 /**
  * ------------------------------------------------------------------------
- * Manejadores de efectos
+ * Effect handlers
  * ------------------------------------------------------------------------ */
 /**
- * Efecto ficticio, para indicar al código de efectos que elija uno de los
- * siguientes efectos context->value.base al azar.
+ * Dummy effect, to tell the effect code to pick one of the next
+ * context->value.base effects at random.
  */
 bool effect_handler_RANDOM(effect_handler_context_t *context)
 {
@@ -496,23 +496,23 @@ bool effect_handler_RANDOM(effect_handler_context_t *context)
 }
 
 /**
- * Alimentar al jugador, o establecer su nivel de saciedad.
+ * Feed the player, or set their satiety level.
  */
 bool effect_handler_NOURISH(effect_handler_context_t *context)
 {
 	int amount = effect_calculate_value(context, false);
 	amount *= z_info->food_value;
 	if (context->subtype == 0) {
-		/* Aumentar el nivel de comida en amount */
+		/* Increase food level by amount */
 		player_inc_timed(player, TMD_FOOD, MAX(amount, 0), false,
 			context->origin.what != SRC_PLAYER || !context->aware,
 			false);
 	} else if (context->subtype == 1) {
-		/* Disminuir el nivel de comida en amount */
+		/* Decrease food level by amount */
 		player_dec_timed(player, TMD_FOOD, MAX(amount, 0), false,
 			context->origin.what != SRC_PLAYER || !context->aware);
 	} else if (context->subtype == 2) {
-		/* Establecer el nivel de comida a amount, vomitando si es necesario */
+		/* Set food level to amount, vomiting if necessary */
 		bool message = player->timed[TMD_FOOD] > amount;
 		if (message) {
 			msg("¡Vomitas!");
@@ -520,7 +520,7 @@ bool effect_handler_NOURISH(effect_handler_context_t *context)
 		player_set_timed(player, TMD_FOOD, MAX(amount, 0), false,
 			context->origin.what != SRC_PLAYER || !context->aware);
 	} else if (context->subtype == 3) {
-		/* Aumentar el nivel de comida a amount si es necesario */
+		/* Increase food level to amount if needed */
 		if (player->timed[TMD_FOOD] < amount) {
 			player_set_timed(player, TMD_FOOD, MAX(amount + 1, 0),
 				false, context->origin.what != SRC_PLAYER
@@ -544,7 +544,7 @@ bool effect_handler_CRUNCH(effect_handler_context_t *context)
 }
 
 /**
- * Curar una condición de estado del jugador.
+ * Cure a player status condition.
  */
 bool effect_handler_CURE(effect_handler_context_t *context)
 {
@@ -556,7 +556,7 @@ bool effect_handler_CURE(effect_handler_context_t *context)
 }
 
 /**
- * Establecer una condición de estado (positiva o negativa) del jugador.
+ * Set a (positive or negative) player status condition.
  */
 bool effect_handler_TIMED_SET(effect_handler_context_t *context)
 {
@@ -569,9 +569,9 @@ bool effect_handler_TIMED_SET(effect_handler_context_t *context)
 }
 
 /**
- * Extender una condición de estado (positiva o negativa) del jugador.
- * Si context->other está establecido, aumentar en esa cantidad si el jugador ya
- * tiene el estado
+ * Extend a (positive or negative) player status condition.
+ * If context->other is set, increase by that amount if the player already
+ * has the status
  */
 bool effect_handler_TIMED_INC(effect_handler_context_t *context)
 {
@@ -581,17 +581,17 @@ bool effect_handler_TIMED_INC(effect_handler_context_t *context)
 
 	context->ident = true;
 
-	/* Destruir señuelo si es un ataque de monstruo */
+	/* Destroy decoy if it's a monster attack */
 	if (cave->mon_current > 0 && decoy.y && decoy.x) {
 		square_destroy_decoy(cave, decoy);
 		return true;
 	}
 
-	/* Comprobar si un monstruo apunta a otro monstruo */
+	/* Check for monster targeting another monster */
 	if (t_mon) {
 		int mon_tmd_effect = -1;
 
-		/* Funcionará hasta que se fusionen los efectos temporizados de monstruos y jugadores */
+		/* Will do until monster and player timed effects are fused */
 		switch (context->subtype) {
 			case TMD_CONFUSED: {
 				mon_tmd_effect = MON_TMD_CONF;
@@ -640,9 +640,9 @@ bool effect_handler_TIMED_INC(effect_handler_context_t *context)
 }
 
 /**
- * Extender una condición de estado (positiva o negativa) del jugador sin resistencia.
- * Si context->other está establecido, aumentar en esa cantidad si el jugador ya
- * tiene el estado
+ * Extend a (positive or negative) player status condition unresistably.
+ * If context->other is set, increase by that amount if the player already
+ * has the status
  */
 bool effect_handler_TIMED_INC_NO_RES(effect_handler_context_t *context)
 {
@@ -662,7 +662,7 @@ bool effect_handler_TIMED_INC_NO_RES(effect_handler_context_t *context)
 }
 
 /**
- * Extender una condición de estado (positiva o negativa) de un monstruo.
+ * Extend a (positive or negative) monster status condition.
  */
 bool effect_handler_MON_TIMED_INC(effect_handler_context_t *context)
 {
@@ -680,8 +680,8 @@ bool effect_handler_MON_TIMED_INC(effect_handler_context_t *context)
 }
 
 /**
- * Reducir una condición de estado (positiva o negativa) del jugador.
- * Si context->other está establecido, disminuir por el valor actual / context->other
+ * Reduce a (positive or negative) player status condition.
+ * If context->other is set, decrease by the current value / context->other
  */
 bool effect_handler_TIMED_DEC(effect_handler_context_t *context)
 {
@@ -695,39 +695,39 @@ bool effect_handler_TIMED_DEC(effect_handler_context_t *context)
 }
 
 /**
- * Crear un glifo.
+ * Create a glyph.
  */
 bool effect_handler_GLYPH(effect_handler_context_t *context)
 {
 	struct loc decoy = cave_find_decoy(cave);
 
-	/* Siempre notar */
+	/* Always notice */
 	context->ident = true;
 
-	/* Solo un señuelo a la vez */
+	/* Only one decoy at a time */
 	if (!loc_is_zero(decoy) && (context->subtype == GLYPH_DECOY)) {
 		msg("Solo puedes desplegar un señuelo a la vez.");
 		return false;
 	}
 
-	/* Ver si el efecto funciona */
+	/* See if the effect works */
 	if (!square_istrappable(cave, player->grid)) {
 		msg("No hay suelo despejado para lanzar el hechizo.");
 		return false;
 	}
 
-	/* Empujar objetos fuera de la cuadrícula */
+	/* Push objects off the grid */
 	if (square_object(cave, player->grid))
 		push_object(player->grid);
 
-	/* Crear un glifo */
+	/* Create a glyph */
 	square_add_glyph(cave, player->grid, context->subtype);
 
 	return true;
 }
 
 /**
- * Crear una telaraña.
+ * Create a web.
  */
 bool effect_handler_WEB(effect_handler_context_t *context)
 {
@@ -735,31 +735,31 @@ bool effect_handler_WEB(effect_handler_context_t *context)
 	struct monster *mon = NULL;
 	struct loc grid;
 
-	/* Obtener el monstruo creador */
+	/* Get the monster creating */
 	if (cave->mon_current > 0) {
 		mon = cave_monster(cave, cave->mon_current);
 	} else {
-		/* El jugador no puede crear telarañas actualmente */
+		/* Player can't currently create webs */
 		return false;
 	}
 
-	/* Siempre notar */
+	/* Always notice */
 	context->ident = true;
 
-	/* Aumentar el radio para mayor poder de hechizo */
+	/* Increase the radius for higher spell power */
 	if (mon->race->spell_power > 40) rad++;
 	if (mon->race->spell_power > 80) rad++;
 
-	/* Comprobar dentro del radio si hay suelo despejado */
+	/* Check within the radius for clear floor */
 	for (grid.y = mon->grid.y - rad; grid.y <= mon->grid.y + rad; grid.y++) {
 		for (grid.x = mon->grid.x - rad; grid.x <= mon->grid.x + rad; grid.x++){
 			if (distance(grid, mon->grid) > rad ||
 				!square_in_bounds_fully(cave, grid)) continue;
 
-			/* Requiere una cuadrícula de suelo sin trampas ni glifos existentes */
+			/* Require a floor grid with no existing traps or glyphs */
 			if (!square_iswebbable(cave, grid)) continue;
 
-			/* Crear una telaraña */
+			/* Create a web */
 			square_add_web(cave, grid);
 		}
 	}
@@ -768,7 +768,7 @@ bool effect_handler_WEB(effect_handler_context_t *context)
 }
 
 /**
- * Restaurar una estadística; el índice de estadística es context->subtype
+ * Restore a stat; the stat index is context->subtype
  */
 bool effect_handler_RESTORE_STAT(effect_handler_context_t *context)
 {
@@ -777,63 +777,63 @@ bool effect_handler_RESTORE_STAT(effect_handler_context_t *context)
 	/* ID */
 	context->ident = true;
 
-	/* Comprobar límites */
+	/* Check bounds */
 	if (stat < 0 || stat >= STAT_MAX) return false;
 
-	/* No es necesario */
+	/* Not needed */
 	if (player->stat_cur[stat] == player->stat_max[stat])
 		return true;
 
-	/* Restaurar */
+	/* Restore */
 	player->stat_cur[stat] = player->stat_max[stat];
 
-	/* Recalcular bonificaciones */
+	/* Recalculate bonuses */
 	player->upkeep->update |= (PU_BONUS);
 	update_stuff(player);
 
-	/* Mensaje */
+	/* Message */
 	msg("Te sientes menos %s.", desc_stat(stat, false));
 
 	return (true);
 }
 
 /**
- * Drenar una estadística temporalmente. El índice de estadística es context->subtype.
+ * Drain a stat temporarily.  The stat index is context->subtype.
  */
 bool effect_handler_DRAIN_STAT(effect_handler_context_t *context)
 {
 	int stat = context->subtype;
 	int flag = sustain_flag(stat);
 
-	/* Comprobar límites */
+	/* Bounds check */
 	if (flag < 0) return false;
 
 	/* ID */
 	context->ident = true;
 
-	/* Sostener */
+	/* Sustain */
 	if (player_of_has(player, flag)) {
-		/* Notificar efecto */
+		/* Notice effect */
 		equip_learn_flag(player, flag);
 
-		/* Mensaje */
+		/* Message */
 		msg("Te sientes muy %s por un momento, pero la sensación pasa.",
 				   desc_stat(stat, false));
 
 		return (true);
 	}
 
-	/* Intentar reducir la estadística */
+	/* Attempt to reduce the stat */
 	if (player_stat_dec(player, stat, false)){
 		int dam = effect_calculate_value(context, false);
 		char dam_text[32] = "";
 
 		dam = player_apply_damage_reduction(player, dam);
 
-		/* Notificar efecto */
+		/* Notice effect */
 		equip_learn_flag(player, flag);
 
-		/* Mensaje */
+		/* Message */
 		if (dam > 0 && OPT(player, show_damage)) {
 			strnfmt(dam_text, sizeof(dam_text), " (%d)", dam);
 		}
@@ -846,18 +846,18 @@ bool effect_handler_DRAIN_STAT(effect_handler_context_t *context)
 }
 
 /**
- * Perder un punto de estadística permanentemente, en una estadística diferente a la
- * especificada en context->subtype.
+ * Lose a stat point permanently, in a stat other than the one specified
+ * in context->subtype.
  */
 bool effect_handler_LOSE_RANDOM_STAT(effect_handler_context_t *context)
 {
 	int safe_stat = context->subtype;
 	int loss_stat = randint1(STAT_MAX - 1);
 
-	/* Evitar la estadística segura */
+	/* Avoid the safe stat */
 	loss_stat = (loss_stat + safe_stat) % STAT_MAX;
 
-	/* Intentar reducir la estadística */
+	/* Attempt to reduce the stat */
 	if (player_stat_dec(player, loss_stat, true)) {
 		msgt(MSG_DRAIN_STAT, "Te sientes muy %s.", desc_stat(loss_stat, false));
 	}
@@ -870,46 +870,46 @@ bool effect_handler_LOSE_RANDOM_STAT(effect_handler_context_t *context)
 
 
 /**
- * Ganar un punto de estadística. El índice de estadística es context->subtype.
+ * Gain a stat point.  The stat index is context->subtype.
  */
 bool effect_handler_GAIN_STAT(effect_handler_context_t *context)
 {
 	int stat = context->subtype;
 
-	/* Intentar aumentar */
+	/* Attempt to increase */
 	if (player_stat_inc(player, stat)) {
 		msg("¡Te sientes muy %s!", desc_stat(stat, true));
 	}
 
-	/* Notificar */
+	/* Notice */
 	context->ident = true;
 
 	return (true);
 }
 
 /**
- * Restaura cualquier experiencia drenada
+ * Restores any drained experience
  */
 bool effect_handler_RESTORE_EXP(effect_handler_context_t *context)
 {
-	/* Restaurar experiencia */
+	/* Restore experience */
 	if (player->exp < player->max_exp) {
-		/* Mensaje */
+		/* Message */
 		if (context->origin.what != SRC_NONE)
 			msg("Sientes que tus energías vitales regresan.");
 		player_exp_gain(player, player->max_exp - player->exp);
 
-		/* Recalcular puntos de golpe máximos */
+		/* Recalculate max. hitpoints */
 		update_stuff(player);
 	}
 
-	/* Algo sucedió */
+	/* Did something */
 	context->ident = true;
 
 	return (true);
 }
 
-/* Notar el divisor de 2, un pequeño truco para simplificar la descripción de comida */
+/* Note the divisor of 2, a slight hack to simplify food description */
 bool effect_handler_GAIN_EXP(effect_handler_context_t *context)
 {
 	int amount = effect_calculate_value(context, false);
@@ -923,7 +923,7 @@ bool effect_handler_GAIN_EXP(effect_handler_context_t *context)
 }
 
 /**
- * Drenar algo de luz de la fuente de luz del jugador, si es posible
+ * Drain some light from the player's light source, if possible
  */
 bool effect_handler_DRAIN_LIGHT(effect_handler_context_t *context)
 {
@@ -933,17 +933,17 @@ bool effect_handler_DRAIN_LIGHT(effect_handler_context_t *context)
 	struct object *obj = slot_object(player, light_slot);
 
 	if (obj && !of_has(obj->flags, OF_NO_FUEL) && (obj->timeout > 0)) {
-		/* Reducir combustible */
+		/* Reduce fuel */
 		obj->timeout -= drain;
 		if (obj->timeout < 1) obj->timeout = 1;
 
-		/* Notificar */
+		/* Notice */
 		if (!player->timed[TMD_BLIND]) {
 			msg("Tu luz se atenúa.");
 			context->ident = true;
 		}
 
-		/* Redibujar cosas */
+		/* Redraw stuff */
 		player->upkeep->redraw |= (PR_EQUIP);
 	}
 
@@ -951,7 +951,7 @@ bool effect_handler_DRAIN_LIGHT(effect_handler_context_t *context)
 }
 
 /**
- * Drenar mana del jugador, sanando al lanzador.
+ * Drain mana from the player, healing the caster.
  */
 bool effect_handler_DRAIN_MANA(effect_handler_context_t *context)
 {
@@ -969,23 +969,23 @@ bool effect_handler_DRAIN_MANA(effect_handler_context_t *context)
 
 		mon = cave_monster(cave, context->origin.which.monster);
 
-		/* Obtener el nombre del monstruo (o "eso") */
+		/* Get the monster name (or "it") */
 		monster_desc(m_name, sizeof(m_name), mon, MDESC_STANDARD);
 	}
 
-	/* El objetivo es otro monstruo - desencantarlo */
+	/* Target is another monster - disenchant it */
 	if (t_mon) {
 		mon_inc_timed(t_mon, MON_TMD_DISEN, MAX(drain, 0), 0);
 		return true;
 	}
 
-	/* El objetivo era un señuelo - destruirlo */
+	/* Target was a decoy - destroy it */
 	if (decoy.y && decoy.x) {
 		square_destroy_decoy(cave, decoy);
 		return true;
 	}
 
-	/* El jugador no tiene mana */
+	/* The player has no mana */
 	if (!player->csp) {
 		msg("El drenaje falla.");
 		if (monster) {
@@ -994,7 +994,7 @@ bool effect_handler_DRAIN_MANA(effect_handler_context_t *context)
 		return true;
 	}
 
-	/* Drenar la cantidad dada si el jugador tiene esa cantidad, o todo */
+	/* Drain the given amount if the player has that much, or all of it */
 	if (drain >= player->csp) {
 		drain = player->csp;
 		player->csp = 0;
@@ -1003,24 +1003,24 @@ bool effect_handler_DRAIN_MANA(effect_handler_context_t *context)
 		player->csp -= drain;
 	}
 
-	/* Sanar al monstruo */
+	/* Heal the monster */
 	if (monster) {
 		if (mon->hp < mon->maxhp) {
 			mon->hp += (6 * drain);
 			if (mon->hp > mon->maxhp)
 				mon->hp = mon->maxhp;
 
-			/* Redibujar (más tarde) si es necesario */
+			/* Redraw (later) if needed */
 			if (player->upkeep->health_who == mon)
 				player->upkeep->redraw |= (PR_HEALTH);
 
-			/* Mensaje especial */
+			/* Special message */
 			if (monster_is_visible(mon))
 				msg("%s parece más saludable.", m_name);
 		}
 	}
 
-	/* Redibujar mana */
+	/* Redraw mana */
 	player->upkeep->redraw |= PR_MANA;
 
 	return true;
@@ -1046,7 +1046,7 @@ bool effect_handler_RESTORE_MANA(effect_handler_context_t *context)
 }
 
 /**
- * Intentar eliminar una maldición de un objeto
+ * Attempt to uncurse an object
  */
 bool effect_handler_REMOVE_CURSE(effect_handler_context_t *context)
 {
@@ -1068,7 +1068,7 @@ bool effect_handler_REMOVE_CURSE(effect_handler_context_t *context)
 			itemmode))
 		return false;
 
-	/* Obtener las posibles cadenas de dados */
+	/* Get the possible dice strings */
 	if ((context->value.dice == 1) && context->value.base) {
 		strnfmt(dice_string, sizeof(dice_string), "%d+d%d",
 				context->value.base, context->value.sides);
@@ -1088,33 +1088,33 @@ bool effect_handler_REMOVE_CURSE(effect_handler_context_t *context)
 }
 
 /**
- * Establecer palabra de retorno según corresponda
+ * Set word of recall as appropriate
  */
 bool effect_handler_RECALL(effect_handler_context_t *context)
 {
 	int target_depth;
 	context->ident = true;
 
-	/* Sin retorno */
+	/* No recall */
 	if (OPT(player, birth_no_recall) && !player->total_winner) {
 		msg("No pasa nada.");
 		return true;
 	}
 
-	/* Sin retorno desde niveles de misión con force_descend */
+	/* No recall from quest levels with force_descend */
 	if (OPT(player, birth_force_descend)
 			&& is_quest(player, player->depth)) {
 		msg("No pasa nada.");
 		return true;
 	}
 
-	/* Sin retorno desde combate singular */
+	/* No recall from single combat */
 	if (player->upkeep->arena_level) {
 		msg("No pasa nada.");
 		return true;
 	}
 
-	/* Advertir al jugador si está descendiendo a un nivel no retornable */
+	/* Warn the player if they're descending to an unrecallable level */
 	target_depth = dungeon_get_next_level(player, player->max_depth, 1);
 	if (OPT(player, birth_force_descend) && !(player->depth)
 			&& is_quest(player, target_depth)) {
@@ -1123,9 +1123,9 @@ bool effect_handler_RECALL(effect_handler_context_t *context)
 		}
 	}
 
-	/* Activar retorno */
+	/* Activate recall */
 	if (!player->word_recall) {
-		/* Restablecer profundidad de retorno */
+		/* Reset recall depth */
 		if (player->depth > 0) {
 			if (player->depth != player->max_depth
 					&& !OPT(player, birth_levels_persist)) {
@@ -1137,7 +1137,7 @@ bool effect_handler_RECALL(effect_handler_context_t *context)
 			}
 		} else {
 			if (OPT(player, birth_levels_persist)) {
-				/* Los jugadores con niveles persistentes pueden elegir */
+				/* Persistent levels players get to choose */
 				if (!player_get_recall_depth(player)) return false;
 			}
 		}
@@ -1145,7 +1145,7 @@ bool effect_handler_RECALL(effect_handler_context_t *context)
 		player->word_recall = randint0(20) + 15;
 		msg("El aire a tu alrededor se carga...");
 	} else {
-		/* Desactivar retorno */
+		/* Deactivate recall */
 		if (!get_check("Palabra de Retorno ya está activa. ¿Quieres cancelarla? "))
 			return false;
 
@@ -1153,7 +1153,7 @@ bool effect_handler_RECALL(effect_handler_context_t *context)
 		msg("Una tensión abandona el aire a tu alrededor...");
 	}
 
-	/* Redibujar línea de estado */
+	/* Redraw status line */
 	player->upkeep->redraw |= PR_STATUS;
 	handle_stuff(player);
 
@@ -1162,7 +1162,7 @@ bool effect_handler_RECALL(effect_handler_context_t *context)
 
 bool effect_handler_DEEP_DESCENT(effect_handler_context_t *context)
 {
-	/* Calcular profundidad objetivo */
+	/* Calculate target depth */
 	int target_increment = (4 / z_info->stair_skip) + 1;
 	int target_depth = dungeon_get_next_level(player, player->max_depth,
 		target_increment);
@@ -1171,7 +1171,7 @@ bool effect_handler_DEEP_DESCENT(effect_handler_context_t *context)
 		msgt(MSG_TPLEVEL, "El aire a tu alrededor comienza a arremolinarse...");
 		player->deep_descent = 3 + randint1(4);
 
-		/* Redibujar línea de estado */
+		/* Redraw status line */
 		player->upkeep->redraw |= PR_STATUS;
 		handle_stuff(player);
 	} else {
@@ -1183,7 +1183,7 @@ bool effect_handler_DEEP_DESCENT(effect_handler_context_t *context)
 
 bool effect_handler_ALTER_REALITY(effect_handler_context_t *context)
 {
-	/* No permitir en arenas de combate singular. */
+	/* Don't allow in single combat arenas. */
 	if (player->upkeep->arena_level) return true;
 	msg("¡El mundo cambia!");
 	dungeon_change_level(player, player->depth);
@@ -1192,11 +1192,11 @@ bool effect_handler_ALTER_REALITY(effect_handler_context_t *context)
 }
 
 /**
- * Mapear un área alrededor de un punto, generalmente el jugador.
- * La altura a mapear arriba y abajo del jugador es context->y,
- * el ancho a cada lado del jugador es context->x.
- * Para áreas dependientes del nivel del jugador, usamos el truco de aplicar los dados de valor
- * y las caras como la altura y el ancho.
+ * Map an area around a point, usually the player.
+ * The height to map above and below the player is context->y,
+ * the width either side of the player context->x.
+ * For player level dependent areas, we use the hack of applying value dice
+ * and sides as the height and width.
  */
 bool effect_handler_MAP_AREA(effect_handler_context_t *context)
 {
@@ -1206,48 +1206,48 @@ bool effect_handler_MAP_AREA(effect_handler_context_t *context)
 	int dist_x = context->x ? context->x : context->value.sides;
 	struct loc centre = origin_get_loc(context->origin);
 
-	/* Elegir un área para mapear */
+	/* Pick an area to map */
 	y1 = centre.y - dist_y;
 	y2 = centre.y + dist_y;
 	x1 = centre.x - dist_x;
 	x2 = centre.x + dist_x;
 
-	/* Ajustar las coordenadas a la mazmorra */
+	/* Drag the co-ordinates into the dungeon */
 	if (y1 < 0) y1 = 0;
 	if (x1 < 0) x1 = 0;
 	if (y2 > cave->height - 1) y2 = cave->height - 1;
 	if (x2 > cave->width - 1) x2 = cave->width - 1;
 
-	/* Escanear la mazmorra */
+	/* Scan the dungeon */
 	for (y = y1; y < y2; y++) {
 		for (x = x1; x < x2; x++) {
 			struct loc grid = loc(x, y);
 
-			/* Algunos cuadrados no se pueden mapear */
+			/* Some squares can't be mapped */
 			if (square_isno_map(cave, grid)) continue;
 
-			/* Todos los no-muros están "marcados" */
+			/* All non-walls are "checked" */
 			if (!square_seemslikewall(cave, grid)) {
 				if (!square_in_bounds_fully(cave, grid)) continue;
 
-				/* Memorizar características normales */
+				/* Memorize normal features */
 				if (!square_isfloor(cave, grid))
 					square_memorize(cave, grid);
 
-				/* Memorizar muros conocidos */
+				/* Memorize known walls */
 				for (i = 0; i < 8; i++) {
 					int yy = y + ddy_ddd[i];
 					int xx = x + ddx_ddd[i];
 
-					/* Memorizar muros (etc) */
+					/* Memorize walls (etc) */
 					if (square_seemslikewall(cave, loc(xx, yy)))
 						square_memorize(cave, loc(xx, yy));
 				}
 			}
 
 			/*
-			 * Olvidar cuadrículas que no están procesadas y
-			 * mal recordadas en el área de mapeo.
+			 * Forget grids that are both unprocessed and
+			 * misremembered in the mapping area.
 			 */
 			if (square_ismemorybad(cave, grid)) {
 				square_forget(cave, grid);
@@ -1255,7 +1255,7 @@ bool effect_handler_MAP_AREA(effect_handler_context_t *context)
 		}
 	}
 
-	/* Desmarcar cuadrículas */
+	/* Unmark grids */
 	for (y = y1 - 1; y < y2 + 1; y++) {
 		for (x = x1 - 1; x < x2 + 1; x++) {
 			struct loc grid = loc(x, y);
@@ -1264,24 +1264,24 @@ bool effect_handler_MAP_AREA(effect_handler_context_t *context)
 		}
 	}
 
-	/* Actualizar completamente los elementos visuales */
+	/* Fully update the visuals */
 	player->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 
-	/* Redibujar todo el mapa, lista de monstruos */
+	/* Redraw whole map, monster list */
 	player->upkeep->redraw |= (PR_MAP | PR_MONLIST | PR_ITEMLIST);
 
-	/* Notificar */
+	/* Notice */
 	context->ident = true;
 
 	return true;
 }
 
 /**
- * Mapear un área alrededor de los monstruos detectados recientemente.
- * La altura a mapear arriba y abajo de cada monstruo es context->y,
- * el ancho a cada lado de cada monstruo es context->x.
- * Para áreas dependientes del nivel del jugador, usamos el truco de aplicar los dados de valor
- * y las caras como la altura y el ancho.
+ * Map an area around the recently detected monsters.
+ * The height to map above and below each monster is context->y,
+ * the width either side of each monster context->x.
+ * For player level dependent areas, we use the hack of applying value dice
+ * and sides as the height and width.
  */
 bool effect_handler_READ_MINDS(effect_handler_context_t *context)
 {
@@ -1290,16 +1290,16 @@ bool effect_handler_READ_MINDS(effect_handler_context_t *context)
 	int dist_x = context->x ? context->x : context->value.sides;
 	bool found = false;
 
-	/* Escanear monstruos */
+	/* Scan monsters */
 	for (i = 1; i < cave_monster_max(cave); i++) {
 		struct monster *mon = cave_monster(cave, i);
 
-		/* Saltar monstruos muertos */
+		/* Skip dead monsters */
 		if (!mon->race) continue;
 
-		/* Detectar todos los monstruos apropiados */
+		/* Detect all appropriate monsters */
 		if (mflag_has(mon->mflag, MFLAG_MARK)) {
-			/* Mapear alrededor */
+			/* Map around it */
 			effect_simple(EF_MAP_AREA, source_monster(i), "0", 0, 0, 0,
 						  dist_y, dist_x, NULL);
 			found = true;
@@ -1315,8 +1315,8 @@ bool effect_handler_READ_MINDS(effect_handler_context_t *context)
 }
 
 /**
- * Detectar trampas alrededor del jugador. La altura a detectar arriba y abajo del
- * jugador es context->y, el ancho a cada lado del jugador es context->x.
+ * Detect traps around the player.  The height to detect above and below the
+ * player is context->y, the width either side of the player context->x.
  */
 bool effect_handler_DETECT_TRAPS(effect_handler_context_t *context)
 {
@@ -1327,7 +1327,7 @@ bool effect_handler_DETECT_TRAPS(effect_handler_context_t *context)
 
 	struct object *obj;
 
-	/* Elegir un área para detectar */
+	/* Pick an area to detect */
 	y1 = player->grid.y - context->y;
 	y2 = player->grid.y + context->y;
 	x1 = player->grid.x - context->x;
@@ -1339,61 +1339,61 @@ bool effect_handler_DETECT_TRAPS(effect_handler_context_t *context)
 	if (x2 > cave->width - 1) x2 = cave->width - 1;
 
 
-	/* Escanear la mazmorra */
+	/* Scan the dungeon */
 	for (y = y1; y < y2; y++) {
 		for (x = x1; x < x2; x++) {
 			struct loc grid = loc(x, y);
 
 			if (!square_in_bounds_fully(cave, grid)) continue;
 
-			/* Detectar trampas */
+			/* Detect traps */
 			if (square_isplayertrap(cave, grid))
-				/* Revelar trampa */
+				/* Reveal trap */
 				if (square_reveal_trap(cave, grid, true, false))
 					detect = true;
 
-			/* Escanear todos los objetos en la cuadrícula para buscar trampas en cofres */
+			/* Scan all objects in the grid to look for traps on chests */
 			for (obj = square_object(cave, grid); obj; obj = obj->next) {
-				/* Saltar cualquier cosa que no sea un cofre con trampa */
+				/* Skip anything not a trapped chest */
 				if (!is_trapped_chest(obj)
 						|| ignore_item_ok(player, obj)) {
 					continue;
 				}
 
-				/* Identificar una vez */
+				/* Identify once */
 				if (!obj->known || obj->known->pval != obj->pval) {
-					/* Truco - ver el objeto */
+					/* Hack - see the object */
 					object_see(player, obj);
 
-					/* Conocer la trampa */
+					/* Know the trap */
 					obj->known->pval = obj->pval;
 
-					/* Encontramos algo que detectar */
+					/* We found something to detect */
 					detect = true;
 				}
 			}
-			/* Marcar como área con trampas detectadas */
+			/* Mark as trap-detected */
 			sqinfo_on(square(cave, loc(x, y))->info, SQUARE_DTRAP);
 		}
 	}
 
-	/* Describir */
+	/* Describe */
 	if (detect)
 		msg("¡Sientes la presencia de trampas!");
 
-	/* La detección de trampas siempre te hace consciente, incluso si no hay trampas */
+	/* Trap detection always makes you aware, even if no traps are present */
 	else
 		msg("No sientes trampas.");
 
-	/* Notificar */
+	/* Notice */
 	context->ident = true;
 
 	return true;
 }
 
 /**
- * Detectar puertas alrededor del jugador. La altura a detectar arriba y abajo del
- * jugador es context->y, el ancho a cada lado del jugador es context->x.
+ * Detect doors around the player.  The height to detect above and below the
+ * player is context->y, the width either side of the player context->x.
  */
 bool effect_handler_DETECT_DOORS(effect_handler_context_t *context)
 {
@@ -1402,7 +1402,7 @@ bool effect_handler_DETECT_DOORS(effect_handler_context_t *context)
 
 	bool doors = false;
 
-	/* Elegir un área para detectar */
+	/* Pick an area to detect */
 	y1 = player->grid.y - context->y;
 	y2 = player->grid.y + context->y;
 	x1 = player->grid.x - context->x;
@@ -1413,7 +1413,7 @@ bool effect_handler_DETECT_DOORS(effect_handler_context_t *context)
 	if (y2 > cave->height - 1) y2 = cave->height - 1;
 	if (x2 > cave->width - 1) x2 = cave->width - 1;
 
-	/* Escanear la mazmorra */
+	/* Scan the dungeon */
 	for (y = y1; y < y2; y++) {
 		for (x = x1; x < x2; x++) {
 			struct loc grid = loc(x, y);
@@ -1421,18 +1421,18 @@ bool effect_handler_DETECT_DOORS(effect_handler_context_t *context)
 			if (!square_in_bounds_fully(cave, grid)) continue;
 
 			if (square_issecretdoor(cave, grid)) {
-				/* Detectar puertas secretas */
-				/* Colocar una puerta real */
+				/* Detect secret doors */
+				/* Put an actual door */
 				place_closed_door(cave, grid);
 
-				/* Memorizar */
+				/* Memorize */
 				square_memorize(cave, grid);
 				square_light_spot(cave, grid);
 
-				/* Obvio */
+				/* Obvious */
 				doors = true;
 			} else if (square_isdoor(cave, grid)) {
-				/* Detectar otros tipos de puertas. */
+				/* Detect other types of doors. */
 				if (square_ismemorybad(cave, grid)) {
 					square_memorize(cave, grid);
 					square_light_spot(cave, grid);
@@ -1441,15 +1441,15 @@ bool effect_handler_DETECT_DOORS(effect_handler_context_t *context)
 			} else if (square_isdoor(player->cave, grid)
 					&& square_ismemorybad(cave, grid)) {
 				/*
-				 * Olvidar puertas mal recordadas en el área
-				 * de mapeo.
+				 * Forget misremembered doors in the mapping
+				 * area.
 				 */
 				square_forget(cave, grid);
 			}
 		}
 	}
 
-	/* Describir */
+	/* Describe */
 	if (doors)
 		msg("¡Sientes la presencia de puertas!");
 	else if (context->aware)
@@ -1461,8 +1461,8 @@ bool effect_handler_DETECT_DOORS(effect_handler_context_t *context)
 }
 
 /**
- * Detectar escaleras alrededor del jugador. La altura a detectar arriba y abajo del
- * jugador es context->y, el ancho a cada lado del jugador es context->x.
+ * Detect stairs around the player.  The height to detect above and below the
+ * player is context->y, the width either side of the player context->x.
  */
 bool effect_handler_DETECT_STAIRS(effect_handler_context_t *context)
 {
@@ -1471,7 +1471,7 @@ bool effect_handler_DETECT_STAIRS(effect_handler_context_t *context)
 
 	bool stairs = false;
 
-	/* Elegir un área para detectar */
+	/* Pick an area to detect */
 	y1 = player->grid.y - context->y;
 	y2 = player->grid.y + context->y;
 	x1 = player->grid.x - context->x;
@@ -1482,26 +1482,26 @@ bool effect_handler_DETECT_STAIRS(effect_handler_context_t *context)
 	if (y2 > cave->height - 1) y2 = cave->height - 1;
 	if (x2 > cave->width - 1) x2 = cave->width - 1;
 
-	/* Escanear la mazmorra */
+	/* Scan the dungeon */
 	for (y = y1; y < y2; y++) {
 		for (x = x1; x < x2; x++) {
 			struct loc grid = loc(x, y);
 
 			if (!square_in_bounds_fully(cave, grid)) continue;
 
-			/* Detectar escaleras */
+			/* Detect stairs */
 			if (square_isstairs(cave, grid)) {
-				/* Memorizar */
+				/* Memorize */
 				square_memorize(cave, grid);
 				square_light_spot(cave, grid);
 
-				/* Obvio */
+				/* Obvious */
 				stairs = true;
 			}
 		}
 	}
 
-	/* Describir */
+	/* Describe */
 	if (stairs)
 		msg("¡Sientes la presencia de escaleras!");
 	else if (context->aware)
@@ -1513,8 +1513,8 @@ bool effect_handler_DETECT_STAIRS(effect_handler_context_t *context)
 
 
 /**
- * Detectar oro enterrado alrededor del jugador. La altura a detectar arriba y abajo
- * del jugador es context->y, el ancho a cada lado del jugador es context->x.
+ * Detect buried gold around the player.  The height to detect above and below
+ * the player is context->y, the width either side of the player context->x.
  */
 bool effect_handler_DETECT_ORE(effect_handler_context_t *context)
 {
@@ -1523,7 +1523,7 @@ bool effect_handler_DETECT_ORE(effect_handler_context_t *context)
 
 	bool gold_buried = false;
 
-	/* Elegir un área para detectar */
+	/* Pick an area to detect */
 	y1 = player->grid.y - context->y;
 	y2 = player->grid.y + context->y;
 	x1 = player->grid.x - context->x;
@@ -1534,30 +1534,30 @@ bool effect_handler_DETECT_ORE(effect_handler_context_t *context)
 	if (y2 > cave->height - 1) y2 = cave->height - 1;
 	if (x2 > cave->width - 1) x2 = cave->width - 1;
 
-	/* Escanear la mazmorra */
+	/* Scan the dungeon */
 	for (y = y1; y < y2; y++) {
 		for (x = x1; x < x2; x++) {
 			struct loc grid = loc(x, y);
 
 			if (!square_in_bounds_fully(cave, grid)) continue;
 
-			/* Magma/Cuarzo + Oro conocido */
+			/* Magma/Quartz + Known Gold */
 			if (square_hasgoldvein(cave, grid)) {
-				/* Memorizar */
+				/* Memorize */
 				square_memorize(cave, grid);
 				square_light_spot(cave, grid);
 
-				/* Detectar */
+				/* Detect */
 				gold_buried = true;
 			} else if (square_hasgoldvein(player->cave, grid)) {
-				/* Algo eliminado visto previamente o
-				 * oro enterrado detectado. Notar el cambio. */
+				/* Something removed previously seen or
+				 * detected buried gold.  Notice the change. */
 				square_forget(cave, grid);
 			}
 		}
 	}
 
-	/* Mensaje a menos que estemos detectando silenciosamente */
+	/* Message unless we're silently detecting */
 	if (context->origin.what != SRC_NONE) {
 		if (gold_buried) {
 			msg("¡Sientes la presencia de tesoro enterrado!");
@@ -1571,10 +1571,10 @@ bool effect_handler_DETECT_ORE(effect_handler_context_t *context)
 }
 
 /**
- * Ayuda para effect_handler_SENSE_GOLD() o effect_handler_SENSE_OBJECTS(): sentir
- * objetos de una clase determinada alrededor del jugador. El rango de detección en y
- * está dentro de context->y del jugador. El rango de detección en x está
- * dentro de context->x del jugador.
+ * Help effect_handler_SENSE_GOLD() or effect_handler_SENSE_OBJECTS(): sense
+ * objects of a given class about the player.  The range of detection in y
+ * is within context->y of the player.  The range of detection in x is
+ * within context->x of the player.
  */
 static bool sense_stuff(effect_handler_context_t *context,
 		bool (*pred)(const struct object*),
@@ -1585,7 +1585,7 @@ static bool sense_stuff(effect_handler_context_t *context,
 
 	bool have_stuff = false;
 
-	/* Elegir un área para sentir */
+	/* Pick an area to sense */
 	y1 = player->grid.y - context->y;
 	y2 = player->grid.y + context->y;
 	x1 = player->grid.x - context->x;
@@ -1596,7 +1596,7 @@ static bool sense_stuff(effect_handler_context_t *context,
 	if (y2 > cave->height - 1) y2 = cave->height - 1;
 	if (x2 > cave->width - 1) x2 = cave->width - 1;
 
-	/* Escanear el área */
+	/* Scan the area */
 	for (y = y1; y <= y2; y++) {
 		for (x = x1; x <= x2; x++) {
 			struct loc grid = loc(x, y);
@@ -1612,9 +1612,9 @@ static bool sense_stuff(effect_handler_context_t *context,
 			}
 
 			/*
-			 * Tomar conciencia de las partes del montón que coinciden
-			 * con el predicado. Olvidar partes recordadas que coinciden
-			 * con el predicado que ya no están allí.
+			 * Become aware of the parts of the pile that match
+			 * the predicate.  Forget remembered parts that match
+			 * the predicate which are no longer there.
 			 */
 			square_sense_pile(cave, grid, pred);
 		}
@@ -1624,10 +1624,10 @@ static bool sense_stuff(effect_handler_context_t *context,
 }
 
 /**
- * Ayuda para effect_handler_DETECT_GOLD() y effect_handler_DETECT_OBJECTS():
- * detectar objetos de una clase determinada alrededor del jugador. El rango de detección
- * en y está dentro de context->y del jugador. El rango de detección en x está
- * dentro de context->x del jugador.
+ * Help effect_handler_DETECT_GOLD() and effect_handler_DETECT_OBJECTS():
+ * detect objects of a given class around the player.  The range of detection
+ * in y is within context->y of the player.  The range of detection in x is
+ * within context->x of the player.
  */
 static bool detect_stuff(effect_handler_context_t *context,
 		bool (*pred)(const struct object*))
@@ -1637,7 +1637,7 @@ static bool detect_stuff(effect_handler_context_t *context,
 
 	bool have_stuff = false;
 
-	/* Elegir un área para detectar */
+	/* Pick an area to detect */
 	y1 = player->grid.y - context->y;
 	y2 = player->grid.y + context->y;
 	x1 = player->grid.x - context->x;
@@ -1648,15 +1648,15 @@ static bool detect_stuff(effect_handler_context_t *context,
 	if (y2 > cave->height - 1) y2 = cave->height - 1;
 	if (x2 > cave->width - 1) x2 = cave->width - 1;
 
-	/* Escanear el área */
+	/* Scan the area */
 	for (y = y1; y <= y2; y++) {
 		for (x = x1; x <= x2; x++) {
 			struct loc grid = loc(x, y);
 			struct object *obj = square_object(cave, grid);
 
 			/*
-			 * ¿Hay algún objeto que coincida con el predicado que
-			 * no esté ignorado?
+			 * Is there any object matching the predicate which is
+			 * not ignored?
 			 */
 			for (; !have_stuff && obj; obj = obj->next) {
 				if ((*pred)(obj) && !ignore_item_ok(player, obj)) {
@@ -1665,9 +1665,9 @@ static bool detect_stuff(effect_handler_context_t *context,
 			}
 
 			/*
-			 * Marcar las partes del montón que coinciden con el predicado
-			 * como vistas. Olvidar partes recordadas que coinciden
-			 * con el predicado que ya no están allí.
+			 * Mark the parts of the pile that match the predicate
+			 * as seen.  Forget remembered parts that match the
+			 * predicate which are no longer there.
 			 */
 			square_know_pile(cave, grid, pred);
 		}
@@ -1677,7 +1677,7 @@ static bool detect_stuff(effect_handler_context_t *context,
 }
 
 /**
- * Sentir dinero en el suelo alrededor del jugador.
+ * Sense money on the floor around the player.
  */
 bool effect_handler_SENSE_GOLD(effect_handler_context_t *context)
 {
@@ -1694,7 +1694,7 @@ bool effect_handler_SENSE_GOLD(effect_handler_context_t *context)
 }
 
 /**
- * Detectar dinero en el suelo alrededor del jugador.
+ * Detect money on the floor around the player.
  */
 bool effect_handler_DETECT_GOLD(effect_handler_context_t *context)
 {
@@ -1711,8 +1711,8 @@ bool effect_handler_DETECT_GOLD(effect_handler_context_t *context)
 }
 
 /**
- * Ayuda para effect_handler_SENSE_OBJECTS() y effect_handler_DETECT_OBJECTS():
- * negar tval_is_money().
+ * Help effect_handler_SENSE_OBJECTS() and effect_handler_DETECT_OBJECTS():
+ * negate tval_is_money().
  */
 static bool tval_is_not_money(const struct object *o)
 {
@@ -1720,7 +1720,7 @@ static bool tval_is_not_money(const struct object *o)
 }
 
 /**
- * Sentir objetos que no son dinero alrededor del jugador.
+ * Sense objects which are not money around the player.
  */
 bool effect_handler_SENSE_OBJECTS(effect_handler_context_t *context)
 {
@@ -1733,7 +1733,7 @@ bool effect_handler_SENSE_OBJECTS(effect_handler_context_t *context)
 		msg("No sientes objetos.");
 	}
 
-	/* Redibujar lista de objetos */
+	/* Redraw object list */
 	player->upkeep->redraw |= PR_ITEMLIST;
 
 	context->ident = true;
@@ -1741,7 +1741,7 @@ bool effect_handler_SENSE_OBJECTS(effect_handler_context_t *context)
 }
 
 /**
- * Detectar objetos que no son dinero alrededor del jugador.
+ * Detect objects which are not money around the player.
  */
 bool effect_handler_DETECT_OBJECTS(effect_handler_context_t *context)
 {
@@ -1753,7 +1753,7 @@ bool effect_handler_DETECT_OBJECTS(effect_handler_context_t *context)
 		msg("No detectas objetos.");
 	}
 
-	/* Redibujar lista de objetos */
+	/* Redraw object list */
 	player->upkeep->redraw |= PR_ITEMLIST;
 
 	context->ident = true;
@@ -1761,9 +1761,9 @@ bool effect_handler_DETECT_OBJECTS(effect_handler_context_t *context)
 }
 
 /**
- * Detectar monstruos que satisfacen el predicado dado alrededor del jugador.
- * La altura a detectar arriba y abajo del jugador es y_dist,
- * el ancho a cada lado del jugador es x_dist.
+ * Detect monsters which satisfy the given predicate around the player.
+ * The height to detect above and below the player is y_dist,
+ * the width either side of the player x_dist.
  */
 static bool detect_monsters(int y_dist, int x_dist, monster_predicate pred)
 {
@@ -1772,7 +1772,7 @@ static bool detect_monsters(int y_dist, int x_dist, monster_predicate pred)
 
 	bool monsters = false;
 
-	/* Establecer el área de detección */
+	/* Set the detection area */
 	y1 = player->grid.y - y_dist;
 	y2 = player->grid.y + y_dist;
 	x1 = player->grid.x - x_dist;
@@ -1783,41 +1783,41 @@ static bool detect_monsters(int y_dist, int x_dist, monster_predicate pred)
 	if (y2 > cave->height - 1) y2 = cave->height - 1;
 	if (x2 > cave->width - 1) x2 = cave->width - 1;
 
-	/* Escanear monstruos */
+	/* Scan monsters */
 	for (i = 1; i < cave_monster_max(cave); i++) {
 		struct monster *mon = cave_monster(cave, i);
 
-		/* Saltar monstruos muertos */
+		/* Skip dead monsters */
 		if (!mon->race) continue;
 
-		/* Ubicación */
+		/* Location */
 		y = mon->grid.y;
 		x = mon->grid.x;
 
-		/* Solo detectar monstruos cercanos */
+		/* Only detect nearby monsters */
 		if (x < x1 || y < y1 || x > x2 || y > y2) continue;
 
-		/* Detectar todos los monstruos apropiados y obvios */
+		/* Detect all appropriate, obvious monsters */
 		if (pred(mon) && !monster_is_camouflaged(mon)) {
-			/* Detectar el monstruo */
+			/* Detect the monster */
 			mflag_on(mon->mflag, MFLAG_MARK);
 			mflag_on(mon->mflag, MFLAG_SHOW);
 
-			/* Notar monstruos invisibles */
+			/* Note invisible monsters */
 			if (monster_is_invisible(mon)) {
 				struct monster_lore *lore = get_lore(mon->race);
 				rf_on(lore->flags, RF_INVISIBLE);
 			}
 
-			/* Actualizar ventana de recuerdo de monstruo */
+			/* Update monster recall window */
 			if (player->upkeep->monster_race == mon->race)
-				/* Redibujar cosas */
+				/* Redraw stuff */
 				player->upkeep->redraw |= (PR_MONSTER);
 
-			/* Actualizar el monstruo */
+			/* Update the monster */
 			update_mon(mon, cave, false);
 
-			/* Detectar */
+			/* Detect */
 			monsters = true;
 		}
 	}
@@ -1826,9 +1826,9 @@ static bool detect_monsters(int y_dist, int x_dist, monster_predicate pred)
 }
 
 /**
- * Detectar monstruos vivos alrededor del jugador. La altura a detectar arriba y
- * abajo del jugador es context->value.dice, el ancho a cada lado del jugador
- * es context->value.sides.
+ * Detect living monsters around the player.  The height to detect above and
+ * below the player is context->value.dice, the width either side of the player
+ * context->value.sides.
  */
 bool effect_handler_DETECT_LIVING_MONSTERS(effect_handler_context_t *context)
 {
@@ -1845,12 +1845,12 @@ bool effect_handler_DETECT_LIVING_MONSTERS(effect_handler_context_t *context)
 
 
 /**
- * Detectar monstruos visibles alrededor del jugador; nota que esto significa monstruos
- * que son en principio visibles, no monstruos que el jugador puede ver actualmente.
+ * Detect visible monsters around the player; note that this means monsters
+ * which are in principle visible, not monsters the player can currently see.
  *
- * La altura a detectar arriba y
- * abajo del jugador es context->value.dice, el ancho a cada lado del jugador
- * es context->value.sides.
+ * The height to detect above and
+ * below the player is context->value.dice, the width either side of the player
+ * context->value.sides.
  */
 bool effect_handler_DETECT_VISIBLE_MONSTERS(effect_handler_context_t *context)
 {
@@ -1868,9 +1868,9 @@ bool effect_handler_DETECT_VISIBLE_MONSTERS(effect_handler_context_t *context)
 
 
 /**
- * Detectar monstruos invisibles alrededor del jugador. La altura a detectar arriba y
- * abajo del jugador es context->value.dice, el ancho a cada lado del jugador
- * es context->value.sides.
+ * Detect invisible monsters around the player.  The height to detect above and
+ * below the player is context->value.dice, the width either side of the player
+ * context->value.sides.
  */
 bool effect_handler_DETECT_INVISIBLE_MONSTERS(effect_handler_context_t *context)
 {
@@ -1887,9 +1887,9 @@ bool effect_handler_DETECT_INVISIBLE_MONSTERS(effect_handler_context_t *context)
 }
 
 /**
- * Detectar monstruos susceptibles al miedo alrededor del jugador. La altura a detectar
- * arriba y abajo del jugador es context->value.dice, el ancho a cada lado de
- * el jugador es context->value.sides.
+ * Detect monsters susceptible to fear around the player.  The height to detect
+ * above and below the player is context->value.dice, the width either side of
+ * the player context->value.sides.
  */
 bool effect_handler_DETECT_FEARFUL_MONSTERS(effect_handler_context_t *context)
 {
@@ -1905,9 +1905,9 @@ bool effect_handler_DETECT_FEARFUL_MONSTERS(effect_handler_context_t *context)
 }
 
 /**
- * Detectar monstruos malignos alrededor del jugador. La altura a detectar arriba y
- * abajo del jugador es context->value.dice, el ancho a cada lado del jugador
- * es context->value.sides.
+ * Detect evil monsters around the player.  The height to detect above and
+ * below the player is context->value.dice, the width either side of the player
+ * context->value.sides.
  */
 bool effect_handler_DETECT_EVIL(effect_handler_context_t *context)
 {
@@ -1923,9 +1923,9 @@ bool effect_handler_DETECT_EVIL(effect_handler_context_t *context)
 }
 
 /**
- * Detectar monstruos que poseen un espíritu alrededor del jugador.
- * La altura a detectar arriba y abajo del jugador es context->value.dice,
- * el ancho a cada lado del jugador es context->value.sides.
+ * Detect monsters possessing a spirit around the player.
+ * The height to detect above and below the player is context->value.dice,
+ * the width either side of the player context->value.sides.
  */
 bool effect_handler_DETECT_SOUL(effect_handler_context_t *context)
 {
@@ -1941,7 +1941,7 @@ bool effect_handler_DETECT_SOUL(effect_handler_context_t *context)
 }
 
 /**
- * Identificar una runa desconocida de un objeto.
+ * Identify an unknown rune of an item.
  */
 bool effect_handler_IDENTIFY(effect_handler_context_t *context)
 {
@@ -1952,7 +1952,7 @@ bool effect_handler_IDENTIFY(effect_handler_context_t *context)
 
 	context->ident = true;
 
-	/* Obtener un objeto */
+	/* Get an item */
 	q = "¿Identificar qué objeto? ";
 	s = "No tienes nada para identificar.";
 	if (context->cmd) {
@@ -1963,7 +1963,7 @@ bool effect_handler_IDENTIFY(effect_handler_context_t *context)
 	} else if (!get_item(&obj, q, s, 0, item_tester_unknown, itemmode))
 		return used;
 
-	/* Identificar el objeto */
+	/* Identify the object */
 	object_learn_unknown_rune(player, obj);
 
 	return true;
@@ -1971,25 +1971,25 @@ bool effect_handler_IDENTIFY(effect_handler_context_t *context)
 
 
 /**
- * Crear escaleras en la ubicación del jugador
+ * Create stairs at the player location
  */
 bool effect_handler_CREATE_STAIRS(effect_handler_context_t *context)
 {
 	context->ident = true;
 
-	/* Solo permitir crear escaleras en suelo vacío */
+	/* Only allow stairs to be created on empty floor */
 	if (!square_isfloor(cave, player->grid)) {
 		msg("No hay suelo vacío aquí.");
 		return false;
 	}
 
-	/* Fallo para niveles persistentes (por ahora) y arenas */
+	/* Fails for persistent levels (for now) and arenas */
 	if (OPT(player, birth_levels_persist) || player->upkeep->arena_level) {
 		msg("¡No pasa nada!");
 		return false;
 	}
 
-	/* Empujar objetos fuera de la cuadrícula */
+	/* Push objects off the grid */
 	if (square_object(cave, player->grid))
 		push_object(player->grid);
 
@@ -1999,7 +1999,7 @@ bool effect_handler_CREATE_STAIRS(effect_handler_context_t *context)
 }
 
 /**
- * Aplicar desencantamiento a las cosas del jugador.
+ * Apply disenchantment to the player's stuff.
  */
 bool effect_handler_DISENCHANT(effect_handler_context_t *context)
 {
@@ -2007,20 +2007,20 @@ bool effect_handler_DISENCHANT(effect_handler_context_t *context)
 	struct object *obj;
 	char o_name[80];
 
-	/* Contar espacios */
+	/* Count slots */
 	for (i = 0; i < player->body.count; i++) {
-		/* Ignorar anillos, amuletos y luces */
+		/* Ignore rings, amulets and lights */
 		if (slot_type_is(player, i, EQUIP_RING)) continue;
 		if (slot_type_is(player, i, EQUIP_AMULET)) continue;
 		if (slot_type_is(player, i, EQUIP_LIGHT)) continue;
 
-		/* Contar espacios desencantables */
+		/* Count disenchantable slots */
 		count++;
 	}
 
-	/* Elegir uno al azar */
+	/* Pick one at random */
 	for (i = player->body.count - 1; i >= 0; i--) {
-		/* Ignorar anillos, amuletos y luces */
+		/* Ignore rings, amulets and lights */
 		if (slot_type_is(player, i, EQUIP_RING)) continue;
 		if (slot_type_is(player, i, EQUIP_AMULET)) continue;
 		if (slot_type_is(player, i, EQUIP_LIGHT)) continue;
@@ -2028,25 +2028,25 @@ bool effect_handler_DISENCHANT(effect_handler_context_t *context)
 		if (one_in_(count--)) break;
 	}
 
-	/* Notificar */
+	/* Notice */
 	context->ident = true;
 
-	/* Obtener el objeto */
+	/* Get the item */
 	obj = slot_object(player, i);
 
-	/* Sin objeto, no pasa nada */
+	/* No item, nothing happens */
 	if (!obj) return true;
 
-	/* Nada que desencantar */
+	/* Nothing to disenchant */
 	if ((obj->to_h <= 0) && (obj->to_d <= 0) && (obj->to_a <= 0))
 		return true;
 
-	/* Describir el objeto */
+	/* Describe the object */
 	object_desc(o_name, sizeof(o_name), obj, ODESC_BASE, player);
 
-	/* Los artefactos tienen un 60% de probabilidad de resistir */
+	/* Artifacts have a 60% chance to resist */
 	if (obj->artifact && (randint0(100) < 60)) {
-		/* Mensaje */
+		/* Message */
 		msg("¡Tu %s (%c) resist%s el desencantamiento!", o_name,
 			gear_to_label(player, obj),
 			((obj->number != 1) ? "en" : "e"));
@@ -2054,45 +2054,45 @@ bool effect_handler_DISENCHANT(effect_handler_context_t *context)
 		return true;
 	}
 
-	/* Aplicar desencantamiento, dependiendo del tipo de equipo */
+	/* Apply disenchantment, depending on which kind of equipment */
 	if (slot_type_is(player, i, EQUIP_WEAPON)
 			|| slot_type_is(player, i, EQUIP_BOW)) {
-		/* Desencantar golpe */
+		/* Disenchant to-hit */
 		if (obj->to_h > 0) obj->to_h--;
 		if ((obj->to_h > 5) && (randint0(100) < 20)) obj->to_h--;
 		obj->known->to_h = obj->to_h;
 
-		/* Desencantar daño */
+		/* Disenchant to-dam */
 		if (obj->to_d > 0) obj->to_d--;
 		if ((obj->to_d > 5) && (randint0(100) < 20)) obj->to_d--;
 		obj->known->to_d = obj->to_d;
 	} else {
-		/* Desencantar AC */
+		/* Disenchant to-ac */
 		if (obj->to_a > 0) obj->to_a--;
 		if ((obj->to_a > 5) && (randint0(100) < 20)) obj->to_a--;
 		obj->known->to_a = obj->to_a;
 	}
 
-	/* Mensaje */
+	/* Message */
 	msg("Tu %s (%c) %s desencantad%s!", o_name,
 		gear_to_label(player, obj),
 		((obj->number != 1) ? "fueron" : "fue"),
 		((obj->number != 1) ? "s" : ""));
 
-	/* Recalcular bonificaciones */
+	/* Recalculate bonuses */
 	player->upkeep->update |= (PU_BONUS);
 
-	/* Cosas de ventana */
+	/* Window stuff */
 	player->upkeep->redraw |= (PR_EQUIP);
 
 	return true;
 }
 
 /**
- * Encantar un objeto (en el inventario o en el suelo)
- * Nota que la armadura, golpe o daño están controlados por context->subtype
+ * Enchant an item (in the inventory or on the floor)
+ * Note that armour, to hit or to dam is controlled by context->subtype
  *
- * El trabajo para incorporar enchant_spell() se ha pospuesto...NRM
+ * Work on incorporating enchant_spell() has been postponed...NRM
  */
 bool effect_handler_ENCHANT(effect_handler_context_t *context)
 {
@@ -2121,10 +2121,10 @@ bool effect_handler_ENCHANT(effect_handler_context_t *context)
 }
 
 /**
- * Recargar una varita o bastón de la mochila o del suelo. La fuerza de recarga
- * es context->value.base.
+ * Recharge a wand or staff from the pack or on the floor.  Recharge strength
+ * is context->value.base.
  *
- * Es más difícil recargar varitas de alto nivel y con muchas cargas.
+ * It is harder to recharge high level, and highly charged wands.
  */
 bool effect_handler_RECHARGE(effect_handler_context_t *context)
 {
@@ -2135,13 +2135,13 @@ bool effect_handler_RECHARGE(effect_handler_context_t *context)
 	bool used = false;
 	const char *q, *s;
 
-/* Inmediatamente obvio */
+	/* Immediately obvious */
 	context->ident = true;
 
-	/* Se usa para mostrar tasas de fallo de recarga */
+	/* Used to show recharge failure rates */
 	player->upkeep->recharge_pow = strength;
 
-	/* Obtener un objeto */
+	/* Get an item */
 	q = "¿Recargar qué objeto? ";
 	s = "No tienes nada para recargar.";
 	if (context->cmd) {
@@ -2154,7 +2154,7 @@ bool effect_handler_RECHARGE(effect_handler_context_t *context)
 	}
 
 	i = recharge_failure_chance(obj, strength);
-	/* Retroceso */
+	/* Back-fire */
 	if ((i <= 1) || one_in_(i)) {
 		struct object *destroyed;
 		bool none_left = false;
@@ -2162,7 +2162,7 @@ bool effect_handler_RECHARGE(effect_handler_context_t *context)
 		msg("¡La recarga falla peligrosamente!");
 		msg("Hay un destello brillante de luz.");
 
-		/* Reducir y describir inventario */
+		/* Reduce and describe inventory */
 		if (object_is_carried(player, obj)) {
 			destroyed = gear_object_for_use(player, obj, 1, true,
 				&none_left);
@@ -2174,21 +2174,21 @@ bool effect_handler_RECHARGE(effect_handler_context_t *context)
 			object_delete(player->cave, NULL, &destroyed->known);
 		object_delete(cave, player->cave, &destroyed);
 	} else {
-		/* Extraer un "poder" */
+		/* Extract a "power" */
 		int ease_of_recharge = (100 - obj->kind->level) / 10;
 		t = (strength / (10 - ease_of_recharge)) + 1;
 
-		/* Recargar basado en el poder */
+		/* Recharge based on the power */
 		if (t > 0) obj->pval += 2 + randint1(t);
 	}
 
-	/* Combinar la mochila (más tarde) */
+	/* Combine the pack (later) */
 	player->upkeep->notice |= (PN_COMBINE);
 
-	/* Redibujar cosas */
+	/* Redraw stuff */
 	player->upkeep->redraw |= (PR_INVEN);
 
-	/* Se hizo algo */
+	/* Something was done */
 	return true;
 }
 
@@ -2201,7 +2201,7 @@ bool effect_handler_ACQUIRE(effect_handler_context_t *context)
 }
 
 /**
- * Despertar a todos los monstruos en línea de visión
+ * Wake up all monsters in line of sight
  */
 bool effect_handler_WAKE(effect_handler_context_t *context)
 {
@@ -2210,23 +2210,23 @@ bool effect_handler_WAKE(effect_handler_context_t *context)
 
 	struct loc origin = origin_get_loc(context->origin);
 
-	/* Despertar a todos los cercanos */
+	/* Wake everyone nearby */
 	for (i = 1; i < cave_monster_max(cave); i++) {
 		struct monster *mon = cave_monster(cave, i);
 		if (mon->race) {
 			int radius = z_info->max_sight * 2;
 			int dist = distance(origin, mon->grid);
 
-			/* Saltar monstruos demasiado lejanos */
+			/* Skip monsters too far away */
 			if ((dist < radius) && mon->m_timed[MON_TMD_SLEEP]) {
-				/* El monstruo se despierta, más cerca significa más probable que se vuelva consciente */
+				/* Monster wakes, closer means likelier to become aware */
 				monster_wake(mon, false, 100 - 2 * dist);
 				woken = true;
 			}
 		}
 	}
 
-	/* Mensajes */
+	/* Messages */
 	if (woken) {
 		msg("¡Escuchas un repentino revuelo en la distancia!");
 	}
@@ -2237,7 +2237,7 @@ bool effect_handler_WAKE(effect_handler_context_t *context)
 }
 
 /**
- * Invocar context->value monstruos de tipo context->subtype.
+ * Summon context->value monsters of context->subtype type.
  */
 bool effect_handler_SUMMON(effect_handler_context_t *context)
 {
@@ -2250,66 +2250,66 @@ bool effect_handler_SUMMON(effect_handler_context_t *context)
 
 	sound(message_type);
 
-	/* Sin invocación en niveles de arena */
+	/* No summoning in arena levels */
 	if (player->upkeep->arena_level) return true;
 
-	/* Invocación de monstruo */
+	/* Monster summon */
 	if (context->origin.what == SRC_MONSTER) {
 		struct monster *mon = cave_monster(cave, context->origin.which.monster);
 		int rlev;
 
 		assert(mon);
 
-		/* Establecer kin_base si es necesario */
+		/* Set the kin_base if necessary */
 		if (summon_type == summon_name_to_idx("KIN")) {
 			kin_base = mon->race->base;
 		}
 
-		/* Continuar invocando hasta alcanzar el nivel actual de la mazmorra */
+		/* Continue summoning until we reach the current dungeon level */
 		rlev = mon->race->level;
 		while ((val < player->depth * rlev) && (attempts < summon_max)) {
 			int temp;
 
-			/* Obtener un monstruo */
+			/* Get a monster */
 			temp = summon_specific(mon->grid, rlev + level_boost, summon_type,
 								   false, false);
 
 			val += temp * temp;
 
-			/* Aumentar el intento en caso de que no haya monstruos disponibles. */
+			/* Increase the attempt in case no monsters were available. */
 			attempts++;
 
-			/* Aumentar el recuento de monstruos invocados */
+			/* Increase count of summoned monsters */
 			if (val > 0)
 				count++;
 		}
 
-		/* Si la invocación falló y hay un tipo alternativo, usar ese */
+		/* If the summon failed and there's a fallback type, use that */
 		if ((count == 0) && (fallback_type >= 0)) {
 			attempts = 0;
 			while ((val < player->depth * rlev) && (attempts < summon_max)) {
 				int temp;
 
-				/* Obtener un monstruo */
+				/* Get a monster */
 				temp = summon_specific(mon->grid, rlev + level_boost,
 									   fallback_type, false, false);
 
 				val += temp * temp;
 
-				/* Aumentar el intento en caso de que no haya monstruos disponibles. */
+				/* Increase the attempt in case no monsters were available. */
 				attempts++;
 
-				/* Aumentar el recuento de monstruos invocados */
+				/* Increase count of summoned monsters */
 				if (val > 0)
 					count++;
 			}
 		}
 
-		/* El invocador falló */
+		/* Summoner failed */
 		if (!count)
 			msg("Pero no viene nada.");
 	} else {
-		/* Si no es una invocación de monstruo, es simple */
+		/* If not a monster summon, it's simple */
 		while (summon_max) {
 			count += summon_specific(player->grid, player->depth + level_boost,
 									 summon_type, true, one_in_(4));
@@ -2317,10 +2317,10 @@ bool effect_handler_SUMMON(effect_handler_context_t *context)
 		}
 	}
 
-	/* Identificar */
+	/* Identify */
 	context->ident = true;
 
-	/* Mensaje para los ciegos */
+	/* Message for the blind */
 	if (count && player->timed[TMD_BLIND])
 		msgt(message_type, "Escuchas %s aparecer cerca.",
 			 (count > 1 ? "muchas cosas" : "algo"));
@@ -2329,10 +2329,10 @@ bool effect_handler_SUMMON(effect_handler_context_t *context)
 }
 
 /**
- * Eliminar todos los monstruos no únicos de un determinado "tipo" del nivel
+ * Delete all non-unique monsters of a given "type" from the level
  * -------
- * Advertencia - esta función asume que el símbolo de monstruo ingresado es un carácter
- *		   ASCII, lo que puede no ser cierto en el futuro - NRM
+ * Warning - this function assumes that the entered monster symbol is an ASCII
+ *		   character, which may not be true in the future - NRM
  * -------
  */
 bool effect_handler_BANISH(effect_handler_context_t *context)
@@ -2344,7 +2344,7 @@ bool effect_handler_BANISH(effect_handler_context_t *context)
 
 	context->ident = true;
 
-	/* No permitir en una arena. */
+	/* Don't allow in an arena. */
 	if (player->upkeep->arena_level) {
 		msg("No pasa nada.");
 		return true;
@@ -2353,19 +2353,20 @@ bool effect_handler_BANISH(effect_handler_context_t *context)
 	if (!get_com("Elige una raza de monstruo (por símbolo) para desterrar: ", &typ))
 		return false;
 
-	/* Eliminar los monstruos de ese "tipo" */
+	/* Delete the monsters of that "type" */
 	for (i = 1; i < cave_monster_max(cave); i++) {
 		struct monster *mon = cave_monster(cave, i);
 
-		/* Paranoia -- Saltar monstruos muertos */
+		/* Paranoia -- Skip dead monsters */
 		if (!mon->race) continue;
 
-		/* Saltar Monstruos Únicos */
+		/* Skip Unique Monsters */
 		if (monster_is_unique(mon)) continue;
 
 		/*
-		 * Saltar monstruos "equivocados" (ver advertencia arriba); para cambiaformas
-		 * es la raza original lo que importa, no la forma que tiene el monstruo ahora.
+		 * Skip "wrong" monsters (see warning above); for shape shifters
+		 * it is the original race that matters not whatever shape the
+		 * monster has now.
 		 */
 		if (mon->original_race) {
 			if ((char) mon->original_race->d_char != typ) continue;
@@ -2373,30 +2374,30 @@ bool effect_handler_BANISH(effect_handler_context_t *context)
 			if ((char) mon->race->d_char != typ) continue;
 		}
 
-		/* Eliminar el monstruo */
+		/* Delete the monster */
 		delete_monster_idx(cave, i);
 
-		/* Recibir algo de daño */
+		/* Take some damage */
 		dam += randint1(4);
 	}
 
-	/* Dañar al jugador */
+	/* Hurt the player */
 	dam = player_apply_damage_reduction(player, dam);
 	if (dam > 0 && OPT(player, show_damage)) {
 		msg("Recibes %d de daño.", dam);
 	}
 	take_hit(player, dam, "la tensión de lanzar Destierro");
 
-	/* Actualizar ventana de lista de monstruos */
+	/* Update monster list window */
 	player->upkeep->redraw |= PR_MONLIST;
 
-	/* Éxito */
+	/* Success */
 	return true;
 }
 
 /**
- * Eliminar todos los monstruos cercanos (no únicos). El radio de efecto es
- * context->radius si se pasa, de lo contrario el radio de visión del jugador.
+ * Delete all nearby (non-unique) monsters.  The radius of effect is
+ * context->radius if passed, otherwise the player view radius.
  */
 bool effect_handler_MASS_BANISH(effect_handler_context_t *context)
 {
@@ -2406,47 +2407,47 @@ bool effect_handler_MASS_BANISH(effect_handler_context_t *context)
 
 	context->ident = true;
 
-	/* No permitir en una arena. */
+	/* Don't allow in an arena. */
 	if (player->upkeep->arena_level) {
 		msg("No pasa nada.");
 		return true;
 	}
 
-	/* Eliminar los monstruos (cercanos) */
+	/* Delete the (nearby) monsters */
 	for (i = 1; i < cave_monster_max(cave); i++) {
 		struct monster *mon = cave_monster(cave, i);
 
-		/* Paranoia -- Saltar monstruos muertos */
+		/* Paranoia -- Skip dead monsters */
 		if (!mon->race) continue;
 
-		/* Saltar monstruos únicos */
+		/* Skip unique monsters */
 		if (monster_is_unique(mon)) continue;
 
-		/* Saltar monstruos distantes */
+		/* Skip distant monsters */
 		if (mon->cdis > radius) continue;
 
-		/* Eliminar el monstruo */
+		/* Delete the monster */
 		delete_monster_idx(cave, i);
 
-		/* Recibir algo de daño */
+		/* Take some damage */
 		dam += randint1(3);
 	}
 
-	/* Dañar al jugador */
+	/* Hurt the player */
 	dam = player_apply_damage_reduction(player, dam);
 	if (dam > 0 && OPT(player, show_damage)) {
 		msg("Recibes %d de daño.", dam);
 	}
 	take_hit(player, dam, "la tensión de lanzar Destierro Masivo");
 
-	/* Actualizar ventana de lista de monstruos */
+	/* Update monster list window */
 	player->upkeep->redraw |= PR_MONLIST;
 
 	return true;
 }
 
 /**
- * Probar monstruos cercanos
+ * Probe nearby monsters
  */
 bool effect_handler_PROBE(effect_handler_context_t *context)
 {
@@ -2454,39 +2455,39 @@ bool effect_handler_PROBE(effect_handler_context_t *context)
 
 	bool probe = false;
 
-	/* Probar todos los monstruos (cercanos) */
+	/* Probe all (nearby) monsters */
 	for (i = 1; i < cave_monster_max(cave); i++) {
 		struct monster *mon = cave_monster(cave, i);
 
-		/* Paranoia -- Saltar monstruos muertos */
+		/* Paranoia -- Skip dead monsters */
 		if (!mon->race) continue;
 
-		/* Requerir línea de visión */
+		/* Require line of sight */
 		if (!square_isview(cave, mon->grid)) continue;
 
-		/* Probar monstruos visibles */
+		/* Probe visible monsters */
 		if (monster_is_visible(mon)) {
 			char m_name[80];
 
-			/* Iniciar el mensaje */
+			/* Start the message */
 			if (!probe) msg("Probando...");
 
-			/* Obtener "el monstruo" o "algo" */
+			/* Get "the monster" or "something" */
 			monster_desc(m_name, sizeof(m_name), mon,
 				MDESC_IND_HID | MDESC_CAPITAL | MDESC_COMMA);
 
-			/* Describir el monstruo */
+			/* Describe the monster */
 			msg("%s tiene %d punto%s de golpe.", m_name, mon->hp, (mon->hp == 1) ? "" : "s");
 
-			/* Aprender todas las banderas no relacionadas con hechizos ni tesoros */
+			/* Learn all of the non-spell, non-treasure flags */
 			lore_do_probe(mon);
 
-			/* La prueba funcionó */
+			/* Probe worked */
 			probe = true;
 		}
 	}
 
-	/* Hecho */
+	/* Done */
 	if (probe) {
 		msg("Eso es todo.");
 		context->ident = true;
@@ -2496,13 +2497,13 @@ bool effect_handler_PROBE(effect_handler_context_t *context)
 }
 
 /**
- * Teletransportar al jugador o monstruo hasta context->value.base cuadrículas de distancia.
+ * Teleport player or monster up to context->value.base grids away.
  *
- * Si no hay espacios disponibles fácilmente, la distancia puede aumentar.
- * Intentar muy fuerte mover al jugador/monstruo al menos un cuarto de esa distancia.
- * Establecer context->subtype permite que los monstruos teletransporten al jugador.
- * Establecer context->y y context->x los trata como coordenadas y e x
- * y teletransporta al monstruo desde esa cuadrícula.
+ * If no spaces are readily available, the distance may increase.
+ * Try very hard to move the player/monster at least a quarter that distance.
+ * Setting context->subtype allows monsters to teleport the player away.
+ * Setting context->y and context->x treats them as y and x coordinates
+ * and teleports the monster from that grid.
  */
 bool effect_handler_TELEPORT(effect_handler_context_t *context)
 {
@@ -2525,17 +2526,17 @@ bool effect_handler_TELEPORT(effect_handler_context_t *context)
 
 	context->ident = true;
 
-	/* No teletransporte en niveles de arena */
+	/* No teleporting in arena levels */
 	if (player->upkeep->arena_level) return true;
 
-	/* Establecer las coordenadas desde las que teletransportar, si no las sabemos ya */
+	/* Establish the coordinates to teleport from, if we don't know already */
 	if (!loc_is_zero(start)) {
-		/* Estamos bien */
+		/* We're good */
 	} else if (t_mon) {
-		/* Monstruo apuntando a otro monstruo */
+		/* Monster targeting another monster */
 		start = t_mon->grid;
 	} else if (is_player) {
-		/* Los señuelos son destruidos */
+		/* Decoys get destroyed */
 		struct loc decoy = cave_find_decoy(cave);
 		if (!loc_is_zero(decoy) && context->subtype) {
 			square_destroy_decoy(cave, decoy);
@@ -2544,14 +2545,14 @@ bool effect_handler_TELEPORT(effect_handler_context_t *context)
 
 		start = player->grid;
 
-		/* Comprobar si hay una cuadrícula sin teletransporte */
+		/* Check for a no teleport grid */
 		if (square_isno_teleport(cave, start) &&
 			((dis > 10) || (dis == 0))) {
 			msg("¡Teletransporte prohibido!");
 			return true;
 		}
 
-		/* Comprobar si hay una maldición de no teletransporte */
+		/* Check for a no teleport curse */
 		if (player_of_has(player, OF_NO_TELEPORT)) {
 			equip_learn_flag(player, OF_NO_TELEPORT);
 			msg("¡Teletransporte prohibido!");
@@ -2563,41 +2564,41 @@ bool effect_handler_TELEPORT(effect_handler_context_t *context)
 		start = mon->grid;
 	}
 
-	/* Porcentaje de la mayor distancia cardinal a un borde */
+	/* Percentage of the largest cardinal distance to an edge */
 	if (perc) {
 		int vertical = MAX(start.y, cave->height - start.y);
 		int horizontal = MAX(start.x, cave->width - start.x);
 		dis = (MAX(vertical, horizontal) * perc) / 100;
 	}
 
-	/* Aleatorizar un poco la distancia */
+	/* Randomise the distance a little */
 	if (one_in_(2)) {
 		dis -= randint0(dis / 4);
 	} else {
 		dis += randint0(dis / 4);
 	}
 
-	/* Hacer una lista de las mejores cuadrículas, puntuando por qué tan buena aproximación
-	 * es la distancia desde el inicio a la distancia que queremos */
+	/* Make a list of the best grids, scoring by how good an approximation
+	 * the distance from the start is to the distance we want */
 	for (grid.y = 1; grid.y < cave->height - 1; grid.y++) {
 		for (grid.x = 1; grid.x < cave->width - 1; grid.x++) {
 			int d = distance(grid, start);
 			int score = ABS(d - dis);
 			struct jumps *new;
 
-			/* Debe moverse */
+			/* Must move */
 			if (d == 0) continue;
 
 			if (!has_teleport_destination_prereqs(cave, grid,
 					is_player)) continue;
 
-			/* No teletransportarse a bóvedas y similares, a menos que no haya elección */
+			/* No teleporting into vaults and such, unless there's no choice */
 			if (square_isvault(cave, grid)) {
 				if (!only_vault_grids_possible) {
 					continue;
 				}
 			} else {
-				/* Recién comenzando a considerar cuadrículas sin bóveda, así que restablecer puntuación */
+				/* Just starting to consider non-vault grids, so reset score */
 				if (only_vault_grids_possible) {
 					current_score = 2 * MAX(z_info->dungeon_wid,
 											z_info->dungeon_hgt);
@@ -2605,14 +2606,14 @@ bool effect_handler_TELEPORT(effect_handler_context_t *context)
 				only_vault_grids_possible = false;
 			}
 
-			/* ¿Ya tenemos mejores lugares? */
+			/* Do we have better spots already? */
 			if (score > current_score) continue;
 
-			/* Hacer un nuevo lugar */
+			/* Make a new spot */
 			new = mem_zalloc(sizeof(struct jumps));
 			new->grid = grid;
 
-			/* Si mejora, comenzar una nueva lista, de lo contrario extender la anterior */
+			/* If improving start a new list, otherwise extend the old one */
 			if (score < current_score) {
 				current_score = score;
 				while (spots) {
@@ -2630,14 +2631,14 @@ bool effect_handler_TELEPORT(effect_handler_context_t *context)
 		}
 	}
 
-	/* Reportar fallo (muy improbable) */
+	/* Report failure (very unlikely) */
 	if (!num_spots) {
 		if (is_player) {
 			msg("¡Fallo al encontrar destino de teletransporte!");
 		} else {
 			/*
-			 * Con teletransporte propio o teletransporte de otro, será
-			 * el lanzador el que está desconcertado.
+			 * With either teleport self or teleport other, it'll
+			 * be the caster that is puzzled.
 			 */
 			struct monster *mon = cave_monster(cave,
 				context->origin.which.monster);
@@ -2650,7 +2651,7 @@ bool effect_handler_TELEPORT(effect_handler_context_t *context)
 		return true;
 	}
 
-	/* Elegir un lugar */
+	/* Pick a spot */
 	pick = randint0(num_spots);
 	while (pick) {
 		struct jumps *next = spots->next;
@@ -2659,25 +2660,25 @@ bool effect_handler_TELEPORT(effect_handler_context_t *context)
 		pick--;
 	}
 
-	/* Sonido */
+	/* Sound */
 	sound(is_player ? MSG_TELEPORT : MSG_TPOTHER);
 
-	/* Mover al jugador o monstruo */
+	/* Move player or monster */
 	monster_swap(start, spots->grid);
 	if (is_player) {
 		player_handle_post_move(player, true,
 			context->origin.what == SRC_MONSTER);
 	}
 
-	/* Limpiar cualquier marcador de proyección para evitar procesamiento doble */
+	/* Clear any projection marker to prevent double processing */
 	sqinfo_off(square(cave, spots->grid)->info, SQUARE_PROJECT);
 
-	/* Limpiar objetivo del monstruo si ya no es visible */
+	/* Clear monster target if it's no longer visible */
 	if (!target_able(target_get_monster())) {
 		target_set_monster(NULL);
 	}
 
-	/* Muchas actualizaciones después de monster_swap */
+	/* Lots of updates after monster_swap */
 	handle_stuff(player);
 
 	while (spots) {
@@ -2690,12 +2691,12 @@ bool effect_handler_TELEPORT(effect_handler_context_t *context)
 }
 
 /**
- * Teletransportar al jugador o monstruo objetivo a una cuadrícula cerca de la ubicación dada
- * Establecer context->y y context->x los trata como coordenadas y e x
- * Establecer context->subtype permite que los monstruos teletransporten hacia el jugador.
+ * Teleport player or target monster to a grid near the given location
+ * Setting context->y and context->x treats them as y and x coordinates
+ * Setting context->subtype allows monsters to teleport toward the player.
  *
- * Esta función es ligeramente obsesiva con la corrección.
- * Esta función permite teletransportarse a bóvedas (!)
+ * This function is slightly obsessive about correctness.
+ * This function allows teleporting into vaults (!)
  */
 bool effect_handler_TELEPORT_TO(effect_handler_context_t *context)
 {
@@ -2708,7 +2709,7 @@ bool effect_handler_TELEPORT_TO(effect_handler_context_t *context)
 
 	context->ident = true;
 
-	/* No teletransporte en niveles de arena */
+	/* No teleporting in arena levels */
 	if (player->upkeep->arena_level) return true;
 
 	if (context->origin.what == SRC_MONSTER) {
@@ -2716,9 +2717,9 @@ bool effect_handler_TELEPORT_TO(effect_handler_context_t *context)
 		assert(mon);
 	}
 
-	/* ¿De dónde venimos? */
+	/* Where are we coming from? */
 	if (t_mon) {
-		/* Monstruo siendo teletransportado */
+		/* Monster being teleported */
 		start = t_mon->grid;
 	} else if (context->subtype) {
 		if (!mon) {
@@ -2726,26 +2727,26 @@ bool effect_handler_TELEPORT_TO(effect_handler_context_t *context)
 				"lanzado por un monstruo.");
 			return true;
 		}
-		/* Monstruo teletransportándose al jugador */
+		/* Monster teleporting to the player */
 		start = mon->grid;
 	} else {
-		/* Los señuelos objetivo son destruidos */
+		/* Targeted decoys get destroyed */
 		if (mon && monster_is_decoyed(mon)) {
 			square_destroy_decoy(cave, cave_find_decoy(cave));
 			return true;
 		}
 
-		/* Jugador siendo teletransportado */
+		/* Player being teleported */
 		player_moves = true;
 		start = player->grid;
 
-		/* Comprobar si hay una cuadrícula sin teletransporte */
+		/* Check for a no teleport grid */
 		if (square_isno_teleport(cave, start)) {
 			msg("¡Teletransporte prohibido!");
 			return true;
 		}
 
-		/* Comprobar si hay una maldición de no teletransporte */
+		/* Check for a no teleport curse */
 		if (player_of_has(player, OF_NO_TELEPORT)) {
 			equip_learn_flag(player, OF_NO_TELEPORT);
 			msg("¡Teletransporte prohibido!");
@@ -2753,22 +2754,22 @@ bool effect_handler_TELEPORT_TO(effect_handler_context_t *context)
 		}
 	}
 
-	/* ¿A dónde vamos? */
+	/* Where are we going? */
 	if (context->y && context->x) {
-		/* Al efecto se le dieron coordenadas */
+		/* Effect was given co-ordinates */
 		aim = loc(context->x, context->y);
 	} else if (mon) {
-		/* Hechizo lanzado por monstruo */
+		/* Spell cast by monster */
 		if (context->subtype) {
-			/* Monstruo teletransportándose al jugador */
+			/* Monster teleporting to player */
 			aim = player->grid;
 			dis = 2;
 		} else {
-			/* Jugador siendo teletransportado al monstruo */
+			/* Player being teleported to monster */
 			aim = mon->grid;
 		}
 	} else {
-		/* Elección del jugador */
+		/* Player choice */
 		do {
 			if (!get_aim_dir(&dir)) return false;
 		} while (dir == DIR_TARGET && !target_okay());
@@ -2778,14 +2779,14 @@ bool effect_handler_TELEPORT_TO(effect_handler_context_t *context)
 		else
 			aim = loc_offset(start, ddx[dir], ddy[dir]);
 
-		/* Aleatorizar un poco el aterrizaje si es una bóveda */
+		/* Randomise the landing a bit if it's a vault */
 		if (square_isvault(cave, aim)) dis = 10;
 		dim_door = true;
 	}
 
-	/* Encontrar una ubicación utilizable */
+	/* Find a usable location */
 	while (1) {
-		/* Elegir una ubicación legal cercana */
+		/* Pick a nearby legal location */
 		while (1) {
 			land = rand_loc(aim, dis, dis);
 			if (square_in_bounds_fully(cave, land)) break;
@@ -2794,39 +2795,39 @@ bool effect_handler_TELEPORT_TO(effect_handler_context_t *context)
 		if (has_teleport_destination_prereqs(cave, land,
 				player_moves)) break;
 
-		/* Ocasionalmente avanzar la distancia */
+		/* Occasionally advance the distance */
 		if (++ctr > (4 * dis * dis + 4 * dis + 1)) {
 			ctr = 0;
 			dis++;
 		}
 	}
 
-	/* Sonido */
+	/* Sound */
 	sound(MSG_TELEPORT);
 
-	/* Mover al jugador o monstruo */
+	/* Move player or monster */
 	monster_swap(start, land);
 	if (player_moves) {
 		player_handle_post_move(player, true,
 			context->origin.what == SRC_MONSTER);
 	}
 
-	/* Cancelar objetivo si es necesario */
+	/* Cancel target if necessary */
 	if (dim_door) {
 		target_set_location(0, 0);
 	}
 
-	/* Limpiar cualquier marcador de proyección para evitar procesamiento doble */
+	/* Clear any projection marker to prevent double processing */
 	sqinfo_off(square(cave, land)->info, SQUARE_PROJECT);
 
-	/* Muchas actualizaciones después de monster_swap */
+	/* Lots of updates after monster_swap */
 	handle_stuff(player);
 
 	return true;
 }
 
 /**
- * Teletransportar al jugador un nivel hacia arriba o abajo (aleatorio cuando es legal)
+ * Teleport the player one level up or down (random when legal)
  */
 bool effect_handler_TELEPORT_LEVEL(effect_handler_context_t *context)
 {
@@ -2838,57 +2839,57 @@ bool effect_handler_TELEPORT_LEVEL(effect_handler_context_t *context)
 
 	context->ident = true;
 
-	/* No teletransporte en niveles de arena */
+	/* No teleporting in arena levels */
 	if (player->upkeep->arena_level) return true;
 
-	/* Comprobar si un monstruo apunta a otro monstruo */
+	/* Check for monster targeting another monster */
 	if (t_mon) {
-		/* El monstruo simplemente desaparece */
+		/* Monster is just gone */
 		add_monster_message(t_mon, MON_MSG_DISAPPEAR, false);
 		delete_monster_idx(cave, t_mon->midx);
 		return true;
 	}
 
-	/* Los señuelos objetivo son destruidos */
+	/* Targeted decoys get destroyed */
 	if (decoy.y && decoy.x) {
 		square_destroy_decoy(cave, decoy);
 		return true;
 	}
 
-	/* Comprobar si hay una cuadrícula sin teletransporte */
+	/* Check for a no teleport grid */
 	if (square_isno_teleport(cave, player->grid)) {
 		msg("¡Teletransporte prohibido!");
 		return true;
 	}
 
-	/* Comprobar si hay una maldición de no teletransporte */
+	/* Check for a no teleport curse */
 	if (player_of_has(player, OF_NO_TELEPORT)) {
 		equip_learn_flag(player, OF_NO_TELEPORT);
 		msg("¡Teletransporte prohibido!");
 		return true;
 	}
 
-	/* Resistir teletransporte hostil */
+	/* Resist hostile teleport */
 	if (context->origin.what == SRC_MONSTER &&
 			player_resists(player, ELEM_NEXUS)) {
 		msg("¡Resistes el efecto!");
 		return true;
 	}
 
-	/* No subir con force_descend o en la ciudad */
+	/* No going up with force_descend or in the town */
 	if (OPT(player, birth_force_descend) || !player->depth)
 		up = false;
 
-	/* No forzar al jugador a bajar a niveles de misión si no puede salir */
+	/* No forcing player down to quest levels if they can't leave */
 	if (!up && is_quest(player, target_depth))
 		down = false;
 
-	/* No puede salir de niveles de misión o bajar más profundo que la mazmorra */
+	/* Can't leave quest levels or go down deeper than the dungeon */
 	if (is_quest(player, player->depth)
 			|| (player->depth >= z_info->max_depth - 1))
 		down = false;
 
-	/* Determinar arriba/abajo si no se ha hecho ya */
+	/* Determine up/down if not already done */
 	if (up && down) {
 		if (randint0(100) < 50)
 			up = false;
@@ -2897,11 +2898,10 @@ bool effect_handler_TELEPORT_LEVEL(effect_handler_context_t *context)
 	}
 
 	/*
-	 * Ahora realmente hacer el cambio de nivel; vaciar la cola de comandos para
-	 * evitar que el personaje pierda una acción al entrar por primera vez
-	 * en el nuevo nivel (por ejemplo, el jugador se mueve poniendo un comando
-	 * de recogida automática en la cola y luego es golpeado por un hechizo de
-	 * teletransporte de nivel)
+	 * Now actually do the level change; flush the command queue to
+	 * prevent the character from losing an action when first entering
+	 * the new level (for instance, player moves putting an autopickup
+	 * command in the queue and is then hit by a teleport level spell)
 	 */
 	if (up) {
 		msgt(MSG_TPLEVEL, "Te elevas a través del techo.");
@@ -2930,17 +2930,17 @@ bool effect_handler_TELEPORT_LEVEL(effect_handler_context_t *context)
 }
 
 /**
- * El efecto de escombros
+ * The rubble effect
  *
- * Esto hace que caigan escombros en cuadrados vacíos.
+ * This causes rubble to fall into empty squares.
  */
 bool effect_handler_RUBBLE(effect_handler_context_t *context)
 {
 	/*
-	 * Primero calculamos cuántas cuadrículas queremos llenar con escombros. Luego
-	 * comprobamos que realmente podemos hacer esto, contando el número de cuadrículas
-	 * disponibles, limitando el número de cuadrículas de escombros a este número si
-	 * es necesario.
+	 * First we work out how many grids we want to fill with rubble.  Then we
+	 * check that we can actually do this, by counting the number of grids
+	 * available, limiting the number of rubble grids to this number if
+	 * necessary.
 	 */
 	int rubble_grids = randint1(3);
 	int open_grids = count_neighbors(NULL, cave, player->grid,
@@ -2950,13 +2950,13 @@ bool effect_handler_RUBBLE(effect_handler_context_t *context)
 		rubble_grids = open_grids;
 	}
 
-	/* Evitar bucles infinitos */
+	/* Avoid infinite loops */
 	int iterations = 0;
 
 	while (rubble_grids > 0 && iterations < 10) {
-		/* Mirar alrededor del jugador */
+		/* Look around the player */
 		for (int d = 0; d < 8; d++) {
-			/* Extraer ubicación adyacente (legal) */
+			/* Extract adjacent (legal) location */
 			struct loc grid = loc_sum(player->grid, ddgrid_ddd[d]);
 			if (!square_in_bounds_fully(cave, grid)) continue;
 			if (!square_isempty(cave, grid)) continue;
@@ -2977,10 +2977,10 @@ bool effect_handler_RUBBLE(effect_handler_context_t *context)
 
 	context->ident = true;
 
-	/* Actualizar completamente los elementos visuales */
+	/* Fully update the visuals */
 	player->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 
-	/* Redibujar lista de monstruos */
+	/* Redraw monster list */
 	player->upkeep->redraw |= (PR_MONLIST | PR_ITEMLIST);
 
 	return true;
@@ -3019,25 +3019,25 @@ bool effect_handler_DARKEN_LEVEL(effect_handler_context_t *context)
 }
 
 /**
- * Llamar luz alrededor del jugador
+ * Call light around the player
  */
 bool effect_handler_LIGHT_AREA(effect_handler_context_t *context)
 {
-	/* Mensaje */
+	/* Message */
 	if (!player->timed[TMD_BLIND])
 		msg("Estás rodeado por una luz blanca.");
 
-	/* Iluminar la habitación */
+	/* Light up the room */
 	light_room(player->grid, true);
 
-	/* Asumir visto */
+	/* Assume seen */
 	context->ident = true;
 	return (true);
 }
 
 
 /**
- * Llamar oscuridad alrededor del jugador o monstruo objetivo
+ * Call darkness around the player or target monster
  */
 bool effect_handler_DARKEN_AREA(effect_handler_context_t *context)
 {
@@ -3052,7 +3052,7 @@ bool effect_handler_DARKEN_AREA(effect_handler_context_t *context)
 		mon = cave_monster(cave, context->origin.which.monster);
 	}
 
-	/* Comprobar si un monstruo apunta a otro monstruo */
+	/* Check for monster targeting another monster */
 	if (t_mon) {
 		char m_name[80];
 		target = t_mon->grid;
@@ -3063,7 +3063,7 @@ bool effect_handler_DARKEN_AREA(effect_handler_context_t *context)
 		}
 	}
 
-	/* Comprobar señuelo */
+	/* Check for decoy */
 	if (mon && monster_is_decoyed(mon)) {
 		target = decoy;
 		if (!los(cave, player->grid, decoy) ||
@@ -3080,23 +3080,23 @@ bool effect_handler_DARKEN_AREA(effect_handler_context_t *context)
 		msg("La oscuridad te rodea.");
 	}
 
-	/* Oscurecer la habitación */
+	/* Darken the room */
 	light_room(target, false);
 
-	/* Truco - cegar al jugador directamente si es lanzado por el jugador */
+	/* Hack - blind the player directly if player-cast */
 	if (context->origin.what == SRC_PLAYER &&
 		!player_resists(player, ELEM_DARK)) {
 		(void)player_inc_timed(player, TMD_BLIND, 3 + randint1(5),
 			true, !context->aware, true);
 	}
 
-	/* Asumir visto */
+	/* Assume seen */
 	context->ident = !decoy_unseen;
 	return (true);
 }
 
 /**
- * Maldice la armadura del jugador
+ * Curse the player's armor
  */
 bool effect_handler_CURSE_ARMOR(effect_handler_context_t *context)
 {
@@ -3104,16 +3104,16 @@ bool effect_handler_CURSE_ARMOR(effect_handler_context_t *context)
 
 	char o_name[80];
 
-	/* Maldice la armadura corporal */
+	/* Curse the body armor */
 	obj = equipped_item_by_slot_name(player, "body");
 
-	/* Nada que maldecir */
+	/* Nothing to curse */
 	if (!obj) return (true);
 
-	/* Describir */
+	/* Describe */
 	object_desc(o_name, sizeof(o_name), obj, ODESC_FULL, player);
 
-	/* Intentar una tirada de salvación para artefactos */
+	/* Attempt a saving throw for artifacts */
 	if (obj->artifact && (randint0(100) < 50)) {
 		msg("Un %s intenta %s, ¡pero tu %s resiste los efectos!",
 				   "aura negra terrible", "rodear tu armadura", o_name);
@@ -3124,10 +3124,10 @@ bool effect_handler_CURSE_ARMOR(effect_handler_context_t *context)
 
 		msg("¡Un aura negra terrible golpea tu %s!", o_name);
 
-		/* Reducir un poco la bonificación */
+		/* Take down bonus a wee bit */
 		obj->to_a -= randint1(3);
 
-		/* Intentar encontrar suficientes maldiciones apropiadas */
+		/* Try to find enough appropriate curses */
 		while (num && max_tries) {
 			int pick = randint1(z_info->curse_max - 1);
 			int power = 10 * m_bonus(9, player->depth);
@@ -3139,17 +3139,17 @@ bool effect_handler_CURSE_ARMOR(effect_handler_context_t *context)
 			num--;
 		}
 
-		/* Contabilizar un cambio de peso, si lo hay */
+		/* Account for a weight change, if any */
 		player->upkeep->total_weight +=
 			(obj->number * object_weight_one(obj)) - old_weight;
 
-		/* Recalcular bonificaciones */
+		/* Recalculate bonuses */
 		player->upkeep->update |= (PU_BONUS);
 
-		/* Recalcular mana */
+		/* Recalculate mana */
 		player->upkeep->update |= (PU_MANA);
 
-		/* Cosas de ventana */
+		/* Window stuff */
 		player->upkeep->redraw |= (PR_INVEN | PR_EQUIP);
 	}
 
@@ -3160,7 +3160,7 @@ bool effect_handler_CURSE_ARMOR(effect_handler_context_t *context)
 
 
 /**
- * Maldice el arma del jugador
+ * Curse the player's weapon
  */
 bool effect_handler_CURSE_WEAPON(effect_handler_context_t *context)
 {
@@ -3168,16 +3168,16 @@ bool effect_handler_CURSE_WEAPON(effect_handler_context_t *context)
 
 	char o_name[80];
 
-	/* Maldice el arma */
+	/* Curse the weapon */
 	obj = equipped_item_by_slot_name(player, "weapon");
 
-	/* Nada que maldecir */
+	/* Nothing to curse */
 	if (!obj) return (true);
 
-	/* Describir */
+	/* Describe */
 	object_desc(o_name, sizeof(o_name), obj, ODESC_FULL, player);
 
-	/* Intentar una tirada de salvación */
+	/* Attempt a saving throw */
 	if (obj->artifact && (randint0(100) < 50)) {
 		msg("Un %s intenta %s, ¡pero tu %s resiste los efectos!",
 				   "aura negra terrible", "rodear tu arma", o_name);
@@ -3188,11 +3188,11 @@ bool effect_handler_CURSE_WEAPON(effect_handler_context_t *context)
 
 		msg("¡Un aura negra terrible golpea tu %s!", o_name);
 
-		/* Dañarlo un poco */
+		/* Hurt it a bit */
 		obj->to_h = 0 - randint1(3);
 		obj->to_d = 0 - randint1(3);
 
-		/* Maldirlo */
+		/* Curse it */
 		while (num && max_tries) {
 			int pick = randint1(z_info->curse_max - 1);
 			int power = 10 * m_bonus(9, player->depth);
@@ -3204,38 +3204,38 @@ bool effect_handler_CURSE_WEAPON(effect_handler_context_t *context)
 			num--;
 		}
 
-		/* Contabilizar un cambio de peso, si lo hay */
+		/* Account for a weight change, if any */
 		player->upkeep->total_weight +=
 			(obj->number * object_weight_one(obj)) - old_weight;
 
-		/* Recalcular bonificaciones */
+		/* Recalculate bonuses */
 		player->upkeep->update |= (PU_BONUS);
 
-		/* Recalcular mana */
+		/* Recalculate mana */
 		player->upkeep->update |= (PU_MANA);
 
-		/* Cosas de ventana */
+		/* Window stuff */
 		player->upkeep->redraw |= (PR_INVEN | PR_EQUIP);
 	}
 
 	context->ident = true;
 
-	/* Notificar */
+	/* Notice */
 	return (true);
 }
 
 
 /**
- * Marcar el arma actual
+ * Brand the current weapon
  */
 bool effect_handler_BRAND_WEAPON(effect_handler_context_t *context)
 {
 	struct object *obj = equipped_item_by_slot_name(player, "weapon");
 
-	/* Seleccionar la marca */
+	/* Select the brand */
 	const char *brand = one_in_(2) ? "Llama" : "Escarcha";
 
-	/* Marcar el arma */
+	/* Brand the weapon */
 	brand_object(obj, brand);
 
 	context->ident = true;
@@ -3244,7 +3244,7 @@ bool effect_handler_BRAND_WEAPON(effect_handler_context_t *context)
 
 
 /**
- * Marcar algo de munición (no mágica)
+ * Brand some (non-magical) ammo
  */
 bool effect_handler_BRAND_AMMO(effect_handler_context_t *context)
 {
@@ -3253,12 +3253,12 @@ bool effect_handler_BRAND_AMMO(effect_handler_context_t *context)
 	int itemmode = (USE_INVEN | USE_QUIVER | USE_FLOOR);
 	bool used = false;
 
-	/* Seleccionar la marca */
+	/* Select the brand */
 	const char *brand = one_in_(3) ? "Llama" : (one_in_(2) ? "Escarcha" : "Veneno");
 
 	context->ident = true;
 
-	/* Obtener un objeto */
+	/* Get an item */
 	q = "¿Marcar qué tipo de munición? ";
 	s = "No tienes nada para marcar.";
 	if (context->cmd) {
@@ -3269,15 +3269,15 @@ bool effect_handler_BRAND_AMMO(effect_handler_context_t *context)
 	} else if (!get_item(&obj, q, s, 0, tval_is_ammo, itemmode))
 		return used;
 
-	/* Marcar la munición */
+	/* Brand the ammo */
 	brand_object(obj, brand);
 
-	/* Hecho */
+	/* Done */
 	return (true);
 }
 
 /**
- * Encantar algunos virote (no mágicos)
+ * Enchant some (non-magical) bolts
  */
 bool effect_handler_BRAND_BOLTS(effect_handler_context_t *context)
 {
@@ -3288,7 +3288,7 @@ bool effect_handler_BRAND_BOLTS(effect_handler_context_t *context)
 
 	context->ident = true;
 
-	/* Obtener un objeto */
+	/* Get an item */
 	q = "¿Marcar qué virote? ";
 	s = "No tienes virote para marcar.";
 	if (context->cmd) {
@@ -3299,16 +3299,16 @@ bool effect_handler_BRAND_BOLTS(effect_handler_context_t *context)
 	} else if (!get_item(&obj, q, s, 0, tval_is_bolt, itemmode))
 		return used;
 
-	/* Marcar los virote */
+	/* Brand the bolts */
 	brand_object(obj, "Llama");
 
-	/* Hecho */
+	/* Done */
 	return (true);
 }
 
 
 /**
- * Convertir un bastón en flechas
+ * Turn a staff into arrows
  */
 bool effect_handler_CREATE_ARROWS(effect_handler_context_t *context)
 {
@@ -3319,7 +3319,7 @@ bool effect_handler_CREATE_ARROWS(effect_handler_context_t *context)
 	bool good = false, great = false;
 	bool none_left = false;
 
-	/* Obtener un objeto */
+	/* Get an item */
 	q = "¿Hacer flechas de qué bastón? ";
 	s = "No tienes ningún bastón para usar.";
 	if (context->cmd) {
@@ -3331,19 +3331,19 @@ bool effect_handler_CREATE_ARROWS(effect_handler_context_t *context)
 		return false;
 	}
 
-	/* Extraer el "nivel" del objeto */
+	/* Extract the object "level" */
 	lev = obj->kind->level;
 
-	/* Tirar para bueno */
+	/* Roll for good */
 	if (randint1(lev) > 25) {
 		good = true;
-		/* Tirar para excelente */
+		/* Roll for great */
 		if (randint1(lev) > 50) {
 			great = true;
 		}
 	}
 
-	/* Destruir el bastón */
+	/* Destroy the staff */
 	if (object_is_carried(player, obj)) {
 		staff = gear_object_for_use(player, obj, 1, true, &none_left);
 	} else {
@@ -3355,7 +3355,7 @@ bool effect_handler_CREATE_ARROWS(effect_handler_context_t *context)
 	}
 	object_delete(cave, player->cave, &staff);
 
-	/* Hacer algunas flechas */
+	/* Make some arrows */
 	arrows = make_object(cave, player->lev, good, great, false, NULL, TV_ARROW);
 	drop_near(cave, &arrows, 0, player->grid, true, true);
 
@@ -3363,7 +3363,7 @@ bool effect_handler_CREATE_ARROWS(effect_handler_context_t *context)
 }
 
 /**
- * Extraer energía de un dispositivo mágico
+ * Draw energy from a magical device
  */
 bool effect_handler_TAP_DEVICE(effect_handler_context_t *context)
 {
@@ -3375,7 +3375,7 @@ bool effect_handler_TAP_DEVICE(effect_handler_context_t *context)
 	const char *q, *s;
 	const char *item = "";
 
-	/* Obtener un objeto */
+	/* Get an item */
 	q = "¿Drenar cargas de qué objeto? ";
 	s = "No tienes nada de qué drenar cargas.";
 	if (context->cmd) {
@@ -3387,10 +3387,10 @@ bool effect_handler_TAP_DEVICE(effect_handler_context_t *context)
 		return (used);
 	}
 
-	/* Extraer el "nivel" del objeto */
+	/* Extract the object "level" */
 	lev = obj->kind->level;
 
-	/* Extraer la energía del objeto y obtener su nombre genérico. */
+	/* Extract the object's energy and get its generic name. */
 	if (tval_is_staff(obj)) {
 		energy = (5 + lev) * 3 * obj->pval / 2;
 		item = "bastón";
@@ -3399,24 +3399,24 @@ bool effect_handler_TAP_DEVICE(effect_handler_context_t *context)
 		item = "varita";
 	}
 
-	/* Convertir energía en mana. */
+	/* Turn energy into mana. */
 	if (energy < 36) {
-		/* Requerir una cantidad razonable de energía */
+		/* Require a resonable amount of energy */
 		msg("Ese %s no tenía energía utilizable", item);
 	} else {
-		/* Si el mana está por debajo del máximo, aumentar el mana y drenar el objeto. */
+		/* If mana below maximum, increase mana and drain object. */
 		if (player->csp < player->msp) {
-			/* Drenar el objeto. */
+			/* Drain the object. */
 			obj->pval = 0;
 
 
-			/* Combinar / Reordenar la mochila (más tarde) */
+			/* Combine / Reorder the pack (later) */
 			player->upkeep->notice |= (PN_COMBINE);
 
-			/* Redibujar cosas */
+			/* Redraw stuff */
 			player->upkeep->redraw |= (PR_INVEN);
 
-			/* Aumentar mana. */
+			/* Increase mana. */
 			player->csp += energy / 6;
 			player->csp_frac = 0;
 			if (player->csp > player->msp) {
@@ -3442,7 +3442,7 @@ bool effect_handler_TAP_DEVICE(effect_handler_context_t *context)
 }
 
 /**
- * Realizar un cambio de forma del jugador
+ * Perform a player shapechange
  */
 bool effect_handler_SHAPECHANGE(effect_handler_context_t *context)
 {
@@ -3451,18 +3451,18 @@ bool effect_handler_SHAPECHANGE(effect_handler_context_t *context)
 
 	assert(shape);
 
-	/* Cambiar forma */
+	/* Change shape */
 	player->shape = lookup_player_shape(shape->name);
 	msg("¡Adoptas la forma de %s!", shape->name);
 	msg("Tu equipo se fusiona con tu cuerpo.");
 
-	/* Hacer efecto */
+	/* Do effect */
 	if (shape->effect) {
 		(void) effect_do(shape->effect, source_player(), NULL, &ident, true,
 						 0, 0, 0, NULL);
 	}
 
-	/* Actualizar */
+	/* Update */
 	shape_learn_on_assume(player, shape->name);
 	player->upkeep->update |= (PU_BONUS);
 	player->upkeep->redraw |= (PR_TITLE | PR_MISC);
@@ -3472,7 +3472,7 @@ bool effect_handler_SHAPECHANGE(effect_handler_context_t *context)
 }
 
 /**
- * Tomar control de un monstruo
+ * Take control of a monster
  */
 bool effect_handler_COMMAND(effect_handler_context_t *context)
 {
@@ -3481,57 +3481,57 @@ bool effect_handler_COMMAND(effect_handler_context_t *context)
 
 	context->ident = true;
 
-	/* Necesitas elegir un monstruo, no solo apuntar */
+	/* Need to choose a monster, not just point */
 	if (!mon) {
 		msg("¡Ningún monstruo seleccionado!");
 		return false;
 	}
 
-	/* Despertar, volverse consciente */
+	/* Wake up, become aware */
 	monster_wake(mon, false, 100);
 
-	/* Tirada de salvación explícita */
+	/* Explicit saving throw */
 	if (randint1(player->lev) < randint1(mon->race->level)) {
 		char m_name[80];
 		monster_desc(m_name, sizeof(m_name), mon, MDESC_STANDARD);
 		msg("¡%s resiste tu comando!", m_name);
-		/* Tomar un turno y deducir mana cuando el monstruo resiste. */
+		/* Take a turn and deduct mana when the monster resists. */
 		return true;
 	}
 
-	/* El jugador está comandando */
+	/* Player is commanding */
 	player_set_timed(player, TMD_COMMAND, MAX(amount, 0), false, false);
 
-	/* El monstruo está comandado */
+	/* Monster is commanded */
 	mon_inc_timed(mon, MON_TMD_COMMAND, MAX(amount, 0), 0);
 
 	return true;
 }
 
 /**
- * Activación del Anillo Único
+ * One Ring activation
  */
 bool effect_handler_BIZARRE(effect_handler_context_t *context)
 {
 	context->ident = true;
 
-	/* Elegir un efecto aleatorio */
+	/* Pick a random effect */
 	switch (randint1(10))
 	{
 		case 1:
 		case 2:
 		{
-			/* Mensaje */
+			/* Message */
 			msg("Estás rodeado por un aura maligna.");
 
-			/* Disminuir todas las estadísticas (permanentemente) */
+			/* Decrease all stats (permanently) */
 			player_stat_dec(player, STAT_STR, true);
 			player_stat_dec(player, STAT_INT, true);
 			player_stat_dec(player, STAT_WIS, true);
 			player_stat_dec(player, STAT_DEX, true);
 			player_stat_dec(player, STAT_CON, true);
 
-			/* Perder algo de experiencia (permanentemente) */
+			/* Lose some experience (permanently) */
 			player_exp_lose(player, player->exp / 4, true);
 
 			return true;
@@ -3539,10 +3539,10 @@ bool effect_handler_BIZARRE(effect_handler_context_t *context)
 
 		case 3:
 		{
-			/* Mensaje */
+			/* Message */
 			msg("Estás rodeado por un aura poderosa.");
 
-			/* Dispersar monstruos */
+			/* Dispel monsters */
 			effect_simple(EF_PROJECT_LOS, context->origin, "1000", PROJ_DISP_ALL, 0, 0, 0, 0, NULL);
 
 			return true;
@@ -3552,18 +3552,18 @@ bool effect_handler_BIZARRE(effect_handler_context_t *context)
 		case 5:
 		case 6:
 		{
-			/* Bola de Mana */
+			/* Mana Ball */
 			int flg = PROJECT_THRU | PROJECT_STOP | PROJECT_GRID | PROJECT_ITEM | PROJECT_KILL;
 			struct loc target = loc_sum(player->grid, ddgrid[context->dir]);
 
-			/* Pedir un objetivo si no se dio dirección */
+			/* Ask for a target if no direction given */
 			if ((context->dir == DIR_TARGET) && target_okay()) {
 				flg &= ~(PROJECT_STOP | PROJECT_THRU);
 
 				target_get(&target);
 			}
 
-			/* Apuntar al objetivo, explotar */
+			/* Aim at the target, explode */
 			return (project(source_player(), 3, target, 300, PROJ_MANA, flg, 0,
 							0, context->obj));
 		}
@@ -3573,15 +3573,15 @@ bool effect_handler_BIZARRE(effect_handler_context_t *context)
 		case 9:
 		case 10:
 		{
-			/* Rayo de Mana */
+			/* Mana Bolt */
 			int flg = PROJECT_STOP | PROJECT_KILL | PROJECT_THRU;
 			struct loc target = loc_sum(player->grid, ddgrid[context->dir]);
 
-			/* Usar un objetivo real */
+			/* Use an actual target */
 			if ((context->dir == DIR_TARGET) && target_okay())
 				target_get(&target);
 
-			/* Apuntar al objetivo, NO explotar */
+			/* Aim at the target, do NOT explode */
 			return project(source_player(), 0, target, 250, PROJ_MANA, flg, 0,
 						   0, context->obj);
 		}
@@ -3591,9 +3591,9 @@ bool effect_handler_BIZARRE(effect_handler_context_t *context)
 }
 
 /**
- * Efecto ficticio, para indicar al código de efectos que elija uno de los
- * siguientes efectos context->value.base según la selección del jugador o, si el efecto
- * no fue iniciado por el jugador, al azar.
+ * Dummy effect, to tell the effect code to pick one of the next
+ * context->value.base effects at the player's selection or, if the effect
+ * wasn't initiated by the player, at random.
  */
 bool effect_handler_SELECT(effect_handler_context_t *context)
 {
@@ -3601,11 +3601,11 @@ bool effect_handler_SELECT(effect_handler_context_t *context)
 }
 
 /**
- * Efecto ficticio, para indicar al código de efectos que establezca un valor para una cadena de
- * efectos siguientes que usar, en lugar de establecer su propio valor.
- * El valor no usará el aumento por dispositivo, lo que no debería ser un problema
- * ya que es poco probable que se use para daño (el caso de uso principal es
- * sincronizar el final de los efectos temporizados).
+ * Dummy effect, to tell the effect code to set a value for a string of
+ * following effects to use, rather than setting their own value.
+ * The value will not use the device boost, which should not be a problem
+ * as it is unlikely to be used for damage (the main use case is to
+ * synchronise the end of timed effects).
  */
 bool effect_handler_SET_VALUE(effect_handler_context_t *context)
 {
@@ -3614,8 +3614,8 @@ bool effect_handler_SET_VALUE(effect_handler_context_t *context)
 }
 
 /**
- * Efecto ficticio, para indicar al código de efectos que borre un valor establecido por el
- * efecto SET_VALUE.
+ * Dummy effect, to tell the effect code to clear a value set by the
+ * SET_VALUE effect.
  */
 bool effect_handler_CLEAR_VALUE(effect_handler_context_t *context)
 {
@@ -3624,9 +3624,9 @@ bool effect_handler_CLEAR_VALUE(effect_handler_context_t *context)
 }
 
 /**
- * Mezclar las estadísticas del jugador. Esto solo está destinado para uso por el
- * efecto temporizado, TMD_SCRAMBLE. Otras cadenas de efectos que quieran incurrir en un
- * efecto de mezcla deberían usar TIMED_INC:SCRAMBLE o TIMED_INC_NO_RES:SCRAMBLE.
+ * Scramble the player's stats.  This is only intended for use by the
+ * timed effect, TMD_SCRAMBLE.  Other effect chains wanting to incur a
+ * scrambling effect should use TIMED_INC:SCRAMBLE or TIMED_INC_NO_RES:SCRAMBLE.
  */
 bool effect_handler_SCRAMBLE_STATS(effect_handler_context_t *context)
 {
@@ -3635,10 +3635,10 @@ bool effect_handler_SCRAMBLE_STATS(effect_handler_context_t *context)
 }
 
 /**
- * Deshacer la mezcla de las estadísticas del jugador. Esto solo está destinado para uso por el
- * efecto temporizado, TMD_SCRAMBLE. Otras cadenas de efectos que quieran deshacer un
- * efecto de mezcla deberían usar CURE:SCRAMBLE (o quizás TIMED_DEC:SCRAMBLE
- * para simplemente reducir la duración de un efecto de mezcla existente).
+ * Unscramble the player's stats.  This is only intended for use by the
+ * timed effect, TMD_SCRAMBLE.  Other effect chains wanting to undo a
+ * scrambling effect should use CURE:SCRAMBLE (or perhaps TIMED_DEC:SCRAMBLE
+ * to merely reduce the duration of an existing scramble effect).
  */
 bool effect_handler_UNSCRAMBLE_STATS(effect_handler_context_t *context)
 {
