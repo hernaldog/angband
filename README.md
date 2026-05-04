@@ -210,7 +210,7 @@ Contenido del script shell:
 - Mejorar: The fruit bat (offscreen) se despertan.
 - Mejorar: "Ves un fruit bat (unhurt, hasted)
 - Mejorar: "Puedes aprender 2 rituals más."
-- Mejorar mensaje inferior-izq: "The"... ej: "The masa de gusanos blancos empiezaa moverse más rápido"
+- Mejorar mensaje inferior-izq: "The"... ej: "The masa de gusanos blancos empieza a moverse más rápido"
 
 ## Varios ok
 - Has encontrado 18 piezas de oro en gold, buscar mejor traducción
