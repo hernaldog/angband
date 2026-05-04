@@ -227,22 +227,22 @@ flavor:116:White:Titanio
 flavor:117:White:Tungsteno
 flavor:118:Light Slate:Zirconio
 flavor:119:Light Slate:Zinc
-flavor:120:Light Blue:Chapado en Aluminio
-flavor:121:Light Umber:Chapado en Cobre
-flavor:122:Yellow:Chapado en Oro
-flavor:123:Light Umber:Chapado en Níquel
-flavor:124:Light Slate:Chapado en Plata
-flavor:125:Light Slate:Chapado en Acero
-flavor:126:Light Slate:Chapado en Estaño
-flavor:127:Light Slate:Chapado en Zinc
-flavor:128:Light Blue:Chapado en Mithril
+flavor:120:Light Blue:Enchapada en Aluminio
+flavor:121:Light Umber:Enchapada en Cobre
+flavor:122:Yellow:Enchapado en Oro
+flavor:123:Light Umber:Enchapada en Níquel
+flavor:124:Light Slate:Enchapada en Plata
+flavor:125:Light Slate:Enchapada en Acero
+flavor:126:Light Slate:Enchapada en Estaño
+flavor:127:Light Slate:Enchapada en Zinc
+flavor:128:Light Blue:Enchapada en Mithril
 flavor:129:Light Blue:Mithril
-flavor:130:Umber:Grabado con Runas
+flavor:130:Umber:Grabada con Runas
 flavor:131:Light Umber:Bronce
 flavor:132:Light Umber:Latón
 flavor:133:White:Platino
 flavor:134:Slate:Plomo
-flavor:135:Slate:Chapado en Plomo
+flavor:135:Slate:Enchapada en Plomo
 flavor:136:White:Marfil
 flavor:137:Slate:Peltre
 
@@ -278,22 +278,22 @@ flavor:151:White:Titanio
 flavor:152:White:Tungsteno
 flavor:153:Light Slate:Zirconio
 flavor:154:Light Slate:Zinc
-flavor:155:Light Blue:Chapado en Aluminio
-flavor:156:Light Umber:Chapado en Cobre
+flavor:155:Light Blue:Enchapado en Aluminio
+flavor:156:Light Umber:Enchapado en Cobre
 flavor:157:Yellow:Oro Grabado
-flavor:158:Light Umber:Chapado en Níquel
+flavor:158:Light Umber:Enchapado en Níquel
 flavor:159:Light Slate:Plata Dorada
 flavor:160:Light Slate:Acero Pulido
-flavor:161:Light Slate:Chapado en Estaño
+flavor:161:Light Slate:Enchapado en Estaño
 flavor:162:White:Oro Blanco
-flavor:163:Light Blue:Chapado en Mithril
+flavor:163:Light Blue:Enchapado en Mithril
 flavor:164:Light Blue:Mithril
 flavor:165:Umber:Grabado con Runas
 flavor:166:Light Umber:Bronce
 flavor:167:Light Umber:Latón
 flavor:168:White:Platino
 flavor:169:Red:Acero Oxidado
-flavor:170:Slate:Chapado en Plomo
+flavor:170:Slate:Enchapado en Plomo
 flavor:171:White:Marfil
 flavor:172:Slate:Peltre
 

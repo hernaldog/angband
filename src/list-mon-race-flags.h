@@ -1,9 +1,9 @@
 /**
  * \file list-mon-race-flags.h
- * \brief banderas de razas de monstruos
+ * \brief monster race flags
  *
  */
-/* símbolo		tipo			descripción */
+/* symbol		type			descr */
 RF(NONE,		RFT_NONE,		"")
 RF(UNIQUE,		RFT_OBV,		"")
 RF(QUESTOR,		RFT_OBV,		"")
@@ -46,8 +46,8 @@ RF(DROP_GREAT,	RFT_DROP,		"")
 RF(DROP_20,		RFT_DROP,		"")
 RF(INVISIBLE,	RFT_DET,		"invisible")
 RF(COLD_BLOOD,	RFT_DET,		"sangre fría")
-RF(EMPTY_MIND,	RFT_DET,		"no detectado por telepatía")
-RF(WEIRD_MIND,	RFT_DET,		"raramente detectado por telepatía")
+RF(EMPTY_MIND,	RFT_DET,		"no se detecta por telepatía")
+RF(WEIRD_MIND,	RFT_DET,		"raramente se detecta por telepatía")
 RF(OPEN_DOOR,	RFT_ALTER,		"abrir puertas")
 RF(BASH_DOOR,	RFT_ALTER,		"derribar puertas")
 RF(PASS_WALL,	RFT_ALTER,		"atravesar paredes")
@@ -89,4 +89,4 @@ RF(NO_CONF,		RFT_PROT,		"confundido")
 RF(NO_SLEEP,	RFT_PROT,		"dormido")
 RF(NO_HOLD,		RFT_PROT,		"inmovilizado")
 RF(NO_SLOW,		RFT_PROT,		"ralentizado")
-/* fin de las banderas */
+/* end flags */

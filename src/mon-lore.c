@@ -715,7 +715,7 @@ static monster_sex_t lore_monster_sex(const struct monster_race *race)
 static const char *lore_pronoun_nominative(monster_sex_t sex, bool title_case)
 {
 	static const char *lore_pronouns[MON_SEX_MAX][2] = {
-		{"ello", "Ello"},
+		{"ello", "La criatura"}, //Fix traduc
 		{"él", "Él"},
 		{"ella", "Ella"},
 	};
@@ -1305,7 +1305,7 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 	/* Describe detection traits */
 	create_mon_flag_mask(current_flags, RFT_DET, RFT_MAX);
 	rf_inter(current_flags, known_flags);
-	strnfmt(start, sizeof(start), "%s es ", initial_pronoun);
+	strnfmt(start, sizeof(start), "%s ", initial_pronoun); //fix traduc se saca "es" y se deja en list-mon-race-flags.h
 	lore_append_clause(tb, current_flags, COLOUR_WHITE, start, "y", ".  ");
 
 	/* Describe special things */
@@ -1334,7 +1334,7 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 	/* Collect susceptibilities */
 	create_mon_flag_mask(current_flags, RFT_VULN, RFT_VULN_I, RFT_MAX);
 	rf_inter(current_flags, known_flags);
-	strnfmt(start, sizeof(start), "%s tiene debilidad por el ", initial_pronoun); //fix traduc
+	strnfmt(start, sizeof(start), "%s es débil a ", initial_pronoun); //fix traduc
 	lore_append_clause(tb, current_flags, COLOUR_VIOLET, start, "y", "");
 	if (!rf_is_empty(current_flags)) {
 		prev = true;
@@ -1729,7 +1729,7 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 		textblock_append_c(tb, COLOUR_ORANGE, " al menos");
 	}
 	textblock_append_c(tb, COLOUR_L_GREEN, " %d", total_centidamage/100);
-	textblock_append(tb, " de daño en cada uno de los turnos de %s.  ",
+	textblock_append(tb, " de daño en cada uno de %ss turnos.",
 					 lore_pronoun_possessive(msex, false));
 }
 
