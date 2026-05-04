@@ -1,21 +1,21 @@
 /**
- * \archivo borg-trait.c
- * \brief Los cálculos para determinar qué objetos y habilidades tiene
- *        Este código generalmente carga los arrays (borg.trait/has/activation)
- *
+ * \file borg-trait.c 
+ * \brief The calculations to determine what items and abilities it has
+ *        This code generally loads the arrays (borg.trait/has/activation)
+ * 
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2007-9 Andi Sidwell, Chris Carr, Ed Graham, Erik Osheim
  *
- * Este trabajo es software libre; puedes redistribuirlo y/o modificarlo
- * bajo los términos de:
+ * This work is free software; you can redistribute it and/or modify it
+ * under the terms of either:
  *
- * a) la Licencia Pública General de GNU publicada por la Free Software
- *    Foundation, versión 2, o
+ * a) the GNU General Public License as published by the Free Software
+ *    Foundation, version 2, or
  *
- * b) la "Licencia Angband":
- *    Este software puede ser copiado y distribuido con fines educativos, de
- *    investigación y sin ánimo de lucro siempre que se incluyan este copyright
- *    y esta declaración en todas las copias. Pueden aplicarse otros derechos de autor.
+ * b) the "Angband License":
+ *    This software may be copied and distributed for educational, research,
+ *    and not for profit purposes provided that this copyright and statement
+ *    are included in all such copies.  Other copyrights may also apply.
  */
 
 #include "borg-trait.h"
@@ -42,9 +42,9 @@
 #include "borg.h"
 #include "borg-home-notice.h"
 
-/* GRAN TRUCO copiado porque es estático en el código principal */
-/* Haría que no fueran estáticos pero intento no cambiar el código base */
-/* por ahora !FIX !TODO */
+/* MAJOR HACK copied in because it is static in the main code */
+/* I would just make them not static but trying not to change base code */
+/* for now !FIX !TODO */
 static const int borg_adj_mag_mana[STAT_RANGE] = {
       0	/* 3 */,
      10	/* 4 */,
@@ -128,7 +128,7 @@ static const int borg_adj_dex_ta[STAT_RANGE] = {
 };
 
 /**
- * Tabla de Estadísticas (STR) -- bonificación al daño
+ * Stat Table (STR) -- bonus to dam
  */
 const int borg_adj_str_td[STAT_RANGE] = {
     -2	/* 3 */,
@@ -172,7 +172,7 @@ const int borg_adj_str_td[STAT_RANGE] = {
 };
 
 /**
- * Tabla de Estadísticas (DEX) -- bonificación al golpe
+ * Stat Table (DEX) -- bonus to hit
  */
 const int borg_adj_dex_th[STAT_RANGE] = {
     -3	/* 3 */,
@@ -216,7 +216,7 @@ const int borg_adj_dex_th[STAT_RANGE] = {
 };
 
 /**
- * Tabla de Estadísticas (STR) -- bonificación al golpe
+ * Stat Table (STR) -- bonus to hit
  */
 static const int borg_adj_str_th[STAT_RANGE] = {
     -3	/* 3 */,
@@ -631,7 +631,7 @@ static const int borg_adj_con_mhp[STAT_RANGE] = {
 };
 
 /**
- * Tabla de Estadísticas (INT/WIS) -- Porcentaje mínimo de fallo
+ * Stat Table (INT/WIS) -- Minimum failure rate (percentage)
  */
 static const int borg_adj_mag_fail[STAT_RANGE] = {
     99 /* 3 */,
@@ -675,7 +675,7 @@ static const int borg_adj_mag_fail[STAT_RANGE] = {
 };
 
 /**
- * Tabla de Estadísticas (INT/WIS) -- ajuste de la tasa de fallo
+ * Stat Table (INT/WIS) -- failure rate adjustment
  */
 static const int borg_adj_mag_stat[STAT_RANGE] = {
     -5 /* 3 */,
@@ -719,31 +719,31 @@ static const int borg_adj_mag_stat[STAT_RANGE] = {
 };
 
 /*
- * Toda la información que el borg sabe sobre sí mismo
+ * All the information the borg knows about itself
  */
 struct borg_struct borg;
 
 /*
- * Variables objetivo
+ * Goal variables
  */
-bool borg_simulate; /* Bandera de simulación */
-bool borg_attacking; /* Bandera de simulación */
+bool borg_simulate; /* Simulation flag */
+bool borg_attacking; /* Simulation flag */
 
-/* banderas de defensa */
-bool borg_on_glyph; /* borg está parado sobre un glifo de protección */
-bool borg_create_door; /* borg va a crear puertas */
+/* defense flags */
+bool borg_on_glyph; /* borg is standing on a glyph of warding */
+bool borg_create_door; /* borg is going to create doors */
 bool borg_sleep_spell;
 bool borg_sleep_spell_ii;
 bool borg_crush_spell;
-bool borg_slow_spell; /* borg está a punto de lanzar el hechizo */
+bool borg_slow_spell; /* borg is about to cast the spell */
 bool borg_confuse_spell;
 bool borg_fear_mon_spell;
 
-int16_t borg_game_ratio; /* la proporción de tiempo borg vs tiempo de juego */
+int16_t borg_game_ratio; /* the ratio of borg time to game time */
 
-/* NOTA: Esto debe coincidir exactamente con el enum en borg-trait.h */
+/* NOTE: This must exactly match the enum in borg-trait.h */
 const char *prefix_pref[] = {
-    /* atributos personales */
+    /* personal attributes */
     "str",
     "int",
     "wis",
@@ -831,7 +831,7 @@ const char *prefix_pref[] = {
     "resist dis",
     "hold life",
     "free action",
-    "resist fire with swap", /* igual que sin S pero incluye swap */
+    "resist fire with swap", /* same as without S but includes swap */
     "resist cold with swap",
     "resist elec with swap",
     "resist acid with swap",
@@ -850,12 +850,12 @@ const char *prefix_pref[] = {
     "hold life with swap",
     "free action with swap",
 
-    /* variable extra aleatoria */
-    "depth", /* profundidad actual del borg ? */
-    "max depth", /* profundidad de recuerdo */
-    "king", /* borg ha ganado */
+    /* random extra variable */
+    "depth", /* borgs current depth ? */
+    "max depth", /* recall depth */
+    "king", /* borg has won */
 
-    /* cosas de estado del jugador */
+    /* player state things */
     "is weak",
     "is hungry",
     "is full",
@@ -882,18 +882,18 @@ const char *prefix_pref[] = {
     "is fixcon",
     "is fixall",
 
-    /* algunas cosas de combate */
+    /* some combat stuff */
     "armor",
-    "to hit", /* golpe base, no incluye el arma */
-    "to damage", /* daño base, no incluye el arma */
-    "wep to hit", /* golpe del arma */
-    "wep to damage", /* daño del arma */
-    "wep id", /* arma identificada */
-    "wep damage dice", /* dado de daño del arma */
-    "wep damage sides", /* caras del dado de daño del arma */
-    "bow id", /* arma identificada */
-    "bow to hit", /* golpe del arco */
-    "bow to damage", /* daño del arco */
+    "to hit", /* base to hit, does not include weapon */
+    "to damage", /* base to damage, does not include weapon */
+    "wep to hit", /* weapon to hit */
+    "wep to damage", /* weapon to damage */
+    "wep id", /* weapon identified */
+    "wep damage dice", /* weapon damage dice */
+    "wep damage sides", /* weapon to damage dice sides */
+    "bow id", /* weapon identified */
+    "bow to hit", /* bow to hit */
+    "bow to damage", /* bow to damage */
     "bow is sling",
     "bow artifact",
     "blows",
@@ -901,18 +901,18 @@ const char *prefix_pref[] = {
     "shots",
     "heavy weapon",
     "heavy bow",
-    "ammo count", /* recuento de todas las municiones */
+    "ammo count", /* count of all ammo */
     "ammo tval",
     "ammo sides",
     "ammo power",
-    "amt missiles", /* solo el recuento de las que sirven para tu arco actual */
-    "amt ego missiles", /* y son ego */
-    "amt cursed missiles", /* y están malditas */
-    "quiver slots", /* número de espacios de inventario que ocupan los objetos en el carcaj */
-    "first cursed", /* primer objeto maldito */
-    "where cursed", /* dónde están las maldiciones 1 inv, 2 equ, 4 quiv */
+    "amt missiles", /* only ones for your current bow count */
+    "amt ego missiles", /* and are ego */
+    "amt cursed missiles", /* and are cursed */
+    "quiver slots", /* number of inven slots the quivered items take */
+    "first cursed", /* first cursed item */
+    "where cursed", /* where curses are 1 inv, 2 equ, 4 quiv */
 
-    /* maldiciones */
+    /* curses */
     "enveloping",
     "irritation",
     "teleport",
@@ -934,20 +934,20 @@ const char *prefix_pref[] = {
     "clumsiness",
     "slowness",
     "annoyance",
-    "impair hp", /* Recuperación de HP deteriorada */
-    "CRSMPIMP", /* Recuperación de MP deteriorada */
+    "impair hp", /* Impaired HP recovery */
+    "CRSMPIMP", /* Impaired MP recovery */
     "curse steel",
     "air swing",
-    "fear", /* Bandera de maldición de miedo */
-    "drain xp", /* Bandera de drenar XP */
-    "vuln fire", /* Vulnerable al fuego */
-    "vuln elec", /* Vulnerable a la electricidad */
-    "vuln cold", /* Vulnerable al frío */
-    "vuln acid", /* Vulnerable al ácido */
+    "fear", /* Fear curse flag */
+    "drain xp", /* drain XP flag */
+    "vuln fire", /* Vulnerable to fire */
+    "vuln elec", /* Vulnerable to elec */
+    "vuln cold", /* Vulnerable to Cold */
+    "vuln acid", /* Vulnerable to Acid */
     "unknown curse",
 
-    /* atributos del arma */
-    "wep slay animal", /* WS = el arma mata */
+    /* weapon attributes */
+    "wep slay animal", /* WS = weapon slays */
     "wep slay evil",
     "wep slay undead",
     "wep slay demon",
@@ -955,29 +955,29 @@ const char *prefix_pref[] = {
     "wep slay troll",
     "wep slay giant",
     "wep slay dragon",
-    "wep kill undead", /* WK = el arma aniquila */
+    "wep kill undead", /* WK = weapon kills */
     "wep kill demon",
     "wep kill dragon",
     "wep impact",
-    "wep brand acid", /* WB = El arma está imbuida con */
+    "wep brand acid", /* WB = Weapon Branded With */
     "wep brand elec",
     "wep brand fire",
     "wep brand cold",
     "wep brand poison",
 
-    /* cantidades */
+    /* amounts */
     "amt phase",
-    "amt teleport", /* todas las fuentes de teletransporte */
-    "amt escape", /* Bastón, artefacto (se puede usar ciego/confundido) */
+    "amt teleport", /* all sources of teleport */
+    "amt escape", /* Staff, artifact (can be used when blind/conf) */
     "fuel",
     "amt heal",
     "amt ezheal",
     "amt life",
     "amt id",
     "amt speed",
-    "amt staff magi", /* Cantidad de Cargas de Bastón */
+    "amt staff magi", /* Amount Staff Charges */
     "amt staff destruction",
-    "amt teleport other", /* ¿Cuántas cargas de Teletransportar Otro tienes? */
+    "amt teleport other", /* How many Teleport Other charges you got? */
     "amt cure poison",
     "amt detect traps",
     "amt detect door",
@@ -985,12 +985,12 @@ const char *prefix_pref[] = {
     "amt magic map",
     "amt recharge",
     "amt call lite",
-    "amt prot evil", /* Protección contra el Mal */
-    "amt glyph", /* Protección Rúnica */
-    "amt potion ccw", /* Pociones CCW (solo porque las usamos a menudo) */
-    "amt potion csw", /* Pociones CSW (+ CLW si está cortado) */
+    "amt prot evil", /* Protection from Evil */
+    "amt glyph", /* Rune Protection */
+    "amt potion ccw", /* CCW potions (just because we use it so often) */
+    "amt potion csw", /* CSW potions (+ CLW if cut) */
     "amt potion clw",
-    "amt ench to hit", /* encantar armas y armaduras (+hechizos) */
+    "amt ench to hit", /* enchant weapons and armor (+spells) */
     "amt ench to dam",
     "amt *ench to wep*",
     "amt ench to armor",
@@ -1000,32 +1000,32 @@ const char *prefix_pref[] = {
     "need ench to hit",
     "need ench to dam",
     "need brand",
-    "amt resist heat", /* pociones de res calor */
-    "amt resist cold", /* poc de res frío */
-    "amt resist poison", /* Pociones de Res Veneno */
-    "amt teleport level", /* pergamino de teletransporte de nivel */
-    "holy word", /* Oración Palabra Santa Legal*/
-    "mass banishment", /* ?Destierro Masivo */
-    "amt cool shroom", /* Número de setas geniales */
-    "amt attack rods1", /* Varitas de ataque */
-    "amt attack rods2", /* Varitas de ataque */
-    "worn need id", /* un objeto equipado que necesita ID */
-    "amt need id", /* número de ids necesarios (equipados o no) */
-    "amt diggers", /* cantidad de excavadores en el inventario */
-    "amt good staff chg", /* cargas de bastón buenas */
-    "amt good wand chg", /* cargas de varita buenas */
-    "multi bonus", /* Objetos con múltiples bonificaciones útiles */
-    "detect inv", /* Ver Invisibilidad es Legal */
-    "weight", /* peso de todo el inventario y equipo */
-    "carry", /* capacidad de carga basada en str */
-    "empty slots", /* número de espacios vacíos */
+    "amt resist heat", /* potions of res heat */
+    "amt resist cold", /* pot of res cold */
+    "amt resist poison", /* Potions of Res Poison */
+    "amt teleport level", /* scroll of teleport level */
+    "holy word", /* Holy Word prayer Legal*/
+    "mass banishment", /* ?Mass Banishment */
+    "amt cool shroom", /* Number of cool mushrooms */
+    "amt attack rods1", /* Attack rods */
+    "amt attack rods2", /* Attack rods */
+    "worn need id", /* a wielded item that needs ID */
+    "amt need id", /* number of ids needed (worn or not) */
+    "amt diggers", /* amount of diggers in inventory */
+    "amt good staff chg", /* good staff charges */
+    "amt good wand chg", /* good wand charges */
+    "multi bonus", /* Items with multiple useful bonuses */
+    "detect inv", /* See Inv Spell is Legal */
+    "weight", /* weight of all inventory and equipment */
+    "carry", /* carry capacity based on str */
+    "empty slots", /* number of empty slots */
     "sauron dead",
     "prep big fight",
     NULL
 };
 
 /*
- * auxiliar para desactivar objetos de intercambio cuando está a más de profundidad 90.
+ * helper to turn off swap items when deeper than depth 90.
  */
 bool borg_uses_swaps(void)
 {
@@ -1033,9 +1033,9 @@ bool borg_uses_swaps(void)
 }
 
 /**
- * Calcular los golpes que recibiría un jugador.
+ * Calculate the blows a player would get.
  *
- * copiado y ajustado de player-calcs.c
+ * copied and adjusted from player-calcs.c
  */
 int borg_calc_blows(borg_item *item)
 {
@@ -1047,26 +1047,26 @@ int borg_calc_blows(borg_item *item)
     int weight     = item->weight * item->iqty;
     int min_weight = player->class->min_weight;
 
-    /* Imponer un "peso" mínimo (décimas de libra) */
+    /* Enforce a minimum "weight" (tenth pounds) */
     div = (weight < min_weight) ? min_weight : weight;
 
-    /* Obtener la fuerza vs el peso */
+    /* Get the strength vs weight */
     str_index = adj_str_blow[borg.trait[BI_STR_INDEX]]
                 * player->class->att_multiply / div;
 
-    /* Valor máximo */
+    /* Maximal value */
     if (str_index > 11)
         str_index = 11;
 
-    /* Indexar por destreza */
+    /* Index by dexterity */
     dex_index = MIN(borg_adj_dex_blow[borg.trait[BI_DEX_INDEX]], 11);
 
-    /* Usar la tabla de golpes para obtener energía por golpe */
+    /* Use the blows table to get energy per blow */
     blow_energy = borg_blows_table[str_index][dex_index];
 
     blows = MIN((10000 / blow_energy), (100 * player->class->max_attacks));
 
-    /* Requerir al menos un golpe, dos para combate O */
+    /* Require at least one blow, two for O-combat */
     return (MAX(blows
                     + (100
                         * (item->modifiers[OBJ_MOD_BLOWS]
@@ -1076,71 +1076,71 @@ int borg_calc_blows(borg_item *item)
 }
 
 /*
- * Nótese que asumimos que cualquier objeto con cantidad cero no existe,
- * por lo tanto, al simular mundos posibles, no tenemos que
- * "optimizar" los espacios vacíos.
+ * Note that we assume that any item with quantity zero does not exist,
+ * thus, when simulating possible worlds, we do not actually have to
+ * "optimize" empty slots.
  *
- * Las funciones "notice" examinan varios aspectos del inventario del jugador,
- * el equipo del jugador, o el contenido del hogar, y extraen varias cantidades
- * numéricas basadas en esos aspectos, ajustándolas por varias "habilidades",
- * como la capacidad de lanzar ciertos hechizos, etc.
+ * The "notice" functions examine various aspects of the player inventory,
+ * the player equipment, or the home contents, and extract various numerical
+ * quantities based on those aspects, adjusting them for various "abilities",
+ * such as the ability to cast certain spells, etc.
  *
- * Las funciones "power" usan las cantidades numéricas descritas anteriormente, y
- * las usan para hacer dos cosas diferentes: (1) clasificar el "valor" de tener
- * varias habilidades en relación con la posible recompensa de "dinero" por llevar
- * objetos vendibles en su lugar, y (2) clasificar el valor de varias habilidades
- * entre sí, que se usa para determinar qué usar/comprar,
- * y en qué orden usar/comprar esos objetos.
+ * The "power" functions use the numerical quantities described above, and
+ * use them to do two different things:  (1) rank the "value" of having
+ * various abilities relative to the possible "money" reward of carrying
+ * sellable items instead, and (2) rank the value of various abilities
+ * relative to each other, which is used to determine what to wear/buy,
+ * and in what order to wear/buy those items.
  *
- * Estas funciones usan algunos valores muy heurísticos, por cierto...
+ * These functions use some very heuristic values, by the way...
  *
- * Probablemente deberíamos tener en cuenta cosas como el posible encantamiento
- * (especialmente cuando estamos en la ciudad), y los objetos que se pueden encontrar pronto.
+ * We should probably take account of things like possible enchanting
+ * (especially when in town), and items which may be found soon.
  *
- * Consideramos varias cosas:
- *   (1) el "poder" real del arma y arco actuales
- *   (2) las varias "banderas" impartidas por el equipo
- *   (3) las varias habilidades impartidas por el equipo
- *   (4) las penalizaciones inducidas por armadura pesada, guantes o armas afiladas
- *   (5) las habilidades necesarias para entrar en el nivel de mazmorra "max_depth"
- *   (6) las varias habilidades de algunos objetos de inventario útiles
+ * We consider several things:
+ *   (1) the actual "power" of the current weapon and bow
+ *   (2) the various "flags" imparted by the equipment
+ *   (3) the various abilities imparted by the equipment
+ *   (4) the penalties induced by heavy armor or gloves or edged weapons
+ *   (5) the abilities required to enter the "max_depth" dungeon level
+ *   (6) the various abilities of some useful inventory items
  *
- * Nótese el uso de "contadores de objetos" especiales para evaluar el valor de
- * una colección de objetos del tipo dado. Básicamente, el primer objeto
- * del tipo dado es siempre el más valioso, y los objetos subsiguientes
- * valen menos, hasta que se alcanza el "límite", después del cual cualquier
- * objeto extra solo vale lo que se puede vender.
+ * Note the use of special "item counters" for evaluating the value of
+ * a collection of items of the given type.  Basically, the first item
+ * of the given type is always the most valuable, with subsequent items
+ * being worth less, until the "limit" is reached, after which point any
+ * extra items are only worth as much as they can be sold for.
  */
 
 /*
- * Función auxiliar -- notificar un espacio de munición
+ * Helper function -- notice one slot of ammo
  */
 static void borg_notice_ammo(int slot)
 {
     borg_item *item = &borg_items[slot];
 
-    /* Saltar objetos vacíos */
+    /* Skip empty items */
     if (!item->iqty)
         return;
 
 
-    /* número de espacios de inventario que usa el carcaj */
+    /* number of inventory slots the quiver used  */
     if (slot >= QUIVER_START)
         borg.trait[BI_QUIVER_SLOTS]++;
 
-    /* sumar el peso de los objetos */
+    /* total up the weight of the items */
     borg.trait[BI_WEIGHT] += borg_item_weight(item);
 
-    /* Contar toda la munición */
+    /* Count all ammo */
     borg.trait[BI_AMMO_COUNT] += item->iqty;
 
     if (item->tval != borg.trait[BI_AMMO_TVAL])
         return;
 
-    /* Contar los proyectiles que sirven para tu arco */
+    /* Count missiles that fit your bow */
     borg.trait[BI_AMISSILES] += item->iqty;
 
-    /* rastrear el primer objeto no maldecible */
+    /* track first uncursable item */
     if (item->uncursable) {
         borg.trait[BI_WHERE_CURSED] |= BORG_QUILL;
         if (!borg.trait[BI_FIRST_CURSED])
@@ -1153,28 +1153,28 @@ static void borg_notice_ammo(int slot)
     if (item->ego_idx)
         borg.trait[BI_AMISSILES_SPECIAL] += item->iqty;
 
-    /* comprobar munición para encantar */
+    /* check for ammo to enchant */
 
-    /* Ignorar proyectiles sin valor */
+    /* Ignore worthless missiles */
     if (item->value <= 0)
         return;
 
-    /* Solo encantar munición si tenemos un buen tirador,
-     * de lo contrario, guardar los encantamientos en el hogar.
+    /* Only enchant ammo if we have a good shooter,
+     * otherwise, store the enchants in the home.
      */
     if (borg.trait[BI_AMMO_POWER] >= 3) {
 
         if ((borg_equips_item(act_firebrand, false)
                 || borg_spell_legal_fail(BRAND_AMMUNITION, 65))
             && item->iqty >= 5 &&
-            /* Saltar artefactos y objetos ego */
+            /* Skip artifacts and ego-items */
             !item->ego_idx && !item->art_idx && item->ident
             && item->tval == borg.trait[BI_AMMO_TVAL]) {
             borg.trait[BI_NEED_BRAND_WEAPON] += 10L;
         }
 
-        /* si tenemos mucho dinero (como tendremos a nivel 35), */
-        /* encantar proyectiles */
+        /* if we have loads of cash (as we will at level 35),  */
+        /* enchant missiles */
         if (borg.trait[BI_CLEVEL] > 35) {
             if (borg_spell_legal_fail(ENCHANT_WEAPON, 65) && item->iqty >= 5) {
                 if (item->to_h < 10) {
@@ -1194,10 +1194,10 @@ static void borg_notice_ammo(int slot)
                 }
             }
         }
-    } /* Poder de Munición > 3 */
+    } /* Ammo Power > 3 */
 
-    /* Solo encantar munición si tenemos un buen tirador,
-     * de lo contrario, guardar los encantamientos en el hogar.
+    /* Only enchant ammo if we have a good shooter,
+     * otherwise, store the enchants in the home.
      */
     if (borg.trait[BI_AMMO_POWER] < 3)
         return;
@@ -1205,14 +1205,14 @@ static void borg_notice_ammo(int slot)
     if ((borg_equips_item(act_firebrand, false)
             || borg_spell_legal_fail(BRAND_AMMUNITION, 65))
         && item->iqty >= 5 &&
-        /* Saltar artefactos y objetos ego */
+        /* Skip artifacts and ego-items */
         !item->art_idx && !item->ego_idx && item->ident
         && item->tval == borg.trait[BI_AMMO_TVAL]) {
         borg.trait[BI_NEED_BRAND_WEAPON] += 10L;
     }
 }
 
-/* no dar crédito por objetos permanentemente malditos no artefactos */
+/* don't give credit for perm-cursed non-artifacts */
 static bool cursed_nonartifact(borg_item *item)
 {
     if (!item || item->iqty == 0)
@@ -1228,7 +1228,7 @@ static bool cursed_nonartifact(borg_item *item)
 }
 
 /*
- * Función auxiliar -- notificar el equipo del jugador
+ * Helper function -- notice the player equipment
  */
 static void borg_notice_equipment(void)
 {
@@ -1244,58 +1244,58 @@ static void borg_notice_equipment(void)
 
     borg_item *item;
 
-    int16_t stat_cur[STAT_MAX]; /* Valores de estadísticas "naturales" actuales    */
+    int16_t stat_cur[STAT_MAX]; /* Current "natural" stat values    */
 
-    /* Empezar con un disparo por turno */
+    /* Start with a single shot per turn */
     my_num_fire = 1;
 
-    /* Infravisión base (puramente racial) */
+    /* Base infravision (purely racial) */
     borg.trait[BI_INFRA] = rb_ptr->infra;
 
-    /* Habilidad base -- desarmado */
+    /* Base skill -- disarming */
     borg.trait[BI_DISP] = rb_ptr->r_skills[SKILL_DISARM_PHYS]
                           + cb_ptr->c_skills[SKILL_DISARM_PHYS];
     borg.trait[BI_DISM] = rb_ptr->r_skills[SKILL_DISARM_MAGIC]
                           + cb_ptr->c_skills[SKILL_DISARM_MAGIC];
 
-    /* Habilidad base -- dispositivos mágicos */
+    /* Base skill -- magic devices */
     borg.trait[BI_DEV]
         = rb_ptr->r_skills[SKILL_DEVICE] + cb_ptr->c_skills[SKILL_DEVICE];
 
-    /* Habilidad base -- tirada de salvación */
+    /* Base skill -- saving throw */
     borg.trait[BI_SAV]
         = rb_ptr->r_skills[SKILL_SAVE] + cb_ptr->c_skills[SKILL_SAVE];
 
-    /* Habilidad base -- sigilo */
+    /* Base skill -- stealth */
     borg.trait[BI_STL]
         = rb_ptr->r_skills[SKILL_STEALTH] + cb_ptr->c_skills[SKILL_STEALTH];
 
-    /* Habilidad base -- capacidad de búsqueda */
+    /* Base skill -- searching ability */
     borg.trait[BI_SRCH]
         = rb_ptr->r_skills[SKILL_SEARCH] + cb_ptr->c_skills[SKILL_SEARCH];
 
-    /* Habilidad base -- combate (normal) */
+    /* Base skill -- combat (normal) */
     borg.trait[BI_THN] = rb_ptr->r_skills[SKILL_TO_HIT_MELEE]
                          + cb_ptr->c_skills[SKILL_TO_HIT_MELEE];
 
-    /* Habilidad base -- combate (disparo) */
+    /* Base skill -- combat (shooting) */
     borg.trait[BI_THB] = rb_ptr->r_skills[SKILL_TO_HIT_BOW]
                          + cb_ptr->c_skills[SKILL_TO_HIT_BOW];
 
-    /* Habilidad base -- combate (lanzamiento) */
+    /* Base skill -- combat (throwing) */
     borg.trait[BI_THT] = rb_ptr->r_skills[SKILL_TO_HIT_THROW]
                          + cb_ptr->c_skills[SKILL_TO_HIT_THROW];
 
-    /* Afectar Habilidad -- excavación (STR) */
+    /* Affect Skill -- digging (STR) */
     borg.trait[BI_DIG]
         = rb_ptr->r_skills[SKILL_DIGGING] + cb_ptr->c_skills[SKILL_DIGGING];
 
-    /** Habilidades Raciales **/
+    /** Racial Skills **/
 
-    /* Extraer las banderas del jugador */
+    /* Extract the player flags */
     player_flags(player, f);
 
-    /* Buenas banderas */
+    /* Good flags */
     if (of_has(f, OF_SLOW_DIGEST))
         borg.trait[BI_SDIG] = true;
     if (of_has(f, OF_FEATHER))
@@ -1311,9 +1311,9 @@ static void borg_notice_equipment(void)
     if (of_has(f, OF_HOLD_LIFE))
         borg.trait[BI_HLIFE] = true;
 
-    /* Banderas raras */
+    /* Weird flags */
 
-    /* Malas banderas */
+    /* Bad flags */
     if (of_has(f, OF_IMPACT))
         borg.trait[BI_W_IMPACT] = true;
     if (of_has(f, OF_AGGRAVATE))
@@ -1332,7 +1332,7 @@ static void borg_notice_equipment(void)
     if (rb_ptr->el_info[ELEM_ELEC].res_level == -1)
         borg.trait[BI_CRSEVULN] = true;
 
-    /* Banderas de inmunidad */
+    /* Immunity flags */
     if (rb_ptr->el_info[ELEM_FIRE].res_level == 3)
         borg.trait[BI_IFIRE] = true;
     if (rb_ptr->el_info[ELEM_ACID].res_level == 3)
@@ -1342,7 +1342,7 @@ static void borg_notice_equipment(void)
     if (rb_ptr->el_info[ELEM_ELEC].res_level == 3)
         borg.trait[BI_IELEC] = true;
 
-    /* Banderas de resistencia */
+    /* Resistance flags */
     if (rb_ptr->el_info[ELEM_FIRE].res_level > 0)
         borg.trait[BI_RACID] = true;
     if (rb_ptr->el_info[ELEM_ELEC].res_level > 0)
@@ -1376,7 +1376,7 @@ static void borg_notice_equipment(void)
     if (rf_has(f, OF_PROT_CONF))
         borg.trait[BI_RCONF] = true;
 
-    /* Banderas de sostenimiento */
+    /* Sustain flags */
     if (rf_has(f, OF_SUST_STR))
         borg.trait[BI_SSTR] = true;
     if (rf_has(f, OF_SUST_INT))
@@ -1388,19 +1388,19 @@ static void borg_notice_equipment(void)
     if (rf_has(f, OF_SUST_CON))
         borg.trait[BI_SCON] = true;
 
-    /* si está acelerado */
+    /* if hasting */
     if (player->timed[TMD_FAST] || player->timed[TMD_SPRINT])
         borg.trait[BI_SPEED] += 10;
     else if (player->timed[TMD_TERROR])
         borg.trait[BI_SPEED] += 5;
 
-    /* Estoy bastante seguro de que las CF_flags serán capturadas por el
-     * código de arriba cuando se comprueben las banderas del jugador
+    /* I am pretty sure the CF_flags will be caught by the
+     * code above when the player flags are checked
      */
 
-    /* rastrear activaciones */
-    /* nota que esto se hace primero para que podamos usar este */
-    /* array en borg_equips_item */
+    /* track activations */
+    /* note this is done first so that it we can use this */
+    /* array in borg_equips_item */
     for (i = INVEN_WIELD; i < INVEN_TOTAL; i++) {
         if (borg_items[i].activ_idx) {
             borg.activation[borg_items[i].activ_idx] += 1;
@@ -1410,26 +1410,26 @@ static void borg_notice_equipment(void)
     if (borg.activation[act_staff_magi])
         borg.trait[BI_ASTFMAGI] += 10;
 
-    /* Escanear el inventario utilizable */
+    /* Scan the usable inventory */
     for (i = INVEN_WIELD; i < INVEN_TOTAL; i++) {
         item = &borg_items[i];
 
-        /* Saltar objetos vacíos */
+        /* Skip empty items */
         if (!item->iqty)
             continue;
 
-        /* rastrear el primer objeto no maldecible */
+        /* track first uncursable item */
         if (item->uncursable) {
             borg.trait[BI_WHERE_CURSED] |= BORG_EQUIP;
             if (!borg.trait[BI_FIRST_CURSED]) 
                 borg.trait[BI_FIRST_CURSED] = i + 1;
         }
         
-        /* saltar objetos malditos no artefactos */
+        /* skip cursed non-artifacts */
         if (cursed_nonartifact(item))
             continue;
 
-        /* sumar el peso de los objetos */
+        /* total up the weight of the items */
         borg.trait[BI_WEIGHT] += borg_item_weight(item);
 
         if (borg_item_note_needs_id(item)) {
@@ -1437,7 +1437,7 @@ static void borg_notice_equipment(void)
             borg.trait[BI_WORN_NEED_ID] += 1;
         }
  
-        /* Afectar estadísticas */
+        /* Affect stats */
         borg.trait[BI_ASTR] += item->modifiers[OBJ_MOD_STR]
                                * player->obj_k->modifiers[OBJ_MOD_STR];
         borg.trait[BI_AINT] += item->modifiers[OBJ_MOD_INT]
@@ -1449,7 +1449,7 @@ static void borg_notice_equipment(void)
         borg.trait[BI_ACON] += item->modifiers[OBJ_MOD_CON]
                                * player->obj_k->modifiers[OBJ_MOD_CON];
 
-        /* varios asesinatos */
+        /* various slays */
         borg.trait[BI_WS_ANIMAL] = item->slays[RF_ANIMAL];
         borg.trait[BI_WS_EVIL]   = item->slays[RF_EVIL];
         borg.trait[BI_WS_UNDEAD] = item->slays[RF_UNDEAD];
@@ -1459,7 +1459,7 @@ static void borg_notice_equipment(void)
         borg.trait[BI_WS_GIANT]  = item->slays[RF_GIANT];
         borg.trait[BI_WS_DRAGON] = item->slays[RF_DRAGON];
 
-        /* varias marcas */
+        /* various brands */
         if (item->brands[ELEM_ACID])
             borg.trait[BI_WB_ACID] = true;
         if (item->brands[ELEM_ELEC])
@@ -1473,16 +1473,16 @@ static void borg_notice_equipment(void)
         if (of_has(item->flags, OF_IMPACT))
             borg.trait[BI_W_IMPACT] = true;
 
-        /* Afectar infravisión */
+        /* Affect infravision */
         borg.trait[BI_INFRA] += item->modifiers[OBJ_MOD_INFRA];
 
-        /* Afectar sigilo */
+        /* Affect stealth */
         borg.trait[BI_STL] += item->modifiers[OBJ_MOD_STEALTH];
 
-        /* Afectar capacidad de búsqueda (factor de cinco) */
+        /* Affect searching ability (factor of five) */
         borg.trait[BI_SRCH] += (item->modifiers[OBJ_MOD_SEARCH] * 5);
 
-        /* las armas de tipo excavación obtienen una bonificación especial */
+        /* weapons of digging type get a special bonus */
         int dig = 0;
         if (item->tval == TV_DIGGING) {
             if (of_has(item->flags, OF_DIG_1))
@@ -1494,30 +1494,30 @@ static void borg_notice_equipment(void)
         }
         dig += item->modifiers[OBJ_MOD_TUNNEL];
 
-        /* Afectar excavación (factor de 20) */
+        /* Affect digging (factor of 20) */
         borg.trait[BI_DIG] += (dig * 20);
 
-        /* Afectar velocidad */
+        /* Affect speed */
         borg.trait[BI_SPEED] += item->modifiers[OBJ_MOD_SPEED];
 
-        /* Afectar golpes (no del arma principal) */
+        /* Affect blows (not from primary weapon) */
         if (i != INVEN_WIELD)
             borg.trait[BI_EXTRA_BLOWS] += item->modifiers[OBJ_MOD_BLOWS];
 
-        /* Aumentar disparos */
+        /* Boost shots */
         extra_shots += item->modifiers[OBJ_MOD_SHOTS];
 
-        /* Aumentar poder */
+        /* Boost might */
         extra_might += item->modifiers[OBJ_MOD_MIGHT];
 
 
         if (i != INVEN_LIGHT ||
             of_has(borg_items[i].flags, OF_NO_FUEL)
             || item->timeout != 0) {
-            /* El objeto hace brillar al jugador o tiene un radio de luz */
+            /* Item makes player glow or has a light radius  */
             borg.trait[BI_LIGHT] += item->modifiers[OBJ_MOD_LIGHT];
 
-            /* LIGHT_2 y LIGHT_3 */
+            /* LIGHT_2 and LIGHT_3 */
             if (of_has(item->flags, OF_LIGHT_2)) {
                 borg.trait[BI_LIGHT] += 2;
             }
@@ -1525,7 +1525,7 @@ static void borg_notice_equipment(void)
                 borg.trait[BI_LIGHT] += 3;
             }
 
-            /* la gente con "oscuridad" puede usar artefactos de radio 1 */
+            /* people with "unlight" can use radius 1 light artifacts */
             if ((item->modifiers[OBJ_MOD_LIGHT] > 0)
                 && (borg.trait[BI_CLASS] == CLASS_NECROMANCER))
                 borg.trait[BI_LIGHT]--;
@@ -1533,13 +1533,13 @@ static void borg_notice_equipment(void)
             borg.trait[BI_LIGHT] += item->modifiers[OBJ_MOD_LIGHT];
         }
 
-        /* Aumentar movimientos mod */
+        /* Boost mod moves */
         borg.trait[BI_MOD_MOVES] += item->modifiers[OBJ_MOD_MOVES];
 
-        /* Aumentar reducción de daño */
+        /* Boost damage reduction */
         borg.trait[BI_DAM_RED] += item->modifiers[OBJ_MOD_DAM_RED];
 
-        /* Varias banderas */
+        /* Various flags */
         if (of_has(item->flags, OF_SLOW_DIGEST))
             borg.trait[BI_SDIG] = true;
         if (of_has(item->flags, OF_AGGRAVATE))
@@ -1553,8 +1553,8 @@ static void borg_notice_equipment(void)
         if (of_has(item->flags, OF_DRAIN_EXP))
             borg.trait[BI_CRSDRAIN_XP] = true;
 
-        /* maldiciones que no tienen banderas o cambios de estadísticas que se rastrean
-         * en otro lugar */
+        /* curses that don't have flags or stat changes that are tracked
+         * elsewhere */
         if (item->curses[BORG_CURSE_VULNERABILITY])
             borg.trait[BI_CRSVULN] = true;
         if (item->curses[BORG_CURSE_TELEPORTATION])
@@ -1644,8 +1644,8 @@ static void borg_notice_equipment(void)
         if (of_has(item->flags, OF_PROT_BLIND))
             borg.trait[BI_RBLIND] = true;
 
-        /* Banderas de inmunidad */
-        /* si eres inmune automáticamente resistes */
+        /* Immunity flags */
+        /* if you are immune you automatically resist */
         if (item->el_info[ELEM_FIRE].res_level == 3) {
             borg.trait[BI_IFIRE] = true;
             borg.trait[BI_RFIRE] = true;
@@ -1667,7 +1667,7 @@ static void borg_notice_equipment(void)
             borg.temp.res_elec   = true;
         }
 
-        /* Banderas de resistencia */
+        /* Resistance flags */
         if (item->el_info[ELEM_ACID].res_level > 0)
             borg.trait[BI_RACID] = true;
         if (item->el_info[ELEM_ELEC].res_level > 0)
@@ -1695,7 +1695,7 @@ static void borg_notice_equipment(void)
         if (item->el_info[ELEM_NETHER].res_level > 0)
             borg.trait[BI_RNTHR] = true;
 
-        /* Banderas de sostenimiento */
+        /* Sustain flags */
         if (of_has(item->flags, OF_SUST_STR))
             borg.trait[BI_SSTR] = true;
         if (of_has(item->flags, OF_SUST_INT))
@@ -1707,7 +1707,7 @@ static void borg_notice_equipment(void)
         if (of_has(item->flags, OF_SUST_CON))
             borg.trait[BI_SCON] = true;
 
-        /* Bueno tener un objeto con múltiples resistencias altas */
+        /* Good to have one item with multiple high resists */
         int bonuses = ((item->el_info[ELEM_POIS].res_level > 0)
                        + (item->el_info[ELEM_SOUND].res_level > 0)
                        + (item->el_info[ELEM_SHARD].res_level > 0)
@@ -1715,13 +1715,13 @@ static void borg_notice_equipment(void)
                        + (item->el_info[ELEM_NETHER].res_level > 0)
                        + (item->el_info[ELEM_CHAOS].res_level > 0)
                        + (item->el_info[ELEM_DISEN].res_level > 0) +
-                       /* resistir las 4 básicas */
+                       /* resist base 4 */
                        ((item->el_info[ELEM_FIRE].res_level > 0)
                            && (item->el_info[ELEM_COLD].res_level > 0)
                            && (item->el_info[ELEM_ELEC].res_level > 0)
                            && (item->el_info[ELEM_ACID].res_level > 0))
                        +
-                       /* sostiene todas las estadísticas */
+                       /* sustains all stats  */
                        (of_has(item->flags, OF_SUST_STR)
                            && of_has(item->flags, OF_SUST_INT)
                            && of_has(item->flags, OF_SUST_WIS)
@@ -1731,37 +1731,37 @@ static void borg_notice_equipment(void)
         if (bonuses > 2)
             borg.trait[BI_MULTIPLE_BONUSES] += bonuses;
 
-        /* TRUCO: Neto cero El borg leerá mal los objetos dañados por ácido como
-         * Guantes de Cuero [2,-2] y supondrá falsamente que ayudan a su poder.
-         * este truco reescribe la bonificación a un valor extremadamente negativo
-         * animándolo así a eliminar el objeto no útil-no dañino pero
-         * pesado.
+        /* HACK: Net-zero The borg will miss read acid damaged items such as
+         * Leather Gloves [2,-2] and falsely assume they help his power.
+         * this hack rewrites the bonus to an extremely negative value
+         * thus encouraging him to remove the non-helpful-non-harmful but
+         * heavy-none-the-less item.
          */
         if ((!item->art_idx && !item->ego_idx) && item->ac >= 1
             && item->to_a + item->ac <= 0) {
             item->to_a = -20;
         }
 
-        /* Modificar la clase de armadura base */
+        /* Modify the base armor class */
         borg.trait[BI_ARMOR] += item->ac;
 
-        /* Aplicar las bonificaciones a la clase de armadura */
+        /* Apply the bonuses to armor class */
         borg.trait[BI_ARMOR] += item->to_a;
 
-        /* No aplicar bonificaciones de "arma" */
+        /* Do not apply "weapon" bonuses */
         if (i == INVEN_WIELD)
             continue;
 
-        /* No aplicar bonificaciones de "arco" */
+        /* Do not apply "bow" bonuses */
         if (i == INVEN_BOW)
             continue;
 
-        /* Aplicar las bonificaciones al golpe/daño */
+        /* Apply the bonuses to hit/damage */
         borg.trait[BI_TOHIT] += item->to_h;
         borg.trait[BI_TODAM] += item->to_d;
     }
 
-    /* si el jugador tiene oscuridad, contarlo como si tuviera luz si no tiene ninguna */
+    /* if the player has unlight count them as having light if they have none */
     if ((borg.trait[BI_CLASS] == CLASS_NECROMANCER)
         && borg.trait[BI_LIGHT] <= 0)
         borg.trait[BI_LIGHT] = 1;
@@ -1792,39 +1792,39 @@ static void borg_notice_equipment(void)
         borg.trait[BI_CRSAGRV] = true;
     }
 
-    /* El borg necesita actualizar sus puntos de estadística base */
+    /* The borg needs to update his base stat points */
     for (i = 0; i < STAT_MAX; i++) {
-        /* Tomar el número exacto del juego. Este número está disponible para
-         * el jugador en la ventana de término extra.
+        /* Cheat the exact number from the game.  This number is available to
+         * the player on the extra term window.
          */
         stat_cur[i] = player->stat_cur[i];
     }
 
-    /* Actualizar "estadísticas" */
+    /* Update "stats" */
     for (i = 0; i < STAT_MAX; i++) {
         int add, use, ind;
 
         add = borg.trait[BI_ASTR + i];
 
-        /* Modificar las estadísticas para raza/clase */
+        /* Modify the stats for race/class */
         add += (player->race->r_adj[i] + player->class->c_adj[i]);
 
-        /* Extraer el nuevo valor "use_stat" para la estadística */
+        /* Extract the new "use_stat" value for the stat */
         use = modify_stat_value(stat_cur[i], add);
 
-        /* Valores: 3, ..., 17 */
+        /* Values: 3, ..., 17 */
         if (use <= 18)
             ind = (use - 3);
 
-        /* Rangos: 18/00-18/09, ..., 18/210-18/219 */
+        /* Ranges: 18/00-18/09, ..., 18/210-18/219 */
         else if (use <= 18 + 219)
             ind = (15 + (use - 18) / 10);
 
-        /* Rango: 18/220+ */
+        /* Range: 18/220+ */
         else
             ind = (37);
 
-        /* Guardar el índice */
+        /* Save the index */
         if (ind > 37)
             borg.trait[BI_STR_INDEX + i] = 37;
         else
@@ -1837,7 +1837,7 @@ static void borg_notice_equipment(void)
                             + borg_adj_con_mhp[borg.trait[BI_CON_INDEX]]
                                   * borg.trait[BI_CLEVEL] / 100;
 
-    /* 'Mana' es en realidad el 'ajuste de mana' */
+    /* 'Mana' is actually the 'mana adjustment' */
     int spell_stat = borg_spell_stat();
     if (spell_stat >= 0) {
         borg.trait[BI_SP_ADJ]
@@ -1851,26 +1851,26 @@ static void borg_notice_equipment(void)
             borg_adj_mag_fail[borg.trait[BI_STR_INDEX + spell_stat]];
     }
 
-    /* La hinchazón ralentiza al jugador (un poco) */
+    /* Bloating slows the player down (a little) */
     if (borg.trait[BI_ISGORGED])
         borg.trait[BI_SPEED] -= 10;
 
-    /* Bonificaciones de Modificador Real */
+    /* Actual Modifier Bonuses */
     borg.trait[BI_ARMOR] += borg_adj_dex_ta[borg.trait[BI_DEX_INDEX]];
     borg.trait[BI_TODAM] += borg_adj_str_td[borg.trait[BI_STR_INDEX]];
     borg.trait[BI_TOHIT] += borg_adj_dex_th[borg.trait[BI_DEX_INDEX]];
     borg.trait[BI_TOHIT] += borg_adj_str_th[borg.trait[BI_STR_INDEX]];
 
-    /* Obtener el valor de "sostener" */
+    /* Obtain the "hold" value */
     hold = adj_str_hold[borg.trait[BI_STR_INDEX]];
 
-    /* excavación */
+    /* digging */
     borg.trait[BI_DIG] += borg_adj_str_dig[borg.trait[BI_STR_INDEX]];
 
-    /** Examinar el "arco actual" **/
+    /** Examine the "current bow" **/
     item = &borg_items[INVEN_BOW];
 
-    /* atacar con las manos desnudas */
+    /* attacking with bare hands */
     if (item->iqty == 0 || cursed_nonartifact(item)) {
         item->ds     = 0;
         item->dd     = 0;
@@ -1881,23 +1881,23 @@ static void borg_notice_equipment(void)
         item->sval = 0;
     }
 
-    /* Bonificaciones reales */
+    /* Real bonuses */
     borg.trait[BI_BTOHIT] = item->to_h;
     borg.trait[BI_BTODAM] = item->to_d;
     borg.trait[BI_BID] = item->ident;
     borg.trait[BI_SLING] = item->sval == sv_sling;
     borg.trait[BI_BART] = item->art_idx;
 
-    /* Es difícil cargar un arco pesado */
+    /* It is hard to carholdry a heavy bow */
     if (hold < item->weight / 10) {
         borg.trait[BI_HEAVYBOW] = true;
-        /* Es difícil usar un arco pesado */
+        /* Hard to wield a heavy bow */
         borg.trait[BI_TOHIT] += 2 * (hold - item->weight / 10);
     }
 
-    /* Calcular "disparos extra" si es necesario */
+    /* Compute "extra shots" if needed */
     if (item->iqty && (hold >= item->weight / 10)) {
-        /* Tomar nota del "tval" requerido para los proyectiles */
+        /* Take note of required "tval" for missiles */
         if (item->sval == sv_sling) {
             borg.trait[BI_AMMO_TVAL]  = TV_SHOT;
             borg.trait[BI_AMMO_SIDES] = 3;
@@ -1920,36 +1920,36 @@ static void borg_notice_equipment(void)
             borg.trait[BI_AMMO_POWER] = 4;
         }
 
-        /* Añadir poder extra */
+        /* Add in extra power */
         borg.trait[BI_AMMO_POWER] += extra_might;
 
-        /* Recompensar a los Exploradores de Alto Nivel que usan Arcos */
+        /* Reward High Level Rangers using Bows */
         if (player_has(player, PF_FAST_SHOT)) {
             if (borg.trait[BI_AMMO_TVAL] == TV_ARROW)
-                /* Disparo extra a nivel 20 */
+                /* Extra shot at level 20 */
                 if (borg.trait[BI_CLEVEL] >= 20)
                     my_num_fire++;
 
-            /* Disparo extra a nivel 40 */
+            /* Extra shot at level 40 */
             if (borg.trait[BI_CLEVEL] >= 40)
                 my_num_fire++;
 
             borg.trait[BI_FAST_SHOTS] = true;
         }
 
-        /* Añadir los "disparos de bonificación" */
+        /* Add in the "bonus shots" */
         my_num_fire += extra_shots;
 
-        /* Requerir al menos un disparo */
+        /* Require at least one shot */
         if (my_num_fire < 1)
             my_num_fire = 1;
     }
     borg.trait[BI_SHOTS] = my_num_fire;
 
-    /* Examinar el "arma principal" */
+    /* Examine the "main weapon" */
     item = &borg_items[INVEN_WIELD];
 
-    /* atacar con las manos desnudas */
+    /* attacking with bare hands */
     if (item->iqty == 0 || cursed_nonartifact(item)) {
         item->ds     = 0;
         item->dd     = 0;
@@ -1959,141 +1959,141 @@ static void borg_notice_equipment(void)
         item->ident  = true;
     }
 
-    /* Valores reales */
+    /* Real values */
     borg.trait[BI_WTOHIT] = item->to_h;
     borg.trait[BI_WTODAM] = item->to_d;
     borg.trait[BI_WID] = item->ident;
     borg.trait[BI_WDD] = item->dd;
     borg.trait[BI_WDS] = item->ds;
 
-    /* Es difícil sostener un arma pesada */
+    /* It is hard to hold a heavy weapon */
     if (hold < item->weight / 10) {
         borg.trait[BI_HEAVYWEPON] = true;
 
-        /* Es difícil usar un arma pesada */
+        /* Hard to wield a heavy weapon */
         borg.trait[BI_TOHIT] += 2 * (hold - item->weight / 10);
     }
 
-    /* Armas normales */
+    /* Normal weapons */
     if (item->iqty && (hold >= item->weight / 10)) {
-        /* calcular el número de golpes */
+        /* calculate the number of blows */
         borg.trait[BI_BLOWS] = borg_calc_blows(item);
 
-        /* Aumentar la habilidad de excavación por el peso del arma */
+        /* Boost digging skill by weapon weight */
         borg.trait[BI_DIG] += (item->weight / 10);
     }
 
-    /* Recompensar a los Guerreros de Alto Nivel con Resistir Miedo */
+    /* Reward High Level Warriors with Res Fear */
     if (player_has(player, PF_BRAVERY_30)) {
-        /* Resistir miedo a nivel 30 */
+        /* Resist fear at level 30 */
         if (borg.trait[BI_CLEVEL] >= 30)
             borg.trait[BI_RFEAR] = true;
     }
 
-    /* Afectar Habilidad -- sigilo (bonificación uno) */
+    /* Affect Skill -- stealth (bonus one) */
     borg.trait[BI_STL] += 1;
 
-    /* Afectar Habilidad -- desarmado (DEX y INT) */
+    /* Affect Skill -- disarming (DEX and INT) */
     borg.trait[BI_DISP] += borg_adj_dex_dis[borg.trait[BI_DEX_INDEX]];
     borg.trait[BI_DISM] += borg_adj_int_dis[borg.trait[BI_INT_INDEX]];
 
-    /* Afectar Habilidad -- dispositivos mágicos (INT) */
+    /* Affect Skill -- magic devices (INT) */
     borg.trait[BI_DEV] += borg_adj_int_dev[borg.trait[BI_INT_INDEX]];
 
-    /* Afectar Habilidad -- tirada de salvación (WIS) */
+    /* Affect Skill -- saving throw (WIS) */
     borg.trait[BI_SAV] += borg_adj_wis_sav[borg.trait[BI_WIS_INDEX]];
 
-    /* Afectar Habilidad -- desarmado (Nivel, por Clase) */
+    /* Affect Skill -- disarming (Level, by Class) */
     borg.trait[BI_DISP] += (cb_ptr->x_skills[SKILL_DISARM_PHYS]
                             * borg.trait[BI_MAXCLEVEL] / 10);
     borg.trait[BI_DISM] += (cb_ptr->x_skills[SKILL_DISARM_MAGIC]
                             * borg.trait[BI_MAXCLEVEL] / 10);
 
-    /* Afectar Habilidad -- dispositivos mágicos (Nivel, por Clase) */
+    /* Affect Skill -- magic devices (Level, by Class) */
     borg.trait[BI_DEV]
         += (cb_ptr->x_skills[SKILL_DEVICE] * borg.trait[BI_MAXCLEVEL] / 10);
 
-    /* Afectar Habilidad -- tirada de salvación (Nivel, por Clase) */
+    /* Affect Skill -- saving throw (Level, by Class) */
     borg.trait[BI_SAV]
         += (cb_ptr->x_skills[SKILL_SAVE] * borg.trait[BI_MAXCLEVEL] / 10);
 
-    /* Afectar Habilidad -- sigilo (Nivel, por Clase) */
+    /* Affect Skill -- stealth (Level, by Class) */
     borg.trait[BI_STL]
         += (cb_ptr->x_skills[SKILL_STEALTH] * borg.trait[BI_MAXCLEVEL] / 10);
 
-    /* Afectar Habilidad -- capacidad de búsqueda (Nivel, por Clase) */
+    /* Affect Skill -- search ability (Level, by Class) */
     borg.trait[BI_SRCH]
         += (cb_ptr->x_skills[SKILL_SEARCH] * borg.trait[BI_MAXCLEVEL] / 10);
 
-    /* Afectar Habilidad -- combate (normal) (Nivel, por Clase) */
+    /* Affect Skill -- combat (normal) (Level, by Class) */
     borg.trait[BI_THN] += (cb_ptr->x_skills[SKILL_TO_HIT_MELEE]
                            * borg.trait[BI_MAXCLEVEL] / 10);
 
-    /* Afectar Habilidad -- combate (disparo) (Nivel, por Clase) */
+    /* Affect Skill -- combat (shooting) (Level, by Class) */
     borg.trait[BI_THB]
         += (cb_ptr->x_skills[SKILL_TO_HIT_BOW] * borg.trait[BI_MAXCLEVEL] / 10);
 
-    /* Afectar Habilidad -- combate (lanzamiento) (Nivel, por Clase) */
+    /* Affect Skill -- combat (throwing) (Level, by Class) */
     borg.trait[BI_THT] += (cb_ptr->x_skills[SKILL_TO_HIT_THROW]
                            * borg.trait[BI_MAXCLEVEL] / 10);
 
-    /* Limitar Habilidad -- sigilo de 0 a 30 */
+    /* Limit Skill -- stealth from 0 to 30 */
     if (borg.trait[BI_STL] > 30)
         borg.trait[BI_STL] = 30;
     if (borg.trait[BI_STL] < 0)
         borg.trait[BI_STL] = 0;
 
-    /* Limitar Habilidad -- excavación de 1 en adelante */
+    /* Limit Skill -- digging from 1 up */
     if (borg.trait[BI_DIG] < 1)
         borg.trait[BI_DIG] = 1;
 
-    /*** Algunas penalizaciones a considerar ***/
+    /*** Some penalties to consider ***/
 
-    /* Miedo por hechizo o efecto o bandera */
+    /* Fear from spell or effect or flag */
     if (borg.trait[BI_ISAFRAID] || borg.trait[BI_CRSFEAR]) {
         borg.trait[BI_TOHIT] -= 20;
         borg.trait[BI_ARMOR] += 8;
         borg.trait[BI_DEV] = borg.trait[BI_DEV] * 95 / 100;
     }
 
-    /* penalización de arma de sacerdote para armas de filo no bendecidas */
+    /* priest weapon penalty for non-blessed edged weapons */
     if (player_has(player, PF_BLESS_WEAPON)
         && (item->tval == TV_HAFTED || 
             of_has(item->flags, OF_BLESSED))) {
-        /* Reducir las bonificaciones reales */
+        /* Reduce the real bonuses */
         borg.trait[BI_TOHIT] += 2;
         borg.trait[BI_TODAM] += 2;
     }
 
-    /*** Contar los encantamientos necesarios ***/
+    /*** Count needed enchantment ***/
 
-    /* Encantar todo el equipo (armas) */
+    /* Enchant all the equipment (weapons) */
     for (i = INVEN_WIELD; i <= INVEN_BOW; i++) {
         item = &borg_items[i];
 
-        /* Saltar objetos vacíos */
+        /* Skip empty items */
         if (!item->iqty)
             continue;
 
-        /* Saltar objetos "desconocidos" */
+        /* Skip "unknown" items */
         if (!item->ident)
             continue;
 
-        /* saltar objetos malditos no artefactos */
+        /* skip cursed non-artifacts */
         if (cursed_nonartifact(item))
             continue;
 
-        /* La mayoría de las clases guardan los encantamientos hasta que obtienen
-         * un tirador 3x (como un arco largo).
-         * --Importante: También mirar en borg7.c para el encantamiento.
-         * --No queremos que el arco sea encantado por error.
+        /* Most classes store the enchants until they get
+         * a 3x shooter (like a long bow).
+         * --Important: Also look in borg7.c for the enchanting.
+         * --We do not want the bow enchanted by mistake.
          */
-        if (i == INVEN_BOW && /* arco */
-            borg.trait[BI_AMMO_POWER] < 3 && /* tirador 3x */
-            (!item->art_idx && !item->ego_idx)) /* No Ego o Artefacto */
+        if (i == INVEN_BOW && /* bow */
+            borg.trait[BI_AMMO_POWER] < 3 && /* 3x shooter */
+            (!item->art_idx && !item->ego_idx)) /* Not Ego or Artifact */
             continue;
 
-        /* Encantar todas las armas (al golpe) */
+        /* Enchant all weapons (to hit) */
         if ((borg_spell_legal_fail(ENCHANT_WEAPON, 65)
                 || borg.trait[BI_AENCH_SWEP] >= 1)) {
             if (item->to_h < borg_cfg[BORG_ENCHANT_LIMIT]) {
@@ -2101,41 +2101,41 @@ static void borg_notice_equipment(void)
                     += (borg_cfg[BORG_ENCHANT_LIMIT] - item->to_h);
             }
 
-            /* Encantar todas las armas (al daño) */
+            /* Enchant all weapons (to damage) */
             if (item->to_d < borg_cfg[BORG_ENCHANT_LIMIT]) {
                 borg.trait[BI_NEED_ENCHANT_TO_D]
                     += (borg_cfg[BORG_ENCHANT_LIMIT] - item->to_d);
             }
-        } else /* No tengo el hechizo o *encantar* */
+        } else /* I don't have the spell or *enchant* */
         {
             if (item->to_h < 8) {
                 borg.trait[BI_NEED_ENCHANT_TO_H] += (8 - item->to_h);
             }
 
-            /* Encantar todas las armas (al daño) */
+            /* Enchant all weapons (to damage) */
             if (item->to_d < 8) {
                 borg.trait[BI_NEED_ENCHANT_TO_D] += (8 - item->to_d);
             }
         }
     }
 
-    /* Encantar todo el equipo (armadura) */
+    /* Enchant all the equipment (armor) */
     for (i = INVEN_BODY; i <= INVEN_FEET; i++) {
         item = &borg_items[i];
 
-        /* Saltar objetos vacíos */
+        /* Skip empty items */
         if (!item->iqty)
             continue;
 
-        /* Saltar objetos "desconocidos" */
+        /* Skip "unknown" items */
         if (!item->ident)
             continue;
 
-        /* saltar objetos malditos no artefactos */
+        /* skip cursed non-artifacts */
         if (cursed_nonartifact(item))
             continue;
 
-        /* Notar necesidad de encantamiento */
+        /* Note need for enchantment */
         if (borg_spell_legal_fail(ENCHANT_ARMOUR, 65)
             || borg.trait[BI_AENCH_SARM] >= 1) {
             if (item->to_a < borg_cfg[BORG_ENCHANT_LIMIT]) {
@@ -2149,38 +2149,38 @@ static void borg_notice_equipment(void)
         }
     }
 
-    /* Manera especial de manejar Ver Invisibilidad */
+    /* Special way to handle See Inv */
     if (borg.see_inv >= 1)
         borg.trait[BI_SINV] = true;
     if (borg.trait[BI_CDEPTH] == 0
-        && /* solo en la ciudad. Permitirle recordar hacia abajo */
+        && /* only in town.  Allow him to recall down */
         borg_spell_legal(SENSE_INVISIBLE))
         borg.trait[BI_SINV] = true;
 
-    /* Manejo muy especial de Acción Libre.
-     * Si la persona tiene una tirada de salvación perfecta, puede ser
-     * considerado ok en Acción Libre. Esto puede liberar un
-     * espacio de equipo.
+    /* Very special handling of Free Action.
+     * If the person has perfect Savings throw, he can be
+     * considered ok on Free Action.  This can free up an
+     * equipment slot.
      */
     if (borg.trait[BI_SAV] >= 100)
         borg.trait[BI_FRACT] = true;
 
-    /* Caso especial para Resistir Ceguera. Las tiradas de salvación perfectas y las
-     * resistencias para luz y oscuridad son suficientes para Resistir Ceguera
+    /* Special case for RBlindness.  Perfect saves and the
+     * resistances for light and dark are good enough for RBlind
      */
     if (borg.trait[BI_SAV] >= 100 && borg.trait[BI_RDARK]
         && borg.trait[BI_RLITE])
         borg.trait[BI_RBLIND] = true;
 
-    /*** El carcaj necesita ser evaluado ***/
+    /*** Quiver needs to be evaluated ***/
 
-    /* Ignorar proyectiles inválidos */
+    /* Ignore invalid missiles */
     for (i = QUIVER_START; i < QUIVER_END; i++)
         borg_notice_ammo(i);
 }
 
 /*
- * Función auxiliar -- notificar el inventario del jugador
+ * Helper function -- notice the player inventory
  */
 static void borg_notice_inventory(void)
 {
@@ -2188,80 +2188,80 @@ static void borg_notice_inventory(void)
 
     borg_item *item;
 
-    /*** Reiniciar contadores ***/
+    /*** Reset counters ***/
 
-    /* Reiniciar pociones de estadísticas */
+    /* Reset stat potions */
     for (i = 0; i < STAT_MAX; i++) {
         borg.need_statgain[i] = false;
         borg.amt_statgain[i]  = 0;
     }
 
-    /* Reiniciar libros */
+    /* Reset books */
     for (i = 0; i < 9; i++)
         borg.amt_book[i] = 0;
 
-    /*** Procesar el inventario ***/
+    /*** Process the inventory ***/
 
-    /* Escanear el inventario */
+    /* Scan the inventory */
     for (i = 0; i < PACK_SLOTS; i++) {
         item = &borg_items[i];
 
-        /* Saltar objetos vacíos */
+        /* Skip empty items */
         if (!item->iqty) {
             borg.trait[BI_EMPTY]++;
             continue;
         }
 
-        /* caso especial para munición fuera del carcaj. */
-        /* esto sucede cuando decidimos qué comprar, así que los objetos */
-        /* se colocan en espacios vacíos */
+        /* special case for ammo outside the quiver. */
+        /* this happens when we are deciding what to buy so items */
+        /* are put in empty slots */
         if (borg_is_ammo(item->tval)) {
             borg_notice_ammo(i);
             continue;
         }
 
-        /* sumar el peso de los objetos */
+        /* total up the weight of the items */
         borg.trait[BI_WEIGHT] += borg_item_weight(item);
 
-        /* ¿Necesita el borg obtener una ID? */
+        /* Does the borg need to get an ID for it? */
         if (borg_item_note_needs_id(item))
             borg.trait[BI_ALL_NEED_ID] += 1;
 
-        /* rastrear el primer objeto no maldecible */
+        /* track first uncursable item */
         if (item->uncursable) {
             borg.trait[BI_WHERE_CURSED] |= BORG_INVEN;
             if (!borg.trait[BI_FIRST_CURSED])
                 borg.trait[BI_FIRST_CURSED] = i + 1;
         }
 
-        /* Saltar objetos no conocidos */
+        /* Skip un-aware items */
         if (!item->aware)
             continue;
 
-        /* contar los objetos que tiene el borg (no contar artefactos */
-        /* que no están equipados) */
+        /* count up the items on the borg (do not count artifacts  */
+        /* that are not being wielded) */
         borg.has[item->kind] += item->iqty;
 
-        /* saltar objetos malditos no artefactos */
+        /* skip cursed non-artifacts */
         if (cursed_nonartifact(item))
             continue;
 
-        /* Analizar el objeto */
+        /* Analyze the item */
         switch (item->tval) {
-            /* Libros */
+            /* Books */
         case TV_MAGIC_BOOK:
         case TV_PRAYER_BOOK:
         case TV_NATURE_BOOK:
         case TV_SHADOW_BOOK:
         case TV_OTHER_BOOK:
-            /* Saltar libros incorrectos (si podemos examinar este libro, es bueno) */
+            /* Skip incorrect books (if we can browse this book, it is good) */
             if (!obj_kind_can_browse(&k_info[item->kind]))
                 break;
-            /* Contar los libros */
+            /* Count the books */
             borg.amt_book[borg_get_book_num(item->sval)] += item->iqty;
             break;
 
-        /* Comida */
+        /* Food */
         case TV_MUSHROOM:
             if (item->sval == sv_mush_purging || item->sval == sv_mush_restoring
                 || item->sval == sv_mush_cure_mind) {
@@ -2284,17 +2284,17 @@ static void borg_notice_inventory(void)
                 }
         /* fall through */
         case TV_FOOD:
-            /* Analizar */
+            /* Analyze */
             {
-                /* comprobar comida que nos daña */
+                /* check for food that hurts us */
                 if (borg_obj_has_effect(item->kind, EF_CRUNCH, -1)
                     || borg_obj_has_effect(
                         item->kind, EF_TIMED_INC, TMD_CONFUSED))
                     break;
 
-                /* comprobar comida que da nutrición */
+                /* check for food that gives nutrition */
                 if (item->tval == TV_MUSHROOM) {
-                    /* las setas que aumentan la nutrición son de bajo efecto */
+                    /* mushrooms that increase nutrition are low effect */
                     if (borg_obj_has_effect(item->kind, EF_NOURISH, 0))
                         borg.trait[BI_FOOD_LO] += item->iqty;
                 } else /* TV_FOOD */
@@ -2313,7 +2313,7 @@ static void borg_notice_inventory(void)
                         borg.trait[BI_FOOD_HI] += item->iqty;
                 }
 
-                /* comprobar comida que hace cosas */
+                /* check for food that does stuff */
                 if (borg_obj_has_effect(item->kind, EF_CURE, TMD_POISONED))
                     borg.trait[BI_ACUREPOIS] += item->iqty;
                 if (borg_obj_has_effect(item->kind, EF_CURE, TMD_CONFUSED))
@@ -2323,9 +2323,9 @@ static void borg_notice_inventory(void)
             }
             break;
 
-        /* Pociones */
+        /* Potions */
         case TV_POTION:
-            /* Analizar */
+            /* Analyze */
             if (item->sval == sv_potion_healing)
                 borg.trait[BI_AHEAL] += item->iqty;
             else if (item->sval == sv_potion_star_healing)
@@ -2368,7 +2368,7 @@ static void borg_notice_inventory(void)
                 borg.trait[BI_ASPEED] += item->iqty;
             break;
 
-        /* Pergaminos */
+        /* Scrolls */
         case TV_SCROLL:
 
             if (item->sval == sv_scroll_identify)
@@ -2402,12 +2402,12 @@ static void borg_notice_inventory(void)
                 borg.trait[BI_AMASSBAN] += item->iqty;
             break;
 
-        /* Varitas */
+        /* Rods */
         case TV_ROD:
 
-            /* Analizar */
+            /* Analyze */
             if (item->sval == sv_rod_recall) {
-                /* No contar con ella si soy malo con las activaciones */
+                /* Don't count on it if I suck at activations */
                 if (borg_activate_failure(item->tval, item->sval) < 500) {
                     borg.trait[BI_RECALL] += item->iqty * 100;
                 } else {
@@ -2420,7 +2420,7 @@ static void borg_notice_inventory(void)
             } else if (item->sval == sv_rod_illumination)
                 borg.trait[BI_ALITE] += item->iqty * 100;
             else if (item->sval == sv_rod_speed) {
-                /* No contar con ella si soy malo con las activaciones */
+                /* Don't count on it if I suck at activations */
                 if (borg_activate_failure(item->tval, item->sval) < 500) {
                     borg.trait[BI_ASPEED] += item->iqty * 100;
                 } else {
@@ -2429,8 +2429,8 @@ static void borg_notice_inventory(void)
             } else if (item->sval == sv_rod_mapping)
                 borg.trait[BI_AMAGICMAP] += item->iqty * 100;
             else if (item->sval == sv_rod_healing) {
-                /* solo +2 por varita debido al largo tiempo de carga. */
-                /* No contar con ella si soy malo con las activaciones */
+                /* only +2 per rod because of long charge time. */
+                /* Don't count on it if I suck at activations */
                 if (borg_activate_failure(item->tval, item->sval) < 500) {
                     borg.trait[BI_AHEAL] += item->iqty * 3;
                 } else {
@@ -2451,10 +2451,10 @@ static void borg_notice_inventory(void)
             }
             break;
 
-        /* Bastones */
+        /* Wands */
         case TV_WAND:
 
-            /* Analizar cada uno */
+            /* Analyze each */
             if (item->sval == sv_wand_teleport_away) {
                 borg.trait[BI_ATPORTOTHER] += item->pval;
             }
@@ -2475,9 +2475,9 @@ static void borg_notice_inventory(void)
 
             break;
 
-        /* Bastones */
+        /* Staffs */
         case TV_STAFF:
-            /* Analizar */
+            /* Analyze */
             if (item->sval == sv_staff_teleportation) {
                 borg.trait[BI_AESCAPE] += (item->iqty);
                 if (borg_activate_failure(item->tval, item->sval) < 500) {
@@ -2500,19 +2500,19 @@ static void borg_notice_inventory(void)
 
             break;
 
-        /* Frascos */
+        /* Flasks */
         case TV_FLASK:
 
-            /* Usar como combustible si equipamos una linterna */
+            /* Use as fuel if we equip a lantern */
             if (borg_items[INVEN_LIGHT].sval == sv_light_lantern)
                 borg.trait[BI_AFUEL] += item->iqty;
 
             break;
 
-        /* Antorchas */
+        /* Torches */
         case TV_LIGHT:
 
-            /* Usar como combustible si es una antorcha y llevamos una antorcha */
+            /* Use as fuel if it is a torch and we carry a torch */
             if ((item->sval == sv_light_torch && item->timeout >= 1)
                 && (borg_items[INVEN_LIGHT].sval == sv_light_torch)
                 && borg_items[INVEN_LIGHT].iqty) {
@@ -2521,25 +2521,25 @@ static void borg_notice_inventory(void)
 
             break;
 
-        /* Armas */
+        /* Weapons */
         case TV_HAFTED:
         case TV_POLEARM:
         case TV_SWORD:
-            /* Estos objetos se comprueban un poco más tarde en una subrutina
-             * para notar las banderas. Se hace fuera de este switch.
+            /* These items are checked a bit later in a sub routine
+             * to notice the flags.  It is done outside this switch.
              */
             break;
 
-        /* Palas y similares */
+        /* Shovels and such */
         case TV_DIGGING:
 
-            /* Ignorar las que no valen nada (incluidas las malditas) */
+            /* Ignore worthless ones (including cursed) */
             if (item->value <= 0)
                 break;
             if (item->cursed)
                 break;
 
-            /* No llevar si es débil, no podrá excavar de todos modos */
+            /* Do not carry if weak, won't be able to dig anyway */
             if (borg.trait[BI_DIG] < BORG_DIG)
                 break;
 
@@ -2548,60 +2548,60 @@ static void borg_notice_inventory(void)
         }
     }
 
-    /* los frascos de aceite son munición a bajos niveles */
+    /* flasks of oil are ammo at low levels */
     if (borg.has[kv_flask_oil] && borg.trait[BI_CLEVEL] < 15) {
-        /* solo contar los primeros 15 */
+        /* only count the first 15 */
         if (borg.has[kv_flask_oil] < 15)
             borg.trait[BI_AMISSILES] += borg.has[kv_flask_oil];
         else
             borg.trait[BI_AMISSILES] += 15;
     }
 
-    /*** Procesar los Hechizos y Oraciones ***/
-    /*    las activaciones de artefactos se cuentan aquí
-     *  Pero algunos artefactos no se cuentan por dos razones.
-     *  1.  Algunos hechizos-poderes se necesitan instantáneamente y se consideran en
-     *  el código de preparación del borg. Un artefacto puede no estar cargado en el
-     *  momento que lo necesita. Entonces necesitaría el hechizo y no podría
-     *  lanzarlo. (ej. teletransporte, fase)
-     *  2.  Un artefacto puede otorgar un poder, entonces él asume que tiene cantidades
-     *  infinitas. Entonces vende sus pergaminos con el poder duplicado.
-     *  Cuando llega el momento de mejorar y cambiar el artefacto, no lo hará
-     *  porque su poder disminuye ya que ya no tiene los pergaminos.
-     *  y no compra objetos primero.
+    /*** Process the Spells and Prayers ***/
+    /*    artifact activations are accounted here
+     *  But some artifacts are not counted for two reasons .
+     *  1.  Some spells-powers are needed instantly and are considered in
+     *  the borg preparation code.  An artifact maybe non-charged at the
+     *  moment he needs it.  Then he would need the spell and not be able
+     *  to cast it. (ie. teleport, phase)
+     *  2.  An artifact may grant a power then he assumes he has infinite
+     *  amounts.  He then sells off his scrolls with the duplicate power.
+     *  When it comes time to upgrade and swap out the artifact, he won't
+     *  because his power drops since he does not have the scrolls anymore.
+     *  and he does not buy items first.
      *
-     *  Una posible solución sería que guarde algunos pergaminos como
-     *  respaldo, o que elimine la bonificación para la preparación de nivel de borg_power.
-     *  Por ahora creo que es mejor que no considere los artefactos
-     *  cuyos poderes se consideran en borg_prep.
+     *  A possible solution would be to have him keep a few scrolls as a
+     *  back-up, or to remove the bonus for level preparation from borg_power.
+     *  Right now I think it is better that he not consider the artifacts
+     *  Whose powers are considered in borg_prep.
      */
 
-    /* Manejar "satisfacer hambre" -> comida infinita */
+    /* Handle "satisfy hunger" -> infinite food */
     if (borg_spell_legal_fail(REMOVE_HUNGER, 80)
         || borg_spell_legal_fail(HERBAL_CURING, 80)) /* VAMPIRE_STRIKE? */
     {
         borg.trait[BI_FOOD] += 1000;
     }
 
-    /* Manejar "identificar" -> identificaciones infinitas */
+    /* Handle "identify" -> infinite identifies */
     if (borg_spell_legal(IDENTIFY_RUNE)) {
         borg.trait[BI_AID] += 1000;
     }
 
-    /* Manejar "detectar trampas" */
+    /* Handle "detect traps" */
     if (borg_spell_legal(FIND_TRAPS_DOORS_STAIRS)
         || borg_spell_legal(DETECTION)) {
         borg.trait[BI_ADETTRAP] = 1000;
     }
 
-    /* Manejar "detectar malvados y monstruos" */
+    /* Handle "detect evil & monsters" */
     if (borg_spell_legal(REVEAL_MONSTERS) || borg_spell_legal(DETECT_LIFE)
         || borg_spell_legal(DETECT_EVIL) || borg_spell_legal(READ_MINDS)
         || borg_spell_legal(DETECT_MONSTERS) || borg_spell_legal(SEEK_BATTLE)) {
         borg.trait[BI_ADETEVIL] = 1000;
     }
 
-    /* Manejar DETECTION */
+    /* Handle DETECTION */
     if (borg_spell_legal(DETECTION)
         || borg_equips_item(act_enlightenment, false)
         || borg_equips_item(act_clairvoyance, false)) {
@@ -2610,12 +2610,12 @@ static void borg_notice_inventory(void)
         borg.trait[BI_ADETEVIL] = 1000;
     }
 
-    /* Manejar "Ver Invisible" de una manera especial. */
+    /* Handle "See Invisible" in a special way. */
     if (borg_spell_legal(SENSE_INVISIBLE)) {
         borg.trait[BI_DINV] = true;
     }
 
-    /* Manejar "mapeo mágico" */
+    /* Handle "magic mapping" */
     if (borg_spell_legal(SENSE_SURROUNDINGS)
         || borg_equips_item(act_detect_all, false)
         || borg_equips_item(act_mapping, false)) {
@@ -2624,33 +2624,33 @@ static void borg_notice_inventory(void)
         borg.trait[BI_AMAGICMAP] = 1000;
     }
 
-    /* Manejar "llamar luz" */
+    /* Handle "call lite" */
     if (borg_spell_legal(LIGHT_ROOM) || borg_equips_item(act_light, false)
         || borg_equips_item(act_illumination, false)
         || borg_spell_legal(CALL_LIGHT)) {
         borg.trait[BI_ALITE] += 1000;
     }
 
-    /* Manejar PROTECTION_FROM_EVIL */
+    /* Handle PROTECTION_FROM_EVIL */
     if (borg_spell_legal(PROTECTION_FROM_EVIL)
         || borg_equips_item(act_protevil, false) || borg.has[kv_staff_holiness]
         || borg_equips_item(act_staff_holy, false)) {
         borg.trait[BI_APFE] += 1000;
     }
 
-    /* Manejar "runa de protección" glifo" */
+    /* Handle "rune of protection" glyph" */
     if (borg_spell_legal(GLYPH_OF_WARDING)
         || borg_equips_item(act_glyph, false)) {
         borg.trait[BI_AGLYPH] += 1000;
     }
 
-    /* Manejar "detectar trampas/puertas" */
+    /* Handle "detect traps/doors" */
     if (borg_spell_legal(FIND_TRAPS_DOORS_STAIRS)) {
         borg.trait[BI_ADETDOOR] = 1000;
         borg.trait[BI_ADETTRAP] = 1000;
     }
 
-    /* Manejar ENCHANT_WEAPON */
+    /* Handle ENCHANT_WEAPON */
     if (borg_spell_legal_fail(ENCHANT_WEAPON, 65)
         || borg_equips_item(act_enchant_weapon, false)) {
         borg.trait[BI_AENCH_TOH] += 1000;
@@ -2664,13 +2664,13 @@ static void borg_notice_inventory(void)
         borg.trait[BI_AENCH_TOD] += 1000;
     }
 
-    /* Manejar "Marcar Arma (proyectiles)" */
+    /* Handle "Brand Weapon (bolts)" */
     if (borg_equips_item(act_firebrand, false)
         || borg_spell_legal_fail(BRAND_AMMUNITION, 65)) {
         borg.trait[BI_ABRAND] += 1000;
     }
 
-    /* Manejar "encantar armadura" */
+    /* Handle "enchant armor" */
     if (borg_spell_legal_fail(ENCHANT_ARMOUR, 65)
         || borg_equips_item(act_enchant_armor, false)
         || borg_equips_item(act_enchant_armor2, false)) {
@@ -2678,14 +2678,14 @@ static void borg_notice_inventory(void)
         borg.trait[BI_AENCH_SARM] += 1000;
     }
 
-    /* Manejar Excavadores (piedra a lodo) */
+    /* Handle Diggers (stone to mud) */
     if (borg_spell_legal_fail(TURN_STONE_TO_MUD, 40)
         || borg_equips_item(act_stone_to_mud, false)
         || borg_equips_ring(sv_ring_digging)) {
         borg.trait[BI_ADIGGER] += 1;
     }
 
-    /* Manejar recuerdo */
+    /* Handle recall */
     if (borg_spell_legal_fail(WORD_OF_RECALL, 40)
         || (borg.trait[BI_CDEPTH] == 100 && borg_spell_legal(WORD_OF_RECALL))) {
         borg.trait[BI_RECALL] += 1000;
@@ -2694,12 +2694,12 @@ static void borg_notice_inventory(void)
         borg.trait[BI_RECALL] += 1;
     }
 
-    /* Manejar teleport_level */
+    /* Handle teleport_level */
     if (borg_spell_legal_fail(TELEPORT_LEVEL, 20)) {
         borg.trait[BI_ATELEPORTLVL] += 1000;
     }
 
-    /* Manejar el hechizo PhaseDoor cuidadosamente */
+    /* Handle PhaseDoor spell carefully */
     if (borg_spell_legal_fail(PHASE_DOOR, 3)) {
         borg.trait[BI_APHASE] += 1000;
     }
@@ -2707,7 +2707,7 @@ static void borg_notice_inventory(void)
         borg.trait[BI_APHASE] += 1;
     }
 
-    /* Manejar el hechizo teleport cuidadosamente */
+    /* Handle teleport spell carefully */
     if (borg_spell_legal_fail(TELEPORT_SELF, 1)
         || borg_spell_legal_fail(PORTAL, 1)
         || borg_spell_legal_fail(SHADOW_SHIFT, 1)
@@ -2719,39 +2719,39 @@ static void borg_notice_inventory(void)
         borg.trait[BI_ATELEPORT] += 1;
     }
 
-    /* Manejar teletransportar a otro */
+    /* Handle teleport away */
     if (borg_spell_legal_fail(TELEPORT_OTHER, 40)) {
         borg.trait[BI_ATPORTOTHER] += 1000;
     }
 
-    /* Manejar la oración Palabra Santa solo para ver si es legal */
+    /* Handle Holy Word prayer just to see if legal */
     if (borg_spell_legal(HOLY_WORD)) {
         borg.trait[BI_AHWORD] += 1000;
     }
 
-    /* hechizos de velocidad HASTE*/
+    /* speed spells HASTE*/
     if (borg_spell_legal(HASTE_SELF) || borg_equips_item(act_haste, false)
         || borg_equips_item(act_haste1, false)
         || borg_equips_item(act_haste2, false)) {
         borg.trait[BI_ASPEED] += 1000;
     }
 
-    /* Manejar "curar heridas leves" */
+    /* Handle "cure light wounds" */
     if (borg_equips_item(act_cure_light, false)) {
         borg.trait[BI_ACLW] += 1000;
     }
 
-    /* Manejar "curar heridas graves" */
+    /* Handle "cure serious wounds" */
     if (borg_equips_item(act_cure_serious, false)) {
         borg.trait[BI_ACSW] += 1000;
     }
 
-    /* Manejar "curar heridas críticas" */
+    /* Handle "cure critical wounds" */
     if (borg_equips_item(act_cure_critical, false)) {
         borg.trait[BI_ACCW] += 1000;
     }
 
-    /* Manejar "sanar" */
+    /* Handle "heal" */
     if (borg_equips_item(act_cure_full, false)
         || borg_equips_item(act_cure_full2, false)
         || borg_equips_item(act_cure_nonorlybig, false)
@@ -2761,7 +2761,7 @@ static void borg_notice_inventory(void)
         borg.trait[BI_AHEAL] += 1000;
     }
 
-    /* Manejar "arreglar exp" */
+    /* Handle "fix exp" */
     if (borg_equips_item(act_cure_nonorlybig, false)
         || borg_equips_item(act_restore_exp, false)
         || borg_equips_item(act_restore_st_lev, false)
@@ -2769,7 +2769,7 @@ static void borg_notice_inventory(void)
         borg.trait[BI_HASFIXEXP] = true;
     }
 
-    /* Manejar REMEMBRANCE -- es tan bueno como Retener Vida */
+    /* Handle REMEMBRANCE -- is just as good as Hold Life */
     if (borg_spell_legal(REMEMBRANCE)
         || borg_equips_item(act_cure_nonorlybig, false)
         || borg_equips_item(act_restore_exp, false)
@@ -2778,19 +2778,19 @@ static void borg_notice_inventory(void)
         borg.trait[BI_HLIFE] = true;
     }
 
-    /* Manejar "recargar" */
+    /* Handle "recharge" */
     if (borg_equips_item(act_recharge, false) || borg_spell_legal(RECHARGING)) {
         borg.trait[BI_ARECHARGE] += 1000;
     }
 
-    /*** Procesar las Necesidades ***/
+    /*** Process the Needs ***/
 
-    /* No hay necesidad de combustible si sabemos que no lo necesita */
+    /* No need for fuel if we know it doesn't need it */
     if (of_has(borg_items[INVEN_LIGHT].flags, OF_NO_FUEL)
         || (borg.trait[BI_CLASS] == CLASS_NECROMANCER))
         borg.trait[BI_AFUEL] += 1000;
 
-    /* No hay necesidad de *comprar* pociones de aumento de estadísticas */
+    /* No need to *buy* stat increase potions */
     if (borg.trait[BI_CSTR] < (18 + 100))
         borg.need_statgain[STAT_STR] = true;
 
@@ -2806,58 +2806,58 @@ static void borg_notice_inventory(void)
     if (borg.trait[BI_CCON] < (18 + 100))
         borg.need_statgain[STAT_CON] = true;
 
-    /* No hay necesidad de reparación de experiencia */
+    /* No need for experience repair */
     if (!borg.trait[BI_ISFIXEXP])
         borg.trait[BI_HASFIXEXP] = true;
 
-    /* Corregir las comidas de alta y baja caloría */
+    /* Correct the high and low calorie foods */
     borg.trait[BI_FOOD] += borg.trait[BI_FOOD_HI];
     borg.trait[BI_FOOD] += borg.trait[BI_FOOD_LO];
 
-    /* Si está débil, no contar los hechizos de comida */
+    /* If weak, do not count food spells */
     if (borg.trait[BI_ISWEAK] && (borg.trait[BI_FOOD] >= 1000))
         borg.trait[BI_FOOD] -= 1000;
 }
 
 /*
- * Analizar el equipo y el inventario
+ * Analyze the equipment and inventory
  */
 void borg_notice(bool notice_swap)
 {
-    /* Limpiar los arrays de rasgos */
+    /* Clear out trait arrays */
     memset(borg.has, 0, z_info->k_max * sizeof(int));
     memset(borg.trait, 0, BI_MAX * sizeof(int));
     memset(borg.activation, 0, z_info->act_max * sizeof(int));
 
-    /* Empezar con un solo golpe por turno */
+    /* Start with a single blow per turn */
     borg.trait[BI_BLOWS] = 1;
 
-    /* la velocidad empieza en 110 */
+    /* speed starts at 110 */
     borg.trait[BI_SPEED] = 110;
 
-    /* Reiniciar los atributos de "munición" */
+    /* Reset the "ammo" attributes */
     borg.trait[BI_AMMO_TVAL] = -1;
     borg.trait[BI_AMMO_SIDES] = 4;
 
-    /* Muchas de nuestras variables están ligadas a borg.trait[], que se borra al
-     * inicio de borg_notice(). Así que debemos actualizar el marco donde se
-     * incorporan todas las habilidades no relacionadas con el inventario.
+    /* Many of our variables are tied to borg.trait[], which is erased at the
+     * the start of borg_notice().  So we must update the frame the cheat in
+     * all the non inventory skills.
      */
     borg_notice_player();
 
-    /*** Procesar libros/hechizos ***/
+    /*** Process books/spells ***/
     if (borg_do_spell) {
         borg_cheat_spells();
         borg_do_spell = false;
     }
 
-    /* Notificar el equipo */
+    /* Notice the equipment */
     borg_notice_equipment();
 
-    /* Notificar el inventario */
+    /* Notice the inventory */
     borg_notice_inventory();
 
-    /* Notificar y localizar mi arma de intercambio */
+    /* Notice and locate my swap weapon */
     if (notice_swap) {
         borg_notice_weapon_swap();
         borg_notice_armour_swap();
@@ -2909,105 +2909,105 @@ void borg_notice(bool notice_swap)
     borg.trait[BI_SFRACT]
         = borg.trait[BI_FRACT] || armour_swap_free_act || weapon_swap_free_act;
 
-    /* Aplicar "sobrecarga" por peso */
-    /* Extraer el "límite de peso" (en décimas de libra) */
+    /* Apply "encumbrance" from weight */
+    /* Extract the "weight limit" (in tenth pounds) */
     borg.trait[BI_CARRY] = borg_adj_str_wgt[borg.trait[BI_STR_INDEX]] * 100;
 
-    /* Aplicar "sobrecarga" por peso */
+    /* Apply "encumbrance" from weight */
     if (borg.trait[BI_WEIGHT] > borg.trait[BI_CARRY] / 2)
         borg.trait[BI_SPEED]
             -= ((borg.trait[BI_WEIGHT] - (borg.trait[BI_CARRY] / 2))
                 / (borg.trait[BI_CARRY] / 10));
 
-    /* velocidad máxima */
+    /* top speed */
     if (borg.trait[BI_SPEED] > 199)
         borg.trait[BI_SPEED] = 199;
 
-    /* Comprobar mi proporción para variables decrecientes */
+    /* Check my ratio for decrementing variables */
     if (borg.trait[BI_SPEED] > 110) {
         borg_game_ratio = 100000 / (((borg.trait[BI_SPEED] - 110) * 10) + 100);
     } else {
         borg_game_ratio = 1000;
     }
 
-    /* establecer si nos estamos preparando para luchar contra morgoth o sauron */
+    /* set if we are preparing for fighting morgoth or sauron */
     borg.trait[BI_PREP_BIG_FIGHT] = false;
     if (borg.trait[BI_MAXDEPTH] >= 99) {
 
-        /* Examinar el hogar */
+        /* Examine the home */
         borg_notice_home(NULL, false);
 
-        /* poción de sanación + *sanación* + vida */
+        /* pot of healing + *healing* + life */
         int total_big_heal = borg.has[kv_potion_healing];
         total_big_heal += borg.trait[BI_AEZHEAL];
         total_big_heal += borg.trait[BI_ALIFE];
 
-        /* más lo mismo en el hogar */
+        /* plus the same at home */
         total_big_heal += num_heal_true;
         total_big_heal += num_ezheal_true;
         total_big_heal += num_life_true;
 
-        /* queremos montones de sanación y velocidad para sentirnos preparados para la lucha */
+        /* want bunches of heal and speed to feel prepped for the fight */
         if (total_big_heal < 30 || (num_speed + borg.trait[BI_ASPEED]) < 15)
             borg.trait[BI_PREP_BIG_FIGHT] = true;
     }
 }
 
 /*
- * Actualizar el Borg basado en los valores actuales del jugador
+ * Update the Borg based on the current player values
  */
 void borg_notice_player(void)
 {
     int i;
 
-    /*** Extraer la Clase ***/
+    /*** Extract class Cheat ***/
     borg.trait[BI_CLASS] = player->class->cidx;
 
-    /* Asumir que el nivel está bien */
+    /* Assume level is fine */
     borg.trait[BI_ISFIXLEV] = false;
 
-    /* Notar "Lev" vs "LEV" */
+    /* Note "Lev" vs "LEV" */
     if (player->lev < player->max_lev)
         borg.trait[BI_ISFIXLEV] = true;
 
-    /* Extraer "LEVEL xxxxxx" */
+    /* Extract "LEVEL xxxxxx" */
     borg.trait[BI_CLEVEL] = player->lev;
 
-    /* tomar el máximo nivel */
+    /* cheat the max clevel */
     borg.trait[BI_MAXCLEVEL] = player->max_lev;
 
-    /* Notar "Ganador" */
+    /* Note "Winner" */
     borg.trait[BI_KING] = player->total_winner;
 
-    /* Asumir que la experiencia está bien */
+    /* Assume experience is fine */
     borg.trait[BI_ISFIXEXP] = false;
 
-    /* Acceder a la profundidad */
+    /* Access depth Cheat */
     borg.trait[BI_CDEPTH] = player->depth;
 
-    /* Acceder a la profundidad máxima */
+    /* Access max depth Cheat */
     borg.trait[BI_MAXDEPTH] = player->max_depth;
 
-    /* Notar "Exp" vs "EXP" y si soy más bajo que el nivel 50*/
+    /* Note "Exp" vs "EXP" and am I lower than level 50*/
     if (player->exp < player->max_exp) {
-        /* arreglarlo si está en la ciudad */
+        /* fix it if in town */
         if (borg.trait[BI_CLEVEL] == 50 && borg.trait[BI_CDEPTH] == 0)
             borg.trait[BI_ISFIXEXP] = true;
 
-        /* no preocuparse por arreglarlo en la mazmorra */
+        /* don't worry about fixing it in the dungeon */
         if (borg.trait[BI_CLEVEL] == 50 && borg.trait[BI_CDEPTH] >= 1)
             borg.trait[BI_ISFIXEXP] = false;
 
-        /* No está en el Nivel Máximo */
+        /* Not at Max Level */
         if (borg.trait[BI_CLEVEL] != 50)
             borg.trait[BI_ISFIXEXP] = true;
     }
 
-    /* Extraer "AU xxxxxxxxx" */
+    /* Extract "AU xxxxxxxxx" */
     borg.trait[BI_GOLD] = player->au;
 
-    /* Un pequeño truco para ver si me perdí un mensaje sobre mi estado en algunos */
-    /* hechizos temporizados */
+    /* A quick cheat to see if I missed a message about my status on some */
+    /* timed spells */
     if (!borg.goal.recalling && player->word_recall)
         borg.goal.recalling = player->word_recall * 1000;
     if (borg.goal.recalling && !player->word_recall)
@@ -3039,19 +3039,19 @@ void borg_notice_player(void)
     if (!borg.see_inv && player->timed[TMD_SINVIS])
         borg.see_inv = 1000;
 
-    /* Extraer "HP actual xxxxx" */
+    /* Extract "Cur HP xxxxx" */
     borg.trait[BI_CURHP] = player->chp;
 
-    /* Extraer "HP máximo xxxxx" */
+    /* Extract "Max HP xxxxx" */
     borg.trait[BI_MAXHP] = player->mhp;
 
-    /* Extraer "SP actual xxxxx" (o cero) */
+    /* Extract "Cur SP xxxxx" (or zero) */
     borg.trait[BI_CURSP] = player->csp;
 
-    /* Extraer "SP máximo xxxxx" (o cero) */
+    /* Extract "Max SP xxxxx" (or zero) */
     borg.trait[BI_MAXSP] = player->msp;
 
-    /* Limpiar todas las "banderas de estado" */
+    /* Clear all the "state flags" */
     borg.trait[BI_ISWEAK] = borg.trait[BI_ISHUNGRY] = borg.trait[BI_ISFULL]
         = borg.trait[BI_ISGORGED]                   = false;
     borg.trait[BI_ISBLIND] = borg.trait[BI_ISCONFUSED] = borg.trait[BI_ISAFRAID]
@@ -3061,78 +3061,78 @@ void borg_notice_player(void)
     borg.trait[BI_ISPARALYZED]                            = false;
     borg.trait[BI_ISFORGET]                               = false;
 
-    /* Comprobar "Débil" */
+    /* Check for "Weak" */
     if (player->timed[TMD_FOOD] < PY_FOOD_WEAK)
         borg.trait[BI_ISWEAK] = borg.trait[BI_ISHUNGRY] = true;
 
-    /* Comprobar "Hambriento" */
+    /* Check for "Hungry" */
     else if (player->timed[TMD_FOOD] < PY_FOOD_HUNGRY)
         borg.trait[BI_ISHUNGRY] = true;
 
-    /* Comprobar "Normal" */
-    else if (player->timed[TMD_FOOD] < PY_FOOD_FULL) /* Nada */
+    /* Check for "Normal" */
+    else if (player->timed[TMD_FOOD] < PY_FOOD_FULL) /* Nothing */
         ;
 
-    /* Comprobar "Lleno" */
+    /* Check for "Full" */
     else if (player->timed[TMD_FOOD] < PY_FOOD_MAX)
         borg.trait[BI_ISFULL] = true;
 
-    /* Comprobar "Hinchado" */
+    /* Check for "Gorged" */
     else
         borg.trait[BI_ISGORGED] = borg.trait[BI_ISFULL] = true;
 
-    /* Comprobar "Ciego" */
+    /* Check for "Blind" */
     if (player->timed[TMD_BLIND])
         borg.trait[BI_ISBLIND] = true;
 
-    /* Comprobar "Confundido" */
+    /* Check for "Confused" */
     if (player->timed[TMD_CONFUSED])
         borg.trait[BI_ISCONFUSED] = true;
 
-    /* Comprobar "Asustado" */
+    /* Check for "Afraid" */
     if (player->timed[TMD_AFRAID])
         borg.trait[BI_ISAFRAID] = true;
 
-    /* Comprobar "Envenenado" */
+    /* Check for "Poisoned" */
     if (player->timed[TMD_POISONED])
         borg.trait[BI_ISPOISONED] = true;
 
-    /* Comprobar cualquier texto */
+    /* Check for any text */
     if (player->timed[TMD_CUT])
         borg.trait[BI_ISCUT] = true;
 
-    /* Comprobar Aturdido */
+    /* Check for Stun */
     if (player->timed[TMD_STUN] && (player->timed[TMD_STUN] <= 50))
         borg.trait[BI_ISSTUN] = true;
 
-    /* Comprobar Aturdido Fuerte */
+    /* Check for Heavy Stun */
     if (player->timed[TMD_STUN] > 50)
         borg.trait[BI_ISHEAVYSTUN] = true;
 
-    /* Comprobar Paralizado */
+    /* Check for Paralyze */
     if (player->timed[TMD_PARALYZED] > 50)
         borg.trait[BI_ISPARALYZED] = true;
 
-    /* Comprobar "Alucinando" */
+    /* Check for "Hallucinating" */
     if (player->timed[TMD_IMAGE])
         borg.trait[BI_ISIMAGE] = true;
 
-    /* Comprobar "Amnesia" */
+    /* Check for "Amnesia" */
     if (player->timed[TMD_AMNESIA])
         borg.trait[BI_ISFORGET] = true;
 
-    /* Comprobar "Estudio" */
+    /* Check for "Study" */
     if (player->upkeep->new_spells)
         borg.trait[BI_ISSTUDY] = true;
 
-    /* Analizar estadísticas */
+    /* Parse stats */
     for (i = 0; i < 5; i++) {
         borg.trait[BI_ISFIXSTR + i]
             = player->stat_cur[STAT_STR + i] < player->stat_max[STAT_STR + i];
         borg.trait[BI_CSTR + i] = player->stat_cur[STAT_STR + i];
     }
 
-    /* Rastrear si Sauron está muerto */
+    /* Track if Sauron is dead Cheat */
     borg.trait[BI_SAURON_DEAD] = borg_race_death[borg_sauron_id];
 }
 
