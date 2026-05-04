@@ -20,5 +20,5 @@ slot:CLOAK:back
 slot:SHIELD:arm
 slot:HAT:head
 slot:GLOVES:hands
-slot:BOOTS:feet
+slot:BOOTS:pies
 
