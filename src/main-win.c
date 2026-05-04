@@ -1,6 +1,6 @@
 /**
  * \file main-win.c
- * \brief Proporciona una interfaz para Microsoft Windows
+ * \brief Provide a front end for Microsoft Windows
  *
  * Copyright (c) 1997 Ben Harrison, Skirmantas Kligys, Robert Ruehlmann,
  * and others
@@ -16,42 +16,42 @@
  *    and not for profit purposes provided that this copyright and statement
  *    are included in all such copies.  Other copyrights may also apply.
  *
- * Este archivo permite que Angband funcione en ordenadores con Windows.
+ * This file helps Angband work with Windows computers.
  *
- * Para usar este archivo, utiliza un "Makefile" o "Project File" apropiado,
- * asegúrate de que "WINDOWS" y/o "WIN32" estén definidos en algún lugar, y
- * asegúrate de obtener varios archivos adicionales como se describe a continuación.
+ * To use this file, use an appropriate "Makefile" or "Project File",
+ * make sure that "WINDOWS" and/or "WIN32" are defined somewhere, and
+ * make sure to obtain various extra files as described below.
  *
- * La versión de Windows ha sido probada con Visual C++ 5.0
- * y 6.0, Cygwin 1.0, las herramientas de línea de comandos de Borland C++ 5.5, y lcc-win32.
- *
- *
- * El archivo "lib/customize/font-win.prf" contiene mappings de attr/char para usar con los
- * archivos de fuente normales "*.fon" en el directorio "lib/fonts/".
- *
- * El archivo "lib/customize/graf-win.prf" contiene mappings de attr/char para usar con los
- * archivos gráficos especiales "*.png" en el directorio "lib/tiles/", los cuales
- * se activan mediante un elemento del menú.
+ * The Windows version has been tested to compile with Visual C++ 5.0
+ * and 6.0, Cygwin 1.0, Borland C++ 5.5 command line tools, and lcc-win32.
  *
  *
- * La función "Term_xtra_win_clear()" probablemente debería realizar una limpieza
- * de bajo nivel de la ventana actual, y redibujar los bordes y otras cosas,
- * aunque solo sea por eficiencia.  XXX XXX XXX
+ * The "lib/customize/font-win.prf" contains attr/char mappings for use with the
+ * normal "*.fon" font files in the "lib/fonts/" directory.
  *
- * Se necesita un método más sencillo para seleccionar el "tamaño de tile" para las ventanas.
+ * The "lib/customize/graf-win.prf" contains attr/char mappings for use with the
+ * special "*.png" graphics files in the "lib/tiles/" directory, which
+ * are activated by a menu item.
+ *
+ *
+ * The "Term_xtra_win_clear()" function should probably do a low-level
+ * clear of the current window, and redraw the borders and other things,
+ * if only for efficiency.  XXX XXX XXX
+ *
+ * A simpler method is needed for selecting the "tile size" for windows.
  * XXX XXX XXX
  *
- * Pendiente: El modo salvapantallas debería implementar ScreenSaverConfigureDialog,
- * DefScreenSaverProc, y ScreenSaverProc.
+ * ToDo: The screensaver mode should implement ScreenSaverConfigureDialog,
+ * DefScreenSaverProc, and ScreenSaverProc.
  *
- * Estructura inicial (y la mayor parte del código) por Ben Harrison (benh@phial.com).
+ * Initial framework (and most code) by Ben Harrison (benh@phial.com).
  *
- * Código original por Skirmantas Kligys (kligys@scf.usc.edu).
+ * Original code by Skirmantas Kligys (kligys@scf.usc.edu).
  *
- * Código adicional por Ross E Becker (beckerr@cis.ohio-state.edu),
- * y Chris R. Martin (crm7479@tam2000.tamu.edu).
+ * Additional code by Ross E Becker (beckerr@cis.ohio-state.edu),
+ * and Chris R. Martin (crm7479@tam2000.tamu.edu).
  *
- * Código adicional por Robert Ruehlmann <rr9@thangorodrim.net>.
+ * Additional code by Robert Ruehlmann <rr9@thangorodrim.net>.
  */
 
 #include "angband.h"
