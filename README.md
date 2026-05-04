@@ -210,10 +210,10 @@ Contenido del script shell:
 - Mejorar: The fruit bat (offscreen) se despertan.
 - Mejorar: "Ves un fruit bat (unhurt, hasted)
 - Mejorar: "Puedes aprender 2 rituals más."
-- Mejorar mensaje inferior-izq: "The"... ej: "The masa de gusanos blancos empieza a moverse más rápido"
 
 ## Varios ok
-- Has encontrado 18 piezas de oro en gold, buscar mejor traducción
+- Mejorar mensaje inferior-izq: "The"... ej: "The masa de gusanos blancos empieza a moverse más rápido" -> ok
+- Has encontrado 18 piezas de oro en gold, buscar mejor traducción -> ok
 - No se pueden traducir nombres de monstruos (monster.txt) si se hace indica error al cargar partida: ok, al traducir un txt debe compilarserse e iniciar una nueva partida
 - Mejorar lista de items: un Apple: ok
 - The cutpurse ¡huye aterrorizados!. Dice con "s" y es uno solo: ok se dejó sin s fijo por ahora
