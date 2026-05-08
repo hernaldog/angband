@@ -15,7 +15,7 @@ slot:RING:right hand
 slot:RING:left hand
 slot:AMULET:neck
 slot:LIGHT:light
-slot:BODY_ARMOR:body
+slot:BODY_ARMOR:cuerpo
 slot:CLOAK:espalda
 slot:SHIELD:brazo
 slot:HAT:cabeza
