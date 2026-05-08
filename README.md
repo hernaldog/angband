@@ -247,7 +247,7 @@ Contenido del script shell:
 | docs\dungeon.rst                         | 100      |
 | docs\customize.rst                       | 100      |
 | docs\hacking\modifying.rst               | 100      |
-| lib\gamedata\body.txt                    | 20       | Hay errores al traducir más campos, TODO
+| lib\gamedata\body.txt                    | 100      |
 | lib\gamedata\player_property.txt         | 100      |
 | lib\gamedata\history.txt                 | 100      |
 | lib\gamedata\hints.txt                   | 100      |

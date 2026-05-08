@@ -11,8 +11,8 @@
 body:Humanoid
 slot:WEAPON:weapon
 slot:BOW:shooting
-slot:RING:right hand
-slot:RING:left hand
+slot:RING:mano der
+slot:RING:mano izq
 slot:AMULET:cuello
 slot:LIGHT:light
 slot:BODY_ARMOR:cuerpo
