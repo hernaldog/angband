@@ -1,6 +1,6 @@
 /**
  * \file player-attack.c
- * \brief Ataques (tanto lanzamiento como cuerpo a cuerpo) del jugador
+ * \brief Attacks (both throwing and melee) by the player
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
@@ -48,21 +48,21 @@
 
 /**
  * ------------------------------------------------------------------------
- * Cálculos de impacto y rotura
+ * Hit and breakage calculations
  * ------------------------------------------------------------------------ */
 /**
- * Devuelve el porcentaje de probabilidad de que un objeto se rompa después de lanzarlo o dispararlo.
+ * Returns percent chance of an object breaking after throwing or shooting.
  *
- * Los artefactos nunca se rompen.
+ * Artifacts will never break.
  *
- * Más allá de eso, cada tipo de objeto tiene un porcentaje de probabilidad de romperse (0-100). Cuando el
- * objeto impacta en su objetivo se usa esta probabilidad.
+ * Beyond that, each item kind has a percent chance to break (0-100). When the
+ * object hits its target this chance is used.
  *
- * Cuando un objeto falla también tiene una probabilidad de romperse. Esto se determina mediante
- * elevar al cuadrado la probabilidad de rotura normal. Así, un objeto que se rompe el 100% de
- * las veces al impactar también se romperá el 100% de las veces al fallar, mientras que una probabilidad
- * de rotura al impactar del 50% da una probabilidad de rotura al fallar del 25%, y una probabilidad
- * de rotura al impactar del 10% da una probabilidad de rotura al fallar del 1%.
+ * When an object misses it also has a chance to break. This is determined by
+ * squaring the normaly breakage probability. So an item that breaks 100% of
+ * the time on hit will also break 100% of the time on a miss, whereas a 50%
+ * hit-breakage chance gives a 25% miss-breakage chance, and a 10% hit breakage
+ * chance gives a 1% miss-breakage chance.
  */
 int breakage_chance(const struct object *obj, bool hit_target) {
 	int perc = obj->kind->base->break_perc;
@@ -78,12 +78,12 @@ int breakage_chance(const struct object *obj, bool hit_target) {
 }
 
 /**
- * Calcular el valor base de golpear en cuerpo a cuerpo del jugador sin considerar un monstruo
- * específico.
- * Ver también: chance_of_missile_hit_base
+ * Calculate the player's base melee to-hit value without regard to a specific
+ * monster.
+ * See also: chance_of_missile_hit_base
  *
- * \param p El jugador
- * \param weapon El arma del jugador
+ * \param p The player
+ * \param weapon The player's weapon
  */
 int chance_of_melee_hit_base(const struct player *p,
 		const struct object *weapon)
@@ -94,29 +94,29 @@ int chance_of_melee_hit_base(const struct player *p,
 }
 
 /**
- * Calcular el valor de golpear en cuerpo a cuerpo del jugador contra un monstruo específico.
- * Ver también: chance_of_missile_hit
+ * Calculate the player's melee to-hit value against a specific monster.
+ * See also: chance_of_missile_hit
  *
- * \param p El jugador
- * \param weapon El arma del jugador
- * \param mon El monstruo
+ * \param p The player
+ * \param weapon The player's weapon
+ * \param mon The monster
  */
 static int chance_of_melee_hit(const struct player *p,
 		const struct object *weapon, const struct monster *mon)
 {
 	int chance = chance_of_melee_hit_base(p, weapon);
-	/* Los objetivos no visibles tienen una penalización al golpear del 50% */
+	/* Non-visible targets have a to-hit penalty of 50% */
 	return monster_is_visible(mon) ? chance : chance / 2;
 }
 
 /**
- * Calcular el valor base de golpear con proyectil del jugador sin considerar un monstruo
- * específico.
- * Ver también: chance_of_melee_hit_base
+ * Calculate the player's base missile to-hit value without regard to a specific
+ * monster.
+ * See also: chance_of_melee_hit_base
  *
- * \param p El jugador
- * \param missile El proyectil a lanzar
- * \param launcher El lanzador a usar (opcional)
+ * \param p The player
+ * \param missile The missile to launch
+ * \param launcher The launcher to use (optional)
  */
 int chance_of_missile_hit_base(const struct player *p,
 								 const struct object *missile,
@@ -126,9 +126,9 @@ int chance_of_missile_hit_base(const struct player *p,
 	int chance;
 
 	if (!launcher) {
-		/* Otros objetos lanzados son más fáciles de usar, pero solo las armas arrojadizas
-		 * aprovechan las bonificaciones a Habilidad y Letalidad de otros
-		 * objetos equipados. */
+		/* Other thrown objects are easier to use, but only throwing weapons 
+		 * take advantage of bonuses to Skill and Deadliness from other 
+		 * equipped items. */
 		if (of_has(missile->flags, OF_THROWING)) {
 			bonus += p->state.to_h;
 			chance = p->state.skills[SKILL_TO_HIT_THROW] + bonus * BTH_PLUS_ADJ;
@@ -145,31 +145,31 @@ int chance_of_missile_hit_base(const struct player *p,
 }
 
 /**
- * Calcular el valor de golpear con proyectil del jugador contra un monstruo específico.
- * Ver también: chance_of_melee_hit
+ * Calculate the player's missile to-hit value against a specific monster.
+ * See also: chance_of_melee_hit
  *
- * \param p El jugador
- * \param missile El proyectil a lanzar
- * \param launcher Lanzador opcional a usar (las armas arrojadizas no usan lanzador)
- * \param mon El monstruo
+ * \param p The player
+ * \param missile The missile to launch
+ * \param launcher Optional launcher to use (thrown weapons use no launcher)
+ * \param mon The monster
  */
 static int chance_of_missile_hit(const struct player *p,
 	const struct object *missile, const struct object *launcher,
 	const struct monster *mon)
 {
 	int chance = chance_of_missile_hit_base(p, missile, launcher);
-	/* Penalizar por distancia */
+	/* Penalize for distance */
 	chance -= distance(p->grid, mon->grid);
-	/* Los objetivos no visibles tienen una penalización al golpear del 50% */
+	/* Non-visible targets have a to-hit penalty of 50% */
 	return monster_is_obvious(mon) ? chance : chance / 2;
 }
 
 /**
- * Determinar si una tirada de impacto tiene éxito contra la CA objetivo.
- * Ver también: hit_chance
+ * Determine if a hit roll is successful against the target AC.
+ * See also: hit_chance
  *
- * \param to_hit El valor total de golpear a usar
- * \param ac La CA contra la que tirar
+ * \param to_hit To total to-hit value to use
+ * \param ac The AC to roll against
  */
 bool test_hit(int to_hit, int ac)
 {
@@ -179,54 +179,54 @@ bool test_hit(int to_hit, int ac)
 }
 
 /**
- * Devolver un random_chance por referencia, que representa la probabilidad de que una
- * tirada de impacto tenga éxito para los valores de to_hit y ac dados. El cálculo de impacto
- *:
+ * Return a random_chance by reference, which represents the likelihood of a
+ * hit roll succeeding for the given to_hit and ac values. The hit calculation
+ * will:
  *
- * Siempre impacta el 12% de las veces
- * Siempre falla el 5% de las veces
- * Establece un mínimo de 9 en el valor to_hit
- * Tira entre 0 y el valor to_hit
- * El resultado debe ser >= AC*2/3 para considerarse un impacto
+ * Always hit 12% of the time
+ * Always miss 5% of the time
+ * Put a floor of 9 on the to-hit value
+ * Roll between 0 and the to-hit value
+ * The outcome must be >= AC*2/3 to be considered a hit
  *
- * \param chance El random_chance a devolver por referencia
- * \param to_hit El valor de golpear a usar
- * \param ac La CA contra la que tirar
+ * \param chance The random_chance to return-by-reference
+ * \param to_hit The to-hit value to use
+ * \param ac The AC to roll against
  */
 void hit_chance(random_chance *chance, int to_hit, int ac)
 {
-	/* Porcentajes escalados a 10,000 para evitar errores de redondeo */
+	/* Percentages scaled to 10,000 to avoid rounding error */
 	const int HUNDRED_PCT = 10000;
 	const int ALWAYS_HIT = 1200;
 	const int ALWAYS_MISS = 500;
 
-	/* Establecer un mínimo en to_hit */
+	/* Put a floor on the to_hit */
 	to_hit = MAX(9, to_hit);
 
-	/* Calcular el porcentaje de impacto */
+	/* Calculate the hit percentage */
 	chance->numerator = MAX(0, to_hit - ac * 2 / 3);
 	chance->denominator = to_hit;
 
-	/* Convertir la relación a un porcentaje escalado */
+	/* Convert the ratio to a scaled percentage */
 	chance->numerator = HUNDRED_PCT * chance->numerator / chance->denominator;
 	chance->denominator = HUNDRED_PCT;
 
-	/* La tasa calculada solo se aplica cuando no aplican el impacto/fallo garantizados */
+	/* The calculated rate only applies when the guaranteed hit/miss don't */
 	chance->numerator = chance->numerator *
 			(HUNDRED_PCT - ALWAYS_MISS - ALWAYS_HIT) / HUNDRED_PCT;
 
-	/* Añadir el impacto garantizado */
+	/* Add in the guaranteed hit */
 	chance->numerator += ALWAYS_HIT;
 }
 
 /**
  * ------------------------------------------------------------------------
- * Cálculos de daño
+ * Damage calculations
  * ------------------------------------------------------------------------ */
 /**
- * Conversión de pluses a Letalidad en un porcentaje añadido al daño.
- * Gran parte de esta tabla no está pensada para ser utilizada nunca, y se incluye
- * solo para manejar una posible inflación en otras partes. -LM-
+ * Conversion of plusses to Deadliness to a percentage added to damage.
+ * Much of this table is not intended ever to be used, and is included
+ * only to handle possible inflation elsewhere. -LM-
  */
 uint8_t deadliness_conversion[151] =
   {
@@ -249,33 +249,33 @@ uint8_t deadliness_conversion[151] =
   };
 
 /**
- * La letalidad multiplica el daño infligido por un porcentaje, que varía
- * desde el 0% (no se inflige daño alguno) hasta como máximo el 355% (el daño se multiplica
- * ¡por más de tres veces y media!).
+ * Deadliness multiplies the damage done by a percentage, which varies 
+ * from 0% (no damage done at all) to at most 355% (damage is multiplied 
+ * by more than three and a half times!).
  *
- * Usamos la tabla "deadliness_conversion" para traducir los pluses internos
- * a letalidad en valores porcentuales.
+ * We use the table "deadliness_conversion" to translate internal plusses 
+ * to deadliness to percentage values.
  *
- * Esta función multiplica el daño por 100.
+ * This function multiplies damage by 100.
  */
 void apply_deadliness(int *die_average, int deadliness)
 {
 	int i;
 
-	/* Paranoia - asegurar acceso legal a la tabla. */
+	/* Paranoia - ensure legal table access. */
 	if (deadliness > 150)
 		deadliness = 150;
 	if (deadliness < -150)
 		deadliness = -150;
 
-	/* La letalidad es positiva - el daño aumenta */
+	/* Deadliness is positive - damage is increased */
 	if (deadliness >= 0) {
 		i = deadliness_conversion[deadliness];
 
 		*die_average *= (100 + i);
 	}
 
-	/* La letalidad es negativa - el daño disminuye */
+	/* Deadliness is negative - damage is decreased */
 	else {
 		i = deadliness_conversion[ABS(deadliness)];
 
@@ -287,8 +287,8 @@ void apply_deadliness(int *die_average, int deadliness)
 }
 
 /**
- * Verificar si un monstruo tiene algún estado negativo que haga que un golpe
- * crítico sea más probable.
+ * Check if a monster is debuffed in such a way as to make a critical
+ * hit more likely.
  */
 static bool is_debuffed(const struct monster *monster)
 {
@@ -299,9 +299,9 @@ static bool is_debuffed(const struct monster *monster)
 }
 
 /**
- * Determinar el daño para golpes críticos al disparar.
+ * Determine damage for critical hits from shooting.
  *
- * Tener en cuenta el peso del objeto, los pluses totales y el nivel del jugador.
+ * Factor in item weight, total plusses, and player level.
  */
 static int critical_shot(const struct player *p,
 		const struct monster *monster,
@@ -346,7 +346,7 @@ static int critical_shot(const struct player *p,
 }
 
 /**
- * Determinar el daño para golpes críticos al disparar en combate O.
+ * Determine O-combat damage for critical hits from shooting.
  */
 static int o_critical_shot(const struct player *p,
 		const struct monster *monster,
@@ -360,7 +360,7 @@ static int o_critical_shot(const struct player *p,
 	if (is_debuffed(monster)) {
 		power += z_info->o_r_crit_debuff_toh;
 	}
-	/* Aplicar un factor de escala racional. */
+	/* Apply a rational scale factor. */
 	if (launcher) {
 		power = (power * z_info->o_r_crit_power_launched_toh_scl_num)
 			/ z_info->o_r_crit_power_launched_toh_scl_den;
@@ -369,12 +369,12 @@ static int o_critical_shot(const struct player *p,
 			/ z_info->o_r_crit_power_thrown_toh_scl_den;
 	}
 
-	/* Probar para golpe crítico: la probabilidad es a * poder / (b * poder + c) */
+	/* Test for critical hit:  chance is a * power / (b * power + c) */
 	chance_num = power * z_info->o_r_crit_chance_power_scl_num;
 	chance_den = power * z_info->o_r_crit_chance_power_scl_den
 		+ z_info->o_r_crit_chance_add_den;
 	if (randint1(chance_den) <= chance_num && z_info->o_r_crit_level_head) {
-		/* Determinar el nivel del golpe crítico. */
+		/* Determine level of critical hit. */
 		const struct o_critical_level *this_l =
 			z_info->o_r_crit_level_head;
 
@@ -392,9 +392,9 @@ static int o_critical_shot(const struct player *p,
 }
 
 /**
- * Determinar el daño para golpes críticos en cuerpo a cuerpo.
+ * Determine damage for critical hits from melee.
  *
- * Tener en cuenta el peso del arma, los pluses totales y el nivel del jugador.
+ * Factor in weapon weight, total plusses, player level.
  */
 static int critical_melee(const struct player *p,
 		const struct monster *monster,
@@ -434,7 +434,7 @@ static int critical_melee(const struct player *p,
 }
 
 /**
- * Determinar el daño para golpes críticos en cuerpo a cuerpo en combate O.
+ * Determine O-combat damage for critical hits from melee.
  */
 static int o_critical_melee(const struct player *p,
 		const struct monster *monster,
@@ -446,16 +446,16 @@ static int o_critical_melee(const struct player *p,
 	if (is_debuffed(monster)) {
 		power += z_info->o_m_crit_debuff_toh;
 	}
-	/* Aplicar un factor de escala racional. */
+	/* Apply a rational scale factor. */
 	power = (power * z_info->o_m_crit_power_toh_scl_num)
 		/ z_info->o_m_crit_power_toh_scl_den;
 
-	/* Probar para golpe crítico: la probabilidad es a * poder / (b * poder + c) */
+	/* Test for critical hit:  chance is a * power / (b * power + c) */
 	chance_num = power * z_info->o_m_crit_chance_power_scl_num;
 	chance_den = power * z_info->o_m_crit_chance_power_scl_den
 		+ z_info->o_m_crit_chance_add_den;
 	if (randint1(chance_den) <= chance_num && z_info->o_m_crit_level_head) {
-		/* Determinar el nivel del golpe crítico. */
+		/* Determine level of critical hit. */
 		const struct o_critical_level *this_l =
 			z_info->o_m_crit_level_head;
 
@@ -473,9 +473,9 @@ static int o_critical_melee(const struct player *p,
 }
 
 /**
- * Determinar el daño estándar en cuerpo a cuerpo.
+ * Determine standard melee damage.
  *
- * Tener en cuenta los dados de daño, para-dañar y cualquier marca o azote.
+ * Factor in damage dice, to-dam and any brand or slay.
  */
 static int melee_damage(const struct monster *mon, struct object *obj, int b, int s)
 {
@@ -493,10 +493,10 @@ static int melee_damage(const struct monster *mon, struct object *obj, int b, in
 }
 
 /**
- * Determinar el daño en cuerpo a cuerpo en combate O.
+ * Determine O-combat melee damage.
  *
- * La letalidad y cualquier marca o azote añaden caras extra a los dados de daño,
- * los críticos añaden dados extra.
+ * Deadliness and any brand or slay add extra sides to the damage dice,
+ * criticals add extra dice.
  */
 static int o_melee_damage(struct player *p, const struct monster *mon,
 		struct object *obj, int b, int s, uint32_t *msg_type)
@@ -505,10 +505,10 @@ static int o_melee_damage(struct player *p, const struct monster *mon,
 	int sides, deadliness, dmg, add = 0;
 	bool extra;
 
-	/* Obtener el valor medio de un dado de daño individual. (x10) */
+	/* Get the average value of a single damage die. (x10) */
 	int die_average = (10 * (((obj) ? obj->ds : 1) + 1)) / 2;
 
-	/* Ajustar la media para azotes y marcas. (inflación x10) */
+	/* Adjust the average for slays and brands. (10x inflation) */
 	if (s) {
 		die_average *= slays[s].o_multiplier;
 		add = slays[s].o_multiplier - 10;
@@ -521,35 +521,35 @@ static int o_melee_damage(struct player *p, const struct monster *mon,
 		die_average *= 10;
 	}
 
-	/* Aplicar letalidad a la media. (inflación x100) */
+	/* Apply deadliness to average. (100x inflation) */
 	deadliness = p->state.to_d + ((obj) ? object_to_dam(obj) : 0);
 	apply_deadliness(&die_average, MIN(deadliness, 150));
 
-	/* Calcular el número real de caras de cada dado. */
+	/* Calculate the actual number of sides to each die. */
 	sides = (2 * die_average) - 10000;
 	extra = randint0(10000) < (sides % 10000);
 	sides /= 10000;
 	sides += (extra ? 1 : 0);
 
 	/*
-	 * Obtener el número de dados críticos; por ahora, excluyendo críticos para
-	 * combate sin armas
+	 * Get number of critical dice; for now, excluding criticals for
+	 * unarmed combat
 	 */
 	if (obj) dice += o_critical_melee(p, mon, obj, msg_type);
 
-	/* Tirar el daño. */
+	/* Roll out the damage. */
 	dmg = damroll(dice, sides);
 
-	/* Aplicar cualquier adición especial al daño. */
+	/* Apply any special additions to damage. */
 	dmg += add;
 
 	return dmg;
 }
 
 /**
- * Determinar el daño estándar a distancia.
+ * Determine standard ranged damage.
  *
- * Tener en cuenta los dados de daño, para-dañar, multiplicador y cualquier marca o azote.
+ * Factor in damage dice, to-dam, multiplier and any brand or slay.
  */
 static int ranged_damage(struct player *p, const struct monster *mon,
 						 struct object *missile, struct object *launcher,
@@ -558,22 +558,22 @@ static int ranged_damage(struct player *p, const struct monster *mon,
 	int dmg;
 	int mult = (launcher ? p->state.ammo_mult : 1);
 
-	/* Si tenemos un azote o una marca, modificar el multiplicador apropiadamente */
+	/* If we have a slay or brand, modify the multiplier appropriately */
 	if (b) {
 		mult += get_monster_brand_multiplier(mon, &brands[b], false);
 	} else if (s) {
 		mult += slays[s].multiplier;
 	}
 
-	/* Aplicar daño: multiplicador, azotes, bonificaciones */
+	/* Apply damage: multiplier, slays, bonuses */
 	dmg = damroll(missile->dd, missile->ds);
 	dmg += object_to_dam(missile);
 	if (launcher) {
 		dmg += object_to_dam(launcher);
 	} else if (of_has(missile->flags, OF_THROWING)) {
-		/* Ajustar daño para armas arrojadizas.
-		 * Esta no es la ecuación más bonita, pero al menos intenta
-		 * mantener las armas arrojadizas competitivas. */
+		/* Adjust damage for throwing weapons.
+		 * This is not the prettiest equation, but it does at least try to
+		 * keep throwing weapons competitive. */
 		dmg *= 2 + object_weight_one(missile) / 12;
 	}
 	dmg *= mult;
@@ -582,10 +582,10 @@ static int ranged_damage(struct player *p, const struct monster *mon,
 }
 
 /**
- * Determinar el daño a distancia en combate O.
+ * Determine O-combat ranged damage.
  *
- * La letalidad, el multiplicador del lanzador y cualquier marca o azote añaden caras extra a los
- * dados de daño, los críticos añaden dados extra.
+ * Deadliness, launcher multiplier and any brand or slay add extra sides to the
+ * damage dice, criticals add extra dice.
  */
 static int o_ranged_damage(struct player *p, const struct monster *mon,
 		struct object *missile, struct object *launcher,
@@ -596,13 +596,13 @@ static int o_ranged_damage(struct player *p, const struct monster *mon,
 	int sides, deadliness, dmg, add = 0;
 	bool extra;
 
-	/* Obtener el valor medio de un dado de daño individual. (x10) */
+	/* Get the average value of a single damage die. (x10) */
 	int die_average = (10 * (missile->ds + 1)) / 2;
 
-	/* Aplicar el multiplicador del lanzador. */
+	/* Apply the launcher multiplier. */
 	die_average *= mult;
 
-	/* Ajustar la media para azotes y marcas. (inflación x10) */
+	/* Adjust the average for slays and brands. (10x inflation) */
 	if (b) {
 		int bmult = get_monster_brand_multiplier(mon, &brands[b], true);
 
@@ -615,7 +615,7 @@ static int o_ranged_damage(struct player *p, const struct monster *mon,
 		die_average *= 10;
 	}
 
-	/* Aplicar letalidad a la media. (inflación x100) */
+	/* Apply deadliness to average. (100x inflation) */
 	deadliness = object_to_dam(missile);
 	if (launcher) {
 		deadliness += object_to_dam(launcher) + p->state.to_d;
@@ -624,35 +624,35 @@ static int o_ranged_damage(struct player *p, const struct monster *mon,
 	}
 	apply_deadliness(&die_average, MIN(deadliness, 150));
 
-	/* Calcular el número real de caras de cada dado. */
+	/* Calculate the actual number of sides to each die. */
 	sides = (2 * die_average) - 10000;
 	extra = randint0(10000) < (sides % 10000);
 	sides /= 10000;
 	sides += (extra ? 1 : 0);
 
-	/* Obtener el número de dados críticos - solo para objetos adecuados */
+	/* Get number of critical dice - only for suitable objects */
 	if (launcher) {
 		dice += o_critical_shot(p, mon, missile, launcher, msg_type);
 	} else if (of_has(missile->flags, OF_THROWING)) {
 		dice += o_critical_shot(p, mon, missile, NULL, msg_type);
 
-		/* Multiplicar el número de dados de daño por el multiplicador del arma arrojadiza.
-		 * Esta no es la ecuación más bonita,
-		 * pero al menos intenta mantener las armas arrojadizas competitivas. */
+		/* Multiply the number of damage dice by the throwing weapon
+		 * multiplier.  This is not the prettiest equation,
+		 * but it does at least try to keep throwing weapons competitive. */
 		dice *= 2 + object_weight_one(missile) / 12;
 	}
 
-	/* Tirar el daño. */
+	/* Roll out the damage. */
 	dmg = damroll(dice, sides);
 
-	/* Aplicar cualquier adición especial al daño. */
+	/* Apply any special additions to damage. */
 	dmg += add;
 
 	return dmg;
 }
 
 /**
- * Aplicar las bonificaciones de daño del jugador
+ * Apply the player damage bonuses
  */
 static int player_damage_bonus(struct player_state *state)
 {
@@ -661,14 +661,14 @@ static int player_damage_bonus(struct player_state *state)
 
 /**
  * ------------------------------------------------------------------------
- * Efectos secundarios de los golpes de cuerpo a cuerpo (no daño)
+ * Non-damage melee blow effects
  * ------------------------------------------------------------------------ */
 /**
- * Aplicar efectos secundarios del golpe
+ * Apply blow side effects
  */
 static void blow_side_effects(struct player *p, struct monster *mon)
 {
-	/* Ataque de confusión */
+	/* Confusion attack */
 	if (p->timed[TMD_ATT_CONF]) {
 		player_clear_timed(p, TMD_ATT_CONF, true, false);
 
@@ -678,17 +678,17 @@ static void blow_side_effects(struct player *p, struct monster *mon)
 }
 
 /**
- * Aplicar efectos posteriores al golpe
+ * Apply blow after effects
  */
 static bool blow_after_effects(struct loc grid, int dmg, int splash,
 							   bool *fear, bool quake)
 {
-	/* Aplicar marca de terremoto */
+	/* Apply earthquake brand */
 	if (quake) {
 		effect_simple(EF_EARTHQUAKE, source_player(), "0", 0, 10, 0, 0, 0,
 					  NULL);
 
-		/* El monstruo puede estar muerto o haberse movido */
+		/* Monster may be dead or moved */
 		if (!square_monster(cave, grid))
 			return true;
 	}
@@ -698,9 +698,9 @@ static bool blow_after_effects(struct loc grid, int dmg, int splash,
 
 /**
  * ------------------------------------------------------------------------
- * Ataque cuerpo a cuerpo
+ * Melee attack
  * ------------------------------------------------------------------------ */
-/* Tipos de impacto cuerpo a cuerpo y lanzamiento */
+/* Melee and throwing hit types */
 static const struct hit_types melee_hit_types[] = {
 	{ MSG_MISS, NULL },
 	{ MSG_HIT, NULL },
@@ -712,21 +712,21 @@ static const struct hit_types melee_hit_types[] = {
 };
 
 /**
- * Atacar al monstruo en la ubicación dada con un solo golpe.
+ * Attack the monster at the given location with a single blow.
  */
 bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 {
 	size_t i;
 
-	/* Información sobre el objetivo del ataque */
+	/* Information about the target of the attack */
 	struct monster *mon = square_monster(cave, grid);
 	char m_name[80];
 	bool stop = false;
 
-	/* El arma utilizada */
+	/* The weapon used */
 	struct object *obj = equipped_item_by_slot_name(p, "weapon");
 
-	/* Información sobre el ataque */
+	/* Information about the attack */
 	int drain = 0;
 	int splash = 0;
 	bool do_quake = false;
@@ -736,37 +736,37 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 	uint32_t msg_type = MSG_HIT;
 	int j, b, s, weight, dmg;
 
-	/* Por defecto, puñetazo */
+	/* Default to punching */
 	my_strcpy(verb, "Golpeas", sizeof(verb));
 
-	/* Extraer nombre del monstruo (o "eso") */
+	/* Extract monster name (or "it") */
 	monster_desc(m_name, sizeof(m_name), mon, MDESC_TARG);
 
-	/* Auto-Recordar y rastrear si es posible y visible */
+	/* Auto-Recall and track if possible and visible */
 	if (monster_is_visible(mon)) {
 		monster_race_track(p->upkeep, mon->race);
 		health_track(p->upkeep, mon);
 	}
 
-	/* Manejar miedo del jugador (solo para monstruos invisibles) */
+	/* Handle player fear (only for invisible monsters) */
 	if (player_of_has(p, OF_AFRAID)) {
 		equip_learn_flag(p, OF_AFRAID);
 		msgt(MSG_AFRAID, "¡Tienes demasiado miedo para atacar a %s!", m_name);
 		return false;
 	}
 
-	/* Molestar al monstruo */
+	/* Disturb the monster */
 	monster_wake(mon, false, 100);
 	mon_clear_timed(mon, MON_TMD_HOLD, MON_TMD_FLG_NOTIFY);
 
-	/* Ver si el jugador impactó */
+	/* See if the player hit */
 	success = test_hit(chance_of_melee_hit(p, obj, mon), mon->race->ac);
 
-	/* Si es un fallo, saltar este golpe */
+	/* If a miss, skip this hit */
 	if (!success) {
 		msgt(MSG_MISS, "Fallas a %s.", m_name);
 
-		/* Pequeña probabilidad de efectos secundarios de sed de sangre */
+		/* Small chance of bloodlust side-effects */
 		if (p->timed[TMD_BLOODLUST] && one_in_(50)) {
 			msg("Te sientes extraño...");
 			player_over_exert(p, PY_EXERT_SCRAMBLE, 20, 20);
@@ -776,14 +776,14 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 	}
 
 	if (obj) {
-		/* arma normal */
+		/* Handle normal weapon */
 		weight = object_weight_one(obj);
 		my_strcpy(verb, "Aciertas", sizeof(verb));
 	} else {
 		weight = 0;
 	}
 
-	/* Mejor ataque de todos los azotes o marcas en todo el equipo que no sea lanzador */
+	/* Best attack from all slays or brands on all non-launcher equipment */
 	b = 0;
 	s = 0;
 	for (j = 2; j < p->body.count; j++) {
@@ -793,16 +793,16 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 				verb, false);
 	}
 
-	/* Obtener el mejor ataque de todos los azotes o marcas - arma o temporales */
+	/* Get the best attack from all slays or brands - weapon or temporary */
 	if (obj) {
 		improve_attack_modifier(p, obj, mon, &b, &s, verb, false);
 	}
 	improve_attack_modifier(p, NULL, mon, &b, &s, verb, false);
 
-	/* Obtener el daño */
+	/* Get the damage */
 	if (!OPT(p, birth_percent_damage)) {
 		dmg = melee_damage(mon, obj, b, s);
-		/* Por ahora, excluir críticos en combate sin armas */
+		/* For now, exclude criticals on unarmed combat */
 		if (obj) {
 			dmg = critical_melee(p, mon, weight, object_to_hit(obj),
 				dmg, &msg_type);
@@ -811,23 +811,23 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 		dmg = o_melee_damage(p, mon, obj, b, s, &msg_type);
 	}
 
-	/* Daño en área y terremotos */
+	/* Splash damage and earthquakes */
 	splash = (weight * dmg) / 100;
 	if (player_of_has(p, OF_IMPACT) && dmg > 50) {
 		do_quake = true;
 		equip_learn_flag(p, OF_IMPACT);
 	}
 
-	/* Aprender mediante el uso */
+	/* Learn by use */
 	equip_learn_on_melee_attack(p);
 	learn_brand_slay_from_melee(p, obj, mon);
 
-	/* Aplicar las bonificaciones de daño del jugador */
+	/* Apply the player damage bonuses */
 	if (!OPT(p, birth_percent_damage)) {
 		dmg += player_damage_bonus(&p->state);
 	}
 
-	/* Sustituir golpes específicos de la forma para jugadores cambiados de forma */
+	/* Substitute shape-specific blows for shapechanged players */
 	if (player_is_shapechanged(p)) {
 		int choice = randint0(p->shape->num_blows);
 		struct player_blow *blow = p->shape->blows;
@@ -837,7 +837,7 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 		my_strcpy(verb, blow->name, sizeof(verb));
 	}
 
-	/* Sin daño negativo; cambiar verbo si no se infligió daño */
+	/* No negative damage; change verb if no damage done */
 	if (dmg <= 0) {
 		dmg = 0;
 		msg_type = MSG_MISS;
@@ -867,11 +867,11 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 	/* Efectos secundarios previos al daño */
 	blow_side_effects(p, mon);
 
-	/* Daño, comprobar drenaje de HP, miedo y muerte */
+	/* Damage, check for hp drain, fear and death */
 	drain = MIN(mon->hp, dmg);
 	stop = mon_take_hit(mon, p, dmg, fear, NULL);
 
-	/* Pequeña probabilidad de efectos secundarios de sed de sangre */
+	/* Small chance of bloodlust side-effects */
 	if (p->timed[TMD_BLOODLUST] && one_in_(50)) {
 		msg("¡Sientes que algo cede!");
 		player_over_exert(p, PY_EXERT_CON, 20, 0);
@@ -887,7 +887,7 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 	if (stop)
 		(*fear) = false;
 
-	/* Efectos posteriores al daño */
+	/* Post-damage effects */
 	if (blow_after_effects(grid, dmg, splash, fear, do_quake))
 		stop = true;
 
@@ -896,50 +896,50 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 
 
 /**
- * Intentar un golpe con escudo; devuelve true si el monstruo muere
+ * Attempt a shield bash; return true if the monster dies
  */
 static bool attempt_shield_bash(struct player *p, struct monster *mon, bool *fear)
 {
 	struct object *weapon = slot_object(p, slot_by_name(p, "weapon"));
-	struct object *shield = slot_object(p, slot_by_name(p, "arm"));
+	struct object *shield = slot_object(p, slot_by_name(p, "brazo"));
 	int nblows = p->state.num_blows / 100;
 	int bash_quality, bash_dam, energy_lost;
 
-	/* La probabilidad de golpe depende de la habilidad cuerpo a cuerpo, DEX y una bonificación por nivel. */
+	/* Bashing chance depends on melee skill, DEX, and a level bonus. */
 	int bash_chance = p->state.skills[SKILL_TO_HIT_MELEE] / 8 +
 		adj_dex_th[p->state.stat_ind[STAT_DEX]] / 2;
 
-	/* Sin escudo, no hay golpe */
+	/* No shield, no bash */
 	if (!shield) return false;
 
-	/* El monstruo es demasiado patético, no merece la pena */
+	/* Monster is too pathetic, don't bother */
 	if (mon->race->level < p->lev / 2) return false;
 
-	/* Los jugadores golpean con escudo más a menudo cuando ven una necesidad real: */
+	/* Players bash more often when they see a real need: */
 	if (!equipped_item_by_slot_name(p, "weapon")) {
-		/* Sin armas... */
+		/* Unarmed... */
 		bash_chance *= 4;
 	} else if (weapon->dd * weapon->ds * nblows < shield->dd * shield->ds * 3) {
-		/* ... o armados con un arma insignificante */
+		/* ... or armed with a puny weapon */
 		bash_chance *= 2;
 	}
 
-	/* Intentar dar un golpe con escudo. */
+	/* Try to get in a shield bash. */
 	if (bash_chance <= randint0(200 + mon->race->level)) {
 		return false;
 	}
 
-	/* Calcular calidad del ataque, una mezcla de impulso y precisión. */
+	/* Calculate attack quality, a mix of momentum and accuracy. */
 	bash_quality = p->state.skills[SKILL_TO_HIT_MELEE] / 4 + p->wt / 8 +
 		p->upkeep->total_weight / 80 + object_weight_one(shield) / 2;
 
-	/* Calcular daño. Los escudos grandes son letales. */
+	/* Calculate damage.  Big shields are deadly. */
 	bash_dam = damroll(shield->dd, shield->ds);
 
-	/* Multiplicar por factores de calidad y experiencia */
+	/* Multiply by quality and experience factors */
 	bash_dam *= bash_quality / 40 + p->lev / 14;
 
-	/* Bonificación por fuerza. */
+	/* Strength bonus. */
 	bash_dam += adj_str_td[p->state.stat_ind[STAT_STR]];
 
 	/* Paranoia. */
@@ -952,28 +952,28 @@ static bool attempt_shield_bash(struct player *p, struct monster *mon, bool *fea
 		msgt(MSG_HIT, "¡Consigues dar un golpe con el escudo!");
 	}
 
-	/* Animar al jugador a seguir llevando ese escudo pesado. */
+	/* Encourage the player to keep wearing that heavy shield. */
 	if (randint1(bash_dam) > 30 + randint1(bash_dam / 2)) {
 		msgt(MSG_HIT_HI_SUPERB, "¡ZAS!");
 	}
 
-	/* Daño, comprobar miedo y muerte. */
+	/* Damage, check for fear and death. */
 	if (mon_take_hit(mon, p, bash_dam, fear, NULL)) return true;
 
-	/* Aturdimiento. */
+	/* Stunning. */
 	if (bash_quality + p->lev > randint1(200 + mon->race->level * 8)) {
 		mon_inc_timed(mon, MON_TMD_STUN, randint0(p->lev / 5) + 4, 0);
 	}
 
-	/* Confusión. */
+	/* Confusion. */
 	if (bash_quality + p->lev > randint1(300 + mon->race->level * 12)) {
 		mon_inc_timed(mon, MON_TMD_CONF, randint0(p->lev / 5) + 4, 0);
 	}
 
-	/* El jugador a veces tropieza. */
+	/* The player will sometimes stumble. */
 	if (35 + adj_dex_th[p->state.stat_ind[STAT_DEX]] < randint1(60)) {
 		energy_lost = randint1(50) + 25;
-		/* Perder el 26-75% de un turno debido al tropiezo después del golpe con escudo. */
+		/* Lose 26-75% of a turn due to stumbling after shield bash. */
 		msgt(MSG_GENERIC, "¡Tropiezas!");
 		p->upkeep->energy_use += energy_lost * z_info->move_energy / 100;
 	}
@@ -982,12 +982,12 @@ static bool attempt_shield_bash(struct player *p, struct monster *mon, bool *fea
 }
 
 /**
- * Atacar al monstruo en la ubicación dada
+ * Attack the monster at the given location
  *
- * Obtenemos golpes hasta que la energía cae por debajo de la requerida para otro golpe, o
- * hasta que el monstruo objetivo muere. Cada golpe es manejado por py_attack_real().
- * No permitimos que @ gaste más de 1 turno de energía,
- * para evitar que monstruos más lentos tengan movimientos dobles.
+ * We get blows until energy drops below that required for another blow, or
+ * until the target monster dies. Each blow is handled by py_attack_real().
+ * We don't allow @ to spend more than 1 turn's worth of energy,
+ * to avoid slower monsters getting double moves.
  */
 void py_attack(struct player *p, struct loc grid)
 {
@@ -996,34 +996,34 @@ void py_attack(struct player *p, struct loc grid)
 	bool slain = false, fear = false;
 	struct monster *mon = square_monster(cave, grid);
 
-	/* Molestar al jugador */
+	/* Disturb the player */
 	disturb(p);
 
-	/* Inicializar la energía usada */
+	/* Initialize the energy used */
 	p->upkeep->energy_use = 0;
 
-	/* Recompensar a BG con 5% de los PM máximos, mínimo 1/2 punto */
+	/* Reward BGs with 5% of max SPs, min 1/2 point */
 	if (player_has(p, PF_COMBAT_REGEN)) {
 		int32_t sp_gain = (((int32_t)MAX(p->msp, 10)) * 16384) / 5;
 		player_adjust_mana_precise(p, sp_gain);
 	}
 
-	/* El jugador intenta un golpe con escudo si puede, y si el monstruo es visible
-	 * y no demasiado patético */
+	/* Player attempts a shield bash if they can, and if monster is visible
+	 * and not too pathetic */
 	if (player_has(p, PF_SHIELD_BASH) && monster_is_visible(mon)) {
-		/* El monstruo puede morir */
+		/* Monster may die */
 		if (attempt_shield_bash(p, mon, &fear)) return;
 	}
 
-	/* Atacar hasta que el siguiente ataque exceda la energía disponible o
-	 * un turno completo o hasta que el enemigo muera. Limitamos el uso de energía
-	 * para evitar dar a los monstruos un posible movimiento doble. */
+	/* Attack until the next attack would exceed energy available or
+	 * a full turn or until the enemy dies. We limit energy use
+	 * to avoid giving monsters a possible double move. */
 	while (avail_energy - p->upkeep->energy_use >= blow_energy && !slain) {
 		slain = py_attack_real(p, grid, &fear);
 		p->upkeep->energy_use += blow_energy;
 	}
 
-	/* Truco - retrasar mensajes de miedo */
+	/* Hack - delay fear messages */
 	if (fear && monster_is_visible(mon)) {
 		add_monster_message(mon, MON_MSG_FLEE_IN_TERROR, true);
 	}
@@ -1031,9 +1031,9 @@ void py_attack(struct player *p, struct loc grid)
 
 /**
  * ------------------------------------------------------------------------
- * Ataques a distancia
+ * Ranged attacks
  * ------------------------------------------------------------------------ */
-/* Tipos de impacto al disparar */
+/* Shooting hit types */
 static const struct hit_types ranged_hit_types[] = {
 	{ MSG_MISS, NULL },
 	{ MSG_SHOOT_HIT, NULL },
@@ -1043,11 +1043,11 @@ static const struct hit_types ranged_hit_types[] = {
 };
 
 /**
- * Esta es una función auxiliar utilizada por do_cmd_throw y do_cmd_fire.
+ * This is a helper function used by do_cmd_throw and do_cmd_fire.
  *
- * Abstrae la ruta del proyectil, el código de visualización, la identificación y la lógica
- * de limpieza, mientras usa el parámetro 'attack' para hacer el trabajo particular de cada
- * tipo de ataque.
+ * It abstracts out the projectile path, display code, identify and clean up
+ * logic, while using the 'attack' parameter to do work particular to each
+ * kind of attack.
  */
 static void ranged_helper(struct player *p,	struct object *obj, int dir,
 						  int range, int shots, ranged_attack attack,
@@ -1058,10 +1058,10 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 	int path_n;
 	struct loc path_g[256];
 
-	/* Empezar en el jugador */
+	/* Start at the player */
 	struct loc grid = p->grid;
 
-	/* Predecir la ubicación del "objetivo" */
+	/* Predict the "target" location */
 	struct loc target = loc_sum(grid, loc(99 * ddx[dir], 99 * ddy[dir]));
 
 	bool hit_target = false;
@@ -1070,7 +1070,7 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 	struct object *missile;
 	int pierce = 1;
 
-	/* Comprobar la validez del objetivo */
+	/* Check for target validity */
 	if ((dir == DIR_TARGET) && target_okay()) {
 		int taim;
 		target_get(&target);
@@ -1084,40 +1084,40 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 		}
 	}
 
-	/* Sonido */
+	/* Sound */
 	sound(MSG_SHOOT);
 
-	/* En realidad, "disparar" el objeto -- Tomar un turno parcial */
+	/* Actually "fire" the object -- Take a partial turn */
 	p->upkeep->energy_use = (z_info->move_energy * 10 / shots);
 
-	/* Calcular la ruta */
+	/* Calculate the path */
 	path_n = project_path(cave, path_g, range, grid, target, 0);
 
-	/* Calcular el potencial de perforación */
+	/* Calculate potenital piercing */
 	if (p->timed[TMD_POWERSHOT] && tval_is_sharp_missile(obj)) {
 		pierce = p->state.ammo_mult;
 	}
 
-	/* Manejar eventos */
+	/* Handle stuff */
 	handle_stuff(p);
 
-	/* Proyectar a lo largo de la ruta */
+	/* Project along the path */
 	for (i = 0; i < path_n; ++i) {
 		struct monster *mon = NULL;
 		bool see = square_isseen(cave, path_g[i]);
 
-		/* Detenerse antes de golpear paredes */
+		/* Stop before hitting walls */
 		if (!(square_ispassable(cave, path_g[i])) &&
 			!(square_isprojectable(cave, path_g[i])))
 			break;
 
-		/* Avanzar */
+		/* Advance */
 		grid = path_g[i];
 
-		/* Decir a la UI que muestre el proyectil */
+		/* Tell the UI to display the missile */
 		event_signal_missile(EVENT_MISSILE, obj, see, grid.y, grid.x);
 
-		/* Intentar el ataque al monstruo en (x, y) si lo hay */
+		/* Try the attack on the monster at (x, y) if any */
 		mon = square_monster(cave, path_g[i]);
 		if (mon) {
 			int visible = monster_is_obvious(mon);
@@ -1140,17 +1140,17 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 
 				missile_learn_on_ranged_attack(p, obj);
 
-				/* Aprender mediante el uso para otros objetos equipados */
+				/* Learn by use for other equipped items */
 				equip_learn_on_ranged_attack(p);
 
 				/*
-				 * Describir el objeto (tener el conocimiento más
-				 * actualizado ahora).
+				 * Describe the object (have most up-to-date
+				 * knowledge now).
 				 */
 				object_desc(o_name, sizeof(o_name), obj,
 					ODESC_FULL | ODESC_SINGULAR, p);
 
-				/* Sin daño negativo; cambiar verbo si no se infligió daño */
+				/* No negative damage; change verb if no damage done */
 				if (dmg <= 0) {
 					dmg = 0;
 					msg_type = MSG_MISS;
@@ -1158,7 +1158,7 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 				}
 
 				if (!visible) {
-					/* Monstruo invisible */
+					/* Invisible monster */
 					msgt(MSG_SHOOT_HIT, "El %s encuentra un blanco.", o_name);
 				} else {
 					for (j = 0; j < num_types; j++) {
@@ -1184,14 +1184,14 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 						}
 					}
 
-					/* Rastrear este monstruo */
+					/* Track this monster */
 					if (monster_is_obvious(mon)) {
 						monster_race_track(p->upkeep, mon->race);
 						health_track(p->upkeep, mon);
 					}
 				}
 
-				/* Golpear al monstruo, comprobar si muere */
+				/* Hit the monster, check for death */
 				if (!mon_take_hit(mon, p, dmg, &fear, note_dies)) {
 					message_pain(mon, dmg);
 					if (fear && monster_is_obvious(mon)) {
@@ -1199,36 +1199,36 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 					}
 				}
 			}
-			/* Detener el proyectil, o reducir su efecto de perforación */
+			/* Stop the missile, or reduce its piercing effect */
 			pierce--;
 			if (pierce) continue;
 			else break;
 		}
 
-		/* Detenerse si no es proyectable pero es transitable */
+		/* Stop if non-projectable but passable */
 		if (!(square_isprojectable(cave, path_g[i]))) 
 			break;
 	}
 
-	/* Obtener el proyectil */
+	/* Get the missile */
 	if (object_is_carried(p, obj)) {
 		missile = gear_object_for_use(p, obj, 1, true, &none_left);
 	} else {
 		missile = floor_object_for_use(p, obj, 1, true, &none_left);
 	}
 
-	/* Terminar perforación */
+	/* Terminate piercing */
 	if (p->timed[TMD_POWERSHOT]) {
 		player_clear_timed(p, TMD_POWERSHOT, true, false);
 	}
 
-	/* Soltar (o romper) cerca de esa ubicación */
+	/* Drop (or break) near that location */
 	drop_near(cave, &missile, breakage_chance(missile, hit_target), grid, true, false);
 }
 
 
 /**
- * Función auxiliar utilizada con ranged_helper por do_cmd_fire.
+ * Helper function used with ranged_helper by do_cmd_fire.
  */
 struct attack_result make_ranged_shot(struct player *p,
 		struct object *ammo, struct loc grid)
@@ -1241,7 +1241,7 @@ struct attack_result make_ranged_shot(struct player *p,
 
 	my_strcpy(hit_verb, "golpea", 20);
 
-	/* ¿Le dimos? */
+	/* Did we hit it */
 	if (!test_hit(chance_of_missile_hit(p, ammo, bow, mon), mon->race->ac))
 		return result;
 
@@ -1267,7 +1267,7 @@ struct attack_result make_ranged_shot(struct player *p,
 
 
 /**
- * Función auxiliar utilizada con ranged_helper por do_cmd_throw.
+ * Helper function used with ranged_helper by do_cmd_throw.
  */
 struct attack_result make_ranged_throw(struct player *p,
 	struct object *obj, struct loc grid)
@@ -1279,7 +1279,7 @@ struct attack_result make_ranged_throw(struct player *p,
 
 	my_strcpy(hit_verb, "golpea", 20);
 
-	/* Si fallamos, hemos terminado */
+	/* If we missed then we're done */
 	if (!test_hit(chance_of_missile_hit(p, obj, NULL, mon), mon->race->ac))
 		return result;
 
@@ -1296,7 +1296,7 @@ struct attack_result make_ranged_throw(struct player *p,
 		result.dmg = o_ranged_damage(p, mon, obj, NULL, b, s, &result.msg_type);
 	}
 
-	/* Ajuste directo para cosas explosivas (frascos de aceite) */
+	/* Direct adjustment for exploding things (flasks of oil) */
 	if (of_has(obj->flags, OF_EXPLODE))
 		result.dmg *= 3;
 
@@ -1307,7 +1307,7 @@ struct attack_result make_ranged_throw(struct player *p,
 
 
 /**
- * Disparar un objeto del carcaj, la mochila o el suelo a un objetivo.
+ * Fire an object from the quiver, pack or floor at a target.
  */
 void do_cmd_fire(struct command *cmd) {
 	int dir;
@@ -1323,7 +1323,7 @@ void do_cmd_fire(struct command *cmd) {
 		return;
 	}
 
-	/* Obtener argumentos */
+	/* Get arguments */
 	if (cmd_get_item(cmd, "item", &obj,
 			/* Mensaje */ "¿Disparar qué munición?",
 			/* Error  */ "No tienes munición adecuada para disparar.",
@@ -1332,19 +1332,19 @@ void do_cmd_fire(struct command *cmd) {
 		!= CMD_OK)
 		return;
 
-	/* Requerir un lanzador utilizable */
+	/* Require a usable launcher */
 	if (!bow || !player->state.ammo_tval) {
 		msg("No tienes nada con qué disparar.");
 		return;
 	}
 
-	/* Comprobar que el objeto a disparar es utilizable por el jugador. */
+	/* Check the item being fired is usable by the player. */
 	if (!item_is_available(obj)) {
 		msg("Ese objeto no está a tu alcance.");
 		return;
 	}
 
-	/* Comprobar que la munición puede usarse con el lanzador */
+	/* Check the ammo can be used with the launcher */
 	if (obj->tval != player->state.ammo_tval) {
 		msg("Esa munición no puede ser disparada por tu arma actual.");
 		return;
@@ -1361,8 +1361,8 @@ void do_cmd_fire(struct command *cmd) {
 
 
 /**
- * Lanzar un objeto del carcaj, la mochila, el suelo o, en circunstancias limitadas,
- * el equipo.
+ * Throw an object from the quiver, pack, floor, or, in limited circumstances,
+ * the equipment.
  */
 void do_cmd_throw(struct command *cmd) {
 	int dir;
@@ -1379,9 +1379,9 @@ void do_cmd_throw(struct command *cmd) {
 	}
 
 	/*
-	 * Obtener argumentos. Nunca mostrar el equipo por defecto como primera
-	 * lista (ya que lanzar el arma equipada deja esa ranura vacía y habrá que
-	 * elegir otra fuente de todas formas).
+	 * Get arguments.  Never default to showing the equipment as the first
+	 * list (since throwing the equipped weapon leaves that slot empty will
+	 * have to choose another source anyways).
 	 */
 	if (player->upkeep->command_wrk == USE_EQUIP)
 		player->upkeep->command_wrk = USE_INVEN;
@@ -1411,20 +1411,20 @@ void do_cmd_throw(struct command *cmd) {
 }
 
 /**
- * Comando frontal que dispara al objetivo más cercano con la munición por defecto.
+ * Front-end command which fires at the nearest target with default ammo.
  */
 void do_cmd_fire_at_nearest(void) {
 	int i, dir = DIR_TARGET;
 	struct object *ammo = NULL;
 	struct object *bow = equipped_item_by_slot_name(player, "shooting");
 
-	/* Requerir un lanzador utilizable */
+	/* Require a usable launcher */
 	if (!bow || !player->state.ammo_tval) {
 		msg("No tienes nada con qué disparar.");
 		return;
 	}
 
-	/* Encontrar la primera munición elegible en el carcaj */
+	/* Find first eligible ammo in the quiver */
 	for (i = 0; i < z_info->quiver_size; i++) {
 		if (!player->upkeep->quiver[i])
 			continue;
@@ -1434,16 +1434,16 @@ void do_cmd_fire_at_nearest(void) {
 		break;
 	}
 
-	/* Requerir munición utilizable */
+	/* Require usable ammo */
 	if (!ammo) {
 		msg("No tienes munición en el carcaj para disparar.");
 		return;
 	}
 
-	/* Requerir enemigo */
+	/* Require foe */
 	if (!target_set_closest((TARGET_KILL | TARGET_QUIET), NULL)) return;
 
-	/* ¡Disparar! */
+	/* Fire! */
 	cmdq_push(CMD_FIRE);
 	cmd_set_arg_item(cmdq_peek(), "item", ammo);
 	cmd_set_arg_target(cmdq_peek(), "target", dir);

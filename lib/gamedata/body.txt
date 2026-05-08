@@ -15,7 +15,7 @@ slot:RING:mano der
 slot:RING:mano izq
 slot:AMULET:cuello
 slot:LIGHT:light
-slot:BODY_ARMOR:cuerpo
+slot:BODY_ARMOR:body
 slot:CLOAK:espalda
 slot:SHIELD:brazo
 slot:HAT:cabeza

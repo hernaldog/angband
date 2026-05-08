@@ -17,7 +17,7 @@ EQUIP(BOW,			false,	false,	"A distancia",		"solo sujetando",	"disparar proyectil
 EQUIP(RING,			false,	true,	"En %s",			"",				"llevar puesto en tu %s")
 EQUIP(AMULET,		false,	true,	"En %s",	"",				"llevar alrededor de tu %s")
 EQUIP(LIGHT,		false,	false,	"Fuente de luz",	"",				"usar para iluminar tu camino")
-EQUIP(BODY_ARMOR,	true,	true,	"En %s",			"",				"llevar puesto en tu %s")
+EQUIP(BODY_ARMOR,	true,	true,	"En cuerpo",			"",				"llevar puesto en tu cuerpo")
 EQUIP(CLOAK,		true,	true,	"En %s",			"",				"llevar puesto en tu %s")
 EQUIP(SHIELD,		true,	true,	"En %s",			"",				"llevar puesto en tu %s")
 EQUIP(HAT,			true,	true,	"En %s",			"",				"llevar puesto en tu %s")
