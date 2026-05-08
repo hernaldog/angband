@@ -13,7 +13,7 @@ slot:WEAPON:weapon
 slot:BOW:shooting
 slot:RING:right hand
 slot:RING:left hand
-slot:AMULET:neck
+slot:AMULET:cuello
 slot:LIGHT:light
 slot:BODY_ARMOR:cuerpo
 slot:CLOAK:espalda
