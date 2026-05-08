@@ -1,6 +1,6 @@
 /**
  * \file buildid.c
- * \brief Incorporar detalles de compilación
+ * \brief Compile in build details
  *
  * Copyright (c) 2011 Andi Sidwell
  *
@@ -19,10 +19,9 @@
 #include "buildid.h"
 
 /*
- * Permitir que el sistema de compilación genere version.h (y definir
- * la macro de preprocesador HAVE_VERSION_H) u obtener la versión mediante la macro
- * de preprocesador BUILD_ID. Si ninguna está disponible, usar un valor por defecto
- * razonable.
+ * Allow the build system to generate version.h (and define
+ * the HAVE_VERSION_H preprocessor macro) or get the version via the BUILD_ID
+ * preprocessor macro.  If neither is available, use a sensible default.
  */
 #ifdef HAVE_VERSION_H
 #include "version.h"
@@ -39,7 +38,7 @@ const char *buildid = VERSION_NAME " " VERSION_STRING;
 const char *buildver = VERSION_STRING;
 
 /**
- * Incluir un mensaje de copyright en el ejecutable
+ * Link a copyright message into the executable
  */
 const char *copyright =
 	"Copyright (c) 1987-2022 Colaboradores de Angband.\n"
