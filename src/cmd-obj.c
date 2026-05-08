@@ -695,7 +695,7 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 				label = gear_to_label(player, first_remainder);
 				msg("Tienes %s (1er %c).", name, label);
 			} else {
-				msg("Tienes %s (%c).", name, label);
+				msg("Descubriste %s (%c).", name, label);
 			}
 		} else if (used && use == USE_CHARGE) {
 			/* Describe charges */

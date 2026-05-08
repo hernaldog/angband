@@ -211,6 +211,7 @@ Contenido del script shell:
 - Mejorar: "Ves un fruit bat (unhurt, hasted)
 - Mejorar: "Puedes aprender 2 rituals más."
 - Cuando bebes una poción sin identificar, la descubres y dice luego "Tienes Pociones de Fuerza Berserk", debería decir "Descubriste Pociones..."
+- Mensajes cuando estás sin luz y te pegan
 
 ## Varios ok
 - Mejorar mensaje inferior-izq: "The"... ej: "The masa de gusanos blancos empieza a moverse más rápido" -> ok
