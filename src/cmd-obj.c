@@ -1,6 +1,6 @@
 /**
  * \file cmd-obj.c
- * \brief Manejar objetos de varias maneras
+ * \brief Handle objects in various ways
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2007-9 Andi Sidwell, Chris Carr, Ed Graham, Erik Osheim
@@ -43,18 +43,18 @@
 
 /**
  * ------------------------------------------------------------------------
- * Pequeñas utilidades
+ * Utility bits and bobs
  * ------------------------------------------------------------------------
  */
 
 /**
- * Verificar si el jugador puede usar una vara/varita/báculo/objeto activable.
+ * Check to see if the player can use a rod/wand/staff/activatable object.
  *
- * \return un valor positivo si el objeto dado puede ser usado; devuelve cero si
- * el objeto no puede ser usado pero podría tener éxito en la repetición (es decir, la comprobación
- * de fallo del dispositivo no pasó pero la tasa de fallo es menor al 100%); devuelve
- * un valor negativo si el objeto no puede ser usado y la repetición no ayudará
- * (sin cargas, necesita recarga, o la tasa de fallo es del 100% o más).
+ * \return a positive value if the given object can be used; return zero if
+ * the object cannot be used but might succeed on repetition (i.e. device's
+ * failure check did not pass but the failure rate is less than 100%); return
+ * a negative value if the object cannot be used and repetition won't help
+ * (no charges, requires recharge, or failure rate is 100% or more).
  */
 static int check_devices(struct object *obj)
 {
@@ -63,7 +63,7 @@ static int check_devices(struct object *obj)
 	const char *what = NULL;
 	bool activated = false;
 
-	/* Obtener la cadena correcta */
+	/* Get the right string */
 	if (tval_is_rod(obj)) {
 		action = "usar la vara";
 	} else if (tval_is_wand(obj)) {
@@ -77,24 +77,24 @@ static int check_devices(struct object *obj)
 		activated = true;
 	}
 
-	/* Notar báculos vacíos */
+	/* Notice empty staffs */
 	if (what && obj->pval <= 0) {
 		event_signal(EVENT_INPUT_FLUSH);
 		msg("El %s no tiene cargas restantes.", what);
 		return -1;
 	}
 
-	/* Calcular la dificultad de uso del objeto */
+	/* Figure out how hard the item is to use */
 	fail = get_use_device_chance(obj);
 
-	/* Tirar para el uso */
+	/* Roll for usage */
 	if (randint1(1000) < fail) {
 		event_signal(EVENT_INPUT_FLUSH);
 		msg("No has podido %s correctamente.", action);
 		return (fail < 1001) ? 0 : -1;
 	}
 
-	/* Notar activaciones */
+	/* Notice activations */
 	if (activated) {
 		if (obj->effect)
 			obj->known->effect = obj->effect;
@@ -107,7 +107,7 @@ static int check_devices(struct object *obj)
 
 
 /**
- * Devolver la probabilidad de que un efecto sea direccional, dado un tval.
+ * Return the chance of an effect beaming, given a tval.
  */
 static int beam_chance(int tval)
 {
@@ -122,13 +122,13 @@ static int beam_chance(int tval)
 
 
 /**
- * Imprimir un mensaje de activación de artefacto.
+ * Print an artifact activation message.
  */
 static void activation_message(struct object *obj, const struct player *p)
 {
 	const char *message;
 
-	/* Ver si tenemos un mensaje, luego imprimirlo */
+	/* See if we have a message, then print it */
 	if (!obj->activation) return;
 	if (!obj->activation->message) return;
 	if (obj->artifact && obj->artifact->alt_msg) {
@@ -143,12 +143,12 @@ static void activation_message(struct object *obj, const struct player *p)
 
 /**
  * ------------------------------------------------------------------------
- * Inscripciones
+ * Inscriptions
  * ------------------------------------------------------------------------
  */
 
 /**
- * Eliminar inscripción
+ * Remove inscription
  */
 void do_cmd_uninscribe(struct command *cmd)
 {
@@ -158,7 +158,7 @@ void do_cmd_uninscribe(struct command *cmd)
 		return;
 	}
 
-	/* Obtener argumentos */
+	/* Get arguments */
 	if (cmd_get_item(cmd, "item", &obj,
 			/* Mensaje */ "¿Desinscribir qué objeto?",
 			/* Error  */ "No tienes nada que puedas desinscribir.",
@@ -174,7 +174,7 @@ void do_cmd_uninscribe(struct command *cmd)
 }
 
 /**
- * Añadir inscripción
+ * Add inscription
  */
 void do_cmd_inscribe(struct command *cmd)
 {
@@ -188,7 +188,7 @@ void do_cmd_inscribe(struct command *cmd)
 		return;
 	}
 
-	/* Obtener argumentos */
+	/* Get arguments */
 	if (cmd_get_item(cmd, "item", &obj,
 			/* Mensaje */ "¿Inscribir qué objeto?",
 			/* Error  */ "No tienes nada que inscribir.",
@@ -196,13 +196,13 @@ void do_cmd_inscribe(struct command *cmd)
 			/* Elección */ USE_EQUIP | USE_INVEN | USE_QUIVER | USE_FLOOR | IS_HARMLESS) != CMD_OK)
 		return;
 
-	/* Formar mensaje */
+	/* Form prompt */
 	object_desc(o_name, sizeof(o_name), obj, ODESC_PREFIX | ODESC_FULL,
 		player);
 	strnfmt(prompt, sizeof prompt, "Inscribiendo %s.", o_name);
 
 	if (cmd_get_string(cmd, "inscription", &str,
-			quark_str(obj->note) /* Por defecto */,
+			quark_str(obj->note) /* Default */,
 			prompt, "¿Inscribir con qué? ") != CMD_OK)
 		return;
 
@@ -214,7 +214,7 @@ void do_cmd_inscribe(struct command *cmd)
 
 
 /**
- * Autoinscribir todos los objetos apropiados
+ * Autoinscribe all appropriate objects
  */
 void do_cmd_autoinscribe(struct command *cmd)
 {
@@ -229,12 +229,12 @@ void do_cmd_autoinscribe(struct command *cmd)
 
 /**
  * ------------------------------------------------------------------------
- * Quitar/Poner
+ * Taking off/putting on
  * ------------------------------------------------------------------------
  */
 
 /**
- * Desequiparte un objeto
+ * Take off an item
  */
 void do_cmd_takeoff(struct command *cmd)
 {
@@ -244,7 +244,7 @@ void do_cmd_takeoff(struct command *cmd)
 		return;
 	}
 
-	/* Obtener argumentos */
+	/* Get arguments */
 	if (cmd_get_item(cmd, "item", &obj,
 			/* Mensaje */ "¿Qué objeto desequipar?",
 			/* Error  */ "No tienes nada que desequiparte.",
@@ -260,7 +260,7 @@ void do_cmd_takeoff(struct command *cmd)
 
 
 /**
- * Empuñar o usar un objeto
+ * Wield or wear an item
  */
 void do_cmd_wield(struct command *cmd)
 {
@@ -277,7 +277,7 @@ void do_cmd_wield(struct command *cmd)
 		return;
 	}
 
-	/* Obtener argumentos */
+	/* Get arguments */
 	if (cmd_get_item(cmd, "item", &obj,
 			/* Mensaje */ "¿Usar o empuñar qué objeto?",
 			/* Error  */ "No tienes nada que usar o empuñar.",
@@ -285,19 +285,19 @@ void do_cmd_wield(struct command *cmd)
 			/* Elección */ USE_INVEN | USE_FLOOR | USE_QUIVER) != CMD_OK)
 		return;
 
-	/* Obtener la ranura en la que el objeto quiere ir, y el objeto actualmente ahí */
+	/* Get the slot the object wants to go in, and the item currently there */
 	slot = wield_slot(obj);
 	equip_obj = slot_object(player, slot);
 
-	/* Si la ranura está vacía, empuñar y terminar */
+	/* If the slot is open, wield and be done */
 	if (!equip_obj) {
 		inven_wield(obj, slot);
 		return;
 	}
 
-	/* Normalmente si la ranura está ocupada simplemente reemplazaremos el objeto en la ranura,
-	 * pero para los anillos necesitamos preguntar al usuario qué ranura realmente
-	 * quiere reemplazar */
+	/* Usually if the slot is taken we'll just replace the item in the slot,
+	 * but for rings we need to ask the user which slot they actually
+	 * want to replace */
 	if (tval_is_ring(obj)) {
 		if (cmd_get_item(cmd, "replace", &equip_obj,
 						 /* Mensaje */ "¿Reemplazar qué anillo? ",
@@ -306,11 +306,11 @@ void do_cmd_wield(struct command *cmd)
 						 /* Elección */ USE_EQUIP) != CMD_OK)
 			return;
 
-		/* Cambiar ranura si es necesario */
+		/* Change slot if necessary */
 		slot = equipped_item_slot(player->body, equip_obj);
 	}
 
-	/* Prevenir empuñar en una ranura bloqueada */
+	/* Prevent wielding into a stickied slot */
 	if (!obj_can_takeoff(equip_obj)) {
 		object_desc(o_name, sizeof(o_name), equip_obj, ODESC_BASE,
 			player);
@@ -319,43 +319,43 @@ void do_cmd_wield(struct command *cmd)
 		return;
 	}
 
-	/* "!t" comprueba para quitar */
+	/* "!t" checks for taking off */
 	n = check_for_inscrip(equip_obj, "!t");
 	while (n--) {
-		/* Mensaje */
+		/* Prompt */
 		object_desc(o_name, sizeof(o_name), equip_obj,
 			ODESC_PREFIX | ODESC_FULL, player);
 		
-		/* Olvidarlo */
+		/* Forget it */
 		if (!get_check(format("¿Realmente quitarte %s? ", o_name))) return;
 	}
 
-	/* Describir el objeto */
+	/* Describe the object */
 	object_desc(o_name, sizeof(o_name), equip_obj,
 		ODESC_PREFIX | ODESC_FULL, player);
 
-	/* Se quitó el arma */
+	/* Took off weapon */
 	if (slot_type_is(player, slot, EQUIP_WEAPON))
 		act = "Estabas empuñando";
-	/* Se quitó el arco */
+	/* Took off bow */
 	else if (slot_type_is(player, slot, EQUIP_BOW))
 		act = "Estabas sujetando";
-	/* Se quitó la luz */
+	/* Took off light */
 	else if (slot_type_is(player, slot, EQUIP_LIGHT))
 		act = "Estabas sujetando";
-	/* Se quitó otra cosa */
+	/* Took off something else */
 	else
 		act = "Te desequipaste";
 
 	inven_wield(obj, slot);
 
-	/* Mensaje */
+	/* Message */
 	msgt(MSG_WIELD, "%s %s (%c).", act, o_name,
 		gear_to_label(player, equip_obj));
 }
 
 /**
- * Soltar un objeto
+ * Drop an item
  */
 void do_cmd_drop(struct command *cmd)
 {
@@ -366,7 +366,7 @@ void do_cmd_drop(struct command *cmd)
 		return;
 	}
 
-	/* Obtener argumentos */
+	/* Get arguments */
 	if (cmd_get_item(cmd, "item", &obj,
 			/* Mensaje */ "¿Qué objeto soltar?",
 			/* Error  */ "No tienes nada que soltar.",
@@ -374,7 +374,7 @@ void do_cmd_drop(struct command *cmd)
 			/* Elección */ USE_EQUIP | USE_INVEN | USE_QUIVER) != CMD_OK)
 		return;
 
-	/* No se pueden quitar objetos bloqueados */
+	/* Cannot remove stickied items */
 	if (object_is_equipped(player->body, obj) && !obj_can_takeoff(obj)) {
 		msg("Mmm, parece estar pegado.");
 		return;
@@ -389,7 +389,7 @@ void do_cmd_drop(struct command *cmd)
 
 /**
  * ------------------------------------------------------------------------
- * Usar objetos de la manera tradicional
+ * Using items the traditional way
  * ------------------------------------------------------------------------
  */
 
@@ -400,9 +400,9 @@ enum use {
 };
 
 /**
- * Usar un objeto de la manera correcta.
+ * Use an object the right way.
  *
- * Devuelve true si los comandos repetidos pueden continuar.
+ * Returns true if repeated commands may continue.
  */
 static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 					int snd)
@@ -416,12 +416,12 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 	int dir = 5;
 	struct trap_kind *rune = lookup_trap("glyph of warding");
 
-	/* Obtener argumentos */
+	/* Get arguments */
 	if (cmd_get_arg_item(cmd, "item", &obj) != CMD_OK) assert(0);
 
 	was_aware = object_flavor_is_aware(obj);
 
-	/* Determinar si sabemos que un objeto necesita ser apuntado */
+	/* Determine whether we know an item needs to be be aimed */
 	if (tval_is_wand(obj) || tval_is_rod(obj) || was_aware ||
 		(obj->effect && (obj->known->effect == obj->effect)) ||
 		(obj->activation && (obj->known->activation == obj->activation))) {
@@ -429,29 +429,29 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 	}
 
 	if (obj_needs_aim(obj)) {
-		/* Las cosas desconocidas sin objetivo obvio obtienen una dirección aleatoria */
+		/* Unknown things with no obvious aim get a random direction */
 		if (!known_aim) {
 			dir = ddd[randint0(8)];
 		} else if (cmd_get_target(cmd, "target", &dir) != CMD_OK) {
 			return false;
 		}
 
-		/* La confusión estropea la puntería */
+		/* Confusion wrecks aim */
 		player_confuse_dir(player, &dir, false);
 	}
 
-	/* rastrear el objeto usado */
+	/* track the object used */
 	track_object(player->upkeep, obj);
 
-	/* Verificar efecto */
+	/* Verify effect */
 	assert(effect);
 
-	/* Comprobar uso si es necesario */
+	/* Check for use if necessary */
 	if ((use == USE_CHARGE) || (use == USE_TIMEOUT)) {
 		can_use = check_devices(obj);
 	}
 
-	/* Ejecutar el efecto */
+	/* Execute the effect */
 	if (can_use > 0) {
 		int beam = beam_chance(obj->tval);
 		int boost, level, charges = 0;
@@ -466,9 +466,9 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 		} else {
 			label = gear_to_label(player, obj);
 			/*
-			 * Mostrar un total agregado si la descripción no
-			 * tiene un aviso de carga/recarga específico para el
-			 * montón.
+			 * Show an aggregate total if the description doesn't
+			 * have a charge/recharging notice specific to the
+			 * stack.
 			 */
 			if (use != USE_CHARGE && use != USE_TIMEOUT) {
 				number = object_pack_total(player, obj, false,
@@ -482,7 +482,7 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 			}
 		}
 
-		/* Obtener el nivel */
+		/* Get the level */
 		if (obj->artifact)
 			level = obj->artifact->level;
 		else if (obj->activation)
@@ -490,7 +490,7 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 		else
 			level = obj->kind->level;
 
-		/* Sonido y/o mensaje */
+		/* Sound and/or message */
 		if (obj->activation) {
 			msgt(snd, "Lo activas.");
 			activation_message(obj, player);
@@ -499,27 +499,27 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 		} else if (obj->kind->vis_msg && !player->timed[TMD_BLIND]) {
 			msgt(snd, "%s", obj->kind->vis_msg);
 		} else {
-			/* ¡Hacer ruido! */
+			/* Make a noise! */
 			sound(snd);
 		}
 
-		/* Aumentar efectos de daño si la habilidad > dificultad */
+		/* Boost damage effects if skill > difficulty */
 		boost = MAX((player->state.skills[SKILL_DEVICE] - level) / 2, 0);
 
 		/*
-		 * Si el objeto está en el suelo, deducir tentativamente la
-		 * cantidad usada - el efecto podría dejar el objeto inaccesible
-		 * dificultando hacerlo después de un uso exitoso. Por la
-		 * misma razón, obtener una copia del objeto para usar para propagar
-		 * conocimiento y mensajes (también hacerlo para objetos en la mochila
-		 * para mantener la lógica posterior más simple). No hacer la deducción para
-		 * un objeto en la mochila porque la reorganización de la
-		 * mochila, si se usa un montón de un solo objeto de un solo uso, puede distraer
-		 * al jugador, ver
+		 * If the object is on the floor, tentatively deduct the
+		 * amount used - the effect could leave the object inaccessible
+		 * making it difficult to do after a successful use.  For the
+		 * same reason, get a copy of the object to use for propagating
+		 * knowledge and messaging (also do so for items in the pack
+		 * to keep later logic simpler).  Don't do the deduction for
+		 * an object in the pack because the rearrangement of the
+		 * pack, if using a stack of one single use item, can distract
+		 * the player, see
 		 * https://github.com/angband/angband/issues/5543 .
-		 * Si los efectos cambian para que el objeto de origen pueda ser
-		 * destruido incluso si está en la mochila, la deducción tendría que
-		 * hacerse aquí también si el objeto está en la mochila.
+		 * If effects change so that the originating object can be
+		 * destroyed even if in the pack, the deduction would have to
+		 * be done here if the item is in the pack as well.
 		 */
 		if (from_floor) {
 			if (use == USE_SINGLE) {
@@ -530,7 +530,7 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 				if (use == USE_CHARGE) {
 					deduct_before = true;
 					charges = obj->pval;
-					/* Usar una sola carga */
+					/* Use a single charge */
 					obj->pval--;
 				} else if (use == USE_TIMEOUT) {
 					deduct_before = true;
@@ -562,7 +562,7 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 			}
 		}
 
-		/* Hacer efecto; usar original no copia (manejo de efecto de proy) */
+		/* Do effect; use original not copy (proj. effect handling) */
 		target_fix();
 		used = effect_do(effect,
 							source_player(),
@@ -577,11 +577,11 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 
 		if (!used) {
 			if (deduct_before) {
-				/* Restaurar la deducción tentativa. */
+				/* Restore the tentative deduction. */
 				if (use == USE_SINGLE) {
 					/*
-					 * Soltar/guardar copia para simplificar
-					 * la lógica posterior.
+					 * Drop/stash copy to simplify
+					 * subsequent logic.
 					 */
 					struct object *wcopy = object_new();
 
@@ -607,7 +607,8 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 			}
 
 			/*
-			 * Salir si el objeto no se usó y no se ganó conocimiento
+			 * Quit if the item wasn't used and no knowledge was
+			 * gained
 			 */
 			if (was_aware || !ident) {
 				if (work_obj->known) {
@@ -615,10 +616,10 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 				}
 				object_delete(cave, player->cave, &work_obj);
 				/*
-				 * La selección del objetivo del efecto puede haber
-				 * desencadenado una actualización de ventanas mientras la
-				 * deducción tentativa estaba en efecto; señalar
-				 * otra actualización para remediar eso.
+				 * Selection of effect's target may have
+				 * triggered an update to windows while the
+				 * tentative deduction was in effect; signal
+				 * another update to remedy that.
 				 */
 				if (deduct_before) {
 					assert(from_floor);
@@ -628,15 +629,15 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 			}
 		}
 
-		/* Aumentar conocimiento */
+		/* Increase knowledge */
 		if (use == USE_SINGLE) {
-			/* Los objetos de un solo uso se aprenden automáticamente */
+			/* Single use items are automatically learned */
 			if (!was_aware) {
 				object_learn_on_use(player, work_obj);
 			}
 			describe = true;
 		} else {
-			/* Los objetos usables pueden necesitar actualización, otras cosas se vuelven conocidas o probadas */
+			/* Wearables may need update, other things become known or tried */
 			if (tval_is_wearable(work_obj)) {
 				update_player_object_knowledge(player);
 			} else if (!was_aware && ident) {
@@ -648,11 +649,11 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 		}
 
 		/*
-		 * Usar, deducir carga, o aplicar tiempo de espera si no se
-		 * hizo antes. Para cargas o tiempos de espera, también hay que cambiar
-		 * work_obj ya que se usa para mensajes (para objetos de un solo
-		 * uso, ODESC_ALTNUM significa que el número de work_obj no
-		 * necesita ser ajustado).
+		 * Use up, deduct charge, or apply timeout if it wasn't
+		 * done before.  For charges or timeouts, also have to change
+		 * work_obj since it is used for messaging (for single use
+		 * items, ODESC_ALTNUM means that the work_obj's number doesn't
+		 * need to be adjusted).
 		 */
 		if (used && !deduct_before) {
 			assert(!from_floor);
@@ -678,8 +679,8 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 
 		if (describe) {
 			/*
-			 * Describir lo que queda de objetos de un solo uso o
-			 * objetos recién identificados de todo tipo.
+			 * Describe what's left of single use items or newly
+			 * identified items of all kinds.
 			 */
 			char name[80];
 
@@ -688,7 +689,7 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 				((number + ((used && use == USE_SINGLE) ?
 				-1 : 0)) << 16), player);
 			if (from_floor) {
-				/* Imprimir un mensaje */
+				/* Print a message */
 				msg("Ves1 %s.", name);
 			} else if (first_remainder) {
 				label = gear_to_label(player, first_remainder);
@@ -697,33 +698,33 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 				msg("Tienes %s (%c).", name, label);
 			}
 		} else if (used && use == USE_CHARGE) {
-			/* Describir cargas */
+			/* Describe charges */
 			if (from_floor)
 				floor_item_charges(work_obj);
 			else
 				inven_item_charges(work_obj);
 		}
 
-		/* Limpiar copia creada. */
+		/* Clean up created copy. */
 		if (work_obj->known)
 			object_delete(player->cave, NULL, &work_obj->known);
 		object_delete(cave, player->cave, &work_obj);
 	}
 
-	/* Usar el turno */
+	/* Use the turn */
 	player->upkeep->energy_use = z_info->move_energy;
 
-	/* Autoinscribir si estamos garantizados de que todavía tenemos alguno */
+	/* Autoinscribe if we are guaranteed to still have any */
 	if (!none_left && !from_floor)
 		apply_autoinscription(player, obj);
 
-	/* Marcar como probado y redibujar */
+	/* Mark as tried and redisplay */
 	player->upkeep->notice |= (PN_COMBINE);
 	player->upkeep->redraw |= (PR_INVEN | PR_EQUIP | PR_OBJECT);
 
-	/* Truco para hacer que el Glifo de Protección funcione correctamente */
+	/* Hack to make Glyph of Warding work properly */
 	if (square_trap_specific(cave, player->grid, rune->tidx)) {
-		/* Empujar objetos fuera de la casilla */
+		/* Push objects off the grid */
 		if (square_object(cave, player->grid))
 			push_object(player->grid);
 	}
@@ -733,7 +734,7 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 
 
 /**
- * Leer un pergamino
+ * Read a scroll
  */
 void do_cmd_read_scroll(struct command *cmd)
 {
@@ -743,11 +744,11 @@ void do_cmd_read_scroll(struct command *cmd)
 		return;
 	}
 
-	/* Comprobar que el jugador puede usar pergaminos */
+	/* Check player can use scroll */
 	if (!player_can_read(player, true))
 		return;
 
-	/* Obtener el pergamino */
+	/* Get the scroll */
 	if (cmd_get_item(cmd, "item", &obj,
 			"¿Leer qué pergamino? ",
 			"No tienes pergaminos para leer.",
@@ -758,7 +759,7 @@ void do_cmd_read_scroll(struct command *cmd)
 }
 
 /**
- * Usar un báculo
+ * Use a staff 
  */
 void do_cmd_use_staff(struct command *cmd)
 {
@@ -769,7 +770,7 @@ void do_cmd_use_staff(struct command *cmd)
 		return;
 	}
 
-	/* Obtener un objeto */
+	/* Get an item */
 	if (cmd_get_item(cmd, "item", &obj,
 			"¿Usar qué báculo? ",
 			"No tienes báculos para usar.",
@@ -785,14 +786,14 @@ void do_cmd_use_staff(struct command *cmd)
 		return;
 	}
 
-	/* Deshabilitar autorepetición cuando tiene éxito. */
+	/* Disable autorepetition when successful. */
 	if (!use_aux(cmd, obj, USE_CHARGE, MSG_USE_STAFF)) {
 		cmd_set_repeat(0);
 	}
 }
 
 /**
- * Apuntar una varita
+ * Aim a wand 
  */
 void do_cmd_aim_wand(struct command *cmd)
 {
@@ -803,7 +804,7 @@ void do_cmd_aim_wand(struct command *cmd)
 		return;
 	}
 
-	/* Obtener un objeto */
+	/* Get an item */
 	if (cmd_get_item(cmd, "item", &obj,
 			"¿Apuntar qué varita? ",
 			"No tienes varitas para apuntar.",
@@ -819,14 +820,14 @@ void do_cmd_aim_wand(struct command *cmd)
 		return;
 	}
 
-	/* Deshabilitar autorepetición cuando tiene éxito. */
+	/* Disable autorepetition when successful. */
 	if (!use_aux(cmd, obj, USE_CHARGE, MSG_ZAP_ROD)) {
 		cmd_set_repeat(0);
 	}
 }
 
 /**
- * Activar una vara
+ * Zap a rod 
  */
 void do_cmd_zap_rod(struct command *cmd)
 {
@@ -837,7 +838,7 @@ void do_cmd_zap_rod(struct command *cmd)
 		return;
 	}
 
-	/* Obtener un objeto */
+	/* Get an item */
 	if (cmd_get_item(cmd, "item", &obj,
 			"¿Activar qué vara? ",
 			"No tienes varas para activar.",
@@ -853,14 +854,14 @@ void do_cmd_zap_rod(struct command *cmd)
 		return;
 	}
 
-	/* Deshabilitar autorepetición cuando tiene éxito. */
+	/* Disable autorepetition when successful. */
 	if (!use_aux(cmd, obj, USE_TIMEOUT, MSG_ZAP_ROD)) {
 		cmd_set_repeat(0);
 	}
 }
 
 /**
- * Activar un objeto
+ * Activate an object 
  */
 void do_cmd_activate(struct command *cmd)
 {
@@ -871,7 +872,7 @@ void do_cmd_activate(struct command *cmd)
 		return;
 	}
 
-	/* Obtener un objeto */
+	/* Get an item */
 	if (cmd_get_item(cmd, "item", &obj,
 			"¿Activar qué objeto? ",
 			"No tienes objetos para activar.",
@@ -887,20 +888,20 @@ void do_cmd_activate(struct command *cmd)
 		return;
 	}
 
-	/* Deshabilitar autorepetición cuando tiene éxito. */
+	/* Disable autorepetition when successful. */
 	if (!use_aux(cmd, obj, USE_TIMEOUT, MSG_ACT_ARTIFACT)) {
 		cmd_set_repeat(0);
 	}
 }
 
 /**
- * Comer algo
+ * Eat some food 
  */
 void do_cmd_eat_food(struct command *cmd)
 {
 	struct object *obj;
 
-	/* Obtener un objeto */
+	/* Get an item */
 	if (cmd_get_item(cmd, "item", &obj,
 			"¿Comer qué alimento? ",
 			"No tienes alimento para comer.",
@@ -911,7 +912,7 @@ void do_cmd_eat_food(struct command *cmd)
 }
 
 /**
- * Beber una poción
+ * Quaff a potion 
  */
 void do_cmd_quaff_potion(struct command *cmd)
 {
@@ -921,7 +922,7 @@ void do_cmd_quaff_potion(struct command *cmd)
 		return;
 	}
 
-	/* Obtener un objeto */
+	/* Get an item */
 	if (cmd_get_item(cmd, "item", &obj,
 			"¿Beber qué poción? ",
 			"No tienes pociones para beber.",
@@ -932,7 +933,7 @@ void do_cmd_quaff_potion(struct command *cmd)
 }
 
 /**
- * Usar cualquier objeto usable
+ * Use any usable item
  */
 void do_cmd_use(struct command *cmd)
 {
@@ -942,7 +943,7 @@ void do_cmd_use(struct command *cmd)
 		return;
 	}
 
-	/* Obtener un objeto */
+	/* Get an item */
 	if (cmd_get_item(cmd, "item", &obj,
 			"¿Usar qué objeto? ",
 			"No tienes objetos para usar.",
@@ -953,10 +954,10 @@ void do_cmd_use(struct command *cmd)
 	}
 
 	/*
-	 * Para báculos, varas, varitas, o activación de objeto equipado, actuar como si el
-	 * comando específico del objeto se hubiera invocado directamente: cmd-core.c
-	 * habilita automáticamente la repetición para esos comandos si no se estableció manualmente
-	 * un contador de repetición.
+	 * For staves, rods, wands, or equipped item activation, act as if the
+	 * item-specific command had been invoked directly:  cmd-core.c
+	 * automatically enables repetition for those commands if a repeat
+	 * count was not manually set.
 	 */
 	if (tval_is_ammo(obj)) {
 		do_cmd_fire(cmd);
@@ -1000,53 +1001,53 @@ void do_cmd_use(struct command *cmd)
 
 /**
  * ------------------------------------------------------------------------
- * Recarga
+ * Refuelling
  * ------------------------------------------------------------------------
  */
 
 static void refill_lamp(struct object *lamp, struct object *obj)
 {
-	/* Recargar */
+	/* Refuel */
 	lamp->timeout += obj->timeout ? obj->timeout : obj->pval;
 
-	/* Mensaje */
+	/* Message */
 	msg("Recargas tu lámpara.");
 
-	/* Comentario */
+	/* Comment */
 	if (lamp->timeout >= z_info->fuel_lamp) {
 		lamp->timeout = z_info->fuel_lamp;
 		msg("Tu lámpara está llena.");
 	}
 
-	/* Recargado desde una linterna */
+	/* Refilled from a lantern */
 	if (of_has(obj->flags, OF_TAKES_FUEL)) {
-		/* Desapilar si es necesario */
+		/* Unstack if necessary */
 		if (obj->number > 1) {
-			/* Obtener un objeto local, dividir */
+			/* Obtain a local object, split */
 			struct object *used = object_split(obj, 1);
 
-			/* Eliminar combustible */
+			/* Remove fuel */
 			used->timeout = 0;
 
-			/* Llevar o soltar */
+			/* Carry or drop */
 			if (object_is_carried(player, obj) && inven_carry_okay(used))
 				inven_carry(player, used, true, true);
 			else
 				drop_near(cave, &used, 0, player->grid, false, true);
 		} else
-			/* Vaciar una linterna individual */
+			/* Empty a single lantern */
 			obj->timeout = 0;
 
-		/* Combinar la mochila (más tarde) */
+		/* Combine the pack (later) */
 		player->upkeep->notice |= (PN_COMBINE);
 
-		/* Redibujar cosas */
+		/* Redraw stuff */
 		player->upkeep->redraw |= (PR_INVEN);
-	} else { /* Recargado desde un frasco */
+	} else { /* Refilled from a flask */
 		struct object *used;
 		bool none_left = false;
 
-		/* Disminuir el objeto de la mochila o del suelo */
+		/* Decrease the item from the pack or the floor */
 		if (object_is_carried(player, obj)) {
 			used = gear_object_for_use(player, obj, 1, true,
 				&none_left);
@@ -1059,10 +1060,10 @@ static void refill_lamp(struct object *lamp, struct object *obj)
 		object_delete(cave, player->cave, &used);
 	}
 
-	/* Recalcular antorcha */
+	/* Recalculate torch */
 	player->upkeep->update |= (PU_TORCH);
 
-	/* Redibujar cosas */
+	/* Redraw stuff */
 	player->upkeep->redraw |= (PR_EQUIP);
 }
 
@@ -1076,7 +1077,7 @@ void do_cmd_refill(struct command *cmd)
 		return;
 	}
 
-	/* Comprobar lo que estamos empuñando. */
+	/* Check what we're wielding. */
 	if (!light || !tval_is_light(light)) {
 		msg("No estás empuñando una luz.");
 		return;
@@ -1086,7 +1087,7 @@ void do_cmd_refill(struct command *cmd)
 		return;
 	}
 
-	/* Obtener un objeto */
+	/* Get an item */
 	if (cmd_get_item(cmd, "item", &obj,
 			"¿Recargar con qué fuente de combustible? ",
 			"No tienes nada con lo que recargar.",
@@ -1102,12 +1103,12 @@ void do_cmd_refill(struct command *cmd)
 
 /**
  * ------------------------------------------------------------------------
- * Lanzar hechizos
+ * Spell casting
  * ------------------------------------------------------------------------
  */
 
 /**
- * Lanzar un hechizo de un libro
+ * Cast a spell from a book
  */
 void do_cmd_cast(struct command *cmd)
 {
@@ -1118,11 +1119,11 @@ void do_cmd_cast(struct command *cmd)
 		return;
 	}
 
-	/* Comprobar que el jugador puede lanzar hechizos en absoluto */
+	/* Check the player can cast spells at all */
 	if (!player_can_cast(player, true))
 		return;
 
-	/* Obtener argumentos */
+	/* Get arguments */
 	if (cmd_get_spell(cmd, "spell", player, &spell_index,
 			/* Verbo */ "lanzar",
 			/* Libro */ obj_can_cast_from,
@@ -1132,21 +1133,21 @@ void do_cmd_cast(struct command *cmd)
 		return;
 	}
 
-	/* Obtener el hechizo */
+	/* Get the spell */
 	spell = spell_by_index(player, spell_index);
 
-	/* Verificar hechizos "peligrosos" */
+	/* Verify "dangerous" spells */
 	if (spell->smana > player->csp) {
 		const char *verb = spell->realm->verb;
 		const char *noun = spell->realm->spell_noun;
 
-		/* Advertencia */
+		/* Warning */
 		msg("No tienes suficiente maná para %s este %s.", verb, noun);
 
-		/* Vaciar entrada */
+		/* Flush input */
 		event_signal(EVENT_INPUT_FLUSH);
 
-		/* Verificar */
+		/* Verify */
 		if (!get_check("¿Intentarlo de todas formas? ")) return;
 	}
 
@@ -1157,7 +1158,7 @@ void do_cmd_cast(struct command *cmd)
 			return;
 	}
 
-	/* Lanzar un hechizo */
+	/* Cast a spell */
 	target_fix();
 	if (spell_cast(spell_index, dir, cmd)) {
 		if (player->timed[TMD_FASTCAST]) {
@@ -1171,13 +1172,13 @@ void do_cmd_cast(struct command *cmd)
 
 
 /**
- * Aprender un hechizo específico, especificado por número de hechizo (para magos).
+ * Gain a specific spell, specified by spell number (for mages).
  */
 void do_cmd_study_spell(struct command *cmd)
 {
 	int spell_index;
 
-	/* Comprobar que el jugador puede estudiar ahora mismo */
+	/* Check the player can study at all atm */
 	if (!player_can_study(player, true))
 		return;
 
@@ -1194,7 +1195,7 @@ void do_cmd_study_spell(struct command *cmd)
 }
 
 /**
- * Aprender un hechizo aleatorio del libro dado (para sacerdotes)
+ * Gain a random spell from the given book (for priests)
  */
 void do_cmd_study_book(struct command *cmd)
 {
@@ -1204,7 +1205,7 @@ void do_cmd_study_book(struct command *cmd)
 	struct class_spell *spell;
 	int i, k = 0;
 
-	/* Comprobar que el jugador puede estudiar ahora mismo */
+	/* Check the player can study at all atm */
 	if (!player_can_study(player, true))
 		return;
 
@@ -1237,9 +1238,9 @@ void do_cmd_study_book(struct command *cmd)
 }
 
 /**
- * Elegir la forma de estudiar. Elegir vida. Elegir una carrera. Elegir familia.
- * Elegir un puto monstruo enorme, elegir chamanes orcos, kobolds, druidas elfos oscuros,
- * y Mim, el Traidor de Túrin.
+ * Choose the way to study.  Choose life.  Choose a career.  Choose family.
+ * Choose a fucking big monster, choose orc shamans, kobolds, dark elven
+ * druids, and Mim, Betrayer of Turin.
  */
 void do_cmd_study(struct command *cmd)
 {

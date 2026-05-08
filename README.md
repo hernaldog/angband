@@ -210,6 +210,7 @@ Contenido del script shell:
 - Mejorar: The fruit bat (offscreen) se despertan.
 - Mejorar: "Ves un fruit bat (unhurt, hasted)
 - Mejorar: "Puedes aprender 2 rituals más."
+- Cuando bebes una poción sin identificar, la descubres y dice luego "Tienes Pociones de Fuerza Berserk", debería decir "Descubriste Pociones..."
 
 ## Varios ok
 - Mejorar mensaje inferior-izq: "The"... ej: "The masa de gusanos blancos empieza a moverse más rápido" -> ok
