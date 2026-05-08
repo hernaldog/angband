@@ -237,13 +237,13 @@ bool effect_handler_HEAL_HP(effect_handler_context_t *context)
 
 	/* Print a nice message */
 	if (num < 5)
-		msg("You feel a little better.");
+		msg("Te sientes un poco mejor.");
 	else if (num < 15)
-		msg("You feel better.");
+		msg("Te sientes mejor.");
 	else if (num < 35)
-		msg("You feel much better.");
+		msg("Te sientes mucho mejor.");
 	else
-		msg("You feel very good.");
+		msg("Te sientes muy bien.");
 
 	return (true);
 }
@@ -280,13 +280,13 @@ bool effect_handler_MON_HEAL_HP(effect_handler_context_t *context)
 		mon->hp = mon->maxhp;
 
 		if (seen)
-			msg("%s looks REALLY healthy!", m_name);
+			msg("¡%s se ve REALMENTE saludable!", m_name);
 		else
-			msg("%s sounds REALLY healthy!", m_name);
+			msg("¡%s suena REALMENTE saludable!", m_name);
 	} else if (seen) { /* Partially healed */
-		msg("%s looks healthier.", m_name);
+		msg("%s se ve más saludable.", m_name);
 	} else {
-		msg("%s sounds healthier.", m_name);
+		msg("%s suena más saludable.", m_name);
 	}
 
 	/* Redraw (later) if needed */
@@ -296,7 +296,7 @@ bool effect_handler_MON_HEAL_HP(effect_handler_context_t *context)
 	/* Cancel fear */
 	if (mon->m_timed[MON_TMD_FEAR]) {
 		mon_clear_timed(mon, MON_TMD_FEAR, MON_TMD_FLG_NOMESSAGE);
-		msg("%s recovers %s courage.", m_name, m_poss);
+		msg("%s recupera %s coraje.", m_name, m_poss);
 	}
 
 	/* ID */
@@ -337,9 +337,9 @@ bool effect_handler_MON_HEAL_KIN(effect_handler_context_t *context)
 
 	if (seen) {
 		if (mon->hp == mon->maxhp) {
-			msg("%s looks REALLY healthy!", m_name);
+			msg("¡%s se ve REALMENTE saludable!", m_name);
 		} else if (seen) { /* Partially healed */
-			msg("%s looks healthier.", m_name);
+			msg("%s se ve más saludable.", m_name);
 		}
 	}
 
@@ -350,7 +350,7 @@ bool effect_handler_MON_HEAL_KIN(effect_handler_context_t *context)
 	/* Cancel fear */
 	if (mon->m_timed[MON_TMD_FEAR]) {
 		mon_clear_timed(mon, MON_TMD_FEAR, MON_TMD_FLG_NOMESSAGE);
-		msg("%s recovers %s courage.", m_name, m_poss);
+		msg("%s recupera %s coraje.", m_name, m_poss);
 	}
 
 	/* ID */
@@ -493,7 +493,7 @@ bool effect_handler_DAMAGE(effect_handler_context_t *context)
 
 		case SRC_TRAP: {
 			struct trap *trap = context->origin.which.trap;
-			const char *article = is_a_vowel(trap->kind->desc[0]) ? "an " : "a ";
+			const char *article = is_a_vowel(trap->kind->desc[0]) ? "un " : "un ";
 			strnfmt(killer, sizeof(killer), "%s%s", article, trap->kind->desc);
 			break;
 		}
@@ -516,13 +516,13 @@ bool effect_handler_DAMAGE(effect_handler_context_t *context)
 			if (context->msg) {
 				my_strcpy(killer, context->msg, sizeof(killer));
 			} else {
-				my_strcpy(killer, "yourself", sizeof(killer));
+				my_strcpy(killer, "tí mismo", sizeof(killer));
 			}
 			break;
 		}
 
 		case SRC_NONE: {
-			my_strcpy(killer, "a bug", sizeof(killer));
+			my_strcpy(killer, "un error", sizeof(killer));
 			break;
 		}
 	}
@@ -530,7 +530,7 @@ bool effect_handler_DAMAGE(effect_handler_context_t *context)
 	/* Hit the player */
 	dam = player_apply_damage_reduction(player, dam);
 	if (dam && OPT(player, show_damage)) {
-		msg("You take %d damage.", dam);
+		msg("Recibes %d de daño.", dam);
 	}
 	take_hit(player, dam, killer);
 
@@ -738,7 +738,7 @@ bool effect_handler_BREATH(effect_handler_context_t *context)
 			diameter_of_source /= 2;
 		}
 	} else if (context->origin.what == SRC_PLAYER) {
-		msgt(projections[type].msgt, "You breathe %s.", projections[type].desc);
+		msgt(projections[type].msgt, "Exhalas %s.", projections[type].desc);
 
 		/* Ask for a target if no direction given */
 		if (context->dir == DIR_TARGET && target_okay()) {
@@ -1039,7 +1039,7 @@ bool effect_handler_STAR(effect_handler_context_t *context)
 
 	/* Describe */
 	if (!player->timed[TMD_BLIND])
-		msg("Light shoots in all directions!");
+		msg("¡La luz se dispara en todas direcciones!");
 
 	for (i = 0; i < 8; i++) {
 		/* Use the current direction */
@@ -1178,7 +1178,7 @@ bool effect_handler_DESTRUCTION(effect_handler_context_t *context)
 
 	/* No effect in town or arena */
 	if ((!player->depth) || (player->upkeep->arena_level)) {
-		msg("The ground shakes for a moment.");
+		msg("El suelo tiembla por un momento.");
 		return true;
 	}
 
@@ -1248,14 +1248,14 @@ bool effect_handler_DESTRUCTION(effect_handler_context_t *context)
 
 	/* Player is affected */
 	if (elem == ELEM_LIGHT) {
-		msg("There is a searing blast of light!");
+		msg("¡Hay una explosión abrasadora de luz!");
 		equip_learn_element(player, ELEM_LIGHT);
 		if (!player_resists(player, ELEM_LIGHT)) {
 			(void)player_inc_timed(player, TMD_BLIND,
 				10 + randint1(10), true, true, true);
 		}
 	} else if (elem == ELEM_DARK) {
-		msg("Darkness seems to crush you!");
+		msg("¡La oscuridad parece aplastarte!");
 		equip_learn_element(player, ELEM_DARK);
 		if (!player_resists(player, ELEM_DARK)) {
 			(void)player_inc_timed(player, TMD_BLIND,
@@ -1319,10 +1319,10 @@ bool effect_handler_EARTHQUAKE(effect_handler_context_t *context)
 
 	if ((player->depth) && ((!player->upkeep->arena_level)
 							|| (context->origin.what == SRC_MONSTER))) {
-		msg("The ground shakes! The ceiling caves in!");
+		msg("¡El suelo tiembla! ¡El techo se derrumba!");
 	} else {
 		/* No effect in town or arena */
-		msg("The ground shakes for a moment.");
+		msg("El suelo tiembla por un momento.");
 		return true;
 	}
 
@@ -1399,18 +1399,18 @@ bool effect_handler_EARTHQUAKE(effect_handler_context_t *context)
 		{
 			case 1:
 			{
-				msg("The cave ceiling collapses on you!");
+				msg("¡El techo de la cueva se derrumba sobre ti!");
 				break;
 			}
 			case 2:
 			{
-				msg("The cave floor twists in an unnatural way!");
+				msg("¡El suelo de la cueva se retuerce de forma antinatural!");
 				break;
 			}
 			default:
 			{
-				msg("The cave quakes!");
-				msg("You are pummeled with debris!");
+				msg("¡La cueva tiembla!");
+				msg("¡Eres golpeado por escombros!");
 				break;
 			}
 		}
@@ -1423,26 +1423,26 @@ bool effect_handler_EARTHQUAKE(effect_handler_context_t *context)
 				strnfmt(dam_text, sizeof(dam_text), " (%d)",
 					damage);
 			}
-			msg("You are severely crushed!%s", dam_text);
+			msg("¡Eres aplastado severamente!%s", dam_text);
 		} else {
 			/* Destroy the grid, and push the player to (relative) safety */
 			const char *hurt_msg = "";
 
 			switch (randint1(3)) {
 				case 1: {
-					hurt_msg = "You nimbly dodge the blast!";
+					hurt_msg = "¡Esquivaste ágilmente la explosión!";
 					damage = 0;
 					break;
 				}
 				case 2: {
-					hurt_msg = "You are bashed by rubble!";
+					hurt_msg = "¡Eres golpeado por escombros!";
 					damage = damroll(10, 4);
 					(void)player_inc_timed(player, TMD_STUN,
 						randint1(50), true, true, true);
 					break;
 				}
 				case 3: {
-					hurt_msg = "You are crushed between the floor and ceiling!";
+					hurt_msg = "¡Eres aplastado entre el suelo y el techo!";
 					damage = damroll(10, 4);
 					(void)player_inc_timed(player, TMD_STUN,
 						randint1(50), true, true, true);
@@ -1595,7 +1595,7 @@ bool effect_handler_EARTHQUAKE(effect_handler_context_t *context)
 	 * Apply damage to player; done here so messages are ordered properly
 	 * if the player dies.
 	 */
-	take_hit(player, damage, "an earthquake");
+	take_hit(player, damage, "un terremoto");
 
 	/* Fully update the visuals */
 	player->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
@@ -1635,11 +1635,11 @@ bool effect_handler_TAP_UNLIFE(effect_handler_context_t *context)
 	drain = MIN(mon->hp, amount) / 4;
 	monster_desc(m_name, sizeof(m_name), mon, MDESC_TARG);
 	if (OPT(player, show_damage)) {
-		msg("You draw power from the %s. (%d)", m_name, amount);
+		msg("Extraes poder del %s. (%d)", m_name, amount);
 	} else {
-		msg("You draw power from the %s.", m_name);
+		msg("Extraes poder del %s.", m_name);
 	}
-	dead = mon_take_hit(mon, player, amount, &fear, " is destroyed!");
+	dead = mon_take_hit(mon, player, amount, &fear, " ¡es destruido!");
 
 	/* Gain mana */
 	effect_simple(EF_RESTORE_MANA, context->origin, format("%d", drain), 0, 0,
@@ -1676,16 +1676,16 @@ bool effect_handler_CURSE(effect_handler_context_t *context)
 
 	/* Need to choose a monster, not just point */
 	if (!mon) {
-		msg("No monster selected!");
+		msg("¡Ningún monstruo seleccionado!");
 		return false;
 	}
 
 	/* Hit it */
 	if (display_dam) {
-		strnfmt(note, sizeof(note), " dies! (%d)", dam);
+		strnfmt(note, sizeof(note), " ¡muere! (%d)", dam);
 		passed_note = note;
 	} else {
-		passed_note = " dies!";
+		passed_note = " ¡muere!";
 	}
 	dead = mon_take_hit(mon, player, dam, &fear, passed_note);
 
@@ -1738,7 +1738,7 @@ bool effect_handler_JUMP_AND_BITE(effect_handler_context_t *context)
 
 	/* Needed to be adjacent */
 	if (d == first_d + 8) {
-		msg("Not enough room next to %s!", m_name);
+		msg("¡No hay suficiente espacio junto a %s!", m_name);
 		return false;
 	}
 
@@ -1753,11 +1753,11 @@ bool effect_handler_JUMP_AND_BITE(effect_handler_context_t *context)
 	drain = MIN(mon->hp + 1, amount);
 	assert(drain > 0);
 	if (OPT(player, show_damage)) {
-		msg("You bite %s. (%d)", m_name, drain);
+		msg("Muerdes a %s. (%d)", m_name, drain);
 	} else {
-		msg("You bite %s.", m_name);
+		msg("Muerdes a %s.", m_name);
 	}
-	dead = mon_take_hit(mon, player, amount, &fear, " is drained dry!");
+	dead = mon_take_hit(mon, player, amount, &fear, " ¡es drenado por completo!");
 
 	/* Heal and nourish */
 	effect_simple(EF_HEAL_HP, context->origin, format("%d", drain), 0, 0, 0,
@@ -1801,7 +1801,7 @@ bool effect_handler_MOVE_ATTACK(effect_handler_context_t *context)
 
 	mon = square_monster(cave, target);
 	if (mon == NULL || !monster_is_obvious(mon)) {
-		msg("This spell must target a monster.");
+		msg("Este hechizo debe apuntar a un monstruo.");
 		return false;
 	}
 
@@ -1830,7 +1830,7 @@ bool effect_handler_MOVE_ATTACK(effect_handler_context_t *context)
 				if (square_monster(cave, next_grid)) attack = true;
 				break;
 			} else if (i == 2) {
-				msg("The way is barred.");
+				msg("El camino está bloqueado.");
 				return moves != 4;
 			}
 		}
@@ -1861,7 +1861,7 @@ bool effect_handler_SINGLE_COMBAT(effect_handler_context_t *context)
 
 	/* Already in an arena */
 	if (player->upkeep->arena_level) {
-		msg("You are already in single combat!");
+		msg("¡Ya estás en combate singular!");
 		return false;
 	}
 
@@ -1874,7 +1874,7 @@ bool effect_handler_SINGLE_COMBAT(effect_handler_context_t *context)
 			char m_name[80];
 			monster_desc(m_name, sizeof(m_name), mon,
 				MDESC_CAPITAL | MDESC_COMMA);
-			msg("%s resists!", m_name);
+			msg("¡%s resiste!", m_name);
 			return true;
 		}
 
@@ -1892,7 +1892,7 @@ bool effect_handler_SINGLE_COMBAT(effect_handler_context_t *context)
 		target_set_monster(cave_monster(cave, 1));
 		player->upkeep->health_who = cave_monster(cave, 1);
 	} else {
-		msg("No monster selected!");
+		msg("¡Ningún monstruo seleccionado!");
 		return false;
 	}
 
@@ -1929,10 +1929,10 @@ bool effect_handler_MELEE_BLOWS(effect_handler_context_t *context)
 	taim = distance(grid, target);
 	mon = square_monster(cave, target);
 	if (taim > 1) {
-		msgt(MSG_GENERIC, "Target too far away (%d).", taim);
+		msgt(MSG_GENERIC, "Objetivo demasiado lejos (%d).", taim);
 		return false;
 	} else if (!mon) {
-		msg("You must attack a monster.");
+		msg("Debes atacar a un monstruo.");
 		return false;
 	}
 
@@ -1997,7 +1997,7 @@ bool effect_handler_WONDER(effect_handler_context_t *context)
 	context->ident = true;
 
 	if (die > 100)
-		msg("You feel a surge of power!");
+		msg("¡Sientes una oleada de poder!");
 
 	if (die < 8) {
 		subtype = PROJ_MON_CLONE;

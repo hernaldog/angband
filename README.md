@@ -336,3 +336,4 @@ Contenido del script shell:
 | src\player.h                             | 100      |
 | src\store.c                              | 100      |
 | src\effect-handler-general.c             | 100      |
+| src\effect-handler-attack.c              | 100      |
