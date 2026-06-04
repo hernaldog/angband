@@ -1,6 +1,6 @@
 /**
  * \file ui-context.c
- * \brief Mostrar menús contextuales del jugador y del terreno.
+ * \brief Show player and terrain context menus.
  *
  * Copyright (c) 2011 Brett Reid
  *
@@ -56,8 +56,8 @@
 }
 
 /**
- * Constantes adicionales para los valores de los elementos del menú. Los valores no deben colisionar
- * con la enumeración cmd_code, ya que esos son los valores principales para estos elementos del menú.
+ * Additional constants for menu item values. The values must not collide
+ * with the cmd_code enum, since those are the main values for these menu items.
  */
 enum context_menu_value_e {
     MENU_VALUE_INSPECT = CMD_REPEAT + 1000,
@@ -107,8 +107,8 @@ static int context_menu_player_2(int mx, int my)
 	menu_dynamic_add_label(m, "Mostrar Lista de Objetos", ']', MENU_VALUE_OBJECTS,
 						   labels);
 
-	/* Alternar ignorado tiene teclas diferentes, pero no tenemos forma de buscarlas
-	 * (ver ui-game.c). */
+	/* Ignore toggle has different keys, but we don't have a way to look them
+	 * up (see ui-game.c). */
 	cmdkey = (mode == KEYMAP_MODE_ORIG) ? 'K' : 'O';
 	menu_dynamic_add_label(m, "Alternar Ignorado", cmdkey,
 						   MENU_VALUE_TOGGLE_IGNORED, labels);
@@ -118,7 +118,7 @@ static int context_menu_player_2(int mx, int my)
 	menu_dynamic_add_label(m, "Opciones", '=', MENU_VALUE_OPTIONS, labels);
 	menu_dynamic_add_label(m, "Comandos", '?', MENU_VALUE_HELP, labels);
 
-	/* No se necesita vaciado */
+	/* No flush needed */
 	msg_flag = false;
 	screen_save();
 
@@ -133,10 +133,10 @@ static int context_menu_player_2(int mx, int my)
 
 	screen_load();
 
-	/* Verificar el comando para ver si está permitido. */
+	/* Check the command to see if it is allowed. */
 	switch (selected) {
 		case -1:
-			/* El usuario canceló el menú. */
+			/* User cancelled the menu. */
 			return 3;
 
 		case MENU_VALUE_KNOWLEDGE:
@@ -156,7 +156,7 @@ static int context_menu_player_2(int mx, int my)
 			break;
 
 		default:
-			/* Comando inválido; evitar que ocurra nada. */
+			/* Invalid command; prevent anything from happening. */
 			bell();
 			allowed = false;
 			break;
@@ -165,7 +165,7 @@ static int context_menu_player_2(int mx, int my)
 	if (!allowed)
 		return 1;
 
-	/* Realizar el comando. */
+	/* Perform the command. */
 	switch (selected) {
 		case MENU_VALUE_KNOWLEDGE:
 			Term_keypress('~', 0);
@@ -185,8 +185,8 @@ static int context_menu_player_2(int mx, int my)
 			break;
 
 		case MENU_VALUE_TOGGLE_IGNORED:
-			/* Alternar ignorado tiene teclas diferentes, pero no tenemos forma de
-			 * buscarlas (ver ui-game.c). */
+			/* Ignore toggle has different keys, but we don't have a way to
+			 * look them up (see ui-game.c). */
 			cmdkey = (mode == KEYMAP_MODE_ORIG) ? 'K' : 'O';
 			Term_keypress(cmdkey, 0);
 			break;
@@ -219,13 +219,13 @@ static void context_menu_player_display_floor(void)
 	int diff = weight_remaining(player);
 	struct object *obj;
 
-	/* Hay un objeto en el suelo, seleccionar de ahí */
+	/* There is an item on the floor, select from there */
 	player->upkeep->command_wrk = (USE_FLOOR);
 
-	/* Guardar pantalla */
+	/* Save screen */
 	screen_save();
 
-	/* Preguntar por un comando */
+	/* Prompt for a command */
 	prt(format("(Inventario) Carga %d.%d lb (%d.%d lb %s). Objeto para comando: ",
 			   player->upkeep->total_weight / 10,
 			   player->upkeep->total_weight % 10,
@@ -233,15 +233,15 @@ static void context_menu_player_display_floor(void)
 			   (diff < 0 ? "sobrecargado" : "restante")), 0, 0);
 
 
-	/* Obtener un objeto para usar un comando contextual */
+	/* Get an item to use a context command on */
 	if (get_item(&obj, NULL, NULL, CMD_NULL, NULL, USE_EQUIP | USE_INVEN | USE_QUIVER | USE_FLOOR | SHOW_EMPTY | IS_HARMLESS)) {
-		/* Rastrear el tipo de objeto */
+		/* Track the object kind */
 		track_object(player->upkeep, obj);
 
 		context_menu_object(obj);
 	}
 
-	/* Cargar pantalla */
+	/* Load screen */
 	screen_load();
 }
 
@@ -266,13 +266,13 @@ int context_menu_player(int mx, int my)
 
 	ADD_LABEL("Usar", CMD_USE, MN_ROW_VALID);
 
-	/* si el jugador puede lanzar, añadir opción de lanzar */
+	/* if player can cast, add casting option */
 	if (player_can_cast(player, false)) {
 		ADD_LABEL("Lanzar", CMD_CAST, MN_ROW_VALID);
 	}
 
-	/* si el jugador está en escaleras o los comandos de autoexploración están habilitados,
-		añadir opción para usarlas */
+	/* if player is on stairs or autoexplore commands are enabled,
+		add option to use them */
 	if (square_isupstairs(cave, player->grid) || autoexplore) {
 		ADD_LABEL("Subir", CMD_GO_UP, MN_ROW_VALID);
 	}
@@ -283,29 +283,29 @@ int context_menu_player(int mx, int my)
 		ADD_LABEL("Explorar", CMD_EXPLORE, MN_ROW_VALID);
 	}
 
-	/* Mirar tiene teclas diferentes, pero no tenemos forma de buscarlas
-	 * (ver ui-game.c). */
+	/* Looking has different keys, but we don't have a way to look them up
+	 * (see ui-game.c). */
 	cmdkey = (mode == KEYMAP_MODE_ORIG) ? 'l' : 'x';
 	menu_dynamic_add_label(m, "Mirar", cmdkey, MENU_VALUE_LOOK, labels);
 
-	/* 'R' se usa para descansar en ambos mapas de teclas. */
+	/* 'R' is used for resting in both keymaps. */
 	menu_dynamic_add_label(m, "Descansar", 'R', MENU_VALUE_REST, labels);
 
-	/* 'i' se usa para inventario en ambos mapas de teclas. */
+	/* 'i' is used for inventory in both keymaps. */
 	menu_dynamic_add_label(m, "Inventario", 'i', MENU_VALUE_INVENTORY, labels);
 
-	/* si hay objeto bajo el jugador añadir opción de recoger */
+	/* if object under player add pickup option */
 	obj = square_object(cave, player->grid);
 	if (obj && !ignore_item_ok(player, obj)) {
 			menu_row_validity_t valid;
 
-			/* 'f' no está en el mapa de teclas rogue, así que podemos usarlo aquí. */
+			/* 'f' isn't in rogue keymap, so we can use it here. */
   			menu_dynamic_add_label(m, "Suelo", 'f', MENU_VALUE_FLOOR, labels);
 			valid = (inven_carry_okay(obj)) ? MN_ROW_VALID : MN_ROW_INVALID;
 			ADD_LABEL("Recoger", CMD_PICKUP, valid);
 	}
 
-	/* 'C' se usa para la hoja de personaje en ambos mapas de teclas. */
+	/* 'C' is used for the character sheet in both keymaps. */
 	menu_dynamic_add_label(m, "Personaje", 'C', MENU_VALUE_CHARACTER, labels);
 
 	if (!OPT(player, center_player)) {
@@ -315,7 +315,7 @@ int context_menu_player(int mx, int my)
 
 	menu_dynamic_add_label(m, "Otro", ' ', MENU_VALUE_OTHER, labels);
 
-	/* No se necesita vaciado */
+	/* No flush needed */
 	msg_flag = false;
 	screen_save();
 
@@ -332,10 +332,10 @@ int context_menu_player(int mx, int my)
 
 	cmdkey = cmd_lookup_key(selected, mode);
 
-	/* Verificar el comando para ver si está permitido. */
+	/* Check the command to see if it is allowed. */
 	switch(selected) {
 		case -1:
-			/* El usuario canceló el menú. */
+			/* User cancelled the menu. */
 			return 3;
 
 		case CMD_USE:
@@ -344,8 +344,8 @@ int context_menu_player(int mx, int my)
 		case CMD_GO_DOWN:
 		case CMD_EXPLORE:
 		case CMD_PICKUP:
-			/* Solo comprobar inscripciones ^, ya que no tenemos un objeto
-			 * seleccionado (si necesitamos uno). */
+			/* Only check for ^ inscriptions, since we don't have an object
+			 * selected (if we need one). */
 			allowed = key_confirm_command(cmdkey);
 			break;
 
@@ -363,7 +363,7 @@ int context_menu_player(int mx, int my)
 			break;
 
 		default:
-			/* Comando inválido; evitar que ocurra nada. */
+			/* Invalid command; prevent anything from happening. */
 			bell();
 			allowed = false;
 			break;
@@ -372,7 +372,7 @@ int context_menu_player(int mx, int my)
 	if (!allowed)
 		return 1;
 
-	/* Realizar el comando. */
+	/* Perform the command. */
 	switch(selected) {
 		case CMD_USE:
 		case CMD_CAST:
@@ -442,13 +442,13 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 	labels = string_make(lower_case);
 	m->selections = labels;
 
-	/* Mirar tiene teclas diferentes, pero no tenemos forma de buscarlas
-	 * (ver ui-game.c). */
+	/* Looking has different keys, but we don't have a way to look them up
+	 * (see ui-game.c). */
 	cmdkey = (mode == KEYMAP_MODE_ORIG) ? 'l' : 'x';
 	menu_dynamic_add_label(m, "Mirar", cmdkey, MENU_VALUE_LOOK, labels);
 
 	if (square(c, grid)->mon)
-		/* '/' se usa para recordar en ambos mapas de teclas. */
+		/* '/' is used for recall in both keymaps. */
 		menu_dynamic_add_label(m, "Recordar Info", '/', MENU_VALUE_RECALL,
 							   labels);
 
@@ -497,7 +497,7 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 
 		ADD_LABEL("Caminar Hacia", CMD_WALK, MN_ROW_VALID);
 	} else {
-		/* ',' se usa para ignorar en el mapa de teclas rogue, así que intercambiaremos letras */
+		/* ',' is used for ignore in rogue keymap, so we'll just swap letters */
 		cmdkey = (mode == KEYMAP_MODE_ORIG) ? ',' : '.';
 		menu_dynamic_add_label(m, "Encontrar Ruta Hasta", cmdkey, CMD_PATHFIND, labels);
 
@@ -511,7 +511,7 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 
 	ADD_LABEL("Lanzar A", CMD_THROW, MN_ROW_VALID);
 
-	/* No se necesita vaciado */
+	/* No flush needed */
 	msg_flag = false;
 	screen_save();
 
@@ -524,7 +524,7 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 		char m_name[80];
 		struct monster *mon = square_monster(c, grid);
 
-		/* Obtener el nombre del monstruo ("un kobold") */
+		/* Get the monster name ("a kobold") */
 		monster_desc(m_name, sizeof(m_name), mon, MDESC_IND_VIS);
 
 		prt(format("(Enter para seleccionar comando, ESC para cancelar) Ves %s:",
@@ -533,7 +533,7 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 		char o_name[80];
 		char o_name_final[80];
 
-		/* fix traduc Obtener una descripción del objeto */			
+		/* Obtain an object description */
 		object_desc(o_name, sizeof(o_name), square_obj, ODESC_FULL, player);
 		//fix traduc
 		if (square_obj->number > 1) {			
@@ -545,7 +545,7 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 		//fix traduc		
 		prt(format("(Enter para seleccionar comando, ESC para cancelar) Ves %s:", o_name_final), 0, 0);
 	} else {
-		/* Característica (aplicar imitación) */
+		/* Feature (apply mimic) */
 		const char *name = square_apparent_name(player->cave, grid);
 		const char *prefix = square_apparent_look_prefix(player->cave, grid);
 
@@ -561,10 +561,10 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 
 	cmdkey = cmd_lookup_key(selected, mode);
 
-	/* Verificar el comando para ver si está permitido. */
+	/* Check the command to see if it is allowed. */
 	switch (selected) {
 		case -1:
-			/* El usuario canceló el menú. */
+			/* User cancelled the menu. */
 			return 3;
 
 		case MENU_VALUE_LOOK:
@@ -586,13 +586,13 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 		case CMD_FIRE:
 		case CMD_THROW:
 		case CMD_USE:
-			/* Solo comprobar inscripciones ^, ya que no tenemos un objeto
-			 * seleccionado (si necesitamos uno). */
+			/* Only check for ^ inscriptions, since we don't have an object
+			 * selected (if we need one). */
 			allowed = key_confirm_command(cmdkey);
 			break;
 
 		default:
-			/* Comando inválido; evitar que ocurra nada. */
+			/* Invalid command; prevent anything from happening. */
 			bell();
 			allowed = false;
 			break;
@@ -601,17 +601,17 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 	if (!allowed)
 		return 1;
 
-	/* Realizar el comando. */
+	/* Perform the command. */
 	switch (selected) {
 		case MENU_VALUE_LOOK:
-			/* Mirar el lugar */
+			/* Look at the spot */
 			if (target_set_interactive(TARGET_LOOK, x, y, true)) {
 				msg("Objetivo Seleccionado.");
 			}
 			break;
 
 		case MENU_VALUE_RECALL: {
-			/* Recordar información del monstruo */
+			/* Recall monster Info */
 			struct monster *mon = square_monster(c, grid);
 			if (mon) {
 				struct monster_lore *lore = get_lore(mon->race);
@@ -655,7 +655,7 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 }
 
 /**
- * Elegir las opciones del menú contextual apropiadas para el objeto
+ * Pick the context menu options appropiate for the item
  */
 int context_menu_object(struct object *obj)
 {
@@ -690,7 +690,7 @@ int context_menu_object(struct object *obj)
 	labels = string_make(lower_case);
 	m->selections = labels;
 
-	/* 'I' se usa para inspeccionar en ambos mapas de teclas. */
+	/* 'I' is used for inspect in both keymaps. */
 	menu_dynamic_add_label(m, "Inspeccionar", 'I', MENU_VALUE_INSPECT, labels);
 
 	if (obj_can_browse(obj)) {
@@ -749,7 +749,7 @@ int context_menu_object(struct object *obj)
 			ADD_LABEL("Soltar", CMD_DROP, MN_ROW_VALID);
 
 			if (obj->number > 1) {
-				/* 'D' se usa para ignorar en el mapa de teclas rogue, así que intercambiamos letras. */
+				/* 'D' is used for ignore in rogue keymap, so swap letters. */
 				cmdkey = (mode == KEYMAP_MODE_ORIG) ? 'D' : 'A';
 				menu_dynamic_add_label(m, "Soltar Todo", cmdkey,
 									   MENU_VALUE_DROP_ALL, labels);
@@ -758,7 +758,7 @@ int context_menu_object(struct object *obj)
 			ADD_LABEL("Soltar", CMD_DROP, MN_ROW_VALID);
 
 			if (obj->number > 1) {
-				/* 'D' se usa para ignorar en el mapa de teclas rogue, así que intercambiamos letras. */
+				/* 'D' is used for ignore in rogue keymap, so swap letters. */
 				cmdkey = (mode == KEYMAP_MODE_ORIG) ? 'D' : 'A';
 				menu_dynamic_add_label(m, "Soltar Todo", cmdkey,
 									   MENU_VALUE_DROP_ALL, labels);
@@ -784,20 +784,20 @@ int context_menu_object(struct object *obj)
 	ADD_LABEL( (object_is_ignored(obj) ? "Dejar de Ignorar" : "Ignorar"), CMD_IGNORE,
 			   MN_ROW_VALID);
 
-	/* calcular región de visualización */
-	r.width = (int)menu_dynamic_longest_entry(m) + 3 + 2; /* +3 para etiqueta,
-														   * 2 para relleno */
+	/* work out display region */
+	r.width = (int)menu_dynamic_longest_entry(m) + 3 + 2; /* +3 for tag,
+														   * 2 for pad */
 	r.col = Term->wid - r.width - 1;
 	r.row = 1;
 	r.page_rows = m->count;
 
 	area.width = -(r.width + 2);
 
-	/* No se necesita vaciado */
+	/* No flush needed */
 	msg_flag = false;
 	screen_save();
 
-	/* Mostrar información */
+	/* Display info */
 	tb = object_info(obj, OINFO_NONE);
 	object_desc(header, sizeof(header), obj, ODESC_PREFIX | ODESC_FULL,
 		player);
@@ -820,12 +820,12 @@ int context_menu_object(struct object *obj)
 
 	switch (selected) {
 		case -1:
-			/* El usuario canceló el menú. */
+			/* User cancelled the menu. */
 			return 3;
 
 		case MENU_VALUE_INSPECT:
-			/* copiado de textui_obj_examine */
-			/* Mostrar información */
+			/* copied from textui_obj_examine */
+			/* Display info */
 			tb = object_info(obj, OINFO_NONE);
 			//fix traduc
 			object_desc(header, sizeof(header), obj, ODESC_FULL, player);
@@ -841,7 +841,7 @@ int context_menu_object(struct object *obj)
 			return 2;
 
 		case MENU_VALUE_DROP_ALL:
-			/* Soltar todo el montón sin confirmación. */
+			/* Drop entire stack without confirmation. */
 			if (square_isshop(cave, player->grid))
 				cmdq_push(CMD_STASH);
 			else
@@ -871,12 +871,12 @@ int context_menu_object(struct object *obj)
 		case CMD_ACTIVATE:
 		case CMD_FIRE:
 		case CMD_USE:
-			/* Comprobar inscripciones que activan confirmación. */
+			/* Check for inscriptions that trigger confirmation. */
 			allowed = key_confirm_command(cmdkey) &&
 				get_item_allow(obj, cmdkey, selected, false);
 			break;
 		default:
-			/* Comando inválido; evitar que ocurra nada. */
+			/* Invalid command; prevent anything from happening. */
 			bell();
 			allowed = false;
 			break;
@@ -886,11 +886,11 @@ int context_menu_object(struct object *obj)
 		return 1;
 
 	if (selected == CMD_IGNORE) {
-		/* ignorar o dejar de ignorar el objeto */
+		/* ignore or unignore the item */
 		textui_cmd_ignore_menu(obj);
 	} else if (selected == CMD_BROWSE_SPELL) {
-		/* examinar un libro de hechizos */
-		/* copiado de textui_spell_browse */
+		/* browse a spellbook */
+		/* copied from textui_spell_browse */
 		textui_book_browse(obj);
 		return 2;
 	} else if (selected == CMD_STUDY) {
@@ -905,7 +905,7 @@ int context_menu_object(struct object *obj)
 		cmdq_push(selected);
 		cmd_set_arg_item(cmdq_peek(), "item", obj);
 
-		/* Si estamos en una tienda, cambiar el comando "soltar" a "guardar". */
+		/* If we're in a store, change the "drop" command to "stash". */
 		if (selected == CMD_DROP &&
 			square_isshop(cave, player->grid)) {
 			struct command *gc = cmdq_peek();
@@ -963,7 +963,7 @@ static int show_command_list(struct cmd_info cmd_list[], int size, int mx,
 	screen_load();
 
 	if ((selected > 0) && (selected < size+1)) {
-		/* ejecutar el comando */
+		/* execute the command */
 		Term_keypress(cmd_list[selected-1].key[mode], 0);
 	}
 
@@ -999,8 +999,8 @@ int context_menu_command(int mx, int my)
 
 	screen_load();
 
-	/* XXX-AS esto es tosco, al igual que la forma en que hay dos maneras de mostrar la
-	 * lista de comandos completa. Arréglame */
+	/* XXX-AS this is gross, as is the way there's two ways to display the
+	 * entire command list.  Fix me */
 	if (selected > 0) {
 		selected--;
 		show_command_list(cmds_all[selected].list, cmds_all[selected].len,
@@ -1013,7 +1013,7 @@ int context_menu_command(int mx, int my)
 }
 
 /**
- * Manejar un clic de ratón de la interfaz de texto.
+ * Handle a textui mouseclick.
  */
 void textui_process_click(ui_event e)
 {
@@ -1024,21 +1024,21 @@ void textui_process_click(ui_event e)
 	y = KEY_GRID_Y(e);
 	x = KEY_GRID_X(e);
 
-	/* Verificar una ubicación válida */
+	/* Check for a valid location */
 	if (!square_in_bounds_fully(cave, loc(x, y))) return;
 
-	/* XXX mostrar menú contextual aquí */
+	/* XXX show context menu here */
 	if (loc_eq(player->grid, loc(x, y))) {
 		if (e.mouse.mods & KC_MOD_SHIFT) {
-			/* shift-clic - lanzar magia */
+			/* shift-click - cast magic */
 			if (e.mouse.button == 1) {
 				cmdq_push(CMD_CAST);
 			} else if (e.mouse.button == 2) {
 				Term_keypress('i',0);
 			}
 		} else if (e.mouse.mods & KC_MOD_CONTROL) {
-			/* ctrl-clic - usar característica / usar objeto de inventario */
-			/* intercambiar con el predeterminado */
+			/* ctrl-click - use feature / use inventory item */
+			/* switch with default */
 			if (e.mouse.button == 1) {
 				if (square_isupstairs(cave, player->grid))
 					cmdq_push(CMD_GO_UP);
@@ -1048,8 +1048,8 @@ void textui_process_click(ui_event e)
 				cmdq_push(CMD_USE);
 			}
 		} else if (e.mouse.mods & KC_MOD_ALT) {
-			/* alt-clic - mostrar pantalla de personaje */
-			/* XXX llamar a un gancho específico de la plataforma */
+			/* alt-click - show char screen */
+			/* XXX call a platform specific hook */
 			if (e.mouse.button == 1) {
 				Term_keypress('C',0);
 			}
@@ -1061,7 +1061,7 @@ void textui_process_click(ui_event e)
 					cmdq_push(CMD_HOLD);
 				}
 			} else if (e.mouse.button == 2) {
-				/* Mostrar un menú contextual */
+				/* Show a context menu */
 				context_menu_player(e.mouse.x, e.mouse.y);
 			}
 		}
@@ -1070,23 +1070,23 @@ void textui_process_click(ui_event e)
 			cmdq_push(CMD_WALK);
 		} else {
 			if (e.mouse.mods & KC_MOD_SHIFT) {
-				/* shift-clic - correr */
+				/* shift-click - run */
 				cmdq_push(CMD_RUN);
 				cmd_set_arg_direction(cmdq_peek(), "direction",
 									  motion_dir(player->grid, loc(x, y)));
 			} else if (e.mouse.mods & KC_MOD_CONTROL) {
-				/* control-clic - alterar */
+				/* control-click - alter */
 				cmdq_push(CMD_ALTER);
 				cmd_set_arg_direction(cmdq_peek(), "direction",
 									  motion_dir(player->grid, loc(x, y)));
 			} else if (e.mouse.mods & KC_MOD_ALT) {
-				/* alt-clic - mirar */
+				/* alt-click - look */
 				if (target_set_interactive(TARGET_LOOK, x, y, true)) {
 					msg("Objetivo Seleccionado.");
 				}
 			} else {
-				/* Encontrar ruta no funciona bien en los bordes de detección de trampas,
-				 * así que si el clic está al lado del jugador, forzar un paso de caminar */
+				/* Pathfind does not work well on trap detection borders,
+				 * so if the click is next to the player, force a walk step */
 				if ((y - player->grid.y >= -1) && (y - player->grid.y <= 1)	&&
 					(x - player->grid.x >= -1) && (x - player->grid.x <= 1)) {
 					cmdq_push(CMD_WALK);
@@ -1101,7 +1101,7 @@ void textui_process_click(ui_event e)
 	} else if (e.mouse.button == 2) {
 		struct monster *m = square_monster(cave, loc(x, y));
 		if (m && target_able(m)) {
-			/* Configurar información de objetivo */
+			/* Set up target information */
 			monster_race_track(player->upkeep, m->race);
 			health_track(player->upkeep, m);
 			target_set_monster(m);
@@ -1110,19 +1110,19 @@ void textui_process_click(ui_event e)
 		}
 
 		if (e.mouse.mods & KC_MOD_SHIFT) {
-			/* shift-clic - lanzar hechizo al objetivo */
+			/* shift-click - cast spell at target */
 			cmdq_push(CMD_CAST);
 			cmd_set_arg_target(cmdq_peek(), "target", DIR_TARGET);
 		} else if (e.mouse.mods & KC_MOD_CONTROL) {
-			/* control-clic - disparar al objetivo */
+			/* control-click - fire at target */
 			cmdq_push(CMD_USE);
 			cmd_set_arg_target(cmdq_peek(), "target", DIR_TARGET);
 		} else if (e.mouse.mods & KC_MOD_ALT) {
-			/* alt-clic - lanzar al objetivo */
+			/* alt-click - throw at target */
 			cmdq_push(CMD_THROW);
 			cmd_set_arg_target(cmdq_peek(), "target", DIR_TARGET);
 		} else {
-			/* ver si el clic era adyacente al jugador */
+			/* see if the click was adjacent to the player */
 			if ((y - player->grid.y >= -1) && (y - player->grid.y <= 1)	&&
 				(x - player->grid.x >= -1) && (x - player->grid.x <= 1)) {
 				context_menu_cave(cave,y,x,1,e.mouse.x, e.mouse.y);
@@ -1138,11 +1138,11 @@ void textui_process_click(ui_event e)
 
 /**
  * ------------------------------------------------------------------------
- * Funciones de menú
+ * Menu functions
  * ------------------------------------------------------------------------ */
 
 /**
- * Mostrar una entrada en un menú de comandos
+ * Display an entry on a command menu
  */
 static void cmd_sub_entry(struct menu *menu, int oid, bool cursor, int row,
 						  int col, int width)
@@ -1154,18 +1154,18 @@ static void cmd_sub_entry(struct menu *menu, int oid, bool cursor, int row,
 	struct keypress kp = { EVT_KBRD, commands[oid].key[mode], 0 };
 	char buf[16];
 
-	/* Escribir la descripción */
+	/* Write the description */
 	Term_putstr(col, row, -1, attr, commands[oid].desc);
 
 	/*
-	 * Incluir pulsación de tecla para comandos que no son marcadores de posición para impulsar el
-	 * sistema de menús.
+	 * Include keypress for commands that aren't placeholders to drive the
+	 * menu system.
 	 */
 	if (kp.code) {
 		Term_addch(attr, L' ');
 		Term_addch(attr, L'(');
 
-		/* Obtener versión legible */
+		/* Get readable version */
 		keypress_to_readable(buf, sizeof buf, kp);
 		Term_addstr(-1, attr, buf);
 
@@ -1174,7 +1174,7 @@ static void cmd_sub_entry(struct menu *menu, int oid, bool cursor, int row,
 }
 
 /**
- * Mostrar una lista de comandos.
+ * Display a list of commands.
  */
 static bool cmd_menu(struct command_list *list, void *selection_p)
 {
@@ -1185,12 +1185,12 @@ static bool cmd_menu(struct command_list *list, void *selection_p)
 	ui_event evt;
 	struct cmd_info **selection = selection_p;
 	/*
-	 * Por defecto, hacer que el menú contenedor salga de su manejo de eventos
-	 * cuando esta función regresa.
+	 * By default, cause the containing menu to break out of its event
+	 * handling when this function returns.
 	 */
 	bool result = false;
 
-	/* Configurar el menú */
+	/* Set up the menu */
 	menu_init(&menu, MN_SKIN_SCROLL, &commands_menu);
 	menu_setpriv(&menu, list->len, list->list);
 	area.col += 2 * list->menu_level;
@@ -1198,35 +1198,35 @@ static bool cmd_menu(struct command_list *list, void *selection_p)
 	assert(area.row > 1);
 	menu_layout(&menu, &area);
 
-	/* Configurar la pantalla */
+	/* Set up the screen */
 	screen_save();
 	window_make(area.col - 2, area.row - 1, area.col + 39, area.row + 13);
 
 	while (1) {
-		/* Seleccionar una entrada */
+		/* Select an entry */
 		evt = menu_select(&menu, 0, true);
 
 		if (evt.type == EVT_SELECT) {
 			if (list->list[menu.cursor].cmd ||
 					list->list[menu.cursor].hook) {
-				/* Es un comando apropiado. */
+				/* It's a proper command. */
 				*selection = &list->list[menu.cursor];
 				break;
 			} else {
 				/*
-				 * Es un marcador de posición que es padre para un
-				 * menú anidado.
+				 * It's a placeholder that's a parent for a
+				 * nested menu.
 				 */
 				/*
-				 * Buscar la lista de comandos para el menú
-				 * anidado.
+				 * Look up the list of commands for the nested
+				 * menu.
 				 */
 				if (list->list[menu.cursor].nested_cached_idx == -1) {
 					list->list[menu.cursor].nested_cached_idx =
 						cmd_list_lookup_by_name(list->list[menu.cursor].nested_name);
 				}
 				if (list->list[menu.cursor].nested_cached_idx >= 0) {
-					/* Mostrar un menú para ello. */
+					/* Display a menu for it. */
 					if (!cmd_menu(&cmds_all[list->list[menu.cursor].nested_cached_idx], selection_p)) {
 						break;
 					}
@@ -1236,8 +1236,8 @@ static bool cmd_menu(struct command_list *list, void *selection_p)
 			}
 		} else if (evt.type == EVT_ESCAPE) {
 			/*
-			 * Regresar al menú contenedor y no salir completamente hasta
-			 * el bucle principal del juego.
+			 * Return to the containing menu and don't break out all
+			 * the way to main game loop.
 			 */
 			result = true;
 			break;
@@ -1245,8 +1245,9 @@ static bool cmd_menu(struct command_list *list, void *selection_p)
 	}
 
 	/*
-	 * Cargar la pantalla. Hacer una actualización más costosa si no se está saliendo
-	 * completamente de los menús y puede haber mosaicos grandes parcialmente sobrescritos.
+	 * Load the screen.  Do a more expensive update if not breaking out
+	 * all the way from the menus and there may be partially overwritten
+	 * big tiles.
 	 */
 	if (result && screen_save_depth > 1
 			&& (tile_width > 1 || tile_height > 1)) {
@@ -1286,7 +1287,7 @@ static menu_iter command_menu_iter =
 };
 
 /**
- * Mostrar una lista de tipos de comandos, permitiendo al usuario seleccionar uno.
+ * Display a list of command types, allowing the user to select one.
  */
 struct cmd_info *textui_action_menu_choose(void)
 {
@@ -1305,7 +1306,7 @@ struct cmd_info *textui_action_menu_choose(void)
 	menu_setpriv(command_menu, len, &chosen_command);
 	menu_layout(command_menu, &area);
 
-	/* Configurar la pantalla */
+	/* Set up the screen */
 	screen_save();
 	window_make(19, 4, 58, 11);
 
