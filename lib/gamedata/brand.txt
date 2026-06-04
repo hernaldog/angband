@@ -25,7 +25,7 @@
 #     list-mon-race-flags.h
 
 code:ACID_3
-name:acid
+name:ácido
 verb:dissolve
 multiplier:3
 o-multiplier:25
@@ -33,7 +33,7 @@ power:161
 resist-flag:IM_ACID
 
 code:ELEC_3
-name:lightning
+name:relámpago
 verb:shock
 multiplier:3
 o-multiplier:25
@@ -41,7 +41,7 @@ power:116
 resist-flag:IM_ELEC
 
 code:FIRE_3
-name:fire
+name:fuego
 verb:burn
 multiplier:3
 o-multiplier:25
@@ -50,7 +50,7 @@ resist-flag:IM_FIRE
 vuln-flag:HURT_FIRE
 
 code:COLD_3
-name:cold
+name:frío
 verb:freeze
 multiplier:3
 o-multiplier:25
@@ -59,7 +59,7 @@ resist-flag:IM_COLD
 vuln-flag:HURT_COLD
 
 code:POIS_3
-name:poison
+name:veneno
 verb:poison
 multiplier:3
 o-multiplier:25
@@ -67,7 +67,7 @@ power:122
 resist-flag:IM_POIS
 
 code:ACID_2
-name:acid
+name:ácido
 verb:corrode
 multiplier:2
 o-multiplier:15
@@ -75,7 +75,7 @@ power:130
 resist-flag:IM_ACID
 
 code:ELEC_2
-name:lightning
+name:relámpago
 verb:zap
 multiplier:2
 o-multiplier:15
@@ -83,7 +83,7 @@ power:108
 resist-flag:IM_ELEC
 
 code:FIRE_2
-name:fire
+name:fuego
 verb:singe
 multiplier:2
 o-multiplier:15
@@ -92,7 +92,7 @@ resist-flag:IM_FIRE
 vuln-flag:HURT_FIRE
 
 code:COLD_2
-name:cold
+name:frío
 verb:chill
 multiplier:2
 o-multiplier:15
@@ -101,7 +101,7 @@ resist-flag:IM_COLD
 vuln-flag:HURT_COLD
 
 code:POIS_2
-name:poison
+name:veneno
 verb:sicken
 multiplier:2
 o-multiplier:15

@@ -95,7 +95,7 @@
 # for the color or the full color name (case insensitive).
 
 code:ACID
-name:acid
+name:ácido
 type:element
 desc:ácido
 player-desc:ácido
@@ -111,7 +111,7 @@ wake:1
 color:Slate
 
 code:ELEC
-name:lightning
+name:relámpago
 type:element
 desc:relámpago
 player-desc:rayo
@@ -127,7 +127,7 @@ wake:1
 color:Blue
 
 code:FIRE
-name:fire
+name:fuego
 type:element
 desc:fuego
 player-desc:fuego
@@ -143,7 +143,7 @@ wake:1
 color:Red
 
 code:COLD
-name:cold
+name:frío
 type:element
 desc:frío
 player-desc:escarcha
@@ -159,7 +159,7 @@ wake:1
 color:White
 
 code:POIS
-name:poison
+name:veneno
 type:element
 desc:veneno
 player-desc:gas venenoso
@@ -175,7 +175,7 @@ wake:1
 color:Green
 
 code:LIGHT
-name:light
+name:luz
 type:element
 desc:luz
 player-desc:luz
@@ -191,7 +191,7 @@ wake:1
 color:Orange
 
 code:DARK
-name:dark
+name:oscuridad
 type:element
 desc:oscuridad
 player-desc:oscuridad
@@ -207,7 +207,7 @@ wake:1
 color:Light Dark
 
 code:SOUND
-name:sound
+name:sonido
 type:element
 desc:sonido
 player-desc:sonido
@@ -223,7 +223,7 @@ wake:1
 color:Yellow
 
 code:SHARD
-name:shards
+name:fragmentos
 type:element
 desc:fragmentos
 player-desc:fragmentos
@@ -239,7 +239,7 @@ wake:1
 color:Umber
 
 code:NEXUS
-name:nexus
+name:nexo
 type:element
 desc:nexo
 player-desc:nexo
@@ -255,7 +255,7 @@ wake:1
 color:Light Red
 
 code:NETHER
-name:nether
+name:inframundo
 type:element
 desc:abismo
 player-desc:inframundo
@@ -271,7 +271,7 @@ wake:1
 color:Light Green
 
 code:CHAOS
-name:chaos
+name:caos
 type:element
 desc:caos
 player-desc:caos
@@ -287,7 +287,7 @@ wake:1
 color:Violet
 
 code:DISEN
-name:disenchantment
+name:desencantamiento
 type:element
 desc:desencantamiento
 player-desc:desencantamiento
@@ -303,7 +303,7 @@ wake:1
 color:Violet
 
 code:WATER
-name:water
+name:agua
 type:element
 desc:agua
 player-desc:agua
@@ -317,7 +317,7 @@ wake:1
 color:Slate
 
 code:ICE
-name:ice
+name:hielo
 type:element
 desc:hielo
 player-desc:hielo
@@ -333,7 +333,7 @@ wake:1
 color:White
 
 code:GRAVITY
-name:gravity
+name:gravedad
 type:element
 desc:gravedad
 player-desc:gravedad
@@ -347,7 +347,7 @@ wake:1
 color:Light Slate
 
 code:INERTIA
-name:inertia
+name:inercia
 type:element
 desc:inercia
 player-desc:inercia
@@ -361,7 +361,7 @@ wake:1
 color:Light Slate
 
 code:FORCE
-name:force
+name:fuerza
 type:element
 desc:fuerza
 player-desc:fuerza
@@ -375,7 +375,7 @@ wake:1
 color:Umber
 
 code:TIME
-name:time
+name:tiempo
 type:element
 desc:tiempo
 player-desc:tiempo
@@ -403,7 +403,7 @@ wake:1
 color:Red
 
 code:METEOR
-name:meteors
+name:meteoros
 type:element
 desc:un meteorito
 player-desc:meteoro
@@ -417,7 +417,7 @@ wake:1
 color:Red
 
 code:MISSILE
-name:magic missiles
+name:proyectiles mágicos
 type:element
 desc:un proyectil
 player-desc:energía mágica
@@ -444,7 +444,7 @@ wake:1
 color:Light dark
 
 code:HOLY_ORB
-name:holy power
+name:poder sagrado
 type:element
 desc:un orbe sagrado
 player-desc:poder sagrado
@@ -458,7 +458,7 @@ wake:1
 color:Light Dark
 
 code:ARROW
-name:arrows
+name:flechas
 type:element
 desc:una flecha
 player-desc:flechas

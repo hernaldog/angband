@@ -250,6 +250,7 @@ Contenido del script shell:
 | docs\customize.rst                       | 100      |
 | docs\hacking\modifying.rst               | 100      |
 | lib\gamedata\body.txt                    | 100      |
+| lib\gamedata\brand.txt                   | 100      | Tiene estados ice, fire, acid, etc.
 | lib\gamedata\player_property.txt         | 100      |
 | lib\gamedata\history.txt                 | 100      |
 | lib\gamedata\hints.txt                   | 100      |
@@ -263,7 +264,7 @@ Contenido del script shell:
 | lib\gamedata\flavor.txt                  | 100      |
 | lib\gamedata\class.txt                   | 100      |
 | lib\gamedata\terrain.txt                 | 100      |
-| lib\gamedata\projection                  | 100      |
+| lib\gamedata\projection                  | 100      | Tiene más estados ice, dark, sound, shards, etc
 | lib\help\commands.txt                    | 100      |
 | lib\help\index.txt                       | 100      |
 | lib\help\r_index.txt                     | 100      |
