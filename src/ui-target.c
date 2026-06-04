@@ -1,6 +1,6 @@
 /**
  * \file ui-target.c
- * \brief Interfaz de usuario para el código de apuntado
+ * \brief UI for targetting code
  *
  * Copyright (c) 1997-2014 Angband contributors
  *
@@ -46,11 +46,11 @@
 #include "ui-term.h"
 
 /*
- * Almacena el estado pasado entre target_set_interactive_aux() y los manejadores
- * que ayudan a manejar diferentes tipos de casillas o situaciones. En general,
- * los manejadores solo deben modificar press (devuelto desde
- * target_set_interactive_aux() a target_set_interactive()) y boring
- * (modula cómo actúan los manejadores posteriores).
+ * Holds state passed between target_set_interactive_aux() and the handlers
+ * that help it handle different types of grids or situations.  In general,
+ * the handlers should only modify press (passed back from
+ * target_set_interactive_aux() to target_set_interactive()) and boring
+ * (modulates how later handlers act).
  */
 struct target_aux_state {
 	char coord_desc[20];
@@ -66,7 +66,7 @@ typedef bool (*target_aux_handler)(struct chunk *c, struct player *p,
 	struct target_aux_state *auxst);
 
 /**
- * Extraer una dirección (o cero) de un carácter
+ * Extract a direction (or zero) from a character
  */
 int target_dir(struct keypress ch)
 {
@@ -74,29 +74,29 @@ int target_dir(struct keypress ch)
 }
 
 /**
- * Extraer, con control más fino, una dirección (o cero) de un carácter.
+ * Extract, with finer control, a direction (or zero) from a character.
  *
- * \param ch es la pulsación de tecla a examinar.
- * \param allow_5, si es true, permitirá que se devuelva 5 como dirección.
- * Si es false, se devolverá cero cuando se extraiga 5.
- * \param allow_esc, si es true, probará si ch es el desencadenante de un mapa de teclas
- * cuyo primer carácter en la acción es ESCAPE y, cuando eso ocurra,
- * devolverá ESCAPE.
- * \return un entero que está entre 0 y 4, inclusive, o entre 6 y 9, inclusive,
- * indicando la dirección extraída. Si no fue posible extraer una
- * dirección, devuelve 0. Si allow_5 es true, el valor devuelto también puede ser 5
- * cuando la dirección extraída es 5. Si allow_esc es true, el valor devuelto
- * también puede ser ESCAPE si ch es el desencadenante de un mapa de teclas cuyo primer
- * carácter en la acción es ESCAPE.
+ * \param ch is the keypress to examine.
+ * \param allow_5 will, if true, allow 5 to be returned as a direction.
+ * If false, zero will be returned when 5 is extracted.
+ * \param allow_esc will, if true, test if ch is the trigger for a keymap
+ * whose first character in the action is ESCAPE and, when that happens,
+ * return ESCAPE.
+ * \return an integer that is either in 0 to 4, inclusive, or 6 to 9, inclusive,
+ * indicating the direction extracted.  If it was not possible to extract a
+ * direction, return 0.  If allow_5 is true, the returned value can be 5 as
+ * well when the extracted direction is 5.  If allow_esc is true, the returned
+ * value can be ESCAPE as well if ch is the trigger for a keymap whose first
+ * character in the action is ESCAPE.
  *
- * Al examinar un mapa de teclas, ¿deberían omitirse los '(' o ')' ya que no
- * hacen nada más que alternar cómo se manejan los mensajes?
+ * When examining a keymap, should any '(' or ')' be skipped over since they
+ * do nothing but toggle how more prompts are handled?
  */
 int target_dir_allow(struct keypress ch, bool allow_5, bool allow_esc)
 {
 	int d = 0;
 
-	/* ¿Ya es una dirección? */
+	/* Already a direction? */
 	if (isdigit((unsigned char)ch.code)) {
 		d = D2I(ch.code);
 	} else if (isarrow(ch.code)) {
@@ -119,17 +119,17 @@ int target_dir_allow(struct keypress ch, bool allow_5, bool allow_esc)
 		if (act && act->type == EVT_KBRD) {
 			if (allow_esc && act->code == ESCAPE) {
 				/*
-				 * Permitir al jugador salir del apuntado
-				 * con un mapa de teclas cuya acción comience con
-				 * escape. Sugerido por
+				 * Let the player break out of the targeting
+				 * with a keymap whose action starts with
+				 * escape.  Suggested by
 				 * https://github.com/angband/angband/issues/6297 .
-				 * Para ahorrar pulsaciones de teclas adicionales al jugador,
-				 * es tentador, si no hay un mapa de teclas activo
-				 * o el mapa de teclas actual está al final,
-				 * insertar el mapa de teclas desencadenado por ch en
-				 * la cola de comandos, pero no sabemos si el
-				 * ESCAPE pasado aquí terminará el procesamiento del
-				 * último comando.
+				 * To save extra keystrokes by the player, it
+				 * is tempting, if there isn't a kaymap active
+				 * or the current keymap is at its end, to
+				 * insert the keymap triggered by ch into the
+				 * command queue, but we do not know if the
+				 * ESCAPE passed out here will end the
+				 * processing of the last command.
 				 */
 				d = ESCAPE;
 			} else if (((unsigned char)act->code
@@ -137,8 +137,8 @@ int target_dir_allow(struct keypress ch, bool allow_5, bool allow_esc)
 					|| (unsigned char)act->code
 					== cmd_lookup_key(CMD_RUN, mode))) {
 				/*
-				 * Permitir al jugador usar un mapa de teclas de movimiento
-				 * de una sola acción para especificar la dirección.
+				 * Let the player use a single action movement
+				 * keymap to specify the direction.
 				 */
 				++act;
 				if (act->type == EVT_KBRD
@@ -153,36 +153,36 @@ int target_dir_allow(struct keypress ch, bool allow_5, bool allow_esc)
 	/* Paranoia */
 	if (d == 5 && !allow_5) d = 0;
 
-	/* Devolver dirección */
+	/* Return direction */
 	return (d);
 }
 
 /**
- * Altura de la pantalla de ayuda; cualquier valor superior a 4 superpondrá la barra
- * de salud que queremos mantener en modo apuntado.
+ * Height of the help screen; any higher than 4 will overlap the health
+ * bar which we want to keep in targeting mode.
  */
 #define HELP_HEIGHT 3
 
 /**
- * Mostrar ayuda de apuntado en la parte inferior de la pantalla.
+ * Display targeting help at the bottom of the screen.
  */
 static void target_display_help(bool monster, bool object, bool free,
 		bool allow_pathfinding)
 {
-	/* Determinar ubicación de la ayuda */
+	/* Determine help location */
 	int wid, hgt, help_loc;
 	Term_get_size(&wid, &hgt);
 	help_loc = hgt - HELP_HEIGHT;
 	
-	/* Limpiar */
+	/* Clear */
 	clear_from(help_loc);
 
-	/* Preparar ganchos de ayuda */
+	/* Prepare help hooks */
 	text_out_hook = text_out_to_screen;
 	text_out_indent = 1;
 	Term_gotoxy(1, help_loc);
 
-	/* Mostrar ayuda */
+	/* Display help */
 	text_out_c(COLOUR_L_GREEN, "<dir>");
 	text_out(" y ");
 	text_out_c(COLOUR_L_GREEN, "<clic>");
@@ -243,13 +243,13 @@ static void target_display_help(bool monster, bool object, bool free,
 	text_out_c(COLOUR_L_GREEN, "x");
 	text_out("' seleccionan las escaleras más cercanas o área inexplorada.");
 
-	/* Reiniciar */
+	/* Reset */
 	text_out_indent = 0;
 }
 
 
 /**
- * Devolver si una tecla desencadena un mapa de teclas cuya única acción es correr.
+ * Return whether a key triggers a keymap whose only action is to run.
  */
 static bool is_running_keymap(struct keypress ch)
 {
@@ -271,13 +271,13 @@ static bool is_running_keymap(struct keypress ch)
 
 
 /**
- * Realizar el ajuste mínimo de "panel completo" para asegurar que la ubicación
- * dada esté contenida dentro del panel actual. Opcionalmente tiene en cuenta
- * la ventana de ayuda de apuntado. Si targets no es NULL y el panel cambia,
- * reiniciar la lista de objetivos interesantes. Si show_interesting
- * y target_index no son NULL, reiniciar si está en modo de apuntado libre o no
- * dependiendo de si las nuevas coordenadas están en la lista de
- * objetivos interesantes.
+ * Perform the minimum "whole panel" adjustment to ensure that the given
+ * location is contained inside the current panel.  Optionally accounts
+ * for the targeting help window.  If targets is not NULL and the panel
+ * changes, reset the list of interesting targets.  If show_interesting
+ * and target_index are not NULL, reset whether in free targeting mode or
+ * not depending on whether the new coordinates are in the list of
+ * interesting targets.
  */
 static void adjust_panel_help(int y, int x, bool help,
 		struct player *p, int mode, struct point_set **targets,
@@ -290,7 +290,7 @@ static void adjust_panel_help(int y, int x, bool help,
 	int screen_hgt_main = help ? (Term->hgt - ROW_MAP - ROW_BOTTOM_MAP - 2)
 			 : (Term->hgt - ROW_MAP - ROW_BOTTOM_MAP);
 
-	/* Escanear ventanas */
+	/* Scan windows */
 	for (j = 0; j < ANGBAND_TERM_MAX; j++)
 	{
 		int wx, wy;
@@ -298,10 +298,10 @@ static void adjust_panel_help(int y, int x, bool help,
 
 		term *t = angband_term[j];
 
-		/* Sin ventana */
+		/* No window */
 		if (!t) continue;
 
-		/* Sin banderas relevantes */
+		/* No relevant flags */
 		if ((j > 0) && !(window_flag[j] & PW_OVERHEAD)) continue;
 
 		wy = t->offset_y;
@@ -310,36 +310,36 @@ static void adjust_panel_help(int y, int x, bool help,
 		screen_hgt = (j == 0) ? screen_hgt_main : t->hgt;
 		screen_wid = (j == 0) ? (Term->wid - COL_MAP - 1) : t->wid;
 
-		/* Los paneles con mosaicos grandes necesitan ajuste */
+		/* Bigtile panels need adjustment */
 		screen_wid = screen_wid / tile_width;
 		screen_hgt = screen_hgt / tile_height;
 
-		/* Ajustar según sea necesario */
+		/* Adjust as needed */
 		while (y >= wy + screen_hgt) wy += screen_hgt / 2;
 		while (y < wy) wy -= screen_hgt / 2;
 
-		/* Ajustar según sea necesario */
+		/* Adjust as needed */
 		while (x >= wx + screen_wid) wx += screen_wid / 2;
 		while (x < wx) wx -= screen_wid / 2;
 
-		/* Usar "modify_panel" */
+		/* Use "modify_panel" */
 		if (modify_panel(t, wy, wx)) changed = true;
 	}
 
 	if (changed) {
 		handle_stuff(p);
 		if (targets) {
-			/* Recalcular casillas interesantes */
+			/* Recalculate interesting grids */
 			point_set_dispose(*targets);
 			*targets = target_get_monsters(mode, NULL, true);
 		}
 	}
 
 	if (show_interesting && target_index) {
-		/* Desactivar modo interesante si hicieron clic en un lugar aburrido... */
+		/* Turn interesting mode off if they clicked a boring spot... */
 		*show_interesting = false;
 
-		/* ...pero activarlo si hicieron clic en un lugar interesante */
+		/* ...but turn it on if they clicked an interesting spot */
 		for (j = 0; j < point_set_size(*targets); j++) {
 			if (y == (*targets)->pts[j].y
 					&& x == (*targets)->pts[j].x) {
@@ -353,24 +353,25 @@ static void adjust_panel_help(int y, int x, bool help,
 
 
 /**
- * Mostrar el nombre del objeto seleccionado y permitir el recuerdo completo del objeto.
+ * Display the object name of the selected object and allow for full object
+ * recall.
  *
- * Esto solo funcionará para un solo objeto en el suelo y no para un montón. Este
- * bucle es similar al bucle de recuerdo de monstruos en target_set_interactive_aux().
- * El tamaño de la matriz out_val debe coincidir con el tamaño que se pasa (ya que
- * este código se extrajo de allí).
+ * This will only work for a single object on the ground and not a pile. This
+ * loop is similar to the monster recall loop in target_set_interactive_aux().
+ * The out_val array size needs to match the size that is passed in (since
+ * this code was extracted from there).
  *
- * \param obj es el objeto a describir.
- * \param y es la fila de la cueva del objeto.
- * \param x es la columna de la cueva del objeto.
- * \param out_val es la cadena que contiene el nombre del objeto y se
- * devuelve a la función llamadora.
- * \param s1 es parte de la cadena de salida.
- * \param s2 es parte de la cadena de salida.
- * \param s3 es parte de la cadena de salida.
- * \param coords es parte de la cadena de salida.
- * \param p es el jugador que realiza el apuntado.
- * \return el último evento que ocurrió durante la visualización.
+ * \param obj is the object to describe.
+ * \param y is the cave row of the object.
+ * \param x is the cave column of the object.
+ * \param out_val is the string that holds the name of the object and is
+ * returned to the caller.
+ * \param s1 is part of the output string.
+ * \param s2 is part of the output string.
+ * \param s3 is part of the output string.
+ * \param coords is part of the output string.
+ * \param p is the player doing the targeting.
+ * \return the last event that occurred during display.
  */
 static ui_event target_recall_loop_object(struct object *obj, int y, int x,
 		char out_val[TARGET_OUT_VAL_SIZE],
@@ -390,12 +391,12 @@ static ui_event target_recall_loop_object(struct object *obj, int y, int x,
 		} else {
 			char o_name[80];
 
-			/* Obtener una descripción del objeto */
+			/* Obtain an object description */
 			object_desc(o_name, sizeof(o_name),
 				cave->objects[obj->oidx],
 				ODESC_PREFIX | ODESC_FULL, p);
 
-			/* Describir el objeto */
+			/* Describe the object */
 			if (p->wizard) {
 				strnfmt(out_val, TARGET_OUT_VAL_SIZE,
 						"%s%s%s%s, %s (%d:%d, ruido=%d, olor=%d).", s1, s2, s3,
@@ -424,37 +425,37 @@ static ui_event target_recall_loop_object(struct object *obj, int y, int x,
 }
 
 /**
- * Ayuda a target_set_interactive_aux(): reiniciar el estado para otra pasada
- * a través de los manejadores.
+ * Help target_set_interactive_aux():  reset the state for another pass
+ * through the handlers.
  */
 static bool aux_reinit(struct chunk *c, struct player *p,
 		struct target_aux_state *auxst)
 {
 	struct monster *mon;
 
-	/* Establecer el evento por defecto para enfocarse en el jugador. */
+	/* Set the default event to focus on the player. */
 	auxst->press.type = EVT_KBRD;
 	auxst->press.key.code = 'p';
 	auxst->press.key.mods = 0;
 
-	/* Salir si se mira una casilla prohibida. No ejecutar más manejadores. */
+	/* Bail if looking at a forbidden grid.  Don't run any more handlers. */
 	if (!square_in_bounds(c, auxst->grid)) return true;
 
-	/* Asumir aburrido. */
+	/* Assume boring. */
 	auxst->boring = true;
 
 	if (square(c, auxst->grid)->mon < 0) {
-		/* Mirando la casilla del jugador */
+		/* Looking at the player's grid */
 		auxst->phrase1 = "Estás ";
 		auxst->phrase2 = "en ";
 	} else {
-		/* Por defecto */
+		/* Default */
 		if (square_isseen(c, auxst->grid)) {
 			auxst->phrase1 = "Ves ";
 		} else {
 			mon = square_monster(c, auxst->grid);
 			if (mon && monster_is_obvious(mon)) {
-				/* El monstruo es visible gracias a detección o telepatía */
+				/* Monster is visible because of detection or telepathy */
 				auxst->phrase1 = "Sientes ";
 			} else {
 				auxst->phrase1 = "Recuerdas ";
@@ -467,7 +468,7 @@ static bool aux_reinit(struct chunk *c, struct player *p,
 }
 
 /**
- * Ayuda a target_set_interactive_aux(): manejar alucinación.
+ * Help target_set_interactive_aux():  handle hallucination.
  */
 static bool aux_hallucinate(struct chunk *c, struct player *p,
 		struct target_aux_state *auxst)
@@ -477,8 +478,8 @@ static bool aux_hallucinate(struct chunk *c, struct player *p,
 
 	if (!p->timed[TMD_IMAGE]) return false;
 
-	/* La alucinación lo estropea todo */
-	/* Mostrar un mensaje */
+	/* Hallucination messes things up */
+	/* Display a message */
 	if (p->wizard) {
 		strnfmt(out_val, sizeof(out_val),
 			"%s%s%s, %s (%d:%d, ruido=%d, olor=%d).",
@@ -502,15 +503,15 @@ static bool aux_hallucinate(struct chunk *c, struct player *p,
 
 	auxst->press.key = inkey();
 
-	/* Parar en todo menos "retorno" */
+	/* Stop on everything but "return" */
 	return auxst->press.key.code != KC_ENTER;
 }
 
 /**
- * Ayuda a target_set_interactive_aux(): manejar monstruos.
+ * Help target_set_interactive_aux():  handle monsters.
  *
- * Nótese que si hay un monstruo en la casilla, actualizamos tanto la información
- * de recuerdo del monstruo como la barra de salud para rastrear ese monstruo.
+ * Note that if a monster is in the grid, we update both the monster
+ * recall info and the health bar info to track that monster.
  */
 static bool aux_monster(struct chunk *c, struct player *p,
 		struct target_aux_state *auxst)
@@ -526,35 +527,35 @@ static bool aux_monster(struct chunk *c, struct player *p,
 	mon = square_monster(c, auxst->grid);
 	if (!monster_is_obvious(mon)) return false;
 
-	/* Monstruos visibles reales */
+	/* Actual visible monsters */
 	lore = get_lore(mon->race);
 
-	/* No aburrido */
+	/* Not boring */
 	auxst->boring = false;
 
-	/* Obtener el nombre del monstruo ("un kobold") */
+	/* Get the monster name ("a kobold") */
 	monster_desc(m_name, sizeof(m_name), mon, MDESC_IND_VIS);
 
-	/* Rastrear la raza y salud de este monstruo */
+	/* Track this monster's race and health */
 	monster_race_track(p->upkeep, mon->race);
 	health_track(p->upkeep, mon);
 	handle_stuff(p);
 
-	/* Interactuar */
+	/* Interact */
 	recall = false;
 	while (1) {
-		/* Recordar o apuntar */
+		/* Recall or target */
 		if (recall) {
 			lore_show_interactive(mon->race, lore);
 			auxst->press = inkey_m();
 		} else {
 			char buf[80];
 
-			/* Describir el monstruo */
+			/* Describe the monster */
 			look_mon_desc(buf, sizeof(buf),
 				square(c, auxst->grid)->mon);
 
-			/* Describir, y solicitar recuerdo */
+			/* Describe, and prompt for recall */
 			if (p->wizard) {
 				strnfmt(out_val, sizeof(out_val),
 					"%s%s%s (%s), %s (%d:%d, ruido=%d, olor=%d).",
@@ -579,14 +580,14 @@ static bool aux_monster(struct chunk *c, struct player *p,
 
 			prt(out_val, 0, 0);
 
-			/* Colocar cursor */
+			/* Place cursor */
 			move_cursor_relative(auxst->grid.y, auxst->grid.x);
 
-			/* Comando */
+			/* Command */
 			auxst->press = inkey_m();
 		}
 
-		/* Comandos normales */
+		/* Normal commands */
 		if (auxst->press.type == EVT_MOUSE
 				&& auxst->press.mouse.button == 1
 				&& KEY_GRID_X(auxst->press) == auxst->grid.x
@@ -601,29 +602,29 @@ static bool aux_monster(struct chunk *c, struct player *p,
 	}
 
 	if (auxst->press.type == EVT_MOUSE) {
-		/* Parar en clic derecho */
+		/* Stop on right click */
 		if (auxst->press.mouse.button == 2) return true;
 
-		/* A veces parar en tecla "espacio" */
+		/* Sometimes stop at "space" key */
 		if (auxst->press.mouse.button
 				&& !(auxst->mode & (TARGET_LOOK))) return true;
 	} else {
-		/* Parar en todo menos "retorno"/"espacio" */
+		/* Stop on everything but "return"/"space" */
 		if (auxst->press.key.code != KC_ENTER
 				&& auxst->press.key.code != ' ') return true;
 
-		/* A veces parar en tecla "espacio" */
+		/* Sometimes stop at "space" key */
 		if (auxst->press.key.code == ' '
 				&& !(auxst->mode & (TARGET_LOOK))) return true;
 	}
 
-	/* Describir objetos llevados (solo magos) */
+	/* Describe carried objects (wizards only) */
 	if (p->wizard) {
 		const char *lphrase1;
 		const char *lphrase2;
 		struct object *obj;
 
-		/* Tener en cuenta el género */
+		/* Take account of gender */
 		if (rf_has(mon->race->flags, RF_FEMALE)) {
 			lphrase1 = "Ella está ";
 		} else if (rf_has(mon->race->flags, RF_MALE)) {
@@ -632,14 +633,14 @@ static bool aux_monster(struct chunk *c, struct player *p,
 			lphrase1 = "Está ";
 		}
 
-		/* Usar un verbo */
+		/* Use a verb */
 		lphrase2 = "llevando ";
 
-		/* Escanear todos los objetos llevados */
+		/* Scan all objects being carried */
 		for (obj = mon->held_obj; obj; obj = obj->next) {
 			char o_name[80];
 
-			/* Obtener una descripción del objeto */
+			/* Obtain an object description */
 			object_desc(o_name, sizeof(o_name), obj,
 				ODESC_PREFIX | ODESC_FULL, p);
 
@@ -659,30 +660,30 @@ static bool aux_monster(struct chunk *c, struct player *p,
 			auxst->press = inkey_m();
 
 			if (auxst->press.type == EVT_MOUSE) {
-				/* Parar en clic derecho */
+				/* Stop on right click */
 				if (auxst->press.mouse.button == 2) break;
 
-				/* A veces parar en tecla "espacio" */
+				/* Sometimes stop at "space" key */
 				if (auxst->press.mouse.button
 						&& !(auxst->mode & (TARGET_LOOK)))
 					break;
 			} else {
-				/* Parar en todo menos "retorno"/"espacio" */
+				/* Stop on everything but "return"/"space" */
 				if (auxst->press.key.code != KC_ENTER
 						&& auxst->press.key.code != ' ')
 					break;
 
-				/* A veces parar en tecla "espacio" */
+				/* Sometimes stop at "space" key */
 				if (auxst->press.key.code == ' '
 						&& !(auxst->mode & (TARGET_LOOK)))
 					break;
 			}
 
-			/* Cambiar la introducción */
+			/* Change the intro */
 			lphrase2 = "también llevando ";
 		}
 
-		/* Doble rotura */
+		/* Double break */
 		if (obj) return true;
 	}
 
@@ -690,7 +691,7 @@ static bool aux_monster(struct chunk *c, struct player *p,
 }
 
 /**
- * Ayuda a target_set_interactive_aux(): manejar trampas visibles.
+ * Help target_set_interactive_aux():  handle visible traps.
  */
 static bool aux_trap(struct chunk *c, struct player *p,
 		struct target_aux_state *auxst)
@@ -701,18 +702,18 @@ static bool aux_trap(struct chunk *c, struct player *p,
 
 	if (!square_isvisibletrap(p->cave, auxst->grid)) return false;
 
-	/* Una trampa */
+	/* A trap */
 	trap = square(p->cave, auxst->grid)->trap;
 
-	/* No aburrido */
+	/* Not boring */
 	auxst->boring = false;
 
-	/* Elegir el artículo indefinido apropiado */
+	/* Pick proper indefinite article */
 	lphrase3 = (is_a_vowel(trap->kind->desc[0])) ? "una " : "un ";
 
-	/* Interactuar */
+	/* Interact */
 	while (1) {
-		/* Describir, y solicitar recuerdo */
+		/* Describe, and prompt for recall */
 		if (p->wizard) {
 			strnfmt(out_val, sizeof(out_val),
 				"%s%s%s%s, %s (%d:%d, ruido=%d, olor=%d).",
@@ -736,18 +737,18 @@ static bool aux_trap(struct chunk *c, struct player *p,
 
 		prt(out_val, 0, 0);
 
-		/* Colocar cursor */
+		/* Place cursor */
 		move_cursor_relative(auxst->grid.y, auxst->grid.x);
 
-		/* Comando */
+		/* Command */
 		auxst->press = inkey_m();
 
-		/* Parar en todo menos "retorno"/"espacio" */
+		/* Stop on everything but "return"/"space" */
 		if (auxst->press.key.code != KC_ENTER
 				&& auxst->press.key.code != ' ')
 			break;
 
-		/* A veces parar en tecla "espacio" */
+		/* Sometimes stop at "space" key */
 		if (auxst->press.key.code == ' '
 				&& !(auxst->mode & (TARGET_LOOK)))
 			break;
@@ -757,7 +758,7 @@ static bool aux_trap(struct chunk *c, struct player *p,
 }
 
 /**
- * Ayuda a target_set_interactive_aux(): manejar objetos.
+ * Help target_set_interactive_aux():  handle objects.
  */
 static bool aux_object(struct chunk *c, struct player *p,
 		struct target_aux_state *auxst)
@@ -769,23 +770,23 @@ static bool aux_object(struct chunk *c, struct player *p,
 	char out_val[TARGET_OUT_VAL_SIZE];
 	int floor_num;
 
-	/* Escanear todos los objetos detectados en la casilla */
+	/* Scan all sensed objects in the grid */
 	floor_num = scan_distant_floor(floor_list, floor_max, p, auxst->grid);
 	if (floor_num <= 0) {
 		mem_free(floor_list);
 		return result;
 	}
 
-	/* No aburrido */
+	/* Not boring */
 	auxst->boring = false;
 
 	track_object(p->upkeep, floor_list[0]);
 	handle_stuff(p);
 
-	/* Si hay más de un objeto... */
+	/* If there is more than one item... */
 	if (floor_num > 1) {
 		while (1) {
-			/* Describir el montón */
+			/* Describe the pile */
 			if (p->wizard) {
 				strnfmt(out_val, sizeof(out_val),
 					"%s%sun montón de %d objetos, %s (%d:%d, ruido=%d, olor=%d).",
@@ -810,7 +811,7 @@ static bool aux_object(struct chunk *c, struct player *p,
 			move_cursor_relative(auxst->grid.y, auxst->grid.x);
 			auxst->press = inkey_m();
 
-			/* Mostrar objetos */
+			/* Display objects */
 			if ((auxst->press.type == EVT_MOUSE
 					&& auxst->press.mouse.button == 1
 					&& KEY_GRID_X(auxst->press) ==
@@ -821,21 +822,21 @@ static bool aux_object(struct chunk *c, struct player *p,
 					&& auxst->press.key.code == 'r')) {
 				int pos;
 				while (1) {
-					/* Guardar pantalla */
+					/* Save screen */
 					screen_save();
 
 					/*
-					 * Usar OLIST_DEATH para mostrar etiquetas de objeto
+					 * Use OLIST_DEATH to show item labels
 					 */
 					show_floor(floor_list, floor_num,
 						(OLIST_DEATH | OLIST_WEIGHT
 						| OLIST_GOLD), NULL);
 
-					/* Describir el montón */
+					/* Describe the pile */
 					prt(out_val, 0, 0);
 					auxst->press = inkey_m();
 
-					/* Cargar pantalla */
+					/* Load screen */
 					screen_load();
 
 					if (auxst->press.type == EVT_MOUSE) {
@@ -854,30 +855,30 @@ static bool aux_object(struct chunk *c, struct player *p,
 				}
 
 				/*
-				 * Ahora que el usuario ha terminado con el bucle
-				 * de visualización, repitamos el bucle exterior de nuevo.
+				 * Now that the user's done with the display
+				 * loop, let's do the outer loop over again.
 				 */
 				continue;
 			}
 
-			/* Hecho */
+			/* Done */
 			break;
 		}
 	} else {
-		/* Solo un objeto para mostrar */
-		/* Obtener el único objeto en la lista */
+		/* Only one object to display */
+		/* Get the single object in the list */
 		struct object *obj_local = floor_list[0];
 
-		/* Permitir al usuario recordar un objeto */
+		/* Allow user to recall an object */
 		auxst->press = target_recall_loop_object(obj_local,
 			auxst->grid.y, auxst->grid.x, out_val, auxst->phrase1,
 			auxst->phrase2, "", auxst->coord_desc, p);
 
-		/* Parar en todo menos "retorno"/"espacio" */
+		/* Stop on everything but "return"/"space" */
 		if (auxst->press.key.code != KC_ENTER
 				&& auxst->press.key.code != ' ') result = true;
 
-		/* A veces parar en tecla "espacio" */
+		/* Sometimes stop at "space" key */
 		if (auxst->press.key.code == ' '
 				&& !(auxst->mode & (TARGET_LOOK))) result = true;
 	}
@@ -887,7 +888,7 @@ static bool aux_object(struct chunk *c, struct player *p,
 }
 
 /**
- * Ayuda a target_set_interactive_aux(): manejar terreno.
+ * Help target_set_interactive_aux():  handle terrain.
  */
 static bool aux_terrain(struct chunk *c, struct player *p,
 		struct target_aux_state *auxst)
@@ -898,19 +899,19 @@ static bool aux_terrain(struct chunk *c, struct player *p,
 	if (!auxst->boring && !square_isinteresting(p->cave, auxst->grid))
 		return false;
 
-	/* Característica del terreno si es necesario */
+	/* Terrain feature if needed */
 	name = square_apparent_name(p->cave, auxst->grid);
 
-	/* Manejar casillas desconocidas */
+	/* Handle unknown grids */
 
-	/* Elegir una preposición si es necesario */
+	/* Pick a preposition if needed */
 	lphrase2 = (*auxst->phrase2) ?
 		square_apparent_look_in_preposition(p->cave, auxst->grid) : "";
 
-	/* Elegir prefijo para el nombre */
+	/* Pick prefix for the name */
 	lphrase3 = square_apparent_look_prefix(p->cave, auxst->grid);
 
-	/* Mostrar un mensaje */
+	/* Display a message */
 	if (p->wizard) {
 		strnfmt(out_val, sizeof(out_val),
 			"%s%s%s%s, %s (%d:%d, ruido=%d, olor=%d).",
@@ -938,8 +939,8 @@ static bool aux_terrain(struct chunk *c, struct player *p,
 	auxst->press = inkey_m();
 
 	/*
-	 * Parar en clic derecho del ratón o en todo menos "retorno"/"espacio" para
-	 * una tecla.
+	 * Stop on right click of mouse or everything but "return"/"space" for
+	 * a key.
 	 */
 	return (auxst->press.type == EVT_MOUSE
 			&& auxst->press.mouse.button == 2)
@@ -949,42 +950,41 @@ static bool aux_terrain(struct chunk *c, struct player *p,
 }
 
 /**
- * Ayuda a target_set_interactive_aux(): comprobar qué hay en press para decidir si
- * hacer otra pasada a través de los manejadores.
+ * Help target_set_interactive_aux():  check what's in press to decide whether
+ * to do another pass through the handlers.
  */
 static bool aux_wrapup(struct chunk *c, struct player *p,
 		struct target_aux_state *auxst)
 {
 	if (auxst->press.type == EVT_MOUSE) {
-		/* Parar en clic derecho. */
+		/* Stop on right click. */
 		return auxst->press.mouse.button != 2;
 	}
-	/* Parar en todo menos "retorno". */
+	/* Stop on everything but "return". */
 	return auxst->press.key.code != KC_ENTER;
 }
 
 /**
- * Examinar una casilla, devolver una pulsación de tecla.
+ * Examine a grid, return a keypress.
  *
- * El argumento "mode" contiene la bandera "TARGET_LOOK", que
- * indica que la tecla "espacio" debería recorrer el contenido
- * de la casilla, en lugar de simplemente regresar inmediatamente. Esto
- * permite que el comando "mirar" obtenga información completa, sin hacer
- * que el comando "apuntar" sea molesto.
+ * The "mode" argument contains the "TARGET_LOOK" bit flag, which
+ * indicates that the "space" key should scan through the contents
+ * of the grid, instead of simply returning immediately.  This lets
+ * the "look" command get complete information, without making the
+ * "target" command annoying.
  *
- * Esta función maneja correctamente múltiples objetos por casilla, y objetos
- * y características del terreno en la misma casilla, aunque esto último nunca
- * sucede.
+ * This function correctly handles multiple objects per grid, and objects
+ * and terrain features in the same grid, though the latter never happens.
  *
- * Esta función debe manejar ceguera/alucinación.
+ * This function must handle blindness/hallucination.
  */
 static ui_event target_set_interactive_aux(int y, int x, int mode)
 {
 	/*
-	 * Si hay otros tipos que manejar, insertar una función para hacerlo
-	 * entre aux_hallucinate y aux_wrapup. Debido a que cada manejador
-	 * puede señalar que la secuencia se detenga, estos están ordenados en
-	 * orden decreciente de precedencia.
+	 * If there's other types to be handled, insert a function to do so
+	 * between aux_hallucinate and aux_wrapup.  Because each handler
+	 * can signal that the sequence be halted, these are ordered in
+	 * decreasing order of precedence.
 	 */
 	target_aux_handler handlers[] = {
 		aux_reinit,
@@ -1000,12 +1000,12 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 
 	auxst.mode = mode;
 
-	/* Describir la ubicación de la casilla */
+	/* Describe the square location */
 	auxst.grid.x = x;
 	auxst.grid.y = y;
 	coords_desc(auxst.coord_desc, sizeof(auxst.coord_desc), y, x);
 
-	/* Aplicar los manejadores en orden hasta terminar */
+	/* Apply the handlers in order until done */
 	ihandler = 0;
 	while (1) {
 		if ((*handlers[ihandler])(cave, player, &auxst)) break;
@@ -1013,12 +1013,12 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 		if (ihandler >= (int) N_ELEMENTS(handlers)) ihandler = 0;
 	}
 
-	/* Seguir adelante */
+	/* Keep going */
 	return auxst.press;
 }
 
 /**
- * Comando de apuntado
+ * Target command
  */
 void textui_target(void)
 {
@@ -1029,10 +1029,10 @@ void textui_target(void)
 }
 
 /**
- * Apuntar al monstruo más cercano.
+ * Target closest monster.
  *
- * XXX: Mover para usar CMD_TARGET_CLOSEST en algún momento en lugar de invocar
- * target_set_closest() directamente.
+ * XXX: Move to using CMD_TARGET_CLOSEST at some point instead of invoking
+ * target_set_closest() directly.
  */
 void textui_target_closest(void)
 {
@@ -1042,12 +1042,12 @@ void textui_target_closest(void)
 
 		target_get(&target);
 
-		/* Señal visual */
+		/* Visual cue */
 		Term_fresh();
 		Term_get_cursor(&visibility);
 		(void)Term_set_cursor(true);
 		move_cursor_relative(target.y, target.x);
-		/* TODO: ¿cuánto tiempo es apropiado para resaltar? */
+		/* TODO: what's an appropriate amount of time to spend highlighting */
 		Term_xtra(TERM_XTRA_DELAY, 150);
 		(void)Term_set_cursor(visibility);
 	}
@@ -1055,19 +1055,19 @@ void textui_target_closest(void)
 
 
 /**
- * Dibujar una ruta visible sobre las casillas entre (x1,y1) y (x2,y2).
+ * Draw a visible path over the squares between (x1,y1) and (x2,y2).
  *
- * La ruta consiste en "*", que son blancos excepto donde hay un
- * monstruo, objeto o característica en la casilla.
+ * The path consists of "*", which are white except where there is a
+ * monster, object or feature in the grid.
  *
- * Esta rutina tiene (al menos) tres debilidades:
- * - los objetos/paredes recordados que ya no están presentes no se muestran,
- * - las casillas que (ej.) el jugador ha atravesado en la oscuridad se
- *   tratan como espacio desconocido.
- * - las paredes que parecen extrañas debido a la alucinación no se tratan correctamente.
+ * This routine has (at least) three weaknesses:
+ * - remembered objects/walls which are no longer present are not shown,
+ * - squares which (e.g.) the player has walked through in the dark are
+ *   treated as unknown space.
+ * - walls which appear strange due to hallucination aren't treated correctly.
  *
- * Las dos primeras resultan de que la información se pierde de las matrices de la mazmorra,
- * lo que requiere cambios en otras partes.
+ * The first two result from information being lost from the dungeon arrays,
+ * which requires changes elsewhere
  */
 static int draw_path(uint16_t path_n, struct loc *path_g, wchar_t *c, int *a,
 					 int y1, int x1)
@@ -1076,91 +1076,91 @@ static int draw_path(uint16_t path_n, struct loc *path_g, wchar_t *c, int *a,
 	bool on_screen;
 	bool pastknown = false;
 
-	/* Sin ruta, así que no hacer nada. */
+	/* No path, so do nothing. */
 	if (path_n < 1) return 0;
 
-	/* La casilla de inicio nunca se dibuja, pero notar si se está
-     * mostrando. En teoría, podría ser la última casilla de este tipo.
+	/* The starting square is never drawn, but notice if it is being
+     * displayed. In theory, it could be the last such square.
      */
 	on_screen = panel_contains(y1, x1);
 
-	/* Dibujar la ruta. */
+	/* Draw the path. */
 	for (i = 0; i < path_n; i++) {
 		uint8_t colour;
 
-		/* Encontrar las coordenadas en el nivel. */
+		/* Find the co-ordinates on the level. */
 		struct loc grid = path_g[i];
 		struct monster *mon = square_monster(cave, grid);
 		struct object *obj = square_object(player->cave, grid);
 
 		/*
-		 * Como path[] es una línea recta y la pantalla es rectangular,
-		 * solo hay una sección de path[] en pantalla.
-		 * Si la casilla que se está dibujando es visible, esta es parte de ella.
-		 * Si no se ha dibujado nada de ella, continuar hasta que se encuentre alguna
-		 * parte o se alcance la última casilla.
-		 * Si ya se ha dibujado algo de ella, terminar ahora ya que no hay
-		 * más casillas visibles para dibujar.
+		 * As path[] is a straight line and the screen is oblong,
+		 * there is only section of path[] on-screen.
+		 * If the square being drawn is visible, this is part of it.
+		 * If none of it has been drawn, continue until some of it
+		 * is found or the last square is reached.
+		 * If some of it has been drawn, finish now as there are no
+		 * more visible squares to draw.
 		 */
 		 if (panel_contains(grid.y, grid.x)) on_screen = true;
 		 else if (on_screen) break;
 		 else continue;
 
-	 	/* Encontrar la posición en pantalla */
+	 	/* Find the position on-screen */
 		move_cursor_relative(grid.y, grid.x);
 
-		/* Esta casilla está siendo sobrescrita, así que guardar la original. */
+		/* This square is being overwritten, so save the original. */
 		Term_what(Term->scr->cx, Term->scr->cy, a + i, c + i);
 
-		/* Elegir un color. */
+		/* Choose a colour. */
 		if (pastknown) {
-			/* Una vez que pasamos una casilla desconocida, ya no sabemos
-			 * si llegaremos a casillas posteriores */
+			/* Once we pass an unknown square, we no longer know
+			 * if we will reach later squares */
 			colour = COLOUR_L_DARK;
 		} else if (mon && monster_is_visible(mon)) {
-			/* Los imitadores actúan como objetos */
+			/* Mimics act as objects */
 			if (monster_is_mimicking(mon)) {
 				colour = COLOUR_YELLOW;
 			} else if (!monster_is_camouflaged(mon)) {
-				/* Los monstruos visibles son rojos. */
+				/* Visible monsters are red. */
 				colour = COLOUR_L_RED;
 			} else if (obj) {
 				/*
-				 * El monstruo camuflado está en una casilla con
-				 * un objeto; hacer que actúe como un objeto.
+				 * The camouflaged monster is on a grid with
+				 * an object; make it act like an object.
 				 */
 				colour = COLOUR_YELLOW;
 			} else if (square_isknown(cave, grid)
 					&& !square_isprojectable(player->cave,
 					grid)) {
-				/* El monstruo camuflado parece una pared. */
+				/* The camouflaged monster looks like a wall. */
 				colour = COLOUR_BLUE;
 			} else {
 				/*
-				 * El monstruo camuflado parece una
-				 * casilla desocupada.
+				 * The camouflaged monster looks like an
+				 * unoccupied square.
 				 */
 				colour = COLOUR_WHITE;
 			}
 		} else if (obj)
-			/* Los objetos conocidos son amarillos. */
+			/* Known objects are yellow. */
 			colour = COLOUR_YELLOW;
 
 		else if (square_isknown(cave, grid)
 				&& !square_isprojectable(player->cave, grid)) {
-			/* Las paredes conocidas son azules. */
+			/* Known walls are blue. */
 			colour = COLOUR_BLUE;
 
 		} else if (!square_isknown(cave, grid)) {
-			/* Las casillas desconocidas son grises. */
+			/* Unknown squares are grey. */
 			pastknown = true;
 			colour = COLOUR_L_DARK;
 
 		} else
-			/* Las casillas desocupadas son blancas. */
+			/* Unoccupied squares are white. */
 			colour = COLOUR_WHITE;
 
-		/* Dibujar el segmento de ruta */
+		/* Draw the path segment */
 		(void)Term_addch(colour, L'*');
 	}
 	return i;
@@ -1168,8 +1168,8 @@ static int draw_path(uint16_t path_n, struct loc *path_g, wchar_t *c, int *a,
 
 
 /**
- * Cargar el atributo/carácter en cada punto a lo largo de "path" que está en pantalla desde
- * "a" y "c". Esto se guardó en draw_path().
+ * Load the attr/char at each point along "path" which is on screen from
+ * "a" and "c". This was saved in draw_path().
  */
 static void load_path(uint16_t path_n, struct loc *path_g, wchar_t *c, int *a)
 {
@@ -1187,7 +1187,7 @@ static void load_path(uint16_t path_n, struct loc *path_g, wchar_t *c, int *a)
 }
 
 /**
- * Devolver true si el montón de objetos contiene el objeto rastreado del jugador
+ * Return true if the object pile contains the player's tracked object
  */
 static bool pile_is_tracked(const struct object *obj) {
 	for (const struct object *o = obj; o != NULL; o = o->next) {
@@ -1199,7 +1199,7 @@ static bool pile_is_tracked(const struct object *obj) {
 }
 
 /**
- * Devolver true si el montón de objetos contiene al menos 1 objeto conocido
+ * Return true if the object pile contains at least 1 known item
  */
 static bool pile_has_known(const struct object *obj) {
 	for (const struct object *o = obj; o != NULL; o = o->next) {
@@ -1212,54 +1212,54 @@ static bool pile_has_known(const struct object *obj) {
 }
 
 /**
- * Manejar "apuntar" y "mirar". Puede ser llamado desde comandos o "get_aim_dir()".
+ * Handle "target" and "look". May be called from commands or "get_aim_dir()".
  *
- * \param mode es TARGET_LOOK (la lista de objetivos interesantes puede
- * incluir al jugador, monstruos, objetos, trampas y terreno interesante) o
- * TARGET_KILL (la lista de objetivos interesantes solo incluye monstruos
- * que pueden ser apuntados).
- * \param x es la posición x inicial del cursor de apuntado. Usar -1 para
- * que esta función determine la posición inicial.
- * \param y es la posición y inicial del cursor de apuntado. Usar -1 para
- * que esta función determine la posición inicial.
- * \param allow_pathfinding, si es true, permitirá al jugador iniciar
- * la búsqueda de ruta hacia una ubicación.
- * \return true si se ha establecido un objetivo correctamente, false en caso contrario.
+ * \param mode is either TARGET_LOOK (the list of interesting targets can
+ * include the player, monsters, objects, traps, and interesting terrain) or
+ * TARGET_KILL (the list of interesting targets only includes targetable
+ * monsters).
+ * \param x is the initial x position of the targeting cursor.  Use -1 to
+ * have this function determine the initial position.
+ * \param y is the initial y position of the targeting cursor.  Use -1 to
+ * have this function determine the initial position.
+ * \param allow_pathfinding will, if true, allow the player to initiate
+ * pathfinding to a location.
+ * \return true if a target has been successfully set, false otherwise.
  *
- * Actualmente, cuando se usan casillas "interesantes", y se presiona una tecla de
- * dirección, solo nos desplazamos por un único panel, en la dirección solicitada, y
- * comprobamos si hay casillas interesantes en ese panel. La solución "correcta"
- * implicaría escanear un conjunto más grande de casillas, incluyendo aquellas en paneles
- * que son adyacentes al que se está escaneando actualmente, pero esto es excesivo para
- * esta función.
+ * Currently, when "interesting" grids are being used, and a directional key is
+ * pressed, we only scroll by a single panel, in the direction requested, and
+ * check for any interesting grids on that panel.  The "correct" solution would
+ * actually involve scanning a larger set of grids, including ones in panels
+ * which are adjacent to the one currently scanned, but this is overkill for
+ * this function.
  *
- * Apuntar/observar una "casilla del borde exterior" puede inducir problemas, por lo que esto
- * no está permitido actualmente.
+ * Targetting/observing an "outer border grid" may induce problems, so this is
+ * not currently allowed.
  *
- * El jugador puede usar las teclas de dirección para moverse entre casillas
- * "interesantes" de manera heurística, o las teclas "espacio", "+", y "-" para
- * moverse a través de las casillas "interesantes" de manera secuencial, o
- * puede entrar en modo "ubicación", y usar las teclas de dirección para mover una
- * casilla a la vez en cualquier dirección. El comando "t" (establecer objetivo) solo
- * apuntará a un monstruo (en lugar de a una ubicación) si el monstruo es
- * target_able y se está usando el modo "interesante".
+ * The player can use the direction keys to move among "interesting"
+ * grids in a heuristic manner, or the "space", "+", and "-" keys to
+ * move through the "interesting" grids in a sequential manner, or
+ * can enter "location" mode, and use the direction keys to move one
+ * grid at a time in any direction.  The "t" (set target) command will
+ * only target a monster (as opposed to a location) if the monster is
+ * target_able and the "interesting" mode is being used.
  *
- * La casilla actual se describe usando el método "mirar" anterior, y
- * se puede ingresar un nuevo comando en cualquier momento, pero nótese que si
- * la bandera "TARGET_LOOK" está establecida (o si estamos en modo "ubicación",
- * donde "espacio" no tiene un significado obvio) entonces "espacio" recorrerá
- * la descripción de la casilla actual hasta terminar, en lugar
- * de saltar inmediatamente a la siguiente casilla "interesante". Esto
- * permite que el comando "apuntar" conserve su semántica antigua.
+ * The current grid is described using the "look" method above, and
+ * a new command may be entered at any time, but note that if the
+ * "TARGET_LOOK" bit flag is set (or if we are in "location" mode,
+ * where "space" has no obvious meaning) then "space" will scan
+ * through the description of the current grid until done, instead
+ * of immediately jumping to the next "interesting" grid.  This
+ * allows the "target" command to retain its old semantics.
  *
- * Las teclas "*", "+", y "-" siempre se pueden usar para saltar inmediatamente
- * al siguiente (o anterior) casilla interesante, en el modo apropiado.
+ * The "*", "+", and "-" keys may always be used to jump immediately
+ * to the next (or previous) interesting grid, in the proper mode.
  *
- * La tecla "retorno" siempre se puede usar para recorrer una descripción
- * completa de la casilla (para siempre).
+ * The "return" key may always be used to scan through a complete
+ * grid description (forever).
  *
- * Este comando cancelará cualquier objetivo antiguo, incluso si se usa desde
- * dentro del comando "mirar".
+ * This command will cancel any old target, even if used from
+ * inside the "look" command.
  */
 bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 {
@@ -1275,12 +1275,12 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 		(OPT(player, rogue_like_commands)) ?
 		KEYMAP_MODE_ROGUE : KEYMAP_MODE_ORIG);
 
-	/* Estos se usan para mostrar la ruta al objetivo */
+	/* These are used for displaying the path to the target */
 	wchar_t *path_char = mem_zalloc(z_info->max_range * sizeof(wchar_t));
 	int *path_attr = mem_zalloc(z_info->max_range * sizeof(int));
 
-	/* Si no se nos ha dado una ubicación inicial, empezar en el
-	   jugador, de lo contrario respetarla entrando en "modo de apuntado libre". */
+	/* If we haven't been given an initial location, start on the
+	   player, otherwise  honour it by going into "free targetting" mode. */
 	if (x == -1 || y == -1 || !square_in_bounds_fully(cave, loc(x, y))) {
 		x = player->grid.x;
 		y = player->grid.y;
@@ -1288,40 +1288,40 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 		show_interesting = false;
 	}
 
-	/* Cancelar objetivo */
+	/* Cancel target */
 	target_set_monster(0);
 
-	/* Prevenir animaciones */
+	/* Prevent animations */
 	disallow_animations();
 
-	/* Calcular la ubicación de la ventana para el mensaje de ayuda */
+	/* Calculate the window location for the help prompt */
 	Term_get_size(&wid, &hgt);
 	help_prompt_loc = hgt - 1;
 	
-	/* Mostrar el mensaje de ayuda */
+	/* Display the help prompt */
 	prt("Presiona '?' para ayuda.", help_prompt_loc, 0);
 
-	/* Preparar el conjunto de objetivos */
+	/* Prepare the target set */
 	struct point_set *targets = target_get_monsters(mode, NULL, true);
 	int target_index = 0;
 
-	/* Interactuar */
+	/* Interact */
 	while (!done) {
 		bool path_drawn = false;
 		bool use_interesting_mode = show_interesting && point_set_size(targets);
 		bool use_free_mode = !use_interesting_mode;
 
-		/* Usar una casilla interesante si se solicita y las hay */
+		/* Use an interesting grid if requested and there are any */
 		if (use_interesting_mode) {
 			y = targets->pts[target_index].y;
 			x = targets->pts[target_index].x;
 
-			/* Ajustar panel si es necesario */
+			/* Adjust panel if needed */
 			adjust_panel_help(y, x, help, player, mode, NULL,
 				NULL, NULL);
 		}
 
-		/* Actualizar ayuda */
+		/* Update help */
 		if (help) {
 			bool has_target = target_able(square_monster(cave, loc(x, y)));
 			bool has_object = !(mode & TARGET_KILL)
@@ -1330,38 +1330,38 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 				use_free_mode, allow_pathfinding);
 		}
 
-		/* Encontrar la ruta. */
+		/* Find the path. */
 		path_n = project_path(cave, path_g, z_info->max_range,
 			loc(player->grid.x, player->grid.y), loc(x, y),
 			PROJECT_THRU | PROJECT_INFO);
 
-		/* Dibujar la ruta en modo "apuntar". Si hay una */
+		/* Draw the path in "target" mode. If there is one */
 		if (mode & (TARGET_KILL))
 			path_drawn = draw_path(path_n, path_g, path_char, path_attr,
 					player->grid.y, player->grid.x);
 
-		/* Describir y Preguntar */
+		/* Describe and Prompt */
 		ui_event press = target_set_interactive_aux(y, x,
 				mode | (use_free_mode ? TARGET_LOOK : 0));
 
-		/* Eliminar la ruta */
+		/* Remove the path */
 		if (path_drawn) load_path(path_n, path_g, path_char, path_attr);
 
-		/* Manejar un evento de entrada */
+		/* Handle an input event */
 		if (event_is_mouse_m(press, 2, KC_MOD_CONTROL) || event_is_mouse(press, 3)) {
-			/* Establecer un objetivo y terminar */
+			/* Set a target and done */
 			y = KEY_GRID_Y(press);
 			x = KEY_GRID_X(press);
 			if (use_free_mode) {
-				/* Modo libre: Apuntar a una ubicación */
+				/* Free mode: Target a location */
 				target_set_location(y, x);
 				done = true;
 			} else {
-				/* Modo interesante: Intentar apuntar a un monstruo y terminar, o hacer sonar campana */
+				/* Interesting mode: Try to target a monster and done, or bell */
 				struct monster *m_local = square_monster(cave, loc(x, y));
 
 				if (target_able(m_local)) {
-					/* Raza y salud del monstruo rastreadas por target_set_interactive_aux() */
+					/* Monster race and health tracked by target_set_interactive_aux() */
 					target_set_monster(m_local);
 					done = true;
 				} else {
@@ -1375,7 +1375,7 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 
 		} else if (allow_pathfinding
 				&& event_is_mouse_m(press, 2, KC_MOD_ALT)) {
-			/* Navegar a la ubicación y terminar */
+			/* Navigate to location and done */
 			y = KEY_GRID_Y(press);
 			x = KEY_GRID_X(press);
 			cmdq_push(CMD_PATHFIND);
@@ -1383,21 +1383,21 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 			done = true;
 
 		} else if (event_is_mouse(press, 2)) {
-			/* Cancelar y terminar */
+			/* Cancel and done */
 			if (use_free_mode && (mode & TARGET_KILL)
 					&& y == KEY_GRID_Y(press) && x == KEY_GRID_X(press)) {
-				/* Modo libre/apuntar: Hizo clic en la ubicación actual, establecer objetivo */
+				/* Free/kill mode: Clicked current location, set target */
 				target_set_location(y, x);
 			}
 			done = true;
 
 		} else if (event_is_mouse(press, 1)) {
-			/* Reubicar cursor */
+			/* Relocate cursor */
 			y = KEY_GRID_Y(press);
 			x = KEY_GRID_X(press);
 
-			/* Si hicieron clic en un borde del mapa, arrastrar el cursor más lejos
-			   para desencadenar un desplazamiento del panel */
+			/* If they clicked on an edge of the map, drag the cursor further
+			   to trigger a panel scroll */
 			if (press.mouse.y <= 1) {
 				y--;
 			} else if (press.mouse.y >= Term->hgt - 2) {
@@ -1408,56 +1408,56 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 				x++;
 			}
 
-			/* Restringir cursor a dentro de los límites */
+			/* Restrict cursor to inbounds */
 			x = MAX(0, MIN(x, cave->width - 1));
 			y = MAX(0, MIN(y, cave->height - 1));
 
 			/*
-			 * Ajustar panel y lista de objetivos si es necesario; también
-			 * ajustar modo interesante
+			 * Adjust panel and target list if needed; also
+			 * adjust interesting mode
 			 */
 			adjust_panel_help(y, x, help, player, mode, &targets,
 				&show_interesting, &target_index);
 
 		} else if (event_is_key(press, ESCAPE) || event_is_key(press, 'q')) {
-			/* Cancelar */
+			/* Cancel */
 			done = true;
 
 		} else if (event_is_key(press, ' ') || event_is_key(press, '*')
 				|| event_is_key(press, '+')) {
-			/* Recorrer objetivo interesante hacia adelante */
+			/* Cycle interesting target forward */
 			if (use_interesting_mode && ++target_index == point_set_size(targets)) {
 				target_index = 0;
 			}
 
 		} else if (event_is_key(press, '-')) {
-			/* Recorrer objetivo interesante hacia atrás */
+			/* Cycle interesting target backwards */
 			if (use_interesting_mode && target_index-- == 0) {
 				target_index = point_set_size(targets) - 1;
 			}
 
 		} else if (event_is_key(press, 'p')) {
-			/* Enfocar al jugador y cambiar a modo libre */
+			/* Focus the player and switch to free mode */
 			y = player->grid.y;
 			x = player->grid.x;
 			show_interesting = false;
 
-			/* Recentrar alrededor del jugador */
+			/* Recenter around player */
 			verify_panel();
 			handle_stuff(player);
 
 		} else if (event_is_key(press, 'o')) {
-			/* Cambiar a modo libre */
+			/* Switch to free mode */
 			show_interesting = false;
 
 		} else if (event_is_key(press, 'm')) {
-			/* Cambiar a modo interesante */
+			/* Switch to interesting mode */
 			if (use_free_mode && point_set_size(targets) > 0) {
 				show_interesting = true;
 				target_index = 0;
 				int min_dist = 999;
 
-				/* Elegir el objetivo interesante más cercano */
+				/* Pick the nearest interesting target */
 				for (int i = 0; i < point_set_size(targets); i++) {
 					int dist = distance(loc(x, y), targets->pts[i]);
 					if (dist < min_dist) {
@@ -1469,12 +1469,12 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 
 		} else if (event_is_key(press, 't') || event_is_key(press, '5')
 				|| event_is_key(press, '0') || event_is_key(press, '.')) {
-			/* Establecer un objetivo y terminar */
+			/* Set a target and done */
 			if (use_interesting_mode) {
 				struct monster *m_local = square_monster(cave, loc(x, y));
 
 				if (target_able(m_local)) {
-					/* Raza y salud del monstruo rastreadas por target_set_interactive_aux() */
+					/* Monster race and health tracked by target_set_interactive_aux() */
 					target_set_monster(m_local);
 					done = true;
 				} else {
@@ -1486,19 +1486,19 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 			}
 
 		} else if (allow_pathfinding && event_is_key(press, 'g')) {
-			/* Navegar a una ubicación y terminar */
+			/* Navigate to a location and done */
 			cmdq_push(CMD_PATHFIND);
 			cmd_set_arg_point(cmdq_peek(), "point", loc(x, y));
 			done = true;
 
 		} else if (event_is_key(press, ignore_key)) {
-			/* Ignorar el objeto rastreado, establecido por target_set_interactive_aux() */
+			/* Ignore the tracked object, set by target_set_interactive_aux() */
 			if (!(mode & TARGET_KILL)
 					&& pile_is_tracked(square_object(cave, loc(x, y)))) {
 				textui_cmd_ignore_menu(player->upkeep->object);
 				handle_stuff(player);
 
-				/* Recalcular casillas interesantes */
+				/* Recalculate interesting grids */
 				point_set_dispose(targets);
 				targets = target_get_monsters(mode, NULL, true);
 			}
@@ -1512,8 +1512,8 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 				x = new_grid.x;
 				y = new_grid.y;
 				/*
-				 * Ajustar panel y lista de objetivos si es necesario; también
-				 * ajustar modo interesante
+				 * Adjust panel and target list if needed; also
+				 * adjust interesting mode
 				 */
 				adjust_panel_help(y, x, help, player, mode,
 					&targets, &show_interesting,
@@ -1531,8 +1531,8 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 				x = new_grid.x;
 				y = new_grid.y;
 				/*
-				 * Ajustar panel y lista de objetivos si es necesario; también
-				 * ajustar modo interesante
+				 * Adjust panel and target list if needed; also
+				 * adjust interesting mode
 				 */
 				adjust_panel_help(y, x, help, player, mode,
 					&targets, &show_interesting,
@@ -1549,8 +1549,8 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 				x = new_grid.x;
 				y = new_grid.y;
 				/*
-				 * Ajustar panel y lista de objetivos si es necesario; también
-				 * ajustar modo interesante
+				 * Adjust panel and target list if needed; also
+				 * adjust interesting mode
 				 */
 				adjust_panel_help(y, x, help, player, mode,
 					&targets, &show_interesting,
@@ -1560,10 +1560,10 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 			}
 
 		} else if (event_is_key(press, '?')) {
-			/* Alternar texto de ayuda */
+			/* Toggle help text */
 			help = !help;
 
-			/* Redibujar ventana principal */
+			/* Redraw main window */
 			player->upkeep->redraw |= (PR_BASIC | PR_EXTRA | PR_MAP | PR_EQUIP);
 			Term_clear();
 			handle_stuff(player);
@@ -1571,7 +1571,7 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 				prt("Presiona '?' para ayuda.", help_prompt_loc, 0);
 
 		} else {
-			/* Intentar extraer una dirección de la pulsación de tecla */
+			/* Try to extract a direction from the key press */
 			int dir = target_dir_allow(press.key, false, true);
 
 			if (!dir) {
@@ -1579,30 +1579,30 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 			} else if (dir == ESCAPE) {
 				done = true;
 			} else if (use_interesting_mode) {
-				/* Dirección en modo interesante: Elegir nueva casilla interesante */
+				/* Interesting mode direction: Pick new interesting grid */
 				int old_y = targets->pts[target_index].y;
 				int old_x = targets->pts[target_index].x;
 				int new_index;
 
-				/* Buscar una nueva casilla interesante */
+				/* Look for a new interesting grid */
 				new_index = target_pick(old_y, old_x, ddy[dir], ddx[dir], targets);
 
-				/* Si no se encuentra ninguna, probar en el siguiente panel */
+				/* If none found, try in the next panel */
 				if (new_index < 0) {
 					int old_wy = Term->offset_y;
 					int old_wx = Term->offset_x;
 
 					if (change_panel(dir)) {
-						/* Recalcular casillas interesantes */
+						/* Recalculate interesting grids */
 						point_set_dispose(targets);
 						targets = target_get_monsters(mode, NULL, true);
 
-						/* Buscar una nueva casilla interesante de nuevo */
+						/* Look for a new interesting grid again */
 						new_index = target_pick(old_y, old_x, ddy[dir], ddx[dir], targets);
 
-						/* Si no se encuentra ninguna de nuevo, reiniciar el panel y no hacer nada */
+						/* If none found again, reset the panel and do nothing */
 						if (new_index < 0 && modify_panel(Term, old_wy, old_wx)) {
-							/* Recalcular casillas interesantes */
+							/* Recalculate interesting grids */
 							point_set_dispose(targets);
 							targets = target_get_monsters(mode, NULL, true);
 						}
@@ -1611,32 +1611,32 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 					}
 				}
 
-				/* Usar la casilla interesante si se encuentra */
+				/* Use interesting grid if found */
 				if (new_index >= 0) target_index = new_index;
 			} else {
 				int step = (is_running_keymap(press.key)) ?
 					10 : 1;
 
-				/* Dirección en modo libre: Mover cursor */
+				/* Free mode direction: Move cursor */
 				x += step * ddx[dir];
 				y += step * ddy[dir];
 
-				/* Mantener a 1 del borde */
+				/* Keep 1 away from the edge */
 				x = MAX(1, MIN(x, cave->width - 2));
 				y = MAX(1, MIN(y, cave->height - 2));
 
-				/* Ajustar panel y lista de objetivos si es necesario */
+				/* Adjust panel and target list if needed */
 				adjust_panel_help(y, x, help, player, mode,
 					&targets, NULL, NULL);
 			}
 		}
-		/* Fin del while finalmente */
+		/* End of while finally */
 	}
 
-	/* Olvidar */
+	/* Forget */
 	point_set_dispose(targets);
 
-	/* Redibujar según sea necesario */
+	/* Redraw as necessary */
 	if (help) {
 		player->upkeep->redraw |= (PR_BASIC | PR_EXTRA | PR_MAP | PR_EQUIP);
 		Term_clear();
@@ -1646,7 +1646,7 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 		player->upkeep->redraw |= (PR_DEPTH | PR_STATUS);
 	}
 
-	/* Recentrar alrededor del jugador */
+	/* Recenter around player */
 	verify_panel();
 
 	handle_stuff(player);
@@ -1654,7 +1654,7 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 	mem_free(path_attr);
 	mem_free(path_char);
 
-	/* Permitir animaciones de nuevo */
+	/* Allow animations again */
 	allow_animations();
 
 	return target_is_set();

@@ -62,25 +62,26 @@ name:glyph of warding:glyph of warding
 graphics:;:y
 appear:0:0:0
 flags:GLYPH | VISIBLE | FLOOR
-desc:A magical rune which monsters cannot pass without difficulty.
+desc:Una runa mágica que los monstruos no pueden pasar sin dificultad.
 
 name:decoy:decoy
 graphics:;:G
 appear:0:0:0
 flags:GLYPH | VISIBLE | FLOOR
-desc:A magical decoy which sounds and looks like the player.
+desc:Un señuelo mágico que suena y se ve como el jugador.
+
 
 name:door lock:door lock
 graphics: :w
 appear:0:0:0
 flags:LOCK | INVISIBLE
-desc:A device which makes a closed door harder to open.
+desc:Un dispositivo que hace que una puerta cerrada sea más difícil de abrir.
 
 name:web:web
 graphics:%:y
 appear:0:0:0
 flags:WEB | VISIBLE
-desc:A tangle of sticky spider webs.
+desc:Un enredo de pegajosas telarañas.
 
 ## Player traps ##
 
@@ -94,9 +95,9 @@ flags:TRAP | FLOOR | DOWN
 effect:DAMAGE
 dice:2d8
 save:FEATHER
-desc:It looks like floor, but step incautiously and you will fall through.
-msg:You fall through a trap door!
-msg-good:You float gently down to the next level.
+desc:Parece suelo, pero si pisas sin cuidado caerás a través.
+msg:¡Caes a través de una trampilla!
+msg-good:Flotas suavemente hacia el siguiente nivel.
 
 # open pit
 
@@ -108,9 +109,9 @@ flags:TRAP | FLOOR | PIT
 effect:DAMAGE
 dice:2d6
 save:FEATHER
-desc:A hole dug to snare the unwary.
-msg:You fall into a pit!
-msg-good:You float gently to the bottom of the pit.
+desc:Un hoyo cavado para atrapar a los desprevenidos.
+msg:¡Caes en un pozo!
+msg-good:Flotas suavemente hasta el fondo del pozo.
 
 # spiked pit
 
@@ -126,10 +127,10 @@ dice-xtra:2d6
 effect-xtra:TIMED_INC:CUT
 dice-xtra:4d6
 save:FEATHER
-desc:A hole dug to snare the unwary, with spikes.
-msg:You fall into a spiked pit!
-msg-good:You float gently to the bottom of the pit, neatly avoiding the spikes.
-msg-xtra:You are impaled!
+desc:Un hoyo cavado para atrapar a los desprevenidos, con púas.
+msg:¡Caes en un pozo con púas!
+msg-good:Flotas suavemente hasta el fondo del pozo, evitando hábilmente las púas.
+msg-xtra:¡Te ensartan!
 
 # poison pit
 
@@ -145,10 +146,10 @@ dice-xtra:4d6
 effect-xtra:TIMED_INC:POISONED
 dice-xtra:8d6
 save:FEATHER
-desc:A hole dug to snare the unwary, with poisoned spikes.
-msg:You fall into a spiked pit!
-msg-good:You float gently to the bottom of the pit, neatly avoiding the spikes.
-msg-xtra:You are impaled on poisonous spikes!
+desc:Un hoyo cavado para atrapar a los desprevenidos, con púas envenenadas.
+msg:¡Caes en un pozo con púas!
+msg-good:Flotas suavemente hasta el fondo del pozo, evitando hábilmente las púas.
+msg-xtra:¡Te ensartan con púas venenosas!
 
 ### 14
 
@@ -161,8 +162,8 @@ visibility:0
 flags:TRAP | FLOOR | ONETIME | MAGICAL
 effect:SUMMON:MONSTER:0:5
 dice:1
-desc:A magical rune which calls a monster to attack you.
-msg:A new foe appears from nowhere!
+desc:Una runa mágica que llama a un monstruo para atacarte.
+msg:¡Aparece un nuevo enemigo de la nada!
 
 # rune -- summon monsters
 
@@ -173,8 +174,8 @@ visibility:0
 flags:TRAP | FLOOR | ONETIME | MAGICAL
 effect:SUMMON:ANY
 dice:2+1d3
-desc:A magical rune which calls up monsters to attack you.
-msg:You are enveloped in a cloud of smoke!
+desc:Una runa mágica que invoca monstruos para atacarte.
+msg:¡Estás envuelto en una nube de humo!
 
 # rune -- summon undead
 
@@ -185,8 +186,8 @@ visibility:0
 flags:TRAP | FLOOR | ONETIME | MAGICAL
 effect:SUMMON:UNDEAD
 dice:1d3M2
-desc:A magical rune which calls the undead to attack you.
-msg:A sense of dread washes over you...
+desc:Una runa mágica que llama a los no muertos para atacarte.
+msg:Una sensación de pavor te invade...
 
 # rune -- summon dragons
 
@@ -197,8 +198,8 @@ visibility:0
 flags:TRAP | FLOOR | ONETIME | MAGICAL
 effect:SUMMON:DRAGON
 dice:1d3
-desc:A magical rune which calls dragons to attack you.
-msg:You hear a dragon's call!
+desc:Una runa mágica que llama a dragones para atacarte.
+msg:¡Escuchas el llamado de un dragón!
 
 # rune -- summon demons
 
@@ -209,8 +210,8 @@ visibility:0
 flags:TRAP | FLOOR | ONETIME | MAGICAL
 effect:SUMMON:DEMON
 dice:1+1d3
-desc:A magical rune which calls demons to attack you.
-msg:Demons appear!
+desc:Una runa mágica que llama a demonios para atacarte.
+msg:¡Aparecen demonios!
 
 ### 20
 
@@ -223,8 +224,8 @@ visibility:30+d30
 flags:TRAP | FLOOR | MAGICAL
 effect:TELEPORT
 dice:M80
-desc:A magical rune which teleports you to a random location.
-msg:You hit a teleport trap!
+desc:Una runa mágica que te teletransporta a una ubicación aleatoria.
+msg:¡Has activado una trampa de teletransporte!
 
 # spot -- fire
 
@@ -236,8 +237,8 @@ flags:TRAP | FLOOR | MAGICAL
 effect:SPOT:FIRE:0
 dice:4d$S
 expr:S:DUNGEON_LEVEL:/ 2
-desc:A strange coloured spot on the ground - beware its fiery attack.
-msg:You are enveloped in flames!
+desc:Una extraña mancha de color en el suelo - cuidado con su ataque de fuego.
+msg:¡Estás envuelto en llamas!
 
 # spot -- acid
 
@@ -249,8 +250,8 @@ flags:TRAP | FLOOR | MAGICAL
 effect:SPOT:ACID:0
 dice:4d$S
 expr:S:DUNGEON_LEVEL:/ 2
-desc:A strange coloured spot on the ground - beware its acidic attack.
-msg:You are splashed with acid!
+desc:Una extraña mancha de color en el suelo - cuidado con su ataque ácido.
+msg:¡Te salpican con ácido!
 
 # dart -- slow
 
@@ -263,9 +264,9 @@ effect:DAMAGE
 dice:1d4
 effect:TIMED_INC_NO_RES:SLOW
 dice:20+1d20
-desc:A trap which shoots slowing darts.
-msg-good:A small dart barely misses you.
-msg-bad:A small dart hits you!
+desc:Una trampa que dispara dardos ralentizadores.
+msg-good:Un pequeño dardo apenas te roza.
+msg-bad:¡Un pequeño dardo te golpea!
 
 # dart -- lose str
 
@@ -277,9 +278,9 @@ flags:TRAP | FLOOR | SAVE_ARMOR
 effect:DAMAGE
 dice:1d4
 effect:DRAIN_STAT:STR
-desc:A trap which shoots damaging darts.
-msg-good:A small dart barely misses you.
-msg-bad:A small dart hits you!
+desc:Una trampa que dispara dardos dañinos.
+msg-good:Un pequeño dardo apenas te roza.
+msg-bad:¡Un pequeño dardo te golpea!
 
 # dart -- lose dex
 
@@ -291,9 +292,9 @@ flags:TRAP | FLOOR | SAVE_ARMOR
 effect:DAMAGE
 dice:1d4
 effect:DRAIN_STAT:DEX
-desc:A trap which shoots damaging darts.
-msg-good:A small dart barely misses you.
-msg-bad:A small dart hits you!
+desc:Una trampa que dispara dardos dañinos.
+msg-good:Un pequeño dardo apenas te roza.
+msg-bad:¡Un pequeño dardo te golpea!
 
 # dart -- lose con
 
@@ -305,9 +306,9 @@ flags:TRAP | FLOOR | SAVE_ARMOR
 effect:DAMAGE
 dice:1d4
 effect:DRAIN_STAT:CON
-desc:A trap which shoots damaging darts.
-msg-good:A small dart barely misses you.
-msg-bad:A small dart hits you!
+desc:Una trampa que dispara dardos dañinos.
+msg-good:Un pequeño dardo apenas te roza.
+msg-bad:¡Un pequeño dardo te golpea!
 
 # gas -- blind
 
@@ -318,8 +319,8 @@ visibility:20+d5
 flags:TRAP | FLOOR
 effect:TIMED_INC:BLIND
 dice:25+1d50
-desc:A trap that releases gas to blind you.
-msg:You are surrounded by a black gas!
+desc:Una trampa que libera gas para cegarte.
+msg:¡Estás rodeado por un gas negro!
 
 # gas -- confuse
 
@@ -330,8 +331,8 @@ visibility:20+d5
 flags:TRAP | FLOOR
 effect:TIMED_INC:CONFUSED
 dice:10+1d20
-desc:A trap that releases gas to confuse you.
-msg:You are surrounded by a gas of scintillating colors!
+desc:Una trampa que libera gas para confundirte.
+msg:¡Estás rodeado por un gas de colores centelleantes!
 
 # gas -- poison
 
@@ -342,8 +343,8 @@ visibility:20+d5
 flags:TRAP | FLOOR
 effect:TIMED_INC:POISONED
 dice:10+1d20
-desc:A trap that releases gas to poison you.
-msg:You are surrounded by a pungent green gas!
+desc:Una trampa que libera gas para envenenarte.
+msg:¡Estás rodeado por un gas verde pungente!
 
 # gas -- sleep
 
@@ -354,8 +355,8 @@ visibility:20+d5
 flags:TRAP | FLOOR
 effect:TIMED_INC:PARALYZED
 dice:5+1d10
-desc:A trap that releases gas to put you to sleep.
-msg:You are surrounded by a strange white mist!
+desc:Una trampa que libera gas para dormirte.
+msg:¡Estás rodeado por una extraña niebla blanca!
 
 # alarm -- aggravation
 
@@ -367,8 +368,8 @@ flags:TRAP | FLOOR | MAGICAL
 effect:WAKE
 effect:PROJECT_LOS:MON_SPEED
 dice:25
-desc:A trap that wakes nearby monsters and impels them toward you.
-msg:A high-pitched whistle blares through the dungeon!
+desc:Una trampa que despierta a los monstruos cercanos y los impulsa hacia ti.
+msg:¡Un silbido agudo resuena por la mazmorra!
 
 # alarm -- siren
 
@@ -378,8 +379,8 @@ appear:1:1:0
 visibility:60+d10
 flags:TRAP | FLOOR | MAGICAL
 effect:WAKE
-desc:A trap that wakes nearby monsters.
-msg:A horn blast sounds!
+desc:Una trampa que despierta a los monstruos cercanos.
+msg:¡Suena una trompeta!
 
 # explosion -- mine
 
@@ -391,8 +392,8 @@ flags:TRAP | FLOOR | ONETIME
 effect:SPOT:SHARD:2
 dice:$B
 expr:B:DUNGEON_LEVEL:* 2
-desc:A trap that blows up the floor.
-msg:The floor explodes around you!
+desc:Una trampa que hace explotar el suelo.
+msg:¡El suelo explota a tu alrededor!
 
 # explosion -- blast
 
@@ -412,8 +413,8 @@ expr:B:DUNGEON_LEVEL:+ 0
 effect:SPOT:FORCE:2
 dice:$B
 expr:B:DUNGEON_LEVEL:+ 0
-desc:A trap that creates an explosion.
-msg:The air seems to catch fire!
+desc:Una trampa que crea una explosión.
+msg:¡El aire parece incendiarse!
 
 # mental assault -- mind blast
 
@@ -427,10 +428,10 @@ dice:8d$S
 expr:S:DUNGEON_LEVEL:/ 10
 effect:TIMED_INC:CONFUSED
 dice:3+1d4
-desc:A trap that blasts your senses.
-msg:You feel pressure on your mind.
-msg-good:You shake your head and are back to normal.
-msg-bad:Your mind is blasted by psionic energy!
+desc:Una trampa que golpea tus sentidos.
+msg:Sientes presión en tu mente.
+msg-good:Sacas la cabeza y vuelves a la normalidad.
+msg-bad:¡Tu mente es golpeada por energía psiónica!
 
 # mental assault -- brain smash
 
@@ -450,10 +451,10 @@ effect:TIMED_INC:PARALYZED
 dice:3+1d4
 effect:TIMED_INC:BLIND
 dice:7+1d8
-desc:A trap that blasts your senses.
-msg:You feel pressure on your mind.
-msg-good:You shake your head and are back to normal.
-msg-bad:Your mind is blasted by psionic energy!
+desc:Una trampa que golpea tus sentidos.
+msg:Sientes presión en tu mente.
+msg-good:Sacas la cabeza y vuelves a la normalidad.
+msg-bad:¡Tu mente es golpeada por energía psiónica!
 
 # dungeon alter -- rock fall
 
@@ -468,8 +469,8 @@ expr:D:DUNGEON_LEVEL:/ 10 + 1
 effect:TIMED_INC_NO_RES:STUN
 dice:2d20
 effect:RUBBLE
-desc:A trap that drops a boulder on you.
-msg:A rock falls on your head!
+desc:Una trampa que deja caer una roca sobre ti.
+msg:¡Una roca cae sobre tu cabeza!
 
 # dungeon alter -- earthquake
 
@@ -482,8 +483,8 @@ effect:DAMAGE
 dice:$Dd5
 expr:D:DUNGEON_LEVEL:/ 10 + 1
 effect:EARTHQUAKE:NONE:5
-desc:A trap that causes an earthquake.
-msg:The ground shakes.
+desc:Una trampa que causa un terremoto.
+msg:El suelo tiembla.
 
 name:ancient mechanism:block fall trap
 graphics:^:U
@@ -491,8 +492,8 @@ appear:1:4:0
 visibility:40+d5
 flags:TRAP | FLOOR | ONETIME | DELAY
 effect:GRANITE
-desc:A pressure plate that drops a stone block behind you.
-msg:A section of the ceiling falls in behind you!
+desc:Una placa de presión que deja caer un bloque de piedra detrás de ti.
+msg:¡Una sección del techo se derrumba detrás de ti!
 
 # dungeon alter - stone to mud
 # XXX this currently prints loads of annoying messages
@@ -508,8 +509,8 @@ effect:BALL:FORCE:2
 dice:$B
 expr:B:DUNGEON_LEVEL:+ 0
 effect:RUBBLE
-desc:A trap that clears the surrounding area.
-msg:The trap explodes, blasting the area clear!
+desc:Una trampa que despeja el área circundante.
+msg:¡La trampa explota, despejando el área con una explosión!
 
 # blinding flash
 
@@ -521,8 +522,8 @@ flags:TRAP | FLOOR | MAGICAL | ONETIME
 effect:BALL:LIGHT:4
 dice:$Dd8
 expr:D:DUNGEON_LEVEL:/ 10 + 2
-desc:A trap that creates a ball of light.
-msg:A blazing light descends on you!
+desc:Una trampa que crea una bola de luz.
+msg:¡Una luz brillante desciende sobre ti!
 
 # blinding trap
 
@@ -536,8 +537,8 @@ dice:$Dd8
 expr:D:DUNGEON_LEVEL:/ 10 + 2
 effect:DRAIN_LIGHT
 dice:100+1d100
-desc:A trap that envelops you in darkness.
-msg:Everything starts to fade...
+desc:Una trampa que te envuelve en oscuridad.
+msg:Todo comienza a desvanecerse...
 
 # mana drain
 
@@ -549,8 +550,8 @@ flags:TRAP | FLOOR | MAGICAL
 effect:DRAIN_MANA
 dice:1d$D
 expr:D:DUNGEON_LEVEL:/ 2 + 1
-msg:You feel your energies sap away.
-desc:A trap that drains your mana.
+msg:Sientes cómo tus energías se desvanecen.
+desc:Una trampa que drena tu maná.
 
 # whirling knives
 # XXX ideally this would have an effect that wasn't cured in one turn
@@ -566,8 +567,8 @@ dice:150
 effect:DAMAGE
 dice:$D
 expr:D:DUNGEON_LEVEL:/ 2
-msg:Blades whirl around you, slicing your skin!
-desc:A trap designed to bleed you to death.
+msg:¡Cuchillas giran a tu alrededor, cortando tu piel!
+desc:Una trampa diseñada para desangrarte hasta la muerte.
 
 # petrifier
 
@@ -580,5 +581,5 @@ effect:TIMED_INC:STONESKIN
 dice:20+1d20
 effect:TIMED_INC:STUN
 dice:20+1d20
-msg:You feel yourself turning to stone!
-desc:A trap that stuns you and gives you stoneskin.
+msg:¡Sientes cómo te conviertes en piedra!
+desc:Una trampa que te aturde y te da piel de piedra.

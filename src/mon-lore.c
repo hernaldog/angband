@@ -1249,7 +1249,7 @@ void lore_append_drop(textblock *tb, const struct monster_race *race,
 				textblock_append(tb, " y");
 			}
 			if (nspec == 1) {
-				textblock_append(tb, " un único");
+				textblock_append(tb, " un");
 			} else if (nspec == 2) {
 				textblock_append(tb, " uno o dos");
 			} else {

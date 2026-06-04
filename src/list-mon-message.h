@@ -44,7 +44,7 @@ MON_MSG(MORE_HASTED,		MSG_GENERIC,	false,	"¡parece[n] incluso más rápido[s]!"
 MON_MSG(HASTED,				MSG_GENERIC,	false,	"[empieza|empiezan] a moverse más rápido.")
 MON_MSG(NOT_HASTED,			MSG_GENERIC,	false,	"[reduce|reducen] la velocidad.")
 MON_MSG(MORE_AFRAID,		MSG_GENERIC,	false,	"¡parece[n] más aterrorizado[s]!")
-MON_MSG(FLEE_IN_TERROR,		MSG_FLEE,		false,	"¡huye aterrorizado!")   /*"fix traduc, resp ¡[huye|huyen] aterrorizado[s]!")*/
+MON_MSG(FLEE_IN_TERROR,		MSG_FLEE,		false,	"¡huye aterrorizada!")   /*"fix traduc, resp ¡[huye|huyen] aterrorizado[s]!")*/
 MON_MSG(NOT_AFRAID,			MSG_GENERIC,	false,	"ya no [tiene|tienen] miedo.")
 MON_MSG(HELD,				MSG_GENERIC,    false,  "¡[está|están] paralizado[s] en el lugar!")
 MON_MSG(NOT_HELD,			MSG_GENERIC,    false,  "puede moverse de nuevo.")
