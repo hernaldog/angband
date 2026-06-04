@@ -1,15 +1,15 @@
-# Archivo: hints.txt
+# File: hints.txt
 
-# Este archivo se utiliza para inicializar las pistas del juego.
+# This file is used to initialize the hints for the game.
 
-# No modifiques este archivo a menos que sepas exactamente lo que estás haciendo,
-# a menos que quieras arriesgarte a posibles fallos del sistema y archivos guardados corruptos.
+# Do not modify this file unless you know exactly what you are doing
+# unless you wish to risk possible system crashes and broken savefiles.
 
-# Dicho esto, no es difícil. Solo mantén cada pista en una línea, de menos de 80
-# caracteres, y comienza cada línea con H:
+# That said, it isn't difficult. Just keep each hint on one line, less than 80
+# characters, and start each line with H:
 
-# Formato:
-# H:Texto de la pista.
+# Format: 
+# H:Hint text.
 
 H:Las pociones de Curar Heridas Críticas curan la ceguera y la confusión; lleva muchas.
 H:Los báculos se pueden usar incluso cuando estás confundido y cegado.

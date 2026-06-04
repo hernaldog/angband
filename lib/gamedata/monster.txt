@@ -1,242 +1,243 @@
-# Archivo: monster.txt
+# File: monster.txt
 
-# Este archivo se utiliza para inicializar la información de las "razas de monstruos" para Angband.
 
-# No modifiques este archivo a menos que sepas exactamente lo que estás haciendo,
-# a menos que quieras arriesgarte a posibles caídas del sistema y archivos guardados dañados.
+# This file is used to initialize the "monster race" information for Angband.
 
-# === Entendiendo monster.txt ===
+# Do not modify this file unless you know exactly what you are doing, unless
+# you wish to risk possible system crashes and broken savefiles.
 
-# name: nombre del monstruo
-# plural: nombre del monstruo en plural (si no es estándar)
-# base: nombre de la plantilla
-# glyph: símbolo
+# === Understanding monster.txt ===
+
+# name: monster name
+# plural: monster name plural (if non-standard)
+# base: template name
+# glyph: symbol
 # color: color
-# speed: velocidad del monstruo
-# hit-points: puntos de vida promedio
-# light: intensidad de luz del monstruo
-# hearing: sensibilidad auditiva
-# armor-class: clase de armadura
-# sleepiness: valor inicial de sueño
-# depth: profundidad habitual
-# rarity: probabilidad inversa de generación
-# experience: experiencia por nivel de profundidad
-# blow: método de ataque : efecto del ataque : daño
-# flags: bandera | bandera | etc
-# flags-off: bandera | bandera | etc
-# innate-freq: frecuencia de ataques innatos
-# spell-freq: frecuencia de hechizos
-# spell-power: poder de hechizo
-# spells: tipo de hechizo | tipo de hechizo | etc
-# message-vis:tipo de hechizo:mensaje
-# message-invis:tipo de hechizo:mensaje
-# message-miss:tipo de hechizo:mensaje
-# desc: Descripción
-# drop: tipo de objeto : nombre del objeto : porcentaje de probabilidad : mínimo : máximo
-# drop-base: tipo de objeto : porcentaje de probabilidad : mínimo : máximo
+# speed : monster speed
+# hit-points : average hit points
+# light: monster's light intensity
+# hearing : hearing sensitivity
+# armor-class : armor class
+# sleepiness : initial sleep value
+# depth: usual depth
+# rarity: inverse probability of generation
+# experience: experience per depth level
+# blow: attack method : attack effect : damage
+# flags: flag | flag | etc
+# flags-off: flag | flag | etc
+# innate-freq: frequency of innate attacks
+# spell-freq: spell frequency
+# spell-power: spell power
+# spells: spell type | spell type | etc
+# message-vis:spell type:message
+# message-invis:spell type:message
+# message-miss:spell type:message
+# desc: Description
+# drop: item type : item name : percent drop chance : min : max
+# drop-base: item type : percent drop chance : min : max
 # mimic: tval : sval
-# friends: probabilidad: número: nombre : ?rol
-# friends-base: probabilidad: número: nombre : ?rol
+# friends: chance: number: name : ?role
+# friends-base: chance: number: name : ?role
 
-# 'name' indica el comienzo de una entrada.
+# 'name' indicates the beginning of an entry.
 
-# 'plural' es para plurales de nombres de monstruos que no pueden manejarse con las reglas
-# normales de pluralización (ver mon-desc.c para más detalles).
+# 'plural' is for plurals to monster names that can't be handled by normal
+# pluralisation rules (see mon-desc.c for more detail).
 
-# 'base' es para la plantilla base del monstruo (ver monster_base.txt). Esto
-# proporciona el símbolo de visualización predeterminado, algunas banderas predeterminadas y los
-# mensajes de dolor del monstruo.
+# 'base' is for the monster base template (see monster_base.txt). This
+# provides the default display symbol, some default flags, and the monster's
+# pain messages.
 
-# 'glyph' es para el símbolo de visualización. Si está presente, esto anula el símbolo
-# de visualización predeterminado de la plantilla base.
+# 'glyph' is for the display symbol. If present, this overrides the default
+# display symbol from the base template.
 
-# 'color' es para el color. Hay 28 colores, como sigue:
-# d - 0  - Negro
-# w - 1  - Blanco
-# s - 2  - Pizarra
-# o - 3  - Naranja
-# r - 4  - Rojo
-# g - 5  - Verde
-# b - 6  - Azul
-# u - 7  - Ocre
-# D - 8  - Gris Oscuro
-# W - 9  - Gris Claro
-# P - 10 - Púrpura Claro
-# y - 11 - Amarillo
-# R - 12 - Rojo Claro
-# G - 13 - Verde Claro
-# B - 14 - Azul Claro
-# U - 15 - Ocre Claro
-# p - 16 - Púrpura
-# v - 17 - Violeta
-# t - 18 - Verde Azulado
-# m - 19 - Marrón
-# Y - 20 - Amarillo Claro
-# i - 21 - Magenta-Rosa
-# T - 22 - Verde Azulado Claro
-# V - 23 - Violeta Claro
-# I - 24 - Rosa Claro
-# M - 25 - Mostaza
-# z - 26 - Azul Pizarra
-# Z - 27 - Azul Claro Profundo
+# 'color' is for color. There are 28 colors, as follows:
+# d - 0  - Black
+# w - 1  - White
+# s - 2  - Slate
+# o - 3  - Orange
+# r - 4  - Red
+# g - 5  - Green
+# b - 6  - Blue
+# u - 7  - Umber
+# D - 8  - Light Dark
+# W - 9  - Light Slate
+# P - 10 - Light Purple
+# y - 11 - yellow
+# R - 12 - Light Red
+# G - 13 - Light Green
+# B - 14 - Light Blue
+# U - 15 - Light Umber
+# p - 16 - Purple
+# v - 17 - Violet
+# t - 18 - Teal
+# m - 19 - Mud
+# Y - 20 - Light Yellow
+# i - 21 - Magenta-Pink
+# T - 22 - Light Teal
+# V - 23 - Light Violet
+# I - 24 - Light Pink
+# M - 25 - Mustard
+# z - 26 - Blue Slate
+# Z - 27 - Deep Light Blue
 
-# actualmente sin usar: d, M, t, T
+# currently unused: d, M, t, T
 
-# (nótese que "negro" es el mismo color que el fondo de la pantalla, y por lo tanto el
-# monstruo parecerá un espacio negro vacío si su color es "d".)
+# (note that "black" is the same color as the screen background, and thus the
+# monster will appear to be an empty black space if its color is "d".)
 
-# Nota para mantenedores/equipo de desarrollo: Violeta Claro (V) se usa actualmente para la
-# opción "uniques púrpura". La opción hace que todos los uniques aparezcan en este color
-# (en lugar de solo Castamir y Waldern). Por lo tanto, es imprudente usarlo
-# para monstruos no únicos.
+# Note to maintainers/devteam: Light Violet (V) is currently used for the
+# "purple uniques" option. The option makes all uniques appear in this colour
+# (instead of only Castamir and Waldern). It is therefore unwise to use it
+# for non-unique monsters.
 
-# 'speed' es para la velocidad; 110 es la velocidad normal.
+# 'speed' is for speed; 110 is normal speed.
 
-# 'hit-points' es el número promedio de puntos de vida para esta raza de monstruo, o el
-# número exacto para monstruos únicos.
+# 'hit-points' is the average number of hitpoints for this monster race, or the
+# exact number for unique monsters.
 
-# 'light' es para la intensidad de luz generada por este monstruo; nótese que esto
-# puede ser positivo, negativo o cero (el predeterminado si no hay línea de luz)
+# 'light' is for the light intensity generated by this monster; note that this
+# can be positive, negative or zero (the default if there is no light line)
 
-# 'hearing' es a qué múltiplo del radio de visión del jugador el monstruo
-# nota al jugador.
+# 'hearing' is at what multiple of the player's vision radius the monster
+# notices the player.
 
-# 'armor-class' es una medida de la probabilidad de que el jugador golpee al monstruo;
-# la probabilidad de golpe del jugador se tira contra 2/3 de este valor.
+# 'armor-class' is a measure of how likely the player is to hit the monster;
+# the player's hit chance is rolled against 2/3 of this value.
 
-# 'sleepiness' es para el valor de sueño inicial del monstruo. La somnolencia varía de 0
-# (siempre vigilante de intrusos) a 255 (prefiere ignorar a los intrusos).
+# 'sleepiness' is for initial monster sleep value. Sleepiness ranges from 0
+# (ever vigilant for intruders) to 255 (prefers to ignore intruders).
 
-# 'depth' es el nivel de mazmorra habitual del monstruo
+# 'depth' is the monster's usual dungeon level
 
-# 'rarity' se usa para elegir monstruos a generar; la probabilidad de una raza de
-# monstruo dada es 100/rareza
+# 'rarity' is used for picking monsters to be generated; probability of a given
+# monster race is 100/rarity
 
-# 'experience' es la experiencia base para el monstruo; esto se multiplica por
-# la profundidad del monstruo y se divide por el nivel del jugador para obtener el número de
-# puntos de experiencia que recibe el jugador por matar al monstruo.
+# 'experience' is the base experience for the monster; this is multiplied by 
+# the monster depth and divided by the player level to get the number of
+# experience points the player receives for killing the monster.
 
-# 'blow' es para golpes -- método de ataque, efecto del ataque y daño del
-# ataque.
-# Puede haber hasta cuatro de estas líneas; el efecto y el daño son opcionales.
+# 'blow' is for blows -- method of attack, effect of the attack, and damage from
+# the attack.
+# There may be up to four of these lines; effect and damage are optional.
 
-# 'flags' es para banderas. Son bastante autoexplicativas. Se pueden usar tantas líneas
-# de flags: como sean necesarias para especificar todas las banderas y las banderas
-# están separadas por el símbolo '|'.
+# 'flags' is for flags. These are fairly self-explanatory. As many flags:
+# lines may be used as are needed to specify all the flags and flags are
+# separated by the '|' symbol.
 
-# 'flags-off' es para banderas a eliminar de la plantilla. Por ejemplo, en
-# monster_base.txt, a los mohos se les da HURT_FIRE. No queremos que el moho rojo
-# tenga eso, así que agregamos una línea 'flags-off:HURT_FIRE' para restar esa bandera.
+# 'flags-off' is for flags to remove from the template. For example, in
+# monster_base.txt, molds are given HURT_FIRE. We don't want the red mold
+# to have that, so we add a 'flags-off:HURT_FIRE' line to subtract that flag.
 
-# 'innate-freq' es para la frecuencia de ataques a distancia innatos: el número de
-# turnos de monstruo, en promedio, antes de que el monstruo realice uno de estos
-# ataques. Esto no debe ser cero. Si es 1, el monstruo nunca se moverá
-# mientras el jugador esté a la vista, y por lo tanto nunca atacará en melé, ya que
-# usará un ataque innato cada turno: si se espera que el monstruo use un ataque melé,
-# entonces X debe ser 2 o mayor.
+# 'innate-freq' is for frequency of innate ranged attacks - the number of
+# monster turns, on average, before the monster will perform one of these
+# attacks.  This must not be zero. If it is 1, the monster will never move
+# while the player is in sight, and will thus never attack in melee, as it will
+# use an innate attack every turn: if the monster is to use a melee attack,
+# then X must be 2 or greater.
 
-# 'spell-freq' es para la frecuencia de hechizos: el número de turnos de monstruo, en
-# promedio, antes de que el monstruo lance uno de sus hechizos. Consideraciones
-# similares se aplican como para la frecuencia de ataque innato.
+# 'spell-freq' is for spell frequency - the number of monster turns, on
+# average, before the monster will cast one of its spells.  Similar
+# considerations apply as for innate attack frequency.
 
-# 'spell-power' es para la fuerza de lanzamiento relativa de un monstruo lanzador de hechizos.
-# El valor predeterminado es el mismo que la profundidad del monstruo (en cuyo caso no se necesita
-# ninguna línea 'spell-power'), por lo que un monstruo con poder de hechizo mayor que
-# su profundidad es un lanzador particularmente fuerte.
-# Nótese que (aparte de los lanzadores de rocas) los monstruos con solo ataques innatos
-# pero sin hechizos no requieren un valor de poder de hechizo.
+# 'spell-power' is for the relative casting strength of a spellcasting monster.
+# The default value is the same as the monster's depth (in which case no 
+# 'spell-power' line is needed), so a monster with spell power greater than
+# their depth is a particularly strong caster.
+# Note that (apart from boulder throwers) monsters with only innate attacks
+# but no spells a spell power value is not required.
 
-# 'spells' es para las banderas de hechizo, que funcionan igual que las banderas regulares.
+# 'spells' is for spell flags, which work just like regular flags.
 
-# 'message-vis', 'message-invis' y 'message-miss' permiten anular los
-# mensajes predeterminados (ver monster_spell.txt) mostrados cuando un monstruo lanza un
-# hechizo en particular. 'message-vis' es para el mensaje cuando el monstruo es
-# visible para el observador. 'message-invis' es para el mensaje cuando el monstruo
-# no es visto por el observador. 'message-miss' es para el mensaje si el hechizo
-# falla. El primer campo, el tipo de hechizo, debe ser uno de los nombres enumerados
-# en la línea de hechizos. El último campo es el mensaje a usar; si se omite
-# o son solo espacios en blanco, no se mostrará ningún mensaje al lanzar. Cualquier
-# expresión entre llaves, como se describe en monster_spell.txt, se expandirá en el
-# mensaje antes de mostrarse.
+# 'message-vis', 'message-invis', and 'message-miss' allow overriding of the
+# default messages (see monster_spell.txt) displayed when a monster casts a
+# particular spell.  'message-vis' is for the message when the monster is
+# visible to the observer.  'message-invis' is for the message when the monster
+# is not seen by the observer.  'message-miss' is for the message if the spell
+# misses.  The first field, the spell type, should be one of the names listed
+# on the spells line.  The last field is the message to use; if that is omitted
+# or is all whitespace, no message will be displayed on casting.  Any brace
+# expressions, as described in monster_spell.txt, will be expanded in the
+# message before it is displayed.
 
-# 'desc' es para la descripción. Se pueden usar tantas líneas desc: como sean necesarias para
-# describir al monstruo. Nótese que las líneas necesitarán espacios al final
-# o al principio de la siguiente línea para evitar que las palabras se junten.
+# 'desc' is for description. As many desc: lines may be used as are needed to
+# describe the monster. Note that lines will need spaces at their
+# ends or the beginning of the next line to prevent words from running
+# together.
 
-# Las líneas 'drop' crean posibles botines para monstruos específicos. Cada objeto
-# tiene su porcentaje de probabilidad calculado individualmente. Cualquier botín especificado es
-# adicional a los que son posibles debido a las banderas establecidas. Los botines
-# específicos pueden verse afectados por las banderas DROP_GREAT y DROP_GOOD.
+# 'drop' lines create possible drops for specific monsters.  Each item
+# has its percent chance rolled for individually.  Any specified drops are in
+# addition to those that are possible due to the flags set.  Specific drops
+# can be affected by the DROP_GREAT and DROP_GOOD flags.
 
-# Las líneas 'drop-base' funcionan como para botines, pero solo se especifica el tval del objeto.
+# 'drop-base' lines work as for drops, but only the object tval is specified.
 
-# Las líneas 'friends' especifican opciones sobre qué monstruos pueden aparecer con otros
-# monstruos al crearse. El formato es:
-# friends:Probabilidad de que aparezca amigo:número en formato xdy:nombre del amigo
+# 'friends' lines specify options for what monsters can appear with other
+# monster on creation.  The format is:
+# friends:Chance of friend appearing:number in xdy format:name of friend
 #
-# Nótese que el número se regula dependiendo del nivel de mazmorra, apareciendo solo la mitad
-# en la profundidad y el complemento completo 5 niveles más profundo. Todos los amigos de la ciudad
-# se dividirán por dos.
-# El código coloca monstruos de abajo hacia arriba y no los colocará si no puede encontrar
-# espacio. Para mejores resultados, coloca los amigos más importantes al final.
-# Usar 'Same' como nombre hace lo que esperarías.
-# Algunos amigos pueden tener roles especiales; estos se añaden al final de la línea.
+# Note that number is throttled depending on the dungeon level with only half
+# appearing at depth and the full complement 5 levels deeper.  All town friends
+# will be divided by two.
+# The code places monsters from bottom up and will not place it if it can't find
+# room.  For best results, places the most important friends at the bottom.
+# Using 'Same' as the name does what you would expect.
+# Some friends can have special roles; these are appended to the line end.
 
-# Las líneas 'friends-base' funcionan como para amigos, pero el nombre debe ser de una base
-# de monstruo, y se puede elegir cualquier monstruo con esa base.
+# 'friends-base' lines work as for friends, but the name should be of a monster
+# base, and any monster with that base can be chosen.
 
-# Las líneas 'mimic' dan tipos de objetos que este monstruo puede imitar. Cada uno de los objetos
-# tiene la misma probabilidad de ser imitado.
+# 'mimic' lines give item types that this monster may mimic. Each of the objects
+# has an equal chance of being mimicked.
 
-# === Entendiendo las banderas de monster.txt ===
+# === Understanding monster.txt flags ===
 
-# Los monstruos UNIQUE son solo razas de monstruos "especiales", con el requisito de que
-# solo puede existir un monstruo de esa raza a la vez, y cuando es asesinado, nunca
-# puede volver a generarse.
+# UNIQUE monsters are just "special" monster races, with the requirement that
+# only one monster of that race can exist at a time, and when it is killed, it
+# can never again be generated.
 
-# Los monstruos ATTR_CLEAR aparecen del mismo color que el suelo, el terreno o el objeto
-# debajo de ellos.
+# ATTR_CLEAR monsters appear the same color as the floor, terrain feature or
+# object underneath them.
 
-# Los monstruos ATTR_MULTI son multicolor--cambian de color, cada turno de jugador.
-# Su color base solo se usa para establecer el color inicial cuando aparecen.
+# ATTR_MULTI monsters are multi-hued--they change color, every player turn.
+# Their base color is only used to set the initial color when they spawn.
 
-# Los monstruos ATTR_FLICKER también son multicolor--pero solo cambian entre un
-# pequeño rango de colores relacionados con su color definido, y comienzan
-# con su color definido.
+# ATTR_FLICKER monsters are also multi-hued--but they only change between a
+# small range of colors related to their defined color, and they start out
+# as their defined color.
 
-# Los monstruos CHAR_CLEAR son totalmente invisibles: el símbolo mostrado en la pantalla es
-# el mismo que el del suelo (u otra característica del terreno) debajo de él, o el objeto
-# que yace en ese suelo. Estos monstruos actualmente pueden ser objetivo como monstruos
-# normales: quizás esto pueda cambiarse para que el jugador DEBA SABER que el
-# monstruo está allí (al chocar con él, o porque el monstruo se despierta y
-# ataca al jugador)
+# CHAR_CLEAR monsters are totally invisible: the symbol shown on the screen is
+# the same as the floor (or other terrain feature) below it, or the item that
+# is lying on that floor. These monsters can currently be targeted as normal
+# monsters: perhaps this can be changed so that the player must KNOW the
+# monster is there (by bumping into it, or having the monster wake up and
+# attack the player?)
 
-# Los monstruos CHAR_MULTI son aquellos que parecen objetos, y usan los símbolos de
-# objetos. Están a simple vista, pero el personaje no debería saber que hay un
-# monstruo allí. Por el momento, estos monstruos pueden ser objetivo normalmente
-# (lo que significa que esta bandera actualmente no tiene efecto), pero esto puede cambiar
-# en el futuro, como con los monstruos CHAR_CLEAR.
+# CHAR_MULTI monsters are those which look like objects, and use the symbols of
+# objects. They are in plain sight, but the character should not know that a
+# monster is there. At the moment, such monsters can be targeted normally
+# (which means that this flag currently has no effect), but this may change
+# in the future, as with CHAR_CLEAR monsters.
 
-# (Nótese que actualmente tanto los monstruos CHAR_CLEAR como CHAR_MULTI se tratan como
-# monstruos normales que son simplemente difíciles de ver... si los (i)nspeccionas, los
-# encontrarás a menos que sean invisibles y no puedas ver lo invisible, y si
-# usas el comando * para el modo de objetivo puedes elegirlos como objetivo.)
+# (Note that currently both CHAR_CLEAR and CHAR_MULTI monsters are treated as
+# normal monsters that are just hard to see... if you (l)ook for them, you will
+# find them unless they are invisible and you cannot see invisible, and if you
+# use the * command for targeting mode you can pick them as a target.)
 
-# TODO: Explicar las otras banderas de monstruos y hechizos. Pero quizás en otro archivo.
+# TODO: Explain the other monster and spell flags. But maybe in another file.
 
 
 
-##### No-raza (contiene la imagen del "jugador") #####
+##### Non-race (contains the "player" picture) #####
 
 name:<player>
 base:player
 color:w
 
 
-##### Razas de monstruos propiamente dichas #####
+##### Monster races proper #####
 
-### Nivel de mazmorra 0 ###
-
+### Dungeon level 0 ###
 name:golfo callejero inmundo
 plural:golfos callejeros inmundos
 base:townsfolk
@@ -527,7 +528,7 @@ spell-freq:4
 spells:BLINK | HEAL
 desc:Es San Nicolás, repartiendo regalos a los niños de la calle.
 
-### Nivel de mazmorra 1 ###
+### Dungeon level 1 ###
 
 name:moho gris
 base:mold
@@ -772,7 +773,7 @@ blow:BITE:HURT:1d1
 flags:RAND_25
 desc:Una plaga que se mueve rápido.
 
-### Nivel de mazmorra 2 ###
+### Dungeon level 2 ###
 
 name:kobold
 base:kobold
@@ -1166,7 +1167,7 @@ blow:BITE:HURT:1d3
 blow:BITE:HURT:1d3
 desc:Es una corneja encapuchada, gris excepto por las alas y la cabeza negras.
 
-### Nivel de mazmorra 3 ###
+### Dungeon level 3 ###
 
 name:Sméagol
 base:humanoid
@@ -1473,7 +1474,7 @@ friends-base:30:1d2:kobold
 friends-base:70:1d2:kobold
 desc:Es un kobold vestido con pieles y gesticulando salvajemente.
 
-### Nivel de mazmorra 4 ###
+### Dungeon level 4 ###
 
 name:lagarto de cueva
 base:reptile
@@ -1695,7 +1696,8 @@ flags:RAND_50
 desc:Mide alrededor de un metro con dientes grandes. Al caer la luz de tu
 desc: lámpara sobre él, parece fortalecerse.
 
-### Nivel de mazmorra 5 ###
+
+### Dungeon level 5 ###
 
 name:Bullroarer el Hobbit
 base:humanoid
@@ -1944,7 +1946,7 @@ flags:HURT_LIGHT | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP
 desc:Es un gran montón de carne podrida, cuyo toque echa a perder tu comida.
 desc: El olor terrible que exhala también es muy difícil de eliminar...
 
-### Nivel de mazmorra 6 ###
+### Dungeon level 6 ###
 
 name:parche de setas moradas
 plural:parches de setas moradas
@@ -2088,7 +2090,7 @@ spells:BR_SOUN
 desc:Grandes alas batientes sostienen a este deslumbrante insecto. Un fuerte
 desc: zumbido impregna el aire.
 
-### Nivel de mazmorra 7 ###
+### Dungeon level 7 ###
 
 name:cuervo de Durthang
 plural:cuervos de Durthang
@@ -2335,7 +2337,7 @@ friends:100:1d5:Arquero kobold:servant
 friends:100:1d5:Kobold grande:bodyguard
 desc:Fuerte y poderoso, para ser un kobold.
 
-### Nivel de mazmorra 8 ###
+### Dungeon level 8 ###
 
 name:Lengua de Gusano, Agente de Saruman
 base:person
@@ -2511,8 +2513,7 @@ innate-freq:8
 spells:SHOT | WHIP
 desc:Un bruto inculto con una clava, una honda y un látigo.
 
-### Nivel de mazmorra 9 ###
-
+### Dungeon level 9 ###
 name:piojo negro gigante
 plural:piojos negros gigantes
 base:insect
@@ -2834,11 +2835,11 @@ desc: invadiendo su territorio.
 
 
 
-########## NIVELES DE MAZMORRA 10-19 ##########
+########## DUNGEON LEVELS 10-19 ##########
 
 
 
-### Nivel de mazmorra 10 ###
+### Dungeon level 10 ###
 
 name:araña gigante
 base:araña
@@ -3162,7 +3163,7 @@ friends:50:1d2:guerrero
 friends:50:1d2:Same
 desc:Viste de negro y huele a podredumbre.
 
-### Nivel de mazmorra 11 ###
+### Dungeon level 11 ###
 
 name:bebé dragón multicolor
 base:dragon
@@ -3266,7 +3267,7 @@ spells:CONF
 friends:100:2d4:same
 desc:Un árbol antiguo que parece observarte.
 
-### Nivel de mazmorra 12 ###
+### Dungeon level 12 ###
 
 name:mamba negra
 base:snake
@@ -3604,8 +3605,7 @@ flags:NEVER_MOVE
 flags:HURT_LIGHT | IM_ACID | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP
 desc:Una gelatina extraña, cubierta de manchas descoloridas.
 
-### Nivel de mazmorra 13 ###
-
+### Dungeon level 13 ###
 name:escarabajo marrón asesino
 base:escarabajo asesino
 color:u
@@ -3781,7 +3781,7 @@ spells:ARROW
 friends:100:1d3:Same
 desc:Tiene un arco de cuerno y una aljaba llena de flechas de plumas negras.
 
-### Nivel de mazmorra 14 ###
+### Dungeon level 14 ###
 
 name:pulga gigante
 base:insect
@@ -3898,7 +3898,7 @@ blow:HIT:HURT:1d8
 desc:Una criatura extraña que se fusiona con el suelo de la mazmorra, atrapando
 desc: a sus víctimas envolviéndolas en su forma perfectamente disfrazada.
 
-### Nivel de mazmorra 15 ###
+### Dungeon level 15 ###
 
 name:hombre-rata
 base:rodent
@@ -4195,7 +4195,8 @@ friends:100:2d6:Same
 desc:Un murciélago gigante, el batir de cuyas alas produce un ruido
 desc: extrañamente inquietante.
 
-### Nivel de mazmorra 16 ###
+
+### Dungeon level 16 ###
 
 name:umber hulk
 base:xorn
@@ -4380,7 +4381,8 @@ desc: espías; su inteligencia rudimentaria guiada por una mente maligna te ha
 desc: localizado, y ahora buscan alertar a otras criaturas malvadas de tu
 desc: presencia.
 
-### Nivel de mazmorra 17 ###
+### Dungeon level 17 ###
+
 
 name:diablillo
 base:minor demon
@@ -4524,7 +4526,7 @@ flags:RAND_25 | PASS_WALL
 flags:HURT_ROCK | IM_COLD | IM_ELEC | IM_FIRE
 desc:Una forma arremolinada de roca sensible.
 
-### Nivel de mazmorra 18 ###
+### Dungeon level 18 ###
 
 name:avispón zumbador
 base:insect
@@ -4785,7 +4787,7 @@ desc:Un enorme ojo incorpóreo. Mientras miras fijamente la negra nada de su
 desc: pupila, sientes que tu voluntad y vitalidad se desvanecen, y no puedes
 desc: hacer nada más que acercarte a él con fascinación horrorizada.
 
-### Nivel de mazmorra 19 ###
+### Dungeon level 19 ###
 
 name:Shagrat, el Capitán Orco
 base:orc
@@ -4902,10 +4904,10 @@ desc: Parecía enorme, sus extendidas ramas elevándose como brazos
 desc: con muchas manos de largos dedos, su tronco retorcido y nudoso abierto en
 desc: amplias fisuras que crujían débilmente mientras las ramas se movían."
 
-########## NIVELES DE MAZMORRA 20-29 ##########
+########## DUNGEON LEVELS 20-29 ##########
 
 
-### Nivel de mazmorra 20 ###
+### Dungeon level 20 ###
 
 name:halcón de sangre
 base:bird
@@ -5259,7 +5261,7 @@ desc:Un guerrero por una causa santa. Desafortunadamente, su dios no es el tuyo,
 desc: y hay rivalidad incluso entre los diversos dioses del Bien, así que es tu
 desc: enemigo.
 
-### Nivel de mazmorra 21 ###
+### Dungeon level 21 ###
 
 name:Lugdush, el Uruk
 base:orc
@@ -5408,7 +5410,7 @@ flags:DROP_20
 flags:NO_FEAR
 desc:Es una figura de orco cubierta de vendas.
 
-### Nivel de mazmorra 22 ###
+### Dungeon level 22 ###
 
 name:neekerbreeker
 base:insect
@@ -5535,8 +5537,7 @@ desc:Un animal draconiano mortal y de movimiento rápido. ¡Cuidado con su aguij
 desc: venenoso!
 
 
-
-### Nivel de mazmorra 23 ###
+### Dungeon level 23 ###
 
 name:araña de fase
 base:araña
@@ -5701,7 +5702,7 @@ innate-freq:6
 spells:SPIT
 desc:Una hormiga plateada gigante con un mordisco cáustico y escamas duras.
 
-### Nivel de mazmorra 24 ###
+### Dungeon level 24 ###
 
 name:espectro del bosque
 base:wraith
@@ -5928,7 +5929,7 @@ desc: entonces su forma comienza a cambiar... La combinación de astucia animal,
 desc: inteligencia humana y la gran fuerza física del oso lo convierte en un
 desc: enemigo peligroso.
 
-### Nivel de mazmorra 25 ###
+### Dungeon level 25 ###
 
 name:nruling
 base:minor demon
@@ -6085,7 +6086,7 @@ blow:BITE:HURT:4d4
 flags:RAND_25
 desc:Es un escarabajo gigante con mandíbulas venenosas.
 
-### Nivel de mazmorra 26 ###
+### Dungeon level 26 ###
 
 name:masa de gusanos abismales
 base:worm
@@ -6291,7 +6292,7 @@ spells:HOLD | SCARE
 friends:100:4d4:Same
 desc:La carne se cae a pedazos de esta abominación en descomposición.
 
-### Nivel de mazmorra 27 ###
+### Dungeon level 27 ###
 
 name:Mîm, Traidor de Turin
 base:humanoid
@@ -6526,7 +6527,7 @@ flags:IM_ELEC
 desc:Es un crecimiento extraño en el suelo de la mazmorra, brillando y
 desc: crepitando con chispas.
 
-### Nivel de mazmorra 28 ###
+### Dungeon level 28 ###
 
 name:gigante de escarcha
 base:giant
@@ -6881,7 +6882,8 @@ desc:Beorn en su forma de un gran oso negro de las montañas, agrandado por la
 desc: ira. El rugido de su voz es como tambores, y ninguna arma parece hacerle
 desc: mella.
 
-### Nivel de mazmorra 29 ###
+
+### Dungeon level 29 ###
 
 name:arquero elfo verde
 base:humanoid
@@ -7097,10 +7099,10 @@ spells:BR_ELEC | BE_ELEC
 desc:Un tornado brillante de aire, chispas crepitan a lo largo de su longitud.
 
 
-########## NIVELES DE MAZMORRA 30-39 ##########
+########## DUNGEON LEVELS 30-39 ##########
 
 
-### Nivel de mazmorra 30 ###
+### Dungeon level 30 ###
 
 name:gigante de fuego
 base:giant
@@ -7399,7 +7401,7 @@ friends:100:1d1:Bill el Troll de Piedra
 desc:Grande, fornido, poderoso y con gusto por el hobbit. Tiene amigos llamados
 desc: Bert y Bill.
 
-### Nivel de mazmorra 31 ###
+### Dungeon level 31 ###
 
 name:fantasma
 base:ghost
@@ -7535,7 +7537,8 @@ spells:HASTE | TELE_TO | DARKNESS
 desc:Un árbol que se ha vuelto ent, o tal vez un ent que se ha vuelto árbol.
 
 
-### Nivel de mazmorra 32 ###
+
+### Dungeon level 32 ###
 
 name:serpiente de las tierras marrones
 plural:serpientes de las tierras marrones
@@ -7694,7 +7697,8 @@ flags:IM_FIRE
 desc:Es una criatura del caos que se mueve rápido, un murciélago negro gigante
 desc: rodeado de llamas rojas brillantes y parpadeantes.
 
-### Nivel de mazmorra 33 ###
+
+### Dungeon level 33 ###
 
 name:druida drúadan
 base:person
@@ -8032,7 +8036,7 @@ spells:BR_SHAR
 desc:Un dragón de extraña forma cristalina. La luz brilla a través de él,
 desc: deslumbrando tus ojos con espectros de color.
 
-### Nivel de mazmorra 34 ###
+### Dungeon level 34 ###
 
 name:sacerdote troll
 base:troll
@@ -8281,7 +8285,7 @@ desc:Es una estatua masiva de color marrón oscuro, avanzando hacia ti con un
 desc: propósito demasiado familiar. Sorprendentemente, tu magia se siente mucho
 desc: menos poderosa ahora.
 
-### Nivel de mazmorra 35 ###
+### Dungeon level 35 ###
 
 name:hombre-gusano
 base:worm
@@ -8554,7 +8558,7 @@ message-invis:SHRIEK:Algo inspira a tus enemigos.
 desc:Una figura tallada en piedra, con tres caras de buitre cuyos ojos brillan
 desc: con una luz malévola.
 
-### Nivel de mazmorra 36 ###
+### Dungeon level 36 ###
 
 name:olog
 base:troll
@@ -8891,7 +8895,7 @@ spells:BO_ELEC
 desc:Otro pariente menor del observador, esta criatura de seis ojos se alimenta
 desc: de magia.
 
-### Nivel de mazmorra 37 ###
+### Dungeon level 37 ###
 
 name:elemental de hielo
 base:elemental
@@ -9104,7 +9108,7 @@ friends-base:50:1d3:wraith
 desc:Tu fuerza vital es arrancada de tu cuerpo mientras este poderoso ser
 desc: sobrenatural se acerca.
 
-### Nivel de mazmorra 38 ###
+### Dungeon level 38 ###
 
 name:jefe momificado
 base:zombie
@@ -9338,7 +9342,7 @@ message-invis:BLIND:Algo castañetea.
 desc:Una araña masiva, que arrastra el abultado saco de su cuerpo entre grandes
 desc: patas espinosas.
 
-### Nivel de mazmorra 39 ###
+### Dungeon level 39 ###
 
 name:arquero southron
 base:person
@@ -9494,10 +9498,10 @@ desc: más que odio por todo lo que vive.
 
 
 
-########## NIVELES DE MAZMORRA 40-49 ##########
+########## DUNGEON LEVELS 40-49 ##########
 
 
-### Nivel de mazmorra 40 ###
+### Dungeon level 40 ###
 
 name:observador
 base:eye
@@ -9848,7 +9852,7 @@ friends:60:2d3:olog:servant
 desc:La gran fuerza y tamaño de este troll le han valido el puesto de jefe de
 desc: su tribu. No teme a nada.
 
-### Nivel de mazmorra 41 ###
+### Dungeon level 41 ###
 
 name:dragón rojo maduro
 base:dragon
@@ -10071,7 +10075,7 @@ spells:BR_NEXU | BR_SHAR | BR_SOUN
 desc:Un dragón grande con una selección de cabezas, todas gritando y discutiendo
 desc: mientras buscan presas, pero cada una con su propia arma de aliento mortal.
 
-### Nivel de mazmorra 42 ###
+### Dungeon level 42 ###
 
 name:sabueso infernal
 base:canine
@@ -10184,7 +10188,7 @@ desc:Un troll masivo y cruel de gran poder, la baba resbala cáusticamente por s
 desc: musculoso cuerpo. A pesar de su volumen, golpea con una velocidad
 desc: impresionante.
 
-### Nivel de mazmorra 43 ###
+### Dungeon level 43 ###
 
 name:Maia de Nienna
 plural:Maiar de Nienna
@@ -10413,7 +10417,7 @@ spells:BR_ACID | BR_COLD | BR_ELEC | BR_FIRE | BR_POIS
 friends:100:2d7:Same
 desc:Brillando en tonos de arcoíris, este sabueso es hermoso y mortal.
 
-### Nivel de mazmorra 44 ###
+### Dungeon level 44 ###
 
 name:hidra de 8 cabezas
 base:hydra
@@ -10468,8 +10472,8 @@ desc:Es una forma que grita su presencia a la vista. La muerte personificada,
 desc: su horrible cuerpo negro parece luchar contra la realidad mientras el
 desc: universo mismo lucha por desterrarlo.
 
-### Nivel de mazmorra 45 ###
 
+### Dungeon level 45 ###
 name:escarabajo blanco asesino
 base:escarabajo asesino
 color:w
@@ -10701,7 +10705,8 @@ spells:BO_COLD
 desc:Una forma tangible pero fantasmal, hecha de niebla gris. El aire a su
 desc: alrededor se siente mortalmente frío.
 
-### Nivel de mazmorra 46 ###
+
+### Dungeon level 46 ###
 
 name:señor de Carn Dûm
 plural:señores de Carn Dûm
@@ -10760,7 +10765,7 @@ spells:HOLD | SCARE
 friends:40:1d4:Vampiro:servant
 desc:Un viento inmundo hiela tus huesos mientras esta horrible figura se acerca.
 
-### Nivel de mazmorra 47 ###
+### Dungeon level 47 ###
 
 name:marilith
 base:major demon
@@ -10809,7 +10814,7 @@ desc:Es el epítome de todo el mal, en un moho. Su forma sin vida atrae el poder
 desc: al absorber las almas de aquellos que se le acercan, un nimbo de mal puro
 desc: lo rodea. Por suerte para ti, no puede moverse.
 
-### Nivel de mazmorra 48 ###
+### Dungeon level 48 ###
 
 name:araña ancestral
 base:araña
@@ -10892,7 +10897,7 @@ desc:Esta criatura legendaria no solo tiene cuerpo de serpiente, sino serpientes
 desc: por cabello. Sus escamas suenan mientras se desliza hacia ti, ojos
 desc: llameantes, veneno goteando de su horrible boca.
 
-### Nivel de mazmorra 49 ###
+### Dungeon level 49 ###
 
 name:gigante de tormenta
 base:giant
@@ -11002,10 +11007,10 @@ desc: su ira, tras el asesinato de la Princesa Aredhel de Gondolin.
 
 
 
-########## NIVELES DE MAZMORRA 50-59 ##########
+########## DUNGEON LEVELS 50-59 ##########
 
 
-### Nivel de mazmorra 50 ###
+### Dungeon level 50 ###
 
 name:dragón azul ancestral
 base:ancient dragon
@@ -11241,7 +11246,7 @@ desc:Un enorme Balrog rodeado de imponentes pilares de fuego, este es sin duda
 desc: un oponente terrible. Blandiendo un gran látigo de fuego y una espada
 desc: llameante, su furia ampolla tu piel y derrite tu carne.
 
-### Nivel de mazmorra 51 ###
+### Dungeon level 51 ###
 
 name:dragón negro ancestral
 base:ancient dragon
@@ -11417,7 +11422,7 @@ spells:TELE_TO | TELE_SELF_TO | BLINK | TRAPS | DARKNESS | BLIND | HOLD
 desc:Es un maestro del disfraz, un experto en sigilo, un genio con las trampas y
 desc: se mueve con velocidad cegadora. ¡Revisa tus bolsillos!
 
-### Nivel de mazmorra 52 ###
+### Dungeon level 52 ###
 
 name:Maia de Oromë
 plural:Maiar de Oromë
@@ -11497,7 +11502,7 @@ spells:BR_FIRE
 desc:Un poderoso dragón antiguo, la forma de Itangast chamusca tu carne. Hilachas
 desc: de humo se elevan de sus fosas nasales mientras te mira con desdén.
 
-### Nivel de mazmorra 53 ###
+### Dungeon level 53 ###
 
 name:hezrou
 base:major demon
@@ -11599,7 +11604,7 @@ desc:Un dragón antiguo y sabio. Scatha se ha vuelto astuto a lo largo de los
 desc: largos años. Sus escamas están cubiertas de escarcha, y su aliento envía
 desc: una lluvia de hielo al aire.
 
-### Nivel de mazmorra 54 ###
+### Dungeon level 54 ###
 
 name:El Fénix
 base:bird
@@ -11739,7 +11744,7 @@ spells:BO_NETH | BE_NETH
 desc:Una forma que lastra la vista, la muerte impregna el aire a su alrededor.
 desc: Cuando se acerca, un frío agota tu alma.
 
-### Nivel de mazmorra 55 ###
+### Dungeon level 55 ###
 
 name:Shelob, Araña de la Oscuridad
 base:araña
@@ -11882,7 +11887,7 @@ desc:Una criatura inmunda, humanoide, con una cola larga, manos y pies con garra
 desc: y una barba asquerosa, nervuda y serpentina. Son las tropas de élite de los
 desc: infiernos, capaces de una furia berserker aterradora.
 
-### Nivel de mazmorra 56 ###
+### Dungeon level 56 ###
 
 name:titán menor
 base:giant
@@ -11910,7 +11915,7 @@ spells:S_MONSTERS
 desc:Es una figura humanoide de nueve metros que desprende un aura de poder
 desc: y odio.
 
-### Nivel de mazmorra 57 ###
+### Dungeon level 57 ###
 
 name:gran maestro místico
 base:person
@@ -11999,7 +12004,7 @@ desc: cabeza extra masiva que abre sus poderosas fauces hacia ti. Sus muchos ojo
 desc: te miran fijamente mientras nubes de vapor se elevan de su forma hirviente.
 desc: Y le crecen nuevas cabezas tan rápido como se las cortas.
 
-### Nivel de mazmorra 58 ###
+### Dungeon level 58 ###
 
 name:Baphomet el Señor Minotauro
 base:hybrid
@@ -12031,8 +12036,8 @@ spells:BR_WALL
 desc:Un monstruo temible con cabeza de toro, Baphomet blande un hacha poderosa
 desc: mientras maldice a todos los que lo desafían.
 
-### Nivel de mazmorra 59 ###
 
+### Dungeon level 59 ###
 name:vampiro anciano
 base:vampire
 color:r
@@ -12095,10 +12100,10 @@ desc: para cualquier aventurero.
 
 
 
-########## NIVELES DE MAZMORRA 60-69 ##########
+########## DUNGEON LEVELS 60-69 ##########
 
 
-### Nivel de mazmorra 60 ###
+### Dungeon level 60 ###
 
 name:Gilim, el Gigante de Eruman
 base:giant
@@ -12264,7 +12269,7 @@ desc: de Sauron. Busca emularlo y cría orcos y trolls para que luchen por él.
 desc: Busca eternamente el Anillo Único, para convertirse en un poderoso
 desc: Rey-Hechicero del mundo.
 
-### Nivel de mazmorra 61 ###
+### Dungeon level 61 ###
 
 name:ala nocturna
 base:wraith
@@ -12323,7 +12328,8 @@ desc: altamente venenosa. Y sus entrañas son corrosivas. Todo lo cual se combin
 desc: para formar la vista más repugnante -y el olor- que hayas experimentado
 desc: jamás.
 
-### Nivel de mazmorra 62 ###
+
+### Dungeon level 62 ###
 
 name:señor del temor
 base:ghost
@@ -12384,7 +12390,7 @@ desc: astucia e inteligencia. Su velocidad en el aire es igualada por pocos otro
 desc: dragones y su fuego de dragón es de lo que están hechas las leyendas; se
 desc: cree que es el dragón más grande que aún sobrevive en la Tercera Edad.
 
-### Nivel de mazmorra 63 ###
+### Dungeon level 63 ###
 
 name:hombre lobo de Sauron
 plural:hombres lobo de Sauron
@@ -12447,7 +12453,7 @@ friends:100:2d4:araña
 desc:Una de la horrible progenie de Ungoliant, engendrada en la sombra sin fin
 desc: de Nan Dungortheb bajo las montañas de Ered Gorgoroth.
 
-### Nivel de mazmorra 64 ###
+### Dungeon level 64 ###
 
 name:sabueso del caos
 base:zephyr hound
@@ -12501,7 +12507,7 @@ spells:S_DEMON | S_HI_UNDEAD
 desc:Un liche que ha alcanzado su etapa evolutiva final: un estado
 desc: completamente inmaterial.
 
-### Nivel de mazmorra 65 ###
+### Dungeon level 65 ###
 
 name:Maia de Ulmo
 plural:Maiar de Ulmo
@@ -12639,7 +12645,7 @@ spells:BOLT
 desc:Un veterano de las batallas libradas por Fëanor y sus hijos en persecución
 desc: de los Silmarils, te ataca con agilidad, poder y crueldad.
 
-### Nivel de mazmorra 66 ###
+### Dungeon level 66 ###
 
 name:ojo druj
 base:skeleton
@@ -12722,7 +12728,8 @@ desc:Señor de todas las cosas felinas, Tevildo sirve bien a su amo Morgoth.
 desc: Se deleita en pequeños tormentos y estratagemas astutas, y se ríe
 desc: alegremente mientras te golpea.
 
-### Nivel de mazmorra 67 ###
+
+### Dungeon level 67 ###
 
 name:Thuringwethil, la Mensajera Vampiro
 base:vampire
@@ -12779,7 +12786,8 @@ spells:S_KIN
 desc:Una madre colmena de la raza de los observadores, puede invocar a su
 desc: progenie para que la ayude cuando lo desee.
 
-### Nivel de mazmorra 68 ###
+
+### Dungeon level 68 ###
 
 name:jabberwock
 base:hybrid
@@ -12867,7 +12875,7 @@ message-invis:BA_NETH:Algo castañetea.
 desc:Una forma esquelética, negra como la noche, construida con los huesos de sus
 desc: víctimas anteriores.
 
-### Nivel de mazmorra 69 ###
+### Dungeon level 69 ###
 
 name:sabueso de Tindalos
 plural:sabuesos de Tindalos
@@ -12992,10 +13000,10 @@ desc: en la boca, y su cabeza sobresale con grandes ojos multifacéticos. Su col
 desc: está cubierta de púas afiladas como navajas.
 
 
-########## NIVELES DE MAZMORRA 70-79 ##########
+########## DUNGEON LEVELS 70-79 ##########
 
 
-### Nivel de mazmorra 70 ###
+### Dungeon level 70 ###
 
 name:gran wyrm de tormenta
 base:ancient dragon
@@ -13082,7 +13090,8 @@ desc:Un dragón verdaderamente enorme con grandes poderes. Los gases fétidos qu
 desc: emite la bestia casi te hacen vomitar; y mientras puedes intentar contener
 desc: la respiración mientras luchas contra él, él no ve razón para hacer lo mismo.
 
-### Nivel de mazmorra 71 ###
+
+### Dungeon level 71 ###
 
 name:Maia de Manwë
 plural:Maiar de Manwë
@@ -13198,7 +13207,7 @@ message-invis:BLINK:Algo sorbe.
 desc:Una masa masiva de carne podrida. Un hedor asqueroso llena el aire mientras
 desc: late y se retuerce.
 
-### Nivel de mazmorra 72 ###
+### Dungeon level 72 ###
 
 name:segador cornudo
 base:major demon
@@ -13260,7 +13269,7 @@ desc: indómito del océano. El terror crece en tu corazón con cada paso
 desc: chapoteante de su acercamiento.
 
 
-### Nivel de mazmorra 73 ###
+### Dungeon level 73 ###
 
 name:gran wyrm infernal
 base:ancient dragon
@@ -13407,7 +13416,7 @@ desc: destrozar tu alma y sus hechizos aplastan tu voluntad. Es antiguo, su
 desc: historia impregnada de maldades olvidadas, sus atrocidades numerosas y
 desc: repugnantes.
 
-### Nivel de mazmorra 74 ###
+### Dungeon level 74 ###
 
 name:cráneo druj
 base:skeleton
@@ -13490,7 +13499,7 @@ desc:Una forma cambiante y arremolinada. Parece ser de todos los colores y
 desc: tamaños y formas, aunque la forma dominante es la de un perro enorme. De
 desc: repente, te sientes muy inseguro.
 
-### Nivel de mazmorra 75 ###
+### Dungeon level 75 ###
 
 name:gran wyrm del caos
 plural:grandes wyrms del caos
@@ -13647,7 +13656,7 @@ desc: más poderoso. Aunque esto ya no es así, todavía tiene pleno control sob
 desc: progenie y puede ordenarles que aparezcan cuando lo desee. Él es la
 desc: definición del fuego de dragón.
 
-### Nivel de mazmorra 76 ###
+### Dungeon level 76 ###
 
 name:quylthulg maestro
 base:quylthulg
@@ -13692,7 +13701,7 @@ desc: salón sombrío en los primeros días de Arda para albergar batallas sin f
 desc: Cuando no está en casa, él y su hermana Meássë cazan y buscan las
 desc: turbulencias causadas por Morgoth.
 
-### Nivel de mazmorra 77 ###
+### Dungeon level 77 ###
 
 name:Feagwath, el Hechicero No Muerto
 base:lich
@@ -13783,7 +13792,7 @@ spells:S_MONSTER | S_WRAITH
 desc:Un alto Jinete del Anillo de capa negra, es un maestro de la equitación.
 desc: Anhela saborear tu sangre.
 
-### Nivel de mazmorra 78 ###
+### Dungeon level 78 ###
 
 name:serpiente del caos
 plural:serpientes del caos
@@ -13836,7 +13845,7 @@ spells:S_MONSTER | S_WRAITH
 desc:Hechicera en vida, Adunaphel cayó rápidamente bajo el influjo de Sauron y el
 desc: poder de los anillos.
 
-### Nivel de mazmorra 79 ###
+### Dungeon level 79 ###
 
 name:Qlzqqlzuup, el Quylthulg Emperador
 base:quylthulg
@@ -13888,10 +13897,10 @@ desc: encantamientos, creó ojos enjoyados que le permitían ver mejor que cualq
 desc: hombre común jamás podría.
 
 
-########## NIVELES DE MAZMORRA 80-89 ##########
+########## DUNGEON LEVELS 80-89 ##########
 
 
-### Nivel de mazmorra 80 ###
+### Dungeon level 80 ###
 
 name:furia
 plural:furias
@@ -14031,7 +14040,7 @@ desc:Ren era un rey oriental demente que se creía hijo de un dios volcánico. A
 desc: temprana edad, su cordura fue destruida por una plaga que acabó con su
 desc: familia, y nunca se recuperó.
 
-### Nivel de mazmorra 81 ###
+### Dungeon level 81 ###
 
 name:Maeglin, el Traidor de Gondolin
 base:humanoid
@@ -14088,7 +14097,7 @@ spells:S_UNDEAD | S_WRAITH
 desc:Este Jinete del Anillo era un rey-hechicero de mente débil que cayó
 desc: fácilmente bajo el poder de Sauron.
 
-### Nivel de mazmorra 82 ###
+### Dungeon level 82 ###
 
 name:gran wyrm del equilibrio
 plural:grandes wyrms del equilibrio
@@ -14203,7 +14212,7 @@ desc:Dwar tenía una afinidad especial por los perros en vida, y aún puede
 desc: comandarlos a voluntad. Aúlla como un maníaco mientras se acerca para
 desc: destruirte.
 
-### Nivel de mazmorra 83 ###
+### Dungeon level 83 ###
 
 name:Hoarmurath de Dir
 base:wraith
@@ -14263,7 +14272,7 @@ desc:Draugluin proporciona a Sauron una guardia personal temible. Es un lobo
 desc: enorme habitado por un espíritu humano. Es el jefe de todos los de su
 desc: especie.
 
-### Nivel de mazmorra 84 ###
+### Dungeon level 84 ###
 
 name:Khamûl, el Oriental Negro
 base:wraith
@@ -14324,7 +14333,7 @@ desc:Una legión de malvados druj no muertos animando el esqueleto de un otrora
 desc: poderoso hechicero. Su poder es devastador y su velocidad inigualable en el
 desc: inframundo. ¡Huye de su ira!
 
-### Nivel de mazmorra 85 ###
+### Dungeon level 85 ###
 
 name:Balrog mayor
 base:major demon
@@ -14421,7 +14430,7 @@ desc:"Fauces Apresuradas" es su nombre, y la muerte es su juego; el más grande 
 desc: terrible de todos los dragones, su poder desanimó incluso a los Valar por
 desc: un tiempo.
 
-### Nivel de mazmorra 86 ###
+### Dungeon level 86 ###
 
 name:El Tarrasque
 base:reptile
@@ -14450,7 +14459,7 @@ spells:BR_COLD | BR_DISE | BR_FIRE
 desc:El Tarrasque es un reptil masivo de leyenda, rumoreado que es inmatable e
 desc: inmune a la magia. ¡Teme su ira, pues su devastación no tiene igual!
 
-### Nivel de mazmorra 87 ###
+### Dungeon level 87 ###
 
 name:Meássë, la Sangrienta
 base:ainu
@@ -14488,7 +14497,7 @@ desc: enrojecían hasta el codo. Meássë está encantada con toda violencia, y
 desc: recluta a cualquier ser de habilidades similares para su servicio.
 
 
-### Nivel de mazmorra 88 ###
+### Dungeon level 88 ###
 
 name:Lungorthin, el Balrog de Fuego Blanco
 base:major demon
@@ -14523,10 +14532,10 @@ desc: que arden en rojo. El suelo de la mazmorra donde se encuentra está
 desc: chamuscado por el calor de su cuerpo.
 
 
-########## NIVELES DE MAZMORRA 90-100 ##########
+########## DUNGEON LEVELS 90-100 ##########
 
 
-### Nivel de mazmorra 90 ###
+### Dungeon level 90 ###
 
 name:Huan, Lebrel de los Valar
 base:canine
@@ -14586,7 +14595,7 @@ desc:El primer guardián de Angband, Carcharoth, también conocido como 'La Fauc
 desc: Roja', es el lobo más grande que jamás haya caminado sobre la tierra. Es
 desc: muy inteligente y un oponente mortal en combate.
 
-### Nivel de mazmorra 92 ###
+### Dungeon level 92 ###
 
 name:Vecna, el Liche Emperador
 base:lich
@@ -14625,7 +14634,7 @@ desc:El más grande de todos los hechiceros no muertos, incluso los dioses una v
 desc: lo temieron. Esta antigua sombra de muerte marchita todo ser viviente que
 desc: pasa.
 
-### Nivel de mazmorra 95 ###
+### Dungeon level 95 ###
 
 name:tormenta de No-Magia
 plural:tormentas de No-Magia
@@ -14688,7 +14697,7 @@ desc: famoso por matar a Fëanor y Fingon, dos de los Altos Reyes de los Noldor,
 desc: y nunca ha sido derrotado en combate. Con su látigo de llamas y su
 desc: impresionante aliento ígneo salvó a su amo de la ira de Ungoliant.
 
-### Nivel de mazmorra 99 ###
+### Dungeon level 99 ###
 
 name:Sauron, el Hechicero
 base:ainu
@@ -14811,7 +14820,7 @@ spells:BA_NETH | STORM | BA_DARK | BA_POIS | BA_ACID
 spells:S_DRAGON | S_HI_DEMON | S_HI_UNDEAD
 desc:La forma de Sauron como vampiro, grande como una nube oscura sobre la luna.
 
-### Nivel de mazmorra 100 ###
+### Dungeon level 100 ###
 
 name:Morgoth, Señor de la Oscuridad
 base:Morgoth
