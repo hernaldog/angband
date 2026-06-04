@@ -171,7 +171,7 @@ static const char *suffix_feeling_stuff[] = {
     "no parece haber nada interesante por aquí.",
     "no hay muchos tesoros aquí.", 
     "solo hay fragmentos de basura aquí.",
-    "no hay más que telarañas aquí.", 
+    "por aquí no hay telarañas.", 
     NULL };
 
 /*
