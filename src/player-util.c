@@ -263,7 +263,7 @@ void take_hit(struct player *p, int dam, const char *kb_str)
 			bell();
 
 		/* Mensaje */
-		msgt(MSG_HITPOINT_WARN, "*** ¡ADVERTENCIA DE PUNTOS DE GOLPE BAJOS! ***");
+		msgt(MSG_HITPOINT_WARN, "*** ¡SALUD CRÍTICAMENTE BAJA! ***");
 		event_signal(EVENT_MESSAGE_FLUSH);
 	}
 }
