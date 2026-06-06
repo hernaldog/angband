@@ -1,17 +1,17 @@
 /**
  * \file list-effects.h
- * \brief Lista de efectos
+ * \brief List of effects
  *
- * name: código del efecto
- * aim: ¿el efecto requiere apuntar?
- * info: etiqueta de información para hechizos
- * args: cuántos argumentos toma la descripción
- * info flags: indicadores para la descripción del objeto
- * description: texto de la descripción
- * menu_name: cadena de formato para el nombre del menú; usar una cadena vacía
- * si no está previsto usarlo desde un menú
+ * name: effect code
+ * aim: does the effect require aiming?
+ * info: info label for spells
+ * args: how many arguments the description takes
+ * info flags: flags for object description
+ * description: text of description
+ * menu_name: format string for menu name; use an empty string if there's no
+ * plan to use it from a menu
  */
-/* nombre 							aim		info		args	info flags		description	menu_name */
+/* name 							aim		info		args	info flags		description	menu_name */
 EFFECT(RANDOM,						false,	NULL,		0,		EFINFO_NONE,	"aleatoriamente ",	"")
 EFFECT(DAMAGE,						false,	"hurt",		1,		EFINFO_DICE,	"hace %s de daño al jugador",	"")
 EFFECT(HEAL_HP,						false,	"heal",		2,		EFINFO_HEAL,	"cura %s puntos de vida%s",	"curarse")

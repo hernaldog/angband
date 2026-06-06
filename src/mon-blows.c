@@ -1,6 +1,6 @@
 /**
  * \file mon-blows.c
- * \brief Módulo de combate cuerpo a cuerpo de monstruos.
+ * \brief Monster melee module.
  *
  * Copyright (c) 1997 Ben Harrison, David Reeve Sward, Keldon Jones.
  *               2013 Ben Semmler
@@ -43,7 +43,7 @@
 
 /**
  * ------------------------------------------------------------------------
- * Métodos de golpe de monstruo
+ * Monster blow methods
  * ------------------------------------------------------------------------ */
 
 typedef enum {
@@ -66,10 +66,10 @@ static blow_tag_t blow_tag_lookup(const char *tag)
 }
 
 /**
- * Imprime un mensaje de golpe de monstruo.
+ * Print a monster blow message.
  *
- * Rellenamos el nombre del monstruo y/o pronombre donde sea necesario en
- * el mensaje para reemplazar las instancias de {name} o {pronoun}.
+ * We fill in the monster name and/or pronoun where necessary in
+ * the message to replace instances of {name} or {pronoun}.
  */
 char *monster_blow_method_action(const struct blow_method *method, int midx)
 {
@@ -85,30 +85,30 @@ char *monster_blow_method_action(const struct blow_method *method, int midx)
 	int choice = randint0(method->num_messages);
 	const struct blow_message *msg = method->messages;
 
-	/* Obtener el monstruo objetivo, si lo hay */
+	/* Get the target monster, if any */
 	if (midx > 0) {
 		t_mon = cave_monster(cave, midx);
 	}
 
-	/* Elegir un mensaje */
+	/* Pick a message */
 	while (choice--) {
 		msg = msg->next;
 	}
 	in_cursor = msg->act_msg;
 
-	/* Añadir información al mensaje */
+	/* Add info to the message */
 	next = strchr(in_cursor, '{');
 	while (next) {
-		/* Copiar el texto que lleva hasta este { */
+		/* Copy the text leading up to this { */
 		strnfcat(buf, 1024, &end, "%.*s", (int) (next - in_cursor),
 			in_cursor);
 
 		s = next + 1;
 		while (*s && isalpha((unsigned char) *s)) s++;
 
-		/* Etiqueta válida */
+		/* Valid tag */
 		if (*s == '}') {
-			/* Comenzar la etiqueta después del { */
+			/* Start the tag after the { */
 			tag = next + 1;
 			in_cursor = s + 1;
 
@@ -161,7 +161,7 @@ char *monster_blow_method_action(const struct blow_method *method, int midx)
 				}
 			}
 		} else {
-			/* Una etiqueta no válida, omitirla */
+			/* An invalid tag, skip it */
 			in_cursor = next + 1;
 		}
 
@@ -173,7 +173,7 @@ char *monster_blow_method_action(const struct blow_method *method, int midx)
 
 /**
  * ------------------------------------------------------------------------
- * Funciones auxiliares para efectos de golpe de monstruo
+ * Monster blow effect helper functions
  * ------------------------------------------------------------------------ */
 int blow_index(const char *name)
 {
@@ -188,12 +188,12 @@ int blow_index(const char *name)
 }
 
 /**
- * Muestra el mensaje para un golpe contra un jugador.
+ * Display the message for a blow against a player.
  *
- * \param method es la estructura que describe el tipo de golpe.
- * \param m_name es el nombre formateado del monstruo atacante.
- * \param p es el jugador que está siendo atacado.
- * \param damage es la cantidad de daño del golpe.
+ * \param method is the structure describing the type of blow.
+ * \param m_name is the formatted name for the attacking monster.
+ * \param p is the player being attacked.
+ * \param damage is the amount of damage from the blow.
  */
 static void display_blow_message_vs_player(const struct blow_method *method,
 		const char *m_name, struct player *p, int damage)
@@ -219,12 +219,12 @@ static void display_blow_message_vs_player(const struct blow_method *method,
 }
 
 /**
- * Muestra el mensaje para un golpe contra otro monstruo.
+ * Display the message for a blow against another monster.
  *
- * \param method es la estructura que describe el tipo de golpe.
- * \param m_name es el nombre formateado del monstruo atacante.
- * \param t_idx es el índice del monstruo objetivo (es decir, si mon es la
- * estructura que representa al objetivo, es mon->midx).
+ * \param method is the structure describing the type of blow.
+ * \param m_name is the formatted name for the attacking monster.
+ * \param t_idx is the index for the targeted monster (i.e. if mon is the
+ * structure representing the target, it is mon->midx).
  */
 static void display_blow_message_vs_monster(const struct blow_method *method,
 		const char *m_name, int t_idx)
@@ -243,75 +243,74 @@ static void display_blow_message_vs_monster(const struct blow_method *method,
 }
 
 /**
- * El monstruo roba un objeto del jugador
+ * Monster steals an item from the player
  */
 static void steal_player_item(melee_effect_handler_context_t *context)
 {
 	int tries;
 
-    /* Encontrar un objeto */
+    /* Find an item */
     for (tries = 0; tries < 10; tries++) {
 		struct object *obj, *stolen;
 		char o_name[80];
 		bool split = false;
 		bool none_left = false;
 
-        /* Elegir un objeto */
+        /* Pick an item */
 		int index = randint0(z_info->pack_size);
 
-        /* Obtener el objeto */
+        /* Obtain the item */
         obj = context->p->upkeep->inven[index];
 
-		/* Omitir no-objetos */
+		/* Skip non-objects */
 		if (obj == NULL) continue;
 
-        /* Omitir artefactos */
+        /* Skip artifacts */
         if (obj->artifact) continue;
 
-        /* Obtener una descripción */
+        /* Get a description */
         object_desc(o_name, sizeof(o_name), obj, ODESC_FULL, context->p);
 
-		/* ¿Es parte de un montón lo que se roba? */
+		/* Is it one of a stack being stolen? */
 		if (obj->number > 1)
 			split = true;
 
-		/* Intentar robar */
+		/* Try to steal */
 		if (react_to_slay(obj, context->mon)) {
-			/* Reaccionar a objetos que dañan al monstruo */
+			/* React to objects that hurt the monster */
 			char m_name[80];
 
-			/* Obtener los nombres del monstruo (o "eso") */
+			/* Get the monster names (or "it") */
 			monster_desc(m_name, sizeof(m_name), context->mon, MDESC_STANDARD);
 
-			/* Fallo al robar */
+			/* Fail to steal */
 			msg("%s intenta robarte %s %s, pero falla.", m_name,
 				(split ? "uno de tus" : "tu"), o_name);
 		} else {
-			/* Mensaje */
+			/* Message */
 			msg("¡Te han robado %s %s (%c)!",
 				(split ? "uno de tus" : "tu"), o_name,
 				gear_to_label(context->p, obj));
 
-			/* Robar y llevar */
+			/* Steal and carry */
 			stolen = gear_object_for_use(context->p, obj, 1,
 				false, &none_left);
 			(void)monster_carry(cave, context->mon, stolen);
 		}
 
-        /* Obvio */
+        /* Obvious */
         context->obvious = true;
 
-        /* Desaparecer parpadeando */
+        /* Blink away */
         context->blinked = true;
 
-        /* Terminado */
+        /* Done */
         break;
     }
 }
 
 /**
- * Obtiene el daño elemental recibido por un monstruo del combate cuerpo a
- * cuerpo de otro monstruo
+ * Get the elemental damage taken by a monster from another monster's melee
  */
 static int monster_elemental_damage(melee_effect_handler_context_t *context,
 									int type, enum mon_messages *hurt_msg,
@@ -322,7 +321,7 @@ static int monster_elemental_damage(melee_effect_handler_context_t *context,
 	int imm_flag = RF_NONE;
 	int damage = 0;
 
-	/* Tratar con tipos elementales */
+	/* Deal with elemental types */
 	switch (type) {
 		case PROJ_ACID: {
 			imm_flag = RF_IM_ACID;
@@ -373,21 +372,19 @@ static int monster_elemental_damage(melee_effect_handler_context_t *context,
 }
 
 /**
- * Inflige el daño cuerpo a cuerpo real de un monstruo a un jugador o monstruo objetivo
+ * Deal the actual melee damage from a monster to a target player or monster
  *
- * Esta función se usa en manejadores donde no hay más procesamiento de
- * un monstruo después del daño, por lo que siempre devolvemos true para
- * objetivos monstruo
+ * This function is used in handlers where there is no further processing of
+ * a monster after damage, so we always return true for monster targets
  */
 static bool monster_damage_target(melee_effect_handler_context_t *context,
 								  bool no_further_monster_effect)
 {
-	/* Recibir daño */
+	/* Take damage */
 	if (context->p) {
 		/*
-		 * La reducción de daño del jugador no afecta al daño usado para
-		 * los cálculos de efectos secundarios, así que dejamos context->damage
-		 * como está.
+		 * Player damage reduction does not affect the damage used for
+		 * side effect calculations so leave context->damage as is.
 		 */
 		int reduced = player_apply_damage_reduction(context->p,
 			context->damage);
@@ -410,17 +407,16 @@ static bool monster_damage_target(melee_effect_handler_context_t *context,
 
 /**
  * ------------------------------------------------------------------------
- * Manejadores de efectos múltiples de golpe de monstruo
- * Estos son llamados por varios manejadores de efectos individuales
+ * Monster blow multi-effect handlers
+ * These are each called by several individual effect handlers
  * ------------------------------------------------------------------------ */
 /**
- * Inflige daño como resultado de un ataque cuerpo a cuerpo que tiene un
- * aspecto elemental.
+ * Do damage as the result of a melee attack that has an elemental aspect.
  *
- * \param context es la información para el ataque actual.
- * \param type es la constante PROJ_ para el elemento.
- * \param pure_element debería ser true si no hay efectos secundarios
- * (principalmente un truco para el veneno).
+ * \param context is information for the current attack.
+ * \param type is the PROJ_ constant for the element.
+ * \param pure_element should be true if no side effects (mostly a hack
+ * for poison).
  */
 static void melee_effect_elemental(melee_effect_handler_context_t *context,
 								   int type, bool pure_element)
@@ -430,7 +426,7 @@ static void melee_effect_elemental(melee_effect_handler_context_t *context,
 	enum mon_messages die_msg = MON_MSG_DIE;
 
 	if (pure_element)
-		/* Obvio */
+		/* Obvious */
 		context->obvious = true;
 
 	if (context->p) {
@@ -446,10 +442,10 @@ static void melee_effect_elemental(melee_effect_handler_context_t *context,
 		}
 	}
 
-	/* Dar una pequeña bonificación a la CA para ataques elementales */
+	/* Give a small bonus to ac for elemental attacks */
 	physical_dam = adjust_dam_armor(context->damage, context->ac + 50);
 
-	/* Algunos ataques no hacen daño físico */
+	/* Some attacks do no physical damage */
 	if (!context->method->phys)
 		physical_dam = 0;
 
@@ -462,7 +458,7 @@ static void melee_effect_elemental(melee_effect_handler_context_t *context,
 												 &die_msg);
 	}
 
-	/* Tomar el mayor del daño físico o elemental */
+	/* Take the larger of physical or elemental damage */
 	context->damage = (physical_dam > elemental_dam) ?
 		physical_dam : elemental_dam;
 
@@ -471,9 +467,8 @@ static void melee_effect_elemental(melee_effect_handler_context_t *context,
 	if (context->damage > 0) {
 		if (context->p) {
 			/*
-			 * La reducción de daño del jugador no afecta al daño
-			 * usado para los cálculos de efectos secundarios, así que dejamos
-			 * context->damage como está.
+			 * Player damage reduction does not affect the damage]				 * used for side effect calculations so leave
+			 * context->damage as is.
 			 */
 			int reduced = player_apply_damage_reduction(context->p,
 				context->damage);
@@ -490,37 +485,37 @@ static void melee_effect_elemental(melee_effect_handler_context_t *context,
 		}
 	}
 
-	/* Aprender sobre el jugador */
+	/* Learn about the player */
 	if (pure_element && context->p) {
 		update_smart_learn(context->mon, context->p, 0, 0, type);
 	}
 }
 
 /**
- * Inflige daño como resultado de un ataque cuerpo a cuerpo que tiene un
- * efecto de estado.
+ * Do damage as the result of a melee attack that has a status effect.
  *
- * \param context es la información para el ataque actual.
- * \param type es la constante TMD_ para el efecto.
- * \param amount es la cantidad que debe aumentar el temporizador.
- * \param of_flag es la bandera OF_ que se pasa al aprendizaje del monstruo
- * para este efecto.
- * \param save indica si se debe intentar una tirada de salvación para este efecto.
- * \param save_msg es el mensaje que se muestra si la tirada de salvación tiene éxito.
+ * \param context is the information for the current attack.
+ * \param type is the TMD_ constant for the effect.
+ * \param amount is the amount that the timer should be increased by.
+ * \param of_flag is the OF_ flag that is passed on to monster learning for
+ * this effect.
+ * \param save indicates if a saving throw should be attempted for this effect.
+ * \param save_msg is the message that is displayed if the saving throw is
+ * successful.
  */
 static void melee_effect_timed(melee_effect_handler_context_t *context,
 							   int type, int amount, int of_flag, bool save,
 							   const char *save_msg)
 {
-	/* Recibir daño */
+	/* Take damage */
 	if (monster_damage_target(context, false)) return;
 
-	/* Manejar estado */
+	/* Handle status */
 	if (context->t_mon) {
-		/* Traducir a efecto temporizado de monstruo */
+		/* Translate to monster timed effect */
 		int mon_tmd_effect = -1;
 
-		/* Servirá hasta que se fusionen los efectos temporizados de monstruo y jugador */
+		/* Will do until monster and player timed effects are fused */
 		switch (type) {
 			case TMD_CONFUSED: {
 				mon_tmd_effect = MON_TMD_CONF;
@@ -547,36 +542,35 @@ static void melee_effect_timed(melee_effect_handler_context_t *context,
 			context->obvious = true;
 		}
 	} else if (save && randint0(100) < context->p->state.skills[SKILL_SAVE]) {
-		/* Intentar una tirada de salvación si se desea. */
+		/* Attempt a saving throw if desired. */
 		if (save_msg != NULL) {
 			msg("%s", save_msg);
 		}
 		context->obvious = true;
 	} else {
-		/* Aumentar el temporizador para el tipo. */
+		/* Increase timer for type. */
 		if (player_inc_timed(context->p, type, amount, true, true,
 				true)) {
 			context->obvious = true;
 		}
 
-		/* Aprender sobre el jugador */
+		/* Learn about the player */
 		update_smart_learn(context->mon, context->p, of_flag, 0, -1);
 	}
 }
 
 /**
- * Inflige daño como resultado de un ataque cuerpo a cuerpo que drena una
- * estadística.
+ * Do damage as the result of a melee attack that drains a stat.
  *
- * \param context es la información para el ataque actual.
- * \param stat es la constante STAT_ para la estadística deseada.
+ * \param context is the information for the current attack.
+ * \param stat is the STAT_ constant for the desired stat.
  */
 static void melee_effect_stat(melee_effect_handler_context_t *context, int stat)
 {
-	/* Recibir daño */
+	/* Take damage */
 	if (monster_damage_target(context, true)) return;
 
-	/* Dañar (estadística) */
+	/* Damage (stat) */
 	effect_simple(EF_DRAIN_STAT,
 			source_monster(context->mon->midx),
 			"0",
@@ -589,22 +583,21 @@ static void melee_effect_stat(melee_effect_handler_context_t *context, int stat)
 }
 
 /**
- * Inflige daño como resultado de un ataque cuerpo a cuerpo que drena experiencia.
+ * Do damage as the result of an experience draining melee attack.
  *
- * \param context es la información para el ataque actual.
- * \param chance es la probabilidad del jugador de resistir el drenaje si tiene
+ * \param context is the information for the current attack.
+ * \param chance is the player's chance of resisting drain if they have
  * OF_HOLD_LIFE.
- * \param drain_amount es la cantidad base de experiencia a drenar.
+ * \param drain_amount is the base amount of experience to drain.
  */
 static void melee_effect_experience(melee_effect_handler_context_t *context,
 									int chance, int drain_amount)
 {
-	/* Recibir daño */
+	/* Take damage */
 	if (context->p) {
 		/*
-		 * La reducción de daño del jugador no afecta al daño usado para
-		 * los cálculos de efectos secundarios, así que dejamos context->damage
-		 * como está.
+		 * Player damage reduction does not affect the damage used for
+		 * side effect calculations so leave context->damage as is.
 		 */
 		int reduced = player_apply_damage_reduction(context->p,
 			context->damage);
@@ -641,10 +634,10 @@ static void melee_effect_experience(melee_effect_handler_context_t *context,
 
 /**
  * ------------------------------------------------------------------------
- * Manejadores de efectos de golpe de monstruo
+ * Monster blow effect handlers
  * ------------------------------------------------------------------------ */
 /**
- * Manejador de efecto cuerpo a cuerpo: Golpear al jugador, pero no hacer ningún daño.
+ * Melee effect handler: Hit the player, but don't do any damage.
  */
 static void melee_effect_handler_NONE(melee_effect_handler_context_t *context)
 {
@@ -661,63 +654,63 @@ static void melee_effect_handler_NONE(melee_effect_handler_context_t *context)
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Herir al jugador sin efectos secundarios.
+ * Melee effect handler: Hurt the player with no side effects.
  */
 static void melee_effect_handler_HURT(melee_effect_handler_context_t *context)
 {
-	/* Obvio */
+	/* Obvious */
 	context->obvious = true;
 
-	/* La armadura reduce el daño total */
+	/* Armor reduces total damage */
 	context->damage = adjust_dam_armor(context->damage, context->ac);
 
-	/* Recibir daño */
+	/* Take damage */
 	(void) monster_damage_target(context, true);
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Envenenar al jugador.
+ * Melee effect handler: Poison the player.
  *
- * No podemos usar melee_effect_timed(), porque esto es tanto un ataque elemental
- * como un ataque de estado. Nótese el valor false para pure_element en
+ * We can't use melee_effect_timed(), because this is both and elemental attack
+ * and a status attack. Note the false value for pure_element for
  * melee_effect_elemental().
  */
 static void melee_effect_handler_POISON(melee_effect_handler_context_t *context)
 {
 	melee_effect_elemental(context, PROJ_POIS, false);
 
-	/* El jugador está muerto o no atacado */
+	/* Player is dead or not attacked */
 	if (!context->p || context->p->is_dead)
 		return;
 
-	/* Aplicar efecto de "veneno" */
+	/* Take "poison" effect */
 	if (player_inc_timed(context->p, TMD_POISONED,
 			5 + randint1(context->rlev), true, true, true)) {
 		context->obvious = true;
 	}
 
-	/* Aprender sobre el jugador */
+	/* Learn about the player */
 	update_smart_learn(context->mon, context->p, 0, 0, ELEM_POIS);
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Desencantar al jugador.
+ * Melee effect handler: Disenchant the player.
  */
 static void melee_effect_handler_DISENCHANT(melee_effect_handler_context_t *context)
 {
-	/* Recibir daño */
+	/* Take damage */
 	if (monster_damage_target(context, true)) return;
 
-	/* Aplicar desencantamiento si no hay resistencia */
+	/* Apply disenchantment if no resist */
 	if (!player_resists(context->p, ELEM_DISEN))
 		effect_simple(EF_DISENCHANT, source_monster(context->mon->midx), "0", 0, 0, 0, 0, 0, &context->obvious);
 
-	/* Aprender sobre el jugador */
+	/* Learn about the player */
 	update_smart_learn(context->mon, context->p, 0, 0, ELEM_DISEN);
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Drenar cargas del inventario del jugador.
+ * Melee effect handler: Drain charges from the player's inventory.
  */
 static void melee_effect_handler_DRAIN_CHARGES(melee_effect_handler_context_t *context)
 {
@@ -727,28 +720,28 @@ static void melee_effect_handler_DRAIN_CHARGES(melee_effect_handler_context_t *c
 	int tries;
 	int unpower = 0, newcharge;
 
-	/* Recibir daño */
+	/* Take damage */
 	if (monster_damage_target(context, true)) return;
 
-	/* Encontrar un objeto */
+	/* Find an item */
 	for (tries = 0; tries < 10; tries++) {
-		/* Elegir un objeto */
+		/* Pick an item */
 		obj = context->p->upkeep->inven[randint0(z_info->pack_size)];
 
-		/* Omitir no-objetos */
+		/* Skip non-objects */
 		if (obj == NULL) continue;
 
-		/* Drenar varitas/varales cargados */
+		/* Drain charged wands/staves */
 		if (tval_can_have_charges(obj)) {
-			/* ¿Cargado? */
+			/* Charged? */
 			if (obj->pval) {
-				/* Obtener número de cargas a drenar */
+				/* Get number of charge to drain */
 				unpower = (context->rlev / (obj->kind->level + 2)) + 1;
 
-				/* Obtener nuevo valor de carga, no permitir negativo */
+				/* Get new charge value, don't allow negative */
 				newcharge = MAX((obj->pval - unpower),0);
 
-				/* Eliminar las cargas */
+				/* Remove the charges */
 				obj->pval = newcharge;
 			}
 		}
@@ -760,49 +753,50 @@ static void melee_effect_handler_DRAIN_CHARGES(melee_effect_handler_context_t *c
 
 			context->obvious = true;
 
-			/* No curar más del máximo de PV */
+			/* Don't heal more than max hp */
 			heal = MIN(heal, monster->maxhp - monster->hp);
 
-			/* Curar */
+			/* Heal */
 			monster->hp += heal;
 
-			/* Redibujar (después) si es necesario */
+			/* Redraw (later) if needed */
 			if (current_player->upkeep->health_who == monster)
 				current_player->upkeep->redraw |= (PR_HEALTH);
 
-			/* Combinar la mochila */
+			/* Combine the pack */
 			current_player->upkeep->notice |= (PN_COMBINE);
 
-			/* Redibujar cosas */
+			/* Redraw stuff */
 			current_player->upkeep->redraw |= (PR_INVEN);
 
-			/* Afectar solo un espacio de inventario */
+			/* Affect only a single inventory slot */
 			break;
 		}
 	}
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Tomar el oro del jugador.
+ * Melee effect handler: Take the player's gold.
  */
 static void melee_effect_handler_EAT_GOLD(melee_effect_handler_context_t *context)
 {
 	struct player *current_player = context->p;
 
-	/* Recibir daño */
+	/* Take damage */
 	if (monster_damage_target(context, true)) return;
 
-    /* Obvio */
+    /* Obvious */
     context->obvious = true;
 
-    /* Intentar tirada de salvación (a menos que esté paralizado) basada en destreza y nivel */
+    /* Attempt saving throw (unless paralyzed) based on dex and level */
     if (!current_player->timed[TMD_PARALYZED] &&
         (randint0(100) < (adj_dex_safe[current_player->state.stat_ind[STAT_DEX]]
 						  + current_player->lev))) {
-        /* Mensaje de tirada de salvación */
+        /* Saving throw message */
         msg("¡Proteges rápidamente tu bolsa de dinero!");
 
-        /* Parpadeo ocasional de todos modos */
+        
+        /* Occasional blink anyway */
         if (randint0(3)) context->blinked = true;
     } else {
         int32_t gold = (current_player->au / 10) + randint1(25);
@@ -815,72 +809,72 @@ static void melee_effect_handler_EAT_GOLD(melee_effect_handler_context_t *contex
             return;
         }
 
-        /* Informar al jugador de que le robaron */
+        /* Let the player know they were robbed */
         msg("Tu bolsa se siente más ligera.");
         if (current_player->au)
             msg("¡Te robaron %d monedas!", gold);
         else
             msg("¡Te robaron todas tus monedas!");
 
-        /* Mientras tengamos oro, ponerlo en objetos */
+        /* While we have gold, put it in objects */
         while (gold > 0) {
             int amt;
 
-            /* Crear un nuevo objeto temporal */
+            /* Create a new temporary object */
             struct object *obj = object_new();
             object_prep(obj, money_kind("gold", gold), 0, MINIMISE);
 
-            /* Cantidad de oro a poner en este objeto */
+            /* Amount of gold to put in this object */
             amt = gold > MAX_PVAL ? MAX_PVAL : gold;
             obj->pval = amt;
             gold -= amt;
 
-            /* Establecer origen a robado, para que no se confunda con
-             * tesoro soltado en monster_death */
+            /* Set origin to stolen, so it is not confused with
+             * dropped treasure in monster_death */
             obj->origin = ORIGIN_STOLEN;
             obj->origin_depth = convert_depth_to_origin(current_player->depth);
 
-            /* Dar el oro al monstruo */
+            /* Give the gold to the monster */
             monster_carry(cave, context->mon, obj);
         }
 
-        /* Redibujar oro */
+        /* Redraw gold */
         current_player->upkeep->redraw |= (PR_GOLD);
 
-        /* Desaparecer parpadeando */
+        /* Blink away */
         context->blinked = true;
     }
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Tomar algo del inventario del jugador.
+ * Melee effect handler: Take something from the player's inventory.
  */
 static void melee_effect_handler_EAT_ITEM(melee_effect_handler_context_t *context)
 {
-    /* Recibir daño */
+    /* Take damage */
 	if (monster_damage_target(context, false)) return;
 
-	/* Robar del jugador o monstruo */
+	/* Steal from player or monster */
 	if (context->p) {
 		int chance = adj_dex_safe[context->p->state.stat_ind[STAT_DEX]] +
 			context->p->lev;
 
-		/* Tirada de salvación (a menos que esté paralizado) basada en destreza y nivel */
+		/* Saving throw (unless paralyzed) based on dex and level */
 		if (!context->p->timed[TMD_PARALYZED] && (randint0(100) < chance)) {
-			/* Mensaje de tirada de salvación */
+			/* Saving throw message */
 			msg("¡Te agarras a tu mochila!");
 
-			/* "Parpadeo" ocasional de todos modos */
+			/* Occasional "blink" anyway */
 			context->blinked = true;
 
-			/* Obvio */
+			/* Obvious */
 			context->obvious = true;
 
-			/* Terminado */
+			/* Done */
 			return;
 		}
 
-		/* Intentar robar un objeto */
+		/* Try to steal an item */
 		steal_player_item(context);
 	} else {
 		assert(context->t_mon);
@@ -890,30 +884,30 @@ static void melee_effect_handler_EAT_ITEM(melee_effect_handler_context_t *contex
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Comer la comida del jugador.
+ * Melee effect handler: Eat the player's food.
  */
 static void melee_effect_handler_EAT_FOOD(melee_effect_handler_context_t *context)
 {
 	int tries;
 
-	/* Recibir daño */
+	/* Take damage */
 	if (monster_damage_target(context, true)) return;
 
-	/* Robar algo de comida */
+	/* Steal some food */
 	for (tries = 0; tries < 10; tries++) {
-		/* Elegir un objeto de la mochila */
+		/* Pick an item from the pack */
 		int index = randint0(z_info->pack_size);
 		struct object *obj, *eaten;
 		char o_name[80];
 		bool none_left = false;
 
-		/* Obtener el objeto */
+		/* Get the item */
 		obj = context->p->upkeep->inven[index];
 
-		/* Omitir no-objetos */
+		/* Skip non-objects */
 		if (obj == NULL) continue;
 
-		/* Omitir objetos no comestibles */
+		/* Skip non-food objects */
 		if (!tval_is_edible(obj)) continue;
 
 		if (obj->number == 1) {
@@ -928,7 +922,7 @@ static void melee_effect_handler_EAT_FOOD(melee_effect_handler_context_t *contex
 				gear_to_label(context->p, obj));
 		}
 
-		/* Robar y comer */
+		/* Steal and eat */
 		eaten = gear_object_for_use(context->p, obj, 1, false,
 			&none_left);
 		if (eaten->known)
@@ -938,20 +932,20 @@ static void melee_effect_handler_EAT_FOOD(melee_effect_handler_context_t *contex
 		/* Obvio */
 		context->obvious = true;
 
-		/* Terminado */
+		/* Done */
 		break;
 	}
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Absorber la luz del jugador.
+ * Melee effect handler: Absorb the player's light.
  */
 static void melee_effect_handler_EAT_LIGHT(melee_effect_handler_context_t *context)
 {
-	/* Recibir daño */
+	/* Take damage */
 	if (monster_damage_target(context, true)) return;
 
-	/* Drenar la fuente de luz */
+	/* Drain the light source */
 	effect_simple(EF_DRAIN_LIGHT,
 			source_monster(context->mon->midx),
 			"250+1d250",
@@ -964,7 +958,7 @@ static void melee_effect_handler_EAT_LIGHT(melee_effect_handler_context_t *conte
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Atacar al jugador con ácido.
+ * Melee effect handler: Attack the player with acid.
  */
 static void melee_effect_handler_ACID(melee_effect_handler_context_t *context)
 {
@@ -972,7 +966,7 @@ static void melee_effect_handler_ACID(melee_effect_handler_context_t *context)
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Atacar al jugador con electricidad.
+ * Melee effect handler: Attack the player with electricity.
  */
 static void melee_effect_handler_ELEC(melee_effect_handler_context_t *context)
 {
@@ -980,7 +974,7 @@ static void melee_effect_handler_ELEC(melee_effect_handler_context_t *context)
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Atacar al jugador con fuego.
+ * Melee effect handler: Attack the player with fire.
  */
 static void melee_effect_handler_FIRE(melee_effect_handler_context_t *context)
 {
@@ -988,7 +982,7 @@ static void melee_effect_handler_FIRE(melee_effect_handler_context_t *context)
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Atacar al jugador con frío.
+ * Melee effect handler: Attack the player with cold.
  */
 static void melee_effect_handler_COLD(melee_effect_handler_context_t *context)
 {
@@ -996,7 +990,7 @@ static void melee_effect_handler_COLD(melee_effect_handler_context_t *context)
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Cegar al jugador.
+ * Melee effect handler: Blind the player.
  */
 static void melee_effect_handler_BLIND(melee_effect_handler_context_t *context)
 {
@@ -1005,7 +999,7 @@ static void melee_effect_handler_BLIND(melee_effect_handler_context_t *context)
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Confundir al jugador.
+ * Melee effect handler: Confuse the player.
  */
 static void melee_effect_handler_CONFUSE(melee_effect_handler_context_t *context)
 {
@@ -1014,7 +1008,7 @@ static void melee_effect_handler_CONFUSE(melee_effect_handler_context_t *context
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Aterrorizar al jugador.
+ * Melee effect handler: Terrify the player.
  */
 static void melee_effect_handler_TERRIFY(melee_effect_handler_context_t *context)
 {
@@ -1023,11 +1017,11 @@ static void melee_effect_handler_TERRIFY(melee_effect_handler_context_t *context
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Paralizar al jugador.
+ * Melee effect handler: Paralyze the player.
  */
 static void melee_effect_handler_PARALYZE(melee_effect_handler_context_t *context)
 {
-	/* Prevenir parálisis permanente mediante daño */
+	/* Prevent perma-paralysis via damage */
 	if (context->p && context->p->timed[TMD_PARALYZED] && (context->damage < 1))
 		context->damage = 1;
 
@@ -1036,7 +1030,7 @@ static void melee_effect_handler_PARALYZE(melee_effect_handler_context_t *contex
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Drenar la fuerza del jugador.
+ * Melee effect handler: Drain the player's strength.
  */
 static void melee_effect_handler_LOSE_STR(melee_effect_handler_context_t *context)
 {
@@ -1044,7 +1038,7 @@ static void melee_effect_handler_LOSE_STR(melee_effect_handler_context_t *contex
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Drenar la inteligencia del jugador.
+ * Melee effect handler: Drain the player's intelligence.
  */
 static void melee_effect_handler_LOSE_INT(melee_effect_handler_context_t *context)
 {
@@ -1052,7 +1046,7 @@ static void melee_effect_handler_LOSE_INT(melee_effect_handler_context_t *contex
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Drenar la sabiduría del jugador.
+ * Melee effect handler: Drain the player's wisdom.
  */
 static void melee_effect_handler_LOSE_WIS(melee_effect_handler_context_t *context)
 {
@@ -1060,7 +1054,7 @@ static void melee_effect_handler_LOSE_WIS(melee_effect_handler_context_t *contex
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Drenar la destreza del jugador.
+ * Melee effect handler: Drain the player's dexterity.
  */
 static void melee_effect_handler_LOSE_DEX(melee_effect_handler_context_t *context)
 {
@@ -1068,7 +1062,7 @@ static void melee_effect_handler_LOSE_DEX(melee_effect_handler_context_t *contex
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Drenar la constitución del jugador.
+ * Melee effect handler: Drain the player's constitution.
  */
 static void melee_effect_handler_LOSE_CON(melee_effect_handler_context_t *context)
 {
@@ -1076,14 +1070,14 @@ static void melee_effect_handler_LOSE_CON(melee_effect_handler_context_t *contex
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Drenar todas las estadísticas del jugador.
+ * Melee effect handler: Drain all of the player's stats.
  */
 static void melee_effect_handler_LOSE_ALL(melee_effect_handler_context_t *context)
 {
-	/* Recibir daño */
+	/* Take damage */
 	if (monster_damage_target(context, true)) return;
 
-	/* Dañar (estadísticas) */
+	/* Damage (stats) */
 	effect_simple(EF_DRAIN_STAT, source_monster(context->mon->midx), "0", STAT_STR, 0, 0, 0, 0, &context->obvious);
 	effect_simple(EF_DRAIN_STAT, source_monster(context->mon->midx), "0", STAT_DEX, 0, 0, 0, 0, &context->obvious);
 	effect_simple(EF_DRAIN_STAT, source_monster(context->mon->midx), "0", STAT_CON, 0, 0, 0, 0, &context->obvious);
@@ -1092,27 +1086,27 @@ static void melee_effect_handler_LOSE_ALL(melee_effect_handler_context_t *contex
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Causar un terremoto alrededor del jugador.
+ * Melee effect handler: Cause an earthquake around the player.
  */
 static void melee_effect_handler_SHATTER(melee_effect_handler_context_t *context)
 {
-	/* Obvio */
+	/* Obvious */
 	context->obvious = true;
 
-	/* Reducir daño basado en la clase de armadura del jugador */
+	/* Reduce damage based on the player armor class */
 	context->damage = adjust_dam_armor(context->damage, context->ac);
 
-	/* Recibir daño */
+	/* Take damage */
 	if (monster_damage_target(context, false)) return;
 
-	/* Terremoto centrado en el monstruo, radio determinado por el daño */
+	/* Earthquake centered at the monster, radius damage-determined */
 	if (context->damage > 23) {
 		int radius = context->damage / 12;
 		effect_simple(EF_EARTHQUAKE, source_monster(context->mon->midx), "0",
 					  0, radius, 0, 0, 0, NULL);
 	}
 
-	/* Probabilidad de ser empujado */
+	/* Chance of knockback */
 	if ((context->damage > 100)) {
 		int value = context->damage - 100;
 		if (randint1(value) > 40) {
@@ -1127,7 +1121,7 @@ static void melee_effect_handler_SHATTER(melee_effect_handler_context_t *context
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Drenar la experiencia del jugador.
+ * Melee effect handler: Drain the player's experience.
  */
 static void melee_effect_handler_EXP_10(melee_effect_handler_context_t *context)
 {
@@ -1135,7 +1129,7 @@ static void melee_effect_handler_EXP_10(melee_effect_handler_context_t *context)
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Drenar la experiencia del jugador.
+ * Melee effect handler: Drain the player's experience.
  */
 static void melee_effect_handler_EXP_20(melee_effect_handler_context_t *context)
 {
@@ -1143,7 +1137,7 @@ static void melee_effect_handler_EXP_20(melee_effect_handler_context_t *context)
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Drenar la experiencia del jugador.
+ * Melee effect handler: Drain the player's experience.
  */
 static void melee_effect_handler_EXP_40(melee_effect_handler_context_t *context)
 {
@@ -1151,7 +1145,7 @@ static void melee_effect_handler_EXP_40(melee_effect_handler_context_t *context)
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Drenar la experiencia del jugador.
+ * Melee effect handler: Drain the player's experience.
  */
 static void melee_effect_handler_EXP_80(melee_effect_handler_context_t *context)
 {
@@ -1159,36 +1153,36 @@ static void melee_effect_handler_EXP_80(melee_effect_handler_context_t *context)
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Hacer alucinar al jugador.
+ * Melee effect handler: Make the player hallucinate.
  *
- * Nótese que no usamos melee_effect_timed(), debido a la diferente función
- * de aprendizaje del monstruo.
+ * Note that we don't use melee_effect_timed(), due to the different monster
+ * learning function.
  */
 static void melee_effect_handler_HALLU(melee_effect_handler_context_t *context)
 {
-	/* Recibir daño */
+	/* Take damage */
 	if (monster_damage_target(context, true)) return;
 
-	/* Aumentar "imagen" */
+	/* Increase "image" */
 	if (player_inc_timed(context->p, TMD_IMAGE,
 			3 + randint1(context->rlev / 2), true, true, true))
 		context->obvious = true;
 
-	/* Aprender sobre el jugador */
+	/* Learn about the player */
 	update_smart_learn(context->mon, context->p, 0, 0, ELEM_CHAOS);
 }
 
 /**
- * Manejador de efecto cuerpo a cuerpo: Dar al jugador el Aliento Negro.
+ * Melee effect handler: Give the player Black Breath.
  *
- * Nótese que no usamos melee_effect_timed(), ya que esto es irresistible.
+ * Note that we don't use melee_effect_timed(), as this is unresistable.
  */
 static void melee_effect_handler_BLACK_BREATH(melee_effect_handler_context_t *context)
 {
-	/* Recibir daño */
+	/* Take damage */
 	if (monster_damage_target(context, true)) return;
 
-	/* Aumentar el contador de Aliento Negro una cantidad *pequeña*, tal vez */
+	/* Increase Black Breath counter a *small* amount, maybe */
 	if (one_in_(5) && player_inc_timed(context->p, TMD_BLACKBREATH,
 			context->damage / 10, true, true, false)) {
 		context->obvious = true;
@@ -1197,7 +1191,7 @@ static void melee_effect_handler_BLACK_BREATH(melee_effect_handler_context_t *co
 
 /**
  * ------------------------------------------------------------------------
- * Selección del manejador de combate cuerpo a cuerpo de golpe de monstruo
+ * Monster blow melee handler selection
  * ------------------------------------------------------------------------ */
 melee_effect_handler_f melee_handler_for_blow_effect(const char *name)
 {

@@ -1,6 +1,6 @@
 /**
  * \file list-origins.h
- * \brief Lista de orígenes de objetos
+ * \brief List of object origins
  */
 ORIGIN(NONE,		-1,	"")
 ORIGIN(FLOOR,		1,	"Hallado en el suelo %s")
@@ -11,7 +11,7 @@ ORIGIN(VAULT,		1,	"Hallado en el suelo de una bóveda %s")
 ORIGIN(LABYRINTH,	1,	"Hallado en el suelo de un laberinto %s")
 ORIGIN(CAVERN,		1,	"Hallado en el suelo de una caverna %s")
 ORIGIN(RUBBLE,		1,	"Hallado bajo unos escombros %s")
-ORIGIN(MIXED,		-1,	"")                 /* montón con orígenes mixtos */
+ORIGIN(MIXED,		-1,	"")                 /* stack with mixed origins */
 ORIGIN(DROP,		2,	"Arrojado por %s %s") /* objetos dejados por monstruos normales */
 ORIGIN(DROP_SPECIAL,2,	"Arrojado por %s %s") /* de monstruos en habitaciones especiales */
 ORIGIN(DROP_PIT,	2,	"Arrojado por %s %s") /* de monstruos en fosos/nidos */

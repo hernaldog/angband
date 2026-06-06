@@ -1,14 +1,14 @@
 /**
  * \file list-options.h
- * \brief opciones
+ * \brief options
  *
- * Actualmente, si hay más de 21 de cualquier tipo de opción, las últimas
- * serán ignoradas.
- * Las opciones de trampa deben ser seguidas por las opciones de puntuación correspondientes.
+ * Currently, if there are more than 21 of any option type, the later ones
+ * will be ignored
+ * Cheat options need to be followed by corresponding score options
  */
 
-/* nombre                 descripción
-tipo      normal */
+/* name                   description
+type     normal */
 OP(none,                  "",
 SPECIAL, false)
 OP(rogue_like_commands,   "Usar teclas estilo roguelike",
@@ -101,3 +101,4 @@ OP(birth_levels_persist,  "Niveles persistentes (experimental)",
 BIRTH, false)
 OP(birth_percent_damage,  "Para-dañar es un porcent de dados (experimental)",
 BIRTH, false)
+

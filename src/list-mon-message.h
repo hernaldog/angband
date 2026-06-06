@@ -8,7 +8,7 @@
  * text         - the message text
  */
 
-/* id						MSG_GENERIC,	texto */
+/* id						MSG_GENERIC,	text */
 MON_MSG(NONE,				MSG_GENERIC,	false,	"[es|son] herido[s].")
 MON_MSG(DIE,				MSG_KILL,		false,	"muere[n].")
 MON_MSG(DESTROYED,			MSG_KILL,		false,	"[es|son] destruido[s].")
