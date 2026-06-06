@@ -274,7 +274,6 @@ Contenido del script shell:
 | src\borg\borg.txt                        | 100      |
 | src\borg\borg-item.c                     | 100      |
 | src\main-win.c                           | 100      |
-| src\init.h                               | 100      |
 | src\borg\borg-messages.c                 | 100      |
 | src\mon-util.c                           | 100      |
 | src\cmd-cave.c                           | 100      |
