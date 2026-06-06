@@ -1,6 +1,6 @@
 /**
- * \archivo obj-chest.c
- * \brief Encapsulación de funciones relacionadas con cofres
+ * \file obj-chest.c
+ * \brief Encapsulation of chest-related functions
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2012 Peter Denison
@@ -35,26 +35,26 @@
 #include "player-util.h"
 
 /**
- * Las trampas de cofres se especifican en el archivo chest_trap.txt.
+ * Chest traps are specified in the file chest_trap.txt.
  *
- * Los cofres se describen mediante su pval de 16 bits de la siguiente manera:
- * - pval de 0 es un cofre vacío
- * - pval de 1 es un cofre cerrado con llave sin trampas
- * - pval > 1 es un cofre con trampas, donde cada bit del pval aparte del
- *             más bajo y el más alto (potencialmente) representa una trampa diferente
- * - pval < 1 es un cofre desarmado/abierto; el proceso de desarme es simplemente
- *             negar el pval
+ * Chests are described by their 16-bit pval as follows:
+ * - pval of 0 is an empty chest
+ * - pval of 1 is a locked chest with no traps
+ * - pval > 1  is a trapped chest, with each bit of the pval aside from the
+ *             lowest and highest (potentially) representing a different trap
+ * - pval < 1  is a disarmed/unlocked chest; the disarming process is simply
+ *             to negate the pval
  *
- * El pval del cofre también determina la dificultad de desarmar el cofre.
- * Actualmente la dificultad máxima es 60 (32 + 16 + 8 + 4); si se añaden más trampas
- * a chest_trap.txt, el cálculo de desarme necesitará ajustes.
+ * The chest pval also determines the difficulty of disarming the chest.
+ * Currently the maximum difficulty is 60 (32 + 16 + 8 + 4); if more traps are
+ * added to chest_trap.txt, the disarming calculation will need adjusting.
  */
 
 struct chest_trap *chest_traps;
 
 /**
  * ------------------------------------------------------------------------
- * Funciones de análisis para chest_trap.txt y chest.txt
+ * Parsing functions for chest_trap.txt and chest.txt
  * ------------------------------------------------------------------------ */
 static enum parser_error parse_chest_trap_name(struct parser *p)
 {
@@ -62,7 +62,7 @@ static enum parser_error parse_chest_trap_name(struct parser *p)
     struct chest_trap *h = parser_priv(p);
     struct chest_trap *t = mem_zalloc(sizeof *t);
 
-	/* Ordenar las trampas correctamente y establecer el pval */
+	/* Order the traps correctly and set the pval */
 	if (h) {
 		h->next = t;
 		t->pval = h->pval * 2;
@@ -104,7 +104,7 @@ static enum parser_error parse_chest_trap_effect(struct parser *p) {
 	if (!t)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 
-	/* Ir al siguiente efecto vacante y establecerlo al nuevo */
+	/* Go to the next vacant effect and set it to the new one  */
 	if (t->effect) {
 		effect = t->effect;
 		while (effect->next)
@@ -113,7 +113,7 @@ static enum parser_error parse_chest_trap_effect(struct parser *p) {
 	} else
 		t->effect = new_effect;
 
-	/* Rellenar los detalles */
+	/* Fill in the detail */
 	return grab_effect_data(p, new_effect);
 }
 
@@ -126,7 +126,7 @@ static enum parser_error parse_chest_trap_dice(struct parser *p) {
 	if (!t)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	if (effect == NULL)
 		return PARSE_ERROR_NONE;
 
@@ -162,13 +162,13 @@ static enum parser_error parse_chest_trap_expr(struct parser *p) {
 	if (!t)
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	if (effect == NULL)
 		return PARSE_ERROR_NONE;
 
 	while (effect->next) effect = effect->next;
 
-	/* Si no hay dados, asumir que es humano y no un error del analizador. */
+	/* If there are no dice, assume that this is human and not parser error. */
 	if (effect->dice == NULL)
 		return PARSE_ERROR_NONE;
 
@@ -189,7 +189,7 @@ static enum parser_error parse_chest_trap_expr(struct parser *p) {
 	if (dice_bind_expression(effect->dice, name, expression) < 0)
 		return PARSE_ERROR_UNBOUND_EXPRESSION;
 
-	/* El objeto dice hace una copia profunda de la expresión, así que podemos liberarla */
+	/* The dice object makes a deep copy of the expression, so we can free it */
 	expression_free(expression);
 
 	return PARSE_ERROR_NONE;
@@ -289,16 +289,16 @@ struct file_parser chest_trap_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Información de trampas de cofres
+ * Chest trap information
  * ------------------------------------------------------------------------ */
 /**
- * El nombre de una trampa de cofre
+ * The name of a chest trap
  */
 const char *chest_trap_name(const struct object *obj)
 {
 	int16_t trap_value = obj->pval;
 
-	/* Un valor distinto de cero significa que había o todavía hay trampas */
+	/* Non-zero value means there either were or are still traps */
 	if (trap_value < 0) {
 		return (trap_value == -1) ? "abierto" : "desarmado";
 	} else if (trap_value > 0) {
@@ -321,52 +321,52 @@ const char *chest_trap_name(const struct object *obj)
 }
 
 /**
- * Determina si un cofre tiene trampas
+ * Determine if a chest is trapped
  */
 bool is_trapped_chest(const struct object *obj)
 {
 	if (!tval_is_chest(obj))
 		return false;
 
-	/* Los cofres desarmados o abiertos no tienen trampas */
+	/* Disarmed or opened chests are not trapped */
 	if (obj->pval <= 0)
 		return false;
 
-	/* Algunos cofres simplemente no tienen trampas */
+	/* Some chests simply don't have traps */
 	return (obj->pval == 1) ? false : true;
 }
 
 
 /**
- * Determina si un cofre está cerrado con llave o tiene trampas
+ * Determine if a chest is locked or trapped
  */
 bool is_locked_chest(const struct object *obj)
 {
 	if (!tval_is_chest(obj))
 		return false;
 
-	/* Los cofres desarmados o abiertos no están cerrados con llave */
+	/* Disarmed or opened chests are not locked */
 	return (obj->pval > 0);
 }
 
 /**
  * ------------------------------------------------------------------------
- * Acciones de trampas de cofres
+ * Chest trap actions
  * ------------------------------------------------------------------------ */
 /**
- * Elegir una única trampa de cofre para un nivel dado de objeto de cofre
+ * Pick a single chest trap for a given level of chest object
  */
 static int pick_one_chest_trap(int level)
 {
 	int count = 0, pick;
 	struct chest_trap *trap;
 
-	/* Contar las trampas posibles (empezando después de la trampa "cerrada con llave") */
+	/* Count possible traps (starting after the "locked" trap) */
 	for (trap = chest_traps->next; trap; trap = trap->next) {
 		if (trap->level <= level) count++;
 	}
 
-	/* Elegir una trampa, devolver el pval */
+	/* Pick a trap, return the pval */
 	pick = randint0(count);
 	for (trap = chest_traps->next; trap; trap = trap->next) {
 		if (!pick--) break;
@@ -375,31 +375,31 @@ static int pick_one_chest_trap(int level)
 }
 
 /**
- * Elegir un conjunto de trampas para un cofre
- * Actualmente esto solo depende del nivel del objeto de cofre
+ * Pick a set of chest traps
+ * Currently this only depends on the level of the chest object
  */
 int pick_chest_traps(struct object *obj)
 {
 	int level = obj->kind->level;
 	int trap = 0;
 
-	/* Una posibilidad entre diez de que no haya trampa */
+	/* One in ten chance of no trap */
 	if (one_in_(10)) {
 		return 1;
 	}
 
-	/* Elegir una trampa, añadirla */
+	/* Pick a trap, add it */
 	trap |= pick_one_chest_trap(level);
 
-	/* Probabilidad dependiente del nivel de una segunda trampa (puede superponerse a la primera) */
+	/* Level dependent chance of a second trap (may overlap the first one) */
 	if ((level > 5) && one_in_(1 + ((65 - level) / 10))) {
 		trap |= pick_one_chest_trap(level);
 	}
 
-	/* Probabilidad de una tercera trampa para cofres profundos (puede superponerse a las existentes) */
+	/* Chance of a third trap for deep chests (may overlap existing traps) */
 	if ((level > 45) && one_in_(65 - level)) {
 		trap |= pick_one_chest_trap(level);
-		/* Pequeña probabilidad de una cuarta trampa (puede superponerse a las existentes) */
+		/* Small chance of a fourth trap (may overlap existing traps) */
 		if (one_in_(40)) {
 			trap |= pick_one_chest_trap(level);
 		}
@@ -409,7 +409,7 @@ int pick_chest_traps(struct object *obj)
 }
 
 /**
- * Abrir un cofre
+ * Unlock a chest
  */
 void unlock_chest(struct object *obj)
 {
@@ -417,20 +417,20 @@ void unlock_chest(struct object *obj)
 }
 
 /**
- * Determina si una casilla contiene un cofre que coincide con el tipo de consulta, y
- * devuelve un puntero al primer cofre de ese tipo
+ * Determine if a grid contains a chest matching the query type, and
+ * return a pointer to the first such chest
  */
 struct object *chest_check(const struct player *p, struct loc grid,
 		enum chest_query check_type)
 {
 	struct object *obj;
 
-	/* Escanear todos los objetos en la casilla */
+	/* Scan all objects in the grid */
 	for (obj = square_object(cave, grid); obj; obj = obj->next) {
-		/* Ignorar si se solicita */
+		/* Ignore if requested */
 		if (ignore_item_ok(p, obj)) continue;
 
-		/* Verificar cofres */
+		/* Check for chests */
 		switch (check_type) {
 		case CHEST_ANY:
 			if (tval_is_chest(obj))
@@ -447,64 +447,64 @@ struct object *chest_check(const struct player *p, struct loc grid,
 		}
 	}
 
-	/* No hay cofre */
+	/* No chest */
 	return NULL;
 }
 
 
 /**
- * Devuelve el número de casillas que contienen cofres alrededor (o debajo) del personaje.
- * Si se solicita, contar solo los cofres con trampas.
+ * Return the number of grids holding a chests around (or under) the character.
+ * If requested, count only trapped chests.
  */
 int count_chests(struct loc *grid, enum chest_query check_type)
 {
 	int d, count;
 
-	/* Contar cuántas coincidencias */
+	/* Count how many matches */
 	count = 0;
 
-	/* Verificar alrededor (y debajo) del personaje */
+	/* Check around (and under) the character */
 	for (d = 0; d < 9; d++) {
-		/* Extraer ubicación adyacente (legal) */
+		/* Extract adjacent (legal) location */
 		struct loc grid1 = loc_sum(player->grid, ddgrid_ddd[d]);
 
-		/* No hay cofre (visible) allí */
+		/* No (visible) chest is there */
 		if (!chest_check(player, grid1, check_type)) continue;
 
-		/* Contarlo */
+		/* Count it */
 		++count;
 
-		/* Recordar la ubicación del último cofre encontrado */
+		/* Remember the location of the last chest found */
 		*grid = grid1;
 	}
 
-	/* Todo listo */
+	/* All done */
 	return count;
 }
 
 
 /**
- * Asignar objetos al abrir un cofre
+ * Allocate objects upon opening a chest
  *
- * Dispensar tesoros del cofre dado, centrado en (x,y).
+ * Disperse treasures from the given chest, centered at (x,y).
  *
- * Los cofres de madera contienen 1 objeto, los cofres de hierro contienen 2 objetos,
- * y los cofres de acero contienen 3 objetos. Los cofres pequeños ahora contienen objetos buenos,
- * los cofres grandes objetos excelentes, fuera de profundidad para el nivel en el que se genera
- * el cofre.
+ * Wooden chests contain 1 item, Iron chests contain 2 items,
+ * and Steel chests contain 3 items.  Small chests now contain good items,
+ * large chests great items, out of depth for the level on which the chest
+ * is generated.
  *
- * El juicio sobre el tamaño y la construcción de los cofres se realiza actualmente a partir del nombre.
+ * Judgment of size and construction of chests is currently made from the name.
  */
 static void chest_death(struct loc grid, struct object *chest)
 {
 	int number, level;
 	bool large = strstr(chest->kind->name, "Large") ? true : false;;
 
-	/* El pval cero significa cofre vacío */
+	/* Zero pval means empty chest */
 	if (!chest->pval)
 		return;
 
-	/* Determinar cuánto soltar (ver arriba) */
+	/* Determine how much to drop (see above) */
 	if (strstr(chest->kind->name, "wooden")) {
 		number = 1;
 	} else if (strstr(chest->kind->name, "iron")) {
@@ -515,7 +515,7 @@ static void chest_death(struct loc grid, struct object *chest)
 		number = randint1(3);
 	}
 
-	/* Soltar algunos objetos valiosos (no cofres) */
+	/* Drop some valuable objects (non-chests) */
 	level = chest->origin_depth + 5;
 	while (number > 0) {
 		struct object *treasure;
@@ -533,14 +533,14 @@ static void chest_death(struct loc grid, struct object *chest)
 		number--;
 	}
 
-	/* El cofre ahora está vacío */
+	/* Chest is now empty */
 	chest->pval = 0;
 	chest->known->pval = 0;
 }
 
 
 /**
- * Los cofres también tienen trampas.
+ * Chests have traps too.
  */
 static void chest_trap(struct object *obj)
 {
@@ -548,10 +548,10 @@ static void chest_trap(struct object *obj)
 	struct chest_trap *trap;
 	bool ident = false;
 
-	/* Ignorar cofres desarmados */
+	/* Ignore disarmed chests */
 	if (traps <= 0) return;
 
-	/* Aplicar efectos de las trampas */
+	/* Apply trap effects */
 	for (trap = chest_traps; trap; trap = trap->next) {
 		if (trap->pval & traps) {
 			if (trap->msg) {
@@ -571,11 +571,11 @@ static void chest_trap(struct object *obj)
 
 
 /**
- * Intentar abrir el cofre dado en la ubicación dada
+ * Attempt to open the given chest at the given location
  *
- * Asumir que no hay ningún monstruo bloqueando el destino
+ * Assume there is no monster blocking the destination
  *
- * Devuelve verdadero si los comandos repetidos pueden continuar
+ * Returns true if repeated commands may continue
  */
 bool do_cmd_open_chest(struct loc grid, struct object *obj)
 {
@@ -585,76 +585,76 @@ bool do_cmd_open_chest(struct loc grid, struct object *obj)
 
 	bool more = false;
 
-	/* Intentar abrirlo */
+	/* Attempt to unlock it */
 	if (obj->pval > 0) {
-		/* Asumir que está cerrado con llave, y por lo tanto no abierto */
+		/* Assume locked, and thus not open */
 		flag = false;
 
-		/* Obtener el factor de "desarme" */
+		/* Get the "disarm" factor */
 		i = player->state.skills[SKILL_DISARM_PHYS];
 
-		/* Penalizar algunas condiciones */
+		/* Penalize some conditions */
 		if (player->timed[TMD_BLIND] || no_light(player)) i = i / 10;
 		if (player->timed[TMD_CONFUSED] || player->timed[TMD_IMAGE]) i = i / 10;
 
-		/* Extraer la dificultad */
+		/* Extract the difficulty */
 		j = i - obj->pval;
 
-		/* Siempre tener una pequeña posibilidad de éxito */
+		/* Always have a small chance of success */
 		if (j < 2) j = 2;
 
-		/* Éxito -- Puede que todavía tenga trampas */
+		/* Success -- May still have traps */
 		if (randint0(100) < j) {
 			msgt(MSG_LOCKPICK, "Has abierto la cerradura.");
 			player_exp_gain(player, 1);
 			flag = true;
 		} else {
-			/* Podemos seguir repitiendo */
+			/* We may continue repeating */
 			more = true;
 			event_signal(EVENT_INPUT_FLUSH);
 			msgt(MSG_LOCKPICK_FAIL, "No pudiste abrir la cerradura.");
 		}
 	}
 
-	/* Permitido abrir */
+	/* Allowed to open */
 	if (flag) {
-		/* Aplicar trampas del cofre, si las hay y el jugador no es inmune a trampas */
+		/* Apply chest traps, if any and player is not trapsafe */
 		if (!player_is_trapsafe(player)) {
 			chest_trap(obj);
 		} else if ((obj->pval > 0) && player_of_has(player, OF_TRAP_IMMUNE)) {
-			/* Aprender inmunidad a trampas si hay trampas */
+			/* Learn trap immunity if there are traps */
 			equip_learn_flag(player, OF_TRAP_IMMUNE);
 		}
 
-		/* Dejar que el cofre suelte objetos */
+		/* Let the Chest drop items */
 		chest_death(grid, obj);
 
-		/* Ignorar el cofre si la autoignoración lo requiere */
+		/* Ignore chest if autoignore calls for it */
 		player->upkeep->notice |= PN_IGNORE;
 	}
 
-	/* Los cofres vacíos siempre se ignoraban en ignore_item_okay, así que
-	 * también podríamos ignorarlos aquí
+	/* Empty chests were always ignored in ignore_item_okay so we
+	 * might as well ignore it here
 	 */
 	if (obj->pval == 0)
 		obj->known->notice |= OBJ_NOTICE_IGNORE;
 
-	/* Redibujar el cofre, para estar seguros (puede haber sido ignorado) */
+	/* Redraw chest, to be on the safe side (it may have been ignored) */
 	square_light_spot(cave, grid);
 
-	/* Resultado */
+	/* Result */
 	return (more);
 }
 
 
 /**
- * Intentar desarmar el cofre en la ubicación dada
- * Asumir que no hay ningún monstruo bloqueando el destino
+ * Attempt to disarm the chest at the given location
+ * Assume there is no monster blocking the destination
  *
- * El cálculo de dificultad asume que hay 6 tipos de trampas de cofre;
- * si se añaden más, será necesario ajustarlo.
+ * The calculation of difficulty assumes that there are 6 types of chest
+ * trap; if more are added, it will need adjusting.
  *
- * Devuelve verdadero si los comandos repetidos pueden continuar
+ * Returns true if repeated commands may continue
  */
 bool do_cmd_disarm_chest(struct object *obj)
 {
@@ -664,7 +664,7 @@ bool do_cmd_disarm_chest(struct object *obj)
 	bool magic = false;
 	bool more = false;
 
-	/* Verificar si las trampas son mágicas, físicas o ambas */
+	/* Check whether the traps are magic, physical or both */
 	for (traps = chest_traps; traps; traps = traps->next) {
 		if (!(traps->pval & obj->pval)) continue;
 		if (traps->magic) {
@@ -674,7 +674,7 @@ bool do_cmd_disarm_chest(struct object *obj)
 		}
 	}
 
-	/* El desarme físico es el predeterminado, si hay trampas mágicas ajustamos */
+	/* Physical disarming is the default, if there are magic traps we adjust */ 
 	if (magic) {
 		if (physical) {
 			skill = (player->state.skills[SKILL_DISARM_MAGIC] +
@@ -684,7 +684,7 @@ bool do_cmd_disarm_chest(struct object *obj)
 		}
 	}
 
-	/* Penalizar algunas condiciones */
+	/* Penalize some conditions */
 	if (player->timed[TMD_BLIND] || no_light(player)) {
 		skill /= 10;
 	}
@@ -692,39 +692,39 @@ bool do_cmd_disarm_chest(struct object *obj)
 		skill /= 10;
 	}
 
-	/* Extraer la dificultad */
+	/* Extract the difficulty */
 	diff = skill - obj->pval;
 
-	/* Siempre tener una pequeña posibilidad de éxito */
+	/* Always have a small chance of success */
 	if (diff < 2) diff = 2;
 
-	/* Primero debe encontrar la trampa. */
+	/* Must find the trap first. */
 	if (!obj->known->pval || ignore_item_ok(player, obj)) {
 		msg("No veo ninguna trampa.");
 	} else if (!is_trapped_chest(obj)) {
-		/* Ya desarmado/abierto o sin trampas */
+		/* Already disarmed/unlocked or no traps */
 		msg("El cofre no tiene trampas.");
 	} else if (randint0(100) < diff) {
-		/* Éxito (obtener mucha experiencia) */
+		/* Success (get a lot of experience) */
 		msgt(MSG_DISARM, "Has desarmado el cofre.");
 		player_exp_gain(player, obj->pval);
 		obj->pval = (0 - obj->pval);
 	} else if (randint0(100) < diff) {
-		/* Fracaso -- Seguir intentando */
+		/* Failure -- Keep trying */
 		more = true;
 		event_signal(EVENT_INPUT_FLUSH);
 		msg("No pudiste desarmar el cofre.");
 	} else {
-		/* Fracaso -- Activar la trampa */
+		/* Failure -- Set off the trap */
 		if (!player_is_trapsafe(player)) {
 			msg("¡Activaste una trampa!");
 			chest_trap(obj);
 		} else if (player_of_has(player, OF_TRAP_IMMUNE)) {
-			/* Aprender inmunidad a trampas. */
+			/* Learn trap immunity. */
 			equip_learn_flag(player, OF_TRAP_IMMUNE);
 		}
 	}
 
-	/* Resultado */
+	/* Result */
 	return (more);
 }

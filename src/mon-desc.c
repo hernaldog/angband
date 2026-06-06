@@ -1,6 +1,6 @@
 /**
  * \file mon-desc.c
- * \brief Descripción de monstruos
+ * \brief Monster description
  *
  * Copyright (c) 1997-2007 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
@@ -22,7 +22,7 @@
 #include "mon-predicate.h"
 
 /**
- * Realizar pluralización simple en inglés en un nombre de monstruo.
+ * Perform simple English pluralization on a monster name.
  */
 void plural_aux(char *name, size_t max)
 {
@@ -37,16 +37,16 @@ void plural_aux(char *name, size_t max)
 
 
 /**
- * Función auxiliar para mostrar la lista de monstruos. Imprime el número de criaturas,
- * seguido de una versión singular o plural del nombre de la raza según
- * corresponda.
+ * Helper function for display monlist.  Prints the number of creatures,
+ * followed by either a singular or plural version of the race name as
+ * appropriate.
  */
 void get_mon_name(char *buf, size_t buflen,
 				  const struct monster_race *race, int num)
 {
 	assert(race != NULL);
 
-    /* Los nombres únicos no tienen un número */
+    /* Unique names don't have a number */
 	if (rf_has(race->flags, RF_UNIQUE)) {
 		strnfmt(buf, buflen, "[U] %s", race->name);
     } else {
@@ -64,67 +64,67 @@ void get_mon_name(char *buf, size_t buflen,
 }
 
 /**
- * Construye una cadena describiendo un monstruo de alguna manera.
+ * Builds a string describing a monster in some way.
  *
- * Podemos describir correctamente monstruos basándonos en su visibilidad.
- * Podemos forzar que todos los monstruos sean tratados como visibles o invisibles.
- * Podemos construir nominativos, objetivos, posesivos o reflexivos.
- * Podemos pronominalizar selectivamente monstruos ocultos, visibles o todos.
- * Podemos usar descripciones definidas o indefinidas para monstruos ocultos.
- * Podemos usar descripciones definidas o indefinidas para monstruos visibles.
+ * We can correctly describe monsters based on their visibility.
+ * We can force all monsters to be treated as visible or invisible.
+ * We can build nominatives, objectives, possessives, or reflexives.
+ * We can selectively pronominalize hidden, visible, or all monsters.
+ * We can use definite or indefinite descriptions for hidden monsters.
+ * We can use definite or indefinite descriptions for visible monsters.
  *
- * La pronominalización implica el género siempre que sea posible y esté permitido,
- * de modo que solicitando ingeniosamente pronominalización / visibilidad, puedes
- * obtener mensajes como "Golpeas a alguien. ¡Ella grita de agonía!".
+ * Pronominalization involves the gender whenever possible and allowed,
+ * so that by cleverly requesting pronominalization / visibility, you
+ * can get messages like "You hit someone.  She screams in agony!".
  *
- * Los reflexivos se obtienen solicitando Objetivo más Posesivo.
+ * Reflexives are acquired by requesting Objective plus Possessive.
  *
- * Nótese que los monstruos "fuera de pantalla" obtendrán una notación especial
- * "(fuera de pantalla)" en su nombre si son visibles pero están fuera de pantalla.
- * Esto puede verse tonto con posesivos, como en "la rata's (fuera de pantalla)".
- * Quizás el descriptor "fuera de pantalla" debería ser abreviado.
+ * Note that "offscreen" monsters will get a special "(offscreen)"
+ * notation in their name if they are visible but offscreen.  This
+ * may look silly with possessives, as in "the rat's (offscreen)".
+ * Perhaps the "offscreen" descriptor should be abbreviated.
  *
- * Banderas de Modo:
- *   0x01 --> Objetivo (o Reflexivo)
- *   0x02 --> Posesivo (o Reflexivo)
- *   0x04 --> Usar indefinidos para monstruos ocultos ("algo")
- *   0x08 --> Usar indefinidos para monstruos visibles ("un kobold")
- *   0x10 --> Pronominalizar monstruos ocultos
- *   0x20 --> Pronominalizar monstruos visibles
- *   0x40 --> Asumir que el monstruo está oculto
- *   0x80 --> Asumir que el monstruo es visible
- *  0x100 --> Poner en mayúscula el nombre del monstruo
- *  0x200 --> Añadir una coma si el nombre incluye una frase no terminada,
- *            "Lengua de Serpiente, Agente de Saruman" es un ejemplo
+ * Mode Flags:
+ *   0x01 --> Objective (or Reflexive)
+ *   0x02 --> Possessive (or Reflexive)
+ *   0x04 --> Use indefinites for hidden monsters ("something")
+ *   0x08 --> Use indefinites for visible monsters ("a kobold")
+ *   0x10 --> Pronominalize hidden monsters
+ *   0x20 --> Pronominalize visible monsters
+ *   0x40 --> Assume the monster is hidden
+ *   0x80 --> Assume the monster is visible
+ *  0x100 --> Capitalise monster name
+ *  0x200 --> Add a comma if the name includes an unterminated phrase,
+ *            "Wormtongue, Agent of Saruman" is an example
  *
- * Modos Útiles:
- *   0x00 --> Nombre nominativo completo ("el kobold") o "ello"
- *   0x04 --> Nombre nominativo completo ("el kobold") o "algo"
- *   0x80 --> Nombre de resistencia al destierro ("el kobold")
- *   0x88 --> Nombre de muerte ("un kobold")
- *   0x22 --> Posesivo, con género si es visible ("su") o "su"
- *   0x23 --> Reflexivo, con género si es visible ("sí mismo") o "sí mismo"
+ * Useful Modes:
+ *   0x00 --> Full nominative name ("the kobold") or "it"
+ *   0x04 --> Full nominative name ("the kobold") or "something"
+ *   0x80 --> Banishment resistance name ("the kobold")
+ *   0x88 --> Killing name ("a kobold")
+ *   0x22 --> Possessive, genderized if visable ("his") or "its"
+ *   0x23 --> Reflexive, genderized if visable ("himself") or "itself"
  */
 void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 {
 	assert(mon != NULL);
 
-	/* ¿Podemos verlo? (forzado, o no oculto + visible) */
+	/* Can we see it? (forced, or not hidden + visible) */
 	bool seen = (mode & MDESC_SHOW) ||
 		(!(mode & MDESC_HIDE) && monster_is_visible(mon));
 
-	/* Pronombres con género (visto y forzado, o no visto y permitido) */
+	/* Sexed pronouns (seen and forced, or unseen and allowed) */
 	bool use_pronoun = (seen && (mode & MDESC_PRO_VIS)) ||
 			(!seen && (mode & MDESC_PRO_HID));
 
-	/* Primero, intentar usar pronombres, o describir monstruos ocultos */
+	/* First, try using pronouns, or describing hidden monsters */
 	if (!seen || use_pronoun) {
 		const char *choice = "ello";
 
-		/* una codificación del "sexo" del monstruo */
+		/* an encoding of the monster "sex" */
 		int msex = 0x00;
 
-		/* Extraer el género (si corresponde) */
+		/* Extract the gender (if applicable) */
 		if (use_pronoun) {
 			if (rf_has(mon->race->flags, RF_FEMALE)) {
 				msex = 0x20;
@@ -133,9 +133,9 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 			}
 		}
 
-		/* Fuerza bruta: dividir en las posibilidades */
+		/* Brute force: split on the possibilities */
 		switch (msex + (mode & 0x07)) {
-			/* Neutro */
+			/* Neuter */
 			case 0x00: choice = "ello"; break;
 			case 0x01: choice = "ello"; break;
 			case 0x02: choice = "su"; break;
@@ -145,7 +145,7 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 			case 0x06: choice = "de algo"; break;
 			case 0x07: choice = "sí mismo"; break;
 
-			/* Masculino */
+			/* Male */
 			case 0x10: choice = "él"; break;
 			case 0x11: choice = "él"; break;
 			case 0x12: choice = "su"; break;
@@ -155,7 +155,7 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 			case 0x16: choice = "de alguien"; break;
 			case 0x17: choice = "sí mismo"; break;
 
-			/* Femenino */
+			/* Female */
 			case 0x20: choice = "ella"; break;
 			case 0x21: choice = "ella"; break;
 			case 0x22: choice = "su"; break;
@@ -168,7 +168,7 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 
 		my_strcpy(desc, choice, max);
 	} else if ((mode & MDESC_POSS) && (mode & MDESC_OBJE)) {
-		/* El monstruo es visible, así que usar su género */
+		/* The monster is visible, so use its gender */
 		if (rf_has(mon->race->flags, RF_FEMALE))
 			my_strcpy(desc, "sí misma", max);
 		else if (rf_has(mon->race->flags, RF_MALE))
@@ -178,11 +178,12 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 	} else {
 		const char *comma_pos;
 
-		/* Único, indefinido o definido */
+		/* Unique, indefinite or definite */
 		if (monster_is_shape_unique(mon)) {
-			/* Comenzar con el nombre (así nominativo y objetivo) */
+			/* Start with the name (thus nominative and objective) */
 			/*
-			 * Eliminar la frase descriptiva si se añadirá un posesivo.
+			 * Strip off descriptive phrase if a possessive will be
+			 * added.
 			 */
 			if ((mode & MDESC_POSS)
 					&& rf_has(mon->race->flags, RF_NAME_COMMA)
@@ -196,9 +197,9 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 			}
 		} else {
 			if (mode & MDESC_IND_VIS) {
-				/* XXX Verificar pluralidad para "algunos" */
-				/* Los monstruos indefinidos necesitan un artículo indefinido */
-				my_strcpy(desc, is_a_vowel(mon->race->name[0]) ? "un " : "un ", max);
+				/* XXX Check plurality for "some" */
+				/* Indefinite monsters need an indefinite article */
+				my_strcpy(desc, is_a_vowel(mon->race->name[0]) ? "an " : "a ", max);
 			} else {
 				/* Los monstruos definidos necesitan un artículo definido */
 				//my_strcpy(desc, "el ", max); //fix traduc. Se le saca "el " a "el mushrom xxxxx", ahora solo se usa mushrom
@@ -206,7 +207,8 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 			}
 
 			/*
-			 * Como con los únicos, eliminar la frase si se añadirá un posesivo.
+			 * As with uniques, strip off phrase if a possessive
+			 * will be added.
 			 */
 			if ((mode & MDESC_POSS)
 					&& rf_has(mon->race->flags, RF_NAME_COMMA)
@@ -225,13 +227,13 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 			my_strcat(desc, ",", max);
 		}
 
-		/* Manejar el posesivo */
-		/* XXX Verificar si termina en "s" */
+		/* Handle the possessive */
+		/* XXX Check for trailing "s" */
 		if (mode & MDESC_POSS) {
 			my_strcat(desc, "'s", max);
 		}
 
-		/* Mencionar monstruos "fuera de pantalla" */
+		/* Mention "offscreen" monsters */
 		if (!panel_contains(mon->grid.y, mon->grid.x)) {
 			my_strcat(desc, " (fuera de pantalla)", max);
 		}
