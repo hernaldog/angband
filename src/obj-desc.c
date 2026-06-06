@@ -225,7 +225,7 @@ size_t obj_desc_name_format(char *buf, size_t max, size_t end,
 		        continue;
 		    }
 		
-		    /* Regla especial: "ón" al final → "ones" */
+		    /* Fix traduc. Regla especial: "ón" al final → "ones" */
 		    if (prev == 's' || prev == 'h' || prev == 'x' || prev == 'z') {
 		        strnfcat(buf, max, &end, "es");
 		    } else 
