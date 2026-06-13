@@ -282,8 +282,8 @@ static int spell_menu_select(struct menu *m, const char *noun, const char *verb)
 	region_erase_bordered(&m->active);
 
 	/* Formatear, capitalizar y mostrar */
-	strnfmt(buf, sizeof buf, "%s qué %s? ('?' para alternar descripción)",
-			verb, noun);
+	strnfmt(buf, sizeof buf, "¿Qué %s %s? ('?' para alternar descripción)",
+			noun, verb);
 	my_strcap(buf);
 	prt(buf, 0, 0);
 
@@ -385,7 +385,7 @@ int textui_get_spell(struct player *p, const char *verb,
 	struct object *book;
 
 	/* Crear mensaje */
-	strnfmt(prompt, sizeof prompt, "%s qué libro?", verb);
+	strnfmt(prompt, sizeof prompt, "¿Qué libro %s?", verb);
 	my_strcap(prompt);
 
 	if (!get_item(&book, prompt, book_error,

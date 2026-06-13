@@ -10,7 +10,7 @@
 name:arcane
 stat:INT
 verb:cast
-spell-noun:spell
+spell-noun:hechizo
 book-noun:magic book
 
 name:divine
