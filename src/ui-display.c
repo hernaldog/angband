@@ -2613,7 +2613,7 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		if (!can_pickup)
 			p = "no tienes espacio para";
 		else if (blind)
-			p = "sientes";
+			p = "Sientes";
 
 		/* Describe the object.  Less detail if blind. */
 		if (blind) {
@@ -2637,9 +2637,9 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		ui_event e;
 
 		if (!can_pickup)
-			p = "no tienes espacio para los siguientes objetos";
+			p = "No tienes espacio para los siguientes objetos";
 		else if (blind)
-			p = "sientes algo en el suelo";
+			p = "Sientes algo en el suelo";
 
 		/* Display objects on the floor */
 		screen_save();
