@@ -14,114 +14,114 @@
 # increase for each new item.
 
 # 'message' is for the pain message. Each entry must have 7 messages --
-# each one corresponds to a range of health, with higher messages 
+# each one corresponds to a range of health, with higher messages
 # being displayed when a monster is damaged only a little, and lower
 # messages being displayed when a monster is near death.
 
 type:1
-message:shrug[s] off the attack.
-message:grunt[s] with pain.
-message:cr[ies|y] out in pain.
-message:scream[s] in pain.
-message:scream[s] in agony.
-message:writhe[s] in agony.
-message:cr[ies|y] out feebly.
+message:ignora[n] el ataque.
+message:gruñe[n] de dolor.
+message:grita[n] de dolor.
+message:chilla[n] de dolor.
+message:chilla[n] de agonía.
+message:se retuerce[n] de agonía.
+message:grita[n] débilmente.
 
 type:2
-message:barely notice[s].
-message:flinch[es].
-message:squelch[es].
-message:quiver[s] in pain.
-message:writhe[s] about.
-message:writhe[s] in agony.
-message:jerk[s] limply.
+message:apenas lo nota[n].
+message:se encoge[n].
+message:chapotea[n].
+message:tiembla[n] de dolor.
+message:se retuerce[n].
+message:se retuerce[n] de agonía.
+message:se sacude[n] débilmente.
 
 type:3
-message:shrug[s] off the attack.
-message:snarl[s] with pain.
-message:yelp[s] in pain.
-message:howl[s] in pain.
-message:howl[s] in agony.
-message:writhe[s] in agony.
-message:yelp[s] feebly.
+message:ignora[n] el ataque.
+message:gruñe[n] con dolor.
+message:gime[n] de dolor.
+message:aúlla[n] de dolor.
+message:aúlla[n] de agonía.
+message:se retuerce[n] de agonía.
+message:gime[n] débilmente.
 
 type:4
-message:ignore[s] the attack.
-message:grunt[s] with pain.
-message:squeal[s] in pain.
-message:shriek[s] in pain.
-message:shriek[s] in agony.
-message:writhe[s] in agony.
-message:cr[ies|y] out feebly.
+message:ignora[n] el ataque.
+message:gruñe[n] de dolor.
+message:berrea[n] de dolor.
+message:chilla[n] de dolor.
+message:chilla[n] de agonía.
+message:se retuerce[n] de agonía.
+message:grita[n] débilmente.
 
 type:5
-message:barely notice[s].
-message:hiss[es].
-message:rear[s] up in anger.
-message:hiss[es] furiously.
-message:writhe[s] about.
-message:writhe[s] in agony.
-message:jerk[s] limply.
+message:apenas lo nota[n].
+message:sisea[n].
+message:se alza[n] con ira.
+message:sisea[n] furiosamente.
+message:se retuerce[n].
+message:se retuerce[n] de agonía.
+message:se sacude[n] débilmente.
 
 type:6
-message:shrug[s] off the attack.
-message:snarl[s].
-message:growl[s] angrily.
-message:hiss[es] in pain.
-message:mewl[s] in pain.
-message:hiss[es] in agony.
-message:mewl[s] pitifully.
+message:ignora[n] el ataque.
+message:gruñe[n].
+message:gruñe[n] con furia.
+message:sisea[n] de dolor.
+message:maúlla[n] de dolor.
+message:sisea[n] de agonía.
+message:maúlla[n] lastimosamente.
 
 type:7
-message:ignore[s] the attack.
-message:drone[s] angrily.
-message:scuttle[s] about.
-message:twitch[es] in pain.
-message:jerk[s] in pain.
-message:jerk[s] in agony.
-message:jerk[s] feebly.
+message:ignora[n] el ataque.
+message:zumba[n] con furia.
+message:corretea[n].
+message:se estremece[n] de dolor.
+message:se sacude[n] de dolor.
+message:se sacude[n] de agonía.
+message:se sacude[n] débilmente.
 
 type:8
-message:shrug[s] off the attack.
-message:flap[s] angrily.
-message:jeer[s] in pain.
-message:squawk[s] with pain.
-message:twitter[s] in agony.
-message:flutter[s] about.
-message:chirp[s] feebly.
+message:ignora[n] el ataque.
+message:aletea[n] con furia.
+message:grazna[n] de dolor.
+message:chilla[n] de dolor.
+message:trina[n] de agonía.
+message:aletea[n] sin rumbo.
+message:pía[n] débilmente.
 
 type:9
-message:ignore[s] the attack.
-message:jerk[s].
-message:rattle[s].
-message:clatter[s].
-message:shake[s].
-message:stagger[s].
-message:crumple[s].
+message:ignora[n] el ataque.
+message:se sacude[n].
+message:resuena[n].
+message:rechina[n].
+message:tiembla[n].
+message:se tambalea[n].
+message:se desmorona[n].
 
 type:10
-message:ignore[s] the attack.
-message:grunt[s].
-message:jerk[s].
-message:moan[s].
-message:groan[s].
-message:hesitate[s].
-message:stagger[s].
+message:ignora[n] el ataque.
+message:gruñe[n].
+message:se sacude[n].
+message:gime[n].
+message:se queja[n].
+message:vacila[n].
+message:se tambalea[n].
 
 type:11
-message:ignore[s] the attack.
-message:spin[s] fiercely.
-message:swirl[s] about.
-message:twist[s] around.
-message:spin[s] slowly.
-message:swirl[s] weakly.
-message:twist[s] limply.
+message:ignora[n] el ataque.
+message:gira[n] con furia.
+message:se arremolina[n].
+message:se retuerce[n].
+message:gira[n] lentamente.
+message:se arremolina[n] débilmente.
+message:se retuerce[n] débilmente.
 
 type:12
-message:laugh[s] off the attack.
-message:sneer[s].
-message:scowl[s].
-message:bellow[s] in rage.
-message:scream[s] in fury.
-message:grunt[s].
-message:wince[s].
+message:se ríe[n] del ataque.
+message:sonríe[n] con desdén.
+message:frunce[n] el ceño.
+message:ruge[n] de ira.
+message:chilla[n] de furia.
+message:gruñe[n].
+message:se estremece[n].
