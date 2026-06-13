@@ -1056,7 +1056,7 @@ static void player_kill_monster(struct monster *mon, struct player *p,
 
 		if (!monster_is_visible(mon))
 			/* Death by physical attack -- invisible monster */
-			msgt(soundfx, "Has matado algo"); //fix traduc
+			msgt(soundfx, "Has matado algo."); //fix traduc
 		else if (monster_is_destroyed(mon))
 			/* Death by Physical attack -- non-living monster */
 			msgt(soundfx, "Has destruido a %s.", m_name);
