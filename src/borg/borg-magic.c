@@ -76,12 +76,12 @@ static borg_spell_rating borg_spell_ratings_MAGE[] =
 };
 static borg_spell_rating borg_spell_ratings_DRUID[] =
 {
-    { "Detect Life", 95,  DETECT_LIFE },
-    { "Fox Form", 5, FOX_FORM }, // !FIX !TODO need to know when to cast any of the shapechanges
+    { "Detectar Vida", 95,  DETECT_LIFE },
+    { "Forma de Zorro", 5, FOX_FORM }, // !FIX !TODO need to know when to cast any of the shapechanges
     { "Saciar Hambre", 85, REMOVE_HUNGER },
-    { "Stinking Cloud", 95, STINKING_CLOUD },
-    { "Confuse Monster", 55, CONFUSE_MONSTER },
-    { "Slow Monster", 65, SLOW_MONSTER },
+    { "Nube Pestilente", 95, STINKING_CLOUD },
+    { "Confundir Monstruo", 55, CONFUSE_MONSTER },
+    { "Ralentizar Monstruo", 65, SLOW_MONSTER },
     { "Cure Poison", 55, CURE_POISON },
     { "Resist Poison", 60, RESIST_POISON },
     { "Turn Stone to Mud", 80, TURN_STONE_TO_MUD },

@@ -60,7 +60,7 @@
 
 name:normal
 
-name:fox
+name:zorro
 combat:-3:-3:3
 obj-flags:FEATHER | FREE_ACT
 values:STR[-3] | STEALTH[5] | BLOWS[1] | MOVES[1]

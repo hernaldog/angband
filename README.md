@@ -264,6 +264,7 @@ Contenido del script shell:
 | lib\gamedata\flavor.txt                  | 100      |
 | lib\gamedata\class.txt                   | 100      |
 | lib\gamedata\terrain.txt                 | 100      |
+| lib\gamedata\pain.txt                    | 100      |
 | lib\gamedata\projection.txt              | 100      | Tiene más estados ice, dark, sound, shards, etc
 | lib\gamedata\trap.txt                    | 90       | Nombres de Trampas. TODO: revisar si se puede traducir discolored spot:fire trap
 | lib\help\commands.txt                    | 100      |

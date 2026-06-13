@@ -22,7 +22,7 @@ book-noun:prayer book
 name:nature
 stat:WIS
 verb:chant
-spell-noun:verse
+spell-noun:verso
 book-noun:nature book
 
 name:shadow

@@ -485,13 +485,13 @@ book-graphics:?:y
 book-properties:25:40:1 to 100
 equip:nature book:[Amuletos Menores]:1:1:none
 
-spell:Detect Life:1:1:23:2
+spell:Detectar Vida:1:1:23:2
 effect:DETECT_LIVING_MONSTERS
 effect-yx:22:40
 desc:Detecta todos los monstruos vivos en el área inmediata, por un solo turno.
 
-spell:Fox Form:1:2:20:10
-effect:SHAPECHANGE:fox
+spell:Forma de Zorro:1:2:20:10
+effect:SHAPECHANGE:zorro
 desc:Te transforma en la forma de un zorro, rápido y sigiloso.
 desc:  Mientras estás transformado no puedes usar objetos.
 
@@ -500,19 +500,19 @@ effect:NOURISH:INC_TO
 dice:50
 desc:Te deja mágicamente confortablemente alimentado (pero no saciado).
 
-spell:Stinking Cloud:3:2:27:4
+spell:Nube Pestilente:3:2:27:4
 effect:BALL:POIS:2
 dice:$B
 expr:B:PLAYER_LEVEL:/ 2 + 10
 desc:Dispara una bola de veneno de radio 2.
 
-spell:Confuse Monster:5:3:30:5
+spell:Confundir Monstruo:5:3:30:5
 effect:BOLT_AWARE:MON_CONF
 dice:5+d$S
 expr:S:PLAYER_LEVEL:- 5
 desc:Confunde a un solo monstruo; más efectivo contra animales.
 
-spell:Slow Monster:6:4:30:5
+spell:Ralentizar Monstruo:6:4:30:5
 effect:BOLT_STATUS:MON_SLOW
 dice:5+d$S
 expr:S:PLAYER_LEVEL:- 5
@@ -1522,7 +1522,7 @@ effect:NOURISH:INC_TO
 dice:50
 desc:Te deja mágicamente confortablemente alimentado (pero no saciado).
 
-spell:Detect Life:5:2:23:2
+spell:Detectar Vida:5:2:23:2
 effect:DETECT_LIVING_MONSTERS
 effect-yx:22:40
 desc:Detecta todos los monstruos vivos en el área inmediata, por un solo turno.
