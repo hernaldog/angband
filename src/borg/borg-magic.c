@@ -43,13 +43,13 @@ static borg_spell_rating *borg_spell_ratings;
 // I also gave low ratings to spells that are new since the borg doesn't know when to use them yet.
 static borg_spell_rating borg_spell_ratings_MAGE[] =
 {
-    { "Magic Missile", 95, MAGIC_MISSILE },
+    { "Proyectil Mágico", 95, MAGIC_MISSILE },
     { "Light Room", 65, LIGHT_ROOM },
-    { "Find Traps, Doors & Stairs", 85, FIND_TRAPS_DOORS_STAIRS },
-    { "Phase Door", 95, PHASE_DOOR },
-    { "Electric Arc", 85, ELECTRIC_ARC },
-    { "Detect Monsters", 85, DETECT_MONSTERS },
-    { "Fire Ball", 75, FIRE_BALL },
+    { "Detec Trampas Puertas Escale", 85, FIND_TRAPS_DOORS_STAIRS },
+    { "Puerta de Fase", 95, PHASE_DOOR },
+    { "Arco eléctrico", 85, ELECTRIC_ARC },
+    { "Detectar Monstruos", 85, DETECT_MONSTERS },
+    { "Bola de Fuego", 75, FIRE_BALL },
     { "Recarga", 65, RECHARGING },
     { "Identificar Runa", 95, IDENTIFY_RUNE },
     { "Treasure Detection", 5, TREASURE_DETECTION }, /* borg never uses this */
@@ -186,8 +186,8 @@ static borg_spell_rating borg_spell_ratings_PALADIN[] =
 };
 static borg_spell_rating borg_spell_ratings_ROGUE[] =
 {
-    { "Detect Monsters", 85, DETECT_MONSTERS },
-    { "Phase Door", 95, PHASE_DOOR },
+    { "Detectar Monstruos", 85, DETECT_MONSTERS },
+    { "Puerta de Fase", 95, PHASE_DOOR },
     { "Object Detection", 55, OBJECT_DETECTION },
     { "Detect Stairs", 55, DETECT_STAIRS },
     { "Recarga", 85, RECHARGING },

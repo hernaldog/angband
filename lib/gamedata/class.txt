@@ -208,7 +208,7 @@ book-graphics:?:R
 book-properties:25:40:1 to 100
 equip:magic book:[Primeros Conjuros]:1:1:none
 
-spell:Magic Missile:1:1:22:4
+spell:Proyectil Mágico:1:1:22:4
 effect:BOLT_OR_BEAM:MISSILE:0:-10
 dice:$Dd4
 expr:D:PLAYER_LEVEL:- 1 / 5 + 3
@@ -226,7 +226,7 @@ desc:Ilumina todas las casillas dentro de 2 casillas del jugador, y daña
 desc: a todos los monstruos sensibles a la luz en el área de efecto.
 desc:  Si estás en una habitación, toda la habitación se iluminará también.
 
-spell:Find Traps, Doors & Stairs:1:1:20:2
+spell:Detec Trampas Puertas Escale:1:1:20:2
 effect:DETECT_TRAPS
 effect-yx:22:40
 effect:DETECT_DOORS
@@ -240,7 +240,7 @@ effect:TELEPORT
 dice:10
 desc:Te teletransporta aleatoriamente hasta 10 casillas de distancia.
 
-spell:Electric Arc:2:2:34:4
+spell:Arco eléctrico:2:2:34:4
 effect:SHORT_BEAM:ELEC:0:1
 dice:$Dd6
 expr:D:PLAYER_LEVEL:- 1 / 5 + 3
@@ -248,13 +248,13 @@ desc:Crea una descarga eléctrica que daña a los monstruos y destruye
 desc: objetos vulnerables en su trayectoria. La longitud del efecto aumenta
 desc: con el nivel del jugador.
 
-spell:Detect Monsters:3:2:24:4
+spell:Detectar Monstruos:3:2:24:4
 effect:DETECT_VISIBLE_MONSTERS
 effect-yx:22:40
 desc:Detecta todos los monstruos no invisibles en el área inmediata,
 desc: por un solo turno.
 
-spell:Fire Ball:6:5:33:5
+spell:Bola de Fuego:6:5:33:5
 effect:BALL:FIRE:2
 dice:$B
 expr:B:PLAYER_LEVEL:* 2
@@ -1410,7 +1410,7 @@ magic:5:350:2
 
 book:magic book:town:[Primeros Conjuros]:7:arcane
 
-spell:Detect Monsters:5:1:50:4
+spell:Detectar Monstruos:5:1:50:4
 effect:DETECT_VISIBLE_MONSTERS
 effect-yx:22:40
 desc:Detecta todos los monstruos no invisibles en el área inmediata,
