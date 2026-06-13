@@ -1056,7 +1056,7 @@ static void player_kill_monster(struct monster *mon, struct player *p,
 
 		if (!monster_is_visible(mon))
 			/* Death by physical attack -- invisible monster */
-			msgt(soundfx, "Has matado a %s.", m_name);
+			msgt(soundfx, "Has matado algo"); //fix traduc
 		else if (monster_is_destroyed(mon))
 			/* Death by Physical attack -- non-living monster */
 			msgt(soundfx, "Has destruido a %s.", m_name);
@@ -1655,7 +1655,7 @@ bool monster_change_shape(struct monster *mon)
 	if (monster_is_obvious(mon)) {
 		char m_name[80];
 		monster_desc(m_name, sizeof(m_name), mon, MDESC_STANDARD);
-		msgt(MSG_GENERIC, "%s %s", m_name, "¡se transforma y cambia de forma!");
+		msgt(MSG_GENERIC, "%s %s", m_name, "Â¡se transforma y cambia de forma!");
 		if (player->upkeep->health_who == mon)
 			player->upkeep->redraw |= (PR_HEALTH);
 
@@ -1689,7 +1689,7 @@ bool monster_revert_shape(struct monster *mon)
 		if (monster_is_obvious(mon)) {
 			char m_name[80];
 			monster_desc(m_name, sizeof(m_name), mon, MDESC_STANDARD);
-			msgt(MSG_GENERIC, "%s %s", m_name, "¡se transforma y cambia de forma!");
+			msgt(MSG_GENERIC, "%s %s", m_name, "Â¡se transforma y cambia de forma!");
 			if (player->upkeep->health_who == mon)
 				player->upkeep->redraw |= (PR_HEALTH);
 
