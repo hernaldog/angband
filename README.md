@@ -4,7 +4,7 @@
 Hernaldo González  - hernaldog@gmail.com
 
 # Status general de la traducción
-80%
+85%
 
 ## Bitácora principal
 - 21-02-2026: Se entiende como compilar en Windows 11 y hacen pruebas de concepto.
@@ -15,6 +15,7 @@ Hernaldo González  - hernaldog@gmail.com
 - 28-03-2026: Se logra ampliar el método que imprime caracteres a color de ASCII a UTF-8 en effects-info.c, método copy_to_textblock_with_coloring(), esto para las tildes de lenguaje español cuando se inspecciona un objeto.
 - 02-04-2026: Se traduce la mayoría de los nombres de monstruos al español, esto en archivos monster.txt, monster_base.txt, pit.txt, summon.txt, borg-flow-kill.c. Faltan algunos que están relacionados a otros txt
 - 17-04-2026: Se traducen todos los objetos
+- 13-06-2026: Razas, Clases, Versos del Druida, ajustes generales para mejorar semántica
 
 ## Motivación
 Me entantan los juegos Roguelike clásicos como Moria, Rogue, etc, a la vez, siempre me ha gustado el Señor de los Anillos, y que mejor que este gran juego que uno los dos mundos. 
@@ -251,6 +252,7 @@ Contenido del script shell:
 | docs\hacking\modifying.rst               | 100      |
 | lib\gamedata\body.txt                    | 100      |
 | lib\gamedata\brand.txt                   | 100      | Tiene estados ice, fire, acid, etc.
+| lib\gamedata\class.txt                   | 100      |
 | lib\gamedata\player_property.txt         | 100      |
 | lib\gamedata\history.txt                 | 100      |
 | lib\gamedata\hints.txt                   | 100      |
@@ -262,9 +264,9 @@ Contenido del script shell:
 | lib\gamedata\monster.txt                 | 100      | Revisar textos se pueden mejorar|
 | lib\gamedata\blow_methods.txt            | 100      |
 | lib\gamedata\flavor.txt                  | 100      |
-| lib\gamedata\class.txt                   | 100      |
 | lib\gamedata\terrain.txt                 | 100      |
 | lib\gamedata\pain.txt                    | 100      |
+| lib\gamedata\p_race.txt                  | 100      |
 | lib\gamedata\projection.txt              | 100      | Tiene más estados ice, dark, sound, shards, etc
 | lib\gamedata\realm.txt                   | 30       |
 | lib\gamedata\trap.txt                    | 90       | Nombres de Trampas. TODO: revisar si se puede traducir discolored spot:fire trap

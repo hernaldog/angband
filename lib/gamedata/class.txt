@@ -133,7 +133,7 @@
 
 
 ############### WARRIOR ###############
-name:Warrior
+name:Guerrero
 stats:3:-2:-2:2:2
 skill-disarm-phys:25:15
 skill-disarm-magic:20:10
@@ -169,7 +169,7 @@ title:Señor
 
 
 ############### MAGE ###############
-name:Mage
+name:Mago
 stats:-3:3:0:0:-2
 skill-disarm-phys:30:10
 skill-disarm-magic:35:12
@@ -446,7 +446,7 @@ desc: a cada monstruo en su área de efecto.
 
 
 ############### DRUID ###############
-name:Druid
+name:Druida
 stats:-2:0:3:-2:0
 skill-disarm-phys:30:10
 skill-disarm-magic:30:10
@@ -684,7 +684,7 @@ desc:Escupe plasma en un cono largo y estrecho desde el jugador.
 
 
 ############### PRIEST ###############
-name:Priest
+name:Sacerdote
 stats:-1:-3:3:-1:1
 skill-disarm-phys:25:12
 skill-disarm-magic:25:12
@@ -953,7 +953,7 @@ desc: en luz haciendo 100 de daño a cada criatura sensible a la luz.
 
 
 ############### NECROMANCER ###############
-name:Necromancer
+name:Nigromante
 stats:-3:3:0:0:-2
 skill-disarm-phys:30:10
 skill-disarm-magic:35:12
@@ -1210,7 +1210,7 @@ desc:Te permite tomar el control de un monstruo y moverlo en lugar de a ti mismo
 desc:  Las acciones posibles son mover, quedarse quieto, 's'oltar, 'm'agia o 'l'iberar.
 
 ############### PALADIN ###############
-name:Paladin
+name:Paladín
 stats:1:-3:1:-1:2
 skill-disarm-phys:20:15
 skill-disarm-magic:20:10
@@ -1372,7 +1372,7 @@ desc: vencedor puede salir.
 
 
 ############### ROGUE ###############
-name:Rogue
+name:Pícaro
 stats:0:1:-3:3:-1
 skill-disarm-phys:45:20
 skill-disarm-magic:45:20
@@ -1478,7 +1478,7 @@ desc:  Este hechizo puede no tener efecto cuando la opción de descenso forzado 
 
 
 ############### RANGER ###############
-name:Ranger
+name:Explorador
 stats:0:0:2:1:-1
 skill-disarm-phys:40:15
 skill-disarm-magic:30:10
@@ -1588,7 +1588,7 @@ desc: daño aumentado, está rota o maldita.
 
 
 ############### BLACKGUARD ###############
-name:Blackguard
+name:Rufián
 stats:2:0:-3:0:2
 skill-disarm-phys:20:15
 skill-disarm-magic:20:10
