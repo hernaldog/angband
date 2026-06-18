@@ -1,4 +1,4 @@
-# projection.txt 
+# projection.txt
 
 # Descriptions, colors, message types, and obvious can be edited without
 # bad effects.

@@ -41,7 +41,7 @@ const char *buildver = VERSION_STRING;
  * Link a copyright message into the executable
  */
 const char *copyright =
-	"Copyright (c) 1987-2022 Colaboradores de Angband.\n"
+	"Copyright (c) 1987-2026 Colaboradores de Angband.\n"
 	"\n"
 	"Este trabajo es software libre; puedes redistribuirlo y/o modificarlo\n"
 	"bajo los términos de cualquiera de las siguientes licencias:\n"

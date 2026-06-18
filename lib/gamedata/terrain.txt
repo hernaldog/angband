@@ -1,109 +1,111 @@
-# Archivo: terrain.txt
+# File: terrain.txt
 
 
-# Este archivo se utiliza para inicializar la información de las "características del terreno" para
-# el juego Angband.
+# This file is used to initialize the "terrain feature" information for 
+# the Angband game.
 
-# No modifiques este archivo a menos que sepas exactamente lo que estás haciendo,
-# a menos que quieras arriesgarte a posibles fallos del sistema y archivos guardados corruptos.
+# Do not modify this file unless you know exactly what you are doing,
+# unless you wish to risk possible system crashes and broken savefiles.
 
-# Ten en cuenta que, a diferencia de otros archivos editables, modificar este archivo
-# de forma casual probablemente sea una MALA IDEA (a menos que tengas la intención de hacer cambios
-# reales en la programación) por dos razones:
+# Note that, unlike other edit files, modifying this file casually is likely
+# to be a BAD IDEA (unless you intend to make actual programming changes)
+# for two reasons:
 
-#   1. Las características del terreno no aparecen a menos que haya código específico en los
-#   algoritmos de generación de niveles para incluirlas, por lo que añadir nuevas características
-#   del terreno a este archivo por sí solo no tendrá ningún efecto.
+#   1. Terrain features do not appear unless there is specific code in the
+#   level generation algorithms to include them, so adding new terrain
+#   features to this file will by itself have no effect.
 
-#   2. Cambiar las propiedades (especialmente las banderas, pero también el mimetismo, la excavación,
-#   y la bandera de resistencia) puede cambiar significativamente el comportamiento del juego, y
-#   cualquier cambio probablemente estropeará una partida que se inició antes de que los cambios
-#   tuvieran lugar y se recargue cuando los cambios estén en vigor.
+#   2. Changing the properties (especially flags but also mimicry, digging,
+#   and resist flag) can significantly change game behavior, and any changes
+#   will likely mess up a game which was started before the changes took place
+#   and is reloaded when the changes are in effect.
 
-# Puedes alterar más libremente los gráficos, nombres, mensajes y descripciones.
-# Hay un vínculo implícito entre los símbolos de las tiendas y las teclas de acceso directo
-# en el menú principal de conocimiento para mostrar el contenido de una tienda (esas teclas
-# se establecen por el orden de las tiendas dentro de list-terrain.h). Ten en cuenta que la
-# característica de terreno cero contiene la imagen de "oscuridad".
+# You may more freely alter the graphics, names, messages, and descriptions.
+# There is an implicit linkage between the symbols for the stores and the
+# shortcut keys in the main knowledge menu to display a store's contents
+# (those keys are set by the ordering of the stores within list-terrain.h).
+# Note that terrain feature zero contains the "darkness" picture.
 
-# === Comprendiendo terrain.txt ===
+# === Understanding terrain.txt ===
 
-# code : nombre del código de list-terrain.h
-# name : nombre imprimible del terreno
-# graphics : símbolo : color
-# mimic : nombre del código de la característica a imitar
-# priority : prioridad de visualización en el minimapa
-# flags : banderas del terreno
-# digging : índice de excavación
-# walk-msg: mensaje de advertencia - caminar
-# run-msg: mensaje de advertencia - correr
-# hurt-msg: mensaje de daño
-# die-msg: mensaje de muerte
-# confused-msg: mensaje para cuando un monstruo confundido intenta moverse a un terreno no transitable
-# look-prefix: se usa antes del nombre en el resultado al mirar
-# look-in-preposition: preposición usada cuando se mira la propia posición
-# resist-flag: bandera de raza de monstruo para la resistencia
+# code : code name from list-terrain.h
+# name : terrain printable name
+# graphics : symbol : color
+# mimic : code name for the feature to mimic
+# priority : display priority on mini-map
+# flags : terrain flags
+# digging : digging index
+# walk-msg: warning message - walking
+# run-msg: warning message - running
+# hurt-msg: damage message
+# die-msg: death message
+# confused-msg: message for confused monster move into non-passable terrain
+# look-prefix: used before the name in the result from looking
+# look-in-preposition: preposition used when looking at one's own position
+# resist-flag: monster race flag for resist
 
-# 'code' indica el inicio de una entrada. El valor utilizado para el código
-# debe coincidir con el argumento de una de las macros FEAT() en list-terrain.h.
+# 'code' indicates the start of an entry.  The value used for the code
+# must match the argument to one of the FEAT() macros in list-terrain.h.
 
-# 'name' especifica el nombre imprimible del terreno. Como se muestra
-# en la barra de estado y varios menús, es preferible un nombre corto.
+# 'name' specifies the printable name for the terrain.  As this is displayed
+# in the status bar and various menus, a short name is preferable.
 
-# 'graphics' es para los gráficos - símbolo y color. Hay 27 colores:
+# 'graphics' is for graphics - symbol and color. There are 27 colors:
 
-# D - Gris Oscuro    w - Blanco          s - Gris          o - Naranja
-# r - Rojo          g - Verde           b - Azul          u - Ocre
-# W - Gris Claro    P - Púrpura Claro   y - Amarillo      R - Rojo Claro
-# G - Verde Claro   B - Azul Claro      U - Ocre Claro    p - Púrpura
-# v - Violeta       t - Verde Azulado   m - Barro         Y - Amarillo Claro
-# i - Magenta-Rosa  T - Verde Azulado Claro V - Violeta Claro I - Rosa Claro
-# M - Mostaza       z - Pizarra Azul    Z - Azul Claro Profundo
+# D - Dark Gray    w - White          s - Gray          o - Orange
+# r - Red          g - Green          b - Blue          u - Umber
+# W - Light Gray   P - Light Purple   y - Yellow        R - Light Red
+# G - Light Green  B - Light Blue     U - Light Umber   p - Purple
+# v - Violet       t - Teal           m - Mud           Y - Light Yellow
+# i - Magenta-Pink T - Light Teal     V - Light Violet  I - Light Pink
+# M - Mustard      z - Blue Slate     Z - Deep Light Blue
 
-# 'mimic' es el nombre del código (uno de los argumentos de las macros FEAT() en
-# list-terrain.h) de una característica a imitar; algunas características parecen
-# otra característica hasta que el jugador las descubre.
+# 'mimic' is the code name (one of the arguments to the FEAT() macros in
+# list-terrain.h) of a feature to mimic; some features look like another
+# feature until they are discovered by the player.
 
-# 'priority' es para la prioridad de visualización en el minimapa, donde solo se
-# selecciona un subconjunto de casillas. Esto permite que el minimapa muestre la
-# información más probable de ser útil para el jugador.
+# 'priority' is for display priority on the minimap, where only a selection
+# of grids are chosen.  This enables the minimap to display the information
+# most likely to be useful to the player.
 
-# 'flags' son las banderas del terreno.
+# 'flags' is for terrain flags.
 
-# 'digging' es para especificar la dificultad de excavar a través del terreno. Esto
-# es opcional y, si el terreno, según sus banderas, no es excavable, establecer
-# el índice no tiene un efecto sustancial más allá de la comprobación de errores
-# durante el análisis. La dificultad se especifica como un número entero del uno
-# al cinco (es decir, uno más una de las constantes DIGGING_* de player.h) donde
-# uno es como los escombros, dos es como una veta de magma, tres es como una veta
-# de cuarzo, cuatro es como el granito, y cinco es como una puerta cerrada.
+# 'digging' is to specify the difficulty of digging through the terrain.  This
+# is optional and, if the terrain, based on its flags, is not diggable, setting
+# the index has no substantial effect besides error checking during parsing.
+# The difficuly is specified as an integer from one to five (i.e. one plus one
+# of the DIGGING_* constants from player.h) where one is like rubble, two is
+# like a magma vein, three is like a quartz vein, four is like granite, and
+# five is like a closed door.
 
-# 'walk-msg' es el mensaje de advertencia para el jugador al pisar un terreno dañino
+# 'walk-msg' is the warning message for the player on stepping into damaging
+# terrain
 
-# 'run-msg' es el mensaje de advertencia para el jugador al correr hacia un terreno dañino
+# 'run-msg' is the warning message for the player on running into damaging
+# terrain
 
-# 'hurt-msg' es el mensaje que recibe el jugador cuando el terreno le causa daño
+# 'hurt-msg' is the message the player gets when damaged by terrain
 
-# 'die-msg' es la descripción si el terreno dañino mata al jugador
+# 'die-msg' is the description if damaging terrain kills the player
 
-# 'confused-msg' es la descripción del intento de un monstruo de moverse a un terreno
-# no transitable debido a la confusión
+# 'confused-msg' is the description of an attempt for a monster to move into
+# non-passable terrain due to confusion
 
-# 'look-prefix' se imprime antes del nombre en el resultado de mirar el
-# terreno. Si no se establece, el valor por defecto es usar 'un' si el nombre
-# empieza por vocal o 'un' si el nombre no empieza por vocal.
+# 'look-prefix' is printed before the name in the result of looking at the
+# terrain.  If not set, the default is to use 'an' if the name starts with
+# a vowel or 'a' if the name does not start with a vowel.
 
-# 'look-in-preposition' es la preposición que se usará al imprimir
-# el resultado para un observador que mira su propia casilla: 'Estás
-# <preposición> <prefijo> <nombre>'. Si no se establece, el valor por defecto
-# es usar 'en'.
+# 'look-in-preposition' is the preposition that will be used when printing
+# the result for an observer looking at the observer's grid:  'You are
+# <preposition> <prefix> <name>'.  If not set, the default is to use 'on'.
 
-# 'resist-flag' es la bandera de raza que debe tener un monstruo para poder entrar
-# en un terreno dañino
+# 'resist-flag' is the race flag a monster must have to be able to enter
+# damaging terrain
 
-# 'desc' es para la descripción. Se pueden usar tantas líneas 'desc:' como sean necesarias
-# para describir el terreno. Ten en cuenta que las líneas necesitarán espacios al final
-# o al principio de la siguiente línea para evitar que las palabras se junten.
+# 'desc' is for description. As many desc: lines may be used as are needed
+# to describe the terrain. Note that lines will need spaces at their
+# ends or the beginning of the next line to prevent words from running
+# together.
 
 code:NONE
 name:casilla desconocida

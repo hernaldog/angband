@@ -1,189 +1,192 @@
-# Archivo: player_timed.txt
+# File: player_timed.txt
 
-# Utilizado en conjunto con list-player-timed.h
-# Propiedades temporales del jugador
+# Used in conjunction with list-player-timed.h
+# Timed player properties
 
-# Las descripciones, mensajes y tipos de mensaje se pueden editar sin malos efectos.
-# Cambiar fail puede tener resultados impredecibles.
-# Cambiar el nombre o añadir entradas completamente nuevas alterará gravemente el juego.
-# Solo debe hacerse cuando list-player-timed.h (y otro código) también se esté
-# cambiando, y el juego sea recompilado.
-# Cambiar una línea de resist deberá coincidir con uno de los elementos codificados
-# de list-elements.h; actualmente, esas líneas de resist se utilizan en los
-# cálculos de resistencia del jugador, para filtrar mensajes innecesarios cuando los
-# efectos temporales caducan y para afectar la selección de activaciones de randarts.
-# Cambiar una línea de marca o azote deberá coincidir con una entrada en brand.txt o
-# slay.txt, respectivamente; además del efecto en combate, esas líneas también
-# afectan la selección de activaciones de randarts.
-# Cambiar una línea de sinónimo de bandera deberá coincidir con una entrada, de tipo flag, en
-# object_property.txt; esas líneas se utilizan actualmente en los cálculos del jugador,
-# para filtrar mensajes innecesarios cuando los efectos temporales caducan y para afectar
-# la selección de activaciones de randarts.
+# Descriptions, messages and message types can be edited without bad effects.
+# Changing fail may have unpredictable results.
+# Changing the name or adding whole new entries will severely disrupt the game.
+# It should only be done when list-player-timed.h (and other code) is also being
+# changed, and the game recompiled.
+# Changing a resist line will have to match to one of the hard-coded elements
+# from list-elements.h; currently, those resist lines are used in player
+# resistance calculations, to filter out unnecessary messages when timed
+# effects lapse and to affect selection of randart activations.
+# Changing a brand or slay line will have to match to an entry in brand.txt or
+# slay.txt, respectively; besides the effect on combat, those lines also
+# affect selection of randart activations.
+# Changing a flag-synonym line will have to match to an entry, of type flag, in
+# object_property.txt; those lines are currently used in player calculations,
+# to filter out unnecessary messages when timed effects lapse and to affect
+# selection of randart activations.
 
-# Campos:
-# name - el nombre del efecto; el nombre debe coincidir con el primer argumento de una de las
-#        macros TMD() en list-player-timed.h
-# desc - la descripción del efecto
-# grade - especifica un grado para este efecto; la mayoría de los efectos solo tienen dos grados:
-#         off (implícito para todos los efectos, máximo de 0, sin mensajes de transición)
-#         y on (el único grado especificado para el efecto en este archivo)
-#         parámetro uno: color utilizado en la línea de estado para este efecto cuando está en este
-#             grado; puede ser un código de color de una letra o el nombre completo del color
-#             (no sensible a mayúsculas)
-#         parámetro dos: es el máximo para este grado; para funcionar correctamente debe ser
-#             mayor que cero, menor que 32768, y mayor que el máximo
-#             de cualquier grado anterior especificado para este efecto
-#         parámetro tres: es el nombre del grado y se mostrará en la línea de
-#             estado; usa un nombre de un carácter para el grado para suprimir
-#             la visualización del efecto temporal en la línea de estado cuando se está en ese grado
-#         parámetro cuatro: es el mensaje a mostrar cuando el efecto entra en este
-#             grado desde un grado inferior; no se mostrará ningún mensaje si el
-#             mensaje tiene un carácter de longitud
-#         parámetro cinco (opcional): es el mensaje a mostrar cuando el efecto
-#             entra en este grado desde un grado superior; no se mostrará ningún
-#             mensaje si se omite este parámetro
-# on-end - el mensaje al finalizar el efecto
-# on-increase - el mensaje al aumentar el efecto
-# on-decrease - el mensaje al disminuir el efecto
-# msgt - el tipo de mensaje a usar para los mensajes de cambio de grado, on-increase, y
-#        on-decrease para este efecto; el tipo debe coincidir (sin distinción de
-#        mayúsculas/minúsculas) con el primer argumento de una de las macros MSG() en
-#        list-message.h o ser un entero sin signo menor que MSG_MAX que sea
-#        el índice del tipo de mensaje a usar dentro de list-message.h; los mensajes
-#        on-end siempre usan el tipo de mensaje RECOVER; para la interfaz de usuario textui,
-#        el tipo de mensaje afecta el color del mensaje (configurado globalmente por
-#        lib/customize/message.prf; también configurable por preferencias en los archivos del
-#        usuario) y el sonido reproducido cuando se muestra el mensaje (configurado
-#        globalmente por lib/customize/sound.prf; también configurable por preferencias en los
-#        archivos del usuario)
-# fail - determina qué hace que el efecto falle; puede especificarse más de una
-#        vez: el efecto fallará si se cumple alguna de las condiciones
-#        parámetro uno:
-#          1 - bandera de objeto
-#          2 - resistencia
-#          3 - vulnerabilidad
-#          4 - bandera de jugador
-#          5 - presencia de efecto temporal
-#        parámetro dos:
-#          la bandera real que causa el fallo; para una bandera de objeto, la
-#          bandera debe coincidir con el primer argumento de una de las macros OF() en
-#          list-object-flags.h; para una bandera de jugador, la bandera debe coincidir con el
-#          primer argumento de una de las macros PF() en list-player-flags.h; para
-#          una resistencia o vulnerabilidad, la bandera debe coincidir con el argumento de una
-#          de las macros ELEM() en list-elements.h; para un efecto temporal, la
-#          bandera debe coincidir con el argumento de una de las macros TMD() en
+# Fields:
+# name - the effect name; the name must match the first argument to one of the
+#        TMD() macros in list-player-timed.h
+# desc - the effect description
+# grade - specify a grade for this effect; most effects only have two grades:
+#         off (implicit for all effects, maximum of 0, no transition messages)
+#         and on (the one grade specified for the effect in this file)
+#         param one: color used on the status line for this effect when in this
+#             grade; may be a one letter color code or the full color name
+#             (case insensitive)
+#         param two: is the maximum for this grade; to work properly must be
+#             greater than zero, less than 32768, and greater than the maximum
+#             for any previous grades specified for this effect
+#         param three: is the name of the grade and will be shown in the status
+#             line; use a one character long name for the grade to suppress
+#             showing the timed effect in the status line when in that grade
+#         param four: is the message to display when the effect enters this
+#             grade from a lower grade; no message will be displayed if the
+#             message is one character long
+#         param five (optional): is the message to display when the effect
+#             enters this grade from a higher grade; no message will be
+#             displayed if this parameter is omitted
+# on-end - the message on ending the effect
+# on-increase - the message on the effect increasing
+# on-decrease - the message on the effect decreasing
+# msgt - the message type to use for the change of grade, on-increase, and
+#        on-decrease messages for this effect; the type must either match
+#        (case-insensitive) the first argument to one of the MSG() macros in
+#        list-message.h or be an unsigned integer less than MSG_MAX which is
+#        the index of the message type to use within list-message.h; on-end
+#        messages always use the RECOVER message type; for the textui user
+#        interface, the message type affects the message color (configured
+#        globally by lib/customize/message.prf; also configurable by
+#        preferences in the user's files) and the sound played when the
+#        message is displayed (configured globally by lib/customize/sound.prf;
+#        also configurable by preferences in the user's files)
+# fail - determines what makes the effect fail; may be specified more than
+#        once - the effect will fail if any of the conditions are met
+#        param one:
+#          1 - object flag
+#          2 - resist
+#          3 - vulnerability
+#          4 - player flag
+#          5 - presence of timed effect
+#        param two:
+#          the actual flag that causes the failure; for an object flag, the
+#          flag must match the first argument to one of the OF() macros in
+#          list-object-flags.h; for a player flag, the flag must match the
+#          first argument to one of the PF() macros in list-player-flags.h; for
+#          a resist or vulnerability, the flag must match the argument to one
+#          of the ELEM() macros in list-elements.h; for a timed effect, the
+#          flag must match the argument to one of the TMD() macros in
 #          list-player-timed.h
-# on-begin-effect - (opcional) especifica un efecto que se invocará cuando comience el
-#                   efecto temporal; se puede usar más de una vez: los
-#                   efectos adicionales se ejecutarán en el orden en que
-#                   aparecen
-#                   parámetro uno: nombre del efecto (argumento de una de las
-#                       macros EFFECT() en list-effects.h)
-#                   parámetro dos: nombre del subtipo del efecto; se puede
-#                       omitir
-#                   parámetro tres: radio del efecto; se puede omitir y
-#                       debe omitirse si se omite el subtipo
-#                   parámetro cuatro: el parámetro "other" para el efecto; se puede
-#                       omitir y debe omitirse si se omite el subtipo o el radio
-# on-end-effect - (opcional) especifica un efecto que se invocará cuando el efecto
-#                 temporal caduque; se puede usar más de una vez: los efectos
-#                 adicionales se ejecutarán en el orden en que aparecen
-#                 parámetro uno: nombre del efecto (argumento de una de las
-#                     macros EFFECT() en list-effects.h)
-#                 parámetro dos: nombre del subtipo del efecto; se puede omitir
-#                 parámetro tres: radio del efecto; se puede omitir y debe
-#                     omitirse si se omite el subtipo
-#                 parámetro cuatro: el parámetro "other" para el efecto; se puede
-#                     omitir y debe omitirse si se omite el subtipo o el radio
-# effect-yx - (opcional) especifica los parámetros y y x del efecto establecido más
-#             recientemente (ej. de una directiva on-begin-effect o on-end-effect
-#             anterior)
-#             parámetro uno: es el valor del parámetro y para el efecto
-#             parámetro dos: es el valor del parámetro x para el efecto
-# effect-dice - (opcional) especifica la cadena de dados para el efecto establecido más
-#               recientemente (ej. de una directiva on-begin-effect o on-end-effect
-#               anterior)
-# effect-expr - (opcional) define una expresión para la cadena de dados del
-#               efecto establecido más recientemente (ej. de una directiva on-begin-effect
-#               o on-end-effect anterior); requiere que la cadena de dados se haya
-#               establecido para el efecto con una directiva effect-dice
-#               parámetro uno: es el nombre de la variable a sustituir con el
-#                   valor de la expresión; los nombres de las variables deben ser
-#                   todo en mayúsculas y una referencia a una variable en una cadena
-#                   de dados comienza con $; si la cadena de dados no contiene
-#                   una referencia a la variable dada, el análisis de los archivos
-#                   de datos del juego se detendrá con un error
-#               parámetro dos: establece el nombre del valor base a modificar con las
-#                   operaciones en el tercer parámetro; el nombre puede ser uno de
-#                   los que se enumeran a continuación; si no coincide con ninguno de la lista,
-#                   el valor base será cero
-#                     PLAYER_LEVEL - el nivel del jugador
-#                     DUNGEON_LEVEL - el nivel de la mazmorra
-#                     MAX_SIGHT - el rango de visión máximo, en casillas
-#                     WEAPON_DAMAGE - una tirada aleatoria para el daño base (solo
-#                         se incluyen los dados y modificadores de daño del arma;
-#                         no se utilizan modificadores de daño del jugador o equipo
-#                         que no sea el arma) del arma equipada del jugador;
-#                         si el jugador no tiene un arma equipada, el valor de esto es cero
-#                     PLAYER_HP - el número actual de puntos de golpe del jugador
-#                     MONSTER_PERCENT_HP_GONE - ((puntos de golpe máximos para el
-#                         monstruo objetivo del jugador - puntos de golpe actuales para el
-#                         monstruo objetivo del jugador) * 100) / puntos de golpe máximos
-#                         para el monstruo objetivo del jugador o 0 si el jugador
-#                         no tiene actualmente un monstruo objetivo
-#               parámetro tres: establece las operaciones a realizar en el valor base para
-#                   obtener el valor sustituido en la expresión de dados; por
-#                   ejemplo, "* 2 / 3" multiplicaría el valor base por 2 y luego
-#                   dividiría ese resultado por tres, descartando cualquier resto;
-#                   los operadores permitidos son '+' (suma),
-#                   '-' (resta), '*' (multiplicación), '/' (división
-#                   entera; descarta el resto), y 'n' o 'N' (niega
-#                   el resultado anterior al operador);
-#                   las constantes enteras en las operaciones deben estar entre -32768 y 32767;
-#                   los operadores y las constantes enteras en las operaciones deben estar
-#                   separados por espacios simples
-# effect-msg - (opcional) añade al mensaje asociado con el efecto establecido más
-#              recientemente (ej. de una directiva on-begin-effect o
-#              on-end-effect anterior); cómo se usa ese mensaje depende
-#              del efecto - normalmente puede imprimirse durante el efecto o
-#              usarse como mensaje de muerte
-# resist - (opcional) cuando esta propiedad temporal está activa, el receptor gana
-#          una resistencia temporal al elemento nombrado
-# brand - (opcional) cuando esta propiedad temporal está activa, el receptor gana
-#         la marca dada (por su código en brand.txt) en las armas equipadas; cuando
-#         no hay línea de marca, la propiedad temporal no induce una marca
-# slay - (opcional) cuando esta propiedad temporal está activa, el receptor gana
-#        el azote dado (por su código en slay.txt) en las armas equipadas; cuando
-#        no hay línea de azote, la propiedad temporal no induce un azote
-# flag-synonym - (opcional) indica que esta propiedad temporal es (en gran parte)
-#                sinónimo de la propiedad de objeto de tipo flag en
-#                object_property.txt con el código dado por el primer parámetro;
-#                si el segundo parámetro no es cero, esta propiedad temporal es un
-#                sinónimo exacto, excepto por la duración; si el segundo parámetro es
-#                cero, la propiedad temporal tiene otros efectos que no están
-#                implícitos en la propiedad de objeto nombrada
-# lower-bound - (opcional) anula el límite inferior por defecto de cero para el
-#               efecto temporal; el límite inferior debe ser no negativo, menor
-#               que 32768, y menor o igual que el máximo de cualquiera de
-#               los grados del efecto temporal; si el límite inferior es mayor que
-#               cero, el efecto temporal está siempre activo (por lo que un mensaje establecido por
-#               on-end o un efecto por on-begin-effect o on-end-effect no
-#               se utilizará)
-# flags - (opcional) especifica una o más banderas para el efecto temporal; puede
-#         aparecer más de una vez y todas las banderas especificadas se acumulan;
-#         se puede especificar más de una bandera cada vez que se usa; los nombres
-#         de las banderas deben estar separados por espacios o '|'; los nombres de las banderas
-#         que se entienden son:
-#         NONSTACKING - cualquier intento de aumentar el efecto temporal mientras ya
-#             está activo no aumentará la duración; esta es una restricción más
-#             fuerte que tener el efecto temporal fallar debido al propio
-#             efecto temporal, principalmente porque NONSTACKING también afecta
-#             casos, como los efectos TIMED_INC_NO_RES, donde la verificación de fallo se
-#             omite; NONSTACKING también se maneja de manera diferente a fallar
-#             para el propio efecto temporal en términos de comprobaciones de saber (si un efecto
-#             temporal es NONSTACKING, el saber de un monstruo no mostrará que el
-#             ataque del monstruo que inflige ese estado es resistido únicamente
-#             porque el personaje ya está sujeto al efecto temporal)
+# on-begin-effect - (optional) specifies an effect to be invoked when the
+#                   timed effect starts; can be used more than once - the
+#                   additional effects will be executed in the order in which
+#                   they appear
+#                   param one: name of the effect (argument to one of the
+#                       EFFECT() macros in list-effects.h)
+#                   param two: name of the subtype of the effect; can be
+#                       omitted
+#                   param three: radius of the effect; can be omitted and
+#                       must be omitted if the subtype is omitted
+#                   param four: the "other" parameter for the effect; can be
+#                       omitted and must be omitted if the subtype or radius is
+#                       omitted
+# on-end-effect - (optional) specifies an effect to be invoked when the timed
+#                 effect lapses; can be used more than once - the additional
+#                 effects will be executed in the order in which they appear
+#                 param one: name of the effect (argument to one of the
+#                     EFFECT() macros in list-effects.h)
+#                 param two: name of the subtype of the effect; can be omitted
+#                 param three: radius of the effect; can be omitted and must
+#                     be omitted if the subtype is omitted
+#                 param four: the "other" parameter for the effect; can be
+#                     omitted and must be omitted if the subtype or radius is
+#                     omitted
+# effect-yx - (optional) specifies the y and x parameters of the most recently
+#             set effect (i.e. from a prior on-begin-effect or on-end-effect
+#             directive)
+#             param one: is the value of the y parameter for the effect
+#             param two: is the value of the x parameter for the effect
+# effect-dice - (optional) specifies the dice string for the most recently
+#               set effect (i.e. from a prior on-begin-effect or on-end-effect
+#               directive)
+# effect-expr - (optional) defines an expression for the dice string of the
+#               most recently set effect (i.e. from a prior on-begin-effect
+#               or on-end-effect directive); requires that the dice string has
+#               been set for the effect with an effect-dice directive
+#               param one: is the name of the variable to substitute with the
+#                   value of the expression; variable names must be all
+#                   capital letters and a reference to a variable in a dice
+#                   string starts with a $; if the dice string does not contain
+#                   a reference to the given variable, parsing of the game's
+#                   data files will stop with an error
+#               param two: set the name of the base value to modify with the
+#                   operations in the third parameter; the name can be one of
+#                   those listed below; if it does not match any in the list,
+#                   the base value will be zero
+#                     PLAYER_LEVEL - the player's level
+#                     DUNGEON_LEVEL - the dungeon's level
+#                     MAX_SIGHT - the maximum sight range, in grids
+#                     WEAPON_DAMAGE - a random roll for the base damage (only
+#                         the weapon's dice and damage modifiers are included;
+#                         no damage modifiers from the player or equipment
+#                         other than the weapon are used) of the player's
+#                         equipped weapon; if the player has no equipped
+#                         weapon, the value of this is zero
+#                     PLAYER_HP - the player's current number of hit points
+#                     MONSTER_PERCENT_HP_GONE - ((maximum hit points for the
+#                         player's target monster - current hit points for the
+#                         player's target monster) * 100) / maximum hit points
+#                         for the player's target monster or 0 if the player
+#                         doesn't currently have a targeted monster
+#               param three: sets the operations to perform on the base value to
+#                   get the value substituted into the dice expression; for
+#                   instance, "* 2 / 3" would multiply the base value by 2 then
+#                   divide that result by three, discarding any remainder;
+#                   operators that are allowed are '+' (addition),
+#                   '-' (subtraction), '*' (multiplication), '/' (integer
+#                   division; discards remainder), and 'n' or 'N' (either negate
+#                   the result from before the operator); integer constants
+#                   in the operations must be between -32768 and 32767;
+#                   operators and integer constants in the operations should be
+#                   separated by single spaces
+# effect-msg - (optional) appends to the message associated with the most
+#              recently set effect (i.e. from a prior on-begin-effect or
+#              on-end-effect directive); how that message is used depends on
+#              the effect - typically it may be printed during the effect or
+#              is used as a death message
+# resist - (optional) when this timed property is active, the recipient gains
+#          a temporary resistance to the named element
+# brand - (optional) when this timed property is active, the recipient gains
+#         the given brand (by its code in brand.txt) on equipped weapons; when
+#         there's no brand line, the timed property does not induce a brand
+# slay - (optional) when this timed property is active, the recipient gains
+#        the given slay (by its code in slay.txt) on equipped weapons; when
+#        there's no slay line, the timed property does not induce a slay
+# flag-synonym - (optional) indicate that this timed property is (largely)
+#                synonymous to the object property of type flag in
+#                object_property.txt with the code given by the first parameter;
+#                if the second parameter is not zero, this timed property is an
+#                exact synonym, except for duration; if the second parameter is
+#                zero, the timed property has other effects that are not
+#                implied by the named object property
+# lower-bound - (optional) overrides the default lower bound of zero for the
+#               timed effect; the lower bound must be non-negative, less
+#               than 32768, and less than or equal to the maximum for any of
+#               the timed effect's grades; if the lower bound is greater than
+#               zero, the timed effect is always active (so a message set by
+#               on-end or an effect by on-begin-effect or on-end-effect will
+#               not be used)
+# flags - (optional) specifies one or more flags for the timed effect; can
+#         appear more than once with all the flags specified accumulating;
+#         more than one flag can be specified each time it is used - the names
+#         of the flags must be separated by spaces or '|'; the flag names or
+#         that are understood are:
+#         NONSTACKING - any attempt to increase the timed effect while it is
+#             already active will not increase the duration; this is a stronger
+#             restriction than having the timed effect fail because of the
+#             timed effect itself, primarily because NONSTACKING also affects
+#             cases, like TIMED_INC_NO_RES effects, where the failure check is
+#             bypassed; NONSTACKING is also handled differently than failing
+#             for the timed effect itself in terms of lore checks (if a timed
+#             effect is NONSTACKING, lore for a monster won't show that the
+#             monster's attack inflicting that status is resisted solely
+#             because the character is already subject to the timed effect)
 
 name:FAST
 desc:prisa
