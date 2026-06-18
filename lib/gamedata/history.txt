@@ -37,7 +37,6 @@
 
 
 
-
 chart:1:2:10
 phrase:Eres el hijo ilegítimo y no reconocido 
 chart:1:2:20
@@ -411,3 +410,4 @@ chart:69:0:90
 phrase:y dientes pequeños y afilados.
 chart:69:0:100
 phrase:y dientes grandes y afilados.
+

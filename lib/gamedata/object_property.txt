@@ -1,36 +1,36 @@
-# Archivo: object_property.txt
+# File: object_property.txt
 
-# name: el nombre de la propiedad
-# type: el tipo de propiedad de objeto. Cada propiedad necesita uno, y debe
-#       aparecer antes del código en este archivo
-# subtype: subtipo de propiedad de objeto, actualmente solo usado por las banderas
-# id-type: cómo se identifica una propiedad, actualmente solo usado por las banderas
-# code: un código para la propiedad de objeto, que se utiliza para asociarla con su
-#       índice entre las otras propiedades de ese tipo
-# power: el valor dado a la propiedad en los cálculos de poder del objeto
-# mult: valor relativo de las propiedades, usado en los cálculos de poder
-# type-mult: multiplicador extra usado en el poder para propiedades particulares en
-#            tipos particulares de objeto. Se asume 1 si no se menciona; establecerlo
-#            explícitamente a 0 evitará que la propiedad aparezca en este tipo
-#            de artefacto aleatorio.
-# adjective: adjetivo que describe la propiedad como un atributo del jugador, actualmente
-#            solo usado por las estadísticas
-# neg-adjective: adjetivo que describe lo opuesto de la propiedad como un atributo
-#                del jugador, actualmente solo usado por las estadísticas
-# msg: mensaje impreso al notar una propiedad, actualmente usado para banderas que
-#      se identifican después de un tiempo o al activar un efecto
-# bindui: Vincula la propiedad a un elemento de la interfaz de usuario en ui_entry.txt.
-#         Toma dos parámetros enteros adicionales. El primero, si es distinto de cero,
-#         especifica que el valor vinculado se pase como un valor auxiliar (un
-#         sostenimiento para una estadística, por ejemplo). El segundo es opcional y es
-#         el valor a pasar cuando el objeto tiene la propiedad (ya sea activada como
-#         una bandera o un valor distinto de cero para un modificador o resistencia). Cuando no se
-#         establece, se envía el valor (0 para bandera desactivada, 1 para bandera activada,
-#         valor para modificador, nivel de resistencia para una resistencia). bindui se usa
-#         actualmente solo para partes de la segunda pantalla de personaje y la
-#         comparación de equipo. Este campo puede aparecer múltiples veces para vincular una propiedad
-#         a más de un elemento de la interfaz de usuario.
-# desc: una pieza extra de texto descriptivo usada en la información del objeto
+# name: the property name
+# type: the type of object property.  Each property needs one, and it must 
+#       appear before the code in this file 
+# subtype: subtype of object property, currently only used by flags
+# id-type: how a property is identified, currently only used by flags
+# code: a code for the object property, which is used to associate it with its
+#       index among the other properties of that type
+# power: the value given to the property in object power calculations
+# mult: relative value of properties, used in power calculations
+# type-mult: extra multiplier used in power for particular properties on
+#            particular types of object.  Assumed 1 if not mentioned; setting
+#            explicitly to 0 will stop the property appearing on this type
+#            of random artifact.
+# adjective: adjective describing the property as a player attribute, currently
+#            only used by stats
+# neg-adjective: adjective describing the opposite of the property as a player
+#                attribute, currently only used by stats
+# msg: message printed on noticing a property, currently used for flags which
+#      are identified after time or on an effect
+# bindui: Binds the property to a user interface element in ui_entry.txt.
+#         Takes two additional integer parameters.  The first, if nonzero,
+#         specifies that the value bound be passed as an auxiliary value (a
+#         sustain for a stat, for instance).  The second is optional and is
+#         the value to pass when the object has the property (either on as a
+#         flag or a nonzero value for a modifier or resistance).  When not set,
+#         the value (0 for off flag, 1 for on flag, value for modifier,
+#         resistance level for a resistance) is sent.  bindui is currently only
+#         used for parts of the second character screen and the equippable
+#         comparison.  This field can appear multiple times to bind a property
+#         to more than one user interface element.
+# desc: an extra piece of descriptive text used in object information
 
 name:strength
 type:stat
@@ -913,3 +913,4 @@ type:immunity
 code:COLD
 power:43
 bindui:resist_ui_compact_0<COLD>:0
+

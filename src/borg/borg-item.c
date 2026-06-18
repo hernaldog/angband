@@ -1,6 +1,6 @@
 /**
- * \archivo borg-item.c
- * \brief definiciones de las listas de objetos que el borg está rastreando
+ * \file borg-item.c
+ * \brief definitions of the lists of items the borg is tracking
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2007-9 Andi Sidwell, Chris Carr, Ed Graham, Erik Osheim
@@ -28,18 +28,18 @@
 #include "borg-item-val.h"
 
 /*
- * "Inventario" actual
+ * Current "inventory"
  */
 borg_item *borg_items;
 
 /*
- * Arreglos de seguridad para simular mundos posibles
+ * Safety arrays for simulating possible worlds
  */
 
-borg_item *safe_items; /* "Inventario" de seguridad */
+borg_item *safe_items; /* Safety "inventory" */
 
 /*
- * obtener la inscripción (nota) del objeto
+ * get the items inscription (note)
  */
 const char *borg_get_note(const borg_item *item)
 {
@@ -49,58 +49,58 @@ const char *borg_get_note(const borg_item *item)
 }
 
 /*
- * Envía un comando para desinscribir el objeto número "i".
+ * Send a command to de-inscribe item number "i" .
  */
 void borg_deinscribe(int i)
 {
-    /* Está bien inscribir Mohos de Baba */
+    /* Ok to inscribe Slime Molds */
     if (borg_items[i].tval == TV_FOOD
         && borg_items[i].sval == sv_food_slime_mold)
         return;
 
-    /* Etiquetarlo */
+    /* Label it */
     borg_keypress('}');
 
-    /* Elegir del inventario */
+    /* Choose from inventory */
     if (i < INVEN_WIELD) {
-        /* Elegir el objeto */
+        /* Choose the item */
         borg_keypress(all_letters_nohjkl[i]);
     }
 
-    /* Elegir del equipo */
+    /* Choose from equipment */
     else {
         if (i < INVEN_FEET) {
             for (int j = 0; j < INVEN_WIELD; j++) {
-                /* Ir al equipo (si es necesario) */
+                /* Go to equipment (if necessary) */
                 if (borg_items[j].iqty && borg_items[j].note[0] == '{') {
                     borg_keypress('/');
                     break;
                 }
             }
-            /* Elegir el objeto */
+            /* Choose the item */
             borg_keypress(all_letters_nohjkl[i - INVEN_WIELD]);
 
         } 
         else {
             for (int j = 0; j <= INVEN_FEET; j++) {
-                /* Ir a la aljaba (si es necesario) */
+                /* Go to quiver (if necessary) */
                 if (borg_items[j].iqty && borg_items[j].note[0] == '{') {
                     borg_keypress('|');
                     break;
                 }
             }
-            /* Elegir el objeto */
+            /* Choose the item */
             borg_keypress('0' + (i - QUIVER_START));
         }
     }
 
-    /* Puede pedir una confirmación */
+    /* May ask for a confirmation */
     borg_keypress('y');
     borg_keypress('y');
 }
 
 /*
- * ayuda para dar el peso del objeto
+ * helper to give the item weight
  */
 int16_t borg_item_weight(borg_item * item)
 {
@@ -108,25 +108,25 @@ int16_t borg_item_weight(borg_item * item)
 }
 
 /*
- * asignar los arreglos de objetos
+ * allocate the item arrays
  */
 void borg_init_item(void)
 {
-    /*** Arreglos de Objeto/Artículo ***/
+    /*** Item/Ware arrays ***/
 
-    /* Crear el arreglo de inventario */
+    /* Make the inventory array */
     borg_items = mem_zalloc(QUIVER_END * sizeof(borg_item));
 
-    /* Crear el arreglo de inventario "seguro" */
+    /* Make the "safe" inventory array */
     safe_items = mem_zalloc(QUIVER_END * sizeof(borg_item));
 }
 
 /*
- * liberar los arreglos de objetos
+ * free the item arrays
  */
 void borg_free_item(void)
 {
-    /*** Arreglos de Objeto/Artículo ***/
+    /*** Item/Ware arrays ***/
 
     mem_free(safe_items);
     safe_items = NULL;

@@ -1,6 +1,6 @@
 /**
  * \file borg-item-val.c
- * \brief Carga los sval y kval de los objetos
+ * \brief Load the sval and kval of the items
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2007-9 Andi Sidwell, Chris Carr, Ed Graham, Erik Osheim
@@ -246,7 +246,7 @@ int sv_dragon_chaos;
 int sv_dragon_balance;
 int sv_dragon_power;
 
-/* un ayudante para asegurar que nuestras definiciones son correctas */
+/* a helper to make sure our definitions are correct */
 static int borg_lookup_sval_fail(int tval, const char *name)
 {
     int sval = lookup_sval(tval, name);
@@ -515,22 +515,22 @@ void borg_init_item_val(void)
 }
 
 /**
- * Devuelve el k_idx del tipo de objeto con el `tval` y `sval` dados, o 0.
+ * Return the k_idx of the object kind with the given `tval` and `sval`, or 0.
  */
 int borg_lookup_kind(int tval, int sval)
 {
     int k;
 
-    /* Buscarlo */
+    /* Look for it */
     for (k = 1; k < z_info->k_max; k++) {
         struct object_kind *k_ptr = &k_info[k];
 
-        /* Encontró una coincidencia */
+        /* Found a match */
         if ((k_ptr->tval == tval) && (k_ptr->sval == sval))
             return (k);
     }
 
-    /* Fracaso */
+    /* Failure */
     msg("No hay objeto (%s,%d,%d)", tval_find_name(tval), tval, sval);
     return 0;
 }
