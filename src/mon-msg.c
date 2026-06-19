@@ -334,7 +334,8 @@ static void get_subject(char *buf, size_t buflen,
 		if (rf_has(race->flags, RF_UNIQUE)) {
 			my_strcpy(buf, race->name, buflen);
 		} else if (count == 1) {
-			strnfmt(buf, buflen, "La criatura %s", race->name); //Fix traduc, ejemplo: La criatura X se despierta
+			strnfmt(buf, buflen, "%s", race->name);
+			buf[0] = (char)toupper((unsigned char)buf[0]);
 		} else {
 			/* Get the plural of the race name */
 			if (race->plural != NULL) {
