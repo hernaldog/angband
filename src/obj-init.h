@@ -1,6 +1,6 @@
 /**
  * \file obj-init.h
- * \brief Rutinas de inicialización de objetos
+ * \brief Object initialization routines
  *
  * Copyright (c) 1997 Ben Harrison
  *
@@ -15,11 +15,11 @@
  *    and not for profit purposes provided that this copyright and statement
  *    are included in all such copies.  Other copyrights may also apply.
  *
- * Este archivo se utiliza para inicializar varias variables y arreglos para
- * objetos en el juego Angband.
+ * This file is used to initialize various variables and arrays for 
+ * objects in the Angband game.
  *
- * Varios de los arreglos para Angband se construyen a partir de archivos de datos en el
- * directorio "lib/gamedata".
+ * Several of the arrays for Angband are built from data files in the
+ * "lib/gamedata" directory.
  */
 
 

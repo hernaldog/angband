@@ -1190,6 +1190,7 @@ void inven_drop(struct object *obj, int amt)
 		}
 	}
 
+	/* Drop it near the player */
 	drop_near(cave, &dropped, 0, player->grid, false, true);
 
 	/* Sound for quiver objects */

@@ -1,6 +1,6 @@
 /**
  * \file obj-tval.c
- * \brief Funciones envoltorio para tvals.
+ * \brief Wrapper functions for tvals.
  *
  * Copyright (c) 2014 Ben Semmler
  *
@@ -356,7 +356,7 @@ bool tval_is_zapper(const struct object *obj)
 }
 
 /**
- * Lista de pares { tval, nombre }.
+ * List of { tval, name } pairs.
  */
 static const grouper tval_names[] =
 {
@@ -366,7 +366,7 @@ static const grouper tval_names[] =
 };
 
 /**
- * Pequeño truco para permitir ambas grafías de armor/armour
+ * Small hack to allow both spellings of armor
  */
 static char *de_armour(const char *name)
 {
@@ -382,7 +382,7 @@ static char *de_armour(const char *name)
 }
 
 /**
- * Devuelve el equivalente numérico del tval textual `name`.
+ * Returns the numeric equivalent tval of the textual tval `name`.
  */
 int tval_find_idx(const char *name)
 {
@@ -408,7 +408,7 @@ int tval_find_idx(const char *name)
 }
 
 /**
- * Devuelve el equivalente textual del tval numérico `tval`.
+ * Returns the textual equivalent tval of the numeric tval `name`.
  */
 const char *tval_find_name(int tval)
 {
@@ -424,7 +424,7 @@ const char *tval_find_name(int tval)
 }
 
 /**
- * Cuenta los svals (de object.txt) de un tval no nulo dado
+ * Counts the svals (from object.txt) of a given non-null tval
  */
 int tval_sval_count(const char *name)
 {
@@ -445,8 +445,8 @@ int tval_sval_count(const char *name)
 }
 
 /**
- * Lista hasta max_size svals (de object.txt) de un tval no nulo dado
- * Asume que la lista tiene espacio asignado para al menos max_size elementos
+ * Lists up to max_size svals (from object.txt) of a given non-null tval
+ * Assumes list has allocated space for at least max_size elements
  */
 int tval_sval_list(const char *name, int *list, int max_size)
 {
