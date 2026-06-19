@@ -1,6 +1,6 @@
 /**
  * \file player-spell.c
- * \brief Lanzamiento de hechizos y plegarias
+ * \brief Spell and prayer casting/praying
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
@@ -33,7 +33,7 @@
 #include "target.h"
 
 /**
- * Utilizado por get_spell_info() para pasar información mientras itera a través de los efectos.
+ * Used by get_spell_info() to pass information as it iterates through effects.
  */
 struct spell_info_iteration_state {
 	const struct effect *pre;
@@ -44,7 +44,7 @@ struct spell_info_iteration_state {
 };
 
 /**
- * Tabla de Estadísticas (INT/SAB) -- Tasa de fallo mínimo (porcentaje)
+ * Stat Table (INT/WIS) -- Minimum failure rate (percentage)
  */
 static const int adj_mag_fail[STAT_RANGE] =
 {
@@ -89,7 +89,7 @@ static const int adj_mag_fail[STAT_RANGE] =
 };
 
 /**
- * Tabla de Estadísticas (INT/SAB) -- ajuste de la tasa de fallo
+ * Stat Table (INT/WIS) -- failure rate adjustment
  */
 static const int adj_mag_stat[STAT_RANGE] =
 {
@@ -134,26 +134,26 @@ static const int adj_mag_stat[STAT_RANGE] =
 };
 
 /**
- * Inicializar los hechizos del jugador
+ * Initialise player spells
  */
 void player_spells_init(struct player *p)
 {
 	int i, num_spells = p->class->magic.total_spells;
 
-	/* Ninguno */
+	/* None */
 	if (!num_spells) return;
 
-	/* Asignar */
+	/* Allocate */
 	p->spell_flags = mem_zalloc(num_spells * sizeof(uint8_t));
 	p->spell_order = mem_zalloc(num_spells * sizeof(uint8_t));
 
-	/* Ninguno de los hechizos ha sido aprendido todavía */
+	/* None of the spells have been learned yet */
 	for (i = 0; i < num_spells; i++)
 		p->spell_order[i] = 99;
 }
 
 /**
- * Liberar los hechizos del jugador
+ * Free player spells
  */
 void player_spells_free(struct player *p)
 {
@@ -162,7 +162,7 @@ void player_spells_free(struct player *p)
 }
 
 /**
- * Hacer una lista de los reinos mágicos de los que la clase del jugador tiene libros
+ * Make a list of the spell realms the player's class has books from
  */
 struct magic_realm *class_magic_realms(const struct player_class *c, int *count)
 {
@@ -181,7 +181,7 @@ struct magic_realm *class_magic_realms(const struct player_class *c, int *count)
 		struct class_book *book = &c->magic.books[i];
 		bool found = false;
 
-		/* Probar para el primer reino */
+		/* Test for first realm */
 		if (r->name == NULL) {
 			memcpy(r, book->realm, sizeof(struct magic_realm));
 			r->next = NULL;
@@ -189,7 +189,7 @@ struct magic_realm *class_magic_realms(const struct player_class *c, int *count)
 			continue;
 		}
 
-		/* Probar si ya está registrado */
+		/* Test for already recorded */
 		while (r_test) {
 			if (streq(r_test->name, book->realm->name)) {
 				found = true;
@@ -198,7 +198,7 @@ struct magic_realm *class_magic_realms(const struct player_class *c, int *count)
 		}
 		if (found) continue;
 
-		/* Añadirlo */
+		/* Add it */
 		r_test = mem_zalloc(sizeof(struct magic_realm));
 		memcpy(r_test, book->realm, sizeof(struct magic_realm));
 		r_test->next = r;
@@ -211,7 +211,7 @@ struct magic_realm *class_magic_realms(const struct player_class *c, int *count)
 
 
 /**
- * Obtener la estructura de libro de hechizos de cualquier objeto que sea un libro
+ * Get the spellbook structure from any object which is a book
  */
 const struct class_book *object_kind_to_book(const struct object_kind *kind)
 {
@@ -231,7 +231,8 @@ const struct class_book *object_kind_to_book(const struct object_kind *kind)
 }
 
 /**
- * Obtener la estructura de libro de hechizos de un objeto que es un libro del que el jugador puede lanzar
+ * Get the spellbook structure from an object which is a book the player can
+ * cast from
  */
 const struct class_book *player_object_to_book(const struct player *p,
 		const struct object *obj)
@@ -251,21 +252,21 @@ const struct class_spell *spell_by_index(const struct player *p, int index)
 	int book = 0, count = 0;
 	const struct class_magic *magic = &p->class->magic;
 
-	/* Verificar la validez del índice */
+	/* Check index validity */
 	if (index < 0 || index >= magic->total_spells)
 		return NULL;
 
-	/* Encontrar el libro, contar los hechizos en libros anteriores */
+	/* Find the book, count the spells in previous books */
 	while (count + magic->books[book].num_spells - 1 < index)
 		count += magic->books[book++].num_spells;
 
-	/* Encontrar el hechizo */
+	/* Find the spell */
 	return &magic->books[book].spells[index - count];
 }
 
 /**
- * Recopilar hechizos de un libro en el array spells[], asignando
- * memoria apropiada.
+ * Collect spells from a book into the spells[] array, allocating
+ * appropriate memory.
  */
 int spell_collect_from_book(const struct player *p, const struct object *obj,
 		int **spells)
@@ -277,14 +278,14 @@ int spell_collect_from_book(const struct player *p, const struct object *obj,
 		return n_spells;
 	}
 
-	/* Contar los hechizos */
+	/* Count the spells */
 	for (i = 0; i < book->num_spells; i++)
 		n_spells++;
 
-	/* Asignar el array */
+	/* Allocate the array */
 	*spells = mem_zalloc(n_spells * sizeof(*spells));
 
-	/* Escribir los hechizos */
+	/* Write the spells */
 	for (i = 0; i < book->num_spells; i++)
 		(*spells)[i] = book->spells[i].sidx;
 
@@ -293,7 +294,7 @@ int spell_collect_from_book(const struct player *p, const struct object *obj,
 
 
 /**
- * Devolver el número de hechizos lanzables en el libro de hechizos 'obj'.
+ * Return the number of castable spells in the spellbook 'obj'.
  */
 int spell_book_count_spells(const struct player *p, const struct object *obj,
 		bool (*tester)(const struct player *p, int spell))
@@ -314,7 +315,7 @@ int spell_book_count_spells(const struct player *p, const struct object *obj,
 
 
 /**
- * Verdadero si al menos un hechizo en spells[] es OK según spell_test.
+ * True if at least one spell in spells[] is OK according to spell_test.
  */
 bool spell_okay_list(const struct player *p,
 		bool (*spell_test)(const struct player *p, int spell),
@@ -331,7 +332,7 @@ bool spell_okay_list(const struct player *p,
 }
 
 /**
- * Verdadero si el hechizo es lanzable.
+ * True if the spell is castable.
  */
 bool spell_okay_to_cast(const struct player *p, int spell)
 {
@@ -339,7 +340,7 @@ bool spell_okay_to_cast(const struct player *p, int spell)
 }
 
 /**
- * Verdadero si el hechizo puede ser estudiado.
+ * True if the spell can be studied.
  */
 bool spell_okay_to_study(const struct player *p, int spell_index)
 {
@@ -349,7 +350,7 @@ bool spell_okay_to_study(const struct player *p, int spell_index)
 }
 
 /**
- * Verdadero si el hechizo puede ser examinado.
+ * True if the spell is browsable.
  */
 bool spell_okay_to_browse(const struct player *p, int spell_index)
 {
@@ -358,7 +359,7 @@ bool spell_okay_to_browse(const struct player *p, int spell_index)
 }
 
 /**
- * Ajuste de fallo de hechizo por el nivel de la estadística de lanzamiento
+ * Spell failure adjustment by casting stat level
  */
 static int fail_adjust(struct player *p, const struct class_spell *spell)
 {
@@ -367,7 +368,7 @@ static int fail_adjust(struct player *p, const struct class_spell *spell)
 }
 
 /**
- * Fallo mínimo de hechizo por el nivel de la estadística de lanzamiento
+ * Spell minimum failure by casting stat level
  */
 static int min_fail(struct player *p, const struct class_spell *spell)
 {
@@ -376,7 +377,7 @@ static int min_fail(struct player *p, const struct class_spell *spell)
 }
 
 /**
- * Devuelve la probabilidad de fallo para un hechizo
+ * Returns chance of failure for a spell
  */
 int16_t spell_chance(int spell_index)
 {
@@ -384,101 +385,101 @@ int16_t spell_chance(int spell_index)
 
 	const struct class_spell *spell;
 
-	/* Paranoia -- debe ser alfabetizado */
+	/* Paranoia -- must be literate */
 	if (!player->class->magic.total_spells) return chance;
 
-	/* Obtener el hechizo */
+	/* Get the spell */
 	spell = spell_by_index(player, spell_index);
 	if (!spell) return chance;
 
-	/* Extraer la tasa de fallo base del hechizo */
+	/* Extract the base spell failure rate */
 	chance = spell->sfail;
 
-	/* Reducir la tasa de fallo mediante el ajuste de nivel "efectivo" */
+	/* Reduce failure rate by "effective" level adjustment */
 	chance -= 3 * (player->lev - spell->slevel);
 
-	/* Reducir la tasa de fallo mediante el ajuste del nivel de la estadística de lanzamiento */
+	/* Reduce failure rate by casting stat level adjustment */
 	chance -= fail_adjust(player, spell);
 
-	/* No hay suficiente maná para lanzar */
+	/* Not enough mana to cast */
 	if (spell->smana > player->csp)
 		chance += 5 * (spell->smana - player->csp);
 
-	/* Obtener la tasa de fallo mínima para el nivel de la estadística de lanzamiento */
+	/* Get the minimum failure rate for the casting stat level */
 	minfail = min_fail(player, spell);
 
-	/* Los personajes sin fallo cero nunca mejoran del 5 por ciento */
+	/* Non zero-fail characters never get better than 5 percent */
 	if (!player_has(player, PF_ZERO_FAIL) && minfail < 5) {
 		minfail = 5;
 	}
 
-	/* Los nigromantes son castigados por estar en casillas iluminadas */
+	/* Necromancers are punished by being on lit squares */
 	if (player_has(player, PF_UNLIGHT) && square_islit(cave, player->grid)) {
 		chance += 25;
 	}
 
-	/* El miedo dificulta los hechizos (antes del fallo mínimo) */
-	/* Nótese que los hechizos que eliminan el miedo tienen una tasa de fallo mucho más baja que
-	 * los hechizos circundantes, para asegurar que esto no cause un mega fallo */
+	/* Fear makes spells harder (before minfail) */
+	/* Note that spells that remove fear have a much lower fail rate than
+	 * surrounding spells, to make sure this doesn't cause mega fail */
 	if (player_of_has(player, OF_AFRAID)) chance += 20;
 
-	/* Tasa de fallo mínima y máxima */
+	/* Minimal and maximal failure rate */
 	if (chance < minfail) chance = minfail;
 	if (chance > 50) chance = 50;
 
-	/* El aturdimiento dificulta los hechizos (después del fallo mínimo) */
+	/* Stunning makes spells harder (after minfail) */
 	if (player->timed[TMD_STUN] > 50) {
 		chance += 25;
 	} else if (player->timed[TMD_STUN]) {
 		chance += 15;
 	}
 
-	/* La amnesia dificulta mucho los hechizos */
+	/* Amnesia makes spells very difficult */
 	if (player->timed[TMD_AMNESIA]) {
 		chance = 50 + chance / 2;
 	}
 
-	/* Siempre hay un 5 por ciento de probabilidad de funcionar */
+	/* Always a 5 percent chance of working */
 	if (chance > 95) {
 		chance = 95;
 	}
 
-	/* Devolver la probabilidad */
+	/* Return the chance */
 	return (chance);
 }
 
 
 /**
- * Aprender el hechizo especificado.
+ * Learn the specified spell.
  */
 void spell_learn(int spell_index)
 {
 	int i;
 	const struct class_spell *spell = spell_by_index(player, spell_index);
 
-	/* Aprender el hechizo */
+	/* Learn the spell */
 	player->spell_flags[spell_index] |= PY_SPELL_LEARNED;
 
-	/* Encontrar la siguiente entrada vacía en "spell_order[]" */
+	/* Find the next open entry in "spell_order[]" */
 	for (i = 0; i < player->class->magic.total_spells; i++)
 		if (player->spell_order[i] == 99) break;
 
-	/* Añadir el hechizo a la lista conocida */
+	/* Add the spell to the known list */
 	player->spell_order[i] = spell_index;
 
-	/* Mencionar el resultado */
+	/* Mention the result */
 	msgt(MSG_STUDY, "Has aprendido %s de %s.", spell->realm->spell_noun,
 		 spell->name);
 
-	/* Un hechizo menos disponible */
+	/* One less spell available */
 	player->upkeep->new_spells--;
 
-	/* Mensaje si es necesario */
+	/* Message if needed */
 	if (player->upkeep->new_spells)
 		msg("Puedes aprender %d %s más%s.", player->upkeep->new_spells,
 			spell->realm->spell_noun, PLURAL(player->upkeep->new_spells));
 
-	/* Redibujar Estado de Estudio */
+	/* Redraw Study Status */
 	player->upkeep->redraw |= (PR_STUDY | PR_OBJECT);
 }
 
@@ -489,7 +490,7 @@ static int beam_chance(void)
 }
 
 /**
- * Lanzar el hechizo especificado
+ * Cast the specified spell
  */
 bool spell_cast(int spell_index, int dir, struct command *cmd)
 {
@@ -497,62 +498,62 @@ bool spell_cast(int spell_index, int dir, struct command *cmd)
 	bool ident = false;
 	int beam  = beam_chance();
 
-	/* Obtener el hechizo */
+	/* Get the spell */
 	const struct class_spell *spell = spell_by_index(player, spell_index);
 
-	/* Probabilidad de fallo del hechizo */
+	/* Spell failure chance */
 	chance = spell_chance(spell_index);
 
-	/* Fallar o tener éxito */
+	/* Fail or succeed */
 	if (randint0(100) < chance) {
 		event_signal(EVENT_INPUT_FLUSH);
 		msg("¡No has podido concentrarte lo suficiente!");
 	} else {
-		/* Lanzar el hechizo */
+		/* Cast the spell */
 		if (!effect_do(spell->effect, source_player(), NULL, &ident, true, dir,
 					   beam, 0, cmd)) {
 			return false;
 		}
 
-		/* Recompensar a COMBAT_REGEN con pequeña recuperación de PG */
+		/* Reward COMBAT_REGEN with small HP recovery */
 		if (player_has(player, PF_COMBAT_REGEN)) {
 			convert_mana_to_hp(player, spell->smana << 16);
 		}
 
-		/* Se lanzó un hechizo */
+		/* A spell was cast */
 		sound(MSG_SPELL);
 
 		if (!(player->spell_flags[spell_index] & PY_SPELL_WORKED)) {
 			int e = spell->sexp;
 
-			/* El hechizo funcionó */
+			/* The spell worked */
 			player->spell_flags[spell_index] |= PY_SPELL_WORKED;
 
-			/* Ganar experiencia */
+			/* Gain experience */
 			player_exp_gain(player, e * spell->slevel);
 
-			/* Redibujar el recuerdo de objeto */
+			/* Redraw object recall */
 			player->upkeep->redraw |= (PR_OBJECT);
 		}
 	}
 
-	/* ¿Maná suficiente? */
+	/* Sufficient mana? */
 	if (spell->smana <= player->csp) {
-		/* Usar algo de maná */
+		/* Use some mana */
 		player->csp -= spell->smana;
 	} else {
 		int oops = spell->smana - player->csp;
 
-		/* No queda maná */
+		/* No mana left */
 		player->csp = 0;
 		player->csp_frac = 0;
 
-		/* Esforzar al jugador en exceso */
+		/* Over-exert the player */
 		player_over_exert(player, PY_EXERT_FAINT, 100, 5 * oops + 1);
 		player_over_exert(player, PY_EXERT_CON, 50, 0);
 	}
 
-	/* Redibujar maná */
+	/* Redraw mana */
 	player->upkeep->redraw |= (PR_MANA);
 
 	return true;
@@ -613,23 +614,23 @@ static void spell_effect_append_value_info(const struct effect *effect,
 		rv = ist->shared_rv;
 	}
 
-	/* Manejar algunos casos especiales donde queremos añadir información adicional */
+	/* Handle some special cases where we want to append some additional info */
 	switch (effect->index) {
 		case EF_HEAL_HP:
-			/* Añadir solo porcentaje, ya que el valor fijo siempre se muestra */
+			/* Append percentage only, as the fixed value is always displayed */
 			if (rv.m_bonus) {
 				strnfmt(special, sizeof(special), "/%d%%",
 					rv.m_bonus);
 			}
 			break;
 		case EF_TELEPORT:
-			/* m_bonus significa que es una cosa aleatoria extraña */
+			/* m_bonus means it's a weird random thing */
 			if (rv.m_bonus) {
 				my_strcpy(special, "aleatorio", sizeof(special));
 			}
 			break;
 		case EF_SPHERE:
-			/* Añadir radio */
+			/* Append radius */
 			if (effect->radius) {
 				int rad = effect->radius;
 				strnfmt(special, sizeof(special), ", rad %d",
@@ -639,7 +640,7 @@ static void spell_effect_append_value_info(const struct effect *effect,
 			}
 			break;
 		case EF_BALL:
-			/* Añadir radio */
+			/* Append radius */
 			if (effect->radius) {
 				int rad = effect->radius;
 				if (effect->other) {
@@ -652,14 +653,14 @@ static void spell_effect_append_value_info(const struct effect *effect,
 			}
 			break;
 		case EF_STRIKE:
-			/* Añadir radio */
+			/* Append radius */
 			if (effect->radius) {
 				strnfmt(special, sizeof(special), ", rad %d",
 					effect->radius);
 			}
 			break;
 		case EF_SHORT_BEAM: {
-			/* Añadir longitud del haz */
+			/* Append length of beam */
 			int beam_len = effect->radius;
 			if (effect->other) {
 				beam_len += player->lev / effect->other;
@@ -669,14 +670,14 @@ static void spell_effect_append_value_info(const struct effect *effect,
 			break;
 		}
 		case EF_SWARM:
-			/* Añadir número de proyectiles. */
+			/* Append number of projectiles. */
 			strnfmt(special, sizeof(special), "x%d", rv.m_bonus);
 			break;
 	}
 
 	/*
-	 * Solo mostrar si tiene dados y no es redundante con el
-	 * anterior que se mostró.
+	 * Only display if have dice and it isn't redundant with the
+	 * previous one that was displayed.
 	 */
 	if ((rv.base > 0 || (rv.dice > 0 && rv.sides > 0))
 			&& (!ist->pre

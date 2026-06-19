@@ -1,6 +1,6 @@
 /**
  * \file score.c
- * \brief Manejo de puntuaciones altas para Angband
+ * \brief Highscore handling for Angband
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
@@ -23,7 +23,7 @@
 
 
 /**
- * Calcula el número total de puntos ganados (wow - NRM)
+ * Calculates the total number of points earned (wow - NRM)
  */
 static long total_points(const struct player *p)
 {
@@ -32,7 +32,7 @@ static long total_points(const struct player *p)
 
 
 /**
- * Leer un archivo de puntuaciones altas.
+ * Read in a highscore file.
  */
 size_t highscore_read(struct high_score scores[], size_t sz)
 {
@@ -40,7 +40,7 @@ size_t highscore_read(struct high_score scores[], size_t sz)
 	ang_file *scorefile;
 	size_t i;
 
-	/* Limpiar las puntuaciones actuales */
+	/* Wipe current scores */
 	memset(scores, 0, sz * sizeof(struct high_score));
 
 	path_build(fname, sizeof(fname), ANGBAND_DIR_SCORES, "scores.raw");
@@ -57,8 +57,8 @@ size_t highscore_read(struct high_score scores[], size_t sz)
 
 	file_close(scorefile);
 	/*
-	 * En una lectura corta, también comprobar el registro uno después del final
-	 * en caso de que estuviera parcialmente sobrescrito.
+	 * On a short read, also check the record one past the end in case
+	 * it was partially overwritten.
 	 */
 	(void)highscore_regularize(scores, (i < sz) ? i + 1 : sz);
 
@@ -67,7 +67,7 @@ size_t highscore_read(struct high_score scores[], size_t sz)
 
 
 /**
- * Colocar una entrada en una matriz de puntuaciones altas
+ * Place an entry into a high score array
  */
 size_t highscore_add(const struct high_score *entry, struct high_score scores[],
 					 size_t sz)
@@ -93,7 +93,7 @@ static size_t highscore_count(const struct high_score scores[], size_t sz)
 
 
 /**
- * Realmente colocar una entrada en el archivo de puntuaciones altas
+ * Actually place an entry into the high score file
  */
 static void highscore_write(const struct high_score scores[], size_t sz)
 {
@@ -114,11 +114,11 @@ static void highscore_write(const struct high_score scores[], size_t sz)
 	path_build(lok_name, sizeof(lok_name), ANGBAND_DIR_SCORES, "scores.lok");
 
 
-	/* Leer y añadir nueva puntuación */
+	/* Read in and add new score */
 	n = highscore_count(scores, sz);
 
 
-	/* Bloquear puntuaciones */
+	/* Lock scores */
 	safe_setuid_grab();
 	exists = file_exists(lok_name);
 	safe_setuid_drop();
@@ -138,7 +138,7 @@ static void highscore_write(const struct high_score scores[], size_t sz)
 		safe_setuid_drop();
 	}
 
-	/* Abrir el nuevo archivo para escritura */
+	/* Open the new file for writing */
 	safe_setuid_grab();
 	scorefile = file_open(new_name, MODE_WRITE, FTYPE_RAW);
 	safe_setuid_drop();
@@ -156,7 +156,7 @@ static void highscore_write(const struct high_score scores[], size_t sz)
 	file_write(scorefile, (const char *)scores, sizeof(struct high_score)*n);
 	file_close(scorefile);
 
-	/* Ahora mover archivos */
+	/* Now move things around */
 	safe_setuid_grab();
 
 	if (file_exists(old_name) && !file_delete(old_name))
@@ -168,7 +168,7 @@ static void highscore_write(const struct high_score scores[], size_t sz)
 	if (!file_move(new_name, cur_name))
 		msg("No se pudo renombrar el nuevo archivo de puntuaciones a scores.raw");
 
-	/* Eliminar el bloqueo */
+	/* Remove the lock */
 	file_close(lok);
 	file_delete(lok_name);
 
@@ -178,76 +178,76 @@ static void highscore_write(const struct high_score scores[], size_t sz)
 
 
 /**
- * Rellenar un registro de puntuación para el jugador dado.
+ * Fill in a score record for the given player.
  *
- * \param entry apunta al registro a rellenar.
- * \param p es el jugador cuya puntuación debe registrarse.
- * \param died_from es la razón de la muerte. En uso típico, será
- * p->died_from, pero cuando el jugador aún no está muerto, la función llamadora
- * puede querer usar otra cosa: "nadie (¡todavía!)" es tradicional.
- * \param death_time apunta al momento en que el jugador murió. Puede ser NULL
- * cuando el jugador no está muerto.
+ * \param entry points to the record to fill in.
+ * \param p is the player whose score should be recorded.
+ * \param died_from is the reason for death.  In typical use, that will be
+ * p->died_from, but when the player isn't dead yet, the caller may want to
+ * use something else:  "nobody (yet!)" is traditional.
+ * \param death_time points to the time at which the player died.  May be NULL
+ * when the player isn't dead.
  *
- * Error: toma un argumento de jugador, pero aún accede a un poco de estado global,
- * player_uid, refiriéndose al jugador
+ * Bug:  takes a player argument, but still accesses a bit of global state,
+ * player_uid, referring to the player
  */
 void build_score(struct high_score *entry, const struct player *p,
 		const char *died_from, const time_t *death_time)
 {
 	memset(entry, 0, sizeof(struct high_score));
 
-	/* Guardar la versión */
+	/* Save the version */
 	strnfmt(entry->what, sizeof(entry->what), "%s", buildid);
 
-	/* Calcular y guardar los puntos */
+	/* Calculate and save the points */
 	strnfmt(entry->pts, sizeof(entry->pts), "%9ld", total_points(p));
 
-	/* Guardar el oro actual */
+	/* Save the current gold */
 	strnfmt(entry->gold, sizeof(entry->gold), "%9ld", (long)p->au);
 
-	/* Guardar el turno actual */
+	/* Save the current turn */
 	strnfmt(entry->turns, sizeof(entry->turns), "%9ld", (long)turn);
 
-	/* Hora de la muerte */
+	/* Time of death */
 	if (death_time)
 		strftime(entry->day, sizeof(entry->day), "@%Y%m%d",
 				 localtime(death_time));
 	else
 		my_strcpy(entry->day, "HOY", sizeof(entry->day));
 
-	/* Guardar el nombre del jugador (15 caracteres) */
+	/* Save the player name (15 chars) */
 	strnfmt(entry->who, sizeof(entry->who), "%-.15s", p->full_name);
 
-	/* Guardar la información del jugador XXX XXX XXX */
+	/* Save the player info XXX XXX XXX */
 	strnfmt(entry->uid, sizeof(entry->uid), "%7u", player_uid);
 	strnfmt(entry->p_r, sizeof(entry->p_r), "%2d", p->race->ridx);
 	strnfmt(entry->p_c, sizeof(entry->p_c), "%2d", p->class->cidx);
 
-	/* Guardar el nivel y tal */
+	/* Save the level and such */
 	strnfmt(entry->cur_lev, sizeof(entry->cur_lev), "%3d", p->lev);
 	strnfmt(entry->cur_dun, sizeof(entry->cur_dun), "%3d", p->depth);
 	strnfmt(entry->max_lev, sizeof(entry->max_lev), "%3d", p->max_lev);
 	strnfmt(entry->max_dun, sizeof(entry->max_dun), "%3d", p->max_depth);
 
-	/* Sin causa de muerte */
+	/* No cause of death */
 	my_strcpy(entry->how, died_from, sizeof(entry->how));
 }
 
 
 
 /**
- * Introducir el nombre de un jugador en una tabla de puntuaciones altas, si es "legal".
+ * Enter a player's name on a hi-score table, if "legal".
  *
- * \param p es el jugador a introducir
- * \param death_time apunta al momento en que el jugador murió; puede ser NULL
- * para un jugador que aún no está muerto
- * Asume que se ha llamado a "signals_ignore_tstp()".
+ * \param p is the player to enter
+ * \param death_time points to the time at which the player died; may be NULL
+ * for a player that's not dead yet
+ * Assumes "signals_ignore_tstp()" has been called.
  */
 void enter_score(const struct player *p, const time_t *death_time)
 {
 	int j;
 
-	/* Los tramposos no son puntuados */
+	/* Cheaters are not scored */
 	for (j = 0; j < OPT_MAX; ++j) {
 		if (option_type(j) != OP_SCORE)
 			continue;
@@ -259,7 +259,7 @@ void enter_score(const struct player *p, const time_t *death_time)
 		return;
 	}
 
-	/* Añadir una nueva entrada, si está permitido */
+	/* Add a new entry, if allowed */
 	if (p->noscore & (NOSCORE_WIZARD | NOSCORE_DEBUG)) {
 		msg("Puntuación no registrada para magos.");
 		event_signal(EVENT_MESSAGE_FLUSH);
@@ -287,6 +287,8 @@ void enter_score(const struct player *p, const time_t *death_time)
 		highscore_write(scores, N_ELEMENTS(scores));
 	}
 
-	/* Éxito */
+	/* Success */
 	return;
 }
+
+
