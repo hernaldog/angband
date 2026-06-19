@@ -1,6 +1,6 @@
 /**
- * \archivo obj-init.c
- * \brief Varias rutinas de inicialización del juego
+ * \file obj-init.c
+ * \brief Various game initialization routines
  *
  * Copyright (c) 1997 Ben Harrison
  *
@@ -15,11 +15,11 @@
  *    and not for profit purposes provided that this copyright and statement
  *    are included in all such copies.  Other copyrights may also apply.
  *
- * Este archivo se utiliza para inicializar varias variables y arreglos para objetos
- * en el juego Angband.
+ * This file is used to initialize various variables and arrays for objects
+ * in the Angband game.
  *
- * Varios de los arreglos para Angband se construyen a partir de archivos de datos en el
- * directorio "lib/gamedata". Acá se procesa el archivo lib/gamedata/object.txt
+ * Several of the arrays for Angband are built from data files in the
+ * "lib/gamedata" directory.
  */
 
 
@@ -94,7 +94,7 @@ static bool grab_element_flag(struct element_info *info, const char *flag_name)
 		return false;
 	}
 
-	/* Ignorar u odiar */
+	/* Ignore or hate */
 	for (i = 0; i < ELEM_MAX; i++) {
 		if (streq(under + 1, element_names[i])) {
 			if (!strncmp(flag_name, "IGNORE", under - flag_name)) {
@@ -116,30 +116,30 @@ static enum parser_error write_dummy_object_record(struct artifact *art, const c
 	int i;
 	char mod_name[100];
 
-	/* Extender en 1 y reasignar */
+	/* Extend by 1 and realloc */
 	z_info->k_max += 1;
 	temp = mem_realloc(k_info, (z_info->k_max + 1) * sizeof(*temp));
 
-	/* Copiar si no hay errores */
+	/* Copy if no errors */
 	if (!temp) {
 		return PARSE_ERROR_INTERNAL;
 	}
 	k_info = temp;
-	/* Usar la (segunda) última entrada para el dummy */
+	/* Use the (second) last entry for the dummy */
 	dummy = &k_info[z_info->k_max - 1];
 	memset(dummy, 0, sizeof(*dummy));
 
-	/* Copiar el tval, base y nivel */
+	/* Copy the tval, base and level */
 	dummy->tval = art->tval;
 	dummy->base = &kb_info[dummy->tval];
 
-	/* Hacer el nombre y el índice */
+	/* Make the name and index */
 	strnfmt(mod_name, sizeof(mod_name), "& %s~", name);
 	dummy->name = string_make(mod_name);
 	dummy->kidx = z_info->k_max - 1;
 	dummy->level = art->level;
 
-	/* Aumentar el contador de sval para este tval, establecer el nuevo al máximo */
+	/* Increase the sval count for this tval, set the new one to the max */
 	for (i = 0; i < TV_MAX; i++) {
 		if (kb_info[i].tval == dummy->tval) {
 			kb_info[i].num_svals++;
@@ -149,27 +149,27 @@ static enum parser_error write_dummy_object_record(struct artifact *art, const c
 	}
 	if (i == TV_MAX) return PARSE_ERROR_INTERNAL;
 
-	/* Copiar el sval a la información del artefacto */
+	/* Copy the sval to the artifact info */
 	art->sval = dummy->sval;
 
-	/* Dar al objeto colores predeterminados (estos deberían ser sobrescritos) */
+	/* Give the object default colours (these should be overwritten) */
 	dummy->d_char = '*';
 	dummy->d_attr = COLOUR_RED;
 
-	/* Heredar las banderas e información elemental del tval */
+	/* Inherit the flags and element information of the tval */
 	of_copy(dummy->flags, kb_info[i].flags);
 	kf_copy(dummy->kind_flags, kb_info[i].kind_flags);
 	(void)memcpy(dummy->el_info, kb_info[i].el_info,
 		sizeof(dummy->el_info[0]) * ELEM_MAX);
 
-	/* Registrar esto como un objeto INSTA_ART */
+	/* Register this as an INSTA_ART object */
 	kf_on(dummy->kind_flags, KF_INSTA_ART);
 
 	return PARSE_ERROR_NONE;
 }
 
 /**
- * Rellenar la información del objeto de maldición ahora que curse_object_kind está definido
+ * Fill in curse object info now that curse_object_kind is defined
  */
 static void write_curse_kinds(void)
 {
@@ -181,8 +181,8 @@ static void write_curse_kinds(void)
 		curse->obj->kind = curse_object_kind;
 		curse->obj->sval = sval;
 		/*
-		 * Tolerar una versión conocida ya asignada: reiniciar
-		 * sin salir y rehaciendo los artefactos en
+		 * Tolerate an already allocated known version:  restarting
+		 * without exiting and redoing the artifacts in
 		 * do_cmd_accept_character().
 		 */
 		if (! curse->obj->known) {
@@ -190,7 +190,7 @@ static void write_curse_kinds(void)
 		}
 		curse->obj->known->kind = curse_object_kind;
 		curses[i].obj->known->sval = sval;
-		/* Marcarlo como tocado para que pueda ser completamente conocido. */
+		/* Mark it as touched so it can be fully known. */
 		curse->obj->known->notice |= OBJ_NOTICE_ASSESSED;
 	}
 }
@@ -208,7 +208,7 @@ static struct activation *findact(const char *act_name) {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar proyecciones
+ * Initialize projections
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_projection_code(struct parser *p) {
@@ -423,7 +423,7 @@ static errr finish_parse_projection(struct parser *p) {
 	struct projection *projection, *next = NULL;
 	int element_count = 0, count = 0;
 
-	/* Contar las entradas */
+	/* Count the entries */
 	z_info->projection_max = 0;
 	projection = parser_priv(p);
 	while (projection) {
@@ -440,7 +440,7 @@ static errr finish_parse_projection(struct parser *p) {
 		quit_fmt("¡Demasiados elementos en projection.txt!");
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* Allocate the direct access list and copy the data to it */
 	projections = mem_zalloc((z_info->projection_max) * sizeof(*projection));
 	count = z_info->projection_max - 1;
 	for (projection = parser_priv(p); projection; projection = next, count--) {
@@ -477,7 +477,7 @@ struct file_parser projection_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar bases de objetos
+ * Initialize object bases
  * ------------------------------------------------------------------------ */
 
 struct kb_parsedata {
@@ -666,7 +666,7 @@ struct file_parser object_base_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar destrucción de objetos
+ * Initialize object slays
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_slay_code(struct parser *p) {
@@ -703,7 +703,7 @@ static enum parser_error parse_slay_race_flag(struct parser *p) {
 	if (flag == FLAG_END) {
 		return PARSE_ERROR_INVALID_FLAG;
 	}
-	/* Bandera o base, no ambas ni múltiples banderas de raza */
+	/* Flag or base, not both nor multiple race flags */
 	if (slay->race_flag || slay->base) {
 		return PARSE_ERROR_INVALID_SLAY;
 	}
@@ -721,7 +721,7 @@ static enum parser_error parse_slay_base(struct parser *p) {
 	if (lookup_monster_base(base_name) == NULL) {
 		return PARSE_ERROR_INVALID_MONSTER_BASE;
 	}
-	/* Bandera o base, no ambas ni múltiples bases */
+	/* Flag or base, not both nor multiple bases */
 	if (slay->race_flag || slay->base) {
 		return PARSE_ERROR_INVALID_SLAY;
 	}
@@ -807,7 +807,7 @@ static errr finish_parse_slay(struct parser *p) {
 	int count = 1;
 	errr result = PARSE_ERROR_NONE;
 
-	/* Contar las entradas */
+	/* Count the entries */
 	z_info->slay_max = 0;
 	slay = parser_priv(p);
 	while (slay) {
@@ -819,7 +819,7 @@ static errr finish_parse_slay(struct parser *p) {
 		slay = slay->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* Allocate the direct access list and copy the data to it */
 	slays = mem_zalloc((z_info->slay_max + 1) * sizeof(*slay));
 	for (slay = parser_priv(p); slay; slay = next, count++) {
 		next = slay->next;
@@ -858,7 +858,7 @@ struct file_parser slay_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar marcas elementales de objetos
+ * Initialize object brands
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_brand_code(struct parser *p) {
@@ -979,7 +979,7 @@ static errr finish_parse_brand(struct parser *p) {
 	int count = 1;
 	errr result = PARSE_ERROR_NONE;
 
-	/* Contar las entradas */
+	/* Count the entries */
 	z_info->brand_max = 0;
 	brand = parser_priv(p);
 	while (brand) {
@@ -991,7 +991,7 @@ static errr finish_parse_brand(struct parser *p) {
 		brand = brand->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* Allocate the direct access list and copy the data to it */
 	brands = mem_zalloc((z_info->brand_max + 1) * sizeof(*brand));
 	for (brand = parser_priv(p); brand; brand = next, count++) {
 		next = brand->next;
@@ -1030,7 +1030,7 @@ struct file_parser brand_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar maldiciones de objetos
+ * Initialize object curses
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_curse_name(struct parser *p) {
@@ -1069,9 +1069,9 @@ static enum parser_error parse_curse_weight(struct parser *p) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
 	/*
-	 * Rechazar si no cabe en un int16_t. El rechazo de valores negativos
-	 * para el ajuste con MULTIPLY_WEIGHT en las banderas ocurre
-	 * al finalizar el análisis.
+	 * Reject if it will not fit in an int16_t.  Rejection of negative
+	 * values for the adjustment with MULTIPLY_WEIGHT in the flags happens
+	 * when finalizing the parsing.
 	 */
 	if (adjustment < -32768 || adjustment > 32767) {
 		return PARSE_ERROR_INVALID_VALUE;
@@ -1157,7 +1157,7 @@ static enum parser_error parse_curse_effect(struct parser *p) {
 	if (!curse) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Ir al siguiente efecto vacante y establecerlo al nuevo */
+	/* Go to the next vacant effect and set it to the new one  */
 	new_effect = mem_zalloc(sizeof(*new_effect));
 	if (curse->obj->effect) {
 		effect = curse->obj->effect;
@@ -1166,7 +1166,7 @@ static enum parser_error parse_curse_effect(struct parser *p) {
 	} else {
 		curse->obj->effect = new_effect;
 	}
-	/* Rellenar los detalles */
+	/* Fill in the detail */
 	return grab_effect_data(p, new_effect);
 }
 
@@ -1177,7 +1177,7 @@ static enum parser_error parse_curse_effect_yx(struct parser *p) {
 	if (!curse) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	effect = curse->obj->effect;
 	if (effect == NULL) {
 		return PARSE_ERROR_NONE;
@@ -1197,12 +1197,12 @@ static enum parser_error parse_curse_dice(struct parser *p) {
 	if (!curse) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	effect = curse->obj->effect;
 	if (effect == NULL) {
 		return PARSE_ERROR_NONE;
 	}
-	/* Ir al efecto correcto */
+	/* Go to the correct effect */
 	while (effect->next) effect = effect->next;
 	dice = dice_new();
 	if (dice == NULL) {
@@ -1233,14 +1233,14 @@ static enum parser_error parse_curse_expr(struct parser *p) {
 	if (!curse) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	effect = curse->obj->effect;
 	if (effect == NULL) {
 		return PARSE_ERROR_NONE;
 	}
-	/* Ir al efecto correcto */
+	/* Go to the correct effect */
 	while (effect->next) effect = effect->next;
-	/* Si no hay dados, asumir que es humano y no un error del analizador. */
+	/* If there are no dice, assume that this is human and not parser error. */
 	if (effect->dice == NULL) {
 		return PARSE_ERROR_NONE;
 	}
@@ -1261,7 +1261,7 @@ static enum parser_error parse_curse_expr(struct parser *p) {
 	} else {
 		result = PARSE_ERROR_NONE;
 	}
-	/* El objeto dice hace una copia profunda de la expresión, así que podemos liberarla */
+	/* The dice object makes a deep copy of the expression, so we can free it */
 	expression_free(expression);
 	return result;
 }
@@ -1362,7 +1362,7 @@ static errr finish_parse_curse(struct parser *p) {
 	int count = 1;
 	errr result = PARSE_ERROR_NONE;
 
-	/* Contar las entradas */
+	/* Count the entries */
 	z_info->curse_max = 0;
 	curse = parser_priv(p);
 	while (curse) {
@@ -1374,7 +1374,7 @@ static errr finish_parse_curse(struct parser *p) {
 		curse = curse->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* Allocate the direct access list and copy the data to it */
 	curses = mem_zalloc((z_info->curse_max + 1) * sizeof(*curse));
 	for (curse = parser_priv(p); curse; curse = next, count++) {
 		next = curse->next;
@@ -1428,7 +1428,7 @@ struct file_parser curse_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar activaciones
+ * Initialize activations
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_act_name(struct parser *p) {
@@ -1482,7 +1482,7 @@ static enum parser_error parse_act_effect(struct parser *p) {
 	if (!act) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Ir al siguiente efecto vacante y establecerlo al nuevo */
+	/* Go to the next vacant effect and set it to the new one  */
 	new_effect = mem_zalloc(sizeof(*new_effect));
 	if (act->effect) {
 		effect = act->effect;
@@ -1491,7 +1491,7 @@ static enum parser_error parse_act_effect(struct parser *p) {
 	} else {
 		act->effect = new_effect;
 	}
-	/* Rellenar los detalles */
+	/* Fill in the detail */
 	return grab_effect_data(p, new_effect);
 }
 
@@ -1502,7 +1502,7 @@ static enum parser_error parse_act_effect_yx(struct parser *p) {
 	if (!act) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	effect = act->effect;
 	if (effect == NULL) {
 		return PARSE_ERROR_NONE;
@@ -1522,12 +1522,12 @@ static enum parser_error parse_act_dice(struct parser *p) {
 	if (!act) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	effect = act->effect;
 	if (effect == NULL) {
 		return PARSE_ERROR_NONE;
 	}
-	/* Ir al efecto correcto */
+	/* Go to the correct effect */
 	while (effect->next) effect = effect->next;
 	dice = dice_new();
 	if (dice == NULL) {
@@ -1558,14 +1558,14 @@ static enum parser_error parse_act_expr(struct parser *p) {
 	if (!act) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	effect = act->effect;
 	if (effect == NULL) {
 		return PARSE_ERROR_NONE;
 	}
-	/* Ir al efecto correcto */
+	/* Go to the correct effect */
 	while (effect->next) effect = effect->next;
-	/* Si no hay dados, asumir que es humano y no un error del analizador. */
+	/* If there are no dice, assume that this is human and not parser error. */
 	if (effect->dice == NULL) {
 		return PARSE_ERROR_NONE;
 	}
@@ -1586,7 +1586,7 @@ static enum parser_error parse_act_expr(struct parser *p) {
 	} else {
 		result = PARSE_ERROR_NONE;
 	}
-	/* El objeto dice hace una copia profunda de la expresión, así que podemos liberarla */
+	/* The dice object makes a deep copy of the expression, so we can free it */
 	expression_free(expression);
 	return result;
 }
@@ -1636,7 +1636,7 @@ static errr finish_parse_act(struct parser *p) {
 	struct activation *act, *next = NULL;
 	int count = 1;
 
-	/* Contar las entradas */
+	/* Count the entries */
 	z_info->act_max = 0;
 	act = parser_priv(p);
 	while (act) {
@@ -1644,7 +1644,7 @@ static errr finish_parse_act(struct parser *p) {
 		act = act->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* Allocate the direct access list and copy the data to it */
 	activations = mem_zalloc((z_info->act_max + 1) * sizeof(*act));
 	for (act = parser_priv(p); act; act = next, count++) {
 		memcpy(&activations[count], act, sizeof(*act));
@@ -1685,10 +1685,10 @@ struct file_parser act_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar objetos
+ * Initialize objects
  * ------------------------------------------------------------------------ */
 
-/* Tipos de objeto genéricos */
+/* Generic object kinds */
 struct object_kind *unknown_item_kind;
 struct object_kind *unknown_gold_kind;
 struct object_kind *pile_kind;
@@ -1891,7 +1891,7 @@ static enum parser_error parse_object_effect(struct parser *p) {
 	if (!k) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Ir al siguiente efecto vacante y establecerlo al nuevo */
+	/* Go to the next vacant effect and set it to the new one  */
 	new_effect = mem_zalloc(sizeof(*new_effect));
 	if (k->effect) {
 		effect = k->effect;
@@ -1900,7 +1900,7 @@ static enum parser_error parse_object_effect(struct parser *p) {
 	} else {
 		k->effect = new_effect;
 	}
-	/* Rellenar los detalles */
+	/* Fill in the detail */
 	return grab_effect_data(p, new_effect);
 }
 
@@ -1911,7 +1911,7 @@ static enum parser_error parse_object_effect_yx(struct parser *p) {
 	if (!k) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	effect = k->effect;
 	if (effect == NULL) {
 		return PARSE_ERROR_NONE;
@@ -1931,7 +1931,7 @@ static enum parser_error parse_object_dice(struct parser *p) {
 	if (!k) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	effect = k->effect;
 	if (effect == NULL) {
 		return PARSE_ERROR_NONE;
@@ -1966,14 +1966,14 @@ static enum parser_error parse_object_expr(struct parser *p) {
 	if (!k) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Si no hay efecto, asumir que es humano y no un error del analizador. */
+	/* If there is no effect, assume that this is human and not parser error. */
 	effect = k->effect;
 	if (effect == NULL) {
 		return PARSE_ERROR_NONE;
 	}
 	while (effect->next) effect = effect->next;
 
-	/* Si no hay dados, asumir que es humano y no un error del analizador. */
+	/* If there are no dice, assume that this is human and not parser error. */
 	if (effect->dice == NULL) {
 		return PARSE_ERROR_NONE;
 	}
@@ -1993,7 +1993,7 @@ static enum parser_error parse_object_expr(struct parser *p) {
 	} else {
 		result = PARSE_ERROR_NONE;
 	}
-	/* El objeto dice hace una copia profunda de la expresión, así que podemos liberarla */
+	/* The dice object makes a deep copy of the expression, so we can free it */
 	expression_free(expression);
 	return result;
 }
@@ -2136,7 +2136,7 @@ static enum parser_error parse_object_curse(struct parser *p) {
 	if (i == z_info->curse_max) {
 		return PARSE_ERROR_UNRECOGNISED_CURSE;
 	}
-	/* Solo añadir si tiene poder. */
+	/* Only add if it has power. */
 	if (power > 0) {
 		if (!k->curses) {
 			k->curses = mem_zalloc(z_info->curse_max * sizeof(int));
@@ -2188,7 +2188,7 @@ static errr finish_parse_object(struct parser *p) {
 	struct object_kind *k, *next = NULL;
 	int kidx;
 
-	/* escanear la lista para la ID máxima */
+	/* scan the list for the max id */
 	z_info->k_max = 0;
 	k = parser_priv(p);
 	while (k) {
@@ -2196,7 +2196,7 @@ static errr finish_parse_object(struct parser *p) {
 		k = k->next;
 	}
 
-	/* asignar la lista de acceso directo y copiar los datos a ella */
+	/* allocate the direct access list and copy the data to it */
 	k_info = mem_zalloc((z_info->k_max + 1) * sizeof(*k));
 	kidx = z_info->k_max - 1;
 	for (k = parser_priv(p); k; k = next, kidx--) {
@@ -2205,7 +2205,7 @@ static errr finish_parse_object(struct parser *p) {
 		memcpy(&k_info[kidx], k, sizeof(*k));
 		k_info[kidx].kidx = kidx;
 
-		/* Añadir banderas de tipo base a las banderas de tipo del tipo */
+		/* Add base kind flags to kind kind flags */
 		kf_union(k_info[kidx].kind_flags, kb_info[k->tval].kind_flags);
 
 		next = k->next;
@@ -2251,7 +2251,7 @@ struct file_parser object_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar objetos de ego
+ * Initialize ego items
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_ego_name(struct parser *p) {
@@ -2263,7 +2263,7 @@ static enum parser_error parse_ego_name(struct parser *p) {
 	parser_setpriv(p, e);
 	e->name = string_make(name);
 
-	/* Establecer todos los valores mínimos de combate a sin mínimo */
+	/* Set all min-combat values to no minimum */
 	e->min_to_h = NO_MINIMUM;
 	e->min_to_d = NO_MINIMUM;
 	e->min_to_a = NO_MINIMUM;
@@ -2315,7 +2315,7 @@ static enum parser_error parse_ego_type(struct parser *p) {
 	if (tval < 0) {
 		return PARSE_ERROR_UNRECOGNISED_TVAL;
 	}
-	/* Encontrar todos los tipos de objeto correctos */
+	/* Find all the right object kinds */
 	for (i = 0; i < z_info->k_max; i++) {
 		if (k_info[i].tval != tval) continue;
 		poss = mem_zalloc(sizeof(struct poss_item));
@@ -2592,7 +2592,7 @@ static enum parser_error parse_ego_curse(struct parser *p) {
 	if (i == z_info->curse_max) {
 		return PARSE_ERROR_UNRECOGNISED_CURSE;
 	}
-	/* Solo añadir si tiene poder. */
+	/* Only add if it has power. */
 	if (power > 0) {
 		if (!e->curses) {
 			e->curses = mem_zalloc(z_info->curse_max * sizeof(int));
@@ -2633,7 +2633,7 @@ static errr finish_parse_ego(struct parser *p) {
 	struct ego_item *e, *n;
 	int eidx;
 
-	/* Escanear la lista para la ID máxima */
+	/* Scan the list for the max id */
 	z_info->e_max = 0;
 	e = parser_priv(p);
 	while (e) {
@@ -2641,7 +2641,7 @@ static errr finish_parse_ego(struct parser *p) {
 		e = e->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* Allocate the direct access list and copy the data to it */
 	e_info = mem_zalloc((z_info->e_max + 1) * sizeof(*e));
 	eidx = z_info->e_max - 1;
 	for (e = parser_priv(p); e; e = n, eidx--) {
@@ -2696,7 +2696,7 @@ struct file_parser ego_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar artefactos
+ * Initialize artifacts
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_artifact_name(struct parser *p) {
@@ -2709,7 +2709,7 @@ static enum parser_error parse_artifact_name(struct parser *p) {
 	parser_setpriv(p, a);
 	a->name = string_make(name);
 
-	/* Ignorar todos los elementos base */
+	/* Ignore all base elements */
 	for (i = ELEM_BASE_MIN; i < ELEM_HIGH_MIN; i++) {
 		a->el_info[i].flags |= EL_INFO_IGNORE;
 	}
@@ -2785,7 +2785,7 @@ static enum parser_error parse_artifact_weight(struct parser *p) {
 	k = lookup_kind(a->tval, a->sval);
 	assert(k);
 	a->weight = parser_getint(p, "weight");
-	/* Establecer el peso del tipo para artefactos especiales */
+	/* Set kind weight for special artifacts */
 	if (k->kidx >= z_info->ordinary_kind_max) {
 		k->weight = a->weight;
 	}
@@ -2802,7 +2802,7 @@ static enum parser_error parse_artifact_cost(struct parser *p) {
 	k = lookup_kind(a->tval, a->sval);
 	assert(k);
 	a->cost = parser_getint(p, "cost");
-	/* Establecer el coste del tipo para artefactos especiales */
+	/* Set kind cost for special artifacts */
 	if (k->kidx >= z_info->ordinary_kind_max) {
 		k->cost = a->cost;
 	}
@@ -2891,7 +2891,7 @@ static enum parser_error parse_artifact_act(struct parser *p) {
 	if (!a) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Las activaciones de luz especiales son una propiedad del objeto base */
+	/* Special light activations are a property of the base object */
 	k = lookup_kind(a->tval, a->sval);
 	if ((a->tval == TV_LIGHT) && (k->kidx >= z_info->ordinary_kind_max)) {
 		k->activation = findact(name);
@@ -2908,7 +2908,7 @@ static enum parser_error parse_artifact_time(struct parser *p) {
 	if (!a) {
 		return PARSE_ERROR_MISSING_RECORD_HEADER;
 	}
-	/* Las activaciones de luz especiales son una propiedad del objeto base */
+	/* Special light activations are a property of the base object */
 	k = lookup_kind(a->tval, a->sval);
 	if ((a->tval == TV_LIGHT) && (k->kidx >= z_info->ordinary_kind_max)) {
 		k->time = parser_getrand(p, "time");
@@ -3027,7 +3027,7 @@ static enum parser_error parse_artifact_curse(struct parser *p) {
 	if (i == z_info->curse_max) {
 		return PARSE_ERROR_UNRECOGNISED_CURSE;
 	}
-	/* Solo añadir si tiene poder. */
+	/* Only add if it has power. */
 	if (power > 0) {
 		if (!a->curses) {
 			a->curses = mem_zalloc(z_info->curse_max * sizeof(int));
@@ -3069,7 +3069,7 @@ static errr finish_parse_artifact(struct parser *p) {
 	struct artifact *a, *n;
 	int none, aidx;
 
-	/* Escanear la lista para la ID máxima */
+	/* Scan the list for the max id */
 	z_info->a_max = 0;
 	a = parser_priv(p);
 	while (a) {
@@ -3077,7 +3077,7 @@ static errr finish_parse_artifact(struct parser *p) {
 		a = a->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* Allocate the direct access list and copy the data to it */
 	a_info = mem_zalloc((z_info->a_max + 1) * sizeof(*a));
 	aup_info = mem_zalloc((z_info->a_max + 1) * sizeof(*aup_info));
 	aidx = z_info->a_max;
@@ -3095,7 +3095,7 @@ static errr finish_parse_artifact(struct parser *p) {
 	}
 	z_info->a_max += 1;
 
-	/* Ahora que hemos terminado con los tipos de objeto, tratar con cosas similares a objetos */
+	/* Now we're done with object kinds, deal with object-like things */
 	none = tval_find_idx("none");
 	unknown_item_kind = lookup_kind(none, lookup_sval(none, "<unknown item>"));
 	unknown_gold_kind = lookup_kind(none,
@@ -3133,8 +3133,8 @@ struct file_parser artifact_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar artefactos aleatorios
- * Esto usa principalmente las funciones de artefacto
+ * Initialize random artifacts
+ * This mostly uses the artifact functions
  * ------------------------------------------------------------------------ */
 static errr run_parse_randart(struct parser *p) {
 	return parse_file_quit_not_found(p, "randart");
@@ -3144,7 +3144,7 @@ static errr finish_parse_randart(struct parser *p) {
 	struct artifact *a, *n;
 	int aidx;
 
-	/* Escanear la lista para la ID máxima */
+	/* Scan the list for the max id */
 	z_info->a_max = 0;
 	a = parser_priv(p);
 	while (a) {
@@ -3152,7 +3152,7 @@ static errr finish_parse_randart(struct parser *p) {
 		a = a->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* Allocate the direct access list and copy the data to it */
 	a_info = mem_zalloc((z_info->a_max + 1) * sizeof(*a));
 	aup_info = mem_zalloc((z_info->a_max + 1) * sizeof(*aup_info));
 	aidx = z_info->a_max;
@@ -3184,7 +3184,7 @@ struct file_parser randart_parser = {
 
 /**
  * ------------------------------------------------------------------------
- * Inicializar propiedades de objeto
+ * Initialize object properties
  * ------------------------------------------------------------------------ */
 
 static enum parser_error parse_object_property_name(struct parser *p) {
@@ -3197,7 +3197,7 @@ static enum parser_error parse_object_property_name(struct parser *p) {
 	parser_setpriv(p, prop);
 	prop->name = string_make(name);
 
-	/* Establecer todos los multiplicadores de tipo al valor predeterminado de 1 */
+	/* Set all the type multipliers to the default of 1 */
 	for (i = 0; i < TV_MAX; i++) {
 		prop->type_mult[i] = 1;
 	}
@@ -3444,7 +3444,7 @@ static errr finish_parse_object_property(struct parser *p) {
 	struct obj_property *prop, *n;
 	int idx;
 
-	/* Escanear la lista para la ID máxima */
+	/* Scan the list for the max id */
 	z_info->property_max = 0;
 	prop = parser_priv(p);
 	while (prop) {
@@ -3452,7 +3452,7 @@ static errr finish_parse_object_property(struct parser *p) {
 		prop = prop->next;
 	}
 
-	/* Asignar la lista de acceso directo y copiar los datos a ella */
+	/* Allocate the direct access list and copy the data to it */
 	obj_properties = mem_zalloc((z_info->property_max + 1) * sizeof(*prop));
 	idx = z_info->property_max;
 	for (prop = parser_priv(p); prop; prop = n, idx--) {
@@ -3491,3 +3491,4 @@ struct file_parser object_property_parser = {
 	finish_parse_object_property,
 	cleanup_object_property
 };
+

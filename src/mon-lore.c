@@ -1291,7 +1291,7 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 	assert(tb && race && lore);
 
 	/* Extract a gender (if applicable) and get a pronoun for the start of
-	 * las oraciones */
+	 * sentences */
 	msex = lore_monster_sex(race);
 	initial_pronoun = "La criatura"; //fix traduc lore_pronoun_nominative(msex, true);
 	
