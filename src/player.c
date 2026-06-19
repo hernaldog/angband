@@ -1,6 +1,6 @@
 /**
  * \file player.c
- * \brief Implementación del jugador
+ * \brief Player implementation
  *
  * Copyright (c) 2011 elly+angband@leptoquark.net. See COPYING.
  *
@@ -31,7 +31,7 @@
 #include "z-util.h"
 
 /**
- * Puntero a la estructura del jugador
+ * Pointer to the player struct
  */
 struct player *player = NULL;
 
@@ -43,7 +43,7 @@ struct player_ability *player_abilities;
 struct magic_realm *realms;
 
 /**
- * Niveles de experiencia base, pueden ser ajustados por raza y/o clase
+ * Base experience levels, may be adjusted up for race and/or class
  */
 const int32_t player_exp[PY_MAX_LEVEL] =
 {
@@ -137,7 +137,7 @@ const struct magic_realm *lookup_realm(const char *name)
 		realm = realm->next;
 	}
 
-	/* Fallar horriblemente */
+	/* Fail horribly */
 	quit_fmt("Fallo al encontrar el reino mágico %s", name);
 	return realm;
 }
@@ -237,16 +237,16 @@ static void adjust_level(struct player *p, bool verbose)
 
 		p->lev++;
 
-		/* Guardar el nivel más alto */
+		/* Save the highest level */
 		if (p->lev > p->max_lev)
 			p->max_lev = p->lev;
 
 		if (verbose) {
-			/* Registrar actualizaciones de nivel */
+			/* Log level updates */
 			strnfmt(buf, sizeof(buf), "Alcanzado el nivel %d", p->lev);
 			history_add(p, buf, HIST_GAIN_LEVEL);
 
-			/* Mensaje */
+			/* Message */
 			msgt(MSG_LEVEL, "Bienvenido al nivel %d.",	p->lev);
 		}
 
@@ -285,15 +285,15 @@ void player_exp_lose(struct player *p, int32_t amount, bool permanent)
 }
 
 /**
- * Obtener las banderas de objeto para el jugador
+ * Obtain object flags for the player
  */
 void player_flags(struct player *p, bitflag f[OF_SIZE])
 {
-	/* Añadir banderas raciales */
+	/* Add racial flags */
 	memcpy(f, p->race->flags, sizeof(p->race->flags));
 	of_union(f, p->class->flags);
 
-	/* Algunas clases se vuelven inmunes al miedo a cierto nivel */
+	/* Some classes become immune to fear at a certain plevel */
 	if (player_has(p, PF_BRAVERY_30) && p->lev >= 30) {
 		of_on(f, OF_PROT_FEAR);
 	}
@@ -301,11 +301,11 @@ void player_flags(struct player *p, bitflag f[OF_SIZE])
 
 
 /**
- * Combinar cualquier bandera debida a efectos temporales en el jugador en las de f.
+ * Combine any flags due to timed effects on the player into those in f.
  *
- * Truco: TMD_TRAPSAFE se excluye para que las banderas de un jugador puedan ser probadas para
- * OF_TRAP_IMMUNE y saber que no provino de un efecto temporal; eso se
- * usa para aprender la runa de inmune a trampas al trabajar con trampas
+ * Hack:  TMD_TRAPSAFE is excluded so a player's flags can be tested for
+ * OF_TRAP_IMMUNE and know that did not come from a timed effect; that is
+ * used for learning the trap immune rune when working with traps
  */
 void player_flags_timed(struct player *p, bitflag f[OF_SIZE])
 {
@@ -363,14 +363,14 @@ bool player_restore_mana(struct player *p, int amt) {
 }
 
 /**
- * Construir un nombre de jugador aleatorio apropiado para el entorno.
+ * Construct a random player name appropriate for the setting.
  *
- * \param buf es el búfer para contener el nombre. Debe tener espacio para al
- * menos buflen caracteres.
- * \param buflen es el número máximo de caracteres que se pueden escribir en
+ * \param buf is the buffer to contain the name.  Must have space for at
+ * least buflen characters.
+ * \param buflen is the maximum number of character that can be written to
  * buf.
- * \return el número de caracteres, excluyendo el nulo terminal, escritos
- * en el búfer
+ * \return the number of characters, excluding the terminating null, written
+ * to the buffer
  */
 size_t player_random_name(char *buf, size_t buflen)
 {
@@ -382,9 +382,9 @@ size_t player_random_name(char *buf, size_t buflen)
 }
 
 /**
- * Devolver una versión del nombre del jugador segura para usar en sistemas de archivos.
+ * Return a version of the player's name safe for use in filesystems.
  *
- * XXX Esto no pertenece aquí.
+ * XXX This does not belong here.
  */
 void player_safe_name(char *safe, size_t safelen, const char *name, bool strip_suffix)
 {
@@ -395,44 +395,44 @@ void player_safe_name(char *safe, size_t safelen, const char *name, bool strip_s
 		char *suffix = find_roman_suffix_start(name);
 
 		if (suffix) {
-			limit = suffix - name - 1; /* -1 por el espacio precedente */
+			limit = suffix - name - 1; /* -1 for preceding space */
 		} else {
 			limit = strlen(name);
 		}
 	}
 
-	/* Limitar al tamaño máximo del búfer de nombre seguro */
+	/* Limit to maximum size of safename buffer */
 	limit = MIN(limit, safelen);
 
 	for (i = 0; i < limit; i++) {
 		char c = name[i];
 
-		/* Convertir todos los símbolos no alfanuméricos */
+		/* Convert all non-alphanumeric symbols */
 		if (!isalpha((unsigned char)c) && !isdigit((unsigned char)c))
 			c = '_';
 
-		/* Construir "nombre_base" */
+		/* Build "base_name" */
 		safe[i] = c;
 	}
 
-	/* Terminar */
+	/* Terminate */
 	safe[i] = '\0';
 
-	/* Requerir un "nombre" base */
+	/* Require a "base" name */
 	if (!safe[0])
 		my_strcpy(safe, "JUGADOR", safelen);
 }
 
 
 /**
- * Liberar los recursos asignados para los campos en la estructura del jugador.
+ * Release resources allocated for fields in the player structure.
  */
 void player_cleanup_members(struct player *p)
 {
-	/* Liberar la historia */
+	/* Free the history */
 	history_clear(p);
 
-	/* Liberar las cosas que siempre se inicializan */
+	/* Free the things that are always initialised */
 	if (p->obj_k) {
 		object_free(p->obj_k);
 	}
@@ -445,7 +445,7 @@ void player_cleanup_members(struct player *p)
 		p->upkeep = NULL;
 	}
 
-	/* Liberar las cosas que solo se inicializan a veces */
+	/* Free the things that are only sometimes initialised */
 	if (p->quests) {
 		player_quests_free(p);
 	}
@@ -471,13 +471,13 @@ void player_cleanup_members(struct player *p)
 
 
 /**
- * Inicializar la estructura del jugador
+ * Initialise player struct
  */
 static void init_player(void) {
-	/* Crear la matriz del jugador, inicializada con 0 */
+	/* Create the player array, initialised with 0 */
 	player = mem_zalloc(sizeof *player);
 
-	/* Asignar subestructuras del jugador */
+	/* Allocate player sub-structs */
 	player->upkeep = mem_zalloc(sizeof(struct player_upkeep));
 	player->upkeep->inven = mem_zalloc((z_info->pack_size + 1) * sizeof(struct object *));
 	player->upkeep->quiver = mem_zalloc(z_info->quiver_size * sizeof(struct object *));
@@ -492,14 +492,14 @@ static void init_player(void) {
 }
 
 /**
- * Liberar la estructura del jugador
+ * Free player struct
  */
 static void cleanup_player(void) {
 	if (!player) return;
 
 	player_cleanup_members(player);
 
-	/* Liberar la estructura básica del jugador */
+	/* Free the basic player struct */
 	mem_free(player);
 	player = NULL;
 }

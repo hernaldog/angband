@@ -864,7 +864,7 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 		
 	}
 
-	/* Efectos secundarios previos al daño */
+	/* Pre-damage side effects */
 	blow_side_effects(p, mon);
 
 	/* Damage, check for hp drain, fear and death */
@@ -1388,8 +1388,8 @@ void do_cmd_throw(struct command *cmd) {
 	if (cmd_get_item(cmd, "item", &obj,
 			/* Mensaje */ "¿Lanzar qué objeto?",
 			/* Error  */ "No tienes nada que lanzar.",
-			/* Filtro */ obj_can_throw,
-			/* Elección */ USE_EQUIP | USE_QUIVER | USE_INVEN | USE_FLOOR | SHOW_THROWING)
+			/* Filter */ obj_can_throw,
+			/* Choice */ USE_EQUIP | USE_QUIVER | USE_INVEN | USE_FLOOR | SHOW_THROWING)
 		!= CMD_OK)
 		return;
 
