@@ -468,16 +468,19 @@ void spell_learn(int spell_index)
 	player->spell_order[i] = spell_index;
 
 	/* Mention the result */
-	msgt(MSG_STUDY, "Has aprendido %s de %s.", spell->realm->spell_noun,
+	msgt(MSG_STUDY, "Has aprendido el %s %s.", spell->realm->spell_noun,
 		 spell->name);
 
 	/* One less spell available */
 	player->upkeep->new_spells--;
 
 	/* Message if needed */
-	if (player->upkeep->new_spells)
+	if (player->upkeep->new_spells == 1) {
+		msg("Puedes aprender un nuevo %s.", spell->realm->spell_noun);
+	} else if (player->upkeep->new_spells) {
 		msg("Puedes aprender %d %s más%s.", player->upkeep->new_spells,
 			spell->realm->spell_noun, PLURAL(player->upkeep->new_spells));
+	}
 
 	/* Redraw Study Status */
 	player->upkeep->redraw |= (PR_STUDY | PR_OBJECT);

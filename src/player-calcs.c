@@ -1462,7 +1462,11 @@ static void calc_spells(struct player *p)
 				}
 			}
 			/* Message */
-			msg("Puedes aprender %d %s más.", p->upkeep->new_spells, buf);
+			if (p->upkeep->new_spells == 1) {
+				msg("Puedes aprender un nuevo %s.", buf);
+			} else {
+				msg("Puedes aprender %d %s más.", p->upkeep->new_spells, buf);
+			}
 		}
 
 		/* Redraw Study Status */

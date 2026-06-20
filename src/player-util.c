@@ -1129,7 +1129,6 @@ bool player_can_study(const struct player *p, bool show_msg)
 			char buf[120];
 
 			my_strcpy(buf, r->spell_noun, sizeof(buf));
-			my_strcat(buf, "s", sizeof(buf));
 			r1 = r->next;
 			mem_free(r);
 			r = r1;
@@ -1142,13 +1141,12 @@ bool player_can_study(const struct player *p, bool show_msg)
 						my_strcat(buf, " o ", sizeof(buf));
 					}
 					my_strcat(buf, r->spell_noun, sizeof(buf));
-					my_strcat(buf, "s", sizeof(buf));
 					r1 = r->next;
 					mem_free(r);
 					r = r1;
 				}
 			}
-			msg("¡No puedes aprender ningún %s nuevo!", buf);
+			msg("¡Aún no puedes aprender un nuevo %s!", buf);
 		}
 		return false;
 	}

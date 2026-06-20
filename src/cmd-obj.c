@@ -1129,11 +1129,11 @@ void do_cmd_cast(struct command *cmd)
 
 	/* Get arguments */
 	if (cmd_get_spell(cmd, "spell", player, &spell_index,
-			/* Verbo */ "lanzar",
+			/* Verbo */ "castear",
 			/* Libro */ obj_can_cast_from,
-			/* Error de libro */ "No hay hechizos que puedas lanzar.",
+			/* Error de libro */ "No hay hechizos que puedas castear.",
 			/* Filtro */ spell_okay_to_cast,
-			/* Error de hechizo */ "Ese libro no tiene hechizos que puedas lanzar.") != CMD_OK) {
+			/* Error de hechizo */ "Ese libro no tiene hechizos que puedas castear.") != CMD_OK) {
 		return;
 	}
 
