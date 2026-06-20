@@ -695,7 +695,11 @@ static bool use_aux(struct command *cmd, struct object *obj, enum use use,
 				label = gear_to_label(player, first_remainder);
 				msg("Tienes %s (1er %c).", name, label);
 			} else {
-				msg("Descubriste %s (%c).", name, label);
+				char single_name[80];
+
+				object_desc(single_name, sizeof(single_name),
+					work_obj, ODESC_FULL | ODESC_SINGULAR, player);
+				msg("Descubriste %s (%c).", single_name, label);
 			}
 		} else if (used && use == USE_CHARGE) {
 			/* Describe charges */
@@ -750,7 +754,7 @@ void do_cmd_read_scroll(struct command *cmd)
 
 	/* Get the scroll */
 	if (cmd_get_item(cmd, "item", &obj,
-			"¿Leer qué pergamino? ",
+			"¿Qué pergamino leer? ",
 			"No tienes pergaminos para leer.",
 			tval_is_scroll,
 			USE_INVEN | USE_FLOOR) != CMD_OK) return;
@@ -924,7 +928,7 @@ void do_cmd_quaff_potion(struct command *cmd)
 
 	/* Get an item */
 	if (cmd_get_item(cmd, "item", &obj,
-			"¿Beber qué poción? ",
+			"¿Qué poción beber? ",
 			"No tienes pociones para beber.",
 			tval_is_potion,
 			USE_INVEN | USE_FLOOR) != CMD_OK) return;

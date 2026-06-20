@@ -196,8 +196,8 @@ msgt:SPEED
 
 name:SLOW
 desc:lentitud
-grade:U:10000:Lento:¡Te sientes moverte más lento!
-on-end:Te sientes acelerar de nuevo.
+grade:U:10000:Lento:¡Sientes que te mueves más lento!
+on-end:Recuperas tu velocidad normal.
 msgt:SLOW
 fail:1:FREE_ACT
 
@@ -281,8 +281,8 @@ grade:R:1:Starving: :¡Te estás muriendo de hambre!!
 grade:r:4:Faint:Todavía te sientes débil.:¡Te estás desmayando de hambre!
 grade:o:8:Weak:Todavía estás débil.:¡Te estás debilitando por el hambre!
 grade:y:15:Hungry:Todavía tienes hambre.:Empiezas a tener hambre.
-grade:G:90:Fed:Ya no tienes hambre.:Ya no estás lleno.
-grade:g:100:Full:¡Estás lleno!:
+grade:G:90:Fed:Ya no tienes hambre.:Ya no estás saciado.
+grade:g:100:Full:¡Estás saciado!:
 msgt:HUNGRY
 lower-bound:1
 
