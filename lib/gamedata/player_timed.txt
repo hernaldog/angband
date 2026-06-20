@@ -218,10 +218,10 @@ flags:NONSTACKING
 
 name:CONFUSED
 desc:confusión
-grade:o:10000:Confuso:¡Estás confuso!
-on-end:Ya no estás confuso.
-on-increase:¡Estás más confuso aún!
-on-decrease:Te sientes un poco menos confuso.
+grade:o:10000:Confundido:¡Estás confundido!
+on-end:Ya no estás confundido.
+on-increase:¡Estás más confundido aún!
+on-decrease:Te sientes un poco menos confundido.
 msgt:CONFUSED
 fail:1:PROT_CONF
 
