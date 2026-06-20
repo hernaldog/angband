@@ -1639,7 +1639,9 @@ bool effect_handler_TAP_UNLIFE(effect_handler_context_t *context)
 	} else {
 		msg("Extraes poder del %s.", m_name);
 	}
-	dead = mon_take_hit(mon, player, amount, &fear, " ¡es destruido!");
+	dead = mon_take_hit(mon, player, amount, &fear,
+		rf_has(mon->race->flags, RF_FEMALE) ?
+			" ¡es destruida!" : " ¡es destruido!");
 
 	/* Gain mana */
 	effect_simple(EF_RESTORE_MANA, context->origin, format("%d", drain), 0, 0,
@@ -1757,7 +1759,9 @@ bool effect_handler_JUMP_AND_BITE(effect_handler_context_t *context)
 	} else {
 		msg("Muerdes a %s.", m_name);
 	}
-	dead = mon_take_hit(mon, player, amount, &fear, " ¡es drenado por completo!");
+	dead = mon_take_hit(mon, player, amount, &fear,
+		rf_has(mon->race->flags, RF_FEMALE) ?
+			" ¡es drenada por completo!" : " ¡es drenado por completo!");
 
 	/* Heal and nourish */
 	effect_simple(EF_HEAL_HP, context->origin, format("%d", drain), 0, 0, 0,

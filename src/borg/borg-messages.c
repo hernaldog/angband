@@ -62,9 +62,11 @@ char borg_match[128] = "anillo de oro liso";
  * See "mon_take_hit()" for details.
  */
 static const char *prefix_kill[]
-    = { "Has matado a ", 
-        "Has derrotado a ", 
-        "Has destruido a ", 
+    = { "Has matado a ",
+        "Has derrotado a ",
+        "Has destruido a ",
+        "Eliminaste a ",
+        "Destruiste a ",
         NULL };
 
 /*
@@ -76,10 +78,13 @@ static const char *prefix_kill[]
 static const char *suffix_died[] = { 
     " muere.",
     " muere.",
-    " es destruido.", 
+    " es destruido.",
     " son destruidos.",
+    " es destruida.",
+    " son destruidas.",
     " es destruido!",
     " son destruidos!",
+    " es destruida!",
     " se marchitan en la luz!",
     " se marchita en la luz!",
     " se disuelven!",
@@ -90,7 +95,8 @@ static const char *suffix_died[] = {
     " se desintegra!",
     " se congela y se hace pedazos!",
     " se congela y se hace pedazos!",
-    " queda completamente drenado!",
+    " es drenado por completo!",
+    " es drenada por completo!",
     NULL };
 
 static const char *suffix_blink[] = { 
@@ -543,8 +549,11 @@ static void borg_parse_aux(char *msg, int len)
         }
 
         /* State -- confused */
-        if (suffix(msg, " parece confundido.")) {
-            tmp = strlen(" parece confundido.");
+        if (suffix(msg, " parece confundido.") ||
+                suffix(msg, " parece confundida.")) {
+            tmp = suffix(msg, " parece confundido.") ?
+                strlen(" parece confundido.") :
+                strlen(" parece confundida.");
             strnfmt(who, 1 + len - tmp, "%s", msg);
             strnfmt(buf, 256, "STATE_CONFUSED:%s", who);
             borg_react(msg, buf);
@@ -552,8 +561,11 @@ static void borg_parse_aux(char *msg, int len)
         }
 
         /* State -- confused */
-        if (suffix(msg, " parece más confundido.")) {
-            tmp = strlen(" parece más confundido.");
+        if (suffix(msg, " parece más confundido.") ||
+                suffix(msg, " parece más confundida.")) {
+            tmp = suffix(msg, " parece más confundido.") ?
+                strlen(" parece más confundido.") :
+                strlen(" parece más confundida.");
             strnfmt(who, 1 + len - tmp, "%s", msg);
             strnfmt(buf, 256, "STATE_CONFUSED:%s", who);
             borg_react(msg, buf);
@@ -570,8 +582,11 @@ static void borg_parse_aux(char *msg, int len)
         }
 
         /* State -- Afraid */
-        if (suffix(msg, " huye aterrorizado!")) {
-            tmp = strlen(" huye aterrorizado!");
+        if (suffix(msg, " huye aterrorizado!") ||
+                suffix(msg, " huye aterrorizada!")) {
+            tmp = suffix(msg, " huye aterrorizado!") ?
+                strlen(" huye aterrorizado!") :
+                strlen(" huye aterrorizada!");
             strnfmt(who, 1 + len - tmp, "%s", msg);
             strnfmt(buf, 256, "STATE__FEAR:%s", who);
             borg_react(msg, buf);

@@ -361,6 +361,8 @@ static void get_subject(char *buf, size_t buflen,
 #define MSG_PARSE_NORMAL	0
 #define MSG_PARSE_SINGLE	1
 #define MSG_PARSE_PLURAL	2
+#define MSG_PARSE_MASC		3
+#define MSG_PARSE_FEM		4
 
 /**
  * Formats a message based on the given message code and the plural flag.
@@ -383,6 +385,8 @@ static void get_message_text(char *buf, size_t buflen,
 	assert(race != NULL);
 	assert(race->base != NULL);
 	assert(race->base->pain != NULL);
+
+	bool do_feminine = rf_has(race->flags, RF_FEMALE);
 
 	/* Find the appropriate message */
 	const char *source = msg_repository[msg_code].msg;
@@ -407,17 +411,29 @@ static void get_message_text(char *buf, size_t buflen,
 
 		/*
 		 * The characters '[|]' switch parsing mode and are never output.
-		 * The syntax is [singular|plural]
+		 * The syntax is [singular|plural]. The characters '{|}' work the
+		 * same way but choose between masculine/neutral and feminine
+		 * adjective forms, e.g. "asustad{o|a}[|s]".
 		 */
 		if (state == MSG_PARSE_NORMAL        && cur == '[') {
 			state = MSG_PARSE_SINGLE;
 		} else if (state == MSG_PARSE_SINGLE && cur == '|') {
 			state = MSG_PARSE_PLURAL;
-		} else if (state != MSG_PARSE_NORMAL && cur == ']') {
+		} else if (state == MSG_PARSE_NORMAL  && cur == '{') {
+			state = MSG_PARSE_MASC;
+		} else if (state == MSG_PARSE_MASC   && cur == '|') {
+			state = MSG_PARSE_FEM;
+		} else if ((state == MSG_PARSE_SINGLE || state == MSG_PARSE_PLURAL)
+				&& cur == ']') {
+			state = MSG_PARSE_NORMAL;
+		} else if ((state == MSG_PARSE_MASC || state == MSG_PARSE_FEM)
+				&& cur == '}') {
 			state = MSG_PARSE_NORMAL;
 		} else if (state == MSG_PARSE_NORMAL ||
 				(state == MSG_PARSE_SINGLE && do_plural == false) ||
-				(state == MSG_PARSE_PLURAL && do_plural == true)) {
+				(state == MSG_PARSE_PLURAL && do_plural == true) ||
+				(state == MSG_PARSE_MASC && do_feminine == false) ||
+				(state == MSG_PARSE_FEM && do_feminine == true)) {
 			/* Copy the characters according to the mode */
 			buf[pos++] = cur;
 		}
@@ -433,6 +449,8 @@ static void get_message_text(char *buf, size_t buflen,
 #undef MSG_PARSE_NORMAL
 #undef MSG_PARSE_SINGLE
 #undef MSG_PARSE_PLURAL
+#undef MSG_PARSE_MASC
+#undef MSG_PARSE_FEM
 
 /**
  * Accessor function - should we skip the monster name for this message type?
