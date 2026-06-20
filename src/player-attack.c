@@ -1399,7 +1399,7 @@ void do_cmd_throw(struct command *cmd) {
 	if (player->upkeep->command_wrk == USE_EQUIP)
 		player->upkeep->command_wrk = USE_INVEN;
 	if (cmd_get_item(cmd, "item", &obj,
-			/* Mensaje */ "¿Lanzar qué objeto?",
+			/* Mensaje */ "¿Qué objeto lanzar?",
 			/* Error  */ "No tienes nada que lanzar.",
 			/* Filter */ obj_can_throw,
 			/* Choice */ USE_EQUIP | USE_QUIVER | USE_INVEN | USE_FLOOR | SHOW_THROWING)

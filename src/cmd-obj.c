@@ -190,7 +190,7 @@ void do_cmd_inscribe(struct command *cmd)
 
 	/* Get arguments */
 	if (cmd_get_item(cmd, "item", &obj,
-			/* Mensaje */ "¿Inscribir qué objeto?",
+			/* Mensaje */ "¿Qué objeto inscribir?",
 			/* Error  */ "No tienes nada que inscribir.",
 			/* Filtro */ NULL,
 			/* Elección */ USE_EQUIP | USE_INVEN | USE_QUIVER | USE_FLOOR | IS_HARMLESS) != CMD_OK)
@@ -279,7 +279,7 @@ void do_cmd_wield(struct command *cmd)
 
 	/* Get arguments */
 	if (cmd_get_item(cmd, "item", &obj,
-			/* Mensaje */ "¿Usar o empuñar qué objeto?",
+			/* Mensaje */ "¿Qué objeto usar o empuñar?",
 			/* Error  */ "No tienes nada que usar o empuñar.",
 			/* Filtro */ obj_can_wear,
 			/* Elección */ USE_INVEN | USE_FLOOR | USE_QUIVER) != CMD_OK)

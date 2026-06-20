@@ -118,6 +118,7 @@ name:suelo abierto
 graphics:.:w
 priority:5
 flags:LOS | PROJECT | PASSABLE | FLOOR | OBJECT | EASY | TRAP | TORCH
+look-in-preposition:sobre
 desc:Un suelo abierto o tierra desnuda. Se puede caminar sobre él, y puede
 desc: contener trampas u objetos. No rompe la línea de visión.
 

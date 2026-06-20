@@ -335,7 +335,7 @@ void textui_spell_browse(void)
 {
 	struct object *obj;
 
-	if (!get_item(&obj, "¿Examinar qué libro? ",
+	if (!get_item(&obj, "¿Qué libro examinar? ",
 				  "No tienes libros que puedas leer.",
 				  CMD_BROWSE_SPELL, obj_can_browse,
 				  (USE_INVEN | USE_FLOOR | IS_HARMLESS)))
