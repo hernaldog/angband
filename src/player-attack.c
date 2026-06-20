@@ -1123,8 +1123,16 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 			int visible = monster_is_obvious(mon);
 
 			bool fear = false;
-			const char *note_dies = monster_is_destroyed(mon) ? 
-				" es destruido." : " muere.";
+			//fix traduc se cambia es destruido: muere por Destruiste a, o Elimninaste a 
+			bool was_destroyed = monster_is_destroyed(mon);
+			char kill_name[80];
+			int kill_soundfx = MSG_KILL;
+			monster_desc(kill_name, sizeof(kill_name), mon, MDESC_DEFAULT);
+			if (rf_has(mon->race->flags, RF_UNIQUE)) {
+				kill_soundfx = (mon->race->base ==
+					lookup_monster_base("Morgoth")) ?
+					MSG_KILL_KING : MSG_KILL_UNIQUE;
+			}
 
 			struct attack_result result = attack(p, obj, grid);
 			int dmg = result.dmg;
@@ -1192,7 +1200,12 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 				}
 
 				/* Hit the monster, check for death */
-				if (!mon_take_hit(mon, p, dmg, &fear, note_dies)) {
+				if (mon_take_hit(mon, p, dmg, &fear, "")) {
+  				    //fix traduc se cambia es destruido: muere por Destruiste a, o Elimninaste a 
+					msgt(kill_soundfx, "%s a %s.",
+						was_destroyed ? "Destruiste" : "Eliminaste",
+						kill_name);
+				} else {
 					message_pain(mon, dmg);
 					if (fear && monster_is_obvious(mon)) {
 						add_monster_message(mon, MON_MSG_FLEE_IN_TERROR, true);
