@@ -608,7 +608,7 @@ rarity:1
 experience:1
 blow:TOUCH:HURT:1d2
 flags:EMPTY_MIND
-flags:RAND_25
+flags:RAND_25 | FEMALE
 desc:Es una criatura pequeña, viscosa y asquerosa.
 
 name:cosa asquerosa transparente
@@ -624,7 +624,7 @@ rarity:1
 experience:2
 blow:TOUCH:HURT:1d2
 flags:INVISIBLE | EMPTY_MIND
-flags:RAND_25
+flags:RAND_25 | FEMALE
 flags:ATTR_CLEAR
 desc:Es una criatura pequeña, viscosa, asquerosa y amorfa.
 
@@ -659,7 +659,7 @@ rarity:1
 experience:2
 blow:BITE:HURT:1d1
 blow:CRUSH:HURT:1d1
-flags:RAND_50
+flags:RAND_50 | FEMALE
 desc:Mide alrededor de dos metros y medio.
 
 name:kobold pequeño
@@ -692,7 +692,7 @@ experience:2
 blow:CRAWL:POISON:1d2
 flags:WEIRD_MIND | MULTIPLY | STUPID
 flags:RAND_25 | RAND_50
-flags:HURT_LIGHT | IM_POIS | NO_FEAR
+flags:HURT_LIGHT | IM_POIS | NO_FEAR | FEMALE
 desc:Es una masa grande y viscosa de gusanos.
 
 name:ojo flotante
@@ -756,6 +756,7 @@ depth:1
 rarity:1
 experience:3
 blow:BITE:HURT:1d2
+flags:FEMALE
 desc:Una hormiga grande con poderosas mandíbulas.
 
 name:murciélago frutero
@@ -824,7 +825,7 @@ experience:8
 blow:CRAWL:POISON:1d4
 blow:CRAWL:EAT_FOOD
 flags:EMPTY_MIND
-flags:KILL_BODY | TAKE_ITEM
+flags:KILL_BODY | TAKE_ITEM | FEMALE
 flags:IM_POIS
 desc:Es una criatura pequeña, viscosa, asquerosa y hambrienta.
 
@@ -974,7 +975,7 @@ rarity:1
 experience:10
 blow:TOUCH:POISON:1d2
 flags:NEVER_MOVE
-flags:HURT_LIGHT | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP
+flags:HURT_LIGHT | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP | FEMALE
 desc:Es un gran montón de carne blanca.
 
 name:rana verde gigante
@@ -990,7 +991,7 @@ depth:2
 rarity:1
 experience:6
 blow:BITE:HURT:1d3
-flags:RAND_25 | BASH_DOOR
+flags:RAND_25 | BASH_DOOR | FEMALE
 desc:Es tan grande como un lobo.
 
 name:hormiga negra gigante
@@ -1006,7 +1007,7 @@ depth:2
 rarity:1
 experience:8
 blow:BITE:HURT:1d4
-flags:RAND_25
+flags:RAND_25 | FEMALE
 desc:Mide alrededor de un metro.
 
 name:salamandra
@@ -1022,7 +1023,7 @@ depth:2
 rarity:1
 experience:10
 blow:BITE:FIRE:1d3
-flags:RAND_25
+flags:RAND_25 | FEMALE
 flags:IM_FIRE
 desc:Un pequeño lagarto negro y naranja.
 
@@ -1114,7 +1115,7 @@ experience:3
 blow:CRAWL:ACID:1d3
 flags:WEIRD_MIND | MULTIPLY | STUPID
 flags:RAND_25 | RAND_50
-flags:HURT_LIGHT | IM_ACID | NO_FEAR
+flags:HURT_LIGHT | IM_ACID | NO_FEAR | FEMALE
 desc:Es una masa grande y viscosa de gusanos.
 
 name:araña de cueva
@@ -1129,7 +1130,7 @@ depth:2
 rarity:1
 experience:7
 blow:BITE:HURT:1d4
-flags:ANIMAL | WEIRD_MIND
+flags:ANIMAL | WEIRD_MIND | FEMALE
 flags:GROUP_AI
 friends:100:2d8:Same
 desc:Es una araña negra que se mueve a trompicones.
@@ -1305,7 +1306,7 @@ experience:12
 blow:TOUCH:EAT_LIGHT:1d3
 blow:TOUCH:EAT_LIGHT:1d3
 flags:NEVER_MOVE
-flags:IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP
+flags:IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP | FEMALE
 spell-freq:15
 spells:DRAIN_MANA
 message-invis:DRAIN_MANA:Algo sorbe.
@@ -1326,7 +1327,7 @@ rarity:1
 experience:12
 blow:TOUCH:POISON:1d3
 flags:NEVER_MOVE
-flags:HURT_LIGHT | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP
+flags:HURT_LIGHT | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP | FEMALE
 spell-freq:15
 spells:DRAIN_MANA
 message-invis:DRAIN_MANA:Algo sorbe.
@@ -1364,6 +1365,7 @@ depth:3
 rarity:1
 experience:7
 blow:BITE:HURT:1d4
+flags:FEMALE
 friends:100:4d4:same
 desc:Mide alrededor de sesenta centímetros y tiene pinzas afiladas.
 
@@ -1413,7 +1415,7 @@ experience:4
 blow:CRAWL:LOSE_DEX:1d3
 flags:WEIRD_MIND | MULTIPLY | STUPID
 flags:RAND_25 | RAND_50
-flags:HURT_LIGHT | NO_FEAR
+flags:HURT_LIGHT | NO_FEAR | FEMALE
 desc:Es una masa grande y viscosa de gusanos.
 
 name:masa de gusanos transparentes
@@ -1430,7 +1432,7 @@ experience:4
 blow:CRAWL:POISON:1d2
 flags:WEIRD_MIND | INVISIBLE | MULTIPLY | STUPID
 flags:RAND_25 | RAND_50
-flags:HURT_LIGHT | IM_POIS | NO_FEAR
+flags:HURT_LIGHT | IM_POIS | NO_FEAR | FEMALE
 flags:ATTR_CLEAR
 desc:Es una masa asquerosa de gusanos venenosos.
 
@@ -1587,7 +1589,7 @@ experience:14
 blow:TOUCH:COLD:1d6
 flags:COLD_BLOOD
 flags:NEVER_MOVE
-flags:HURT_LIGHT | IM_COLD | NO_CONF | NO_SLEEP
+flags:HURT_LIGHT | IM_COLD | NO_CONF | NO_SLEEP | FEMALE
 desc:Es un gran montón de carne azul pulsante.
 
 name:monedas de cobre rastreras
@@ -1621,7 +1623,7 @@ rarity:1
 experience:1
 blow:BITE:POISON:1d3
 flags:MULTIPLY
-flags:RAND_25
+flags:RAND_25 | FEMALE
 desc:Es un roedor muy vicioso.
 
 name:masa de gusanos azules
@@ -1638,7 +1640,7 @@ experience:5
 blow:CRAWL:COLD:1d4
 flags:COLD_BLOOD | WEIRD_MIND | MULTIPLY | STUPID
 flags:RAND_25 | RAND_50
-flags:HURT_LIGHT | IM_COLD | NO_FEAR
+flags:HURT_LIGHT | IM_COLD | NO_FEAR | FEMALE
 desc:Es una masa grande y viscosa de gusanos.
 
 name:serpiente gris grande
@@ -1654,7 +1656,7 @@ rarity:1
 experience:14
 blow:BITE:HURT:1d5
 blow:CRUSH:HURT:1d8
-flags:RAND_25
+flags:RAND_25 | FEMALE
 desc:Mide alrededor de tres metros.
 
 name:arquero kobold
@@ -1785,7 +1787,7 @@ rarity:1
 experience:18
 blow:TOUCH:ACID:1d2
 flags:NEVER_MOVE
-flags:HURT_LIGHT | IM_ACID | HURT_COLD | NO_CONF | NO_SLEEP
+flags:HURT_LIGHT | IM_ACID | HURT_COLD | NO_CONF | NO_SLEEP | FEMALE
 desc:Es un gran montón de carne verde pulsante.
 
 name:kobold grande
@@ -1835,7 +1837,7 @@ depth:5
 rarity:1
 experience:10
 blow:TOUCH:HURT:1d5
-flags:EMPTY_MIND
+flags:EMPTY_MIND | FEMALE
 desc:Es una criatura pequeña, viscosa, asquerosa y desagradable.
 
 name:ojo desencantador
@@ -1871,7 +1873,7 @@ experience:6
 blow:CRAWL:FIRE:1d6
 flags:WEIRD_MIND | MULTIPLY | STUPID
 flags:RAND_25 | RAND_50 | BASH_DOOR
-flags:HURT_LIGHT | IM_FIRE | NO_FEAR
+flags:HURT_LIGHT | IM_FIRE | NO_FEAR | FEMALE
 desc:Es una masa grande y viscosa de gusanos.
 
 name:serpiente cabeza de cobre
@@ -1886,7 +1888,7 @@ depth:5
 rarity:1
 experience:15
 blow:BITE:POISON:2d4
-flags:RAND_50
+flags:RAND_50 | FEMALE
 flags:IM_POIS
 desc:Tiene una cabeza cobriza y colmillos afilados y venenosos.
 
@@ -1903,7 +1905,7 @@ depth:5
 rarity:2
 experience:15
 blow:BITE:COLD:1d6
-flags:IM_COLD
+flags:IM_COLD | FEMALE
 innate-freq:10
 spells:BR_COLD
 desc:Es una mosca grande que destila escarcha.
@@ -1921,7 +1923,7 @@ depth:5
 rarity:2
 experience:16
 blow:BITE:POISON:1d6
-flags:RAND_25
+flags:RAND_25 | FEMALE
 flags:IM_POIS
 innate-freq:10
 spells:BR_POIS
@@ -1942,7 +1944,7 @@ experience:15
 blow:TOUCH:EAT_FOOD:2d3
 blow:TOUCH:LOSE_WIS:2d3
 flags:NEVER_MOVE
-flags:HURT_LIGHT | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP
+flags:HURT_LIGHT | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP | FEMALE
 desc:Es un gran montón de carne podrida, cuyo toque echa a perder tu comida.
 desc: El olor terrible que exhala también es muy difícil de eliminar...
 
@@ -2047,9 +2049,9 @@ depth:6
 rarity:1
 experience:20
 blow:BITE:POISON:2d5
-flags:RAND_50
+flags:RAND_50 | FEMALE
 flags:IM_POIS
-desc:Es reconocido por el extremo escamoso y duro de su cuerpo que a menudo
+desc:Es reconocida por el extremo escamoso y duro de su cuerpo que a menudo
 desc: sacude para asustar a su presa.
 
 name:mosca negra gigante
@@ -2064,7 +2066,7 @@ sleepiness:1
 depth:6
 rarity:2
 experience:18
-flags:NEVER_BLOW | RAND_25
+flags:NEVER_BLOW | RAND_25 | FEMALE
 flags:IM_ACID
 innate-freq:10
 spells:BR_ACID
@@ -2083,7 +2085,7 @@ depth:6
 rarity:2
 experience:18
 blow:BITE:HURT:1d3
-flags:RAND_25
+flags:RAND_25 | FEMALE
 flags:IM_FIRE | NO_STUN
 innate-freq:10
 spells:BR_SOUN
@@ -2148,7 +2150,7 @@ rarity:3
 experience:15
 blow:BITE:HURT:1d3
 blow:STING:POISON:1d4
-flags:ANIMAL | WEIRD_MIND
+flags:ANIMAL | WEIRD_MIND | FEMALE
 flags:IM_POIS | GROUP_AI
 friends:100:2d7:Same
 desc:Corre hacia ti.
@@ -2202,7 +2204,7 @@ rarity:1
 experience:26
 blow:TOUCH:LOSE_STR:1d5
 flags:NEVER_MOVE
-flags:HURT_LIGHT | HURT_COLD | NO_CONF | NO_SLEEP
+flags:HURT_LIGHT | HURT_COLD | NO_CONF | NO_SLEEP | FEMALE
 desc:Es un gran montículo pulsante de carne roja.
 
 name:rana roja gigante
@@ -2218,8 +2220,8 @@ depth:7
 rarity:1
 experience:16
 blow:BITE:LOSE_STR:2d4
-flags:RAND_50 | BASH_DOOR
-desc:Parece venenoso.
+flags:RAND_50 | BASH_DOOR | FEMALE
+desc:Parece venenosa.
 
 name:cosa asquerosa verde
 base:icky thing
@@ -2234,7 +2236,7 @@ rarity:2
 experience:18
 blow:TOUCH:ACID:2d5
 flags:EMPTY_MIND
-flags:IM_ACID
+flags:IM_ACID | FEMALE
 desc:Es una criatura pequeña, viscosa, asquerosa y ácida.
 
 name:kobold zombificado
@@ -2418,7 +2420,7 @@ depth:8
 rarity:1
 experience:50
 blow:BITE:FIRE:3d6
-flags:RAND_25
+flags:RAND_25 | FEMALE
 flags:IM_FIRE
 flags:FORCE_SLEEP
 innate-freq:9
@@ -2560,7 +2562,7 @@ rarity:3
 experience:24
 blow:TOUCH:HURT:1d4
 blow:CRAWL:ACID:2d4
-flags:EMPTY_MIND
+flags:EMPTY_MIND | FEMALE
 spell-freq:11
 spells:DRAIN_MANA
 message-invis:DRAIN_MANA:Algo sorbe.
@@ -2580,7 +2582,7 @@ rarity:1
 experience:2
 blow:BITE:POISON:1d4
 flags:MULTIPLY
-flags:RAND_25
+flags:RAND_25 | FEMALE
 desc:Es un roedor de tamaño inusual.
 
 name:arpía negra
@@ -2750,6 +2752,7 @@ rarity:2
 experience:22
 blow:BITE:HURT:1d4
 blow:STING:LOSE_STR:1d4
+flags:FEMALE
 desc:Es grande y tiene mandíbulas venenosas.
 
 name:Brodda, el Oriental
@@ -2856,7 +2859,7 @@ blow:BITE:HURT:1d10
 blow:BITE:POISON:1d6
 blow:BITE:POISON:1d6
 blow:BITE:HURT:1d10
-flags:ANIMAL | WEIRD_MIND
+flags:ANIMAL | WEIRD_MIND | FEMALE
 flags:IM_POIS
 innate-freq:10
 spells:WEAVE
@@ -2984,7 +2987,7 @@ depth:10
 rarity:2
 experience:27
 blow:BITE:POISON:2d6
-flags:ANIMAL | WEIRD_MIND
+flags:ANIMAL | WEIRD_MIND | FEMALE
 flags:IM_POIS
 desc:Se mueve lentamente hacia ti.
 
@@ -3116,6 +3119,7 @@ depth:10
 rarity:3
 experience:4
 blow:BITE:HURT:1d2
+flags:FEMALE
 desc:Una plaga molesta que se reproduce rápido.
 
 name:pantera
@@ -3132,7 +3136,7 @@ rarity:2
 experience:25
 blow:CLAW:HURT:1d8
 blow:CLAW:HURT:1d8
-flags:BASH_DOOR
+flags:BASH_DOOR | FEMALE
 desc:Un gran gato negro, acechándote con intención. Cree que eres su próxima
 desc: comida.
 
@@ -3281,7 +3285,7 @@ depth:12
 rarity:3
 experience:40
 blow:BITE:POISON:4d6
-flags:RAND_50
+flags:RAND_50 | FEMALE
 flags:IM_POIS
 innate-freq:4
 spells:SPIT
@@ -3324,7 +3328,7 @@ rarity:3
 experience:60
 blow:TOUCH:EXP_10
 flags:NEVER_MOVE
-flags:HURT_LIGHT | HURT_COLD | IM_POIS | NO_CONF | NO_SLEEP
+flags:HURT_LIGHT | HURT_COLD | IM_POIS | NO_CONF | NO_SLEEP | FEMALE
 spell-freq:11
 spells:DRAIN_MANA
 message-invis:DRAIN_MANA:Algo sorbe.
@@ -3345,7 +3349,7 @@ experience:6
 blow:TOUCH:EXP_10
 flags:WEIRD_MIND | MULTIPLY | STUPID
 flags:RAND_25 | RAND_50 | BASH_DOOR
-flags:HURT_LIGHT | NO_FEAR | IM_NETHER
+flags:HURT_LIGHT | NO_FEAR | IM_NETHER | FEMALE
 desc:Es una masa asquerosa de gusanos oscuros, comiéndose unos a otros, el suelo,
 desc: el aire, a ti....
 
@@ -3602,7 +3606,7 @@ blow:TOUCH:ACID:2d6
 blow:TOUCH:ACID:2d6
 flags:COLD_BLOOD
 flags:NEVER_MOVE
-flags:HURT_LIGHT | IM_ACID | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP
+flags:HURT_LIGHT | IM_ACID | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP | FEMALE
 desc:Una gelatina extraña, cubierta de manchas descoloridas.
 
 ### Dungeon level 13 ###
@@ -3637,7 +3641,7 @@ blow:TOUCH:ACID:2d6
 blow:TOUCH:ACID:2d6
 flags:COLD_BLOOD
 flags:OPEN_DOOR | BASH_DOOR | TAKE_ITEM
-flags:IM_ACID | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP
+flags:IM_ACID | IM_POIS | HURT_COLD | NO_CONF | NO_SLEEP | FEMALE
 desc:Una gelatina que se mueve rápido, altamente ácida, que se está comiendo el
 desc: suelo sobre el que descansa.
 
@@ -3795,8 +3799,8 @@ depth:14
 rarity:3
 experience:4
 blow:BITE:HURT:1d2
-flags:BASH_DOOR
-desc:Te pica con solo mirarlo.
+flags:BASH_DOOR | FEMALE
+desc:Te pica con solo mirarla.
 
 name:Ufthak de Cirith Ungol
 base:orc
@@ -3841,7 +3845,7 @@ blow:HIT:HURT:1d4
 flags:EVIL | MULTIPLY
 flags:OPEN_DOOR | BASH_DOOR
 flags:IM_POIS
-flags:FORCE_SLEEP
+flags:FORCE_SLEEP | FEMALE
 spell-freq:8
 spells:BLIND | CONF | SCARE
 message-invis:BLIND:Algo sorbe.
@@ -4077,7 +4081,7 @@ experience:70
 blow:BITE:POISON:1d6
 blow:BITE:POISON:1d6
 blow:BITE:POISON:1d6
-flags:ANIMAL | WEIRD_MIND
+flags:ANIMAL | WEIRD_MIND | FEMALE
 flags:IM_POIS
 desc:Una araña gigante que se mueve rápido, con patas peludas negras y rojas.
 
@@ -4466,7 +4470,7 @@ rarity:2
 experience:80
 blow:BITE:HURT:2d6
 blow:BITE:HURT:2d6
-flags:DROP_2
+flags:DROP_2 | FEMALE
 flags:BASH_DOOR | MOVE_BODY
 spell-freq:11
 spells:SCARE
@@ -4943,7 +4947,7 @@ experience:25
 blow:BITE:HURT:1d8
 blow:BITE:POISON:1d6
 blow:BITE:POISON:1d6
-flags:EVIL | ANIMAL | WEIRD_MIND
+flags:EVIL | ANIMAL | WEIRD_MIND | FEMALE
 flags:IM_POIS | GROUP_AI
 innate-freq:10
 spells:WEAVE
@@ -4991,7 +4995,7 @@ experience:350
 blow:BITE:HURT:2d6
 blow:BITE:HURT:2d6
 blow:BITE:POISON:2d6
-flags:DROP_3
+flags:DROP_3 | FEMALE
 flags:BASH_DOOR | MOVE_BODY
 flags:IM_POIS
 spell-freq:9
@@ -5107,7 +5111,7 @@ experience:200
 blow:BUTT:HURT:2d8
 blow:BITE:HURT:2d10
 blow:BITE:FIRE:2d6
-flags:BASH_DOOR
+flags:BASH_DOOR | FEMALE
 flags:IM_FIRE
 flags:FORCE_SLEEP
 innate-freq:10
@@ -5553,7 +5557,7 @@ experience:60
 blow:BITE:HURT:1d8
 blow:BITE:POISON:1d6
 blow:BITE:POISON:1d6
-flags:ANIMAL | WEIRD_MIND | ATTR_FLICKER
+flags:ANIMAL | WEIRD_MIND | ATTR_FLICKER | FEMALE
 flags:IM_POIS | GROUP_AI
 spell-freq:5
 spells:BLINK | TELE_TO | TELE_SELF_TO
@@ -5697,7 +5701,7 @@ rarity:1
 experience:80
 blow:BITE:ACID:4d4
 blow:BITE:ACID:4d4
-flags:RAND_25
+flags:RAND_25 | FEMALE
 innate-freq:6
 spells:SPIT
 desc:Una hormiga plateada gigante con un mordisco cáustico y escamas duras.
@@ -5790,7 +5794,7 @@ blow:BITE:HURT:2d6
 blow:BITE:HURT:2d6
 blow:BITE:POISON:2d6
 blow:BITE:FIRE:2d6
-flags:DROP_3
+flags:DROP_3 | FEMALE
 flags:BASH_DOOR | MOVE_BODY
 flags:IM_POIS | IM_FIRE
 spell-freq:7
@@ -6103,7 +6107,7 @@ experience:6
 blow:CRAWL:EXP_10:1d5
 flags:EVIL | WEIRD_MIND | MULTIPLY | STUPID
 flags:RAND_25 | RAND_50 | BASH_DOOR | KILL_WALL
-flags:HURT_LIGHT | NO_FEAR | COLD_BLOOD | INVISIBLE
+flags:HURT_LIGHT | NO_FEAR | COLD_BLOOD | INVISIBLE | FEMALE
 desc:Un brillo de negrura retorcido y parecido a un gusano, grande como tu brazo.
 desc: Se retuerce a través del aire y las paredes con igual facilidad, dejando un
 desc: vacío a su paso.
@@ -6122,6 +6126,7 @@ depth:26
 rarity:4
 experience:4
 blow:BITE:BLIND:1d2
+flags:FEMALE
 desc:Nubes de estos monstruos iluminan la mazmorra, tan brillantemente que
 desc: apenas puedes ver a través de ellos.
 
@@ -6139,7 +6144,7 @@ rarity:1
 experience:120
 blow:BITE:HURT:2d12
 blow:BITE:HURT:2d12
-flags:RAND_25 | KILL_BODY
+flags:RAND_25 | KILL_BODY | FEMALE
 desc:Es una hormiga encerrada en un exoesqueleto impenetrable.
 
 name:Ulwarth, Hijo de Ulfang
@@ -6180,7 +6185,7 @@ blow:BITE:HURT:2d8
 blow:HIT:HURT:1d10
 blow:HIT:HURT:1d10
 blow:HIT:HURT:1d10
-flags:INVISIBLE
+flags:INVISIBLE | FEMALE
 flags:BASH_DOOR
 desc:Es una pantera negra enorme, con tentáculos como garrotes que brotan de sus
 desc: hombros.
@@ -6198,7 +6203,7 @@ depth:26
 rarity:1
 experience:90
 blow:BITE:FIRE:3d6
-flags:ANIMAL | WEIRD_MIND
+flags:ANIMAL | WEIRD_MIND | FEMALE
 flags:RAND_25
 flags:IM_FIRE
 innate-freq:20
@@ -6474,7 +6479,7 @@ experience:400
 blow:BUTT:HURT:2d10
 blow:BITE:FIRE:2d10
 blow:GAZE:PARALYZE:2d6
-flags:BASH_DOOR
+flags:BASH_DOOR | FEMALE
 flags:IM_FIRE
 flags:FORCE_SLEEP
 innate-freq:8
@@ -6594,7 +6599,7 @@ blow:BITE:HURT:2d6
 blow:BITE:POISON:2d6
 blow:BITE:FIRE:2d6
 blow:BITE:ACID:2d6
-flags:DROP_4
+flags:DROP_4 | FEMALE
 flags:BASH_DOOR | MOVE_BODY
 flags:IM_POIS | IM_FIRE | IM_ACID
 spell-freq:5
@@ -7182,7 +7187,7 @@ blow:HIT:HURT:3d4
 blow:HIT:HURT:3d4
 blow:HIT:HURT:3d4
 blow:HIT:HURT:3d4
-flags:EVIL
+flags:EVIL | FEMALE
 flags:BASH_DOOR
 flags:FORCE_SLEEP
 innate-freq:5
@@ -7203,7 +7208,7 @@ depth:30
 rarity:2
 experience:80
 blow:BITE:ELEC:5d5
-flags:RAND_25
+flags:RAND_25 | FEMALE
 flags:IM_ELEC | GROUP_AI
 innate-freq:6
 spells:SPIT
@@ -7224,7 +7229,7 @@ rarity:3
 experience:90
 blow:BITE:HURT:2d12
 blow:BITE:HURT:2d12
-flags:RAND_25 | KILL_BODY | GROUP_AI
+flags:RAND_25 | KILL_BODY | GROUP_AI | FEMALE
 friends:100:4d4:Same
 desc:Una forma acorazada que se mueve con determinación. Poderosa por sí sola,
 desc: huye cuando marchan hordas de ellas.
@@ -7556,7 +7561,7 @@ blow:SPIT:BLIND:1d6
 blow:BITE:ACID:2d12
 blow:BITE:POISON:2d12
 blow:CRUSH:HURT:4d4
-flags:RAND_25 | KILL_BODY
+flags:RAND_25 | KILL_BODY | FEMALE
 spell-freq:8
 spells:HOLD | BLIND | CONF
 message-invis:HOLD:Algo silba.
@@ -8129,7 +8134,7 @@ experience:350
 blow:WAIL:TERRIFY
 blow:TOUCH:EXP_40
 blow:CLAW:LOSE_INT:1d10
-flags:DROP_2 | ONLY_ITEM
+flags:DROP_2 | ONLY_ITEM | FEMALE
 flags:RAND_25 | TAKE_ITEM
 flags:FORCE_SLEEP
 spell-freq:15
@@ -8488,7 +8493,7 @@ rarity:1
 experience:350
 blow:BITE:FIRE:3d12
 blow:BITE:FIRE:3d12
-flags:KILL_BODY
+flags:KILL_BODY | FEMALE
 flags:IM_FIRE | GROUP_AI
 innate-freq:6
 spells:SPIT
@@ -9078,6 +9083,7 @@ depth:37
 rarity:1
 experience:800
 blow:ENGULF:HURT:6d6
+flags:FEMALE
 innate-freq:4
 spells:BR_SHAR
 desc:Una ráfaga aullante de fragmentos de montaña afilados como navajas, mantenidos
@@ -9330,7 +9336,7 @@ blow:CLAW:HURT:2d8
 blow:STING:POISON:2d6
 blow:STING:POISON:2d6
 blow:BITE:CONFUSE:1d3
-flags:EVIL | ANIMAL
+flags:EVIL | ANIMAL | FEMALE
 flags:WEIRD_MIND | HURT_LIGHT | IM_POIS
 innate-freq:6
 spell-freq:5
@@ -9463,7 +9469,7 @@ blow:BITE:POISON:2d6
 blow:BITE:FIRE:2d6
 blow:BITE:ACID:2d6
 blow:BITE:BLIND:1d2
-flags:DROP_4
+flags:DROP_4 | FEMALE
 flags:BASH_DOOR | MOVE_BODY
 flags:IM_POIS | IM_FIRE | IM_ACID
 innate-freq:10
@@ -9489,7 +9495,7 @@ blow:BITE:EXP_80:2d6
 blow:HIT:HURT:3d8
 blow:HIT:HURT:3d8
 blow:HIT:CONFUSE:6d6
-flags:UNDEAD | EVIL | COLD_BLOOD
+flags:UNDEAD | EVIL | COLD_BLOOD | FEMALE
 flags:DROP_2 | ONLY_GOLD
 flags:OPEN_DOOR
 flags:IM_COLD | IM_POIS | NO_CONF | NO_SLEEP | NO_STUN
@@ -9543,7 +9549,7 @@ experience:30
 blow:CRAWL:DISENCHANT:1d4
 flags:WEIRD_MIND | MULTIPLY | STUPID
 flags:RAND_50 | BASH_DOOR
-flags:HURT_LIGHT | IM_DISEN | NO_FEAR
+flags:HURT_LIGHT | IM_DISEN | NO_FEAR | FEMALE
 flags:ATTR_MULTI
 desc:Es una masa extraña de gusanos retorcidos. La energía mágica crepita
 desc: alrededor de su asquerosa forma.
@@ -9608,7 +9614,7 @@ blow:BITE:FIRE:2d6
 blow:BITE:ACID:2d6
 blow:BITE:BLIND:2d6
 blow:BITE:CONFUSE:2d6
-flags:DROP_4
+flags:DROP_4 | FEMALE
 flags:BASH_DOOR | MOVE_BODY
 flags:IM_POIS | IM_FIRE | IM_ACID | NO_CONF
 innate-freq:8
@@ -10438,7 +10444,7 @@ blow:BITE:ACID:2d6
 blow:BITE:BLIND:2d6
 blow:BITE:CONFUSE:2d6
 blow:BITE:EXP_10:2d6
-flags:DROP_4
+flags:DROP_4 | FEMALE
 flags:BASH_DOOR | MOVE_BODY
 flags:IM_FIRE | IM_POIS | IM_ACID
 innate-freq:7
@@ -10831,7 +10837,7 @@ blow:CLAW:POISON:5d8
 blow:CLAW:POISON:5d8
 blow:BITE:POISON:5d6
 blow:BITE:POISON:5d6
-flags:EVIL | ANIMAL | SMART | SPIRIT
+flags:EVIL | ANIMAL | SMART | SPIRIT | FEMALE
 flags:OPEN_DOOR
 flags:HURT_LIGHT | IM_POIS
 flags:FORCE_SLEEP
@@ -10882,7 +10888,7 @@ blow:GAZE:EXP_80
 blow:GAZE:PARALYZE
 blow:HIT:HURT:8d6
 blow:BITE:POISON:8d6
-flags:SMART
+flags:SMART | FEMALE
 flags:DROP_2 | DROP_GOOD | ONLY_ITEM
 flags:OPEN_DOOR
 flags:IM_ACID | IM_FIRE | IM_POIS | NO_CONF | NO_SLEEP | NO_HOLD
@@ -11205,7 +11211,7 @@ blow:TOUCH:EXP_80
 blow:TOUCH:EXP_40
 blow:CLAW:LOSE_INT:3d10
 blow:CLAW:LOSE_WIS:3d10
-flags:DROP_1 | ONLY_ITEM
+flags:DROP_1 | ONLY_ITEM | FEMALE
 flags:FORCE_SLEEP
 spell-freq:8
 spells:SLOW | TELE_TO
@@ -11990,7 +11996,7 @@ blow:BITE:BLIND:2d6
 blow:BITE:CONFUSE:2d6
 blow:BITE:EXP_10:2d6
 blow:BITE:HURT:10d6
-flags:SMART | POWERFUL | REGENERATE
+flags:SMART | POWERFUL | REGENERATE | FEMALE
 flags:DROP_3
 flags:BASH_DOOR | KILL_BODY
 flags:IM_FIRE | IM_POIS | IM_ACID | IM_NETHER | NO_CONF | NO_SLEEP | NO_HOLD
@@ -13808,7 +13814,7 @@ rarity:3
 experience:17000
 blow:CRUSH:HURT:15d10
 blow:CRUSH:CONFUSE:15d10
-flags:ATTR_MULTI | RAND_25
+flags:ATTR_MULTI | RAND_25 | FEMALE
 innate-freq:10
 spell-freq:6
 spells:BLINK | TELE_TO
@@ -14652,7 +14658,7 @@ blow:ENGULF:EXP_80:5d7
 blow:ENGULF:DRAIN_CHARGES:5d7
 blow:ENGULF:DISENCHANT:5d7
 blow:ENGULF:LOSE_ALL:5d7
-flags:KILL_WALL
+flags:KILL_WALL | FEMALE
 flags:IM_DISEN
 flags:ATTR_MULTI
 innate-freq:3
