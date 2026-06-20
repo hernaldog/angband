@@ -360,7 +360,7 @@ msg:¡Estás rodeado por una extraña niebla blanca!
 
 # alarm -- aggravation
 
-name:alarm:aggravation trap
+name:alarma:aggravation trap
 graphics:^:R
 appear:1:5:0
 visibility:M50
@@ -373,7 +373,7 @@ msg:¡Un silbido agudo resuena por la mazmorra!
 
 # alarm -- siren
 
-name:alarm:siren
+name:alarma:siren
 graphics:^:R
 appear:1:1:0
 visibility:60+d10
