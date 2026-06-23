@@ -2152,7 +2152,7 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 	}
 
 	if (failure_chance > 0) {
-		textblock_append(tb, "La probabilidad de éxito es %d.%d%%\n", 
+		textblock_append(tb, "La probabilidad de éxito es del %d.%d%%\n",
 			(1000 - failure_chance) / 10, (1000 - failure_chance) % 10);
 	}
 

@@ -563,15 +563,15 @@ static const char *lore_describe_awareness(int16_t awareness)
 		int16_t threshold;
 		const char *description;
 	} lore_awareness_description[] = {
-		{200,	"prefiere ignorar"},
+		{200,	"prefiere ignorar a"},
 		{95,	"presta muy poca atención a"},
 		{75,	"presta poca atención a"},
-		{45,	"suele pasar por alto"},
-		{25,	"tarda bastante en ver"},
-		{10,	"tarda un tiempo en ver"},
+		{45,	"suele pasar por alto a"},
+		{25,	"tarda bastante en ver a"},
+		{10,	"tarda un tiempo en ver a"},
 		{5,		"es bastante observador de"},
 		{3,		"es observador de"},
-		{1,		"es muy observador de"},
+		{1,		"está alerta de"},
 		{0,		"está vigilante por"},
 		{SHRT_MAX,	NULL},
 	};
@@ -1320,7 +1320,7 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 
 	/* Describe light */
 	if (race->light > 1) {
-		textblock_append(tb, "%s ilumina %s alrededores.  ",
+		textblock_append(tb, "%s ilumina %s alrededor.  ",
 						 initial_pronoun, lore_pronoun_possessive(msex, false));
 	} else if (race->light == 1) {
 		textblock_append(tb, "%s está iluminado.  ", initial_pronoun);
@@ -1442,10 +1442,11 @@ void lore_append_awareness(textblock *tb, const struct monster_race *race,
 	if (lore->sleep_known)
 	{
 		const char *aware = lore_describe_awareness(race->sleep);
-		textblock_append(tb, "%s %s a los intrusos, y puede notarlos desde ",
+		long dist_mt_x10 = 10L * race->hearing * 3048 / 1000;
+		textblock_append(tb, "%s %s los intrusos, y puede notarlos desde ",
 						 lore_pronoun_nominative(msex, true), aware);
-		textblock_append_c(tb, COLOUR_L_BLUE, "%d", 10 * race->hearing);
-		textblock_append(tb, " pies.  ");
+		textblock_append_c(tb, COLOUR_L_BLUE, "%ld.%ld", dist_mt_x10 / 10, dist_mt_x10 % 10);
+		textblock_append(tb, " metros.  ");
 	}
 }
 
