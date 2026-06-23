@@ -2329,7 +2329,7 @@ static textblock *object_info_out(const struct object *obj, int mode)
 	if (!terse) describe_flavor_text(tb, obj, ego);
 
 	if (!object_fully_known(obj) &&	(obj->known->notice & OBJ_NOTICE_ASSESSED) && !tval_is_useable(obj)) {
-		textblock_append(tb, "No conoces toda la extensión de los poderes de este objeto.\n");
+		textblock_append(tb, "Desconoces todo el potencial de este objeto.\n");
 		something = true;
 	}
 
