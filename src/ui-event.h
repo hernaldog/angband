@@ -1,6 +1,6 @@
 /**
- * \archivo ui-event.h
- * \brief Funciones de utilidad relacionadas con eventos de la interfaz de usuario
+ * \file ui-event.h
+ * \brief Utility functions relating to UI events
  *
  * Copyright (c) 2011 Andi Sidwell
  *
@@ -19,29 +19,29 @@
 #define INCLUDED_UI_EVENT_H
 
 /**
- * Los diversos eventos de interfaz de usuario que pueden ocurrir.
+ * The various UI events that can occur.
  */
 typedef enum
 {
 	EVT_NONE	= 0x0000,
 
-	/* Eventos básicos */
-	EVT_KBRD	= 0x0001,	/* Pulsación de tecla */
-	EVT_MOUSE	= 0x0002,	/* Pulsación del ratón */
-	EVT_RESIZE	= 0x0004,	/* Cambio de tamaño de pantalla */
+	/* Basic events */
+	EVT_KBRD	= 0x0001,	/* Keypress */
+	EVT_MOUSE	= 0x0002,	/* Mousepress */
+	EVT_RESIZE	= 0x0004,	/* Display resize */
 
-	EVT_BUTTON	= 0x0008,	/* Pulsación de botón */
+	EVT_BUTTON	= 0x0008,	/* Button press */
 
-	/* Eventos 'abstractos' */
-	EVT_ESCAPE	= 0x0010,	/* Salir de este menú */
-	EVT_MOVE	= 0x0020,	/* Movimiento del menú */
-	EVT_SELECT	= 0x0040,	/* Selección del menú */
-	EVT_SWITCH	= 0x0080	/* Cambio de menú */
+	/* 'Abstract' events */
+	EVT_ESCAPE	= 0x0010,	/* Get out of this menu */
+	EVT_MOVE	= 0x0020,	/* Menu movement */
+	EVT_SELECT	= 0x0040,	/* Menu selection */
+	EVT_SWITCH	= 0x0080	/* Menu switch */
 } ui_event_type;
 
 
 /**
- * Modificadores de tecla.
+ * Key modifiers.
  */
 #define KC_MOD_CONTROL  0x01
 #define KC_MOD_SHIFT    0x02
@@ -51,22 +51,22 @@ typedef enum
 
 
 /**
- * El juego asume que en ciertos casos, el efecto de una tecla modificadora
- * se codificará en el propio código de tecla (ej. 'A' es mayúsculas-'a'). En estos casos
- * (especificados a continuación), el valor 'mods' de una pulsación de tecla no debería codificarlos también.
+ * The game assumes that in certain cases, the effect of a modifer key will
+ * be encoded in the keycode itself (e.g. 'A' is shift-'a').  In these cases
+ * (specified below), a keypress' 'mods' value should not encode them also.
  *
- * Si el carácter proviene del teclado numérico:
- *   Incluir todos los modificadores
- * De lo contrario, si el carácter está en el rango 0x01-0x1F, y la pulsación de tecla fue
- * de una tecla que sin modificadores estaría en el rango 0x40-0x5F o
+ * If the character has come from the keypad:
+ *   Include all mods
+ * Else if the character is in the range 0x01-0x1F, and the keypress was
+ * from a key that without modifiers would be in the range 0x40-0x5F or
  * 0x61-0x7A:
- *   CONTROL está codificado en el código de tecla y no debería estar en mods
- * De lo contrario, si el carácter está en el rango 0x21-0x2F, 0x3A-0x60 o 0x7B-0x7E:
- *   MAYÚSCULAS se usa a menudo para producir estos y no debería codificarse en mods
+ *   CONTROL is encoded in the keycode, and should not be in mods
+ * Else if the character is in the range 0x21-0x2F, 0x3A-0x60 or 0x7B-0x7E:
+ *   SHIFT is often used to produce these should not be encoded in mods
  *
- * (Todos los rangos son inclusivos.)
+ * (All ranges are inclusive.)
  *
- * Puedes usar estas macros para parte de las condiciones anteriores.
+ * You can use these macros for part of the above conditions.
  */
 #define MODS_INCLUDE_CONTROL(v) \
 	(((v) >= 0x01 && (v) <= 0x1F) ? false : true)
@@ -78,63 +78,63 @@ typedef enum
 
 
 /**
- * Si el código de tecla al que intentas aplicar control está entre 0x40-0x5F
- * inclusive o 0x61-0x7A inclusive, entonces debes aplicar AND bit a bit al código de tecla
- * con 0x1f y dejar KC_MOD_CONTROL sin establecer. De lo contrario, deja el código de tecla
- * sin cambios y establece KC_MOD_CONTROL en mods.
+ * If keycode you're trying to apply control to is between 0x40-0x5F
+ * inclusive or 0x61-0x7A inclusive, then you should bitwise-and the keycode
+ * with 0x1f and leave KC_MOD_CONTROL unset.  Otherwise, leave the keycode
+ * alone and set KC_MOD_CONTROL in mods.
  *
- * Esta macro devuelve verdadero en el primer caso y falso en el segundo.
+ * This macro returns true in the former case and false in the latter.
  */
 #define ENCODE_KTRL(v) \
 	((((v) >= 0x40 && (v) <= 0x5F) || ((v) >= 0x61 && (v) <= 0x7A)) ? true : false)
 
 
 /**
- * Dado un carácter X, lo convierte en un carácter de control.
+ * Given a character X, turn it into a control character.
  */
 #define KTRL(X) \
 	((X) & 0x1F)
 
 
 /**
- * Dado un carácter de control X, lo convierte en su equivalente ASCII en minúscula
- * a menos que sea 0x00 o 0x1B a 0x1F, entonces usa los caracteres de puntuación
- * que flanquean las letras mayúsculas ASCII. La representación en minúscula es
- * preferida porque:
- *   1) Algunos front-ends pueden distinguir entre ctrl-letra_minúscula y
- *      ctrl-letra_mayúscula, pero otros no (GCU, por ejemplo).
- *   2) La búsqueda de comandos actual solo mira el código de tecla y no si
- *      hay algún modificador establecido. Entonces, ctrl-letra_minúscula y
- *      ctrl-letra_mayúscula para invocar un comando integrado tienen el mismo efecto
- *      en la mayoría de los casos porque el mismo código de tecla se pasa al núcleo y, con
- *      los front-ends que establecen el modificador de mayúsculas para ctrl-letra_mayúscula,
- *      ese modificador se ignora.
- *   3) Un puñado de plataformas no responden al menos a algunas instancias de
- *      ctrl-letra_mayúscula. Las conocidas son el front-end GCU ejecutándose
- *      en Cygwin y el front-end GCU ejecutándose en la Terminal de Apple para macOS.
- *      En este último caso, la pulsación de tecla para ctrl-O nunca llega al front-end.
- *      En Cygwin, no sé cuál es la causa del problema.
- * Los caracteres de puntuación que flanquean las letras mayúsculas son preferidos
- * porque eso es lo que se usaba en el pasado y, en muchos teclados, no es
- * cierto que mayúsculas + una tecla que da el código de tecla 0x60 o 0x7B a 0x7F resulte
- * en un código de tecla que es 0x40 o 0x5B a 0x5F.
+ * Given a control character X, turn it into its lowercase ASCII equivalent
+ * unless it is 0x00 or 0x1B to 0x1F, then use the punctuation characters
+ * that flank the uppercase ASCII letters.  The lowercase representation is
+ * preferred because:
+ *   1) Some front ends can distinguish between ctrl-lowercase_letter and
+ *      ctrl-uppercase_letter, but others do not (GCU, for instance).
+ *   2) The current command lookup only looks at the keycode and not whether
+ *      any modifiers are set.  So, ctrl-lowercase_letter and
+ *      ctrl-uppercase_letter to invoke a builtin command have the same effect
+ *      in most cases because the same keycode is passed to the core and, with
+ *      the front ends that set the shift modifier for ctrl-uppercase_letter,
+ *      that modifier is ignored.
+ *   3) A handful of platforms don't respond to at least some instances of
+ *      ctrl-uppercase_letter.  The known ones are the GCU front end running
+ *      on Cygwin and the GCU front end running in Apple's Terminal for macOS.
+ *      In the latter case, the keystroke for ctrl-O never makes it the front
+ *      end.  On Cygwin, I don't know what the cause of the problem is.
+ * The punctuation characters flanking the uppercase letters are preferred
+ * because that's what was used in the past and, on many keyboards, it's not
+ * true that shift + a key giving the keycode for 0x60 or 0x7B to 0x7F results
+ * in a keycode that is 0x40 or 0x5B to 0x5F.
  */
 #define UN_KTRL(X) \
 	(((X) < 0x01 || (X) > 0x1B) ? (X) + 64 : (X) + 96)
 
 
 /**
- * Dado un carácter de control X, lo convierte en su equivalente ASCII en mayúscula.
- * Prefiere usar UN_KTRL() sobre esto excepto para pruebas de inscripción y atajos
- * de menú donde hay conflictos para el conjunto de teclas roguelike (UN_KTRL()
- * para el comando de ignorar roguelike, '^d', da 'd' que entra en conflicto con el
- * comando de soltar).
+ * Given a control character X, turn it into its uppercase ASCII equivalent.
+ * Prefer using UN_KTRL() over this except for inscription testing and menu
+ * shortcuts where there are clashes for the rogue-like keyset (UN_KTRL()
+ * for the rogue-like ignore command, '^d', gives 'd' which clashes with the
+ * drop command).
  */
 #define UN_KTRL_CAP(X) \
 	((X) + 64)
 
 /**
- * Mapeos de conjuntos de teclas para varias teclas.
+ * Keyset mappings for various keys.
  */
 #define ARROW_DOWN    0x80
 #define ARROW_LEFT    0x81
@@ -172,23 +172,23 @@ typedef enum
 #define KC_BACKSPACE  0x9f /* ASCII \h */
 #define ESCAPE        0xE000
 
-/* tenemos hasta 0x9F antes de empezar a entrar en Unicode mostrable */
-/* luego podríamos pasar al área de uso privado 1, 0xE000 en adelante */
+/* we have up until 0x9F before we start edging into displayable Unicode */
+/* then we could move into private use area 1, 0xE000 onwards */
 
 /**
- * Análogo a isdigit() etc en ctypes
+ * Analogous to isdigit() etc in ctypes
  */
 #define isarrow(c)  ((c >= ARROW_DOWN) && (c <= ARROW_UP))
 
 
 /**
- * Tipo capaz de contener cualquier tecla de entrada que podamos usar.
+ * Type capable of holding any input key we might want to use.
  */
 typedef uint32_t keycode_t;
 
 
 /**
- * Estructura que contiene toda la información relevante para las pulsaciones de tecla.
+ * Struct holding all relevant info for keypresses.
  */
 struct keypress {
 	ui_event_type type;
@@ -197,7 +197,7 @@ struct keypress {
 };
 
 /**
- * Constante de pulsación de tecla nula, para inicialización segura.
+ * Null keypress constant, for safe initializtion.
  */
 static struct keypress const KEYPRESS_NULL = {
 	.type = EVT_NONE,
@@ -206,7 +206,7 @@ static struct keypress const KEYPRESS_NULL = {
 };
 
 /**
- * Estructura que contiene toda la información relevante para los clics del ratón.
+ * Struct holding all relevant info for mouse clicks.
  */
 struct mouseclick {
 	ui_event_type type;
@@ -217,7 +217,7 @@ struct mouseclick {
 };
 
 /**
- * Tipo unión para contener información sobre cualquier evento dado.
+ * Union type to hold information about any given event.
  */
 typedef union {
 	ui_event_type type;
@@ -226,42 +226,42 @@ typedef union {
 } ui_event;
 
 /**
- * Forma fácil de inicializar un ui_event sin ver los detalles internos.
+ * Easy way to initialise a ui_event without seeing the gory bits.
  */
 #define EVENT_EMPTY		{ 0 }
 
 
-/*** Funciones ***/
+/*** Functions ***/
 
 /**
- * Dada una cadena (y la longitud de esa cadena), devuelve el código de tecla correspondiente
+ * Given a string (and that string's length), return the corresponding keycode 
  */
 keycode_t keycode_find_code(const char *str, size_t len);
 
 /**
- * Dado un código de tecla, devuelve su descripción
+ * Given a keycode, return its description
  */
 const char *keycode_find_desc(keycode_t kc);
 
 /**
- * Dado un código de tecla, devuelve si corresponde a un carácter imprimible.
+ * Given a keycode, return whether it corresponds to a printable character.
  */
 bool keycode_isprint(keycode_t kc);
 
 /**
- * Convierte una cadena de pulsaciones de tecla en su representación textual
+ * Convert a string of keypresses into their textual representation
  */
 void keypress_to_text(char *buf, size_t len, const struct keypress *src,
 	bool expand_backslash);
 
 /**
- * Convierte una representación textual de pulsaciones de tecla en pulsaciones de tecla reales
+ * Convert a textual representation of keypresses into actual keypresses
  */
 void keypress_from_text(struct keypress *buf, size_t len, const char *str);
 
 /**
- * Convierte una pulsación de tecla en algo que el usuario pueda leer (no diseñado para usarse
- * internamente)
+ * Convert a keypress into something the user can read (not designed to be used
+ * internally
  */
 void keypress_to_readable(char *buf, size_t len, struct keypress src);
 

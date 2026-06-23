@@ -1,6 +1,6 @@
 /**
  * \file ui-mon-list.c
- * \brief Interfaz de usuario de la lista de monstruos.
+ * \brief Monster list UI.
  *
  * Copyright (c) 1997-2007 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2013 Ben Semmler
@@ -28,26 +28,31 @@
 #include "ui-term.h"
 
 /**
- * Formatear una sección de la lista de monstruos: un encabezado seguido de las
- * filas de entrada de la lista de monstruos.
+ * Format a section of the monster list: a header followed by monster list
+ * entry rows.
  *
- * Esta función procesará cada entrada para la sección dada. Mostrará:
- * - el carácter del monstruo;
- * - número de monstruos;
- * - nombre del monstruo (truncado, si es necesario para que quepa en la línea);
- * - si el monstruo está dormido o no (y cuántos si están en un grupo);
- * - distancia del monstruo al jugador (alineada al lado derecho de la lista).
- * Pasando un textblock NULL, se puede encontrar el ancho máximo de línea de la
- * sección.
+ * This function will process each entry for the given section. It will display:
+ * - monster char;
+ * - number of monsters;
+ * - monster name (truncated, if needed to fit the line);
+ * - whether or not the monster is asleep (and how many if in a group);
+ * - monster distance from the player (aligned to the right side of the list).
+ * By passing in a NULL textblock, the maximum line width of the section can be
+ * found.
  *
- * \param list es la lista de monstruos a formatear.
- * \param tb es el textblock a producir o NULL si solo se necesitan calcular las dimensiones.
- * \param section es la sección de la lista de monstruos a formatear.
- * \param lines_to_display son el número de entradas a mostrar (sin incluir el encabezado).
- * \param max_width es el ancho máximo de línea.
- * \param prefix es el comienzo del encabezado; el resto se añade con el número de monstruos.
- * \param show_others se usa para añadir "otros monstruos" al encabezado, después del número de monstruos.
- * \param max_width_result devuelve el ancho necesario para formatear la lista sin truncamiento.
+ * \param list is the monster list to format.
+ * \param tb is the textblock to produce or NULL if only the dimensions need to
+ * be calculated.
+ * \param section is the section of the monster list to format.
+ * \param lines_to_display are the number of entries to display (not including
+ * the header).
+ * \param max_width is the maximum line width.
+ * \param prefix is the beginning of the header; the remainder is appended with
+ * the number of monsters.
+ * \param show_others is used to append "other monsters" to the header,
+ * after the number of monsters.
+ * \param max_width_result is returned with the width needed to format the list
+ * without truncation.
  */
 static void monster_list_format_section(const monster_list_t *list, textblock *tb, monster_list_section_t section, int lines_to_display, int max_width, const char *prefix, bool show_others, size_t *max_width_result)
 {
@@ -66,13 +71,13 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 	total = list->distinct_entries;
 
 	if (list->total_monsters[section] == 0) {
-		max_line_length = strnfmt(line_buffer, sizeof(line_buffer),								  
+		max_line_length = strnfmt(line_buffer, sizeof(line_buffer),
 								  "No hay monstruos a la vista.\n"); //mejora de traducción, prefix no se usa acá
 
 		if (tb != NULL)
 			textblock_append(tb, "%s", line_buffer);
 
-		/* Forzar un ancho mínimo para que el mensaje no se corte. */
+		/* Force a minimum width so that the prompt doesn't get cut off. */
 		if (max_width_result != NULL)
 			*max_width_result = MAX(max_line_length, 40);
 
@@ -104,7 +109,7 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 		if (list->entries[index].count[section] == 0)
 			continue;
 
-		/* Solo mostrar direcciones para el caso de un solo monstruo. */
+		/* Only display directions for the case of a single monster. */
 		if (list->entries[index].count[section] == 1) {
 			const char *direction1 =
 				(list->entries[index].dy[section] <= 0)	? "N" : "S";
@@ -115,7 +120,8 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 					abs(list->entries[index].dx[section]), direction2);
 		}
 
-		/* Obtener ancho disponible para el nombre del monstruo y la etiqueta de sueño: 2 para el carácter y el espacio; location incluye relleno; último -1 por alguna razón. */
+		/* Get width available for monster name and sleep tag: 2 for char and
+		 * space; location includes padding; last -1 for some reason? */
 		full_width = max_width - 2 - utf8_strlen(location) - 1;
 
 		asleep_in_section = list->entries[index].asleep[section];
@@ -126,7 +132,7 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 		else if (asleep_in_section == 1 && count_in_section == 1)
 			strnfmt(asleep, sizeof(asleep), " (dormido)");
 
-		/* Recortar el nombre del monstruo para que quepa, y añadir la etiqueta de sueño. */
+		/* Clip the monster name to fit, and append the sleep tag. */
 		name_width = MIN(full_width - utf8_strlen(asleep), sizeof(line_buffer));
 		get_mon_name(line_buffer, sizeof(line_buffer),
 					 list->entries[index].race,
@@ -134,20 +140,24 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 		utf8_clipto(line_buffer, name_width);
 		my_strcat(line_buffer, asleep, sizeof(line_buffer));
 
-		/* Calcular el ancho de la línea para el tamaño dinámico; usar un ancho máximo fijo para la ubicación y el carácter del monstruo. */
+		/* Calculate the width of the line for dynamic sizing; use a fixed max
+		 * width for location and monster char. */
 		max_line_length = MAX(max_line_length,
 							  utf8_strlen(line_buffer) + 12 + 2);
 
-		/* textblock_append_pict agregará de forma segura el símbolo del monstruo, independientemente del modo ASCII/gráficos. */
+		/* textblock_append_pict will safely add the monster symbol,
+		 * regardless of ASCII/graphics mode. */
 		if (tb != NULL && tile_width == 1 && tile_height == 1) {
 			textblock_append_pict(tb, list->entries[index].attr, monster_x_char[list->entries[index].race->ridx]);
 			textblock_append(tb, " ");
 		}
 
-		/* Añadir el nombre del monstruo alineado a la izquierda y con relleno, lo que alineará la ubicación a la derecha. */
+		/* Add the left-aligned and padded monster name which will align the
+		 * location to the right. */
 		if (tb != NULL) {
-			/* Hack - Debido a que las cadenas de raza de monstruo son UTF8, tenemos que añadir
-			 * relleno adicional para los bytes brutos que podrían consolidarse en un carácter mostrado. */
+			/* Hack - Because monster race strings are UTF8, we have to add
+			 * additional padding for any raw bytes that might be consolidated
+			 * into one displayed character. */
 			full_width += strlen(line_buffer) - utf8_strlen(line_buffer);
 			line_attr = monster_list_entry_line_color(&list->entries[index]);
 			textblock_append_c(tb, line_attr, "%-*s%s\n",
@@ -157,16 +167,18 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 		line_count++;
 	}
 
-	/* No preocuparse por la línea "...y otros", ya que probablemente es más corta que lo que ya se ha impreso. */
+	/* Don't worry about the "...others" line, since it's probably shorter
+	 * than what's already printed. */
 	if (max_width_result != NULL)
 		*max_width_result = max_line_length;
 
-	/* Salir ya que no tenemos suficiente espacio para mostrar el recuento restante o ya los hemos mostrado todos. */
+	/* Bail since we don't have enough room to display the remaining count or
+	 * since we've displayed them all. */
 	if (lines_to_display <= 0 ||
 		lines_to_display >= list->total_entries[section])
 		return;
 
-	/* Sumar los monstruos restantes; comenzar donde lo dejamos en el bucle anterior. */
+	/* Sum the remaining monsters; start where we left off in the above loop. */
 	while (index < total) {
 		remaining_monster_total += list->entries[index].count[section];
 		index++;
@@ -178,22 +190,26 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 }
 
 /**
- * Permitir que el formato de lista estándar sea omitido para casos especiales.
+ * Allow the standard list formatted to be bypassed for special cases.
  *
- * Devolver true omitirá cualquier otro formato en monster_list_format_textblock().
+ * Returning true will bypass any other formatteding in
+ * monster_list_format_textblock().
  *
- * \param list es la lista de monstruos a formatear.
- * \param tb es el textblock a producir o NULL si solo se necesitan calcular las dimensiones.
- * \param max_lines es el número máximo de líneas que se pueden mostrar.
- * \param max_width es el ancho máximo de línea que se puede mostrar.
- * \param max_height_result devuelve el número de líneas necesarias para formatear la lista sin truncamiento.
- * \param max_width_result devuelve el ancho necesario para formatear la lista sin truncamiento.
- * \return true si se debe omitir el formateo adicional.
+ * \param list is the monster list to format.
+ * \param tb is the textblock to produce or NULL if only the dimensions need to
+ * be calculated.
+ * \param max_lines is the maximum number of lines that can be displayed.
+ * \param max_width is the maximum line width that can be displayed.
+ * \param max_height_result is returned with the number of lines needed to
+ * format the list without truncation.
+ * \param max_width_result is returned with the width needed to format the list
+ * without truncation.
+ * \return true if further formatting should be bypassed.
  */
 static bool monster_list_format_special(const monster_list_t *list, textblock *tb, int max_lines, int max_width, size_t *max_height_result, size_t *max_width_result)
 {
 	if (player->timed[TMD_IMAGE] > 0) {
-		/* Hack - el mensaje necesita una nueva línea para calcular el ancho correctamente. */
+		/* Hack - message needs newline to calculate width properly. */
 		const char *message = "Tus alucinaciones son demasiado salvajes para ver las cosas con claridad.\n";
 
 		if (max_height_result != NULL)
@@ -212,20 +228,23 @@ static bool monster_list_format_special(const monster_list_t *list, textblock *t
 }
 
 /**
- * Formatear toda la lista de monstruos con los parámetros dados.
+ * Format the entire monster list with the given parameters.
  *
- * Esta función se puede utilizar para calcular las dimensiones preferidas para la lista
- * pasando un textblock NULL. La sección LOS de la lista siempre se mostrará,
- * mientras que la otra sección se añadirá condicionalmente. Además, esta
- * función llama a monster_list_format_special() primero; si esa función devuelve
- * true, omitirá el formato de lista normal.
+ * This function can be used to calculate the preferred dimensions for the list
+ * by passing in a NULL textblock. The LOS section of the list will always be
+ * shown, while the other section will be added conditionally. Also, this
+ * function calls monster_list_format_special() first; if that function returns
+ * true, it will bypass normal list formatting.
  *
- * \param list es la lista de monstruos a formatear.
- * \param tb es el textblock a producir o NULL si solo se necesitan calcular las dimensiones.
- * \param max_lines es el número máximo de líneas que se pueden mostrar.
- * \param max_width es el ancho máximo de línea que se puede mostrar.
- * \param max_height_result devuelve el número de líneas necesarias para formatear la lista sin truncamiento.
- * \param max_width_result devuelve el ancho necesario para formatear la lista sin truncamiento.
+ * \param list is the monster list to format.
+ * \param tb is the textblock to produce or NULL if only the dimensions need to
+ * be calculated.
+ * \param max_lines is the maximum number of lines that can be displayed.
+ * \param max_width is the maximum line width that can be displayed.
+ * \param max_height_result is returned with the number of lines needed to
+ * format the list without truncation.
+ * \param max_width_result is returned with the width needed to format the list
+ * without truncation.
  */
 static void monster_list_format_textblock(const monster_list_t *list, textblock *tb, int max_lines, int max_width, size_t *max_height_result, size_t *max_width_result)
 {
@@ -256,17 +275,17 @@ static void monster_list_format_textblock(const monster_list_t *list, textblock 
 	lines_remaining = max_lines - header_lines -
 		list->total_entries[MONSTER_LIST_SECTION_LOS];
 
-	/* Eliminar líneas de ESP según sea necesario. */
+	/* Remove ESP lines as needed. */
 	if (lines_remaining < list->total_entries[MONSTER_LIST_SECTION_ESP])
 		esp_lines_to_display = MAX(lines_remaining - 1, 0);
 
-	/* Si ni siquiera tenemos suficiente espacio para el encabezado de ESP, comenzar a eliminar
-	 * líneas de LOS, dejando una para los "...otros". */
+	/* If we don't even have enough room for the ESP header, start removing
+	 * LOS lines, leaving one for the "...others". */
 	if (lines_remaining < 0)
 		los_lines_to_display = list->total_entries[MONSTER_LIST_SECTION_LOS] -
 			abs(lines_remaining) - 1;
 
-	/* Mostrar solo encabezados si no tenemos suficiente espacio. */
+	/* Display only headers if we don't have enough space. */
 	if (header_lines >= max_lines) {
 		los_lines_to_display = 0;
 		esp_lines_to_display = 0;
@@ -293,22 +312,22 @@ static void monster_list_format_textblock(const monster_list_t *list, textblock 
 }
 
 /**
- * Obtener los glifos correctos de los monstruos.
+ * Get correct monster glyphs.
  */
 static void monster_list_get_glyphs(monster_list_t *list)
 {
 	int i;
 
-	/* Recorrer todos los monstruos en la lista. */
+	/* Run through all monsters in the list. */
 	for (i = 0; i < (int)list->entries_size; i++) {
 		monster_list_entry_t *entry = &list->entries[i];
 		if (entry->race == NULL)
 			continue;
 
-		/* Si no hay atributo de monstruo, usar la imagen estándar de la interfaz. */
+		/* If no monster attribute use the standard UI picture. */
 		if (!entry->attr)
 			entry->attr = monster_x_attr[entry->race->ridx];
-		/* Si purple_uniques es relevante, aplicarlo. */
+		/* If purple_uniques is relevant, apply it. */
 		if (!(entry->attr & 0x80) && OPT(player, purple_uniques)
 				&& rf_has(entry->race->flags, RF_UNIQUE)) {
 			entry->attr = COLOUR_VIOLET;
@@ -317,15 +336,15 @@ static void monster_list_get_glyphs(monster_list_t *list)
 }
 
 /**
- * Mostrar la lista de monstruos estáticamente. Esto forzará que la lista se
- * muestre con las dimensiones proporcionadas. El contenido se ajustará en consecuencia.
+ * Display the monster list statically. This will force the list to be
+ * displayed to the provided dimensions. Contents will be adjusted accordingly.
  *
- * Para admitir animaciones de parpadeo de monstruos más eficientes, esta función
- * utiliza un objeto de lista compartido para no estar constantemente asignando y liberando
- * la lista.
+ * In order to support more efficient monster flicker animations, this function
+ * uses a shared list object so that it's not constantly allocating and freeing
+ * the list.
  *
- * \param height es la altura de la lista.
- * \param width es el ancho de la lista.
+ * \param height is the height of the list.
+ * \param width is the width of the list.
  */
 void monster_list_show_subwindow(int height, int width)
 {
@@ -339,7 +358,7 @@ void monster_list_show_subwindow(int height, int width)
 	tb = textblock_new();
 	list = monster_list_shared_instance();
 
-	/* Forzar una actualización si se detectan monstruos */
+	/* Force an update if detected monsters */
 	for (i = 1; i < cave_monster_max(cave); i++) {
 		if (mflag_has(cave_monster(cave, i)->mflag, MFLAG_MARK)) {
 			list->creation_turn = -1;
@@ -352,7 +371,7 @@ void monster_list_show_subwindow(int height, int width)
 	monster_list_get_glyphs(list);
 	monster_list_sort(list, monster_list_standard_compare);
 
-	/* Dibujar la lista para que quepa exactamente en la subventana. */
+	/* Draw the list to exactly fit the subwindow. */
 	monster_list_format_textblock(list, tb, height, width, NULL, NULL);
 	textui_textblock_place(tb, SCREEN_REGION, NULL);
 
@@ -360,11 +379,11 @@ void monster_list_show_subwindow(int height, int width)
 }
 
 /**
- * Mostrar la lista de monstruos de forma interactiva. Esto dimensionará dinámicamente la lista
- * para obtener la mejor apariencia. Esto solo debe usarse en el terminal principal.
+ * Display the monster list interactively. This will dynamically size the list
+ * for the best appearance. This should only be used in the main term.
  *
- * \param height es el límite de altura para la lista.
- * \param width es el límite de ancho para la lista.
+ * \param height is the height limit for the list.
+ * \param width is the width limit for the list.
  */
 void monster_list_show_interactive(int height, int width)
 {
@@ -379,7 +398,7 @@ void monster_list_show_interactive(int height, int width)
 	if (height < 1 || width < 1)
 		return;
 
-	// Repetir
+	// Repeat
 	do {
 
 		tb = textblock_new();
@@ -390,11 +409,12 @@ void monster_list_show_interactive(int height, int width)
 
 		monster_list_sort(list, sort_exp ? monster_list_compare_exp : monster_list_standard_compare);
 
-		/* Calcular el rectángulo de visualización óptimo. Se pasan números grandes como límite de altura
-		 * y ancho para que podamos calcular el número máximo de filas y columnas para mostrar la lista
-		 * adecuadamente. Luego ajustamos esos valores según sea necesario para que quepan en el terminal principal.
-		 * La altura se ajusta para tener en cuenta el mensaje del textblock. La lista se posiciona en el lado derecho
-		 * del terminal debajo de la línea de estado.
+		/* Figure out optimal display rect. Large numbers are passed as the height
+		 * and width limit so that we can calculate the maximum number of rows and
+		 * columns to display the list nicely. We then adjust those values as
+		 * needed to fit in the main term. Height is adjusted to account for the
+		 * texblock prompt. The list is positioned on the right side of the term
+		 * underneath the status line.
 		 */
 		monster_list_format_textblock(list, NULL, 1000, 1000, &max_height,
 									  &max_width);
@@ -406,11 +426,11 @@ void monster_list_show_interactive(int height, int width)
 		r.page_rows = safe_height;
 
 		/*
-		 * Dibujar la lista realmente. Pasamos max_height a la función de formato para
-		 * que todas las líneas se añadan al textblock. El textblock en sí mismo
-		 * se encargará de encajarlo en la región. Sin embargo, tenemos que pasar
-		 * safe_width para que la función de formato pueda rellenar las líneas correctamente
-		 * de modo que la cadena de ubicación esté alineada al borde derecho de la lista.
+		 * Actually draw the list. We pass in max_height to the format function so
+		 * that all lines will be appended to the textblock. The textblock itself
+		 * will handle fitting it into the region. However, we have to pass
+		 * safe_width so that the format function will pad the lines properly so
+		 * that the location string is aligned to the right edge of the list.
 		 */
 		monster_list_format_textblock(list, tb, (int) max_height, safe_width, NULL,
 									  NULL);
@@ -427,7 +447,7 @@ void monster_list_show_interactive(int height, int width)
 
 		ch = textui_textblock_show(tb, r, buf);
 
-		// Alternar ordenación
+		// Toggle sort
 		sort_exp = !sort_exp;
 
 		textblock_free(tb);
@@ -437,10 +457,10 @@ void monster_list_show_interactive(int height, int width)
 }
 
 /**
- * Forzar una actualización de la subventana de la lista de monstruos.
+ * Force an update to the monster list subwindow.
  *
- * Hay condiciones que monster_list_reset() no puede detectar, por lo que establecemos el
- * turno en un valor no válido para forzar la actualización de la lista.
+ * There are conditions that monster_list_reset() can't catch, so we set the
+ * turn an invalid value to force the list to update.
  */
 void monster_list_force_subwindow_update(void)
 {

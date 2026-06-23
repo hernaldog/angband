@@ -1,6 +1,6 @@
 /**
  * \file ui-input.c
- * \brief Algunas funciones de interfaz de alto nivel, inkey()
+ * \brief Some high-level UI functions, inkey()
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
@@ -50,25 +50,25 @@
 #include "ui-target.h"
 
 static bool inkey_xtra;
-uint32_t inkey_scan;		/* Ver la función "inkey()" */
-bool inkey_flag;		/* Ver la función "inkey()" */
+uint32_t inkey_scan;		/* See the "inkey()" function */
+bool inkey_flag;		/* See the "inkey()" function */
 
 /**
- * Vaciar toda la entrada pendiente.
+ * Flush all pending input.
  *
- * En realidad, recordar el vaciado, usando la bandera "inkey_xtra", y en la
- * siguiente llamada a "inkey()", realizar el vaciado real, por eficiencia,
- * y corrección de la función "inkey()".
+ * Actually, remember the flush, using the "inkey_xtra" flag, and in the
+ * next call to "inkey()", perform the actual flushing, for efficiency,
+ * and correctness of the "inkey()" function.
  */
 void flush(game_event_type unused, game_event_data *data, void *user)
 {
-	/* Hacerlo más tarde */
+	/* Do it later */
 	inkey_xtra = true;
 }
 
 
 /**
- * Función auxiliar llamada solo desde "inkey()"
+ * Helper function called only from "inkey()"
  */
 static ui_event inkey_aux(int scan_cutoff)
 {
@@ -76,24 +76,24 @@ static ui_event inkey_aux(int scan_cutoff)
 
 	ui_event ke;
 	
-	/* Esperar una pulsación de tecla */
+	/* Wait for a keypress */
 	if (scan_cutoff == SCAN_OFF) {
 		(void)(Term_inkey(&ke, true, true));
 	} else {
 		w = 0;
 
-		/* Esperar solo el tiempo que esperaría la activación de macro */
+		/* Wait only as long as macro activation would wait */
 		while (Term_inkey(&ke, false, true) != 0) {
-			/* Aumentar "espera" */
+			/* Increase "wait" */
 			w++;
 
-			/* Demora excesiva */
+			/* Excessive delay */
 			if (w >= scan_cutoff) {
 				ui_event empty = EVENT_EMPTY;
 				return empty;
 			}
 
-			/* Demora */
+			/* Delay */
 			Term_xtra(TERM_XTRA_DELAY, 10);
 		}
 	}
@@ -104,65 +104,65 @@ static ui_event inkey_aux(int scan_cutoff)
 
 
 /**
- * Mega-Truco -- puntero especial "inkey_next".  XXX XXX XXX
+ * Mega-Hack -- special "inkey_next" pointer.  XXX XXX XXX
  *
- * Este puntero especial permite que una secuencia de teclas sea "insertada" en
- * el flujo de teclas devueltas por "inkey()". Esta secuencia de teclas no puede ser
- * omitida por el Borg. Lo usamos para implementar mapas de teclas.
+ * This special pointer allows a sequence of keys to be "inserted" into
+ * the stream of keys returned by "inkey()".  This key sequence cannot be
+ * bypassed by the Borg.  We use it to implement keymaps.
  */
 struct keypress *inkey_next = NULL;
 
 /**
- * Ver si se omitirán más mensajes mientras se está en un mapa de teclas.
+ * See if more propmts will be skipped while in a keymap.
  */
 static bool keymap_auto_more;
 
 #ifdef ALLOW_BORG
 
 /*
- * Mega-Truco -- gancho especial "inkey_hack".  XXX XXX XXX
+ * Mega-Hack -- special "inkey_hack" hook.  XXX XXX XXX
  *
- * Este gancho de función especial permite que el "Borg" (ver en otra parte) tome
- * el control de la función "inkey()" y sustituya pulsaciones de teclas falsas.
+ * This special function hook allows the "Borg" (see elsewhere) to take
+ * control of the "inkey()" function, and substitute in fake keypresses.
  */
 struct keypress(*inkey_hack)(int flush_first) = NULL;
 
 #endif /* ALLOW_BORG */
 
 /**
- * Obtener una pulsación de tecla del usuario.
+ * Get a keypress from the user.
  *
- * Esta función reconoce algunos "parámetros globales". Estas son variables
- * que, si se establecen a true antes de llamar a esta función, tendrán un efecto
- * en esta función, y que siempre se restablecen a false por esta función
- * antes de que esta función regrese. Por lo tanto, funcionan como parámetros
- * normales, excepto que la mayoría de las llamadas a esta función pueden ignorarlos.
+ * This function recognizes a few "global parameters".  These are variables
+ * which, if set to true before calling this function, will have an effect
+ * on this function, and which are always reset to false by this function
+ * before this function returns.  Thus they function just like normal
+ * parameters, except that most calls to this function can ignore them.
  *
- * Si "inkey_xtra" es true, entonces se vaciarán todas las pulsaciones de tecla pendientes.
- * Esto es establecido por flush(), que en realidad no vacía nada por sí mismo
- * pero usa esa bandera para desencadenar un vaciado retrasado.
+ * If "inkey_xtra" is true, then all pending keypresses will be flushed.
+ * This is set by flush(), which doesn't actually flush anything itself
+ * but uses that flag to trigger delayed flushing.
  *
- * Si "inkey_scan" es true, entonces devolveremos inmediatamente "cero" si no hay
- * una pulsación de tecla disponible, en lugar de esperar una.
+ * If "inkey_scan" is true, then we will immediately return "zero" if no
+ * keypress is available, instead of waiting for a keypress.
  *
- * Si "inkey_flag" es true, entonces estamos esperando un comando en la interfaz
- * del mapa principal, y no deberíamos mostrar un cursor.
+ * If "inkey_flag" is true, then we are waiting for a command in the main
+ * map interface, and we shouldn't show a cursor.
  *
- * Si estamos esperando una pulsación de tecla, y ninguna está lista, entonces
- * refrescaremos (una vez) la ventana que estaba activa cuando se llamó a esta función.
+ * If we are waiting for a keypress, and no keypress is ready, then we will
+ * refresh (once) the window which was active when this function was called.
  *
- * Nótese que "back-quote" se convierte automáticamente en "escape" por
- * conveniencia en máquinas sin tecla "escape".
+ * Note that "back-quote" is automatically converted into "escape" for
+ * convenience on machines with no "escape" key.
  *
- * Si "angband_term[0]" no está activo, lo activaremos durante esta
- * función, para que los diversos archivos "main-xxx.c" puedan asumir que la entrada
- * solo se solicita (a través de "Term_inkey()") cuando "angband_term[0]" está activo.
+ * If "angband_term[0]" is not active, we will make it active during this
+ * function, so that the various "main-xxx.c" files can assume that input
+ * is only requested (via "Term_inkey()") when "angband_term[0]" is active.
  *
- * Mega-Truco -- Esta función se usa como punto de entrada para limpiar la
- * variable "signal_count", y la variable "character_saved".
+ * Mega-Hack -- This function is used as the entry point for clearing the
+ * "signal_count" variable, and of the "character_saved" variable.
  *
- * Mega-Truco -- Nótese el uso de "inkey_hack" para permitir que el "Borg" robe
- * el control del teclado del usuario.
+ * Mega-Hack -- Note the use of "inkey_hack" to allow the "Borg" to steal
+ * control of the keyboard from the user.
  */
 ui_event inkey_ex(void)
 {
@@ -174,27 +174,27 @@ ui_event inkey_ex(void)
 
 	term *old = Term;
 
-	/* Vacío retrasado */
+	/* Delayed flush */
 	if (inkey_xtra) {
 		Term_flush();
 		inkey_next = NULL;
 		inkey_xtra = false;
 	}
 
-	/* Usar el puntero "inkey_next" */
+	/* Use the "inkey_next" pointer */
 	while (inkey_next && inkey_next->code) {
-		/* Obtener el siguiente carácter y avanzar */
+		/* Get next character, and advance */
 		ke.key = *inkey_next++;
 
-		/* Cancelar los diversos "parámetros globales" */
+		/* Cancel the various "global parameters" */
 		inkey_flag = false;
 		inkey_scan = 0;
 
-		/* Echar un vistazo a la tecla, y ver si queremos omitir más mensajes */
+		/* Peek at the key, and see if we want to skip more prompts */
 		if (ke.key.code == '(') {
 			keymap_auto_more = true;
-			/* Como no estamos devolviendo este carácter, asegurarnos de que la
-			 * siguiente tecla funcione bien */
+			/* Since we are not returning this char, make sure the
+			 * next key below works well */
 			if (!inkey_next || !inkey_next->code) {
 				ke.type = EVT_NONE;
 				break;
@@ -202,8 +202,8 @@ ui_event inkey_ex(void)
 			continue;
 		} else if (ke.key.code == ')') {
 			keymap_auto_more = false;
-			/* Como no estamos devolviendo este carácter, asegurarnos de que la
-			 * siguiente tecla funcione bien */
+			/* Since we are not returning this char, make sure the
+			 * next key below works well */
 			if (!inkey_next || !inkey_next->code) {
 				ke.type = EVT_NONE;
 				break;
@@ -211,118 +211,118 @@ ui_event inkey_ex(void)
 			continue;
 		}
 
-		/* Aceptar resultado */
+		/* Accept result */
 		return (ke);
 	}
 
-	/* asegurarse de que la bandera para omitir más mensajes está desactivada */
+	/* make sure that the flag to skip more prompts is off */
 	keymap_auto_more = false;
 
-	/* Olvidar puntero */
+	/* Forget pointer */
 	inkey_next = NULL;
 
 #ifdef ALLOW_BORG
-	/* Mega-Truco -- Usar el gancho especial */
+	/* Mega-Hack -- Use the special hook */
 	if (inkey_hack)
 	{
 		ke.key = (*inkey_hack)(inkey_xtra);
 		if (ke.key.type != EVT_NONE)
 		{
-			/* Cancelar los diversos "parámetros globales" */
+			/* Cancel the various "global parameters" */
 			inkey_flag = false;
 			inkey_scan = 0;
 			ke.type = EVT_KBRD;
 
-			/* Aceptar resultado */
+			/* Accept result */
 			return (ke);
 		}
 	}
 #endif /* ALLOW_BORG */
 
-	/* Obtener el estado del cursor */
+	/* Get the cursor state */
 	(void)Term_get_cursor(&cursor_state);
 
-	/* Mostrar el cursor si está esperando, excepto a veces en modo "comando" */
+	/* Show the cursor if waiting, except sometimes in "command" mode */
 	if (!inkey_scan && (!inkey_flag || screen_save_depth ||
 						(OPT(player, show_target) && target_sighted())))
 		(void)Term_set_cursor(true);
 
 
-	/* Activar pantalla principal */
+	/* Activate main screen */
 	Term_activate(term_screen);
 
 
-	/* Obtener una tecla */
+	/* Get a key */
 	while (ke.type == EVT_NONE) {
-		/* Manejar "inkey_scan == SCAN_INSTANT */
+		/* Handle "inkey_scan == SCAN_INSTANT */
 		if (inkey_scan == SCAN_INSTANT &&
 			(0 != Term_inkey(&kk, false, false)))
 			break;
 
 
-		/* Vaciar salida una vez cuando ninguna tecla está lista */
+		/* Flush output once when no key ready */
 		if (!done && (0 != Term_inkey(&kk, false, false))) {
-			/* Activar terminal adecuado */
+			/* Activate proper term */
 			Term_activate(old);
 
-			/* Vaciar salida */
+			/* Flush output */
 			Term_fresh();
 
-			/* Activar pantalla principal */
+			/* Activate main screen */
 			Term_activate(term_screen);
 
-			/* Mega-Truco -- restablecer bandera guardada */
+			/* Mega-Hack -- reset saved flag */
 			character_saved = false;
 
-			/* Mega-Truco -- restablecer contador de señal */
+			/* Mega-Hack -- reset signal counter */
 			signal_count = 0;
 
-			/* Solo una vez */
+			/* Only once */
 			done = true;
 		}
 
 
-		/* Obtener una tecla (ver arriba) */
+		/* Get a key (see above) */
 		ke = inkey_aux(inkey_scan);
 
 		if (inkey_scan && ke.type == EVT_NONE)
-			/* La pulsación de tecla expiró. Necesitamos detenernos aquí. */
+			/* The keypress timed out. We need to stop here. */
 			break;
 
-		/* Tratar back-quote como escape */
+		/* Treat back-quote as escape */
 		if (ke.key.code == '`')
 			ke.key.code = ESCAPE;
 	}
 
-	/* Restaurar la terminal */
+	/* Restore the term */
 	Term_activate(old);
 
-	/* Restaurar el cursor */
+	/* Restore the cursor */
 	Term_set_cursor(cursor_state);
 
-	/* Cancelar los diversos "parámetros globales" */
+	/* Cancel the various "global parameters" */
 	inkey_flag = false;
 	inkey_scan = 0;
 
-	/* Devolver la pulsación de tecla */
+	/* Return the keypress */
 	return (ke);
 }
 
 
 /**
- * Obtener una pulsación de tecla o clic del ratón del usuario e ignorarlo.
+ * Get a keypress or mouse click from the user and ignore it.
  */
 void anykey(void)
 {
 	ui_event ke = EVENT_EMPTY;
   
-	/* Solo aceptar una pulsación de tecla o clic de ratón */
+	/* Only accept a keypress or mouse click */
 	while (ke.type != EVT_MOUSE && ke.type != EVT_KBRD)
 		ke = inkey_ex();
 }
 
 /**
- * Obtener una "pulsación de tecla" del usuario.
+ * Get a "keypress" from the user.
  */
 struct keypress inkey(void)
 {
@@ -332,7 +332,7 @@ struct keypress inkey(void)
 		   ke.type != EVT_MOUSE && ke.type != EVT_BUTTON)
 		ke = inkey_ex();
 
-	/* Hacer que el evento sea una pulsación de tecla */
+	/* Make the event a keypress */
 	if (ke.type == EVT_ESCAPE) {
 		ke.type = EVT_KBRD;
 		ke.key.code = ESCAPE;
@@ -355,14 +355,14 @@ struct keypress inkey(void)
 }
 
 /**
- * Obtener una "pulsación de tecla" o una "pulsación de ratón" del usuario.
- * al regresar, el evento debe ser una pulsación de tecla o una pulsación de ratón
+ * Get a "keypress" or a "mousepress" from the user.
+ * on return the event must be either a key press or a mouse press
  */
 ui_event inkey_m(void)
 {
 	ui_event ke = EVENT_EMPTY;
 
-	/* Solo aceptar una pulsación de tecla */
+	/* Only accept a keypress */
 	while (ke.type != EVT_ESCAPE && ke.type != EVT_KBRD	&&
 		   ke.type != EVT_MOUSE  && ke.type != EVT_BUTTON)
 		ke = inkey_ex();
@@ -380,39 +380,39 @@ ui_event inkey_m(void)
 
 
 /**
- * Vaciar
+ * Flush
  */
 static void msg_flush(int x)
 {
 	uint8_t a = COLOUR_L_BLUE;
 
-	/* Pausa para respuesta */
+	/* Pause for response */
 	Term_putstr(x, 0, -1, a, "-más-");
 
 	if ((!OPT(player, auto_more)) && !keymap_auto_more)
 		anykey();
 
-	/* Limpiar la línea */
+	/* Clear the line */
 	Term_erase(0, 0, 255);
 }
 
 /**
- * Como msg_flush() pero dividir lo que ya se ha enviado al búfer del Terminal
- * para hacer espacio para el mensaje "-más-".
+ * Like msg_flush() but split what has already been pushed to the Term's
+ * buffer to make room for the "-more-" prompt.
  *
- * \param w es el número de columnas en la terminal
- * \param x apunta al entero que almacena la columna donde comenzará el siguiente
- * mensaje.
+ * \param w is the number of columns in the terminal
+ * \param x points to the integer storing the column where the next
+ * message will start.
  */
 static void msg_flush_split_existing(int w, int *x)
 {
-	/* Lugar por defecto para dividir lo que hay */
+	/* Default place to split what's there */
 	int split = MIN(*x, w - 8);
 	int i = split;
 	wchar_t *svc = NULL;
 	int *sva = NULL;
 
-	/* Encontrar el punto de división más a la derecha. */
+	/* Find the rightmost split point. */
 	while (i > w / 2) {
 		int a;
 		wchar_t c;
@@ -425,7 +425,7 @@ static void msg_flush_split_existing(int w, int *x)
 		}
 	}
 
-	/* Recordar lo que está en y después del punto de división. */
+	/* Remember what's on and after the split point. */
 	*x -= split;
 	if (*x > 0) {
 		svc = mem_alloc(*x * sizeof(*svc));
@@ -438,7 +438,7 @@ static void msg_flush_split_existing(int w, int *x)
 	Term_erase(split, 0, w);
 	msg_flush(split + 1);
 
-	/* Volver a poner lo que se recordó. */
+	/* Put back what was remembered. */
 	if (*x > 0) {
 		for (i = 0; i < *x; ++i) {
 			Term_putch(i, 0, sva[i], svc[i]);
@@ -452,34 +452,34 @@ static int message_column = 0;
 
 
 /**
- * El jugador tiene un mensaje pendiente
+ * Player has pending message
  */
 bool msg_flag;
 
 /**
- * Mostrar un mensaje en la línea superior de la pantalla.
+ * Output a message to the top line of the screen.
  *
- * Dividir mensajes largos en múltiples piezas (40-72 caracteres).
+ * Break long messages into multiple pieces (40-72 chars).
  *
- * Permitir que múltiples mensajes cortos "compartan" la línea superior.
+ * Allow multiple short messages to "share" the top line.
  *
- * Preguntar al usuario para asegurarse de que tiene la oportunidad de leerlos.
+ * Prompt the user to make sure he has a chance to read them.
  *
- * Estos mensajes se memorizan para referencia posterior (ver arriba).
+ * These messages are memorized for later reference (see above).
  *
- * Podríamos hacer un "Term_fresh()" para proporcionar "parpadeo" si es necesario.
+ * We could do a "Term_fresh()" to provide "flicker" if needed.
  *
- * La variable global "msg_flag" se puede limpiar para decirnos que "borremos" cualquier
- * mensaje "pendiente" que aún esté en la pantalla, en lugar de usar "msg_flush()".
- * Esto solo debe hacerse cuando se sabe que el usuario ha leído el mensaje.
+ * The global "msg_flag" variable can be cleared to tell us to "erase" any
+ * "pending" messages still on the screen, instead of using "msg_flush()".
+ * This should only be done when the user is known to have read the message.
  *
- * Debemos tener mucho cuidado al usar las funciones "msg("%s", )" sin
- * llamar explícitamente a la función especial "msg("%s", NULL)", ya que esto puede
- * resultar en la pérdida de información si la pantalla se limpia, o si cualquier cosa
- * se muestra en la línea superior.
+ * We must be very careful about using the "msg("%s", )" functions without
+ * explicitly calling the special "msg("%s", NULL)" function, since this may
+ * result in the loss of information if the screen is cleared, or if anything
+ * is displayed on the top line.
  *
- * Nótese que "msg("%s", NULL)" limpiará la línea superior incluso si no hay
- * mensajes pendientes.
+ * Note that "msg("%s", NULL)" will clear the top line even if no
+ * messages are pending.
  */
 void display_message(game_event_type unused, game_event_data *data, void *user)
 {
@@ -505,18 +505,18 @@ void display_message(game_event_type unused, game_event_data *data, void *user)
 	if (!msg || !Term || !character_generated)
 		return;
 
-	/* Obtener el tamaño */
+	/* Obtain the size */
 	(void)Term_get_size(&w, &h);
 
-	/* Reiniciar */
+	/* Reset */
 	if (!msg_flag) message_column = 0;
 
-	/* Longitud del mensaje */
+	/* Message Length */
 	n = (msg ? strlen(msg) : 0);
 
-	/* Vaciar cuando se solicite o sea necesario */
+	/* Flush when requested or needed */
 	if (message_column && (!msg || ((message_column + n) > (w - 8)))) {
-		/* Vaciar */
+		/* Flush */
 		if (message_column <= w - 8) {
 			msg_flush(message_column);
 			message_column = 0;
@@ -524,33 +524,33 @@ void display_message(game_event_type unused, game_event_data *data, void *user)
 			msg_flush_split_existing(w, &message_column);
 		}
 
-		/* Olvidarlo */
+		/* Forget it */
 		msg_flag = false;
 	}
 
-	/* Sin mensaje */
+	/* No message */
 	if (!msg) return;
 
 	/* Paranoia */
 	if (n > 1000) return;
 
-	/* Copiarlo */
+	/* Copy it */
 	my_strcpy(buf, msg, sizeof(buf));
 
-	/* Analizar el búfer */
+	/* Analyze the buffer */
 	t = buf;
 
-	/* Obtener el color del mensaje */
+	/* Get the color of the message */
 	color = message_type_color(type);
 
-	/* Dividir mensaje */
+	/* Split message */
 	while (message_column + n > w - 1) {
-		/* División por defecto */
+		/* Default split */
 		int split = MAX(w - 8 - message_column, 0);
 		int check = split;
 		char oops;
 
-		/* Encontrar el punto de división más a la derecha */
+		/* Find the rightmost split point */
 		while (check > MAX(w / 2 - message_column, 0)) {
 			--check;
 			if (t[check] == ' ') {
@@ -559,44 +559,44 @@ void display_message(game_event_type unused, game_event_data *data, void *user)
 			}
 		}
 
-		/* Guardar el carácter de división */
+		/* Save the split character */
 		oops = t[split];
 
-		/* Dividir el mensaje */
+		/* Split the message */
 		t[split] = '\0';
 
-		/* Mostrar parte del mensaje */
+		/* Display part of the message */
 		Term_putstr(message_column, 0, split, color, t);
 
-		/* Vaciar */
+		/* Flush it */
 		msg_flush(message_column + split + 1);
 
-		/* Restaurar el carácter de división */
+		/* Restore the split character */
 		t[split] = oops;
 
-		/* Insertar un espacio */
+		/* Insert a space */
 		t[--split] = ' ';
 
-		/* Prepararse para recurrir en el resto de "buf" */
+		/* Prepare to recurse on the rest of "buf" */
 		t += split; n -= split; message_column = 0;
 	}
 
-	/* Mostrar la cola del mensaje */
+	/* Display the tail of the message */
 	Term_putstr(message_column, 0, n, color, t);
 
-	/* Recordar el mensaje */
+	/* Remember the message */
 	msg_flag = true;
 
-	/* Recordar la posición */
+	/* Remember the position */
 	message_column += n + 1;
 }
 
 /**
- * Vaciar la salida antes de mostrar para dar énfasis
+ * Flush the output before displaying for emphasis
  */
 void bell_message(game_event_type unused, game_event_data *data, void *user)
 {
-	/* Vaciar la salida */
+	/* Flush the output */
 	Term_fresh();
 
 	display_message(unused, data, user);
@@ -604,16 +604,16 @@ void bell_message(game_event_type unused, game_event_data *data, void *user)
 }
 
 /**
- * Imprimir los mensajes en cola.
+ * Print the queued messages.
  */
 void message_flush(game_event_type unused, game_event_data *data, void *user)
 {
-	/* Reiniciar */
+	/* Reset */
 	if (!msg_flag) message_column = 0;
 
-	/* Vaciar cuando sea necesario */
+	/* Flush when needed */
 	if (message_column) {
-		/* Imprimir mensajes pendientes */
+		/* Print pending messages */
 		if (Term) {
 			int w, h;
 
@@ -626,35 +626,35 @@ void message_flush(game_event_type unused, game_event_data *data, void *user)
 			}
 		}
 
-		/* Olvidarlo */
+		/* Forget it */
 		msg_flag = false;
 
-		/* Reiniciar */
+		/* Reset */
 		message_column = 0;
 	}
 }
 
 
 /**
- * Limpiar la parte inferior de la pantalla
+ * Clear the bottom part of the screen
  */
 void clear_from(int row)
 {
 	int y;
 
-	/* Borrar filas solicitadas */
+	/* Erase requested rows */
 	for (y = row; y < Term->hgt; y++)
 		Term_erase(0, y, 255);
 }
 
 /**
- * La función de "manejo de pulsaciones de tecla" por defecto para askfor_aux()/askfor_aux_ext(),
- * esta toma la pulsación de tecla dada, el búfer de entrada, la longitud, etc., y realiza la
- * acción apropiada para esa pulsación de tecla, como mover el cursor a la izquierda o
- * insertar un carácter.
+ * The default "keypress handling function" for askfor_aux()/askfor_aux_ext(),
+ * this takes the given keypress, input buffer, length, etc, and does the
+ * appropriate action for that keypress, such as moving the cursor left or
+ * inserting a character.
  *
- * Debe devolver true cuando la edición del búfer esté "completa" (ej. al
- * presionar RETURN).
+ * It should return true when editing of the buffer is "complete" (e.g. on
+ * the press of RETURN).
  */
 bool askfor_aux_keypress(char *buf, size_t buflen, size_t *curs, size_t *len,
 						 struct keypress keypress, bool firsttime)
@@ -700,7 +700,7 @@ bool askfor_aux_keypress(char *buf, size_t buflen, size_t *curs, size_t *len,
 		{
 			char *ocurs, *oshift;
 
-			/* Si es la primera vez, retroceso significa "borrar todo" */
+			/* If this is the first time round, backspace means "delete all" */
 			if (firsttime) {
 				buf[0] = '\0';
 				*curs = 0;
@@ -708,36 +708,36 @@ bool askfor_aux_keypress(char *buf, size_t buflen, size_t *curs, size_t *len,
 				break;
 			}
 
-			/* Rechazar retroceder hacia la nada */
+			/* Refuse to backspace into oblivion */
 			if ((keypress.code == KC_BACKSPACE && *curs == 0) ||
 				(keypress.code == KC_DELETE && *curs >= ulen))
 				break;
 
 			/*
-			 * Mover la cadena desde k hasta nulo hacia la izquierda
-			 * en 1. Primero, hay que obtener el desplazamiento correspondiente a
-			 * la posición del cursor.
+			 * Move the string from k to nul along to the left
+			 * by 1.  First, have to get offset corresponding to
+			 * the cursor position.
 			 */
 			ocurs = utf8_fskip(buf, *curs, NULL);
 			assert(ocurs);
 			if (keypress.code == KC_BACKSPACE) {
-				/* Obtener desplazamiento del carácter anterior. */
+				/* Get offset of the previous character. */
 				oshift = utf8_rskip(ocurs, 1, buf);
 				assert(oshift);
 				memmove(oshift, ocurs, *len - (ocurs - buf));
-				/* Disminuir. */
+				/* Decrement. */
 				(*curs)--;
 				*len -= ocurs - oshift;
 			} else {
-				/* Obtener desplazamiento del siguiente carácter. */
+				/* Get offset of the next character. */
 				oshift = utf8_fskip(ocurs, 1, NULL);
 				assert(oshift);
 				memmove(ocurs, oshift, *len - (oshift - buf));
-				/* Disminuir */
+				/* Decrement */
 				*len -= oshift - ocurs;
 			}
 
-			/* Terminar */
+			/* Terminate */
 			buf[*len] = '\0';
 
 			break;
@@ -760,7 +760,7 @@ bool askfor_aux_keypress(char *buf, size_t buflen, size_t *curs, size_t *len,
 				break;
 			}
 
-			/* Limpiar el búfer si es la primera vez */
+			/* Clear the buffer if this is the first time round */
 			if (firsttime) {
 				buf[0] = '\0';
 				*curs = 0;
@@ -768,61 +768,62 @@ bool askfor_aux_keypress(char *buf, size_t buflen, size_t *curs, size_t *len,
 				atnull = 1;
 			}
 
-			/* Asegurarse de que tenemos suficiente espacio para el nuevo carácter */
+			/* Make sure we have enough room for the new character */
 			if (*len + n_enc >= buflen) {
 				break;
 			}
 
-			/* Insertar el carácter codificado. */
+			/* Insert the encoded character. */
 			if (atnull) {
 				ocurs = buf + *len;
 			} else {
 				ocurs = utf8_fskip(buf, *curs, NULL);
 				assert(ocurs);
 				/*
-				 * Mover el resto del búfer hacia adelante para hacer
-				 * espacio.
+				 * Move the rest of the buffer along to make
+				 * room.
 				 */
 				memmove(ocurs + n_enc, ocurs,
 					*len - (ocurs - buf));
 			}
 			memcpy(ocurs, encoded, n_enc);
 
-			/* Actualizar posición y longitud. */
+			/* Update position and length. */
 			(*curs)++;
 			*len += n_enc;
 
-			/* Terminar */
+			/* Terminate */
 			buf[*len] = '\0';
 
 			break;
 		}
 	}
 
-	/* Por defecto, no hemos terminado. */
+	/* By default, we aren't done. */
 	return false;
 }
 
 
 /**
- * Manejar un evento de ratón durante la edición de una cadena. Este es el manejador de ratón
- * por defecto para askfor_aux_ext().
+ * Handle a mouse event during editing of a string.  This is the default mouse
+ * event handler for askfor_aux_ext().
  *
- * \param buf es el búfer con la cadena a editar.
- * \param buflen es el número máximo de caracteres que se pueden almacenar en buf.
- * \param curs es el puntero a la posición del cursor en el búfer.
- * \param len es el puntero a la posición del primer carácter nulo en el búfer.
- * \param mouse es una descripción del evento de ratón a manejar.
- * \param firsttime es si esta es la primera llamada al manejador de teclas o
- * ratón en esta sesión de edición.
- * \return cero si la sesión de edición debe continuar, uno si la sesión de
- * edición debe terminar y se debe aceptar el contenido actual del búfer, o
- * dos si la sesión de edición debe terminar y se debe rechazar el contenido actual
- * del búfer.
+ * \param buf is the buffer with the string to be edited.
+ * \param buflen is the maximum number of characters that may be stored in buf.
+ * \param curs is the pointer to the position of the cursor in the buffer.
+ * \param len is the pointer to position of the first null character in the
+ * buffer.
+ * \param mouse is a description of the mouse event to handle.
+ * \param firsttime is whether or not this is the first call to the keypress or
+ * mouse handler in this editing session.
+ * \return zero if the editing session should continue, one if the editing
+ * session should end and the current contents of the buffer be accepted, or
+ * two if the editing session should end and the current contents of the buffer
+ * be rejected.
  *
- * askfor_aux_mouse() es muy simple. Cualquier clic de ratón termina la sesión
- * de edición, y si ese clic es con el segundo botón, el resultado de la
- * edición se rechaza.
+ * askfor_aux_mouse() is very simple.  Any mouse click terminates the editing
+ * session, and if that click is with the second button, the result of the
+ * editing is rejected.
  */
 int askfor_aux_mouse(char *buf, size_t buflen, size_t *curs, size_t *len,
 		struct mouseclick mouse, bool firsttime)
@@ -832,33 +833,33 @@ int askfor_aux_mouse(char *buf, size_t buflen, size_t *curs, size_t *len,
 
 
 /**
- * Obtener alguna entrada en la ubicación del cursor.
+ * Get some input at the cursor location.
  *
- * Se asume que el búfer se ha inicializado con una cadena por defecto.
- * Nótese que esta cadena a menudo está "vacía" (ver abajo).
+ * The buffer is assumed to have been initialized to a default string.
+ * Note that this string is often "empty" (see below).
  *
- * El búfer por defecto se muestra en amarillo hasta que se limpia, lo que sucede
- * en la primera pulsación de tecla, a menos que esa pulsación sea Retorno.
+ * The default buffer is displayed in yellow until cleared, which happens
+ * on the first keypress, unless that keypress is Return.
  *
- * Los caracteres normales limpian el valor por defecto y añaden el carácter.
- * Retroceso limpia el valor por defecto o elimina el carácter final.
- * Retorno acepta el contenido actual del búfer y devuelve true.
- * Escape limpia el búfer y la ventana y devuelve false.
+ * Normal chars clear the default and append the char.
+ * Backspace clears the default or deletes the final char.
+ * Return accepts the current buffer contents and returns true.
+ * Escape clears the buffer and the window and returns false.
  *
- * Nótese que 'len' se refiere al tamaño del búfer. La longitud máxima
- * de la entrada es 'len-1'.
+ * Note that 'len' refers to the size of the buffer.  The maximum length
+ * of the input is 'len-1'.
  *
- * 'keypress_h' es un puntero a una función para manejar pulsaciones de tecla, alterando
- * el búfer de entrada, la posición del cursor y similares según sea necesario. Ver
- * 'askfor_aux_keypress' (el manejador por defecto si suministras NULL para
- * 'keypress_h') para un ejemplo.
+ * 'keypress_h' is a pointer to a function to handle keypresses, altering
+ * the input buffer, cursor position and suchlike as required.  See
+ * 'askfor_aux_keypress' (the default handler if you supply NULL for
+ * 'keypress_h') for an example.
  */
 bool askfor_aux(char *buf, size_t len, bool (*keypress_h)(char *, size_t, size_t *, size_t *, struct keypress, bool))
 {
 	int y, x;
 
-	size_t k = 0;		/* Posición del cursor */
-	size_t nul = 0;		/* Posición del byte nulo en la cadena */
+	size_t k = 0;		/* Cursor position */
+	size_t nul = 0;		/* Position of the null byte in the string */
 
 	struct keypress ch = KEYPRESS_NULL;
 
@@ -868,86 +869,86 @@ bool askfor_aux(char *buf, size_t len, bool (*keypress_h)(char *, size_t, size_t
 	if (keypress_h == NULL)
 		keypress_h = askfor_aux_keypress;
 
-	/* Localizar el cursor */
+	/* Locate the cursor */
 	Term_locate(&x, &y);
 
 	/* Paranoia */
 	if ((x < 0) || (x >= 80)) x = 0;
 
-	/* Restringir la longitud */
+	/* Restrict the length */
 	if (x + len > 80) len = 80 - x;
 
-	/* Truncar la entrada por defecto */
+	/* Truncate the default entry */
 	buf[len-1] = '\0';
 
-	/* Obtener la posición del byte nulo */
+	/* Get the position of the null byte */
 	nul = strlen(buf);
 
-	/* Mostrar la respuesta por defecto */
+	/* Display the default answer */
 	Term_erase(x, y, (int)len);
 	Term_putstr(x, y, -1, COLOUR_YELLOW, buf);
 
-	/* Procesar entrada */
+	/* Process input */
 	while (!done) {
-		/* Colocar cursor */
+		/* Place cursor */
 		Term_gotoxy(x + k, y);
 
-		/* Obtener una tecla */
+		/* Get a key */
 		ch = inkey();
 
-		/* Dejar que el manejador de pulsaciones de tecla se encargue de la pulsación */
+		/* Let the keypress handler deal with the keypress */
 		done = keypress_h(buf, len, &k, &nul, ch, firsttime);
 
-		/* Actualizar la entrada */
+		/* Update the entry */
 		Term_erase(x, y, (int)len);
 		Term_putstr(x, y, -1, COLOUR_WHITE, buf);
 
-		/* Ya no es la primera vez */
+		/* Not the first time round anymore */
 		firsttime = false;
 	}
 
-	/* Hecho */
+	/* Done */
 	return (ch.code != ESCAPE);
 }
 
 
 /**
- * Actuar como askfor_aux() pero permitir la personalización de lo que sucede con la entrada
- * del ratón.
+ * Act like askfor_aux() but allow customization of what happens with mouse
+ * input.
  *
- * \param buf es el búfer con la cadena a editar.
- * \param len es el número máximo de caracteres que buf puede contener.
- * \param keypress_h es la función a llamar para manejar una pulsación de tecla. Puede ser
- * NULL. En ese caso, se usa askfor_aux_keypress(). La función toma seis
- * argumentos y debe devolver si se debe terminar esta sesión de
- * edición. El primer argumento es el búfer con la cadena a editar. El
- * segundo argumento es el número máximo de caracteres que se pueden almacenar en
- * ese búfer. El tercer argumento es un puntero a la posición del cursor
- * en el búfer. El cuarto argumento es un puntero a la posición del primer
- * carácter nulo en el búfer. El quinto argumento es una descripción de la
- * pulsación de tecla a manejar. El sexto argumento es si esta es la primera
- * llamada al manejador de pulsaciones de tecla o al manejador de ratón en esta sesión
- * de edición.
- * \param mouse_h es la función a llamar para manejar un clic de ratón. Puede ser
- * NULL. En ese caso, se usa askfor_aux_mouse(). La función toma seis
- * argumentos y debe devolver cero (esta sesión de edición debe continuar),
- * uno (esta sesión de edición debe terminar y se debe aceptar el resultado en el búfer),
- * o un valor distinto de cero diferente de uno (esta sesión de edición debe
- * terminar y no se debe aceptar el resultado en el búfer). El primer argumento
- * es el búfer con la cadena a editar. El segundo argumento es el número máximo de
- * caracteres que se pueden almacenar en ese búfer. El tercer argumento es un puntero a
- * la posición del cursor en el búfer. El cuarto argumento es un puntero a la
- * posición del primer carácter nulo en el búfer. El quinto argumento es una
- * descripción del evento de ratón a manejar. El sexto argumento es si esta es la
- * primera llamada al manejador de pulsaciones de tecla o al manejador de ratón en esta
- * sesión de edición.
+ * \param buf is the buffer with the string to edit.
+ * \param len is the maximum number of characters buf can hold.
+ * \param keypress_h is the function to call to handle a keypress.  It may be
+ * NULL.  In that case, askfor_aux_keypress() is used.  The function takes
+ * six arguments and should return whether or not to end this editing
+ * session.  The first argument is the buffer with the string to be edited.  The
+ * second argument is the maximum number of characters that can be stored in
+ * that buffer.  The third argument is a pointer to the position of the cursor
+ * in the buffer.  The fourth argument is a pointer to the position of the
+ * first null character in the buffer.  The fifth argument is a description of
+ * the keypress to be handled.  The sixth argument is whether or not this is
+ * the first call to the keypress handler or mouse handler in this editing
+ * session.
+ * \param mouse_h is the function to call to handle a mouse click.  It may be
+ * NULL.  In that case, askfor_aux_mouse() is used.  The function takes six
+ * arguments and should either return zero (this editing should session should
+ * continue), one (this editing session should end and the result in the buffer
+ * be accepted), or a non-zero value other than one (this editing session should
+ * end and the result in the buffer should not be accepted).  The first argument
+ * is the buffer with the string to be edited.  The second argument is the
+ * maximum number of characters that can be stored in that buffer.  The third
+ * argument is a pointer to the position of the cursor in the buffer.  The
+ * fourth argument is a pointer to the position of the first null character in
+ * the buffer.  The fifth argument is a description of the keypress to be
+ * handled.  The sixth argument is whether or not this is the first call to the
+ * keypress handler or mouse handler in this editing session.
  */
 bool askfor_aux_ext(char *buf, size_t len,
 	bool (*keypress_h)(char *, size_t, size_t *, size_t *, struct keypress, bool),
 	int (*mouse_h)(char *, size_t, size_t *, size_t *, struct mouseclick, bool))
 {
-	size_t k = 0;		/* Posición del cursor */
-	size_t nul = 0;		/* Posición del byte nulo en la cadena */
+	size_t k = 0;		/* Cursor position */
+	size_t nul = 0;		/* Position of the null byte in the string */
 	bool firsttime = true;
 	bool done = false;
 	bool accepted = true;
@@ -960,35 +961,35 @@ bool askfor_aux_ext(char *buf, size_t len,
 		mouse_h = askfor_aux_mouse;
 	}
 
-	/* Localizar el cursor */
+	/* Locate the cursor */
 	Term_locate(&x, &y);
 
 	/* Paranoia */
 	if (x < 0 || x >= 80) x = 0;
 
-	/* Restringir la longitud */
+	/* Restrict the length */
 	if (x + len > 80) len = 80 - x;
 
-	/* Truncar la entrada por defecto */
+	/* Truncate the default entry */
 	buf[len-1] = '\0';
 
-	/* Obtener la posición del byte nulo */
+	/* Get the position of the null byte */
 	nul = strlen(buf);
 
-	/* Mostrar la respuesta por defecto */
+	/* Display the default answer */
 	Term_erase(x, y, (int)len);
 	Term_putstr(x, y, -1, COLOUR_YELLOW, buf);
 
-	/* Procesar entrada */
+	/* Process input */
 	while (!done) {
 		ui_event in;
 
-		/* Colocar cursor */
+		/* Place cursor */
 		Term_gotoxy(x + k, y);
 
 		/*
-		 * Obtener entrada. Emular lo que hace inkey() sin forzar
-		 * eventos de ratón a parecer pulsaciones de tecla.
+		 * Get input.  Emulate what inkey() does without the coercing
+		 * mouse events to look like keystrokes.
 		 */
 		while (1) {
 			in = inkey_ex();
@@ -1007,7 +1008,7 @@ bool askfor_aux_ext(char *buf, size_t len,
 			}
 		}
 
-		/* Pasar al manejador apropiado. */
+		/* Pass on to the appropriate handler. */
 		if (in.type == EVT_KBRD) {
 			done = keypress_h(buf, len, &k, &nul, in.key,
 				firsttime);
@@ -1022,11 +1023,11 @@ bool askfor_aux_ext(char *buf, size_t len,
 			}
 		}
 
-		/* Actualizar la entrada */
+		/* Update the entry */
 		Term_erase(x, y, (int)len);
 		Term_putstr(x, y, -1, COLOUR_WHITE, buf);
 
-		/* Ya no es la primera vez */
+		/* Not the first time round anymore */
 		firsttime = false;
 	}
 
@@ -1035,9 +1036,9 @@ bool askfor_aux_ext(char *buf, size_t len,
 
 
 /**
- * Una función de "manejo de pulsaciones de tecla" para askfor_aux, que maneja el caso
- * especial de '*' para un nuevo "nombre" aleatorio y pasa cualquier otra "pulsación de tecla"
- * a través del manejador de "edición" por defecto.
+ * A "keypress" handling function for askfor_aux, that handles the special
+ * case of '*' for a new random "name" and passes any other "keypress"
+ * through to the default "editing" handler.
  */
 static bool get_name_keypress(char *buf, size_t buflen, size_t *curs,
 							  size_t *len, struct keypress keypress,
@@ -1068,20 +1069,21 @@ static bool get_name_keypress(char *buf, size_t buflen, size_t *curs,
 
 
 /**
- * Manejar un evento de ratón durante la edición de una cadena: presenta un menú contextual
- * con opciones apropiadas para manejar la edición del nombre de un personaje.
+ * Handle a mouse event during editing of a string:  presents a context menu
+ * with options appropriate for handling editing a character's name.
  *
- * \param buf es el búfer con la cadena a editar.
- * \param buflen es el número máximo de caracteres que se pueden almacenar en buf.
- * \param curs es el puntero a la posición del cursor en el búfer.
- * \param len es el puntero a la posición del primer carácter nulo en el búfer.
- * \param mouse es una descripción del evento de ratón a manejar.
- * \param firsttime es si esta es la primera llamada al manejador de teclas o
- * ratón en esta sesión de edición.
- * \return cero si la sesión de edición debe continuar, uno si la sesión de
- * edición debe terminar y se debe aceptar el contenido actual del búfer, o
- * dos si la sesión de edición debe terminar y se debe rechazar el contenido actual
- * del búfer.
+ * \param buf is the buffer with the string to be edited.
+ * \param buflen is the maximum number of characters that may be stored in buf.
+ * \param curs is the pointer to the position of the cursor in the buffer.
+ * \param len is the pointer to position of the first null character in the
+ * buffer.
+ * \param mouse is a description of the mouse event to handle.
+ * \param firsttime is whether or not this is the first call to the keypress or
+ * mouse handler in this editing session.
+ * \return zero if the editing session should continue, one if the editing
+ * session should end and the current contents of the buffer be accepted, or
+ * two if the editing session should end and the current contents of the buffer
+ * be rejected.
  */
 static int handle_name_mouse(char *buf, size_t buflen, size_t *curs,
 		size_t *len, struct mouseclick mouse, bool firsttime)
@@ -1093,17 +1095,17 @@ static int handle_name_mouse(char *buf, size_t buflen, size_t *curs,
 	int action;
 
 	/*
-	 * Un clic de ratón con el segundo botón termina la sesión de edición y
-	 * indica que el resultado de la edición debe ser rechazado.
+	 * A mouse click with the second button ends the editing session and
+	 * indicates that the result of editing should be rejected.
 	 */
 	if (mouse.button == 2) {
 		return result;
 	}
 
-	/* Por defecto, no terminar la sesión de edición. */
+	/* By default, don't end the editing session. */
 	result = 0;
 
-	/* Presentar un menú contextual con las acciones posibles. */
+	/* Present a context menu with the possible actions. */
 	labels = string_make(lower_case);
 	m = menu_dynamic_new();
 
@@ -1126,10 +1128,10 @@ static int handle_name_mouse(char *buf, size_t buflen, size_t *curs,
 
 	screen_load();
 
-	/* Hacer lo solicitado. */
+	/* Do what was requested. */
 	switch (action) {
 	case ACT_CTX_NAME_ACCEPT:
-		/* Terminar la sesión de edición y aceptar el resultado. */
+		/* End the editing session and accept the result. */
 		result = 1;
 		break;
 
@@ -1151,9 +1153,9 @@ static int handle_name_mouse(char *buf, size_t buflen, size_t *curs,
 
 
 /**
- * Obtiene un nombre para el personaje, reaccionando a los cambios de nombre.
+ * Gets a name for the character, reacting to name changes.
  *
- * Si sf es true, cambiamos el nombre del archivo guardado dependiendo del nombre del personaje.
+ * If sf is true, we change the savefile name depending on the character name.
  */
 bool get_character_name(char *buf, size_t buflen)
 {
@@ -1162,19 +1164,19 @@ bool get_character_name(char *buf, size_t buflen)
 	/* Paranoia */
 	event_signal(EVENT_MESSAGE_FLUSH);
 
-	/* Mostrar mensaje */
+	/* Display prompt */
 	prt("Introduce un nombre para tu personaje (* aleatorio): ", 0, 0);
 
-	/* Guardar el nombre del jugador */
+	/* Save the player name */
 	my_strcpy(buf, player->full_name, buflen);
 
-	/* Preguntar al usuario por una cadena */
+	/* Ask the user for a string */
 	res = askfor_aux_ext(buf, buflen, get_name_keypress, handle_name_mouse);
 
-	/* Limpiar mensaje */
+	/* Clear prompt */
 	prt("", 0, 0);
 
-	/* Volver al nombre anterior si el jugador no elige uno nuevo. */
+	/* Revert to the old name if the player doesn't pick a new one. */
 	if (!res)
 		my_strcpy(buf, player->full_name, buflen);
 
@@ -1184,12 +1186,12 @@ bool get_character_name(char *buf, size_t buflen)
 
 
 /**
- * Preguntar por una cadena del usuario.
+ * Prompt for a string from the user.
  *
- * El "prompt" debe tener la forma "Prompt: ".
+ * The "prompt" should take the form "Prompt: ".
  *
- * Ver "askfor_aux" para algunas notas sobre "buf" y "len", y sobre
- * el valor de retorno de esta función.
+ * See "askfor_aux" for some notes about "buf" and "len", and about
+ * the return value of this function.
  */
 static bool textui_get_string(const char *prompt, char *buf, size_t len)
 {
@@ -1198,72 +1200,72 @@ static bool textui_get_string(const char *prompt, char *buf, size_t len)
 	/* Paranoia */
 	event_signal(EVENT_MESSAGE_FLUSH);
 
-	/* Mostrar mensaje */
+	/* Display prompt */
 	prt(prompt, 0, 0);
 
-	/* Preguntar al usuario por una cadena */
+	/* Ask the user for a string */
 	res = askfor_aux(buf, len, NULL);
 
-	/* Limpiar mensaje */
+	/* Clear prompt */
 	prt("", 0, 0);
 
-	/* Resultado */
+	/* Result */
 	return (res);
 }
 
 
 
 /**
- * Solicitar una "cantidad" del usuario
+ * Request a "quantity" from the user
  */
 static int textui_get_quantity(const char *prompt, int max)
 {
 	int amt = 1;
 
-	/* Preguntar si es necesario */
+	/* Prompt if needed */
 	if (max != 1) {
 		char tmp[80];
 		char buf[80];
 
-		/* Construir un mensaje si es necesario */
+		/* Build a prompt if needed */
 		if (!prompt) {
-			/* Construir un mensaje */
+			/* Build a prompt */
 			strnfmt(tmp, sizeof(tmp), "Cantidad (0-%d, *=todo): ", max);
 
-			/* Usar ese mensaje */
+			/* Use that prompt */
 			prompt = tmp;
 		}
 
-		/* Construir el valor por defecto */
+		/* Build the default */
 		strnfmt(buf, sizeof(buf), "%d", amt);
 
-		/* Preguntar por una cantidad */
+		/* Ask for a quantity */
 		if (!get_string(prompt, buf, 7)) return (0);
 
-		/* Extraer un número */
+		/* Extract a number */
 		amt = atoi(buf);
 
-		/* Un asterisco o letra significa "todo" */
+		/* A star or letter means "all" */
 		if ((buf[0] == '*') || isalpha((unsigned char)buf[0])) amt = max;
 	}
 
-	/* Aplicar el máximo */
+	/* Enforce the maximum */
 	if (amt > max) amt = max;
 
-	/* Aplicar el mínimo */
+	/* Enforce the minimum */
 	if (amt < 0) amt = 0;
 
-	/* Devolver el resultado */
+	/* Return the result */
 	return (amt);
 }
 
 
 /**
- * Verificar algo con el usuario
+ * Verify something with the user
  *
- * El "prompt" debe tener la forma "¿Consulta? "
+ * The "prompt" should take the form "Query? "
  *
- * Nótese que se añade "[s/n]" al mensaje.
+ * Note that "[y/n]" is appended to the prompt.
  */
 static bool textui_get_check(const char *prompt)
 {
@@ -1272,22 +1274,22 @@ static bool textui_get_check(const char *prompt)
 	char buf[80];
 
 	/*
-	 * Construir un mensaje "útil"; hacer esto primero para que los mensajes construidos por
-	 * format() no se vean afectados por los efectos secundarios de event_signal().
+	 * Build a "useful" prompt; do this first so prompts built by
+	 * format() won't run afoul of event_signal()'s side effects.
 	 */
 	strnfmt(buf, 78, "%.70s[s/n] ", prompt);
 
 	/* Paranoia */
 	event_signal(EVENT_MESSAGE_FLUSH);
 
-	/* Preguntar por ello */
+	/* Prompt for it */
 	prt(buf, 0, 0);
 	ke = inkey_m();
 
-	/* Borrar el mensaje */
+	/* Erase the prompt */
 	prt("", 0, 0);
 
-	/* Negación normal */
+	/* Normal negation */
 	if (ke.type == EVT_MOUSE) {
 		if ((ke.mouse.button != 1) && (ke.mouse.y != 0))
 			return (false);
@@ -1296,18 +1298,18 @@ static bool textui_get_check(const char *prompt)
 			return (false);
 	}
 
-	/* Éxito */
+	/* Success */
 	return (true);
 }
 
-/* TODO: refactorizar get_check() en términos de get_char() */
+/* TODO: refactor get_check() in terms of get_char() */
 /**
- * Preguntar al usuario que responda con un carácter. Las opciones son una cadena constante,
- * ej. "snm"; len es la longitud de la cadena constante, y fallback debe
- * ser la respuesta por defecto si el usuario pulsa escape o una tecla inválida.
+ * Ask the user to respond with a character. Options is a constant string,
+ * e.g. "yns"; len is the length of the constant string, and fallback should
+ * be the default answer if the user hits escape or an invalid key.
  *
- * Ejemplo: get_char("¿Estudiar? ", "snm", 3, 'n')
- *     Esto pregunta "¿Estudiar? [snm]" y el valor por defecto es 'n'.
+ * Example: get_char("Study? ", "yns", 3, 'n')
+ *     This prompts "Study? [yns]" and defaults to 'n'.
  *
  */
 char get_char(const char *prompt, const char *options, size_t len, char fallback)
@@ -1318,76 +1320,76 @@ char get_char(const char *prompt, const char *options, size_t len, char fallback
 	/* Paranoia */
 	event_signal(EVENT_MESSAGE_FLUSH);
 
-	/* Construir un mensaje "útil" */
+	/* Build a "useful" prompt */
 	strnfmt(buf, 78, "%.70s[%s] ", prompt, options);
 
-	/* Preguntar por ello */
+	/* Prompt for it */
 	prt(buf, 0, 0);
 
-	/* Obtener una respuesta aceptable */
+	/* Get an acceptable answer */
 	key = inkey();
 
-	/* Convertir respuesta a minúsculas si es necesario */
+	/* Lowercase answer if necessary */
 	if (key.code >= 'A' && key.code <= 'Z') key.code += 32;
 
-	/* Ver si la tecla está en nuestra cadena de opciones */
+	/* See if key is in our options string */
 	if (!strchr(options, (char)key.code))
 		key.code = fallback;
 
-	/* Borrar el mensaje */
+	/* Erase the prompt */
 	prt("", 0, 0);
 
-	/* Éxito */
+	/* Success */
 	return key.code;
 }
 
 
 /**
- * Forma nativa de texto para obtener un nombre de archivo.
+ * Text-native way of getting a filename.
  */
 static bool get_file_text(const char *suggested_name, char *path, size_t len)
 {
 	char buf[160];
 
-	/* Obtener nombre de archivo */
+	/* Get filename */
 	my_strcpy(buf, suggested_name, sizeof buf);
 	
 	if (!arg_force_name) {
 			
 			if (!get_string("Nombre de archivo: ", buf, sizeof buf)) return false;
 
-			/* Asegurarse de que es realmente un nombre de archivo */
+			/* Make sure it's actually a filename */
 			if (buf[0] == '\0' || buf[0] == ' ') return false;
 	} else {
 		int old_len;
 		time_t ltime;
 		struct tm *today;
 
-		/* Obtener la hora actual */
+		/* Get the current time */
 		time(&ltime);
 		today = localtime(&ltime);
 
 		prt("Nombre de archivo: ", 0,0);
 
-		/* Sobrescribir el ".txt" que se añadió */
+		/* Overwrite the ".txt" that was added */
 		assert(strlen(buf) >= 4);
 		old_len = strlen(buf) - 4;
 		strftime(buf + old_len, sizeof(buf) - len, "-%Y-%m-%d-%H-%M.txt", today);
 
-		/* Preguntar al usuario para confirmar o cancelar el volcado de archivo */
+		/* Prompt the user to confirm or cancel the file dump */
 		if (!get_check(format("¿Confirmar escritura en %s? ", buf))) return false;
 
 
 	}
 
-	/* Construir la ruta */
+	/* Build the path */
 	path_build(path, len, ANGBAND_DIR_USER, buf);
 
-	/* Verificar si ya existe */
+	/* Check if it already exists */
 	if (file_exists(path) && !get_check("¿Reemplazar archivo existente? "))
 		return false;
 
-	/* Decir al usuario dónde se guardó. */
+	/* Tell the user where it's saved to. */
 	prt(format("Guardando como %s.", path), 0, 0);
 	anykey();
 	prt("", 0, 0);
@@ -1399,8 +1401,8 @@ static bool get_file_text(const char *suggested_name, char *path, size_t len)
 
 
 /**
- * Obtener un nombre de ruta para guardar un archivo, dado el nombre sugerido. Devuelve el
- * resultado en "path".
+ * Get a pathname to save a file to, given the suggested name.  Returns the
+ * result in "path".
  */
 bool (*get_file)(const char *suggested_name, char *path, size_t len) = get_file_text;
 
@@ -1408,14 +1410,14 @@ bool (*get_file)(const char *suggested_name, char *path, size_t len) = get_file_
 
 
 /**
- * Pregunta por una pulsación de tecla
+ * Prompts for a keypress
  *
- * El "prompt" debe tener la forma "Comando: "
+ * The "prompt" should take the form "Command: "
  * -------
- * Advertencia - esta función asume que el comando introducido es un carácter ASCII,
- *            y por lo tanto debe usarse con mucha precaución - NRM
+ * Warning - this function assumes that the entered command is an ASCII
+ *           character, and so should be used with great caution - NRM
  * -------
- * Devuelve true a menos que el carácter sea "Escape"
+ * Returns true unless the character is "Escape"
  */
 static bool textui_get_com(const char *prompt, char *command)
 {
@@ -1436,19 +1438,19 @@ bool get_com_ex(const char *prompt, ui_event *command)
 	/* Paranoia XXX XXX XXX */
 	event_signal(EVENT_MESSAGE_FLUSH);
 
-	/* Mostrar un mensaje */
+	/* Display a prompt */
 	prt(prompt, 0, 0);
 
-	/* Obtener una tecla */
+	/* Get a key */
 	ke = inkey_m();
 
-	/* Limpiar el mensaje */
+	/* Clear the prompt */
 	prt("", 0, 0);
 
-	/* Guardar el comando */
+	/* Save the command */
 	*command = ke;
 
-	/* Hecho */
+	/* Done */
 	if ((ke.type == EVT_KBRD && ke.key.code != ESCAPE) ||
 		(ke.type == EVT_MOUSE))
 		return true;
@@ -1458,9 +1460,9 @@ bool get_com_ex(const char *prompt, ui_event *command)
 
 
 /**
- * Pausa para respuesta del usuario
+ * Pause for user response
  *
- * Esta función es estúpida.  XXX XXX XXX
+ * This function is stupid.  XXX XXX XXX
  */
 void pause_line(struct term *tm)
 {
@@ -1485,17 +1487,17 @@ static int dir_transitions[10][10] =
 };
 
 /**
- * Solicitar una dirección de "movimiento" (1,2,3,4,5(opcional),6,7,8,9) del usuario.
+ * Request a "movement" direction (1,2,3,4,5(optional),6,7,8,9) from the user.
  *
- * Devuelve true si se eligió una dirección, en caso contrario devuelve false.
+ * Return true if a direction was chosen, otherwise return false.
  *
- * Esta función debe usarse para todos los comandos "repetibles", como
- * correr, caminar, abrir, cerrar, derribar, desarmar, clavar, excavar, etc., así
- * como todos los comandos que deben hacer referencia a una casilla adyacente al jugador.
- * Si el comando no permite la casilla debajo del jugador, pasa false
- * para allow_5. De lo contrario, usa true para allow_5.
+ * This function should be used for all "repeatable" commands, such as
+ * run, walk, open, close, bash, disarm, spike, tunnel, etc, as well
+ * as all commands which must reference a grid adjacent to the player.
+ * If the command does not allow the grid under the player, pass false
+ * for allow_5.  Otherwise, use true for allow_5.
  *
- * La dirección "0" es ilegal y no se aceptará.
+ * The direction, "0", is illegal and will not be accepted.
  */
 static bool textui_get_rep_dir(int *dp, bool allow_5)
 {
@@ -1503,17 +1505,18 @@ static bool textui_get_rep_dir(int *dp, bool allow_5)
 
 	ui_event ke;
 
-	/* Inicializar */
+	/* Initialize */
 	(*dp) = 0;
 
-	/* Obtener una dirección */
+	/* Get a direction */
 	while (!dir) {
 		/* Paranoia*/
 		event_signal(EVENT_MESSAGE_FLUSH);
 
-		/* Obtener la primera pulsación de tecla - la primera prueba es para evitar mostrar el
-		 * mensaje de dirección si ya hay una pulsación de tecla en cola y esperando - esto solo
-		 * evita un mensaje parpadeante si hay un retraso de movimiento "perezoso". */
+		/* Get first keypress - the first test is to avoid displaying the
+		 * prompt for direction if there's already a keypress queued up
+		 * and waiting - this just avoids a flickering prompt if there is
+		 * a "lazy" movement delay. */
 		inkey_scan = SCAN_INSTANT;
 		ke = inkey_ex();
 		inkey_scan = SCAN_OFF;
@@ -1525,7 +1528,7 @@ static bool textui_get_rep_dir(int *dp, bool allow_5)
 			ke = inkey_ex();
 		}
 
-		/* Verificar coordenadas del ratón, u obtener pulsaciones de tecla hasta que se elija una dirección */
+		/* Check mouse coordinates, or get keypresses until a dir is chosen */
 		if (ke.type == EVT_MOUSE) {
 			if (ke.mouse.button == 1) {
 				int y = KEY_GRID_Y(ke);
@@ -1535,7 +1538,7 @@ static bool textui_get_rep_dir(int *dp, bool allow_5)
 
 				dir = pathfind_direction_to(from, to);
 			} else if (ke.mouse.button == 2) {
-				/* Limpiar el mensaje */
+				/* Clear the prompt */
 				prt("", 0, 0);
 
 				return (false);
@@ -1547,19 +1550,19 @@ static bool textui_get_rep_dir(int *dp, bool allow_5)
 				int this_dir;
 
 				if (ke.key.code == ESCAPE) {
-					/* Limpiar el mensaje */
+					/* Clear the prompt */
 					prt("", 0, 0);
 
 					return (false);
 				}
 
-				/* XXX Idealmente mostrar y mover el cursor aquí para indicar
-				 la dirección actualmente "Pendiente". XXX */
+				/* XXX Ideally show and move the cursor here to indicate
+				 the currently "Pending" direction. XXX */
 				this_dir = target_dir_allow(ke.key, allow_5,
 					true);
 
 				if (this_dir == ESCAPE) {
-					/* Limpiar el mensaje */
+					/* Clear the prompt */
 					prt("", 0, 0);
 
 					return (false);
@@ -1574,71 +1577,71 @@ static bool textui_get_rep_dir(int *dp, bool allow_5)
 				ke = inkey_ex();
 			}
 
-			/* 5 es equivalente a "escape" */
+			/* 5 is equivalent to "escape" */
 			if (dir == 5 && !allow_5) {
-				/* Limpiar el mensaje */
+				/* Clear the prompt */
 				prt("", 0, 0);
 
 				return (false);
 			}
 		}
 
-		/* Ups */
+		/* Oops */
 		if (!dir) bell();
 	}
 
-	/* Limpiar el mensaje */
+	/* Clear the prompt */
 	prt("", 0, 0);
 
-	/* Guardar dirección */
+	/* Save direction */
 	(*dp) = dir;
 
-	/* Éxito */
+	/* Success */
 	return (true);
 }
 
 /**
- * Obtener una "dirección de puntería" (1,2,3,4,6,7,8,9 o 5) del usuario.
+ * Get an "aiming direction" (1,2,3,4,6,7,8,9 or 5) from the user.
  *
- * Devuelve true si se eligió una dirección, en caso contrario devuelve false.
+ * Return true if a direction was chosen, otherwise return false.
  *
- * La dirección "5" es especial, y significa "usar objetivo actual".
+ * The direction "5" is special, and means "use current target".
  *
- * Esta función rastrea y usa la "dirección global", y usa
- * esa como la "dirección deseada", si está establecida.
+ * This function tracks and uses the "global direction", and uses
+ * that as the "desired direction", if it is set.
  *
- * Nótese que "Forzar Objetivo", si está activado, anulará la interacción del usuario,
- * si ya hay un objetivo utilizable establecido.
+ * Note that "Force Target", if set, will pre-empt user interaction,
+ * if there is a usable target already set.
  */
 static bool textui_get_aim_dir(int *dp)
 {
-	/* Dirección global */
+	/* Global direction */
 	int dir = 0;
 	ui_event ke;
 
 	const char *p;
 
-	/* Inicializar */
+	/* Initialize */
 	(*dp) = 0;
 
-	/* Auto-objetivo si se solicita */
+	/* Auto-target if requested */
 	if (OPT(player, use_old_target) && target_okay() && !dir) dir = 5;
 
-	/* Preguntar hasta estar satisfecho */
+	/* Ask until satisfied */
 	while (!dir) {
 		/*
-		 * Si generar una advertencia audible sobre un fallo de
-		 * objetivo.
+		 * Whether to generate an audible warning about a targeting
+		 * failure.
 		 */
 		bool need_beep = false;
 
-		/* Elegir un mensaje */
+		/* Choose a prompt */
 		if (!target_okay())
 			p = "¿Dirección ('*' o <clic> para objetivo, \"'\" para el más cercano, Escape para cancelar)? ";
 		else
 			p = "¿Dirección ('5' para objetivo, '*' o <clic> para re-objetivar, Escape para cancelar)? ";
 
-		/* Obtener un comando (o Cancelar) */
+		/* Get a command (or Cancel) */
 		if (!get_com_ex(p, &ke)) break;
 
 		if (ke.type == EVT_MOUSE) {
@@ -1652,12 +1655,12 @@ static bool textui_get_aim_dir(int *dp)
 			}
 		} else if (ke.type == EVT_KBRD) {
 			if (ke.key.code == '*') {
-				/* Establecer nuevo objetivo, usar objetivo si es legal */
+				/* Set new target, use target if legal */
 				if (target_set_interactive(TARGET_KILL, -1, -1,
 						false))
 					dir = 5;
 			} else if (ke.key.code == '\'') {
-				/* Establecer al objetivo más cercano */
+				/* Set to closest target */
 				if (target_set_closest(TARGET_KILL, NULL)) {
 					dir = 5;
 				} else {
@@ -1671,14 +1674,14 @@ static bool textui_get_aim_dir(int *dp)
 					need_beep = true;
 				}
 			} else {
-				/* Dirección posible */
+				/* Possible direction */
 				int keypresses_handled = 0;
 
 				while (ke.key.code != 0){
 					int this_dir;
 
-					/* XXX Idealmente mostrar y mover el cursor aquí para indicar
-					 * la dirección actualmente "Pendiente". XXX */
+					/* XXX Ideally show and move the cursor here to indicate
+					 * the currently "Pending" direction. XXX */
 					this_dir = target_dir_allow(ke.key,
 						false, true);
 
@@ -1695,8 +1698,8 @@ static bool textui_get_aim_dir(int *dp)
 					if (player->opts.lazymove_delay == 0 || ++keypresses_handled > 1)
 						break;
 
-					/* Ver si hay una segunda pulsación de tecla dentro del período
-					 * de tiempo definido. */
+					/* See if there's a second keypress within the defined
+					 * period of time. */
 					inkey_scan = player->opts.lazymove_delay;
 					ke = inkey_ex();
 				}
@@ -1707,18 +1710,18 @@ static bool textui_get_aim_dir(int *dp)
 		if (need_beep) bell();
 	}
 
-	/* Sin dirección */
+	/* No direction */
 	if (!dir) return (false);
 	
-	/* Guardar dirección */
+	/* Save direction */
 	(*dp) = dir;
 	
-	/* Se introdujo una dirección "válida" */
+	/* A "valid" direction was entered */
 	return (true);
 }
 
 /**
- * Inicializar los ganchos de UI para dar entrada solicitada por el juego
+ * Initialise the UI hooks to give input asked for by the game
  */
 void textui_input_init(void)
 {
@@ -1740,11 +1743,11 @@ void textui_input_init(void)
 }
 
 
-/*** Procesamiento de entrada ***/
+/*** Input processing ***/
 
 
 /**
- * Obtener un contador de comandos, con la tecla '0'.
+ * Get a command count, with the '0' key.
  */
 static int textui_get_count(void)
 {
@@ -1759,11 +1762,11 @@ static int textui_get_count(void)
 		if (ke.code == ESCAPE)
 			return -1;
 
-		/* Edición simple (suprimir o retroceso) */
+		/* Simple editing (delete or backspace) */
 		else if (ke.code == KC_DELETE || ke.code == KC_BACKSPACE)
 			count = count / 10;
 
-		/* Datos numéricos reales */
+		/* Actual numeric data */
 		else if (isdigit((unsigned char) ke.code)) {
 			count = count * 10 + D2I(ke.code);
 
@@ -1772,8 +1775,8 @@ static int textui_get_count(void)
 				count = 9999;
 			}
 		} else {
-			/* Cualquier cosa no numérica pasa directamente a la entrada de comandos */
-			/* XXX molesto código fijo de la tecla del menú de acción */
+			/* Anything non-numeric passes straight to command input */
+			/* XXX nasty hardcoding of action menu key */
 			if (ke.code != KC_ENTER)
 				Term_keypress(ke.code, ke.mods);
 
@@ -1787,21 +1790,21 @@ static int textui_get_count(void)
 
 
 /**
- * Búfer especial para contener la acción del mapa de teclas actual
+ * Special buffer to hold the action of the current keymap
  */
 static struct keypress request_command_buffer[256];
 
 
 /**
- * Solicitar un comando del usuario.
+ * Request a command from the user.
  *
- * Nótese que "caret" ("^") se trata de forma especial, y se usa para
- * permitir la entrada manual de caracteres de control. Esto se puede usar
- * en muchas máquinas para solicitar excavación repetida (Ctrl-H) y
- * en Macintosh para solicitar "Control-Caret".
+ * Note that "caret" ("^") is treated specially, and is used to
+ * allow manual input of control characters.  This can be used
+ * on many machines to request repeated tunneling (Ctrl-H) and
+ * on the Macintosh to request "Control-Caret".
  *
- * Nótese que "backslash" se trata de forma especial, y se usa para evitar cualquier
- * entrada de mapa de teclas para el siguiente carácter. Esto es útil para macros.
+ * Note that "backslash" is treated specially, and is used to bypass any
+ * keymap entry for the following character.  This is useful for macros.
  */
 ui_event textui_get_command(int *count)
 {
@@ -1815,24 +1818,24 @@ ui_event textui_get_command(int *count)
 
 
 
-	/* Obtener comando */
+	/* Get command */
 	while (1) {
-		/* No se necesita vaciado */
+		/* No flush needed */
 		msg_flag = false;
 
-		/* Activar "modo comando" */
+		/* Activate "command mode" */
 		inkey_flag = true;
 
-		/* Activar cursor si se solicita */
+		/* Toggle on cursor if requested */
 		if (OPT(player, highlight_player)) {
 			Term_set_cursor(true);
 			move_cursor_relative(player->grid.y, player->grid.x);
 		}
 
-		/* Obtener un comando */
+		/* Get a command */
 		ke = inkey_ex();
 
-		/* Desactivar cursor */
+		/* Toggle off cursor */
 		if (OPT(player, highlight_player)) {
 			Term_set_cursor(false);
 		}
@@ -1853,14 +1856,14 @@ ui_event textui_get_command(int *count)
 				}
 
 				case '\\': {
-					/* Permitir omitir mapas de teclas */
+					/* Allow keymaps to be bypassed */
 					(void)get_com_ex("Comando: ", &ke);
 					keymap_ok = false;
 					break;
 				}
 
 				case '^': {
-					/* Permitir introducir "caracteres de control" */
+					/* Allow "control chars" to be entered */
 					if (!get_com_ex("Control: ", &ke)
 							|| ke.type != EVT_KBRD) {
 						continue;
@@ -1874,40 +1877,40 @@ ui_event textui_get_command(int *count)
 				}
 			}
 
-			/* Encontrar cualquier mapa de teclas relevante */
+			/* Find any relevant keymap */
 			if (keymap_ok)
 				act = keymap_find(mode, ke.key);
 		}
 
-		/* Borrar la línea de mensaje */
+		/* Erase the message line */
 		prt("", 0, 0);
 
 		if (ke.type == EVT_BUTTON) {
-			/* Los botones siempre se especifican en el conjunto de teclas estándar */
+			/* Buttons are always specified in standard keyset */
 			act = tmp;
 			tmp[0] = ke.key;
 		}
 
-		/* Aplicar mapa de teclas si no estamos ya dentro de un mapa de teclas */
+		/* Apply keymap if not inside a keymap already */
 		if (ke.key.code && act && !inkey_next) {
 			size_t n = 0;
 			while (act[n].type)
 				n++;
 
-			/* Hacer espacio para el terminador */
+			/* Make room for the terminator */
 			n += 1;
 
-			/* Instalar el mapa de teclas */
+			/* Install the keymap */
 			memcpy(request_command_buffer, act, n * sizeof(struct keypress));
 
-			/* Empezar a usar el búfer */
+			/* Start using the buffer */
 			inkey_next = request_command_buffer;
 
-			/* Continuar */
+			/* Continue */
 			continue;
 		}
 
-		/* Hecho */
+		/* Done */
 		break;
 	}
 
@@ -1915,13 +1918,13 @@ ui_event textui_get_command(int *count)
 }
 
 /**
- * Verificar que ningún objeto usado actualmente está impidiendo la acción 'c'
+ * Check no currently worn items are stopping the action 'c'
  */
 bool key_confirm_command(unsigned char c)
 {
 	int i;
 
-	/* Escanear equipo */
+	/* Scan equipment */
 	for (i = 0; i < player->body.count; i++) {
 		char verify_inscrip[] = "^*";
 		unsigned n;
@@ -1929,10 +1932,10 @@ bool key_confirm_command(unsigned char c)
 		struct object *obj = slot_object(player, i);
 		if (!obj) continue;
 
-		/* Configurar cadena a buscar, ej. "^d" */
+		/* Set up string to look for, e.g. "^d" */
 		verify_inscrip[1] = c;
 
-		/* Verificar comando */
+		/* Verify command */
 		n = check_for_inscrip(obj, "^*") +
 				check_for_inscrip(obj, verify_inscrip);
 		while (n--) {
@@ -1946,17 +1949,17 @@ bool key_confirm_command(unsigned char c)
 
 
 /**
- * Procesar una pulsación de tecla de la interfaz de texto.
+ * Process a textui keypress.
  */
 bool textui_process_key(struct keypress kp, unsigned char *c, int count)
 {
 	keycode_t key = kp.code;
 
-	/* Comando nulo */
+	/* Null command */
 	if (key == '\0' || key == ESCAPE || key == ' ' || key == '\a')
 		return true;
 
-	/* Pulsación de tecla inválida */
+	/* Invalid keypress */
 	if (key > UCHAR_MAX)
 		return false;
 

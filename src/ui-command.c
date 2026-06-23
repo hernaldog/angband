@@ -1,6 +1,6 @@
 /**
  * \file ui-command.c
- * \brief Manejar el procesamiento de comandos solo de la interfaz de usuario.
+ * \brief Deal with UI only command processing.
  *
  * Copyright (c) 1997-2014 Angband developers
  *
@@ -50,58 +50,58 @@
 
 
 /**
- * Redibujar la pantalla
+ * Redraw the screen
  *
- * Este comando realiza varias actualizaciones de bajo nivel, limpia todas las ventanas
- * "extra", hace un redibujado total de la ventana principal, y solicita todas las
- * actualizaciones y redibujados interesantes que se me ocurren.
+ * This command performs various low level updates, clears all the "extra"
+ * windows, does a total redraw of the main window, and requests all of the
+ * interesting updates and redraws that I can think of.
  *
- * Este comando también se usa para "instanciar" los resultados de que el usuario
- * seleccione varias cosas, como el modo gráfico, por lo que debe llamar
- * al gancho "TERM_XTRA_REACT" antes de redibujar las ventanas.
+ * This command is also used to "instantiate" the results of the user
+ * selecting various things, such as graphics mode, so it must call
+ * the "TERM_XTRA_REACT" hook before redrawing the windows.
  *
  */
 void do_cmd_redraw(void)
 {
-	/* Vaciar de bajo nivel */
+	/* Low level flush */
 	Term_flush();
 
-	/* Reiniciar "inkey()" */
+	/* Reset "inkey()" */
 	event_signal(EVENT_INPUT_FLUSH);
 
 	if (character_dungeon)
 		verify_panel();
 
-	/* Reaccionar a los cambios */
+	/* React to changes */
 	Term_xtra(TERM_XTRA_REACT, 0);
 
 	if (character_dungeon) {
-		/* Combinar la mochila (más tarde) */
+		/* Combine the pack (later) */
 		player->upkeep->notice |= (PN_COMBINE);
 
-		/* Actualizar antorcha, equipo */
+		/* Update torch, gear */
 		player->upkeep->update |= (PU_TORCH | PU_INVEN);
 
-		/* Actualizar cosas */
+		/* Update stuff */
 		player->upkeep->update |= (PU_BONUS | PU_HP | PU_SPELLS);
 
-		/* Actualizar completamente lo visual */
+		/* Fully update the visuals */
 		player->upkeep->update |= (PU_UPDATE_VIEW | PU_MONSTERS);
 
-		/* Redibujar todo */
+		/* Redraw everything */
 		player->upkeep->redraw |= (PR_BASIC | PR_EXTRA | PR_MAP | PR_INVEN |
 								   PR_EQUIP | PR_MESSAGE | PR_MONSTER |
 								   PR_OBJECT | PR_MONLIST | PR_ITEMLIST);
 	}
 
-	/* Limpiar pantalla */
+	/* Clear screen */
 	Term_clear();
 
 	if (character_dungeon) {
-		/* Actualizar */
+		/* Update */
 		handle_stuff(player);
 
-		/* Colocar el cursor sobre el jugador */
+		/* Place the cursor on the player */
 		if ((0 != character_dungeon) && OPT(player, show_target) &&
 			target_sighted()) {
 			struct loc target;
@@ -112,14 +112,14 @@ void do_cmd_redraw(void)
 		}
 	}
 
-	/* Redibujar cada ventana */
+	/* Redraw every window */
 	(void) Term_redraw_all();
 }
 
 
 
 /**
- * Mostrar las opciones y redibujar después.
+ * Display the options and redraw afterward.
  */
 void do_cmd_xxx_options(void)
 {
@@ -129,7 +129,7 @@ void do_cmd_xxx_options(void)
 
 
 /**
- * Invocado cuando el comando no es reconocido.
+ * Invoked when the command isn't recognised.
  */
 void do_cmd_unknown(void)
 {
@@ -138,7 +138,7 @@ void do_cmd_unknown(void)
 
 
 /**
- * Imprimir la versión y el aviso de derechos de autor.
+ * Print the version and copyright notice.
  */
 void do_cmd_version(void)
 {
@@ -157,14 +157,14 @@ void do_cmd_version(void)
 }
 
 /**
- * Verificar el comando de retiro (eliminar o suicidar personaje)
+ * Verify the retire command
  */
 void textui_cmd_retire(void)
 {
-	/* Vaciar entrada */
+	/* Flush input */
 	event_signal(EVENT_INPUT_FLUSH);
 
-	/* Verificar */
+	/* Verify */
 	if (player->total_winner) {
 		if (!get_check("¿Quieres eliminar tu personaje? "))
 			return;
@@ -174,7 +174,7 @@ void textui_cmd_retire(void)
 		if (!get_check("¿Realmente quieres eliminar tu personaje?"))
 			return;
 
-		/* Verificación especial para el retiro */
+		/* Special Verification for retirement */
 		prt("Por favor, verifica QUE TE RETIRAS DE ESTE PERSONAJE escribiendo el símbolo '@': ", 0, 0);
 		event_signal(EVENT_INPUT_FLUSH);
 		ch = inkey();
@@ -186,7 +186,7 @@ void textui_cmd_retire(void)
 }
 
 /**
- * Obtener entrada para el comando descansar
+ * Get input for the rest command
  */
 void textui_cmd_rest(void)
 {
@@ -194,24 +194,24 @@ void textui_cmd_rest(void)
 
 	char out_val[5] = "& ";
 
-	/* Preguntar por duración */
+	/* Ask for duration */
 	if (!get_string(p, out_val, sizeof(out_val))) return;
 
-	/* Descansar... */
+	/* Rest... */
 	if (out_val[0] == '&') {
-		/* ...hasta terminar */
+		/* ...until done */
 		cmdq_push(CMD_REST);
 		cmd_set_arg_choice(cmdq_peek(), "choice", REST_COMPLETE);
 	} else if (out_val[0] == '*') {
-		/* ...mucho */
+		/* ...a lot */
 		cmdq_push(CMD_REST);
 		cmd_set_arg_choice(cmdq_peek(), "choice", REST_ALL_POINTS);
 	} else if (out_val[0] == '!') {
-		/* ...hasta que PG o PM se llenen */
+		/* ...until HP or SP filled */
 		cmdq_push(CMD_REST);
 		cmd_set_arg_choice(cmdq_peek(), "choice", REST_SOME_POINTS);
 	} else {
-		/* ...algunos */
+		/* ...some */
 		int turns = atoi(out_val);
 		if (turns <= 0) return;
 		if (turns > 9999) turns = 9999;
@@ -223,7 +223,7 @@ void textui_cmd_rest(void)
 
 
 /**
- * Salir del juego.
+ * Quit the game.
  */
 void textui_quit(void)
 {
@@ -233,7 +233,7 @@ void textui_quit(void)
 
 /**
  * ------------------------------------------------------------------------
- * Código para guardar/cargar capturas de pantalla
+ * Screenshot loading/saving code
  * ------------------------------------------------------------------------ */
 
 static void write_html_escape_char(ang_file *fp, char *mbbuf, wchar_t c)
@@ -269,12 +269,12 @@ static void write_html_escape_char(ang_file *fp, char *mbbuf, wchar_t c)
 static void screenshot_term_query(int wid, int hgt, int x, int y, int *a, wchar_t *c)
 {
 	if (y < ROW_MAP || y >= hgt - ROW_BOTTOM_MAP || x < COL_MAP) {
-		/* Registrar todo fuera del mapa. */
+		/* Record everything outside the map. */
 		(void) Term_what(x, y, a, c);
 	} else {
 		/*
-		 * En el mapa, saltarse el relleno para mosaicos escalados. Según sea
-		 * necesario, rellenar las columnas y filas finales con espacios en blanco.
+		 * In the map, skip over the padding for scaled up tiles.  As
+		 * necessary, pad trailing columns and rows with blanks.
 		 */
 		int srcx = (x - COL_MAP) * tile_width + COL_MAP;
 		int srcy = (y - ROW_MAP) * tile_height + ROW_MAP;
@@ -290,11 +290,11 @@ static void screenshot_term_query(int wid, int hgt, int x, int y, int *a, wchar_
 
 
 /**
- * Tomar una captura de pantalla en html
+ * Take an html screenshot
  */
 void html_screenshot(const char *path, int mode, term *other_term)
 {
-	/* Poner el contenido de la otra terminal a la derecha por defecto. */
+	/* Put the contents of the other terminal on the right by default. */
 	bool other_left = false;
 	int y, x;
 	int main_wid, main_hgt, other_wid, other_hgt, wid, hgt;
@@ -318,14 +318,14 @@ void html_screenshot(const char *path, int mode, term *other_term)
 	mbbuf = mem_alloc(text_wcsz() + 1);
 	fp = file_open(path, MODE_WRITE, FTYPE_TEXT);
 
-	/* Ups */
+	/* Oops */
 	if (!fp) {
 		mem_free(mbbuf);
 		plog_fmt("¡No se puede escribir el archivo '%s'!", path);
 		return;
 	}
 
-	/* Obtener el tamaño actual de la pantalla */
+	/* Retrieve current screen size */
 	Term_get_size(&main_wid, &main_hgt);
 	if (other_term) {
 		Term_activate(other_term);
@@ -369,10 +369,10 @@ void html_screenshot(const char *path, int mode, term *other_term)
 			angband_color_table[COLOUR_WHITE][3]);
 	}
 
-	/* Volcar la pantalla */
+	/* Dump the screen */
 	for (y = 0; y < hgt; y++) {
 		for (x = 0; x < wid; x++) {
-			/* Obtener el atributo/carácter */
+			/* Get the attr/char */
 			if (x >= main_xst && x < main_xst + main_wid
 					&& y < main_hgt) {
 				screenshot_term_query(wid, hgt, x - main_xst, y,
@@ -391,7 +391,7 @@ void html_screenshot(const char *path, int mode, term *other_term)
 				c = ' ';
 			}
 
-			/* Establecer el primer plano y el fondo */
+			/* Set the foreground and background */
 			fg_colour = a % MAX_COLORS;
 			switch (a / MULT_BG)
 			{
@@ -410,13 +410,13 @@ void html_screenshot(const char *path, int mode, term *other_term)
 			}
 
 			/*
-			 * Cambio de color (para texto de foro, ignorar cambios si el carácter es
-			 * un espacio ya que el software del foro elimina los elementos [COLOR][/COLOR] que
-			 * solo contienen espacios en blanco)
+			 * Color change (for forum text, ignore changes if the character is
+			 * a space since the forum software strips [COLOR][/COLOR] elements that
+			 * only contain whitespace)
 			 */
 			if (oa != a && (mode == 0 || c != L' ')) {
 				if (oa == COLOUR_WHITE && mode == 0) {
-					/* Del blanco por defecto a otro color */
+					/* From the default white to another color */
 					file_putf(fp, new_color_fmt,
 							  angband_color_table[fg_colour][1],
 							  angband_color_table[fg_colour][2],
@@ -427,10 +427,10 @@ void html_screenshot(const char *path, int mode, term *other_term)
 				} else if (fg_colour == COLOUR_WHITE
 						&& bg_colour == COLOUR_DARK
 						&& mode == 0) {
-					/* De otro color al blanco por defecto */
+					/* From another color to the default white */
 					file_putf(fp, "%s", close_color_str);
 				} else {
-					/* Cambiar colores */
+					/* Change colors */
 					file_putf(fp, change_color_fmt,
 							  angband_color_table[fg_colour][1],
 							  angband_color_table[fg_colour][2],
@@ -440,11 +440,11 @@ void html_screenshot(const char *path, int mode, term *other_term)
 							  angband_color_table[bg_colour][3]);
 				}
 
-				/* Recordar el último color */
+				/* Remember the last color */
 				oa = a;
 			}
 
-			/* Escribir el carácter y escapar los caracteres HTML especiales */
+			/* Write the character and escape special HTML characters */
 			if (mode == 0) write_html_escape_char(fp, mbbuf, c);
 			else {
 				int nc = text_wctomb(mbbuf, c);
@@ -459,11 +459,11 @@ void html_screenshot(const char *path, int mode, term *other_term)
 			}
 		}
 
-		/* Terminar la fila */
+		/* End the row */
 		file_putf(fp, "\n");
 	}
 
-	/* Cerrar la última etiqueta font-color si es necesario */
+	/* Close the last font-color tag if necessary */
 	if (oa != COLOUR_WHITE && mode == 0) file_putf(fp, "%s", close_color_str);
 
 	if (mode == 0) {
@@ -474,7 +474,7 @@ void html_screenshot(const char *path, int mode, term *other_term)
 		file_putf(fp, "[/COLOR][/BC][/TT][/CODE]\n");
 	}
 
-	/* Cerrarlo */
+	/* Close it */
 	file_close(fp);
 
 	mem_free(mbbuf);
@@ -483,7 +483,7 @@ void html_screenshot(const char *path, int mode, term *other_term)
 
 
 /**
- * Guardar un volcado de pantalla en un archivo en formato html
+ * Save a screen dump to a file in html format
  */
 static void do_cmd_save_screen_html(int mode, term *other_term)
 {
@@ -497,33 +497,33 @@ static void do_cmd_save_screen_html(int mode, term *other_term)
 	dump_func dump_visuals [] = { dump_monsters, dump_features, dump_objects,
 								  dump_flavors, dump_colors };
 
-	/* Preguntar por un archivo */
+	/* Ask for a file */
 	if (!get_file(mode == 0 ? "dump.html" : "dump.txt",
 				  tmp_val, sizeof(tmp_val))) return;
 
-	/* Guardar preferencias actuales */
+	/* Save current preferences */
 	path_build(file_name, sizeof(file_name), ANGBAND_DIR_USER, "dump.prf");
 	fff = file_open(file_name, MODE_WRITE, FTYPE_TEXT);
 
-	/* Comprobar si hubo fallo */
+	/* Check for failure */
 	if (!fff) {
 		msg("El volcado de pantalla falló.");
 		event_signal(EVENT_MESSAGE_FLUSH);
 		return;
 	}
 
-	/* Volcar todos los visuales */
+	/* Dump all the visuals */
 	for (i = 0; i < N_ELEMENTS(dump_visuals); i++)
 		dump_visuals[i](fff);
 
 	file_close(fff);
 
-	/* Volcar la pantalla con atributos de carácter sin procesar */
+	/* Dump the screen with raw character attributes */
 	reset_visuals(false);
 	do_cmd_redraw();
 	html_screenshot(tmp_val, mode, other_term);
 
-	/* Recuperar la configuración gráfica actual */
+	/* Recover current graphics settings */
 	reset_visuals(true);
 	process_pref_file(file_name, true, false);
 	file_delete(file_name);
@@ -535,7 +535,7 @@ static void do_cmd_save_screen_html(int mode, term *other_term)
 
 
 /**
- * Guardar un volcado de pantalla en un archivo
+ * Save a screen dump to a file
  */
 void do_cmd_save_screen(void)
 {

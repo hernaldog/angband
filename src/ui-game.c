@@ -1,6 +1,6 @@
 /**
  * \file ui-game.c
- * \brief Gestión del juego para la interfaz de texto tradicional
+ * \brief Game management for the traditional text UI
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2015 Nick McConnell
@@ -76,42 +76,42 @@ struct savefile_getter_impl {
 };
 
 
-bool arg_wizard;			/* Argumento de línea de comandos -- Solicitar modo mago */
+bool arg_wizard;			/* Command arg -- Request wizard mode */
 
 #ifdef ALLOW_BORG
 bool screensaver = false;
 #endif /* ALLOW_BORG */
 
 /**
- * Búfer para contener el nombre del archivo guardado actual
+ * Buffer to hold the current savefile name
  */
 char savefile[1024];
 
 /**
- * Búfer para contener el nombre del guardado de pánico correspondiente a savefile.
- * Solo se establece y usa según sea necesario (en start_game() y handle_signal_abort()).
- * Usar almacenamiento estático para evitar complicaciones en el manejador de señales
- * (ej. espacio de pila limitado o la posibilidad de un montón lleno o corrupto).
+ * Buffer to hold the name of the panic save corresponding to savefile.  Only
+ * set and used as necessary (in start_game() and handle_signal_abort()).  Use
+ * static storage to avoid complications in the signal handler (i.e. limited
+ * stack space or the possibility of a full or corrupted heap).
  */
 char panicfile[1024];
 
 /**
- * Establecido por el frontend para realizar acciones necesarias al reiniciar después de la muerte
- * sin salir. Puede ser NULL.
+ * Set by the front end to perform necessary actions when restarting after death
+ * without exiting.  May be NULL.
  */
 void (*reinit_hook)(void) = NULL;
 
 
 /**
- * Aquí hay listas de comandos, almacenadas en este formato para que puedan ser
- * manipuladas fácilmente para, ej., pantallas de ayuda, o si un puerto quiere proporcionar un
- * menú nativo que contenga una lista de comandos.
+ * Here are lists of commands, stored in this format so that they can be
+ * easily maniuplated for e.g. help displays, or if a port wants to provide a
+ * native menu containing a command list.
  *
- * Considerar un diseño de dos paneles para los menús de comandos. XXX
+ * Consider a two-paned layout for the command menus. XXX
  */
 
 /**
- * Comandos de objetos
+ * Item commands
  */
 struct cmd_info cmd_item[] =
 {
@@ -134,7 +134,7 @@ struct cmd_info cmd_item[] =
 };
 
 /**
- * Acciones generales
+ * General actions
  */
 struct cmd_info cmd_action[] =
 {
@@ -154,7 +154,7 @@ struct cmd_info cmd_action[] =
 };
 
 /**
- * Comandos de gestión de objetos
+ * Item management commands
  */
 struct cmd_info cmd_item_manage[] =
 {
@@ -166,7 +166,7 @@ struct cmd_info cmd_item_manage[] =
 };
 
 /**
- * Comandos de acceso a información
+ * Information access commands
  */
 struct cmd_info cmd_info[] =
 {
@@ -189,7 +189,7 @@ struct cmd_info cmd_info[] =
 };
 
 /**
- * Comandos de utilidad/varios
+ * Utility/assorted commands
  */
 struct cmd_info cmd_util[] =
 {
@@ -204,7 +204,7 @@ struct cmd_info cmd_util[] =
 };
 
 /**
- * Comandos que no deben mostrarse al usuario
+ * Commands that shouldn't be shown to the user
  */
 struct cmd_info cmd_hidden[] =
 {
@@ -229,7 +229,7 @@ struct cmd_info cmd_hidden[] =
 };
 
 /**
- * Categorías de comandos del modo depuración; marcadores de posición para el sistema de menú Enter
+ * Debug mode command categories; placeholders for the Enter menu system
  */
 struct cmd_info cmd_debug[] =
 {
@@ -322,9 +322,9 @@ struct cmd_info cmd_debug_misc[] =
 };
 
 /**
- * Lista de listas de comandos; debido a la implementación en ui-context.c, todas las
- * entradas con menu_level == 0 deberían aparecer primero; la geometría fija en
- * ui-context.c limita el nivel máximo de anidamiento a 2
+ * List of command lists; because of the implementation in ui-context.c all
+ * entries with menu_level == 0 should appear first; hardwired geometry in
+ * ui-context.c limits the maximum nesting level to 2
  */
 struct command_list cmds_all[] =
 {
@@ -335,8 +335,8 @@ struct command_list cmds_all[] =
 	{ "Utilidades",        cmd_util,        N_ELEMENTS(cmd_util), 0, 0 },
 	{ "Ocultos",           cmd_hidden,      N_ELEMENTS(cmd_hidden), 0, 0 },
 	/*
-	 * Esto está anidado debajo de "Ocultos"->"Comandos de modo depuración" y solo
-	 * contiene categorías.
+	 * This is nested below "Hidden"->"Debug mode commands" and only
+	 * contains categories.
 	 */
 	{ "Depuración", cmd_debug, N_ELEMENTS(cmd_debug), 1, -1 },
 	/* Estos están anidados en "Depuración"; los nombres tienen que coincidir con cmd_debug. */
@@ -354,22 +354,22 @@ struct command_list cmds_all[] =
 
 
 
-/*** Funciones exportadas ***/
+/*** Exported functions ***/
 
 #define KEYMAP_MAX 2
 
-/* Lista de comandos directamente accesibles indexados por carácter */
+/* List of directly accessible commands indexed by char */
 static struct cmd_info *converted_list[KEYMAP_MAX][UCHAR_MAX+1];
 
 /*
- * Listas de comandos anidados; cada lista también está indexada por carácter pero no hay
- * distinción entre teclas originales/roguelike
+ * Lists of nested commands; each list is also indexed by char but there's no
+ * distinction between original/roguelike keys
  */
 static int n_nested = 0;
 static struct cmd_info ***nested_lists = NULL;
 
 /**
- * Inicializar la lista de comandos.
+ * Initialise the command list.
  */
 void cmd_init(void)
 {
@@ -377,7 +377,7 @@ void cmd_init(void)
 
 	memset(converted_list, 0, sizeof(converted_list));
 
-	/* Configurar almacenamiento para las listas de comandos anidados */
+	/* Set up storage for the nested command lists */
 	if (nested_lists != NULL) {
 		assert(n_nested >= 0);
 		for (j = 0; j < (size_t)n_nested; j++) {
@@ -397,19 +397,19 @@ void cmd_init(void)
 		}
 	}
 
-	/* Recorrer todos los comandos genéricos (-1 para la entrada final NULL) */
+	/* Go through all generic commands (-1 for NULL end entry) */
 	for (j = 0; j < N_ELEMENTS(cmds_all) - 1; j++)
 	{
 		struct cmd_info *commands = cmds_all[j].list;
 
-		/* Rellenar todo */
+		/* Fill everything in */
 		if (cmds_all[j].keymap == 0) {
 			for (i = 0; i < cmds_all[j].len; i++) {
-				/* Si una tecla roguelike no está establecida, usar la predeterminada */
+				/* If a roguelike key isn't set, use default */
 				if (!commands[i].key[1])
 					commands[i].key[1] = commands[i].key[0];
 
-				/* Saltar entradas que no tienen una tecla válida. */
+				/* Skip entries that don't have a valid key. */
 				if (!commands[i].key[0] || !commands[i].key[1])
 					continue;
 
@@ -424,14 +424,14 @@ void cmd_init(void)
 			assert(kidx < n_nested);
 			for (i = 0; i < cmds_all[j].len; i++) {
 				/*
-				 * Los comandos anidados no pasan por un mapa de teclas;
-				 * usar la predeterminada para la tecla roguelike.
+				 * Nested commands don't go through a keymap;
+				 * use the default for the roguelike key.
 				 */
 				commands[i].key[1] = commands[i].key[0];
 
 				/*
-				 * Verificar si hay teclas duplicadas en el mismo
-				 * conjunto de comandos.
+				 * Check for duplicated keys in the same
+				 * command set.
 				 */
 				assert(!nested_lists[kidx][commands[i].key[0]]);
 
@@ -463,8 +463,8 @@ unsigned char cmd_lookup_key_unktrl(cmd_code lookup_cmd, int mode)
 	unsigned char c = cmd_lookup_key(lookup_cmd, mode);
 
 	/*
-	 * Porque UN_KTRL('ctrl-d') (ej. comando de ignorar en roguelike) da 'd'
-	 * que es el comando de soltar en ambos conjuntos de teclas, usar UN_KTRL_CAP().
+	 * Because UN_KTRL('ctrl-d') (i.e. rogue-like ignore command) gives 'd'
+	 * which is the drop command in both keysets, use UN_KTRL_CAP().
 	 */
 	if (c < 0x20)
 		c = UN_KTRL_CAP(c);
@@ -484,7 +484,7 @@ cmd_code cmd_lookup(unsigned char key, int mode)
 
 
 /**
- * Devolver el índice en cmds_all para el nombre dado o -2 si no se encuentra.
+ * Return the index into cmds_all for the given name or -2 if not found.
  */
 size_t cmd_list_lookup_by_name(const char *name)
 {
@@ -493,10 +493,10 @@ size_t cmd_list_lookup_by_name(const char *name)
 	while (1) {
 		if (i >= (int) N_ELEMENTS(cmds_all)) {
 			/*
-			 * Devolver un valor negativo diferente de -1 para evitar
-			 * búsquedas futuras para el mismo nombre por ui-context.c.
-			 * Esas búsquedas están garantizadas a fallar ya que los
-			 * nombres en cmds_all no cambian.
+			 * Return a negative value other than -1 to prevent
+			 * future lookups for the same name by ui-context.c.
+			 * Those lookups are guaranteed to fail since the
+			 * names in cmds_all don't change.
 			 */
 			return -2;
 		}
@@ -509,8 +509,8 @@ size_t cmd_list_lookup_by_name(const char *name)
 
 
 /**
- * Analizar y ejecutar el comando actual
- * Dar "Advertencia" en comandos ilegales.
+ * Parse and execute the current command
+ * Give "Warning" on illegal commands.
  */
 void textui_process_command(void)
 {
@@ -529,27 +529,27 @@ void textui_process_command(void)
 		default: ;
 	}
 
-	/* Comando nulo */
+	/* Null command */
 	if (!key && done)
 		return;
 
 	if (key == KC_ENTER) {
-		/* Usar menús de comandos */
+		/* Use command menus */
 		cmd = textui_action_menu_choose();
 	} else {
-		/* Tecla de comando */
+		/* Command key */
 		cmd = converted_list[mode][key];
 	}
 
 	if (cmd && done) {
 		if (cmd->cmd || cmd->hook) {
-			/* Confirmar para inscripciones de equipo usado. */
+			/* Confirm for worn equipment inscriptions. */
 			if (!key_confirm_command(key)) cmd = NULL;
 		} else {
 			/*
-			 * Se refiere a comandos anidados. Obtener el comando
-			 * anidado. Estos no están sujetos a mapas de teclas y
-			 * heredan el contador.
+			 * It refers to nested commands.  Get the nested
+			 * command.  Those aren't subject to keymaps and
+			 * inherit the count.
 			 */
 			while (cmd && !cmd->cmd && !cmd->hook) {
 				char nestkey;
@@ -574,24 +574,24 @@ void textui_process_command(void)
 			}
 		}
 
-		/* Verificar requisitos previos. */
+		/* Check prereqs. */
 		if (cmd && cmd->prereq && !cmd->prereq()) cmd = NULL;
 
-		/* Dividir por tipo de comando */
+		/* Split on type of command */
 		if (cmd && cmd->hook) {
-			/* Comando de UI */
+			/* UI command */
 			cmd->hook();
 		} else if (cmd && cmd->cmd) {
-			/* Comando de juego */
+			/* Game command */
 			cmdq_push_repeat(cmd->cmd, count);
 		} else if (!cmd && inkey_next) {
 			/*
-			 * Si se está procesando un mapa de teclas, saltarse el resto si falla una
-			 * búsqueda de comando, confirmación o requisito previo. Para
-			 * mapas de teclas que especifican múltiples comandos, el jugador
-			 * podría querer continuar con el mapa de teclas, pero eso
-			 * requeriría saltarse las teclas en el mapa de teclas que
-			 * proporcionan entrada al comando que falló.
+			 * If processing a keymap, skip the rest if a command
+			 * lookup, confirmation, or prereq failed.  For
+			 * keymaps that specify multiple commands, the player
+			 * might want to continue with the keymap, but that
+			 * would require skipping over the keys in the keymap
+			 * that provide input to the command that failed.
 			 */
 			inkey_next = NULL;
 		}
@@ -600,8 +600,9 @@ void textui_process_command(void)
 		do_cmd_unknown();
 		if (inkey_next) {
 			/*
-			 * Como arriba, abandonar el resto de un mapa de teclas cuando se
-			 * esperaba un comando y lo que obtuvimos no fue reconocido.
+			 * As above, abandon the rest of a keymap when a
+			 * command was expected and what we got was not
+			 * recognized.
 			 */
 			inkey_next = NULL;
 		}
@@ -613,32 +614,32 @@ errr textui_get_cmd(cmd_context context)
 	if (context == CTX_GAME)
 		textui_process_command();
 
-	/* Si hemos llegado aquí, no hemos obtenido un comando. */
+	/* If we've reached here, we haven't got a command. */
 	return 1;
 }
 
 
 /**
- * Permitir la interrupción por parte del usuario durante comandos repetidos, correr y descansar.
+ * Allow for user abort during repeated commands, running and resting.
  *
- * Esto solo se comprobará durante cada 128º turno de juego mientras se descansa.
+ * This will only check during every 128th game turn while resting.
  */
 void check_for_player_interrupt(game_event_type type, game_event_data *data,
 								void *user)
 {
-	/* Verificar "interrupción del jugador" */
+	/* Check for "player abort" */
 	if (player->upkeep->running ||
 	    cmd_get_nrepeats() > 0 ||
 	    (player_is_resting(player) && !(turn & 0x7F))) {
 		ui_event e;
 
-		/* No esperar */
+		/* Do not wait */
 		inkey_scan = SCAN_INSTANT;
 
-		/* Verificar si hay una tecla */
+		/* Check for a key */
 		e = inkey_ex();
 		if (e.type != EVT_NONE) {
-			/* Vaciar búfer y molestar */
+			/* Flush and disturb */
 			event_signal(EVENT_INPUT_FLUSH);
 			disturb(player);
 			msg("Cancelado.");
@@ -651,7 +652,7 @@ static void pre_turn_refresh(void)
 	term *old = Term;
 	int j;
 	if (character_dungeon) {
-		/* Redibujar mapa */
+		/* Redraw map */
 		player->upkeep->redraw |= (PR_MAP | PR_STATE);
 		player->upkeep->redraw |= (PR_MONLIST | PR_ITEMLIST);
 		handle_stuff(player);
@@ -675,18 +676,18 @@ static void pre_turn_refresh(void)
 }
 
 /**
- * Empezar a jugar realmente, ya sea cargando un archivo guardado o creando
- * un nuevo personaje
+ * Start actually playing a game, either by loading a savefile or creating
+ * a new character
  */
 static bool start_game(bool new_game)
 {
 	const char *loadpath = savefile;
 	bool exists;
 
-	/* El jugador será resucitado si está vivo en el archivo guardado */
+	/* Player will be resuscitated if living in the savefile */
 	player->is_dead = true;
 
-	/* Intentar cargar */
+	/* Try loading */
 	savefile_get_panic_name(panicfile, sizeof(panicfile), loadpath);
 	safe_setuid_grab();
 	exists = loadpath[0] && file_exists(panicfile);
@@ -702,7 +703,7 @@ static bool start_game(bool new_game)
 				loadpath = panicfile;
 			}
 		} else {
-			/* Eliminar el guardado de pánico desactualizado. */
+			/* Remove the out-of-date panic save. */
 			safe_setuid_grab();
 			file_delete(panicfile);
 			safe_setuid_drop();
@@ -715,27 +716,27 @@ static bool start_game(bool new_game)
 		return false;
 	}
 
-	/* No se cargó un personaje vivo */
+	/* No living character loaded */
 	if (player->is_dead || new_game) {
 		character_generated = false;
 		textui_do_birth();
 	} else {
 		/*
-		 * Poner al día los objetos de maldición estándar con lo que el
-		 * jugador sabe.
+		 * Bring the stock curse objects up-to-date with what the
+		 * player knows.
 		 */
 		update_player_object_knowledge(player);
 	}
 
-	/* Informar a la UI de que hemos comenzado. */
+	/* Tell the UI we've started. */
 	event_signal(EVENT_LEAVE_INIT);
 	event_signal(EVENT_ENTER_GAME);
 	event_signal(EVENT_ENTER_WORLD);
 
-	/* Guardado aún no requerido. */
+	/* Save not required yet. */
 	player->upkeep->autosave = false;
 
-	/* Entrar al nivel, generando uno nuevo si es necesario */
+	/* Enter the level, generating a new one if needed */
 	if (!character_dungeon) {
 		prepare_next_level(player);
 	}
@@ -745,7 +746,7 @@ static bool start_game(bool new_game)
 }
 
 /**
- * Ayuda para select_savefile(): limpiar la matriz de cadenas
+ * Help select_savefile():  clean up the array of strings
  */
 static void cleanup_savefile_selection_strings(char **entries, int count)
 {
@@ -758,21 +759,21 @@ static void cleanup_savefile_selection_strings(char **entries, int count)
 }
 
 /**
- * Ayuda para play_game(): implementar el menú de selección de archivo guardado.
+ * Help play_game():  implement the savefile selection menu.
  *
- * \param retry indica que esta es una llamada repetida porque el archivo guardado seleccionado
- * por una anterior no pudo cargarse.
- * \param new_game apunta a un booleano. El valor apuntado al inicio no se usa.
- * Al salir, *new_game será true si el usuario seleccionó comenzar una nueva partida.
- * En caso contrario, será false.
+ * \param retry flags that this is a repeated call because the savefile selected
+ * by an earlier one could not be loaded.
+ * \param new_game points to a boolean.  The pointed to value at entry is not
+ * used.  At exit *new_game will be true if the user selected to start a new
+ * game.  Otherwise, it will be false.
  */
 static void select_savefile(bool retry, bool *new_game)
 {
-	/* Construir la lista de selecciones. */
+	/* Build the list of selections. */
 	savefile_getter g = NULL;
 	/*
-	 * Dejar la primera entrada para seleccionar una nueva partida. Se rellenará la
-	 * etiqueta más tarde.
+	 * Leave the first entry for selecting a new game.  Will fill in the
+	 * label later.
 	 */
 	int count = 1, allocated = 16;
 	char **entries = mem_zalloc(allocated * sizeof(*entries));
@@ -805,11 +806,11 @@ static void select_savefile(bool retry, bool *new_game)
 		names[count] = string_make(details->fnam);
 		if (suffix(savefile, details->fnam)) {
 			/*
-			 * Coincide con lo que está en savefile; ponerlo segundo en la
-			 * lista y marcarlo como entrada predeterminada. Si no se
-			 * fuerza el nombre, limpiar savefile y arg_name para
-			 * que la opción de nueva partida no esté configurada para sobrescribir
-			 * un archivo guardado existente.
+			 * Matches what's in savefile; put it second in the
+			 * list and mark it as the default entry.  If not
+			 * forcing the name, clear savefile and arg_name so
+			 * the new game option won't be set up to overwrite
+			 * an existing savefile.
 			 */
 			if (count != 1) {
 				char *hold_entry = entries[count];
@@ -835,8 +836,8 @@ static void select_savefile(bool retry, bool *new_game)
 		assert(allocated > 0 && !entries[0]);
 		if (default_entry && arg_force_name) {
 			/*
-			 * El nombre establecido por el frontend ya está en uso y los nombres
-			 * están forzados, así que no permitir la opción de nueva partida.
+			 * Name set by front end is already in use and names
+			 * are forced so don't allow the new game option.
 			 */
 			int i;
 
@@ -898,14 +899,14 @@ static void select_savefile(bool retry, bool *new_game)
 }
 
 /**
- * Jugar a Angband
+ * Play Angband
  */
 void play_game(enum game_mode_type mode)
 {
 	while (1) {
 		play_again = false;
 
-		/* Cargar un archivo guardado o crear un personaje, o ambos */
+		/* Load a savefile or birth a character, or both */
 		switch (mode) {
 		case GAME_LOAD:
 		case GAME_NEW:
@@ -933,16 +934,16 @@ void play_game(enum game_mode_type mode)
 			break;
 		}
 
-		/* Obtener comandos del usuario, luego procesar el mundo del juego
-		 * hasta que la cola de comandos esté vacía y se necesite un nuevo
-		 * comando del jugador */
+		/* Get commands from the user, then process the game world
+		 * until the command queue is empty and a new player command
+		 * is needed */
 		while (!player->is_dead && player->upkeep->playing) {
 			pre_turn_refresh();
 			cmd_get_hook(CTX_GAME);
 			run_game_loop();
 		}
 
-		/* Cerrar juego al morir o al salir */
+		/* Close game on death or quitting */
 		close_game(true);
 
 		if (!play_again) break;
@@ -961,7 +962,7 @@ void play_game(enum game_mode_type mode)
 }
 
 /**
- * Establecer el nombre del archivo guardado.
+ * Set the savefile name.
  */
 void savefile_set_name(const char *fname, bool make_safe, bool strip_suffix)
 {
@@ -971,8 +972,8 @@ void savefile_set_name(const char *fname, bool make_safe, bool strip_suffix)
 
 #if defined(SETGID)
 	/*
-	 * En sistemas SETGID, prefijamos el nombre del archivo con el UID del usuario
-	 * para saber de quién es cada uno.
+	 * On SETGID systems, we prefix the filename with the user's UID so we
+	 * know whose is whose.
 	 */
 
 	strnfmt(path, pathlen, "%d.", player_uid);
@@ -987,12 +988,12 @@ void savefile_set_name(const char *fname, bool make_safe, bool strip_suffix)
 		my_strcpy(path + off, fname, pathlen);
 	}
 
-	/* Guardar la ruta */
+	/* Save the path */
 	path_build(savefile, sizeof(savefile), ANGBAND_DIR_SAVE, path);
 }
 
 /**
- * Probar si savefile_set_name() genera un nombre que ya está en uso.
+ * Test whether savefile_set_name() generates a name that's already in use.
  */
 bool savefile_name_already_used(const char *fname, bool make_safe,
 		bool strip_suffix)
@@ -1010,7 +1011,7 @@ bool savefile_name_already_used(const char *fname, bool make_safe,
 }
 
 /**
- * Guardar el juego.
+ * Save the game.
  */
 void save_game(void)
 {
@@ -1018,37 +1019,37 @@ void save_game(void)
 }
 
 /**
- * Guardar el juego.
+ * Save the game.
  *
- * \return si el guardado fue exitoso.
+ * \return whether the save was successful.
  */
 bool save_game_checked(void)
 {
 	char path[1024];
 	bool result;
 
-	/* Molestar al jugador */
+	/* Disturb the player */
 	disturb(player);
 
-	/* Limpiar mensajes */
+	/* Clear messages */
 	event_signal(EVENT_MESSAGE_FLUSH);
 
-	/* Manejar eventos */
+	/* Handle stuff */
 	handle_stuff(player);
 
-	/* Mensaje */
+	/* Message */
 	prt("Guardando partida...", 0, 0);
 
-	/* Refrescar */
+	/* Refresh */
 	Term_fresh();
 
-	/* El jugador no está muerto */
+	/* The player is not dead */
 	my_strcpy(player->died_from, "(guardado)", sizeof(player->died_from));
 
-	/* Prohibir suspender */
+	/* Forbid suspend */
 	signals_ignore_tstp();
 
-	/* Guardar el jugador */
+	/* Save the player */
 	if (savefile_save(savefile)) {
 		prt("Guardando partida... listo.", 0, 0);
 		result = true;
@@ -1057,30 +1058,30 @@ bool save_game_checked(void)
 		result = false;
 	}
 
-	/* Refrescar */
+	/* Refresh */
 	Term_fresh();
 
-	/* Permitir suspender de nuevo */
+	/* Allow suspend again */
 	signals_handle_tstp();
 
-	/* Guardar las preferencias de ventana */
+	/* Save the window prefs */
 	path_build(path, sizeof(path), ANGBAND_DIR_USER, "window.prf");
 	if (!prefs_save(path, option_dump, "Volcar configuración de ventanas"))
 		prt("Fallo al guardar preferencias de subventana", 0, 0);
 
-	/* Refrescar */
+	/* Refresh */
 	Term_fresh();
 
-	/* Guardar memoria de monstruos en el directorio de usuario */
+	/* Save monster memory to user directory */
 	if (!lore_save("lore.txt")) {
 		msg("¡fallo al guardar lore!");
 		event_signal(EVENT_MESSAGE_FLUSH);
 	}
 
-	/* Refrescar */
+	/* Refresh */
 	Term_fresh();
 
-	/* Notar que el jugador no está muerto */
+	/* Note that the player is not dead */
 	my_strcpy(player->died_from, "(vivo y coleando)", sizeof(player->died_from));
 
 	return result;
@@ -1088,49 +1089,49 @@ bool save_game_checked(void)
 
 
 /**
- * Cerrar la partida actual (el jugador puede estar muerto o no).
+ * Close up the current game (player may or may not be dead).
  *
- * \param prompt_failed_save Si es true, preguntar al usuario si quiere reintentar si falla el guardado.
- * En caso contrario, no se emite ningún aviso.
+ * \param prompt_failed_save If true, prompt the user to retry if saving fails.
+ * Otherwise, no prompt is issued.
  *
- * Nótese que el archivo guardado no se guarda hasta que la lápida está
- * realmente visible y el jugador tiene la oportunidad de examinar
- * el inventario y tal. Esto permite hacer trampas si el juego
- * está equipado con un método "salir sin guardar". XXX XXX XXX
+ * Note that the savefile is not saved until the tombstone is
+ * actually displayed and the player has a chance to examine
+ * the inventory and such.  This allows cheating if the game
+ * is equipped with a "quit without save" method.  XXX XXX XXX
  */
 void close_game(bool prompt_failed_save)
 {
 	bool prompting = true;
 
-	/* Informar a la UI de que hemos terminado con el mundo */
+	/* Tell the UI we're done with the world */
 	event_signal(EVENT_LEAVE_WORLD);
 
-	/* Manejar eventos */
+	/* Handle stuff */
 	handle_stuff(player);
 
-	/* Vaciar los mensajes */
+	/* Flush the messages */
 	event_signal(EVENT_MESSAGE_FLUSH);
 
-	/* Vaciar la entrada */
+	/* Flush the input */
 	event_signal(EVENT_INPUT_FLUSH);
 
-	/* No suspender ahora */
+	/* No suspending now */
 	signals_ignore_tstp();
 
-	/* Aumentar la profundidad "icky" */
+	/* Increase "icky" depth */
 	screen_save_depth++;
 
-	/* Gestionar el archivo de randarts */
+	/* Deal with the randarts file */
 	if (OPT(player, birth_randarts)) {
 		deactivate_randart_file();
 	}
 
-	/* Gestionar muerte o vida */
+	/* Handle death or life */
 	if (player->is_dead) {
 		death_knowledge(player);
 		death_screen();
 
-		/* Guardar jugador muerto */
+		/* Save dead player */
 		while (prompting && !savefile_save(savefile)) {
 			if (!prompt_failed_save
 					|| !get_check("Fallo al guardar. ¿Reintentar? ")) {
@@ -1140,7 +1141,7 @@ void close_game(bool prompt_failed_save)
 			}
 		}
 	} else {
-		/* Guardar la partida */
+		/* Save the game */
 		while (prompting && !save_game_checked()) {
 			if (!prompt_failed_save
 					|| !get_check("Fallo al guardar. ¿Reintentar? ")) {
@@ -1158,39 +1159,39 @@ void close_game(bool prompt_failed_save)
 		}
 	}
 
-	/* Limpiar la lista de monstruos */
+	/* Wipe the monster list */
 	wipe_mon_list(cave, player);
 
-	/* Disminuir la profundidad "icky" */
+	/* Decrease "icky" depth */
 	screen_save_depth--;
 
-	/* Informar a la UI de que hemos terminado con el estado del juego */
+	/* Tell the UI we're done with the game state */
 	event_signal(EVENT_LEAVE_GAME);
 
-	/* Permitir suspender ahora */
+	/* Allow suspending now */
 	signals_handle_tstp();
 }
 
 
 /**
- * Enumerar los archivos guardados en el directorio de guardados que están disponibles para el
- * jugador actual.
+ * Enumerate savefiles in the savefile directory that are available to the
+ * current player.
  *
- * \param pg apunta al estado de la enumeración. Si *pg es NULL, la
- * enumeración comenzará desde cero. Después de enumerar, *pg debe ser
- * pasado a cleanup_savefile_getter() para liberar los recursos asignados.
- * \return true si se encontró otro archivo guardado útil para el jugador.
- * En ese caso, llamar a get_savefile_details() en *pg devolverá un resultado
- * no NULL. En caso contrario, devuelve false.
+ * \param pg points to the state for the enumeration.  If *pg is NULL, the
+ * enumeration will start from scratch.  After enumerating, *pg should be
+ * passed to cleanup_savefile_getter() to release any allocated resources.
+ * \return true if another savefile useful for the player was found.  In
+ * that case calling get_savefile_details() on *pg will return a non-NULL
+ * result.  Otherwise, return false.
  */
 bool got_savefile(savefile_getter *pg)
 {
 	char fname[256];
 
 	if (*pg == NULL) {
-		/* Inicializar la enumeración. */
+		/* Initialize the enumeration. */
 		*pg = mem_zalloc(sizeof(**pg));
-		/* Se necesitan privilegios elevados para leer del directorio de guardados. */
+		/* Need enhanced privileges to read from the save directory. */
 		safe_setuid_grab();
 		(*pg)->d = my_dopen(ANGBAND_DIR_SAVE);
 		safe_setuid_drop();
@@ -1199,7 +1200,7 @@ bool got_savefile(savefile_getter *pg)
 		}
 		(*pg)->have_savedir = true;
 		/*
-		 * Configurar el prefijo específico del usuario. Imita savefile_set_name().
+		 * Set up the user-specific prefix.  Mimics savefile_set_name().
 		 */
 #ifdef SETGID
 		strnfmt((*pg)->uid_c, sizeof((*pg)->uid_c), "%d.", player_uid);
@@ -1220,8 +1221,8 @@ bool got_savefile(savefile_getter *pg)
 		bool no_entry;
 
 		/*
-		 * También se necesitan privilegios elevados para las consultas de atributos de archivo
-		 * en my_dread().
+		 * Also need elevated privileges for the file attribute queries
+		 * in my_dread().
 		 */
 		safe_setuid_grab();
 		no_entry = !my_dread((*pg)->d, fname, sizeof(fname));
@@ -1231,7 +1232,7 @@ bool got_savefile(savefile_getter *pg)
 		}
 
 #ifdef SETGID
-		/* Verificar que el nombre del archivo guardado comienza con el ID del usuario. */
+		/* Check that the savefile name begins with the user's ID. */
 		if (!prefix(fname, (*pg)->uid_c)) {
 			continue;
 		}
@@ -1256,7 +1257,7 @@ bool got_savefile(savefile_getter *pg)
 
 
 /**
- * Devolver si el directorio de archivos guardados era al menos legible.
+ * Return whether the savefile directory was at all readable.
  */
 bool got_savefile_dir(const savefile_getter g)
 {
@@ -1265,11 +1266,11 @@ bool got_savefile_dir(const savefile_getter g)
 
 
 /**
- * Devolver los detalles para un archivo guardado enumerado por una llamada anterior a
+ * Return the details for a savefile enumerated by a prior call to
  * got_savefile().
  *
- * \return es NULL si la llamada anterior a get_savefile() falló. En caso contrario,
- * devuelve un puntero no nulo con los detalles sobre el archivo guardado enumerado.
+ * \return is NULL if the prior call to get_savefile() failed.  Otherwise,
+ * returns a non-null pointer with the details about the enumerated savefile.
  */
 const struct savefile_details *get_savefile_details(const savefile_getter g)
 {
@@ -1278,7 +1279,7 @@ const struct savefile_details *get_savefile_details(const savefile_getter g)
 
 
 /**
- * Limpiar los recursos asignados por got_savefile().
+ * Cleanup resources allocated by got_savefile().
  */
 void cleanup_savefile_getter(savefile_getter g)
 {
