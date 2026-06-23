@@ -1,6 +1,6 @@
 /**
  * \file ui-output.c
- * \brief Colocar texto en la pantalla, guardar y cargar la pantalla, manejo de paneles 
+ * \brief Putting text on the screen, screen saving and loading, panel handling
  *
  * Copyright (c) 2007 Pete Mack and others.
  *
@@ -24,13 +24,12 @@
 
 /**
  * ------------------------------------------------------------------------
- * Regiones
- * ------------------------------------------------------------------------
- */
+ * Regions
+ * ------------------------------------------------------------------------ */
 
 /**
- * Estas funciones se utilizan para manipular regiones en la pantalla, utilizadas
- * principalmente (pero no exclusivamente) por las funciones de menú.
+ * These functions are used for manipulating regions on the screen, used 
+ * mostly (but not exclusively) by the menu functions.
  */
 
 region region_calculate(region loc)
@@ -88,18 +87,17 @@ bool region_inside(const region *loc, const ui_event *key)
 
 /**
  * ------------------------------------------------------------------------
- * Visualización de texto
- * ------------------------------------------------------------------------
+ * Text display
+ * ------------------------------------------------------------------------ */
+
+/**
+ * These functions are designed to display large blocks of text on the screen
+ * all at once.  They are the ui-term specific layer on top of the z-textblock.c
+ * functions.
  */
 
 /**
- * Estas funciones están diseñadas para mostrar grandes bloques de texto en la pantalla
- * de una sola vez. Son la capa específica de la interfaz de usuario (ui-term) sobre las
- * funciones de z-textblock.c.
- */
-
-/**
- * Función utilitaria
+ * Utility function
  */
 static void display_area(const wchar_t *text, const uint8_t *attrs,
 		size_t *line_starts, size_t *line_lengths,
@@ -121,11 +119,11 @@ static void display_area(const wchar_t *text, const uint8_t *attrs,
 }
 
 /**
- * Coloca un textblock en la pantalla dentro de un cuadro delimitador específico.
+ * Plonk a textblock on the screen in a certain bounding box.
  */
 void textui_textblock_place(textblock *tb, region orig_area, const char *header)
 {
-	/* xxx al redimensionar esto debería recalcularse */
+	/* xxx on resize this should be recalculated */
 	region area = region_calculate(orig_area);
 
 	size_t *line_starts = NULL, *line_lengths = NULL;
@@ -152,11 +150,11 @@ void textui_textblock_place(textblock *tb, region orig_area, const char *header)
 }
 
 /**
- * Muestra un textblock de forma interactiva
+ * Show a textblock interactively
  */
 struct keypress textui_textblock_show(textblock *tb, region orig_area, const char *header)
 {
-	/* xxx al redimensionar esto debería recalcularse */
+	/* xxx on resize this should be recalculated */
 	region area = region_calculate(orig_area);
 
 	size_t *line_starts = NULL, *line_lengths = NULL;
@@ -169,7 +167,7 @@ struct keypress textui_textblock_show(textblock *tb, region orig_area, const cha
 
 	screen_save();
 
-	/* hacer espacio para el pie de página */
+	/* make room for the footer */
 	area.page_rows -= 2;
 
 	if (header != NULL) {
@@ -187,7 +185,7 @@ struct keypress textui_textblock_show(textblock *tb, region orig_area, const cha
 		c_put_str(COLOUR_L_BLUE, "(Arriba/Abajo o ESCAPE para salir.)",
 				area.row + area.page_rows + 1, area.col);
 
-		/* Modo paginador */
+		/* Pager mode */
 		while (1) {			
 
 			display_area(textblock_text(tb), textblock_attrs(tb), line_starts,
@@ -199,8 +197,8 @@ struct keypress textui_textblock_show(textblock *tb, region orig_area, const cha
 			else if (ch.code == ESCAPE || ch.code == 'q' || ch.code == 'x')
 				break;
 			else if (ch.code == ']' || ch.code == '[')
-				/* Caso especial para manejar listas de monstruos y objetos -
-				 * ver bug #2120 */
+				/* Special case to deal with monster and object lists -
+				 * see bug #2120 */
 				break;
 			else if (ch.code == ARROW_DOWN)
 				start_line++;
@@ -234,23 +232,22 @@ struct keypress textui_textblock_show(textblock *tb, region orig_area, const cha
 
 /**
  * ------------------------------------------------------------------------
- * Hook de text_out para la visualización en pantalla
- * ------------------------------------------------------------------------
- */
+ * text_out hook for screen display
+ * ------------------------------------------------------------------------ */
 
 /**
- * Imprime algo de texto (coloreado) en la pantalla en la posición actual del cursor,
- * automáticamente "ajustando" el texto existente (en los espacios) cuando sea necesario para
- * evitar colocar cualquier texto en la última columna, y limpiando cada línea
- * antes de colocar texto en esa línea. Además, permite que un "newline" fuerce
- * un "ajuste" a la siguiente línea. Avanza el cursor según sea necesario para que las
- * llamadas secuenciales a esta función funcionen correctamente.
+ * Print some (colored) text to the screen at the current cursor position,
+ * automatically "wrapping" existing text (at spaces) when necessary to
+ * avoid placing any text into the last column, and clearing every line
+ * before placing any text in that line.  Also, allow "newline" to force
+ * a "wrap" to the next line.  Advance the cursor as needed so sequential
+ * calls to this function will work correctly.
  *
- * Una vez que se ha llamado a esta función, el cursor no debe moverse
- * hasta que todas las llamadas relacionadas "text_out()" a la ventana estén completas.
+ * Once this function has been called, the cursor should not be moved
+ * until all the related "text_out()" calls to the window are complete.
  *
- * Esta función manejará correctamente cualquier ancho hasta el valor máximo legal
- * de 256, aunque funciona mejor para un ancho estándar de 80 caracteres.
+ * This function will correctly handle any width up to the maximum legal
+ * value of 256, though it works best for a standard 80 character width.
  */
 void text_out_to_screen(uint8_t a, const char *str)
 {
@@ -263,32 +260,32 @@ void text_out_to_screen(uint8_t a, const char *str)
 	const wchar_t *s;
 	wchar_t buf[1024];
 
-	/* Obtener el tamaño */
+	/* Obtain the size */
 	(void)Term_get_size(&wid, &h);
 
-	/* Obtener el cursor */
+	/* Obtain the cursor */
 	(void)Term_locate(&x, &y);
 
-	/* Copiar a una cadena reescribible */
+	/* Copy to a rewriteable string */
 	text_mbstowcs(buf, str, 1024);
 	
-	/* ¿Usar un límite de ajuste especial? */
+	/* Use special wrapping boundary? */
 	if ((text_out_wrap > 0) && (text_out_wrap < wid))
 		wrap = text_out_wrap;
 	else
 		wrap = wid;
 
-	/* Procesar la cadena */
+	/* Process the string */
 	for (s = buf; *s; s++) {
 		wchar_t ch;
 
-		/* Forzar ajuste */
+		/* Force wrap */
 		if (*s == L'\n') {
-			/* Ajustar */
+			/* Wrap */
 			x = text_out_indent;
 			y++;
 
-			/* Limpiar línea, mover cursor */
+			/* Clear line, move cursor */
 			Term_erase(x, y, 255);
 
 			x += text_out_pad;
@@ -297,61 +294,61 @@ void text_out_to_screen(uint8_t a, const char *str)
 			continue;
 		}
 
-		/* Limpiar el carácter */
+		/* Clean up the char */
 		ch = (text_iswprint(*s) ? *s : L' ');
 
-		/* Ajustar palabras según sea necesario */
+		/* Wrap words as needed */
 		if ((x >= wrap - 1) && (ch != L' ')) {
 			int i, n = 0;
 
 			int av[256];
 			wchar_t cv[256];
 
-			/* Ajustar palabra */
+			/* Wrap word */
 			if (x < wrap) {
-				/* Escanear texto existente */
+				/* Scan existing text */
 				for (i = wrap - 2; i >= 0; i--) {
-					/* Obtener atributo/carácter existente */
+					/* Grab existing attr/char */
 					Term_what(i, y, &av[i], &cv[i]);
 
-					/* Romper en espacio */
+					/* Break on space */
 					if (cv[i] == L' ') break;
 
-					/* Rastrear palabra actual */
+					/* Track current word */
 					n = i;
 				}
 			}
 
-			/* Caso especial */
+			/* Special case */
 			if (n == 0) n = wrap;
 
-			/* Limpiar línea */
+			/* Clear line */
 			Term_erase(n, y, 255);
 
-			/* Ajustar */
+			/* Wrap */
 			x = text_out_indent;
 			y++;
 
-			/* Limpiar línea, mover cursor */
+			/* Clear line, move cursor */
 			Term_erase(x, y, 255);
 
 			x += text_out_pad;
 			Term_gotoxy(x, y);
 
-			/* Ajustar la palabra (si existe) */
+			/* Wrap the word (if any) */
 			for (i = n; i < wrap - 1; i++) {
-				/* Volcar */
+				/* Dump */
 				Term_addch(av[i], cv[i]);
 
-				/* Avanzar (sin ajuste) */
+				/* Advance (no wrap) */
 				if (++x > wrap) x = wrap;
 			}
 		}
 
-		/* Volcar */
+		/* Dump */
 		Term_addch(a, ch);
 
-		/* Avanzar */
+		/* Advance */
 		if (++x > wrap) x = wrap;
 	}
 }
@@ -359,43 +356,42 @@ void text_out_to_screen(uint8_t a, const char *str)
 
 /**
  * ------------------------------------------------------------------------
- * Visualización de texto simple
- * ------------------------------------------------------------------------
- */
+ * Simple text display
+ * ------------------------------------------------------------------------ */
 
 /**
- * Muestra una cadena en la pantalla usando un atributo.
+ * Display a string on the screen using an attribute.
  *
- * En la ubicación dada, usando el atributo dado, si está permitido,
- * añade la cadena dada. No limpia la línea.
+ * At the given location, using the given attribute, if allowed,
+ * add the given string.  Do not clear the line.
  */
 void c_put_str(uint8_t attr, const char *str, int row, int col) {
-	/* Posicionar cursor, Volcar el atributo/texto */
+	/* Position cursor, Dump the attr/text */
 	Term_putstr(col, row, -1, attr, str);
 }
 
 
 /**
- * Como arriba, pero en blanco
+ * As above, but in white
  */
 void put_str(const char *str, int row, int col) {
 	c_put_str(COLOUR_WHITE, str, row, col);
 }
 
 /**
- * Muestra una cadena en la pantalla usando un atributo, y limpia hasta el
- * final de la línea.
+ * Display a string on the screen using an attribute, and clear to the
+ * end of the line.
  */
 void c_prt(uint8_t attr, const char *str, int row, int col) {
-	/* Limpiar línea, posicionar cursor */
+	/* Clear line, position cursor */
 	Term_erase(col, row, 255);
 
-	/* Volcar el atributo/texto */
+	/* Dump the attr/text */
 	Term_addstr(-1, attr, str);
 }
 
 /**
- * Como arriba, pero en blanco
+ * As above, but in white
  */
 void prt(const char *str, int row, int col) {
 	c_prt(COLOUR_WHITE, str, row, col);
@@ -405,28 +401,27 @@ void prt(const char *str, int row, int col) {
 
 /**
  * ------------------------------------------------------------------------
- * Guardar/Cargar pantalla
- * ------------------------------------------------------------------------
- */
+ * Screen loading/saving
+ * ------------------------------------------------------------------------ */
 
 /**
- * Guardar y cargar la pantalla se puede hacer a una profundidad arbitraria, pero es
- * importante que cada llamada a screen_save() esté equilibrada por una llamada a
- * screen_load() o screen_load_all() más tarde. 'screen_save_depth' es utilizado
- * por el juego para llevar la cuenta de si debe intentar actualizar el mapa y la
- * barra lateral o no, por lo que si te saltas un screen_load o screen_load_all no
- * obtendrás las actualizaciones adecuadas del juego.
+ * Screen loading and saving can be done to an arbitrary depth but it's
+ * important that every call to screen_save() is balanced by a call to
+ * screen_load() or screen_load_all() later on.  'screen_save_depth' is used
+ * by the game to keep track of whether it should try to update the map and
+ * sidebar or not, so if you miss out a screen_load or screen_load_all you will
+ * not get proper game updates.
  *
- * Term_save() / Term_load() / Term_load_all() hacen todo el trabajo pesado aquí.
+ * Term_save() / Term_load() / Term_load_all() do all the heavy lifting here.
  */
 
 /**
- * Profundidad de la pila de screen_save()
+ * Depth of the screen_save() stack
  */
 int16_t screen_save_depth;
 
 /**
- * Guarda la pantalla y aumenta la profundidad "icky".
+ * Save the screen, and increase the "icky" depth.
  */
 void screen_save(void)
 {
@@ -438,7 +433,7 @@ void screen_save(void)
 }
 
 /**
- * Carga la pantalla y disminuye la profundidad "icky".
+ * Load the screen, and decrease the "icky" depth.
  */
 void screen_load(void)
 {
@@ -448,8 +443,8 @@ void screen_load(void)
 }
 
 /**
- * Carga la pantalla reproduciendo todos los guardados en orden inverso con un redibujado
- * para cada uno y disminuye la profundidad "icky".
+ * Load the screen by replaying all the saves in reverse order with a redraw
+ * for each and decrease the "icky" depth.
  */
 void screen_load_all(void)
 {
@@ -465,12 +460,11 @@ bool textui_map_is_visible(void)
 
 /**
  * ------------------------------------------------------------------------
- * Cosas varias
- * ------------------------------------------------------------------------
- */
+ * Miscellaneous things
+ * ------------------------------------------------------------------------ */
 
 /**
- * Una función de 'ventana' al estilo Hengband, que dibuja un cuadro circundante en arte ASCII.
+ * A Hengband-like 'window' function, that draws a surround box in ASCII art.
  */
 void window_make(int origin_x, int origin_y, int end_x, int end_y)
 {
@@ -509,28 +503,28 @@ bool panel_should_modify(term *t, int wy, int wx)
 	int screen_wid = (t == angband_term[0]) ?
 		SCREEN_WID : t->wid / tile_width;
 
-	/* Verificar wy, ajustar si es necesario */
+	/* Verify wy, adjust if needed */
 	if (wy > dungeon_hgt - screen_hgt) wy = dungeon_hgt - screen_hgt;
 	if (wy < 0) wy = 0;
 
-	/* Verificar wx, ajustar si es necesario */
+	/* Verify wx, adjust if needed */
 	if (wx > dungeon_wid - screen_wid) wx = dungeon_wid - screen_wid;
 	if (wx < 0) wx = 0;
 
-	/* ¿Necesita cambios? */
+	/* Needs changes? */
 	return ((t->offset_y != wy) || (t->offset_x != wx));
 }
 
 /**
- * Modifica el panel actual a las coordenadas dadas, ajustando solo para
- * asegurar que las coordenadas sean legales, y devuelve verdadero si se hizo algo.
+ * Modify the current panel to the given coordinates, adjusting only to
+ * ensure the coordinates are legal, and return true if anything done.
  *
- * La ciudad nunca debe desplazarse.
+ * The town should never be scrolled around.
  *
- * Nota: los monstruos ya no se ven afectados de ninguna manera por los cambios de panel.
+ * Note that monsters are no longer affected in any way by panel changes.
  *
- * Como un truco total, cada vez que cambia el panel actual, asumimos que
- * la ventana de "vista general" debe actualizarse.
+ * As a total hack, whenever the current panel changes, we assume that
+ * the "overhead view" window should be updated.
  */
 bool modify_panel(term *t, int wy, int wx)
 {
@@ -541,28 +535,28 @@ bool modify_panel(term *t, int wy, int wx)
 	int screen_wid = (t == angband_term[0]) ?
 		SCREEN_WID : t->wid / tile_width;
 
-	/* Verificar wy, ajustar si es necesario */
+	/* Verify wy, adjust if needed */
 	if (wy > dungeon_hgt - screen_hgt) wy = dungeon_hgt - screen_hgt;
 	if (wy < 0) wy = 0;
 
-	/* Verificar wx, ajustar si es necesario */
+	/* Verify wx, adjust if needed */
 	if (wx > dungeon_wid - screen_wid) wx = dungeon_wid - screen_wid;
 	if (wx < 0) wx = 0;
 
-	/* Reaccionar a los cambios */
+	/* React to changes */
 	if (panel_should_modify(t, wy, wx)) {
-		/* Guardar wy, wx */
+		/* Save wy, wx */
 		t->offset_y = wy;
 		t->offset_x = wx;
 
-		/* Redibujar mapa */
+		/* Redraw map */
 		player->upkeep->redraw |= (PR_MAP);
 
-		/* Cambiado */
+		/* Changed */
 		return (true);
 	}
 
-	/* Sin cambios */
+	/* No change */
 	return (false);
 }
 
@@ -578,14 +572,14 @@ static void verify_panel_int(bool centered)
 
 	int j;
 
-	/* Escanear ventanas */
+	/* Scan windows */
 	for (j = 0; j < ANGBAND_TERM_MAX; j++) {
 		term *t = angband_term[j];
 
-		/* Sin ventana */
+		/* No window */
 		if (!t) continue;
 
-		/* Sin banderas relevantes */
+		/* No relevant flags */
 		if ((j > 0) && !(window_flag[j] & (PW_OVERHEAD))) continue;
 
 		wy = t->offset_y;
@@ -598,60 +592,60 @@ static void verify_panel_int(bool centered)
 		panel_hgt = screen_hgt / 2;
 
 
-		/* Desplazar pantalla verticalmente cuando está descentrada */
+		/* Scroll screen vertically when off-center */
 		if (centered && !player->upkeep->running && (py != wy + panel_hgt))
 			wy = py - panel_hgt;
 
-		/* Desplazar pantalla verticalmente cuando está a 3 cuadros del borde superior/inferior */
+		/* Scroll screen vertically when 3 grids from top/bottom edge */
 		else if ((py < wy + 3) || (py >= wy + screen_hgt - 3))
 			wy = py - panel_hgt;
 
 
-		/* Desplazar pantalla horizontalmente cuando está descentrada */
+		/* Scroll screen horizontally when off-center */
 		if (centered && !player->upkeep->running && (px != wx + panel_wid))
 			wx = px - panel_wid;
 
-		/* Desplazar pantalla horizontalmente cuando está a 3 cuadros del borde izquierdo/derecho */
+		/* Scroll screen horizontally when 3 grids from left/right edge */
 		else if ((px < wx + 3) || (px >= wx + screen_wid - 3))
 			wx = px - panel_wid;
 
 
-		/* Desplazar si es necesario */
+		/* Scroll if needed */
 		modify_panel(t, wy, wx);
 	}
 }
 
 /**
- * Cambia el panel actual al panel que se encuentra en la dirección dada.
+ * Change the current panel to the panel lying in the given direction.
  *
- * Devuelve verdadero si el panel fue cambiado.
+ * Return true if the panel was changed.
  */
 bool change_panel(int dir)
 {
 	bool changed = false;
 	int j;
 
-	/* Escanear ventanas */
+	/* Scan windows */
 	for (j = 0; j < ANGBAND_TERM_MAX; j++) {
 		int screen_hgt, screen_wid;
 		int wx, wy;
 
 		term *t = angband_term[j];
 
-		/* Sin ventana */
+		/* No window */
 		if (!t) continue;
 
-		/* Sin banderas relevantes */
+		/* No relevant flags */
 		if ((j > 0) && !(window_flag[j] & PW_OVERHEAD)) continue;
 
 		screen_hgt = (j == 0) ? SCREEN_HGT : t->hgt / tile_height;
 		screen_wid = (j == 0) ? SCREEN_WID : t->wid / tile_width;
 
-		/* Desplazar medio panel */
+		/* Shift by half a panel */
 		wy = t->offset_y + ddy[dir] * screen_hgt / 2;
 		wx = t->offset_x + ddx[dir] * screen_wid / 2;
 
-		/* Usar "modify_panel" */
+		/* Use "modify_panel" */
 		if (modify_panel(t, wy, wx)) changed = true;
 	}
 
@@ -660,15 +654,15 @@ bool change_panel(int dir)
 
 
 /**
- * Verifica el panel actual (en relación con la ubicación del jugador).
+ * Verify the current panel (relative to the player location).
  *
- * Por defecto, cuando el jugador se acerca "demasiado" al borde del panel
- * actual, el mapa se desplaza un panel en esa dirección para que el jugador
- * ya no esté tan cerca del borde.
+ * By default, when the player gets "too close" to the edge of the current
+ * panel, the map scrolls one panel in that direction so that the player
+ * is no longer so close to the edge.
  *
- * La opción "OPT(player, center_player)" permite que el panel actual esté siempre
- * centrado alrededor del jugador, lo cual es muy costoso, y también tiene algunas
- * ramificaciones interesantes en la jugabilidad.
+ * The "OPT(player, center_player)" option allows the current panel to always be
+ * centered around the player, which is very expensive, and also has some
+ * interesting gameplay ramifications.
  */
 void verify_panel(void)
 {

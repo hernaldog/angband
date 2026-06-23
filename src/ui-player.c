@@ -1,6 +1,6 @@
 /**
  * \file ui-player.c
- * \breves pantallas y volcado de personaje
+ * \brief character screens and dumps
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
@@ -702,7 +702,6 @@ static struct panel *get_panel_topleft(void) {
 	return p;
 }
 
-
 static struct panel *get_panel_midleft(void) {
 	struct panel *p = panel_allocate(9);
 	int diff = weight_remaining(player);
@@ -724,6 +723,7 @@ static struct panel *get_panel_midleft(void) {
 	panel_line(p, attr, "Sobrepeso", "%d.%d kg",
 			   -diff_kg_x10 / 10, abs(diff_kg_x10) % 10);
 	panel_line(p, COLOUR_L_GREEN, "Prof Máxima", "%s", show_depth());
+
 	return p;
 }
 
@@ -816,8 +816,6 @@ static struct panel *get_panel_skills(void) {
 	/* Infravision en metros mt*/
 	panel_line(p, COLOUR_L_GREEN, "Infravisión", "%d.%d mt",
         infra_mt_x10 / 10, infra_mt_x10 % 10);
-        
-	/*panel_line(p, COLOUR_L_GREEN, "Infravisón", "%d ft",	player->state.see_infra * 10);*/
 
 	/* Speed */
 	skill = player->state.speed;
@@ -828,23 +826,6 @@ static struct panel *get_panel_skills(void) {
 
 	return p;
 }
-
-
-/*
-static struct panel *get_panel_misc(void) {
-	struct panel *p = panel_allocate(7);
-	uint8_t attr = COLOUR_L_BLUE;
-
-	panel_line(p, attr, "Edad", "%d", player->age);
-	panel_line(p, attr, "Altura", "%d'%d\"", player->ht / 12, player->ht % 12);
-	panel_line(p, attr, "Peso", "%dst %dlb", player->wt / 14, player->wt % 14);
-	panel_line(p, attr, "Turnos usados:", "");
-	panel_line(p, attr, "Juego", "%d", turn);
-	panel_line(p, attr, "Estándar", "%d", player->total_energy / 100);
-	panel_line(p, attr, "Descansando", "%d", player->resting_turn);
-
-	return p;
-}*/
 
 static struct panel *get_panel_misc(void) {
 	struct panel *p = panel_allocate(7);
@@ -859,6 +840,7 @@ static struct panel *get_panel_misc(void) {
 	panel_line(p, attr, "Juego",       "%d", turn);
 	panel_line(p, attr, "Estándar",    "%d", player->total_energy / 100);
 	panel_line(p, attr, "Descansando", "%d", player->resting_turn);
+
 	return p;
 }
 

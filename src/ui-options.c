@@ -1,6 +1,6 @@
 /**
  * \file ui-options.c
- * \brief Código de manejo de opciones de la interfaz de texto (todo lo accesible desde '=')
+ * \brief Text UI options handling code (everything accessible from '=')
  *
  * Copyright (c) 1997-2000 Robert A. Koeneke, James E. Wilson, Ben Harrison
  * Copyright (c) 2007 Pete Mack
@@ -39,7 +39,7 @@
 
 
 /**
- * Preguntar al usuario por un nombre de archivo para guardar el archivo de preferencias.
+ * Prompt the user for a filename to save the pref file to.
  */
 static bool get_pref_path(const char *what, int row, char *buf, size_t max)
 {
@@ -48,7 +48,7 @@ static bool get_pref_path(const char *what, int row, char *buf, size_t max)
 
 	screen_save();
 
-	/* Mensaje */
+	/* Prompt */
 	if (row > 0) {
 		prt("", row - 1, 0);
 	}
@@ -57,11 +57,11 @@ static bool get_pref_path(const char *what, int row, char *buf, size_t max)
 	prt("Archivo: ", row + 2, 0);
 	prt("", row + 3, 0);
 
-	/* Obtener el nombre seguro para el sistema de archivos y añadir .prf */
+	/* Get the filesystem-safe name and append .prf */
 	player_safe_name(ftmp, sizeof(ftmp), player->full_name, true);
 	my_strcat(ftmp, ".prf", sizeof(ftmp));
 
-	/* Obtener un nombre de archivo */
+	/* Get a filename */
 	
 	if(!arg_force_name)
 		ok = askfor_aux(ftmp, sizeof ftmp, NULL);
@@ -71,7 +71,7 @@ static bool get_pref_path(const char *what, int row, char *buf, size_t max)
 
 	screen_load();
 
-	/* Construir el nombre de archivo */
+	/* Build the filename */
 	if (ok)
 		path_build(buf, max, ANGBAND_DIR_USER, ftmp);
 
@@ -83,11 +83,11 @@ static void dump_pref_file(void (*dump)(ang_file *), const char *title, int row)
 {
 	char buf[1024];
 
-	/* Obtener nombre de archivo del usuario */
+	/* Get filename from user */
 	if (!get_pref_path(title, row, buf, sizeof(buf)))
 		return;
 
-	/* Intentar guardar */
+	/* Try to save */
 	if (prefs_save(buf, dump, title))
 		msg("Guardado %s.", strstr(title, " ") + 1);
 	else
@@ -107,12 +107,12 @@ static void do_cmd_pref_file_hack(long row);
 
 /**
  * ------------------------------------------------------------------------
- * Visualización y configuración de opciones
+ * Options display and setting
  * ------------------------------------------------------------------------ */
 
 
 /**
- * Muestra una entrada de opción.
+ * Displays an option entry.
  */
 static void option_toggle_display(struct menu *m, int oid, bool cursor,
 		int row, int col, int width)
@@ -139,7 +139,7 @@ static void option_toggle_display(struct menu *m, int oid, bool cursor,
 }
 
 /**
- * Maneja las pulsaciones de tecla para una entrada de opción.
+ * Handle keypresses for an option entry.
  */
 static bool option_toggle_handle(struct menu *m, const ui_event *event,
 		int oid)
@@ -148,9 +148,9 @@ static bool option_toggle_handle(struct menu *m, const ui_event *event,
 	int page = option_type(oid);
 
 	if (event->type == EVT_SELECT) {
-		/* Las opciones de nacimiento no se pueden cambiar después del nacimiento */
-		/* Al nacer, m->flags == MN_DBL_TAP. */
-		/* Después del nacimiento, m->flags == MN_NO_TAGS */
+		/* Birth options can not be toggled after birth */
+		/* At birth, m->flags == MN_DBL_TAP. */
+		/* After birth, m->flags == MN_NO_TAGS */
 		if (!((page == OP_BIRTH) && (m->flags == MN_NO_TAGS))) {
 			option_set(option_name(oid), !player->opts.opt[oid]);
 		}
@@ -174,8 +174,8 @@ static bool option_toggle_handle(struct menu *m, const ui_event *event,
 			}
 			screen_load();
 		/*
-		 * Para opciones de nacimiento, solo permitir restaurar desde
-		 * valores personalizados al nacer.
+		 * For birth options, only allow restore from custom defaults
+		 * at birth.
 		 */
 		} else if ((event->key.code == 'r' || event->key.code == 'R') &&
 				(page != OP_BIRTH || m->flags == MN_DBL_TAP)) {
@@ -190,8 +190,8 @@ static bool option_toggle_handle(struct menu *m, const ui_event *event,
 				screen_load();
 			}
 		/*
-		 * Para opciones de nacimiento, solo permitir restaurar a los valores
-		 * por defecto del mantenedor al nacer.
+		 * For birth options, only allow restore to the maintainer's
+		 * defaults at birth.
 		 */
 		} else if ((event->key.code == 'x' || event->key.code == 'X') &&
 				(page != OP_BIRTH || m->flags == MN_DBL_TAP)) {
@@ -213,17 +213,17 @@ static bool option_toggle_handle(struct menu *m, const ui_event *event,
 }
 
 /**
- * Presentar un menú contextual para las opciones de nacimiento o interfaz para que lo que
- * es accesible mediante el teclado también se pueda hacer si solo se usa el ratón.
+ * Present a context menu for the birth or interface options so what's
+ * accessible via the keyboard can also be done if only using a mouse.
  *
- * \param m es la estructura que describe el menú de opciones.
- * \param in es el evento que desencadena el menú contextual. in->type debe ser
+ * \param m is the structure describing the menu for the options.
+ * \param in is the event triggering the context menu.  in->type must be
  * EVT_MOUSE.
- * \param out es el evento que se pasará hacia arriba (al manejo interno en
- * menu_select() o, potencialmente, al llamador de menu_select()).
- * \return true si el evento fue manejado; en caso contrario, devuelve false.
+ * \param out is the event to be passed upstream (to internal handling in
+ * menu_select() or, potentially, menu_select()'s caller).
+ * \return true if the event was handled; otherwise, return false.
  *
- * La lógica aquí se superpone con lo que se hace en option_toggle_handle().
+ * Logic here overlaps with what's done in option_toggle_handle().
  */
 static bool use_option_context_menu(struct menu *m, const ui_event *in,
 		ui_event *out)
@@ -234,8 +234,8 @@ static bool use_option_context_menu(struct menu *m, const ui_event *in,
 		ACT_CTX_OPT_RESET
 	};
 	/*
-	 * Como un pequeño truco, obtener el tipo de opciones involucradas de la primera
-	 * opción seleccionada por el filtro del menú.
+	 * As a bit of a hack, get the type of options involved from the first
+	 * option selected by the menu's filter.
 	 */
 	int page = option_type(m->filter_list[0]);
 	char *labels = string_make(lower_case);
@@ -293,7 +293,7 @@ static bool use_option_context_menu(struct menu *m, const ui_event *in,
 		break;
 
 	default:
-		/* No hay nada que hacer. */
+		/* There's nothing to do. */
 		break;
 	}
 
@@ -307,7 +307,7 @@ static bool use_option_context_menu(struct menu *m, const ui_event *in,
 
 
 /**
- * Funciones de visualización y manejo del menú de alternar opciones
+ * Toggle option menu display and handling functions
  */
 static const menu_iter option_toggle_iter = {
 	NULL,
@@ -319,7 +319,7 @@ static const menu_iter option_toggle_iter = {
 
 
 /**
- * Interactuar con algunas opciones
+ * Interact with some options
  */
 static void option_toggle_menu(const char *name, int page)
 {
@@ -328,13 +328,13 @@ static void option_toggle_menu(const char *name, int page)
 	
 	struct menu *m = menu_new(MN_SKIN_SCROLL, &option_toggle_iter);
 
-	/* para todos los menús */
+	/* for all menus */
 	m->prompt = "Setear opción (s/n/t), usar teclas de mov o índice";
 	m->cmd_keys = "SsNnTt";
 	m->selections = selections;
 	m->flags = MN_DBL_TAP;
 
-	/* Añadimos 10 a la cantidad de página para indicar que estamos al nacer */
+	/* We add 10 onto the page amount to indicate we're at birth */
 	if (page == OPT_PAGE_BIRTH) {
 		m->prompt = "Solo puedes modificar opciones al nacer el personaje.";
 		m->cmd_keys = "";
@@ -342,25 +342,25 @@ static void option_toggle_menu(const char *name, int page)
 	} else if (page == OPT_PAGE_BIRTH + 10 || page == OP_INTERFACE) {
 		m->prompt = "Setear opción (s/n/t), 'g' guardar, 'r' restaurar, 'x' reiniciar";
 		m->cmd_keys = "SsNnTtGgRrXx";
-		/* Proporcionar un menú contextual para equivalentes a 'g', 'r', ... */
+		/* Provide a context menu for equivalents to 's', 'r', .... */
 		m->context_hook = use_option_context_menu;
 		if (page == OPT_PAGE_BIRTH + 10) {
 			page -= 10;
 		}
 	}
 
-	/* para este menú en particular */
+	/* for this particular menu */
 	m->title = name;
 
-	/* Encontrar el número de entradas válidas */
+	/* Find the number of valid entries */
 	for (i = 0; option_page[page][i] != OPT_none; ++i) {}
 
-	/* Establecer los datos a las opciones del jugador */
+	/* Set the data to the player's options */
 	menu_setpriv(m, OPT_MAX, &player->opts.opt);
 	menu_set_filter(m, option_page[page], i);
 	menu_layout(m, &SCREEN_REGION);
 
-	/* Ejecutar el menú */
+	/* Run the menu */
 	screen_save();
 
 	clear_from(0);
@@ -372,7 +372,7 @@ static void option_toggle_menu(const char *name, int page)
 }
 
 /**
- * Editar opciones de nacimiento.
+ * Edit birth options.
  */
 void do_cmd_options_birth(void)
 {
@@ -381,7 +381,7 @@ void do_cmd_options_birth(void)
 
 
 /**
- * Modificar las opciones de "ventana"
+ * Modify the "window" options
  */
 static void do_cmd_options_win(const char *name, int row)
 {
@@ -391,71 +391,71 @@ static void do_cmd_options_win(const char *name, int row)
 	ui_event ke;
 	uint32_t new_flags[ANGBAND_TERM_MAX];
 
-	/* Establecer nuevas banderas a los valores antiguos */
+	/* Set new flags to the old values */
 	for (j = 0; j < ANGBAND_TERM_MAX; j++)
 		new_flags[j] = window_flag[j];
 
-	/* Limpiar pantalla */
+	/* Clear screen */
 	screen_save();
 	clear_from(0);
 
-	/* Interactuar */
+	/* Interact */
 	while (1) {
-		/* Mensaje */
+		/* Prompt */
 		prt("Banderas de ventana (<dir> para mover, 't'/Enter para alternar, o ESC)", 0, 0);
 
-		/* Mostrar las ventanas */
+		/* Display the windows */
 		for (j = 0; j < ANGBAND_TERM_MAX; j++) {
 			uint8_t a = COLOUR_WHITE;
 
 			const char *s = angband_term_name[j];
 
-			/* Usar color */
+			/* Use color */
 			if (j == x) a = COLOUR_L_BLUE;
 
-			/* Nombre de ventana, escalonado, centrado */
+			/* Window name, staggered, centered */
 			Term_putstr(35 + j * 5 - strlen(s) / 2, 2 + j % 2, -1, a, s);
 		}
 
-		/* Mostrar las opciones */
+		/* Display the options */
 		for (i = 0; i < PW_MAX_FLAGS; i++) {
 			uint8_t a = COLOUR_WHITE;
 
 			const char *str = window_flag_desc[i];
 
-			/* Usar color */
+			/* Use color */
 			if (i == y) a = COLOUR_L_BLUE;
 
-			/* Opción no usada */
+			/* Unused option */
 			if (!str) str = "(Opción no usada)";
 
-			/* Nombre de la bandera */
+			/* Flag name */
 			Term_putstr(0, i + 5, -1, a, str);
 
-			/* Mostrar las ventanas */
+			/* Display the windows */
 			for (j = 0; j < ANGBAND_TERM_MAX; j++) {
 				wchar_t c = L'.';
 
 				a = COLOUR_WHITE;
 
-				/* Usar color */
+				/* Use color */
 				if ((i == y) && (j == x)) a = COLOUR_L_BLUE;
 
-				/* Bandera activa */
+				/* Active flag */
 				if (new_flags[j] & ((uint32_t) 1 << i)) c = L'X';
 
-				/* Valor de la bandera */
+				/* Flag value */
 				Term_putch(35 + j * 5, i + 5, a, c);
 			}
 		}
 
-		/* Colocar cursor */
+		/* Place Cursor */
 		Term_gotoxy(35 + x * 5, y + 5);
 
-		/* Obtener tecla */
+		/* Get key */
 		ke = inkey_ex();
 
-		/* Interacción con ratón o teclado */
+		/* Mouse or keyboard interaction */
 		if (ke.type == EVT_MOUSE) {
 			int choicey = ke.mouse.y - 5;
 			int choicex = (ke.mouse.x - 35)/5;
@@ -469,10 +469,10 @@ static void do_cmd_options_win(const char *name, int row)
 				if ((choicey == y) && (choicex == x)) {
 					uint32_t flag = ((uint32_t) 1) << y;
 
-					/* Alternar bandera (desactivar) */
+					/* Toggle flag (off) */
 					if (new_flags[x] & flag)
 						new_flags[x] &= ~flag;
-					/* Alternar bandera (activar) */
+					/* Toggle flag (on) */
 					else
 						new_flags[x] |= flag;
 				} else {
@@ -484,29 +484,29 @@ static void do_cmd_options_win(const char *name, int row)
 			if (ke.key.code == ESCAPE || ke.key.code == 'q')
 				break;
 
-			/* Alternar */
+			/* Toggle */
 			else if (ke.key.code == '5' || ke.key.code == 't' ||
 					ke.key.code == KC_ENTER) {
-				/* Ignorar la ventana principal */
+				/* Ignore the main window */
 				if (x == 0)
 					bell();
 
-				/* Alternar bandera (desactivar) */
+				/* Toggle flag (off) */
 				else if (new_flags[x] & (((uint32_t) 1) << y))
 					new_flags[x] &= ~(((uint32_t) 1) << y);
 
-				/* Alternar bandera (activar) */
+				/* Toggle flag (on) */
 				else
 					new_flags[x] |= (((uint32_t) 1) << y);
 
-				/* Continuar */
+				/* Continue */
 				continue;
 			}
 
-			/* Extraer dirección */
+			/* Extract direction */
 			d = target_dir(ke.key);
 
-			/* Mover */
+			/* Move */
 			if (d != 0) {
 				x = (x + ddx[d] + 8) % ANGBAND_TERM_MAX;
 				y = (y + ddy[d] + 16) % PW_MAX_FLAGS;
@@ -514,7 +514,7 @@ static void do_cmd_options_win(const char *name, int row)
 		}
 	}
 
-	/* Notar cambios */
+	/* Notice changes */
 	subwindows_set_flags(new_flags, ANGBAND_TERM_MAX);
 
 	screen_load();
@@ -524,51 +524,51 @@ static void do_cmd_options_win(const char *name, int row)
 
 /**
  * ------------------------------------------------------------------------
- * Interactuar con mapas de teclas
+ * Interact with keymaps
  * ------------------------------------------------------------------------ */
 
 /**
- * Acción de mapa de teclas actual (o reciente)
+ * Current (or recent) keymap action
  */
 static struct keypress keymap_buffer[KEYMAP_ACTION_MAX + 1];
 
 
 /**
- * Preguntar y mostrar un desencadenante de mapa de teclas.
+ * Ask for, and display, a keymap trigger.
  *
- * Devuelve la entrada desencadenante.
+ * Returns the trigger input.
  *
- * Nótese que ambas llamadas a "event_signal(EVENT_INPUT_FLUSH)" son extremadamente
- * importantes. Esto puede
- * ya no ser cierto, ya que "util.c" es ahora mucho más simple. XXX XXX XXX
+ * Note that both "event_signal(EVENT_INPUT_FLUSH)" calls are extremely
+ * important.  This may
+ * no longer be true, since "util.c" is much simpler now.  XXX XXX XXX
  */
 static struct keypress keymap_get_trigger(void)
 {
 	char tmp[80];
 	struct keypress buf[2] = { KEYPRESS_NULL, KEYPRESS_NULL };
 
-	/* Vaciar */
+	/* Flush */
 	event_signal(EVENT_INPUT_FLUSH);
 
-	/* Obtener una tecla */
+	/* Get a key */
 	buf[0] = inkey();
 
-	/* Convertir a ascii */
+	/* Convert to ascii */
 	keypress_to_text(tmp, sizeof(tmp), buf, false);
 
-	/* Mostrar el desencadenante */
+	/* Display the trigger */
 	Term_addstr(-1, COLOUR_WHITE, tmp);
 
-	/* Vaciar */
+	/* Flush */
 	event_signal(EVENT_INPUT_FLUSH);
 
-	/* Devolver desencadenante */
+	/* Return trigger */
 	return buf[0];
 }
 
 
 /**
- * Funciones de acción del menú de mapas de teclas
+ * Keymap menu action functions
  */
 
 static void ui_keymap_pref_load(const char *title, int row)
@@ -591,20 +591,20 @@ static void ui_keymap_query(const char *title, int row)
 	prt(title, 13, 0);
 	prt("Tecla: ", 14, 0);
 	
-	/* Obtener un desencadenante y mapeo de mapa de teclas */
+	/* Get a keymap trigger & mapping */
 	c = keymap_get_trigger();
 	act = keymap_find(mode, c);
 	
-	/* ¿Se encontró el mapa de teclas? */
+	/* Keymap found? */
 	if (!act) {
-		/* Mensaje */
+		/* Prompt */
 		prt("Ningún mapa de teclas con ese desencadenante. Pulsa cualquier tecla para continuar.", 16, 0);
 		inkey();
 	} else {
-		/* Analizar la acción actual */
+		/* Analyze the current action */
 		keypress_to_text(tmp, sizeof(tmp), act, false);
 	
-		/* Mostrar la acción actual */
+		/* Display the current action */
 		prt("Encontrado: ", 15, 0);
 		Term_addstr(-1, COLOUR_WHITE, tmp);
 
@@ -633,7 +633,7 @@ static void ui_keymap_create(const char *title, int row)
 		return;
 	}
 
-	/* Obtener una acción codificada, con una respuesta por defecto */
+	/* Get an encoded action, with a default response */
 	while (!done) {
 		struct keypress kp = {EVT_NONE, 0, 0};
 
@@ -708,7 +708,7 @@ static void ui_keymap_remove(const char *title, int row)
 	else
 		prt("¡No hay mapa de teclas que eliminar!", 16, 0);
 
-	/* Mensaje */
+	/* Prompt */
 	prt("Pulsa cualquier tecla para continuar.", 17, 0);
 	inkey();
 }
@@ -721,7 +721,7 @@ static void keymap_browse_hook(int oid, void *db, const region *loc)
 
 	clear_from(13);
 
-	/* Mostrar acción actual */
+	/* Show current action */
 	prt("Acción actual (si la hay) mostrada abajo:", 13, 0);
 	keypress_to_text(tmp, sizeof(tmp), keymap_buffer, false);
 	prt(tmp, 14, 0);
@@ -763,7 +763,7 @@ static void do_cmd_keymaps(const char *title, int row)
 
 /**
  * ------------------------------------------------------------------------
- * Interactuar con los visuales
+ * Interact with visuals
  * ------------------------------------------------------------------------ */
 
 static void visuals_pref_load(const char *title, int row)
@@ -793,10 +793,10 @@ static void visuals_dump_flavors(const char *title, int row)
 
 static void visuals_reset(const char *title, int row)
 {
-	/* Reiniciar */
+	/* Reset */
 	reset_visuals(true);
 
-	/* Mensaje */
+	/* Message */
 	prt("", 0, 0);
 	msg("Tablas de atributos/caracteres visuales reiniciadas.");
 	event_signal(EVENT_MESSAGE_FLUSH);
@@ -823,7 +823,7 @@ static void visuals_browse_hook(int oid, void *db, const region *loc)
 
 
 /**
- * Interactuar con "visuales"
+ * Interact with "visuals"
  */
 static void do_cmd_visuals(const char *title, int row)
 {
@@ -850,17 +850,17 @@ static void do_cmd_visuals(const char *title, int row)
 
 /**
  * ------------------------------------------------------------------------
- * Interactuar con los colores
+ * Interact with colours
  * ------------------------------------------------------------------------ */
 
 static void colors_pref_load(const char *title, int row)
 {
-	/* Preguntar por y cargar un archivo de preferencias de usuario */
+	/* Ask for and load a user pref file */
 	do_cmd_pref_file_hack(8);
 	
-	/* XXX debería haber una forma más limpia de informar a la UI sobre
-	 * cambios de color - ¿qué tal hacer esto también en el código de carga
-	 * de archivos de preferencias? */
+	/* XXX should probably be a cleaner way to tell UI about
+	 * colour changes - how about doing this in the pref file
+	 * loading code too? */
 	Term_xtra(TERM_XTRA_REACT, 0);
 	Term_redraw_all();
 }
@@ -876,42 +876,42 @@ static void colors_modify(const char *title, int row)
 
 	static uint8_t a = 0;
 
-	/* Mensaje */
+	/* Prompt */
 	prt("Comando: Modificar colores", 8, 0);
 
-	/* Preguntar hasta terminar */
+	/* Query until done */
 	while (1) {
 		const char *name;
 		char index;
 
 		struct keypress cx;
 
-		/* Limpiar */
+		/* Clear */
 		clear_from(10);
 
-		/* Exhibir los colores normales */
+		/* Exhibit the normal colors */
 		for (i = 0; i < BASIC_COLORS; i++) {
-			/* Exhibir este color */
+			/* Exhibit this color */
 			Term_putstr(i*3, 20, -1, a, "##");
 
-			/* Exhibir letra del carácter */
+			/* Exhibit character letter */
 			Term_putstr(i*3, 21, -1, (uint8_t)i,
 						format(" %c", color_table[i].index_char));
 
-			/* Exhibir todos los colores */
+			/* Exhibit all colors */
 			Term_putstr(i*3, 22, -1, (uint8_t)i, format("%2d", i));
 		}
 
-		/* Describir el color */
+		/* Describe the color */
 		name = ((a < BASIC_COLORS) ? color_table[a].name : "indefinido");
 		index = ((a < BASIC_COLORS) ? color_table[a].index_char : '?');
 
-		/* Describir el color */
+		/* Describe the color */
 		Term_putstr(5, 10, -1, COLOUR_WHITE,
 					format("Color = %d, Nombre = %s, Índice = %c",
 						   a, name, index));
 
-		/* Etiquetar los valores actuales */
+		/* Label the Current values */
 		Term_putstr(5, 12, -1, COLOUR_WHITE,
 				format("K = 0x%02x / R,V,A = 0x%02x,0x%02x,0x%02x",
 				   angband_color_table[a][0],
@@ -919,17 +919,17 @@ static void colors_modify(const char *title, int row)
 				   angband_color_table[a][2],
 				   angband_color_table[a][3]));
 
-		/* Mensaje */
+		/* Prompt */
 		Term_putstr(0, 14, -1, COLOUR_WHITE,
 				"Comando (n/N/k/K/r/R/v/V/a/A): ");
 
-		/* Obtener un comando */
+		/* Get a command */
 		cx = inkey();
 
-		/* Todo terminado */
+		/* All done */
 		if (cx.code == ESCAPE) break;
 
-		/* Analizar */
+		/* Analyze */
 		if (cx.code == 'n') {
 			a = (uint8_t)(a + 1);
 			if (a >= MAX_COLORS) {
@@ -967,10 +967,10 @@ static void colors_modify(const char *title, int row)
 			angband_color_table[a][3] =
 				(uint8_t)(angband_color_table[a][3] - 1);
 
-		/* Reaccionar a los cambios */
+		/* React to changes */
 		Term_xtra(TERM_XTRA_REACT, 0);
 
-		/* Redibujar */
+		/* Redraw */
 		Term_redraw();
 	}
 }
@@ -991,7 +991,7 @@ static menu_action color_events [] =
 };
 
 /**
- * Interactuar con "colores"
+ * Interact with "colors"
  */
 static void do_cmd_colors(const char *title, int row)
 {
@@ -1017,7 +1017,7 @@ static void do_cmd_colors(const char *title, int row)
 
 /**
  * ------------------------------------------------------------------------
- * Acciones de menú no complejas
+ * Non-complex menu actions
  * ------------------------------------------------------------------------ */
 
 static bool askfor_aux_numbers(char *buf, size_t buflen, size_t *curs, size_t *len, struct keypress keypress, bool firsttime)
@@ -1049,7 +1049,7 @@ static bool askfor_aux_numbers(char *buf, size_t buflen, size_t *curs, size_t *l
 
 
 /**
- * Establecer factor de demora base
+ * Set base delay factor
  */
 static void do_cmd_delay(const char *name, int unused)
 {
@@ -1060,14 +1060,14 @@ static void do_cmd_delay(const char *name, int unused)
 
 	screen_save();
 
-	/* Mensaje */
+	/* Prompt */
 	prt("", 19, 0);
 	prt("Comando: Factor de Demora Base", 20, 0);
 	prt("Nuevo factor de demora base (0-255): ", 21, 0);
 	prt(format("Factor de demora base actual: %d ms", msec), 22, 0);
 	prt("", 23, 0);
 
-	/* Preguntar por un valor numérico */
+	/* Ask for a numeric value */
 	if (askfor_aux(tmp, sizeof(tmp), askfor_aux_numbers)) {
 		uint16_t val = (uint16_t) strtoul(tmp, NULL, 0);
 		player->opts.delay_factor = MIN(val, 255);
@@ -1077,7 +1077,7 @@ static void do_cmd_delay(const char *name, int unused)
 }
 
 /**
- * Establecer modo de barra lateral
+ * Set sidebar mode
  */
 static void do_cmd_sidebar_mode(const char *name, int unused)
 {
@@ -1089,23 +1089,23 @@ static void do_cmd_sidebar_mode(const char *name, int unused)
 
 	while (true) {	
 
-		// Obtener el nombre
+		// Get the name
 		my_strcpy(tmp, names[SIDEBAR_MODE % SIDEBAR_MAX], sizeof(tmp));
 
-		/* Mensaje */
+		/* Prompt */
 		prt("", 19, 0);
 		prt("Comando: Modo de Barra Lateral", 20, 0);
 		prt(format("Modo actual: %s", tmp), 21, 0);
 		prt("ESC: volver, otra tecla: cambiar", 22, 0);
 		prt("", 23, 0);
 
-		/* Obtener un comando */
+		/* Get a command */
 		cx = inkey();
 
-		/* Todo terminado */
+		/* All done */
 		if (cx.code == ESCAPE) break;
 
-		// Cambiar
+		// Cycle
 		SIDEBAR_MODE = (SIDEBAR_MODE + 1) % SIDEBAR_MAX;
 	}
 
@@ -1114,7 +1114,7 @@ static void do_cmd_sidebar_mode(const char *name, int unused)
 
 
 /**
- * Establecer nivel de advertencia de puntos de golpe
+ * Set hitpoint warning level
  */
 static void do_cmd_hp_warn(const char *name, int unused)
 {
@@ -1126,7 +1126,7 @@ static void do_cmd_hp_warn(const char *name, int unused)
 
 	screen_save();
 
-	/* Mensaje */
+	/* Prompt */
 	prt("", 19, 0);
 	prt("Comando: Advertencia de Puntos de Golpe", 20, 0);
 	prt("Nueva advertencia de puntos de golpe (0-9): ", 21, 0);
@@ -1135,14 +1135,14 @@ static void do_cmd_hp_warn(const char *name, int unused)
 		22, 0);
 	prt("", 23, 0);
 
-	/* Preguntar al usuario por una cadena */
+	/* Ask the user for a string */
 	res = askfor_aux(tmp, sizeof(tmp), askfor_aux_numbers);
 
-	/* Procesar entrada */
+	/* Process input */
 	if (res) {
 		warn = (uint8_t) strtoul(tmp, NULL, 0);
 		
-		/* Reiniciar advertencias sin sentido */
+		/* Reset nonsensical warnings */
 		if (warn > 9)
 			warn = 0;
 
@@ -1154,7 +1154,7 @@ static void do_cmd_hp_warn(const char *name, int unused)
 
 
 /**
- * Establecer demora de "movimiento perezoso"
+ * Set "lazy-movement" delay
  */
 static void do_cmd_lazymove_delay(const char *name, int unused)
 {
@@ -1165,7 +1165,7 @@ static void do_cmd_lazymove_delay(const char *name, int unused)
 
 	screen_save();
 
-	/* Mensaje */
+	/* Prompt */
 	prt("", 19, 0);
 	prt("Comando: Factor de Demora de Movimiento", 20, 0);
 	prt("Nueva demora de movimiento: ", 21, 0);
@@ -1174,10 +1174,10 @@ static void do_cmd_lazymove_delay(const char *name, int unused)
 		22, 0);
 	prt("", 23, 0);
 
-	/* Preguntar al usuario por una cadena */
+	/* Ask the user for a string */
 	res = askfor_aux(tmp, sizeof(tmp), askfor_aux_numbers);
 
-	/* Procesar entrada */
+	/* Process input */
 	if (res) {
 		unsigned long delay = strtoul(tmp, NULL, 0);
 		player->opts.lazymove_delay = (uint8_t) MIN(delay, 255);
@@ -1189,12 +1189,12 @@ static void do_cmd_lazymove_delay(const char *name, int unused)
 
 
 /**
- * Preguntar por un "archivo de preferencias de usuario" y procesarlo.
+ * Ask for a "user pref file" and process it.
  *
- * Esta función solo debe ser usada por comandos de interacción estándar,
- * en los que un mensaje estándar "Comando:" está presente en la fila dada.
+ * This function should only be used by standard interaction commands,
+ * in which a standard "Command:" prompt is present on the given row.
  *
- * ¿Permitir nombres de archivo absolutos?  XXX XXX XXX
+ * Allow absolute file names?  XXX XXX XXX
  */
 static void do_cmd_pref_file_hack(long row)
 {
@@ -1203,7 +1203,7 @@ static void do_cmd_pref_file_hack(long row)
 
 	screen_save();
 
-	/* Mensaje */
+	/* Prompt */
 	if (row > 0) {
 		prt("", row - 1, 0);
 	}
@@ -1212,7 +1212,7 @@ static void do_cmd_pref_file_hack(long row)
 	prt("Archivo: ", row + 2, 0);
 	prt("", row + 3, 0);
 
-	/* Obtener el nombre seguro para el sistema de archivos y añadir .prf */
+	/* Get the filesystem-safe name and append .prf */
 	player_safe_name(ftmp, sizeof(ftmp), player->full_name, true);
 	my_strcat(ftmp, ".prf", sizeof(ftmp));
 
@@ -1221,15 +1221,15 @@ static void do_cmd_pref_file_hack(long row)
 	else
 		ok = get_check(format("¿Confirmar carga de %s? ", ftmp));
 	
-	/* Preguntar por un archivo (o cancelar) */
+	/* Ask for a file (or cancel) */
 	if(ok) {
-		/* Procesar el nombre de archivo dado */
+		/* Process the given filename */
 		if (process_pref_file(ftmp, false, true) == false) {
-			/* Mencionar fallo */
+			/* Mention failure */
 			prt("", 0, 0);
 			msg("¡Fallo al cargar '%s'!", ftmp);
 		} else {
-			/* Mencionar éxito */
+			/* Mention success */
 			prt("", 0, 0);
 			msg("Cargado '%s'.", ftmp);
 		}
@@ -1241,28 +1241,28 @@ static void do_cmd_pref_file_hack(long row)
  
  
 /**
- * Escribir opciones en un archivo.
+ * Write options to a file.
  */
 static void do_dump_options(const char *title, int row) {
 	dump_pref_file(option_dump, "Guardar configuración de ventanas", 20);
 }
 
 /**
- * Escribir autoinscripciones en un archivo.
+ * Write autoinscriptions to a file.
  */
 static void do_dump_autoinsc(const char *title, int row) {
 	dump_pref_file(dump_autoinscriptions, "Guardar autoinscripciones", 20);
 }
 
 /**
- * Escribir personalizaciones de la pantalla de personaje en un archivo.
+ * Write character screen customizations to a file.
  */
 static void do_dump_charscreen_opt(const char *title, int row) {
 	dump_pref_file(dump_ui_entry_renderers, "Guardar opciones de pantalla de personaje", 20);
 }
 
 /**
- * Cargar un archivo de preferencias.
+ * Load a pref file.
  */
 static void options_load_pref_file(const char *n, int row)
 {
@@ -1273,14 +1273,14 @@ static void options_load_pref_file(const char *n, int row)
 
 /**
  * ------------------------------------------------------------------------
- * Menú de ignorar objetos de égida
+ * Ego item ignore menu
  * ------------------------------------------------------------------------ */
 
 #define EGO_MENU_HELPTEXT \
 "{light green}Teclas de movimiento{/} desplazan la lista\n{light red}ESC{/} vuelve al menú anterior\n{light blue}Enter{/} alterna la configuración actual."
 
 /**
- * Omitir prefijos comunes en nombres de objetos de égida.
+ * Skip common prefixes in ego-item names.
  */
 static const char *strip_ego_name(const char *name)
 {
@@ -1293,7 +1293,7 @@ static const char *strip_ego_name(const char *name)
 
 
 /**
- * Mostrar un tipo de objeto de égida en la pantalla.
+ * Display an ego-item type on the screen.
  */
 int ego_item_name(char *buf, size_t buf_size, struct ego_desc *desc)
 {
@@ -1304,56 +1304,56 @@ int ego_item_name(char *buf, size_t buf_size, struct ego_desc *desc)
 
 	struct ego_item *ego = &e_info[desc->e_idx];
 
-	/* Encontrar el tipo de ignorar */
+	/* Find the ignore type */
 	for (i = 0; i < N_ELEMENTS(quality_choices); i++)
 		if (desc->itype == i) break;
 
 	if (i == N_ELEMENTS(quality_choices)) return 0;
 
-	/* Inicializar el búfer */
+	/* Initialize the buffer */
 	end = my_strcat(buf, "[ ] ", buf_size);
 
-	/* Añadir el nombre */
+	/* Append the name */
 	end += my_strcat(buf, quality_choices[i].name, buf_size);
 
-	/* Añadir un espacio extra */
+	/* Append an extra space */
 	end += my_strcat(buf, " ", buf_size);
 
-	/* Obtener el nombre completo del objeto de égida */
+	/* Get the full ego-item name */
 	long_name = ego->name;
 
-	/* Obtener la longitud del prefijo común, si lo hay */
+	/* Get the length of the common prefix, if any */
 	prefix_size = (desc->short_name - long_name);
 
-	/* ¿Se encontró un prefijo? */
+	/* Found a prefix? */
 	if (prefix_size > 0) {
 		char prefix[100];
 
-		/* Obtener una copia del prefijo */
+		/* Get a copy of the prefix */
 		my_strcpy(prefix, long_name, prefix_size + 1);
 
-		/* Añadir el prefijo */
+		/* Append the prefix */
 		end += my_strcat(buf, prefix, buf_size);
 	}
-	/* Establecer el nombre a la longitud correcta */
+	/* Set the name to the right length */
 	return end;
 }
 
 /**
- * Función de utilidad usada para ordenar una matriz de índices de objetos de égida por
- * nombre de objeto de égida.
+ * Utility function used for sorting an array of ego-item indices by
+ * ego-item name.
  */
 static int ego_comp_func(const void *a_ptr, const void *b_ptr)
 {
 	const struct ego_desc *a = a_ptr;
 	const struct ego_desc *b = b_ptr;
 
-	/* Nota la eliminación de prefijos comunes */
+	/* Note the removal of common prefixes */
 	return (strcmp(a->short_name, b->short_name));
 }
 
 /**
- * Mostrar una entrada en el menú sval
+ * Display an entry on the sval menu
  */
 static void ego_display(struct menu * menu, int oid, bool cursor, int row,
 						int col, int width)
@@ -1365,28 +1365,28 @@ static void ego_display(struct menu * menu, int oid, bool cursor, int row,
 	uint8_t attr = (cursor ? COLOUR_L_BLUE : COLOUR_WHITE);
 	uint8_t sq_attr = (ignored ? COLOUR_L_RED : COLOUR_L_GREEN);
 
-	/* Adquirir el "nombre" del objeto "i" */
+	/* Acquire the "name" of object "i" */
 	(void) ego_item_name(buf, sizeof(buf), &choice[oid]);
 
-	/* Imprimirlo */
+	/* Print it */
 	c_put_str(attr, format("%s", buf), row, col);
 
-	/* Mostrar marca de ignorar, si la hay */
+	/* Show ignore mark, if any */
 	if (ignored)
 		c_put_str(COLOUR_L_RED, "*", row, col + 1);
 
-	/* Mostrar el nombre del objeto de égida sin prefijo usando otro color */
+	/* Show the stripped ego-item name using another colour */
 	c_put_str(sq_attr, choice[oid].short_name, row, col + strlen(buf));
 }
 
 /**
- * Manejar eventos en el menú sval
+ * Deal with events on the sval menu
  */
 static bool ego_action(struct menu * menu, const ui_event * event, int oid)
 {
 	struct ego_desc *choice = menu->menu_data;
 
-	/* Alternar */
+	/* Toggle */
 	if (event->type == EVT_SELECT) {
 		ego_ignore_toggle(choice[oid].e_idx, choice[oid].itype);
 
@@ -1397,7 +1397,7 @@ static bool ego_action(struct menu * menu, const ui_event * event, int oid)
 }
 
 /**
- * Mostrar lista de objetos de égida a ignorar.
+ * Display list of ego items to be ignored.
  */
 static void ego_menu(const char *unused, int also_unused)
 {
@@ -1412,23 +1412,23 @@ static void ego_menu(const char *unused, int also_unused)
 
 	int i;
 
-	/* Crear la matriz */
+	/* Create the array */
 	choice = mem_zalloc(z_info->e_max * ITYPE_MAX * sizeof(struct ego_desc));
 
-	/* Obtener los objetos de égida válidos */
+	/* Get the valid ego-items */
 	for (i = 0; i < z_info->e_max; i++) {
 		int itype;
 		ego = &e_info[i];
 
-		/* Solo se permiten objetos de égida conocidos válidos */
+		/* Only valid known ego-items allowed */
 		if (!ego->name || !ego->everseen)
 			continue;
 
-		/* Encontrar tipos de ignorar apropiados */
+		/* Find appropriate ignore types */
 		for (itype = ITYPE_NONE + 1; itype < ITYPE_MAX; itype++)
 			if (ego_has_ignore_type(ego, itype)) {
 
-				/* Rellenar los detalles */
+				/* Fill in the details */
 				choice[max_num].e_idx = i;
 				choice[max_num].itype = itype;
 				choice[max_num].short_name = strip_ego_name(ego->name);
@@ -1437,49 +1437,49 @@ static void ego_menu(const char *unused, int also_unused)
 			}
 	}
 
-	/* Ordenar rápidamente la matriz por nombre de objeto de égida */
+	/* Quickly sort the array by ego-item name */
 	qsort(choice, max_num, sizeof(choice[0]), ego_comp_func);
 
-	/* Regresar aquí si no hay objetos */
+	/* Return here if there are no objects */
 	if (!max_num) {
 		mem_free(choice);
 		return;
 	}
 
 
-	/* Guardar la pantalla y limpiarla */
+	/* Save the screen and clear it */
 	screen_save();
 	clear_from(0);
 
-	/* Texto de ayuda */
+	/* Help text */
 	prt("Menú de ignorar objetos de égida", 0, 0);
 
-	/* Salida a la pantalla */
+	/* Output to the screen */
 	text_out_hook = text_out_to_screen;
 
-	/* Sangrar salida */
+	/* Indent output */
 	text_out_indent = 1;
 	text_out_wrap = 79;
 	Term_gotoxy(1, 1);
 
-	/* Mostrar información útil */
+	/* Display some helpful information */
 	text_out_e(EGO_MENU_HELPTEXT);
 
 	text_out_indent = 0;
 
-	/* Configurar el menú */
+	/* Set up the menu */
 	memset(&menu, 0, sizeof(menu));
 	menu_init(&menu, MN_SKIN_SCROLL, &menu_f);
 	menu_setpriv(&menu, max_num, choice);
 	menu_layout(&menu, &area);
 
-	/* Seleccionar una entrada */
+	/* Select an entry */
 	(void) menu_select(&menu, cursor, false);
 
-	/* Liberar memoria */
+	/* Free memory */
 	mem_free(choice);
 
-	/* Cargar pantalla */
+	/* Load screen */
 	screen_load();
 
 	return;
@@ -1488,11 +1488,11 @@ static void ego_menu(const char *unused, int also_unused)
 
 /**
  * ------------------------------------------------------------------------
- * Menú de ignorar por calidad
+ * Quality ignore menu
  * ------------------------------------------------------------------------ */
 
 /**
- * Estructura de menú para diferenciar ignorar por consciente de no consciente
+ * Menu struct for differentiating aware from unaware ignore
  */
 typedef struct
 {
@@ -1501,8 +1501,8 @@ typedef struct
 } ignore_choice;
 
 /**
- * Función de ordenamiento para opciones de ignorar.
- * Consciente va antes de no consciente, y luego ordenar alfabéticamente.
+ * Ordering function for ignore choices.
+ * Aware comes before unaware, and then sort alphabetically.
  */
 static int cmp_ignore(const void *a, const void *b)
 {
@@ -1523,7 +1523,7 @@ static int cmp_ignore(const void *a, const void *b)
 }
 
 /**
- * Determinar si un objeto es una opción válida
+ * Determine if an item is a valid choice
  */
 static int quality_validity(struct menu *menu, int oid)
 {
@@ -1531,14 +1531,14 @@ static int quality_validity(struct menu *menu, int oid)
 }
 
 /**
- * Mostrar una entrada en el menú.
+ * Display an entry in the menu.
  */
 static void quality_display(struct menu *menu, int oid, bool cursor, int row,
 							int col, int width)
 {
 	if (oid) {
-		/* Nota: el orden de los valores en quality_choices no se
-			alinea con el orden de la enumeración ignore_type_t. ¿Arreglar? NRM*/
+		/* Note: the order of the values in quality_choices do not
+			align with the ignore_type_t enum order. - fix? NRM*/
 		const char *name = quality_choices[oid].name;
 		uint8_t level = ignore_level[oid];
 		const char *level_name = quality_values[level].name;
@@ -1563,7 +1563,7 @@ static void quality_display(struct menu *menu, int oid, bool cursor, int row,
 
 
 /**
- * Mostrar los subtipos de ignorar por calidad.
+ * Display the quality ignore subtypes.
  */
 static void quality_subdisplay(struct menu *menu, int oid, bool cursor, int row,
 							   int col, int width)
@@ -1576,7 +1576,7 @@ static void quality_subdisplay(struct menu *menu, int oid, bool cursor, int row,
 
 
 /**
- * Manejar pulsaciones de tecla.
+ * Handle keypresses.
  */
 static bool quality_action(struct menu *m, const ui_event *event, int oid)
 {
@@ -1586,22 +1586,22 @@ static bool quality_action(struct menu *m, const ui_event *event, int oid)
 	ui_event evt;
 	int count;
 
-	/* Mostrar en el punto correcto */
+	/* Display at the right point */
 	area.row += oid;
 
-	/* Guardar */
+	/* Save */
 	screen_save();
 
-	/* Calcular cuántas opciones tenemos */
+	/* Work out how many options we have */
 	count = IGNORE_MAX;
 	if ((oid == ITYPE_RING) || (oid == ITYPE_AMULET))
 		count = area.page_rows = IGNORE_BAD + 1;
 
-	/* Ejecutar menú */
+	/* Run menu */
 	menu_init(&menu, MN_SKIN_SCROLL, &menu_f);
 	menu_setpriv(&menu, count, quality_values);
 
-	/* Evitar que los menús se salgan de la parte inferior de la pantalla */
+	/* Stop menus from going off the bottom of the screen */
 	if (area.row + menu.count > Term->hgt - 1)
 		area.row += Term->hgt - 1 - area.row - menu.count;
 
@@ -1612,17 +1612,17 @@ static bool quality_action(struct menu *m, const ui_event *event, int oid)
 
 	evt = menu_select(&menu, 0, true);
 
-	/* Establecer el nuevo valor apropiadamente */
+	/* Set the new value appropriately */
 	if (evt.type == EVT_SELECT)
 		ignore_level[oid] = menu.cursor;
 
-	/* Cargar y terminar */
+	/* Load and finish */
 	screen_load();
 	return true;
 }
 
 /**
- * Mostrar menú de ignorar por calidad.
+ * Display quality ignore menu.
  */
 static void quality_menu(const char *unused, int also_unused)
 {
@@ -1631,20 +1631,20 @@ static void quality_menu(const char *unused, int also_unused)
 						 quality_action, NULL };
 	region area = { 0, 0, 0, 0 };
 
-	/* Guardar pantalla */
+	/* Save screen */
 	screen_save();
 	clear_from(0);
 
-	/* Configurar el menú */
+	/* Set up the menu */
 	menu_init(&menu, MN_SKIN_SCROLL, &menu_f);
 	menu.title = "Menú de ignorar por calidad";
 	menu_setpriv(&menu, ITYPE_MAX, quality_values);
 	menu_layout(&menu, &area);
 
-	/* Seleccionar una entrada */
+	/* Select an entry */
 	menu_select(&menu, 0, false);
 
-	/* Cargar pantalla */
+	/* Load screen */
 	screen_load();
 	return;
 }
@@ -1653,11 +1653,11 @@ static void quality_menu(const char *unused, int also_unused)
 
 /**
  * ------------------------------------------------------------------------
- * Menú de ignorar por sval
+ * Sval ignore menu
  * ------------------------------------------------------------------------ */
 
 /**
- * Estructura para describir pares tval/descripción.
+ * Structure to describe tval/description pairings.
  */
 typedef struct
 {
@@ -1666,7 +1666,7 @@ typedef struct
 } tval_desc;
 
 /**
- * Categorías para ignorar dependiente de sval.
+ * Categories for sval-dependent ignore.
  */
 static tval_desc sval_dependent[] =
 {
@@ -1691,13 +1691,13 @@ static tval_desc sval_dependent[] =
 
 
 /**
- * Determina si un tval es elegible para ignorar por sval.
+ * Determines whether a tval is eligible for sval-ignore.
  */
 bool ignore_tval(int tval)
 {
 	size_t i;
 
-	/* Solo ignorar si el tval está permitido */
+	/* Only ignore if the tval's allowed */
 	for (i = 0; i < N_ELEMENTS(sval_dependent); i++) {
 		if (kb_info[tval].num_svals == 0) continue;
 		if (tval == sval_dependent[i].tval)
@@ -1709,7 +1709,7 @@ bool ignore_tval(int tval)
 
 
 /**
- * Mostrar una entrada en el menú sval
+ * Display an entry on the sval menu
  */
 static void ignore_sval_menu_display(struct menu *menu, int oid, bool cursor,
 									 int row, int col, int width)
@@ -1722,10 +1722,10 @@ static void ignore_sval_menu_display(struct menu *menu, int oid, bool cursor,
 
 	uint8_t attr = curs_attrs[(int)aware][0 != cursor];
 
-	/* Adquirir el "nombre" del objeto "i" */
+	/* Acquire the "name" of object "i" */
 	object_kind_name(buf, sizeof(buf), kind, aware);
 
-	/* Imprimirlo */
+	/* Print it */
 	c_put_str(attr, format("[ ] %s", buf), row, col);
 	if ((aware && (kind->ignore & IGNORE_IF_AWARE)) ||
 			(!aware && (kind->ignore & IGNORE_IF_UNAWARE)))
@@ -1734,7 +1734,7 @@ static void ignore_sval_menu_display(struct menu *menu, int oid, bool cursor,
 
 
 /**
- * Manejar eventos en el menú sval
+ * Deal with events on the sval menu
  */
 static bool ignore_sval_menu_action(struct menu *m, const ui_event *event,
 									int oid)
@@ -1745,7 +1745,7 @@ static bool ignore_sval_menu_action(struct menu *m, const ui_event *event,
 			(event->type == EVT_KBRD && tolower(event->key.code) == 't')) {
 		struct object_kind *kind = choice[oid].kind;
 
-		/* Alternar la bandera apropiada */
+		/* Toggle the appropriate flag */
 		if (choice[oid].aware)
 			kind->ignore ^= IGNORE_IF_AWARE;
 		else
@@ -1769,7 +1769,7 @@ static const menu_iter ignore_sval_menu =
 
 
 /**
- * Recopilar todos los tval en la gran matriz ignore_choice
+ * Collect all tvals in the big ignore_choice array
  */
 static int ignore_collect_kind(int tval, ignore_choice **ch)
 {
@@ -1778,28 +1778,28 @@ static int ignore_collect_kind(int tval, ignore_choice **ch)
 
 	int i;
 
-	/* Crear la matriz, con entradas tanto para ignorar consciente como no consciente */
+	/* Create the array, with entries both for aware and unaware ignore */
 	choice = mem_alloc(2 * z_info->k_max * sizeof *choice);
 
 	for (i = 1; i < z_info->k_max; i++) {
 		struct object_kind *kind = &k_info[i];
 
-		/* Saltar objetos vacíos, objetos no vistos y tvals incorrectos */
+		/* Skip empty objects, unseen objects, and incorrect tvals */
 		if (!kind->name || kind->tval != tval)
 			continue;
 
 		if (!kind->aware) {
-			/* se puede ignorar cualquier cosa no consciente */
+			/* can unaware ignore anything */
 			choice[num].kind = kind;
 			choice[num++].aware = false;
 		}
 
 		if ((kind->everseen && !kf_has(kind->kind_flags, KF_INSTA_ART)) || 
 			tval_is_money_k(kind)) {
-			/* No mostrar los tipos base de artefacto en esta lista
-			 * ignorar consciente requiere everseen
-			 * no requerir consciencia para ignorar consciente, para que la gente pueda establecer
-			 * al inicio del juego */
+			/* Do not display the artifact base kinds in this list 
+			 * aware ignore requires everseen 
+			 * do not require awareness for aware ignore, so people can set 
+			 * at game start */
 			choice[num].kind = kind;
 			choice[num++].aware = true;
 		}
@@ -1814,7 +1814,7 @@ static int ignore_collect_kind(int tval, ignore_choice **ch)
 }
 
 /**
- * Mostrar lista de svals a ignorar.
+ * Display list of svals to be ignored.
  */
 static bool sval_menu(int tval, const char *desc)
 {
@@ -1827,8 +1827,8 @@ static bool sval_menu(int tval, const char *desc)
 	if (!n_choices)
 		return false;
 
-	/* Ordenar por nombre en los menús de ignorar excepto para categorías de objetos que son
-	 * conscientes desde el principio */
+	/* Sort by name in ignore menus except for categories of items that are
+	 * aware from the start */
 	switch (tval)
 	{
 		case TV_LIGHT:
@@ -1839,42 +1839,42 @@ static bool sval_menu(int tval, const char *desc)
 		case TV_OTHER_BOOK:
 		case TV_DRAG_ARMOR:
 		case TV_GOLD:
-			/* dejar ordenado por sval */
+			/* leave sorted by sval */
 			break;
 
 		default:
-			/* ordenar por nombre */
+			/* sort by name */
 			sort(choices, n_choices, sizeof(*choices), cmp_ignore);
 	}
 
 
-	/* Guardar la pantalla y limpiarla */
+	/* Save the screen and clear it */
 	screen_save();
 	clear_from(0);
 
-	/* Texto de ayuda */
+	/* Help text */
 	prt(format("Ignorar los siguientes %s:", desc), 0, 0);
 
-	/* Ejecutar menú */
+	/* Run menu */
 	menu = menu_new(MN_SKIN_COLUMNS, &ignore_sval_menu);
 	menu_setpriv(menu, n_choices, choices);
 	menu->cmd_keys = "Tt";
 	menu_layout(menu, &area);
-	menu_set_cursor_x_offset(menu, 1); /* Colocar cursor en corchetes. */
+	menu_set_cursor_x_offset(menu, 1); /* Place cursor in brackets. */
 	menu_select(menu, 0, false);
 
-	/* Liberar memoria */
+	/* Free memory */
 	mem_free(menu);
 	mem_free(choices);
 
-	/* Cargar pantalla */
+	/* Load screen */
 	screen_load();
 	return true;
 }
 
 
 /**
- * Devuelve true si hay algo que mostrar en un menú
+ * Returns true if there's anything to display a menu of
  */
 static bool seen_tval(int tval)
 {
@@ -1883,7 +1883,7 @@ static bool seen_tval(int tval)
 	for (i = 1; i < z_info->k_max; i++) {
 		struct object_kind *kind = &k_info[i];
 
-		/* Saltar objetos vacíos, objetos no vistos y tvals incorrectos */
+		/* Skip empty objects, unseen objects, and incorrect tvals */
 		if (!kind->name) continue;
 		if (!kind->everseen) continue;
 		if (kind->tval != tval) continue;
@@ -1897,7 +1897,7 @@ static bool seen_tval(int tval)
 
 
 /**
- * Opciones extra en el menú "opciones de objeto"
+ * Extra options on the "item options" menu
  */
 static struct
 {
@@ -1917,7 +1917,7 @@ static char tag_options_item(struct menu *menu, int oid)
 	if (line < N_ELEMENTS(sval_dependent))
 		return all_letters_nohjkl[oid];
 
-	/* Separador - línea en blanco. */
+	/* Separator - blank line. */
 	if (line == N_ELEMENTS(sval_dependent))
 		return 0;
 
@@ -1936,7 +1936,7 @@ static int valid_options_item(struct menu *menu, int oid)
 	if (line < N_ELEMENTS(sval_dependent))
 		return 1;
 
-	/* Separador - línea en blanco. */
+	/* Separator - blank line. */
 	if (line == N_ELEMENTS(sval_dependent))
 		return 0;
 
@@ -1953,7 +1953,7 @@ static void display_options_item(struct menu *menu, int oid, bool cursor,
 {
 	size_t line = (size_t) oid;
 
-	/* La mayor parte del menú son svals, con una pequeña sección de "opciones extra" abajo */
+	/* Most of the menu is svals, with a small "extra options" section below */
 	if (line < N_ELEMENTS(sval_dependent)) {
 		bool known = seen_tval(sval_dependent[line].tval);
 		uint8_t attr = curs_attrs[known ? CURS_KNOWN: CURS_UNKNOWN][(int)cursor];
@@ -2000,7 +2000,7 @@ static const menu_iter options_item_iter =
 
 
 /**
- * Mostrar y manejar el menú principal de ignorar.
+ * Display and handle the main ignoring menu.
  */
 void do_cmd_options_item(const char *title, int row)
 {
@@ -2027,7 +2027,7 @@ void do_cmd_options_item(const char *title, int row)
 
 /**
  * ------------------------------------------------------------------------
- * Definiciones y visualización del menú principal
+ * Main menu definitions and display
  * ------------------------------------------------------------------------ */
 
 static struct menu *option_menu;
@@ -2057,12 +2057,12 @@ static menu_action option_actions[] =
 
 
 /**
- * Mostrar el menú principal de opciones.
+ * Display the options main menu.
  */
 void do_cmd_options(void)
 {
 	if (!option_menu) {
-		/* Menú principal de opciones */
+		/* Main option menu */
 		option_menu = menu_new_action(option_actions,
 				N_ELEMENTS(option_actions));
 

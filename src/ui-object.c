@@ -1,6 +1,6 @@
 /**
  * \file ui-object.c
- * \brief Listas de objetos y selección, y otras funciones de interfaz relacionadas con objetos
+ * \brief Object lists and selection, and other object-related UI functions
  *
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * Copyright (c) 2007-9 Andi Sidwell, Chris Carr, Ed Graham, Erik Osheim
@@ -53,12 +53,12 @@
 
 /**
  * ------------------------------------------------------------------------
- * Variables para la visualización y selección de objetos
+ * Variables for object display and selection
  * ------------------------------------------------------------------------ */
 #define MAX_ITEMS 50
 
 /**
- * Información sobre un objeto particular
+ * Info about a particular object
  */
 struct object_menu_data {
 	char label[80];
@@ -77,12 +77,12 @@ static int ex_offset;
 
 /**
  * ------------------------------------------------------------------------
- * Visualización de objetos individuales en listas o para selección
+ * Display of individual objects in lists or for selection
  * ------------------------------------------------------------------------ */
 /**
- * Determinar si el atributo y carácter deben considerar el sabor del objeto
+ * Determine if the attr and char should consider the item's flavor
  *
- * Los pergaminos identificados deben usar su propio mosaico.
+ * Identified scrolls should use their own tile.
  */
 static bool use_flavor_glyph(const struct object_kind *kind)
 {
@@ -90,9 +90,9 @@ static bool use_flavor_glyph(const struct object_kind *kind)
 }
 
 /**
- * Devolver el "atributo" para un tipo de objeto dado.
- * Usar "sabor" si está disponible.
- * Por defecto, usar las definiciones del usuario.
+ * Return the "attr" for a given item kind.
+ * Use "flavor" if available.
+ * Default to user definitions.
  */
 uint8_t object_kind_attr(const struct object_kind *kind)
 {
@@ -101,9 +101,9 @@ uint8_t object_kind_attr(const struct object_kind *kind)
 }
 
 /**
- * Devolver el "carácter" para un tipo de objeto dado.
- * Usar "sabor" si está disponible.
- * Por defecto, usar las definiciones del usuario.
+ * Return the "char" for a given item kind.
+ * Use "flavor" if available.
+ * Default to user definitions.
  */
 wchar_t object_kind_char(const struct object_kind *kind)
 {
@@ -112,9 +112,9 @@ wchar_t object_kind_char(const struct object_kind *kind)
 }
 
 /**
- * Devolver el "atributo" para un objeto dado.
- * Usar "sabor" si está disponible.
- * Por defecto, usar las definiciones del usuario.
+ * Return the "attr" for a given item.
+ * Use "flavor" if available.
+ * Default to user definitions.
  */
 uint8_t object_attr(const struct object *obj)
 {
@@ -122,9 +122,9 @@ uint8_t object_attr(const struct object *obj)
 }
 
 /**
- * Devolver el "carácter" para un objeto dado.
- * Usar "sabor" si está disponible.
- * Por defecto, usar las definiciones del usuario.
+ * Return the "char" for a given item.
+ * Use "flavor" if available.
+ * Default to user definitions.
  */
 wchar_t object_char(const struct object *obj)
 {
@@ -132,9 +132,9 @@ wchar_t object_char(const struct object *obj)
 }
 
 /**
- * Mostrar un objeto. Cada objeto puede tener un prefijo con una etiqueta.
- * Usado por show_inven(), show_equip(), show_quiver() y show_floor().
- * Las banderas de modo están documentadas en object.h
+ * Display an object.  Each object may be prefixed with a label.
+ * Used by show_inven(), show_equip(), show_quiver() and show_floor().
+ * Mode flags are documented in object.h
  */
 static void show_obj(int obj_num, int row, int col, bool cursor,
 					 olist_detail_t mode)
@@ -148,21 +148,21 @@ static void show_obj(int obj_num, int row, int col, bool cursor,
 	int label_size = show_label ? strlen(items[obj_num].label) : 0;
 	int equip_label_size = strlen(items[obj_num].equip_label);
 
-	/* Limpiar la línea */
+	/* Clear the line */
 	prt("", row + obj_num, MAX(col - 1, 0));
 
-	/* Si no tenemos etiqueta, no mostraremos nada */
+	/* If we have no label then we won't display anything */
 	if (!strlen(items[obj_num].label)) return;
 
-	/* Imprimir la etiqueta */
+	/* Print the label */
 	if (show_label)
 		c_put_str(label_attr, items[obj_num].label, row + obj_num, col);
 
-	/* Imprimir la etiqueta de equipo */
+	/* Print the equipment label */
 	c_put_str(label_attr, items[obj_num].equip_label, row + obj_num,
 			  col + label_size);
 
-	/* Limitar el nombre del objeto */
+	/* Limit object name */
 	if (label_size + equip_label_size + strlen(items[obj_num].o_name) >
 		(size_t)ex_offset) {
 		int truncate = ex_offset - label_size - equip_label_size;
@@ -174,11 +174,11 @@ static void show_obj(int obj_num, int row, int col, bool cursor,
 		items[obj_num].o_name[truncate] = '\0';
 	}
 
-	/* El tipo de objeto determina el color de la salida */
+	/* Item kind determines the color of the output */
 	if (obj) {
 		attr = obj->kind->base->attr;
 
-		/* Los libros ilegibles son un caso especial */
+		/* Unreadable books are a special case */
 		if (tval_is_book_k(obj->kind) &&
 			(player_object_to_book(player, obj) == NULL)) {
 			attr = COLOUR_SLATE;
@@ -187,17 +187,17 @@ static void show_obj(int obj_num, int row, int col, bool cursor,
 		attr = COLOUR_SLATE;
 	}
 
-	/* Nombre del objeto */
+	/* Object name */
 	c_put_str(attr, items[obj_num].o_name, row + obj_num,
 			  col + label_size + equip_label_size);
 
-	/* Si no tenemos un objeto, podemos saltarnos el resto de la salida */
+	/* If we don't have an object, we can skip the rest of the output */
 	if (!obj) return;
 
-	/* Campos extra */
+	/* Extra fields */
 	ex_offset_ctr = ex_offset;
 
-	/* Precio */
+	/* Price */
 	if (mode & OLIST_PRICE) {
 		struct store *store = store_at(cave, player->grid);
 		if (store) {
@@ -209,7 +209,7 @@ static void show_obj(int obj_num, int row, int col, bool cursor,
 		}
 	}
 
-	/* Probabilidad de fallo para dispositivos mágicos y activaciones */
+	/* Failure chance for magic devices and activations */
 	if (mode & OLIST_FAIL && obj_can_fail(obj)) {
 		int fail = (9 + get_use_device_chance(obj)) / 10;
 		if (object_effect_is_known(obj))
@@ -220,7 +220,7 @@ static void show_obj(int obj_num, int row, int col, bool cursor,
 		ex_offset_ctr += 10;
 	}
 
-	/* Probabilidades de fallo para recargar un objeto; ver effect_handler_RECHARGE */
+	/* Failure chances for recharging an item; see effect_handler_RECHARGE */
 	if (mode & OLIST_RECHARGE) {
 		int fail = 1000 / recharge_failure_chance(obj, player->upkeep->recharge_pow);
 		if (object_effect_is_known(obj))
@@ -231,7 +231,7 @@ static void show_obj(int obj_num, int row, int col, bool cursor,
 		ex_offset_ctr += 10;
 	}
 
-	/* Peso */
+	/* Weight */
 	if (mode & OLIST_WEIGHT) {
 		int weight = obj->number * object_weight_one(obj);
 		/* en kilos kg */
@@ -243,23 +243,23 @@ static void show_obj(int obj_num, int row, int col, bool cursor,
 
 /**
  * ------------------------------------------------------------------------
- * Visualización de listas de objetos
+ * Display of lists of objects
  * ------------------------------------------------------------------------ */
 /**
- * Limpiar la lista de objetos.
+ * Clear the object list.
  */
 static void wipe_obj_list(void)
 {
 	int i;
 
-	/* Poner a cero las constantes */
+	/* Zero the constants */
 	num_obj = 0;
 	num_head = 0;
 	max_len = 0;
 	ex_width = 0;
 	ex_offset = 0;
 
-	/* Limpiar el contenido existente */
+	/* Clear the existing contents */
 	for (i = 0; i < MAX_ITEMS; i++) {
 		my_strcpy(items[i].label, "", sizeof(items[i].label));
 		my_strcpy(items[i].equip_label, "", sizeof(items[i].equip_label));
@@ -270,7 +270,7 @@ static void wipe_obj_list(void)
 }
 
 /**
- * Construir la lista de objetos.
+ * Build the object list.
  */
 static void build_obj_list(int last, struct object **list, item_tester tester,
 						   olist_detail_t mode)
@@ -283,25 +283,25 @@ static void build_obj_list(int last, struct object **list, item_tester tester,
 	bool equip = list ? false : true;
 	bool quiver = list == player->upkeep->quiver ? true : false;
 
-	/* Construir la lista de objetos */
+	/* Build the object list */
 	for (i = 0; i <= last; i++) {
 		char buf[80];
 		struct object *obj = equip ? slot_object(player, i) : list[i];
 
-		/* Los objetos aceptables obtienen una etiqueta */
+		/* Acceptable items get a label */
 		if (object_test(tester, obj) ||	(obj && tval_is_money(obj) && gold_ok))
 			strnfmt(items[num_obj].label, sizeof(items[num_obj].label), "%c) ",
 				quiver ? I2D(i) : all_letters_nohjkl[i]);
 
-		/* Los objetos no aceptables a veces se muestran */
+		/* Unacceptable items are still sometimes shown */
 		else if ((!obj && show_empty) || in_term)
 			my_strcpy(items[num_obj].label, "   ",
 					  sizeof(items[num_obj].label));
 
-		/* Los objetos no aceptables se omiten en la ventana principal */
+		/* Unacceptable items are skipped in the main window */
 		else continue;
 
-		/* Mostrar etiquetas completas de ranura para equipo (o carcaj en subventana) */
+		/* Show full slot labels for equipment (or quiver in subwindow) */
 		if (equip) {
 			const char *mention = equip_mention(player, i);
 			size_t u8len = utf8_strlen(mention);
@@ -329,7 +329,7 @@ static void build_obj_list(int last, struct object **list, item_tester tester,
 				sizeof(items[num_obj].equip_label), "%s", "");
 		}
 
-		/* Guardar el objeto */
+		/* Save the object */
 		items[num_obj].object = obj;
 		items[num_obj].key = (items[num_obj].label)[0];
 		num_obj++;
@@ -337,17 +337,19 @@ static void build_obj_list(int last, struct object **list, item_tester tester,
 }
 
 /**
- * Establecer nombres de objetos y obtener su longitud máxima.
- * Solo tiene sentido después de construir la lista de objetos. Texto que aparece cuando presionas d (frop) o (i) inventario o k (ignorar)
+ * Set object names and get their maximum length.
+ * Only makes sense after building the object list.
  */
 static void set_obj_names(bool terse, const struct player *p)
 {
 	int i;
 	struct object *obj;
 
+	/* Calculate name offset and max name length */
 	for (i = 0; i < num_obj; i++) {
 		obj = items[i].object;
 
+		/* Null objects are used to skip lines, or display only a label */		
 		if (!obj) {
 			if ((i < num_head) || streq(items[i].label, "In quiver"))
 				strnfmt(items[i].o_name, sizeof(items[i].o_name), "%s", "");
@@ -373,6 +375,7 @@ static void set_obj_names(bool terse, const struct player *p)
 				my_strcpy(items[i].o_name, tmp_name, sizeof(items[i].o_name));
 		}
 
+		/* Max length of label + object name */
 		max_len = MAX(max_len,
 					  strlen(items[i].label) + strlen(items[i].equip_label) +
 					  strlen(items[i].o_name));
@@ -380,9 +383,9 @@ static void set_obj_names(bool terse, const struct player *p)
 }
 
 /**
- * Mostrar una lista de objetos. Cada objeto puede tener un prefijo con una etiqueta.
- * Usado por show_inven(), show_equip(), y show_floor(). Las banderas de modo están
- * documentadas en object.h
+ * Display a list of objects.  Each object may be prefixed with a label.
+ * Used by show_inven(), show_equip(), and show_floor().  Mode flags are
+ * documented in object.h
  */
 static void show_obj_list(olist_detail_t mode)
 {
@@ -392,7 +395,7 @@ static void show_obj_list(olist_detail_t mode)
 	bool in_term = (mode & OLIST_WINDOW) ? true : false;
 	bool terse = false;
 
-	/* Inicializar */
+	/* Initialize */
 	max_len = 0;
 	ex_width = 0;
 	ex_offset = 0;
@@ -402,82 +405,82 @@ static void show_obj_list(olist_detail_t mode)
 
 	if (Term->wid < 50) terse = true;
 
-	/* Establecer los nombres y obtener la longitud máxima */
+	/* Set the names and get the max length */
 	set_obj_names(terse, player);
 
-	/* Tener en cuenta el mensaje del carcaj */
+	/* Take the quiver message into consideration */
 	if (mode & OLIST_QUIVER && player->upkeep->quiver[0] != NULL)
 		max_len = MAX(max_len, 24);
 
-	/* Ancho de los campos extra */
+	/* Width of extra fields */
 	if (mode & OLIST_WEIGHT) ex_width += 9;
 	if (mode & OLIST_PRICE) ex_width += 9;
 	if (mode & OLIST_FAIL) ex_width += 10;
 
-	/* Determinar fila y columna de inicio */
+	/* Determine beginning row and column */
 	if (in_term) {
-		/* Ventana de terminal */
+		/* Term window */
 		row = 0;
 		col = 0;
 	} else {
-		/* Ventana principal */
+		/* Main window */
 		row = 1;
 		col = Term->wid - 1 - max_len - ex_width;
 
 		if (col < 3) col = 0;
 	}
 
-	/* Desplazamiento de columna del primer campo extra */
+	/* Column offset of the first extra field */
 	ex_offset = MIN(max_len, (size_t)(Term->wid - 1 - ex_width - col));
 
-	/* Salida de la lista */
+	/* Output the list */
 	for (i = 0; i < num_obj; i++)
 		show_obj(i, row, col, false, mode);
 
-	/* Para el inventario: imprimir el recuento del carcaj */
+	/* For the inventory: print the quiver count */
 	if (mode & OLIST_QUIVER) {
 		int count, j;
 		int quiver_slots = (player->upkeep->quiver_cnt + z_info->quiver_slot_size - 1) / z_info->quiver_slot_size;
 
-		/* El carcaj puede ocupar varias líneas */
+		/* Quiver may take multiple lines */
 		for (j = 0; j < quiver_slots; j++, i++) {
 			const char *fmt = "en Carcaj: %d proyectil%s";
 			char letter = all_letters_nohjkl[in_term ? i - 1 : i];
 
-			/* Número de proyectiles en esta "ranura" */
+			/* Number of missiles in this "slot" */
 			if (j == quiver_slots - 1)
 				count = player->upkeep->quiver_cnt - (z_info->quiver_slot_size * (quiver_slots - 1));
 			else
 				count = z_info->quiver_slot_size;
 
-			/* Limpiar la línea */
+			/* Clear the line */
 			prt("", row + i, MAX(col - 2, 0));
 
-			/* Imprimir la etiqueta (desactivada) */
+			/* Print the (disabled) label */
 			strnfmt(tmp_val, sizeof(tmp_val), "%c) ", letter);
 			c_put_str(COLOUR_SLATE, tmp_val, row + i, col);
 
-			/* Imprimir el recuento */
+			/* Print the count */
 			strnfmt(tmp_val, sizeof(tmp_val), fmt, count,
 					count == 1 ? "" : "s");
 			c_put_str(COLOUR_L_UMBER, tmp_val, row + i, col + 3);
 		}
 	}
 
-	/* Limpiar ventanas de terminal */
+	/* Clear term windows */
 	if (in_term) {
 		for (; i < Term->hgt; i++)
 			prt("", row + i, MAX(col - 2, 0));
 	} else if (i > 0 && row + i < 24) {
-		/* Imprimir una sombra para la ventana principal si es necesario */
+		/* Print a drop shadow for the main window if necessary */
 		prt("", row + i, MAX(col - 2, 0));
 	}
 }
 
 /**
- * Mostrar el inventario. Construye una lista de objetos y los pasa
- * a show_obj_list() para su visualización. Las banderas de modo están
- * documentadas en object.h
+ * Display the inventory.  Builds a list of objects and passes them
+ * off to show_obj_list() for display.  Mode flags documented in
+ * object.h
  */
 void show_inven(int mode, item_tester tester)
 {
@@ -486,10 +489,10 @@ void show_inven(int mode, item_tester tester)
 
 	bool in_term = (mode & OLIST_WINDOW) ? true : false;
 
-	/* Inicializar */
+	/* Initialize */
 	wipe_obj_list();
 
-	/* Incluir carga para ventanas de terminal */	
+	/* Include burden for term windows */
 	if (in_term) {
 	    /* Fix traduc conversión de décimas de libra a kg con 1 decimal
 	     * 1 lb = 0.4536 kg  →  1 décima de lb = 0.04536 kg
@@ -505,67 +508,68 @@ void show_inven(int mode, item_tester tester)
 	            diff_kg_x10 / 10,
 	            diff_kg_x10 % 10,
 	            (diff < 0 ? "sobrecargado" : "restantes"));
-	    items[num_obj].object = NULL;
-	    num_obj++;
+
+		items[num_obj].object = NULL;
+		num_obj++;
 	}
 
-	/* Encontrar la última ranura de inventario ocupada */
+	/* Find the last occupied inventory slot */
 	for (i = 0; i < z_info->pack_size; i++)
 		if (player->upkeep->inven[i] != NULL) last_slot = i;
 
-	/* Construir la lista de objetos */
+	/* Build the object list */
 	build_obj_list(last_slot, player->upkeep->inven, tester, mode);
 
-	/* La ventana de terminal comienza con un encabezado de carga */
+	/* Term window starts with a burden header */
 	num_head = in_term ? 1 : 0;
 
-	/* Mostrar la lista de objetos */
+	/* Display the object list */
 	show_obj_list(mode);
 }
 
 
 /**
- * Mostrar el carcaj. Construye una lista de objetos y los pasa
- * a show_obj_list() para su visualización. Las banderas de modo están
- * documentadas en object.h
+ * Display the quiver.  Builds a list of objects and passes them
+ * off to show_obj_list() for display.  Mode flags documented in
+ * object.h
  */
 void show_quiver(int mode, item_tester tester)
 {
 	int i, last_slot = -1;
 
-	/* Inicializar */
+	/* Initialize */
 	wipe_obj_list();
 
-	/* Encontrar la última ranura de carcaj ocupada */
+	/* Find the last occupied quiver slot */
 	for (i = 0; i < z_info->quiver_size; i++)
 		if (player->upkeep->quiver[i] != NULL) last_slot = i;
 
-	/* Construir la lista de objetos */
+	/* Build the object list */
 	build_obj_list(last_slot, player->upkeep->quiver, tester, mode);
 
-	/* Mostrar la lista de objetos */
+	/* Display the object list */
 	num_head = 0;
 	show_obj_list(mode);
 }
 
 
 /**
- * Mostrar el equipo. Construye una lista de objetos y los pasa
- * a show_obj_list() para su visualización. Las banderas de modo están
- * documentadas en object.h
+ * Display the equipment.  Builds a list of objects and passes them
+ * off to show_obj_list() for display.  Mode flags documented in
+ * object.h
  */
 void show_equip(int mode, item_tester tester)
 {
 	int i;
 	bool in_term = (mode & OLIST_WINDOW) ? true : false;
 
-	/* Inicializar */
+	/* Initialize */
 	wipe_obj_list();
 
-	/* Construir la lista de objetos */
+	/* Build the object list */
 	build_obj_list(player->body.count - 1, NULL, tester, mode);
 
-	/* Mostrar el carcaj en subventanas */
+	/* Show the quiver in subwindows */
 	if (in_term) {
 		int last_slot = -1;
 
@@ -574,38 +578,38 @@ void show_equip(int mode, item_tester tester)
 		items[num_obj].object = NULL;
 		num_obj++;
 
-		/* Encontrar la última ranura de carcaj ocupada */
+		/* Find the last occupied quiver slot */
 		for (i = 0; i < z_info->quiver_size; i++)
 			if (player->upkeep->quiver[i] != NULL) last_slot = i;
 
-		/* Extender la lista de objetos */
+		/* Extend the object list */
 		build_obj_list(last_slot, player->upkeep->quiver, tester, mode);
 	}
 
-	/* Mostrar la lista de objetos */
+	/* Display the object list */
 	num_head = 0;
 	show_obj_list(mode);
 }
 
 
 /**
- * Mostrar el suelo. Construye una lista de objetos y los pasa
- * a show_obj_list() para su visualización. Las banderas de modo están
- * documentadas en object.h
+ * Display the floor.  Builds a list of objects and passes them
+ * off to show_obj_list() for display.  Mode flags documented in
+ * object.h
  */
 void show_floor(struct object **floor_list, int floor_num, int mode,
 				item_tester tester)
 {
-	/* Inicializar */
+	/* Initialize */
 	wipe_obj_list();
 
 	if (floor_num > z_info->floor_size)
 		floor_num = z_info->floor_size;
 
-	/* Construir la lista de objetos */
+	/* Build the object list */
 	build_obj_list(floor_num - 1, floor_list, tester, mode);
 
-	/* Mostrar la lista de objetos */
+	/* Display the object list */
 	num_head = 0;
 	show_obj_list(mode);
 }
@@ -613,7 +617,7 @@ void show_floor(struct object **floor_list, int floor_num, int mode,
 
 /**
  * ------------------------------------------------------------------------
- * Variables para la selección de objetos
+ * Variables for object selection
  * ------------------------------------------------------------------------ */
 
 static item_tester tester_m;
@@ -636,13 +640,13 @@ static bool allow_all = false;
 
 /**
  * ------------------------------------------------------------------------
- * Utilidades de selección de objetos
+ * Object selection utilities
  * ------------------------------------------------------------------------ */
 
 /**
- * Prevenir ciertas elecciones dependiendo de las inscripciones en el objeto.
+ * Prevent certain choices depending on the inscriptions on the item.
  *
- * El objeto puede ser negativo para significar "objeto en el suelo".
+ * The item can be negative to mean "item on floor".
  */
 bool get_item_allow(const struct object *obj, unsigned char ch, cmd_code cmd,
 					bool is_harmless)
@@ -652,24 +656,24 @@ bool get_item_allow(const struct object *obj, unsigned char ch, cmd_code cmd,
 	unsigned n;
 
 	/*
-	 * Truco - Solo cambiar la tecla de comando si realmente necesita ser cambiada.
-	 * Porque UN_KTRL('ctrl-d') (es decir, comando de ignorar en roguelike) da 'd'
-	 * que es el comando de soltar en ambos conjuntos de teclas, usar UN_KTRL_CAP().
+	 * Hack - Only shift the command key if it actually needs to be shifted.
+	 * Because UN_KTRL('ctrl-d') (i.e. rogue-like ignore command) gives 'd'
+	 * which is the drop command in both keysets, use UN_KTRL_CAP().
 	 */
 	if (ch < 0x20)
 		ch = UN_KTRL_CAP(ch);
 
-	/* La inscripción a buscar */
+	/* The inscription to look for */
 	verify_inscrip[1] = ch;
 
-	/* Buscar la inscripción */
+	/* Look for the inscription */
 	n = check_for_inscrip(obj, verify_inscrip);
 
-	/* También buscar la inscripción '!*' */
+	/* Also look for the inscription '!*' */
 	if (!is_harmless)
 		n += check_for_inscrip(obj, "!*");
 
-	/* Elegir cadena para el mensaje */
+	/* Choose string for the prompt */
 	if (n) {
 		char prompt_buf[1024];
 
@@ -679,7 +683,7 @@ bool get_item_allow(const struct object *obj, unsigned char ch, cmd_code cmd,
 
 		strnfmt(prompt_buf, sizeof(prompt_buf), "¿Realmente %s", verb);
 
-		/* Preguntar para confirmar n veces */
+		/* Prompt for confirmation n times */
 		while (n--) {
 			if (!verify_object(prompt_buf, obj, player)) {
 				return false;
@@ -687,21 +691,21 @@ bool get_item_allow(const struct object *obj, unsigned char ch, cmd_code cmd,
 		}
 	}
 
-	/* Permitirlo */
+	/* Allow it */
 	return (true);
 }
 
 
 
 /**
- * Encontrar el primer objeto en la lista de objetos con la "etiqueta" dada. La lista
- * de objetos debe construirse antes de llamar a esta función.
+ * Find the first object in the object list with the given "tag".  The object
+ * list needs to be built before this function is called.
  *
- * Una "etiqueta" es un carácter "n" que aparece como "@n" en cualquier parte de la
- * inscripción de un objeto.
+ * A "tag" is a char "n" appearing as "@n" anywhere in the
+ * inscription of an object.
  *
- * También, la etiqueta "@xn" funcionará igualmente, donde "n" es un carácter de etiqueta,
- * y "x" es la acción para la que funcionará esa etiqueta.
+ * Also, the tag "@xn" will work as well, where "n" is a tag-char,
+ * and "x" is the action that tag will work for.
  */
 static bool get_tag(struct object **tagged_obj, char tag, cmd_code cmd,
 				   bool quiver_tags)
@@ -709,7 +713,7 @@ static bool get_tag(struct object **tagged_obj, char tag, cmd_code cmd,
 	int i;
 	int mode = OPT(player, rogue_like_commands) ? KEYMAP_MODE_ROGUE : KEYMAP_MODE_ORIG;
 
-	/* (f)uego se maneja de manera diferente a todos los demás, debido al carcaj */
+	/* (f)ire is handled differently from all others, due to the quiver */
 	if (quiver_tags) {
 		i = tag - '0';
 		if (player->upkeep->quiver[i]) {
@@ -718,61 +722,61 @@ static bool get_tag(struct object **tagged_obj, char tag, cmd_code cmd,
 		}
 	}
 
-	/* Verificar cada objeto en la lista de objetos */
+	/* Check every object in the object list */
 	for (i = 0; i < num_obj; i++) {
 		const char *s;
 		struct object *obj = items[i].object;
 
-		/* Saltar no-objetos */
+		/* Skip non-objects */
 		if (!obj) continue;
 
-		/* Saltar inscripciones vacías */
+		/* Skip empty inscriptions */
 		if (!obj->note) continue;
 
-		/* Encontrar un '@' */
+		/* Find a '@' */
 		s = strchr(quark_str(obj->note), '@');
 
-		/* Procesar todas las etiquetas */
+		/* Process all tags */
 		while (s) {
 			unsigned char cmdkey;
 
-			/* Verificar las etiquetas normales */
+			/* Check the normal tags */
 			if (s[1] == tag) {
-				/* Guardar el objeto actual */
+				/* Save the actual object */
 				*tagged_obj = obj;
 
-				/* Éxito */
+				/* Success */
 				return true;
 			}
 
 			cmdkey = cmd_lookup_key_unktrl(cmd, mode);
 
-			/* Verificar las etiquetas especiales */
+			/* Check the special tags */
 			if ((s[1] == cmdkey) && (s[2] == tag)) {
-				/* Guardar el ID de inventario actual */
+				/* Save the actual inventory ID */
 				*tagged_obj = obj;
 
-				/* Éxito */
+				/* Success */
 				return true;
 			}
 
-			/* Encontrar otro '@' */
+			/* Find another '@' */
 			s = strchr(s + 1, '@');
 		}
 	}
 
-	/* No existe tal etiqueta */
+	/* No such tag */
 	return false;
 }
 
 
 /**
  * ------------------------------------------------------------------------
- * Menú de selección de objetos
+ * Object selection menu
  * ------------------------------------------------------------------------ */
 
 /**
- * Hacer el encabezado correcto para el menú de selección
+ * Make the correct header for the selection menu
  */
 static void menu_header(void)
 {
@@ -784,151 +788,151 @@ static void menu_header(void)
 	bool use_quiver = ((item_mode & USE_QUIVER) ? true : false);
 	bool allow_floor = ((f1 <= f2) || allow_all);
 
-	/* Viendo inventario */
+	/* Viewing inventory */
 	if (player->upkeep->command_wrk == USE_INVEN) {
-		/* Comenzar el encabezado */
+		/* Begin the header */
 		strnfmt(out_val, sizeof(out_val), "Inven:");
 
-		/* Listar opciones */
+		/* List choices */
 		if (i1 <= i2) {
-			/* Construir el encabezado */
+			/* Build the header */
 			strnfmt(tmp_val, sizeof(tmp_val), " %c-%c,",
 				all_letters_nohjkl[i1], all_letters_nohjkl[i2]);
 
-			/* Añadir */
+			/* Append */
 			my_strcat(out_val, tmp_val, sizeof(out_val));
 		}
 
-		/* Indicar legalidad del equipo */
+		/* Indicate legality of equipment */
 		if (use_equip)
 			my_strcat(out_val, " / para Equip,", sizeof(out_val));
 
-		/* Indicar legalidad del carcaj */
+		/* Indicate legality of quiver */
 		if (use_quiver)
 			my_strcat(out_val, " | para Carcaj,", sizeof(out_val));
 
-		/* Indicar legalidad del "suelo" */
+		/* Indicate legality of the "floor" */
 		if (allow_floor)
 			my_strcat(out_val, " - para suelo,", sizeof(out_val));
 	}
 
-	/* Viendo equipo */
+	/* Viewing equipment */
 	else if (player->upkeep->command_wrk == USE_EQUIP) {
-		/* Comenzar el encabezado */
+		/* Begin the header */
 		strnfmt(out_val, sizeof(out_val), "Equip:");
 
-		/* Listar opciones */
+		/* List choices */
 		if (e1 <= e2) {
-			/* Construir el encabezado */
+			/* Build the header */
 			strnfmt(tmp_val, sizeof(tmp_val), " %c-%c,",
 				all_letters_nohjkl[e1], all_letters_nohjkl[e2]);
 
-			/* Añadir */
+			/* Append */
 			my_strcat(out_val, tmp_val, sizeof(out_val));
 		}
 
-		/* Indicar legalidad del inventario */
+		/* Indicate legality of inventory */
 		if (use_inven)
 			my_strcat(out_val, " / para Inven,", sizeof(out_val));
 
-		/* Indicar legalidad del carcaj */
+		/* Indicate legality of quiver */
 		if (use_quiver)
 			my_strcat(out_val, " | para Carcaj,", sizeof(out_val));
 
-		/* Indicar legalidad del "suelo" */
+		/* Indicate legality of the "floor" */
 		if (allow_floor)
 			my_strcat(out_val, " - para suelo,", sizeof(out_val));
 	}
 
-	/* Viendo carcaj */
+	/* Viewing quiver */
 	else if (player->upkeep->command_wrk == USE_QUIVER) {
-		/* Comenzar el encabezado */
+		/* Begin the header */
 		strnfmt(out_val, sizeof(out_val), "Carcaj:");
 
-		/* Listar opciones */
+		/* List choices */
 		if (q1 <= q2) {
-			/* Construir el encabezado */
+			/* Build the header */
 			strnfmt(tmp_val, sizeof(tmp_val), " %d-%d,", q1, q2);
 
-			/* Añadir */
+			/* Append */
 			my_strcat(out_val, tmp_val, sizeof(out_val));
 		}
 
-		/* Indicar legalidad del inventario o equipo */
+		/* Indicate legality of inventory or equipment */
 		if (use_inven)
 			my_strcat(out_val, " / para Inven,", sizeof(out_val));
 		else if (use_equip)
 			my_strcat(out_val, " / para Equip,", sizeof(out_val));
 
-		/* Indicar legalidad del "suelo" */
+		/* Indicate legality of the "floor" */
 		if (allow_floor)
 			my_strcat(out_val, " - para suelo,", sizeof(out_val));
 	}
 
-	/* Viendo lanzamiento */
+	/* Viewing throwing */
 	else if (player->upkeep->command_wrk == SHOW_THROWING) {
-		/* Comenzar el encabezado */
+		/* Begin the header */
 		strnfmt(out_val, sizeof(out_val), "Objetos para lanzar:");
 
-		/* Listar opciones */
+		/* List choices */
 		if (throwing_num) {
-			/* Construir el encabezado */
+			/* Build the header */
 			strnfmt(tmp_val, sizeof(tmp_val),  " a-%c,",
 				all_letters_nohjkl[throwing_num - 1]);
 
-			/* Añadir */
+			/* Append */
 			my_strcat(out_val, tmp_val, sizeof(out_val));
 		}
 
-		/* Indicar legalidad del inventario */
+		/* Indicate legality of inventory */
 		if (use_inven)
 			my_strcat(out_val, " / para Inven,", sizeof(out_val));
 
-		/* Indicar legalidad del carcaj */
+		/* Indicate legality of quiver */
 		if (use_quiver)
 			my_strcat(out_val, " | para Carcaj,", sizeof(out_val));
 
-		/* Indicar legalidad del "suelo" */
+		/* Indicate legality of the "floor" */
 		if (allow_floor)
 			my_strcat(out_val, " - para suelo,", sizeof(out_val));
 	}
 
-	/* Viendo suelo */
+	/* Viewing floor */
 	else {
-		/* Comenzar el encabezado */
+		/* Begin the header */
 		strnfmt(out_val, sizeof(out_val), "Suelo:");
 
-		/* Listar opciones */
+		/* List choices */
 		if (f1 <= f2) {
-			/* Construir el encabezado */
+			/* Build the header */
 			strnfmt(tmp_val, sizeof(tmp_val), " %c-%c,",
 				all_letters_nohjkl[f1], all_letters_nohjkl[f2]);
 
-			/* Añadir */
+			/* Append */
 			my_strcat(out_val, tmp_val, sizeof(out_val));
 		}
 
-		/* Indicar legalidad del inventario o equipo */
+		/* Indicate legality of inventory or equipment */
 		if (use_inven)
 			my_strcat(out_val, " / para Inven,", sizeof(out_val));
 		else if (use_equip)
 			my_strcat(out_val, " / para Equip,", sizeof(out_val));
 
-		/* Indicar legalidad del carcaj */
+		/* Indicate legality of quiver */
 		if (use_quiver)
 			my_strcat(out_val, " | para Carcaj,", sizeof(out_val));
 	}
 
-	/* Terminar el encabezado */
+	/* Finish the header */
 	my_strcat(out_val, " ESC", sizeof(out_val));
 
-	/* Construir el encabezado */
+	/* Build the header */
 	strnfmt(header, sizeof(header), "(%s)", out_val);
 }
 
 
 /**
- * Obtener una etiqueta de objeto
+ * Get an item tag
  */
 static char get_item_tag(struct menu *menu, int oid)
 {
@@ -938,7 +942,7 @@ static char get_item_tag(struct menu *menu, int oid)
 }
 
 /**
- * Determinar si un objeto es una opción válida
+ * Determine if an item is a valid choice
  */
 static int get_item_validity(struct menu *menu, int oid)
 {
@@ -948,17 +952,17 @@ static int get_item_validity(struct menu *menu, int oid)
 }
 
 /**
- * Mostrar una entrada en el menú de objetos
+ * Display an entry on the item menu
  */
 static void get_item_display(struct menu *menu, int oid, bool cursor, int row,
 					  int col, int width)
 {
-	/* Imprimirlo */
+	/* Print it */
 	show_obj(oid, row - oid, col, cursor, olist_mode);
 }
 
 /**
- * Manejar eventos en el menú get_item
+ * Deal with events on the get_item menu
  */
 static bool get_item_action(struct menu *menu, const ui_event *event, int oid)
 {
@@ -975,7 +979,7 @@ static bool get_item_action(struct menu *menu, const ui_event *event, int oid)
 
 	if (event->type == EVT_KBRD) {
 		if (key == '/') {
-			/* Alternar si está permitido */
+			/* Toggle if allowed */
 			if (((item_mode & USE_INVEN) || allow_all)
 				&& (player->upkeep->command_wrk != USE_INVEN)) {
 				player->upkeep->command_wrk = USE_INVEN;
@@ -990,22 +994,22 @@ static bool get_item_action(struct menu *menu, const ui_event *event, int oid)
 		}
 
 		else if (key == '|') {
-			/* No se permite alternar */
+			/* No toggle allowed */
 			if ((q1 > q2) && !allow_all){
 				bell();
 			} else {
-				/* Alternar a carcaj */
+				/* Toggle to quiver */
 				player->upkeep->command_wrk = (USE_QUIVER);
 				newmenu = true;
 			}
 		}
 
 		else if (key == '-') {
-			/* No se permite alternar */
+			/* No toggle allowed */
 			if ((f1 > f2) && !allow_all) {
 				bell();
 			} else {
-				/* Alternar a suelo */
+				/* Toggle to floor */
 				player->upkeep->command_wrk = (USE_FLOOR);
 				newmenu = true;
 			}
@@ -1016,7 +1020,7 @@ static bool get_item_action(struct menu *menu, const ui_event *event, int oid)
 }
 
 /**
- * Mostrar proyectiles del carcaj en el inventario completo
+ * Show quiver missiles in full inventory
  */
 static void item_menu_browser(int oid, void *data, const region *local_area)
 {
@@ -1025,7 +1029,7 @@ static void item_menu_browser(int oid, void *data, const region *local_area)
 	int quiver_slots = (player->upkeep->quiver_cnt + z_info->quiver_slot_size - 1)
 		/ z_info->quiver_slot_size;
 
-	/* Configurar para salida debajo del menú */
+	/* Set up to output below the menu */
 	text_out_hook = text_out_to_screen;
 	text_out_wrap = 0;
 	text_out_indent = local_area->col - 1;
@@ -1033,35 +1037,35 @@ static void item_menu_browser(int oid, void *data, const region *local_area)
 	prt("", local_area->row + local_area->page_rows, MAX(0, local_area->col - 1));
 	Term_gotoxy(local_area->col, local_area->row + local_area->page_rows);
 
-	/* Si estamos imprimiendo las ranuras de mochila que ocupa el carcaj */
+	/* If we're printing pack slots the quiver takes up */
 	if (olist_mode & OLIST_QUIVER && player->upkeep->command_wrk == USE_INVEN) {
-		/* El carcaj puede ocupar varias líneas */
+		/* Quiver may take multiple lines */
 		for (j = 0; j < quiver_slots; j++, i++) {
 			const char *fmt = "en Carcaj: %d proyectil%s\n";
 			char letter = all_letters_nohjkl[i];
 
-			/* Número de proyectiles en esta "ranura" */
+			/* Number of missiles in this "slot" */
 			if (j == quiver_slots - 1)
 				count = player->upkeep->quiver_cnt - (z_info->quiver_slot_size *
 													  (quiver_slots - 1));
 			else
 				count = z_info->quiver_slot_size;
 
-			/* Imprimir la etiqueta (desactivada) */
+			/* Print the (disabled) label */
 			strnfmt(tmp_val, sizeof(tmp_val), "%c) ", letter);
 			text_out_c(COLOUR_SLATE, tmp_val, local_area->row + i, local_area->col);
 
-			/* Imprimir el recuento */
+			/* Print the count */
 			strnfmt(tmp_val, sizeof(tmp_val), fmt, count,
 					count == 1 ? "" : "s");
 			text_out_c(COLOUR_L_UMBER, tmp_val, local_area->row + i, local_area->col + 3);
 		}
 	}
 
-	/* Siempre imprimir una línea en blanco */
+	/* Always print a blank line */
 	prt("", local_area->row + i, MAX(0, local_area->col - 1));
 
-	/* Limpiar mosaicos completos */
+	/* Blank out whole tiles */
 	while ((tile_height > 1) && ((local_area->row + i) % tile_height != 0)) {
 		i++;
 		prt("", local_area->row + i, MAX(0, local_area->col - 1));
@@ -1072,16 +1076,16 @@ static void item_menu_browser(int oid, void *data, const region *local_area)
 }
 
 /**
- * Mostrar y manejar la interacción del usuario con un menú contextual para cambiar la
- * lista de objetos.
+ * Display and handle user interaction with a context menu to switch the
+ * item list.
  *
- * \param current_menu es el menú estándar (no contextual) que muestra la
- * lista de objetos.
- * \param in es el evento que desencadena el menú contextual. in->type debe ser
+ * \param current_menu is the standard (not contextual) menu displaying the
+ * item list.
+ * \param in is the event triggering the context menu.  in->type must be
  * EVT_MOUSE.
- * \param out es el evento que se pasará hacia arriba (al manejo interno en
- * menu_select() o, potencialmente, al llamador de menu_select()).
- * \return true si el evento fue manejado; en caso contrario, devuelve false.
+ * \param out is the event to be passed upstream (to internal handling in
+ * menu_select() or, potentially, menu_select()'s caller).
+ * \return true if the event was handled; otherwise, return false.
  */
 static bool use_context_menu_list_switcher(struct menu *current_menu,
 		const ui_event *in, ui_event *out)
@@ -1150,7 +1154,7 @@ static bool use_context_menu_list_switcher(struct menu *current_menu,
 }
 
 /**
- * Mostrar elementos de la lista para elegir
+ * Display list items to choose from
  */
 static struct object *item_menu(cmd_code cmd, int prompt_size, int mode)
 {
@@ -1162,7 +1166,7 @@ static struct object *item_menu(cmd_code cmd, int prompt_size, int mode)
 	int row, inscrip;
 	struct object *obj = NULL;
 
-	/* Configurar el menú */
+	/* Set up the menu */
 	menu_setpriv(m, num_obj, items);
 	if (player->upkeep->command_wrk == USE_QUIVER)
 		m->selections = "0123456789";
@@ -1173,10 +1177,10 @@ static struct object *item_menu(cmd_code cmd, int prompt_size, int mode)
 	m->flags = (MN_PVT_TAGS | MN_INSCRIP_TAGS | MN_KEYMAP_ESC);
 	m->browse_hook = item_menu_browser;
 
-	/* Obtener inscripciones */
+	/* Get inscriptions */
 	m->inscriptions = mem_zalloc(10 * sizeof(char));
 	for (inscrip = 0; inscrip < 10; inscrip++) {
-		/* Buscar la etiqueta */
+		/* Look up the tag */
 		if (get_tag(&obj, (char)inscrip + '0', item_cmd,
 					item_mode & QUIVER_TAGS)) {
 			int i;
@@ -1189,7 +1193,7 @@ static struct object *item_menu(cmd_code cmd, int prompt_size, int mode)
 		}
 	}
 
-	/* Configurar las variables de la lista de objetos */
+	/* Set up the item list variables */
 	selection = NULL;
 	set_obj_names(false, player);
 
@@ -1209,7 +1213,7 @@ static struct object *item_menu(cmd_code cmd, int prompt_size, int mode)
 		ex_offset_ctr += 10;
 	}
 
-	/* Configurar la región del menú */
+	/* Set up the menu region */
 	area.page_rows = m->count;
 	area.row = 1;
 	area.col = MIN(Term->wid - 1 - (int) max_len - ex_width, prompt_size - 2);
@@ -1227,14 +1231,14 @@ static struct object *item_menu(cmd_code cmd, int prompt_size, int mode)
 
 	menu_layout(m, &area);
 
-	/* Elegir */
+	/* Choose */
 	evt = menu_select(m, 0, true);
 
-	/* Limpiar */
+	/* Clean up */
 	mem_free(m->inscriptions);
 	mem_free(m);
 
-	/* Manejar cambio de menú */
+	/* Deal with menu switch */
 	if (evt.type == EVT_SWITCH && !newmenu) {
 		bool left = evt.key.code == ARROW_LEFT;
 
@@ -1293,45 +1297,45 @@ static struct object *item_menu(cmd_code cmd, int prompt_size, int mode)
 		newmenu = true;
 	}
 
-	/* Resultado */
+	/* Result */
 	return selection;
 }
 
 
 
 /**
- * Dejar que el usuario seleccione un objeto, guardar su dirección
+ * Let the user select an object, save its address
  *
- * Devuelve true solo si el usuario eligió un objeto aceptable.
+ * Return true only if an acceptable item was chosen by the user.
  *
- * Se permite al usuario elegir objetos aceptables del equipo,
- * inventario, carcaj o suelo, respectivamente, si se dio la bandera adecuada,
- * y hay objetos aceptables en esa ubicación.
+ * The user is allowed to choose acceptable items from the equipment,
+ * inventory, quiver, or floor, respectively, if the proper flag was given,
+ * and there are any acceptable items in that location.
  *
- * El equipo, inventario o carcaj se muestran (incluso si no hay objetos
- * aceptables en esa ubicación) si se dio la bandera adecuada.
+ * The equipment, inventory or quiver are displayed (even if no acceptable
+ * items are in that location) if the proper flag was given.
  *
- * Si no hay objetos aceptables disponibles en ninguna parte, y "str" no
- * es NULL, se usará como texto de un mensaje de advertencia
- * antes de que la función regrese.
+ * If there are no acceptable items available anywhere, and "str" is
+ * not NULL, then it will be used as the text of a warning message
+ * before the function returns.
  *
- * Si se selecciona un objeto legal, lo guardamos en "choice" y devolvemos true.
+ * If a legal item is selected , we save it in "choice" and return true.
  *
- * Si no hay ningún objeto disponible, no hacemos nada con "choice" y mostramos un
- * mensaje de advertencia, usando "str" si está disponible, y devolvemos false.
+ * If no item is available, we do nothing to "choice", and we display a
+ * warning message, using "str" if available, and return false.
  *
- * Si no se selecciona ningún objeto, no hacemos nada con "choice" y devolvemos false.
+ * If no item is selected, we do nothing to "choice", and return false.
  *
- * El global "player->upkeep->command_wrk" se usa para elegir entre
- * listados de equip/inven/quiver/floor. Es igual a USE_INVEN o USE_EQUIP o
- * USE_QUIVER o USE_FLOOR, excepto cuando se llama a esta función por primera vez, cuando
- * es igual a cero, lo que hará que se establezca en USE_INVEN.
+ * Global "player->upkeep->command_wrk" is used to choose between
+ * equip/inven/quiver/floor listings.  It is equal to USE_INVEN or USE_EQUIP or
+ * USE_QUIVER or USE_FLOOR, except when this function is first called, when it
+ * is equal to zero, which will cause it to be set to USE_INVEN.
  *
- * Siempre borramos el mensaje cuando terminamos, dejando una línea en blanco,
- * o un mensaje de advertencia, si corresponde, si no hay objetos disponibles.
+ * We always erase the prompt when we are done, leaving a blank line,
+ * or a warning message, if appropriate, if no items are available.
  *
- * Nótese que solo los objetos de suelo "aceptables" obtienen índices, por lo que entre dos
- * comandos, los índices de los objetos del suelo pueden cambiar. XXX XXX XXX
+ * Note that only "acceptable" floor objects get indexes, so between two
+ * commands, the indexes of floor objects may change.  XXX XXX XXX
  */
 bool textui_get_item(struct object **choice, const char *pmt, const char *str,
 					 cmd_code cmd, item_tester tester, int mode)
@@ -1365,7 +1369,7 @@ bool textui_get_item(struct object **choice, const char *pmt, const char *str,
 	prompt = pmt;
 	allow_all = str ? false : true;
 
-	/* Modos de visualización de la lista de objetos */
+	/* Object list display modes */
 	if (mode & SHOW_FAIL)
 		olist_mode |= OLIST_FAIL;
 	else
@@ -1386,33 +1390,33 @@ bool textui_get_item(struct object **choice, const char *pmt, const char *str,
 	/* Paranoia XXX XXX XXX */
 	event_signal(EVENT_MESSAGE_FLUSH);
 
-	/* Inventario completo */
+	/* Full inventory */
 	i1 = 0;
 	i2 = z_info->pack_size - 1;
 
-	/* Prohibir inventario */
+	/* Forbid inventory */
 	if (!use_inven) i2 = -1;
 
-	/* Restringir índices de inventario */
+	/* Restrict inventory indexes */
 	while ((i1 <= i2) && (!object_test(tester, player->upkeep->inven[i1])))
 		i1++;
 	while ((i1 <= i2) && (!object_test(tester, player->upkeep->inven[i2])))
 		i2--;
 
-	/* Aceptar inventario */
+	/* Accept inventory */
 	if ((i1 <= i2) || allow_all)
 		allow_inven = true;
 	else if (item_mode & USE_INVEN)
 		item_mode -= USE_INVEN;
 
-	/* Equipo completo */
+	/* Full equipment */
 	e1 = 0;
 	e2 = player->body.count - 1;
 
-	/* Prohibir equipo */
+	/* Forbid equipment */
 	if (!use_equip) e2 = -1;
 
-	/* Restringir índices de equipo a menos que comience sin comando */
+	/* Restrict equipment indexes unless starting with no command */
 	if ((cmd != CMD_NULL) || (tester != NULL)) {
 		while ((e1 <= e2) && (!object_test(tester, slot_object(player, e1))))
 			e1++;
@@ -1420,63 +1424,63 @@ bool textui_get_item(struct object **choice, const char *pmt, const char *str,
 			e2--;
 	}
 
-	/* Aceptar equipo */
+	/* Accept equipment */
 	if ((e1 <= e2) || allow_all)
 		allow_equip = true;
 	else if (item_mode & USE_EQUIP)
 		item_mode -= USE_EQUIP;
 
-	/* Restringir índices de carcaj */
+	/* Restrict quiver indexes */
 	q1 = 0;
 	q2 = z_info->quiver_size - 1;
 
-	/* Prohibir carcaj */
+	/* Forbid quiver */
 	if (!use_quiver) q2 = -1;
 
-	/* Restringir índices de carcaj */
+	/* Restrict quiver indexes */
 	while ((q1 <= q2) && (!object_test(tester, player->upkeep->quiver[q1])))
 		q1++;
 	while ((q1 <= q2) && (!object_test(tester, player->upkeep->quiver[q2])))
 		q2--;
 
-	/* Aceptar carcaj */
+	/* Accept quiver */
 	if ((q1 <= q2) || allow_all)
 		allow_quiver = true;
 	else if (item_mode & USE_QUIVER)
 		item_mode -= USE_QUIVER;
 
-	/* Escanear todos los objetos no monetarios en la casilla */
+	/* Scan all non-gold objects in the grid */
 	floor_num = scan_floor(floor_list, floor_max, player,
 		OFLOOR_TEST | OFLOOR_SENSE | OFLOOR_VISIBLE, tester);
 
-	/* Suelo completo */
+	/* Full floor */
 	f1 = 0;
 	f2 = floor_num - 1;
 
-	/* Prohibir suelo */
+	/* Forbid floor */
 	if (!use_floor) f2 = -1;
 
-	/* Restringir índices de suelo */
+	/* Restrict floor indexes */
 	while ((f1 <= f2) && (!object_test(tester, floor_list[f1]))) f1++;
 	while ((f1 <= f2) && (!object_test(tester, floor_list[f2]))) f2--;
 
-	/* Aceptar suelo */
+	/* Accept floor */
 	if ((f1 <= f2) || allow_all)
 		allow_floor = true;
 	else if (item_mode & USE_FLOOR)
 		item_mode -= USE_FLOOR;
 
-	/* Escanear todos los objetos para lanzar al alcance */
+	/* Scan all throwing objects in reach */
 	throwing_num = scan_items(throwing_list, throwing_max, player,
 		USE_INVEN | USE_QUIVER | USE_FLOOR, obj_is_throwing);
 
-	/* Requerir al menos una opción legal */
+	/* Require at least one legal choice */
 	if (allow_inven || allow_equip || allow_quiver || allow_floor) {
-		/* Usar menú de lanzamiento si es posible */
+		/* Use throwing menu if at all possible */
 		if (show_throwing && throwing_num) {
 			player->upkeep->command_wrk = SHOW_THROWING;
 
-			/* Comenzar donde se solicitó si es posible */
+			/* Start where requested if possible */
 		} else if ((player->upkeep->command_wrk == USE_EQUIP) && allow_equip)
 			player->upkeep->command_wrk = USE_EQUIP;
 		else if ((player->upkeep->command_wrk == USE_INVEN) && allow_inven)
@@ -1486,11 +1490,11 @@ bool textui_get_item(struct object **choice, const char *pmt, const char *str,
 		else if ((player->upkeep->command_wrk == USE_FLOOR) && allow_floor)
 			player->upkeep->command_wrk = USE_FLOOR;
 
-		/* Si obviamente estamos usando el carcaj, entonces empezar en carcaj */
+		/* If we are obviously using the quiver then start on quiver */
 		else if (quiver_tags && allow_quiver && (cmd != CMD_USE))
 			player->upkeep->command_wrk = USE_QUIVER;
 
-		/* De lo contrario, elegir lo que esté permitido */
+		/* Otherwise choose whatever is allowed */
 		else if (use_inven && allow_inven)
 			player->upkeep->command_wrk = USE_INVEN;
 		else if (use_equip && allow_equip)
@@ -1500,7 +1504,7 @@ bool textui_get_item(struct object **choice, const char *pmt, const char *str,
 		else if (use_floor && allow_floor)
 			player->upkeep->command_wrk = USE_FLOOR;
 
-		/* Si no hay nada que elegir, usar inventario (vacío) */
+		/* If nothing to choose, use (empty) inventory */
 		else
 			player->upkeep->command_wrk = USE_INVEN;
 
@@ -1509,35 +1513,35 @@ bool textui_get_item(struct object **choice, const char *pmt, const char *str,
 			int ni = 0;
 			int ne = 0;
 
-			/* Si inven o equip está en la pantalla principal, y solo uno de ellos
-			 * está destinado a una subventana, deberíamos mostrar el opuesto allí */
+			/* If inven or equip is on the main screen, and only one of them
+			 * is slated for a subwindow, we should show the opposite there */
 			for (j = 0; j < ANGBAND_TERM_MAX; j++) {
-				/* No usado */
+				/* Unused */
 				if (!angband_term[j]) continue;
 
-				/* Contar ventanas que muestran inven */
+				/* Count windows displaying inven */
 				if (window_flag[j] & (PW_INVEN)) ni++;
 
-				/* Contar ventanas que muestran equip */
+				/* Count windows displaying equip */
 				if (window_flag[j] & (PW_EQUIP)) ne++;
 			}
 
-			/* ¿Estamos en la situación en la que tiene sentido alternar? */
+			/* Are we in the situation where toggling makes sense? */
 			if ((ni && !ne) || (!ni && ne)) {
 				if (player->upkeep->command_wrk == USE_EQUIP) {
 					if ((ne && !toggle) || (ni && toggle)) {
-						/* La pantalla principal es equipo, también la subventana */
+						/* Main screen is equipment, so is subwindow */
 						toggle_inven_equip();
 						toggle = !toggle;
 					}
 				} else if (player->upkeep->command_wrk == USE_INVEN) {
 					if ((ni && !toggle) || (ne && toggle)) {
-						/* La pantalla principal es inventario, también la subventana */
+						/* Main screen is inventory, so is subwindow */
 						toggle_inven_equip();
 						toggle = !toggle;
 					}
 				} else {
-					/* Carcaj o suelo, volver al original */
+					/* Quiver or floor, go back to the original */
 					if (toggle) {
 						toggle_inven_equip();
 						toggle = !toggle;
@@ -1545,16 +1549,16 @@ bool textui_get_item(struct object **choice, const char *pmt, const char *str,
 				}
 			}
 
-			/* Redibujar */
+			/* Redraw */
 			player->upkeep->redraw |= (PR_INVEN | PR_EQUIP);
 
-			/* Redibujar ventanas */
+			/* Redraw windows */
 			redraw_stuff(player);
 
-			/* Guardar pantalla */
+			/* Save screen */
 			screen_save();
 
-			/* Construir lista de objetos */
+			/* Build object list */
 			wipe_obj_list();
 			if (player->upkeep->command_wrk == USE_INVEN)
 				build_obj_list(i2, player->upkeep->inven, tester_m, olist_mode);
@@ -1568,60 +1572,60 @@ bool textui_get_item(struct object **choice, const char *pmt, const char *str,
 				build_obj_list(throwing_num, throwing_list, tester_m,
 							   olist_mode);
 
-			/* Mostrar el mensaje */
+			/* Show the prompt */
 			menu_header();
 			if (pmt) {
 				prt(pmt, 0, 0);
 				prt(header, 0, strlen(pmt) + 1);
 			}
 
-			/* No hay solicitud de cambio de menú */
+			/* No menu change request */
 			newmenu = false;
 
-			/* Obtener una elección de objeto */
+			/* Get an item choice */
 			*choice = item_menu(cmd, MAX(pmt ? strlen(pmt) : 0, 15), mode);
 
-			/* Arreglar la pantalla */
+			/* Fix the screen */
 			screen_load();
 
-			/* Actualizar */
+			/* Update */
 			player->upkeep->redraw |= (PR_INVEN | PR_EQUIP);
 			redraw_stuff(player);
 
-			/* Limpiar la línea de mensaje */
+			/* Clear the prompt line */
 			prt("", 0, 0);
 
-			/* Tenemos una selección, o estamos retrocediendo */
+			/* We have a selection, or are backing out */
 			if (*choice || !newmenu) {
 				if (toggle) toggle_inven_equip();
 				break;
 			}
 		}
 	} else {
-		/* Advertencia si es necesario */
+		/* Warning if needed */
 		if (str) msg("%s", str);
 		*choice = NULL;
 	}
 
-	/* Limpiar */
+	/* Clean up */
 	player->upkeep->command_wrk = 0;
 	mem_free(throwing_list);
 	mem_free(floor_list);
 
-	/* Resultado */
+	/* Result */
 	return (*choice != NULL) ? true : false;
 }
 
 
 /**
  * ------------------------------------------------------------------------
- * Recuerdo de objetos
+ * Object recall
  * ------------------------------------------------------------------------ */
 
 
 /**
- * Esto dibuja la subventana de Recuerdo de Objetos cuando se muestra un objeto particular
- * (ej. un casco en la mochila, o un pergamino en el suelo)
+ * This draws the Object Recall subwindow when displaying a particular object
+ * (e.g. a helmet in the backpack, or a scroll on the ground)
  */
 void display_object_recall(struct object *obj)
 {
@@ -1638,8 +1642,8 @@ void display_object_recall(struct object *obj)
 
 
 /**
- * Esto dibuja la subventana de Recuerdo de Objetos cuando se muestra un tipo de objeto recordado
- * (ej. un anillo de ácido genérico o una hoja del caos genérica)
+ * This draws the Object Recall subwindow when displaying a recalled item kind
+ * (e.g. a generic ring of acid or a generic blade of chaos)
  */
 void display_object_kind_recall(struct object_kind *kind)
 {
@@ -1656,11 +1660,11 @@ void display_object_kind_recall(struct object_kind *kind)
 }
 
 /**
- * Mostrar el recuerdo de objeto modalmente y esperar una pulsación de tecla.
+ * Display object recall modally and wait for a keypress.
  *
- * Esto está configurado para su uso en modo mirar (ver target_set_interactive_aux()).
+ * This is set up for use in look mode (see target_set_interactive_aux()).
  *
- * \param obj es el objeto a describir.
+ * \param obj is the object to be described.
  */
 void display_object_recall_interactive(struct object *obj)
 {
@@ -1677,7 +1681,7 @@ void display_object_recall_interactive(struct object *obj)
 }
 
 /**
- * Examinar un objeto
+ * Examine an object
  */
 void textui_obj_examine(void)
 {
@@ -1688,15 +1692,15 @@ void textui_obj_examine(void)
 
 	struct object *obj;
 
-	/* Seleccionar objeto */
+	/* Select item */
 	if (!get_item(&obj, "¿Examinar qué objeto?", "No tienes nada que examinar.",
 			CMD_NULL, NULL, (USE_EQUIP | USE_INVEN | USE_QUIVER | USE_FLOOR | IS_HARMLESS)))
 		return;
 
-	/* Rastrear objeto para el recuerdo de objetos */
+	/* Track object for object recall */
 	track_object(player->upkeep, obj);
 
-	/* Mostrar información */
+	/* Display info */
 	tb = object_info(obj, OINFO_NONE);
 	object_desc(header_buf, sizeof(header_buf), obj,
 		ODESC_PREFIX | ODESC_FULL | ODESC_CAPITAL, player);
@@ -1708,7 +1712,7 @@ void textui_obj_examine(void)
 
 /**
  * ------------------------------------------------------------------------
- * Interfaz de ignorado de objetos
+ * Object ignore interface
  * ------------------------------------------------------------------------ */
 
 enum {
@@ -1737,14 +1741,14 @@ void textui_cmd_ignore_menu(struct object *obj)
 	m = menu_dynamic_new();
 	m->selections = all_letters_nohjkl;
 
-	/* Opción básica de ignorar */
+	/* Basic ignore option */
 	if (!(obj->known->notice & OBJ_NOTICE_IGNORE)) {
 		menu_dynamic_add(m, "Solo este objeto", IGNORE_THIS_ITEM);
 	} else {
 		menu_dynamic_add(m, "Dejar de ignorar este objeto", UNIGNORE_THIS_ITEM);
 	}
 
-	/* Ignorar por sabor */
+	/* Flavour-aware ignore */
 	if (ignore_tval(obj->tval) &&
 			(!obj->artifact || !object_flavor_is_aware(obj))) {
 		bool ignored = kind_is_ignored_aware(obj->kind) ||
@@ -1764,7 +1768,7 @@ void textui_cmd_ignore_menu(struct object *obj)
 
 	type = ignore_type_of(obj);
 
-	/* Ignorar por égida */
+	/* Ego ignoring */
 	if (obj->known->ego && type != ITYPE_MAX) {
 		struct ego_desc choice;
 		struct ego_item *ego = obj->ego;
@@ -1783,7 +1787,7 @@ void textui_cmd_ignore_menu(struct object *obj)
 		}
 	}
 
-	/* Ignorar por calidad */
+	/* Quality ignoring */
 	value = ignore_level_of(obj);
 
 	if (tval_is_jewelry(obj) &&	ignore_level_of(obj) != IGNORE_BAD)
@@ -1796,8 +1800,8 @@ void textui_cmd_ignore_menu(struct object *obj)
 		menu_dynamic_add(m, out_val, IGNORE_THIS_QUALITY);
 	}
 
-	/* Calcular región de visualización */
-	r.width = menu_dynamic_longest_entry(m) + 3 + 2; /* +3 para etiqueta, +2 para relleno */
+	/* Work out display region */
+	r.width = menu_dynamic_longest_entry(m) + 3 + 2; /* +3 for tag, 2 for pad */
 	r.col = 80 - r.width;
 	r.row = 1;
 	r.page_rows = m->count;
@@ -1839,7 +1843,7 @@ void textui_cmd_ignore(void)
 {
 	struct object *obj;
 
-	/* Obtener un objeto */
+	/* Get an item */
 	const char *q = "¿Qué objeto ignorar? ";
 	const char *s = "No tienes nada que ignorar.";
 	if (!get_item(&obj, q, s, CMD_IGNORE, NULL,
@@ -1855,3 +1859,4 @@ void textui_cmd_toggle_ignore(void)
 	player->upkeep->notice |= PN_IGNORE;
 	do_cmd_redraw();
 }
+

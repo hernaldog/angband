@@ -1,6 +1,6 @@
 /**
  * \file ui-spell.c
- * \brief Manejo de la interfaz de usuario para hechizos
+ * \brief Spell UI handing
  *
  * Copyright (c) 2010 Andi Sidwell
  *
@@ -33,7 +33,7 @@
 
 
 /**
- * Estructura de datos del menú de hechizos
+ * Spell menu data struct
  */
 struct spell_menu_data {
 	int *spells;
@@ -48,7 +48,7 @@ struct spell_menu_data {
 
 
 /**
- * ¿Es válido el elemento oid?
+ * Is item oid valid?
  */
 static int spell_menu_valid(struct menu *m, int oid)
 {
@@ -59,7 +59,7 @@ static int spell_menu_valid(struct menu *m, int oid)
 }
 
 /**
- * Mostrar una fila del menú de hechizos
+ * Display a row of the spell menu
  */
 static void spell_menu_display(struct menu *m, int oid, bool cursor,
 		int row, int col, int wid)
@@ -86,7 +86,7 @@ static void spell_menu_display(struct menu *m, int oid, bool cursor,
 		attr = COLOUR_YELLOW;
 	} else if (player->spell_flags[spell_index] & PY_SPELL_LEARNED) {
 		if (player->spell_flags[spell_index] & PY_SPELL_WORKED) {
-			/* Obtener información extra */
+			/* Get extra info */
 			get_spell_info(spell_index, help, sizeof(help));
 			comment = help;
 			attr = COLOUR_WHITE;
@@ -102,7 +102,7 @@ static void spell_menu_display(struct menu *m, int oid, bool cursor,
 		attr = COLOUR_RED;
 	}
 
-	/* Volcar el hechizo --(-- */
+	/* Dump the spell --(-- */
 	u8len = utf8_strlen(spell->name);
 	if (u8len < 30) {
 		strnfmt(out, sizeof(out), "%s%*s", spell->name,
@@ -122,7 +122,7 @@ static void spell_menu_display(struct menu *m, int oid, bool cursor,
 }
 
 /**
- * Manejar un evento en una fila del menú.
+ * Handle an event on a menu row.
  */
 static bool spell_menu_handler(struct menu *m, const ui_event *e, int oid)
 {
@@ -142,7 +142,7 @@ static bool spell_menu_handler(struct menu *m, const ui_event *e, int oid)
 }
 
 /**
- * Mostrar la descripción larga del hechizo al examinar
+ * Show spell long description when browsing
  */
 static void spell_menu_browser(int oid, void *data, const region *loc)
 {
@@ -151,24 +151,24 @@ static void spell_menu_browser(int oid, void *data, const region *loc)
 	const struct class_spell *spell = spell_by_index(player, spell_index);
 
 	if (d->show_description) {
-		/* Redirigir la salida a la pantalla */
+		/* Redirect output to the screen */
 		text_out_hook = text_out_to_screen;
 		text_out_wrap = 0;
 		text_out_indent = loc->col - 1;
 		text_out_pad = 1;
 
 		Term_gotoxy(loc->col, loc->row + loc->page_rows);
-		/* Descripción del hechizo */
+		/* Spell description */
 		text_out("\n%s", spell->text);
 
-		/* Para resumir el daño medio, contar los efectos dañinos */
+		/* To summarize average damage, count the damaging effects */
 		int num_damaging = 0;
 		for (struct effect *e = spell->effect; e != NULL; e = effect_next(e)) {
 			if (effect_damages(e)) {
 				num_damaging++;
 			}
 		}
-		/* Ahora enumerar el daño y tipo de los efectos si no está olvidado */
+		/* Now enumerate the effects' damage and type if not forgotten */
 		if (num_damaging > 0
 			&& (player->spell_flags[spell_index] & PY_SPELL_WORKED)
 			&& !(player->spell_flags[spell_index] & PY_SPELL_FORGOTTEN)) {
@@ -208,15 +208,15 @@ static void spell_menu_browser(int oid, void *data, const region *loc)
 }
 
 static const menu_iter spell_menu_iter = {
-	NULL,	/* get_tag = NULL, solo usar selecciones en minúsculas */
+	NULL,	/* get_tag = NULL, just use lowercase selections */
 	spell_menu_valid,
 	spell_menu_display,
 	spell_menu_handler,
-	NULL	/* sin gancho de cambio de tamaño */
+	NULL	/* no resize hook */
 };
 
 /**
- * Crear e inicializar un menú de hechizos, dado un objeto y un gancho de validez
+ * Create and initialise a spell menu, given an object and a validity hook
  */
 static struct menu *spell_menu_new(const struct object *obj,
 		bool (*is_valid)(const struct player *p, int spell_index),
@@ -228,7 +228,7 @@ static struct menu *spell_menu_new(const struct object *obj,
 
 	region loc = { 0 - width, 1, width, -99 };
 
-	/* recopilar hechizos del objeto */
+	/* collect spells from object */
 	d->n_spells = spell_collect_from_book(player, obj, &d->spells);
 	if (d->n_spells == 0 || !spell_okay_list(player, is_valid, d->spells, d->n_spells)) {
 		mem_free(m);
@@ -237,7 +237,7 @@ static struct menu *spell_menu_new(const struct object *obj,
 		return NULL;
 	}
 
-	/* Copiar datos privados */
+	/* Copy across private data */
 	d->is_valid = is_valid;
 	d->selected_spell = -1;
 	d->browse = false;
@@ -245,14 +245,14 @@ static struct menu *spell_menu_new(const struct object *obj,
 
 	menu_setpriv(m, d->n_spells, d);
 
-	/* Establecer banderas */
+	/* Set flags */
 	m->header = "Nombre                           Nv Maná Fallo Info";
 	m->flags = MN_CASELESS_TAGS | MN_KEYMAP_ESC;
 	m->selections = all_letters_nohjkl;
 	m->browse_hook = spell_menu_browser;
 	m->cmd_keys = "?";
 
-	/* Establecer tamaño */
+	/* Set size */
 	loc.page_rows = d->n_spells + 1;
 	menu_layout(m, &loc);
 
@@ -260,7 +260,7 @@ static struct menu *spell_menu_new(const struct object *obj,
 }
 
 /**
- * Limpiar una instancia del menú de hechizos
+ * Clean up a spell menu instance
  */
 static void spell_menu_destroy(struct menu *m)
 {
@@ -271,7 +271,7 @@ static void spell_menu_destroy(struct menu *m)
 }
 
 /**
- * Ejecutar el menú de hechizos para seleccionar un hechizo.
+ * Run the spell menu to select a spell.
  */
 static int spell_menu_select(struct menu *m, const char *noun, const char *verb)
 {
@@ -281,7 +281,7 @@ static int spell_menu_select(struct menu *m, const char *noun, const char *verb)
 	screen_save();
 	region_erase_bordered(&m->active);
 
-	/* Formatear, capitalizar y mostrar */
+	/* Format, capitalise and display */
 	strnfmt(buf, sizeof buf, "¿Qué %s %s? ('?' para alternar descripción)",
 			noun, verb);
 	my_strcap(buf);
@@ -294,7 +294,7 @@ static int spell_menu_select(struct menu *m, const char *noun, const char *verb)
 }
 
 /**
- * Ejecutar el menú de hechizos, sin selecciones.
+ * Run the spell menu, without selections.
  */
 static void spell_menu_browse(struct menu *m, const char *noun)
 {
@@ -312,7 +312,7 @@ static void spell_menu_browse(struct menu *m, const char *noun)
 }
 
 /**
- * Examinar un libro dado.
+ * Browse a given book.
  */
 void textui_book_browse(const struct object *obj)
 {
@@ -329,7 +329,7 @@ void textui_book_browse(const struct object *obj)
 }
 
 /**
- * Examinar el libro dado.
+ * Browse the given book.
  */
 void textui_spell_browse(void)
 {
@@ -341,7 +341,7 @@ void textui_spell_browse(void)
 				  (USE_INVEN | USE_FLOOR | IS_HARMLESS)))
 		return;
 
-	/* Rastrear el tipo de objeto */
+	/* Track the object kind */
 	track_object(player->upkeep, obj);
 	handle_stuff(player);
 
@@ -349,7 +349,7 @@ void textui_spell_browse(void)
 }
 
 /**
- * Obtener un hechizo de un libro especificado.
+ * Get a spell from specified book.
  */
 int textui_get_spell_from_book(struct player *p, const char *verb,
 	struct object *book, const char *error,
@@ -374,7 +374,7 @@ int textui_get_spell_from_book(struct player *p, const char *verb,
 }
 
 /**
- * Obtener un hechizo del jugador.
+ * Get a spell from the player.
  */
 int textui_get_spell(struct player *p, const char *verb,
 		item_tester book_filter, cmd_code cmd, const char *book_error,
@@ -384,7 +384,7 @@ int textui_get_spell(struct player *p, const char *verb,
 	char prompt[1024];
 	struct object *book;
 
-	/* Crear mensaje */
+	/* Create prompt */
 	strnfmt(prompt, sizeof prompt, "¿Qué libro %s?", verb);
 	my_strcap(prompt);
 

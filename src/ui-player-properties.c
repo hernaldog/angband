@@ -1,6 +1,6 @@
 /**
- * \file ui-player-properties.c
- * \brief Interfaz de usuario para habilidades de clase y raza
+ * \file ui-player-properties.c 
+ * \brief UI for class and race abilities
  *
  * Copyright (c) 1997-2020 Ben Harrison, James E. Wilson, Robert A. Koeneke,
  * Leon Marrick, Bahman Rabii, Nick McConnell
@@ -25,7 +25,7 @@
 
 /**
  * ------------------------------------------------------------------------
- * Código para ver habilidades de raza y clase
+ * Code for viewing race and class abilities
  * ------------------------------------------------------------------------ */
 
 static char view_ability_tag(struct menu *menu, int oid)
@@ -34,7 +34,7 @@ static char view_ability_tag(struct menu *menu, int oid)
 }
 
 /**
- * Mostrar una entrada en el menú de ganar habilidad
+ * Display an entry on the gain ability menu
  */
 static void view_ability_display(struct menu *menu, int oid, bool cursor,
 	int row, int col, int width)
@@ -72,20 +72,20 @@ static void view_ability_display(struct menu *menu, int oid, bool cursor,
 		}
 	}
 
-	/* Mostrarlo */
+	/* Print it */
 	c_put_str(cursor ? COLOUR_WHITE : color, buf, row, col);
 
 }
 
 
 /**
- * Mostrar descripción larga de habilidad al navegar
+ * Show ability long description when browsing
  */
 static void view_ability_menu_browser(int oid, void *data, const region *loc)
 {
 	struct player_ability *choices = data;
 
-	/* Redirigir salida a la pantalla */
+	/* Redirect output to the screen */
 	text_out_hook = text_out_to_screen;
 	text_out_wrap = 60;
 	text_out_indent = loc->col - 1;
@@ -102,7 +102,7 @@ static void view_ability_menu_browser(int oid, void *data, const region *loc)
 }
 
 /**
- * Mostrar lista de especialidades disponibles.
+ * Display list available specialties.
  */
 void textui_view_ability_menu(struct player_ability *ability_list,
 							  int num_abilities)
@@ -112,15 +112,15 @@ void textui_view_ability_menu(struct player_ability *ability_list,
 	region loc = { 0, 0, 70, -99 };
 	char buf[80];
 
-	/* Guardar la pantalla y limpiarla */
+	/* Save the screen and clear it */
 	screen_save();
 
-	/* Opciones de mensaje */
+	/* Prompt choices */
 	strnfmt(buf, sizeof(buf),
 		"Habilidades de raza y clase (%c-%c, ESC=salir): ",
 		all_letters_nohjkl[0], all_letters_nohjkl[num_abilities - 1]);
 
-	/* Configurar el menú */
+	/* Set up the menu */
 	menu_init(&menu, MN_SKIN_SCROLL, &menu_f);
 	menu.header = buf;
 	menu_setpriv(&menu, num_abilities, ability_list);
@@ -132,8 +132,9 @@ void textui_view_ability_menu(struct player_ability *ability_list,
 
 	menu_select(&menu, 0, false);
 
-	/* Cargar pantalla */
+	/* Load screen */
 	screen_load();
 
 	return;
 }
+
