@@ -192,8 +192,8 @@ void do_cmd_inscribe(struct command *cmd)
 	if (cmd_get_item(cmd, "item", &obj,
 			/* Mensaje */ "¿Qué objeto inscribir?",
 			/* Error  */ "No tienes nada que inscribir.",
-			/* Filtro */ NULL,
-			/* Elección */ USE_EQUIP | USE_INVEN | USE_QUIVER | USE_FLOOR | IS_HARMLESS) != CMD_OK)
+			/* Filter */ NULL,
+			/* Choice */ USE_EQUIP | USE_INVEN | USE_QUIVER | USE_FLOOR | IS_HARMLESS) != CMD_OK)
 		return;
 
 	/* Form prompt */
@@ -248,8 +248,8 @@ void do_cmd_takeoff(struct command *cmd)
 	if (cmd_get_item(cmd, "item", &obj,
 			/* Mensaje */ "¿Qué objeto desequipar?",
 			/* Error  */ "No tienes nada que desequiparte.",
-			/* Filtro */ obj_can_takeoff,
-			/* Elección */ USE_EQUIP) != CMD_OK)
+			/* Filter */ obj_can_takeoff,
+			/* Choice */ USE_EQUIP) != CMD_OK)
 		return;
 
 	inven_takeoff(obj);
@@ -281,8 +281,8 @@ void do_cmd_wield(struct command *cmd)
 	if (cmd_get_item(cmd, "item", &obj,
 			/* Mensaje */ "¿Qué objeto usar o empuñar?",
 			/* Error  */ "No tienes nada que usar o empuñar.",
-			/* Filtro */ obj_can_wear,
-			/* Elección */ USE_INVEN | USE_FLOOR | USE_QUIVER) != CMD_OK)
+			/* Filter */ obj_can_wear,
+			/* Choice */ USE_INVEN | USE_FLOOR | USE_QUIVER) != CMD_OK)
 		return;
 
 	/* Get the slot the object wants to go in, and the item currently there */
@@ -302,8 +302,8 @@ void do_cmd_wield(struct command *cmd)
 		if (cmd_get_item(cmd, "replace", &equip_obj,
 						 /* Mensaje */ "¿Reemplazar qué anillo? ",
 						 /* Error  */ "Error en do_cmd_wield(), por favor informa.",
-						 /* Filtro */ tval_is_ring,
-						 /* Elección */ USE_EQUIP) != CMD_OK)
+						 /* Filter */ tval_is_ring,
+						 /* Choice */ USE_EQUIP) != CMD_OK)
 			return;
 
 		/* Change slot if necessary */
@@ -370,8 +370,8 @@ void do_cmd_drop(struct command *cmd)
 	if (cmd_get_item(cmd, "item", &obj,
 			/* Mensaje */ "¿Qué objeto soltar?",
 			/* Error  */ "No tienes nada que soltar.",
-			/* Filtro */ NULL,
-			/* Elección */ USE_EQUIP | USE_INVEN | USE_QUIVER) != CMD_OK)
+			/* Filter */ NULL,
+			/* Choice */ USE_EQUIP | USE_INVEN | USE_QUIVER) != CMD_OK)
 		return;
 
 	/* Cannot remove stickied items */
