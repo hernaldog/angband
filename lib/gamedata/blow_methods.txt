@@ -187,7 +187,7 @@ miss:0
 phys:0
 msg:MON_MOAN
 act:quiere que le devuelvan sus setas
-act:le dice a {target} que salga de sus tierras
+act:{target} dice que salgas de sus tierras
 act:busca a sus perros
 act:dice '¿Has matado a mi Colmillo?'
 act:pregunta '¿Quieres comprar setas?'

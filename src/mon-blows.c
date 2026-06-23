@@ -148,10 +148,10 @@ char *monster_blow_method_action(const struct blow_method *method, int midx)
 				case BLOW_TAG_HAS: {
 					if (midx > 0) {
 						//strnfcat(buf, sizeof(buf), &end, "has");
-						strnfcat(buf, sizeof(buf), &end, "tiene"); //fix traduc
+						strnfcat(buf, sizeof(buf), &end, "ha"); //fix traduc
 					} else {
 						//strnfcat(buf, sizeof(buf), &end, "have");
-						strnfcat(buf, sizeof(buf), &end, "tienes"); //fix traduc
+						strnfcat(buf, sizeof(buf), &end, "has"); //fix traduc
 					}
 					break;
 				}
