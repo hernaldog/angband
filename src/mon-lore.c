@@ -1081,9 +1081,9 @@ void lore_append_toughness(textblock *tb, const struct monster_race *race,
 		textblock_append_c(tb, COLOUR_L_BLUE, "%d", race->avg_hp);
 
 		/* Armor */
-		textblock_append(tb, ", y una valoración de armadura de ");
+		textblock_append(tb, ", y ");
 		textblock_append_c(tb, COLOUR_L_BLUE, "%d", race->ac);
-		textblock_append(tb, ".  ");
+		textblock_append(tb, " de armadura.  ");
 
 		/* Player's base chance to hit */
 		random_chance c;

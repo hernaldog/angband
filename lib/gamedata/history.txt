@@ -298,25 +298,25 @@ chart:53:0:100
 phrase:y una tez muy clara.
 
 chart:54:55:85
-phrase:Tienes ojos gris claro, 
+phrase:Tienes ojos de color gris claro, 
 chart:54:55:95
 phrase:Tienes ojos azul claro, 
 chart:54:55:100
 phrase:Tienes ojos verde claro, 
 
 chart:55:56:75
-phrase:liso 
+phrase:pelo liso y 
 chart:55:56:100
-phrase:ondulado 
+phrase:pelo ondulado y 
 
 chart:56:0:75
-phrase:pelo negro, y una tez clara.
+phrase:negro, y una tez clara.
 chart:56:0:85
-phrase:pelo castaño, y una tez clara.
+phrase:castaño, y una tez clara.
 chart:56:0:95
-phrase:pelo rubio, y una tez clara.
+phrase:rubio, y una tez clara.
 chart:56:0:100
-phrase:pelo plateado, y una tez clara.
+phrase:plateado, y una tez clara.
 
 chart:57:58:99
 phrase:Tienes ojos marrón oscuro, 

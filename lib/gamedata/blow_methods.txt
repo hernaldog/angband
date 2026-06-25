@@ -63,7 +63,7 @@ miss:1
 phys:1
 msg:MON_BITE
 act:{target} muerde
-desc:mordisco
+desc:morder
 
 name:STING
 cut:0
