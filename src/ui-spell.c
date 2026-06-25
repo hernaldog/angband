@@ -282,7 +282,7 @@ static int spell_menu_select(struct menu *m, const char *noun, const char *verb)
 	region_erase_bordered(&m->active);
 
 	/* Format, capitalise and display */
-	strnfmt(buf, sizeof buf, "¿Qué %s %s? ('?' para alternar descripción)",
+	strnfmt(buf, sizeof buf, "¿Qué %s %s? ('?' para ver descripción)",
 			noun, verb);
 	my_strcap(buf);
 	prt(buf, 0, 0);
@@ -303,7 +303,7 @@ static void spell_menu_browse(struct menu *m, const char *noun)
 	screen_save();
 
 	region_erase_bordered(&m->active);
-	prt(format("Examinando %s. ('?' para alternar descripción)", noun), 0, 0);
+	prt(format("Examinando %s. ('?' para ver descripción)", noun), 0, 0);
 
 	d->browse = true;
 	menu_select(m, 0, true);
