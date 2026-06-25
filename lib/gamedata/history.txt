@@ -260,7 +260,7 @@ phrase:Tienes ojos marrón oscuro,
 chart:50:51:60
 phrase:Tienes ojos marrones, 
 chart:50:51:70
-phrase:Tienes ojos avellana, 
+phrase:Tienes ojos color avellana, 
 chart:50:51:80
 phrase:Tienes ojos verdes, 
 chart:50:51:90
@@ -269,33 +269,33 @@ chart:50:51:100
 phrase:Tienes ojos azul grisáceo, 
 
 chart:51:52:70
-phrase:liso 
+phrase:pelo liso y 
 chart:51:52:90
-phrase:ondulado 
+phrase:pelo ondulado y 
 chart:51:52:100
-phrase:rizado 
+phrase:pelo rizado y 
 
 chart:52:53:30
-phrase:pelo negro, 
+phrase:negro, 
 chart:52:53:70
-phrase:pelo castaño, 
+phrase:castaño, 
 chart:52:53:80
-phrase:pelo cobrizo, 
+phrase:cobrizo, 
 chart:52:53:90
-phrase:pelo rojo, 
+phrase:rojo, 
 chart:52:53:100
-phrase:pelo rubio, 
+phrase:rubio, 
 
 chart:53:0:10
-phrase:y una tez muy oscura.
+phrase:y una piel muy oscura.
 chart:53:0:30
-phrase:y una tez oscura.
+phrase:y una piel oscura.
 chart:53:0:80
-phrase:y una tez normal.
+phrase:y una piel normal.
 chart:53:0:90
-phrase:y una tez clara.
+phrase:y una piel clara.
 chart:53:0:100
-phrase:y una tez muy clara.
+phrase:y una piel muy clara.
 
 chart:54:55:85
 phrase:Tienes ojos de color gris claro, 
@@ -310,13 +310,13 @@ chart:55:56:100
 phrase:pelo ondulado y 
 
 chart:56:0:75
-phrase:negro, y una tez clara.
+phrase:negro, y una piel clara.
 chart:56:0:85
-phrase:castaño, y una tez clara.
+phrase:castaño, y una piel clara.
 chart:56:0:95
-phrase:rubio, y una tez clara.
+phrase:rubio, y una piel clara.
 chart:56:0:100
-phrase:plateado, y una tez clara.
+phrase:plateado, y una piel clara.
 
 chart:57:58:99
 phrase:Tienes ojos marrón oscuro, 
@@ -343,7 +343,7 @@ chart:60:61:100
 phrase:barba de cuatro pies, 
 
 chart:61:0:100
-phrase:y una tez oscura.
+phrase:y una piel oscura.
 
 chart:62:63:60
 phrase:Tienes ojos verde babosa, 
