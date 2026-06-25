@@ -5425,7 +5425,7 @@ int FAR PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,
 
 	/* Prompt the user */
 	prt("[Selecciona 'New' u 'Open' desde menú 'File']",
-		(Term->hgt - 23) / 5 + 23, (Term->wid - 45) / 2);
+		(Term->hgt - 23) / 5 + 23, (Term->wid - 49) / 2);  // fix traduc se corre a la izquierda ya que los textos en español son un poco más largos
 	Term_fresh();
 
 	/* Process messages forever */
