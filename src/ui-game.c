@@ -197,7 +197,7 @@ struct cmd_info cmd_util[] =
 
 	{ "Guardar y no salir", { KTRL('S') }, CMD_NULL, save_game, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Guardar y salir", { KTRL('X') }, CMD_NULL, textui_quit, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Retirar personaje y salir", { 'Q' }, CMD_NULL, textui_cmd_retire, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Eliminar personaje y salir", { 'Q' }, CMD_NULL, textui_cmd_retire, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Redibujar la pantalla", { KTRL('R') }, CMD_NULL, do_cmd_redraw, NULL, 0, NULL, NULL, NULL, 0 },
 
 	{ "Guardar \"captura de pantalla\"", { ')' }, CMD_NULL, do_cmd_save_screen, NULL, 0, NULL, NULL, NULL, 0 }
