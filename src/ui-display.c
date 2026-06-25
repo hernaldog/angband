@@ -2627,8 +2627,13 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		/* Message */
 		event_signal(EVENT_MESSAGE_FLUSH);
 		
-		/* fix traduc Se arma el mensaje con número si hay más de uno, ejemplo "1 Manzana." */		
-		strnfmt(o_name_final, sizeof(o_name_final), "%d %s", obj->number, o_name);		
+		/* fix traduc: "un"/"una" si hay un solo objeto, y el número si hay más de uno */
+		if (obj->number == 1) {
+			strnfmt(o_name_final, sizeof(o_name_final), "%s %s",
+				object_is_feminine(obj) ? "una" : "un", o_name);
+		} else {
+			strnfmt(o_name_final, sizeof(o_name_final), "%d %s", obj->number, o_name);
+		}
 
 		msg("%s %s.", p, o_name_final); ///Fix traduc Ves X objeto
 		 

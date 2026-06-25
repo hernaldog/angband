@@ -75,9 +75,41 @@ static const char *obj_desc_get_modstr(const struct object_kind *kind)
 }
 
 /**
+ * fix traduc: indica si el nombre del objeto es gramaticalmente femenino,
+ * para elegir "un"/"una" al describir un solo objeto. Para los tipos cuyo
+ * nombre base es una palabra española fija (Varita, Vara, Poción, Seta...)
+ * el género se define aquí mismo; para el resto se usa el campo gender
+ * de object.txt (por defecto masculino).
+ */
+bool object_is_feminine(const struct object *obj)
+{
+	switch (obj->tval) {
+		case TV_WAND:
+		case TV_ROD:
+		case TV_POTION:
+		case TV_MUSHROOM:
+			return true;
+
+		case TV_RING:
+		case TV_AMULET:
+		case TV_STAFF:
+		case TV_SCROLL:
+		case TV_MAGIC_BOOK:
+		case TV_PRAYER_BOOK:
+		case TV_NATURE_BOOK:
+		case TV_SHADOW_BOOK:
+		case TV_OTHER_BOOK:
+			return false;
+
+		default:
+			return obj->kind->gender == 'F';
+	}
+}
+
+/**
  * An object's basic name - a generic name for flavored objects (with the
  * actual name added later depending on awareness, the name from object.txt
- * for almost everything else, and a bit extra for books. 
+ * for almost everything else, and a bit extra for books.
  */
 static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 		bool terse, uint32_t mode, const struct player *p, bool plural)

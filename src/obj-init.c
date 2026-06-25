@@ -1717,6 +1717,18 @@ static enum parser_error parse_object_name_plural(struct parser *p) {
     return PARSE_ERROR_NONE;
 }
 
+// fix traduc: género gramatical del nombre (M/F) para artículos "un"/"una"
+static enum parser_error parse_object_gender(struct parser *p) {
+	const char *gender = parser_getstr(p, "gender");
+	struct object_kind *k = parser_priv(p);
+
+	if (!k)
+		return PARSE_ERROR_MISSING_RECORD_HEADER;
+
+	k->gender = (my_stricmp(gender, "F") == 0) ? 'F' : 'M';
+	return PARSE_ERROR_NONE;
+}
+
 static enum parser_error parse_object_graphics(struct parser *p) {
 	wchar_t glyph = parser_getchar(p, "glyph");
 	const char *color = parser_getsym(p, "color");
@@ -2152,6 +2164,7 @@ struct parser *init_parse_object(void) {
 	parser_setpriv(p, NULL);
 	parser_reg(p, "name str name", parse_object_name);
 	parser_reg(p, "name_plural str name_plural", parse_object_name_plural); // fix traduc
+	parser_reg(p, "gender str gender", parse_object_gender); // fix traduc
 	parser_reg(p, "type sym tval", parse_object_type);
 	parser_reg(p, "graphics char glyph sym color", parse_object_graphics);
 	parser_reg(p, "level int level", parse_object_level);

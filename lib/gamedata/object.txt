@@ -195,6 +195,7 @@ graphics:*:v
 
 name:Antorcha~ de Madera
 type:light
+gender:F
 graphics:~:u
 level:1
 weight:22
@@ -206,6 +207,7 @@ flags:BURNS_OUT | LIGHT_2 | EASY_KNOW
 
 name:Linterna~
 type:light
+gender:F
 graphics:~:U
 level:3
 weight:50
@@ -237,6 +239,7 @@ desc: nominal (que ocurre incluso contra criaturas resistentes al fuego).
 
 name:Galleta~ Dura~
 type:food
+gender:F
 graphics:,:U
 level:0
 weight:2
@@ -249,6 +252,7 @@ desc:Una galleta dura que llena pero puede romper los dientes, hecha principalme
 
 name:Manzana~
 type:food
+gender:F
 graphics:,:R
 level:0
 weight:4
@@ -293,6 +297,7 @@ desc: pero bastante saciante.
 name:Ración~ de Comida
 name_plural:Raciones de Comida
 type:food
+gender:F
 graphics:,:U
 level:0
 weight:8
@@ -335,6 +340,7 @@ desc:  Tendrías que estar desesperado para comer esto.
 
 name:Rebanada~ de Carne
 type:food
+gender:F
 graphics:,:W
 level:0
 weight:10
@@ -666,6 +672,7 @@ desc:Te vuelve muy sigiloso por un corto tiempo.
 
 name:Daga~
 type:sword
+gender:F
 graphics:|:W
 level:0
 weight:12
@@ -678,6 +685,7 @@ desc:Una hoja corta de doble filo, perfecta para apuñalar o lanzar.
 
 name:Daga~ de Parada
 type:sword
+gender:F
 graphics:|:W
 level:3
 weight:30
@@ -700,6 +708,7 @@ desc:Una hoja larga y delgada para estocadas, usada principalmente en duelos.
 
 name:Espada~ Corta~
 type:sword
+gender:F
 graphics:|:W
 level:5
 weight:80
@@ -734,6 +743,7 @@ desc:Un primo del shamshir de hoja más ancha, con menos curva.
 
 name:Cimitarra~
 type:sword
+gender:F
 graphics:|:W
 level:10
 weight:150
@@ -745,6 +755,7 @@ desc:Un largo sable con una curva extrema en la hoja.
 
 name:Espada~ Larga~
 type:sword
+gender:F
 graphics:|:W
 level:10
 weight:130
@@ -757,6 +768,7 @@ desc: de la empuñadura formando una cruz perfecta.
 
 name:Espada~ Ancha~
 type:sword
+gender:F
 graphics:|:W
 level:10
 weight:150
@@ -768,6 +780,7 @@ desc:Una espada pesada de un solo filo con una empuñadura fuerte.
 
 name:Espada~ Bastarda~
 type:sword
+gender:F
 graphics:|:W
 level:15
 weight:140
@@ -780,6 +793,7 @@ desc: con dos filos.
 
 name:Katana~
 type:sword
+gender:F
 graphics:|:W
 level:20
 weight:120
@@ -803,6 +817,7 @@ desc:Una espada diseñada para dos manos.
 
 name:Espada~ del Verdugo
 type:sword
+gender:F
 graphics:|:r
 level:40
 weight:260
@@ -814,6 +829,7 @@ desc:Una hoja gigante y curva diseñada para cortar la cabeza limpiamente del cu
 
 name:Hoja~ del Caos
 type:sword
+gender:F
 graphics:|:v
 level:70
 weight:180
@@ -843,6 +859,7 @@ desc: derribar a un hombre grande.
 
 name:Bola~ con Cadena
 type:hafted
+gender:F
 graphics:\:D
 level:20
 weight:150
@@ -895,6 +912,7 @@ desc: para manejarlas adecuadamente.
 
 name:Maza~
 type:hafted
+gender:F
 graphics:\:D
 level:5
 weight:120
@@ -906,6 +924,7 @@ desc:Una porra de guerra con cabeza de hierro, generalmente con rebordes o púas
 
 name:Maza~ de Plomo
 type:hafted
+gender:F
 graphics:\:D
 level:15
 weight:180
@@ -976,6 +995,7 @@ desc:Un poderoso martillo con una cabeza masiva diseñada para aplastar y aturdi
 
 name:Maza~ de Disrupción
 type:hafted
+gender:F
 graphics:\:v
 level:80
 weight:400
@@ -993,6 +1013,7 @@ desc: cuerpos y espíritu.
 
 name:Lanza~
 type:polearm
+gender:F
 graphics:/:s
 level:5
 weight:50
@@ -1006,6 +1027,7 @@ desc:  Esta arma puede lanzarse eficazmente.
 
 name:Pica~ de Punzón
 type:polearm
+gender:F
 graphics:/:s
 level:10
 weight:160
@@ -1030,6 +1052,7 @@ desc:Una lanza de tres puntas, originalmente para pescar.
 
 name:Alabarda~
 type:polearm
+gender:F
 graphics:/:s
 level:25
 weight:190
@@ -1043,6 +1066,7 @@ desc: espina para estocadas.
 
 name:Pica~
 type:polearm
+gender:F
 graphics:/:s
 level:15
 weight:160
@@ -1130,6 +1154,7 @@ desc: compiten para ver quién puede rebanar más cabezas de orco.
 ### Other misc polearms ###
 name:Guadaña~
 type:polearm
+gender:F
 graphics:/:s
 level:45
 weight:250
@@ -1154,6 +1179,7 @@ desc: que se puede usar para apuñalar o cortar.
 
 name:Lanza~ de Caballería
 type:polearm
+gender:F
 graphics:/:s
 level:10
 weight:300
@@ -1165,6 +1191,7 @@ desc:Una lanza masiva y cónica, usada principalmente desde un caballo.
 
 name:Guadaña~ Cortante
 type:polearm
+gender:F
 graphics:/:r
 level:60
 weight:250
@@ -1191,6 +1218,7 @@ desc:Un largo poste con una cabeza de tres o cuatro puntas equilibrada por una l
 
 name:Honda~
 type:bow
+gender:F
 graphics:}:u
 level:1
 weight:5
@@ -1226,6 +1254,7 @@ desc: armadura más pesada.
 
 name:Ballesta~ Ligera
 type:bow
+gender:F
 graphics:}:s
 level:15
 weight:110
@@ -1238,6 +1267,7 @@ desc: de su portador.
 
 name:Ballesta~ Pesada
 type:bow
+gender:F
 graphics:}:s
 level:30
 weight:200
@@ -1253,6 +1283,7 @@ desc: requiere una manivela para ser amartillada.
 
 name:Flecha~
 type:arrow
+gender:F
 graphics:{:U
 level:3
 weight:2
@@ -1265,6 +1296,7 @@ desc:Se puede disparar con un arco.
 
 name:Flecha~ Buscadora
 type:arrow
+gender:F
 graphics:{:G
 level:55
 weight:2
@@ -1277,6 +1309,7 @@ desc:Se puede disparar con un arco.
 
 name:Flecha~ de Mithril
 type:arrow
+gender:F
 graphics:{:B
 level:55
 weight:1
@@ -1376,6 +1409,7 @@ desc:Se puede disparar con una honda o lanzar.
 
 name:Pala~
 type:digger
+gender:F
 graphics:\:s
 level:1
 weight:60
@@ -1401,6 +1435,7 @@ desc: en puntas de cincel en ambos extremos.
 
 name:Azada~
 type:digger
+gender:F
 graphics:\:D
 level:50
 weight:250
@@ -1419,6 +1454,7 @@ desc: vertical más pequeña. Utilizada como arma de guerra por los enanos.
 
 name:Sandalias de Cuero
 type:boots
+gender:F
 graphics:]:U
 level:0
 weight:15
@@ -1431,6 +1467,7 @@ desc: de cuero curtido.
 
 name:Botas de Cuero
 type:boots
+gender:F
 graphics:]:U
 level:3
 weight:20
@@ -1442,6 +1479,7 @@ desc:Son botas hasta la pantorrilla de cuero flexible, con cordones desde el tal
 
 name:Botas Herradas con Hierro
 type:boots
+gender:F
 graphics:]:U
 level:5
 weight:35
@@ -1455,6 +1493,7 @@ desc: muchas millas agotadoras.
 
 name:Botas Herradas con Acero
 type:boots
+gender:F
 graphics:]:s
 level:20
 weight:60
@@ -1468,6 +1507,7 @@ desc: acero.
 
 name:Botas Herradas con Mithril
 type:boots
+gender:F
 graphics:]:B
 level:60
 weight:40
@@ -1481,6 +1521,7 @@ desc: millas sin fin sin cansarse.
 
 name:Zapatillas Etéreas
 type:boots
+gender:F
 graphics:]:U
 level:0
 weight:0
@@ -1541,6 +1582,7 @@ desc: cortina de malla.
 
 name:Corona~ de Hierro
 type:crown
+gender:F
 graphics:]:s
 level:45
 weight:20
@@ -1553,6 +1595,7 @@ desc: de tirano.
 
 name:Corona~ de Oro
 type:crown
+gender:F
 graphics:]:y
 level:45
 weight:30
@@ -1566,6 +1609,7 @@ desc:  Parece que debería reposar sobre la frente de un rey.
 
 name:Corona~ Incrustada de Joyas
 type:crown
+gender:F
 graphics:]:v
 level:50
 weight:40
@@ -1582,6 +1626,7 @@ desc: de gemas y joyas; digna de un Gran Rey.
 
 name:Túnica~
 type:soft armor
+gender:F
 graphics:(:b
 level:1
 weight:20
@@ -1593,6 +1638,7 @@ desc:Una prenda práctica de lana gruesa o terciopelo, que cae desde el cuello h
 
 name:Armadura~ de Cuero Blando
 type:soft armor
+gender:F
 graphics:(:U
 level:3
 weight:80
@@ -1604,6 +1650,7 @@ desc:Una coraza de cuero flexible, con una chaqueta de cuero más grueso.
 
 name:Armadura~ de Cuero Tachonada
 type:soft armor
+gender:F
 graphics:(:U
 level:10
 weight:100
@@ -1615,6 +1662,7 @@ desc:Una coraza de cuero flexible tachonada con remaches metálicos.
 
 name:Armadura~ de Cuero Duro
 type:soft armor
+gender:F
 graphics:(:U
 level:5
 weight:120
@@ -1626,6 +1674,7 @@ desc:Una coraza de cuero hervido y hombreras.
 
 name:Cota~ de Escamas de Cuero
 type:soft armor
+gender:F
 graphics:(:U
 level:15
 weight:140
@@ -1638,6 +1687,7 @@ desc: endurecido.
 
 name:Cota~ de Escamas de Metal
 type:hard armor
+gender:F
 graphics:[:s
 level:25
 weight:250
@@ -1650,6 +1700,7 @@ desc: falda y mangas a juego.
 
 name:Cota~ de Malla
 type:hard armor
+gender:F
 graphics:[:s
 level:25
 weight:220
@@ -1662,6 +1713,7 @@ desc: con cuero.
 
 name:Cota~ de Malla Reforzada
 type:hard armor
+gender:F
 graphics:[:s
 level:30
 weight:270
@@ -1675,6 +1727,7 @@ desc: de malla, todo sobre una capa de acolchado pesado.
 
 name:Cota~ de Malla de Barra
 type:hard armor
+gender:F
 graphics:[:s
 level:35
 weight:280
@@ -1688,6 +1741,7 @@ desc: todo sobre una capa de acolchado pesado.
 
 name:Armadura~ Brigantina Metálica
 type:hard armor
+gender:F
 graphics:[:s
 level:35
 weight:290
@@ -1701,6 +1755,7 @@ desc: tela.
 
 name:Armadura~ de Placas Parciales
 type:hard armor
+gender:F
 graphics:[:W
 level:45
 weight:260
@@ -1712,6 +1767,7 @@ desc:Un peto de acero y brazales sobre una falda y calzas de malla.
 
 name:Armadura~ de Metal
 type:hard armor
+gender:F
 graphics:[:W
 level:45
 weight:340
@@ -1724,6 +1780,7 @@ desc: atadas y superpuestas.
 
 name:Armadura~ de Placas Completas
 type:hard armor
+gender:F
 graphics:[:W
 level:45
 weight:360
@@ -1736,6 +1793,7 @@ desc: por malla, y ligero acolchado debajo.
 
 name:Armadura~ de Placas Corrugada
 type:hard armor
+gender:F
 graphics:[:W
 level:50
 weight:380
@@ -1748,6 +1806,7 @@ desc: con nervaduras reforzadas.
 
 name:Cota~ de Malla de Mithril
 type:hard armor
+gender:F
 graphics:[:B
 level:55
 weight:150
@@ -1760,6 +1819,7 @@ desc:Este maravilloso traje de malla de eslabones finos brilla como si fuera de 
 
 name:Cota~ de Placas de Mithril
 type:hard armor
+gender:F
 graphics:[:B
 level:60
 weight:300
@@ -1773,6 +1833,7 @@ desc: leyenda. Brilla con la más pura blancura mientras lo contemplas.
 
 name:Cota~ de Placas de Adamantita
 type:hard armor
+gender:F
 graphics:[:G
 level:75
 weight:420
@@ -1787,6 +1848,7 @@ desc:Un exquisito traje de adamantita casi impenetrable.
 
 name:Capa~
 type:cloak
+gender:F
 graphics:(:g
 level:1
 weight:10
@@ -1798,6 +1860,7 @@ desc:Una prenda exterior resistente de viajero.
 
 name:Capa~ de Pelo
 type:cloak
+gender:F
 graphics:(:o
 level:1
 weight:25
@@ -1809,6 +1872,7 @@ desc:Una capa pesada hecha de piel y forrada de cuero; un lujo.
 
 name:Capa~ Élfica~
 type:cloak
+gender:F
 graphics:(:D
 level:60
 weight:5
@@ -1822,6 +1886,7 @@ desc: adquiere los colores y formas de su entorno.
 
 name:Capa~ Etérea
 type:cloak
+gender:F
 graphics:(:W
 level:50
 weight:0
@@ -1849,6 +1914,7 @@ desc:Protección de manos de cuero, con la palma abierta para sujetar armas.
 
 name:Manoplas
 type:gloves
+gender:F
 graphics:]:s
 level:0
 weight:25
@@ -1860,6 +1926,7 @@ desc:Un par de guantes que cubren completamente la mano y la muñeca con placas 
 
 name:Manoplas de Mithril
 type:gloves
+gender:F
 graphics:]:B
 level:0
 weight:15
@@ -4981,6 +5048,7 @@ armor:0:0
 
 name:Cota~ de Escamas de Dragón Negro
 type:dragon armor
+gender:F
 graphics:[:s
 level:27
 weight:120
@@ -4998,6 +5066,7 @@ desc:Un traje de escamas completamente negras, contra el cual ningún metal o ma
 
 name:Cota~ de Escamas de Dragón Azul
 type:dragon armor
+gender:F
 graphics:[:b
 level:30
 weight:100
@@ -5016,6 +5085,7 @@ desc: mientras te mueves en él.
 
 name:Cota~ de Escamas de Dragón Blanco
 type:dragon armor
+gender:F
 graphics:[:w
 level:25
 weight:110
@@ -5034,6 +5104,7 @@ desc: espina incluso mientras lo miras.
 
 name:Cota~ de Escamas de Dragón Rojo
 type:dragon armor
+gender:F
 graphics:[:r
 level:32
 weight:160
@@ -5052,6 +5123,7 @@ desc: cicatricial de una vieja quemadura duele al ponerte esta armadura.
 
 name:Cota~ de Escamas de Dragón Verde
 type:dragon armor
+gender:F
 graphics:[:g
 level:30
 weight:140
@@ -5070,6 +5142,7 @@ desc: esqueleto de una rata que lo tocó y murió en agonía.
 
 name:Cota~ de Escamas de Dragón Multicolor
 type:dragon armor
+gender:F
 graphics:[:v
 level:50
 weight:260
@@ -5098,6 +5171,7 @@ desc: dominar los Elementos que luchan una guerra sin fin atrapada en su interio
 
 name:Cota~ de Escamas de Dragón Brillante
 type:dragon armor
+gender:F
 graphics:[:o
 level:37
 weight:200
@@ -5120,6 +5194,7 @@ desc: la energía de todo lo que resplandece en una Oscuridad insaciable.
 
 name:Cota~ de Escamas de Dragón de la Ley
 type:dragon armor
+gender:F
 graphics:[:B
 level:45
 weight:220
@@ -5142,6 +5217,7 @@ desc: al tocarlo, como trompetas en masa oídas y ciclones sentidos desde lejos.
 
 name:Cota~ de Escamas de Dragón Dorado
 type:dragon armor
+gender:F
 graphics:[:y
 level:30
 weight:180
@@ -5161,6 +5237,7 @@ desc: cacofonía.
 
 name:Cota~ de Escamas de Dragón del Caos
 type:dragon armor
+gender:F
 graphics:[:v
 level:45
 weight:240
@@ -5183,6 +5260,7 @@ desc: imaginables mientras miras fascinado.
 
 name:Cota~ de Escamas de Dragón del Equilibrio
 type:dragon armor
+gender:F
 graphics:[:v
 level:52
 weight:280
@@ -5210,6 +5288,7 @@ desc: energías atadas como por cadenas de adamantita.
 
 name:Cota~ de Escamas de Dragón del Poder
 type:dragon armor
+gender:F
 graphics:[:v
 level:57
 weight:300
@@ -5296,6 +5375,7 @@ flags:INSTA_ART | QUEST_ART
 
 name:Corona~ Masiva de Hierro
 type:crown
+gender:F
 graphics:]:D
 level:44
 weight:20

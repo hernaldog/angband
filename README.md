@@ -16,6 +16,7 @@ Hernaldo González  - hernaldog@gmail.com
 - 02-04-2026: Se traduce la mayoría de los nombres de monstruos al español, esto en archivos monster.txt, monster_base.txt, pit.txt, summon.txt, borg-flow-kill.c. Faltan algunos que están relacionados a otros txt
 - 17-04-2026: Se traducen todos los objetos
 - 13-06-2026: Razas, Clases, Versos del Druida, ajustes generales para mejorar semántica
+- 25-06-2006: Se agrega género a los objetos para mejor traducción: Ves una Poción, Ves una Galleta, etc.
 
 ## Motivación
 Me entantan los juegos Roguelike clásicos como Moria, Rogue, etc, a la vez, siempre me ha gustado el Señor de los Anillos, y que mejor que este gran juego que uno los dos mundos. 

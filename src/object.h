@@ -183,6 +183,7 @@ extern struct object_base *kb_info;
 struct object_kind {
 	char *name;
 	char *name_plural; //para plural de Español
+	char gender; //fix traduc: 'F' = femenino, 0/'M' = masculino (por defecto)
 	char *text;
 
 	struct object_base *base;

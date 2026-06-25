@@ -48,6 +48,7 @@ enum {
 
 extern const char *inscrip_text[];
 
+bool object_is_feminine(const struct object *obj);  // fix traduc manejo de objetos con género
 void object_base_name(char *buf, size_t max, int tval, bool plural);
 void object_kind_name(char *buf, size_t max, const struct object_kind *kind,
 					  bool easy_know);
