@@ -1095,7 +1095,7 @@ static void point_based_start(void)
 	display_player_xtra_info();
 	display_player_stat_info();
 
-	prt(prompt, Term->hgt - 1, Term->wid / 2 - strlen(prompt) / 2);
+	prt(prompt, Term->hgt - 1, Term->wid / 2 - strlen(prompt) / 2 - 15);  // fix traduc  se mueve a la izquierda los textos en español son más largos
 
 	for (i = 0; i < STAT_MAX; ++i) {
 		buysell[i] = 0;

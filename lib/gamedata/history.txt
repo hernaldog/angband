@@ -266,7 +266,7 @@ phrase:Tienes ojos verdes,
 chart:50:51:90
 phrase:Tienes ojos azules, 
 chart:50:51:100
-phrase:Tienes ojos azul grisáceo, 
+phrase:Tienes ojos color azul grisáceo, 
 
 chart:51:52:70
 phrase:pelo liso y 
