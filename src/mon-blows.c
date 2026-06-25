@@ -918,7 +918,7 @@ static void melee_effect_handler_EAT_FOOD(melee_effect_handler_context_t *contex
 		} else {
 			object_desc(o_name, sizeof(o_name), obj,
 				ODESC_PREFIX | ODESC_BASE, context->p);
-			msg("¡Se comieron uno de tus %s (%c)!", o_name,
+			msg("¡Se comió una de tus %s (%c)!", o_name,
 				gear_to_label(context->p, obj));
 		}
 

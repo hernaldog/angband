@@ -1092,7 +1092,7 @@ void lore_append_toughness(textblock *tb, const struct monster_race *race,
 
 		textblock_append(tb, "Tienes una probabilidad del");
 		textblock_append_c(tb, COLOUR_L_BLUE, " %d", percent);
-		textblock_append(tb, "%% de golpear a la criatura en combate cuerpo a cuerpo (si puedes verla).  ");
+		textblock_append(tb, "%% de golpear a la criatura en combate cuerpo a cuerpo (Si es que puedes verla).  ");
 	}
 }
 

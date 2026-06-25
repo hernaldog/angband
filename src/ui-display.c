@@ -1280,7 +1280,7 @@ static size_t prt_tmd(int row, int col)
 static size_t prt_unignore(int row, int col)
 {
 	if (player->unignoring) {
-		const char *str = "NoIgnorar";
+		const char *str = "No Ignorado";
 		put_str(str, row, col);
 		return strlen(str) + 1;
 	}
