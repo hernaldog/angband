@@ -286,7 +286,7 @@ desc:Eres inmune a las trampas.
 type:element
 bindui:resist_ui_compact_0:0:1
 name:Resistencia
-desc:Resistes
+desc:Tienes resistencia
 value:1
 
 type:element

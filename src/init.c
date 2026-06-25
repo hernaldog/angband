@@ -1318,6 +1318,24 @@ static errr run_parse_player_prop(struct parser *p) {
 	return parse_file_quit_not_found(p, "player_property");
 }
 
+/* fix traduc Artículo correcto (al/a la/a los/a las) para cada elemento, en el mismo
+ * orden que list-elements.h, usado en la frase "Tienes resistencia ...". */
+static const char *element_resist_phrase(int index) {
+	static const char *phrases[] = {
+		"al ácido", "al relámpago", "al fuego", "al frío", "al veneno",
+		"a la luz", "a la oscuridad", "al sonido", "a los fragmentos",
+		"al nexo", "al inframundo", "al caos", "al desencantamiento",
+		"al agua", "al hielo", "a la gravedad", "a la inercia",
+		"a la fuerza", "al tiempo", "al plasma", "a los meteoros",
+		"a los proyectiles mágicos", "al maná", "al poder sagrado",
+		"a las flechas"
+	};
+	if (index >= 0 && index < (int) N_ELEMENTS(phrases)) {
+		return phrases[index];
+	}
+	return NULL;
+}
+
 static errr finish_parse_player_prop(struct parser *p) {
 	struct embryo_player_ability *embryo = embryo_player_abilities;
 	struct embryo_player_ability *target;
@@ -1335,9 +1353,15 @@ static errr finish_parse_player_prop(struct parser *p) {
 			n = (uint16_t) N_ELEMENTS(list_element_names);
 			for (i = 0; i < n - 1; i++) {
 				char *name = string_make(projections[i].name);
+				const char *resist_phrase = streq(embryo->ability.name, "Resistencia") ?
+					element_resist_phrase(i) : NULL;
 				new->index = i;
 				new->type = string_make(embryo->ability.type);
-				new->desc = string_make(format("%s %s.", embryo->ability.desc, name));
+				if (resist_phrase) {
+					new->desc = string_make(format("%s %s.", embryo->ability.desc, resist_phrase));
+				} else {
+					new->desc = string_make(format("%s %s.", embryo->ability.desc, name));
+				}
 				my_strcap(name);
 				new->name = string_make(format("%s a %s", embryo->ability.name, name)); //fix traduc antes Resistencia Oscuridad ahora Resistencia a Oscuridad
 				string_free(name);
