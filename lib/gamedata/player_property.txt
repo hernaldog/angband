@@ -159,14 +159,14 @@ desc:Tu sabiduría está sostenida.
 type:object
 code:SUST_DEX
 bindui:stat_mod_ui_compact_0<DEX>:1:1
-name:Sostener Destreza
-desc:Tu destreza está sostenida.
+name:Mantener Destreza
+desc:Tu destreza se mantiene.
 
 type:object
 code:SUST_CON
 bindui:stat_mod_ui_compact_0<CON>:1:1
-name:Sostener Constitución
-desc:Tu constitución está sostenida.
+name:Mantener Constitución
+desc:Tu constitución se mantiene.
 
 type:object
 code:PROT_FEAR
