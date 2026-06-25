@@ -16,7 +16,7 @@ book-noun:magic book
 name:divina
 stat:WIS
 verb:recite
-spell-noun:prayer
+spell-noun:rezo
 book-noun:prayer book
 
 name:de naturaleza

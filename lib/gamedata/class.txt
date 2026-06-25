@@ -286,7 +286,7 @@ effect:SENSE_OBJECTS
 effect-yx:22:40
 desc:Detecta oro y percibe objetos en el área inmediata.
 
-spell:Frost Bolt:13:5:40:6
+spell:Rayo de Escarcha:13:5:40:6
 effect:BOLT_OR_BEAM:COLD
 dice:$Dd8
 expr:D:PLAYER_LEVEL:- 5 / 3 + 6
@@ -295,14 +295,14 @@ desc:  A veces se dispara un rayo en su lugar que daña a cada monstruo
 desc: en su trayectoria.
 desc:  La probabilidad de obtener un rayo aumenta con tu nivel de personaje.
 
-spell:Reveal Monsters:15:6:40:8
+spell:Revelar Monstruos:15:6:40:8
 effect:DETECT_INVISIBLE_MONSTERS
 effect-yx:22:40
 effect:DETECT_VISIBLE_MONSTERS
 effect-yx:22:40
 desc:Detecta todos los monstruos en el área inmediata, por un solo turno.
 
-spell:Acid Spray:20:5:30:12
+spell:Rocío de Ácido:20:5:30:12
 effect:ARC:ACID:10:60
 dice:$Dd8
 expr:D:PLAYER_LEVEL:/ 2
@@ -312,25 +312,25 @@ book:magic book:town:[Defensas Mágicas]:6:arcana
 book-graphics:?:R
 book-properties:1600:20:30 to 100
 
-spell:Disable Traps, Destroy Doors:5:5:30:6
+spell:Desactivar Trampas y Destruir Puertas:5:5:30:6
 effect:TOUCH:KILL_DOOR
 effect:TOUCH:KILL_TRAP
 desc:Desactiva trampas y destruye puertas en un radio de 1 casilla a tu alrededor.
 
-spell:Teleport Self:7:6:35:5
+spell:Teletransportarse:7:6:35:5
 effect:TELEPORT
 dice:M$M
 expr:M:PLAYER_LEVEL:* 9 / 5
 desc:Te teletransporta aleatoriamente dentro del nivel actual.
 
-spell:Teleport Other:15:10:30:12
+spell:Teletransportar a Otro:15:10:30:12
 effect:BOLT_STATUS:AWAY_ALL
 dice:$B
 expr:B:PLAYER_LEVEL:* 3
 desc:Produce un rayo que teletransporta al primer monstruo en su trayectoria.
 desc:  La distancia de teletransporte aumenta con el nivel del jugador.
 
-spell:Resistance:20:20:65:20
+spell:Resistencia:20:20:65:20
 effect:SET_VALUE
 dice:20+d20
 effect:TIMED_INC:OPP_ACID
@@ -340,11 +340,11 @@ effect:TIMED_INC:OPP_FIRE
 effect:CLEAR_VALUE
 desc:Te otorga resistencia al ácido, frío, fuego y relámpago durante 20+1d20 turnos.
 
-spell:Tap Magical Energy:22:2:30:12
+spell:Extraer Energía Mágica:22:2:30:12
 effect:TAP_DEVICE
 desc:Convierte la energía de una varita o bastón en maná; tocarla aturde al jugador brevemente.
 
-spell:Mana Channel:25:10:50:20
+spell:Canalizar Maná:25:10:50:20
 effect:TIMED_INC:FASTCAST
 dice:5+1d5
 desc:Aumenta la velocidad de lanzamiento de hechizos en un 33% durante 5+1d5 turnos.
@@ -353,12 +353,12 @@ book:magic book:dungeon:[Control Arcano]:6:arcana
 book-graphics:?:r
 book-properties:30000:15:40 to 100
 
-spell:Door Creation:13:9:40:12
+spell:Creación de Puertas:13:9:40:12
 effect:TOUCH:MAKE_DOOR
 desc:Se crea una puerta en cada espacio de suelo vacío directamente
 desc: adyacente a ti. Estas puertas están cerradas, pero no con cerradura.
 
-spell:Mana Bolt:25:8:60:30
+spell:Rayo de Maná:25:8:60:30
 effect:BOLT_OR_BEAM:MISSILE
 dice:$Dd8
 expr:D:PLAYER_LEVEL:- 10
@@ -373,7 +373,7 @@ effect:TELEPORT_LEVEL
 desc:Te teletransporta 1 nivel arriba o 1 nivel abajo (elegido al azar).
 desc:  Este hechizo puede no tener efecto cuando la opción de descenso forzado está activada.
 
-spell:Detection:30:10:70:30
+spell:Detección:30:10:70:30
 effect:DETECT_TRAPS
 effect-yx:22:40
 effect:DETECT_DOORS
@@ -397,7 +397,7 @@ spell:Portal Dimensional:35:30:80:40
 effect:TELEPORT_TO
 desc:Te teletransporta a (o cerca de) una casilla de tu elección.
 
-spell:Thrust Away:40:12:90:40
+spell:Empujar Lejos:40:12:90:40
 effect:SHORT_BEAM:FORCE:1:10
 dice:$Dd8
 expr:D:PLAYER_LEVEL:+ 0
@@ -407,7 +407,7 @@ book:magic book:dungeon:[Tomo de Poder del Mago]:5:arcana
 book-graphics:?:r
 book-properties:50000:10:60 to 100
 
-spell:Shock Wave:20:5:40:16
+spell:Onda de Choque:20:5:40:16
 effect:BALL:SOUND:2
 dice:$B
 expr:B:PLAYER_LEVEL:* 2
@@ -415,7 +415,7 @@ desc:Dispara una bola de sonido de radio 2.
 desc:  Además de hacer daño por sonido, también tiene probabilidad de aturdir
 desc: a cada monstruo en el área de efecto.
 
-spell:Explosion:30:10:50:20
+spell:Explosión:30:10:50:20
 effect:BALL:SHARD:2
 dice:$B
 expr:B:PLAYER_LEVEL:* 2
@@ -437,7 +437,7 @@ desc:Elimina todos los monstruos dentro de 20 casillas de ti.
 desc:  Los únicos no se ven afectados.
 desc:  Recibes 1d3 puntos de daño por cada monstruo eliminado.
 
-spell:Mana Storm:45:16:85:200
+spell:Tormenta de Maná:45:16:85:200
 effect:BALL:MANA:3
 dice:$B
 expr:B:PLAYER_LEVEL:* 2 + 300
@@ -522,30 +522,30 @@ book:nature book:town:[Dones de la Naturaleza]:6:de naturaleza
 book-graphics:?:y
 book-properties:400:40:10 to 100
 
-spell:Cure Poison:4:4:30:4
+spell:Curar Veneno:4:4:30:4
 effect:CURE:POISONED
 desc:Neutraliza el veneno.
 
-spell:Resist Poison:7:6:32:5
+spell:Resistir Veneno:7:6:32:5
 effect:TIMED_INC:OPP_POIS
 dice:20+d20
 desc:Te otorga resistencia al veneno durante 20+1d20 turnos.
 
-spell:Turn Stone to Mud:8:3:25:5
+spell:Piedra a Lodo:8:3:25:5
 effect:LINE:KILL_WALL
 dice:20+1d30
 desc:Produce un rayo que destruye la primera sección de pared que golpea,
 desc: a menos que sea una pared permanente. Cada monstruo atrapado en el rayo que
 desc: sea susceptible a removedor de roca recibe 20+1d30 puntos de daño.
 
-spell:Sense Surroundings:9:4:35:6
+spell:Percibir Entorno:9:4:35:6
 effect:MAP_AREA
 dice:$Dd$S
 expr:D:PLAYER_LEVEL:/ 30 + 1 * 22
 expr:S:PLAYER_LEVEL:/ 30 + 1 * 44
 desc:Traza el mapa del área cercana.
 
-spell:Lightning Strike:12:6:35:8
+spell:Golpe de Relámpago:12:6:35:8
 effect:STRIKE:ELEC:0
 dice:$Dd4
 expr:D:PLAYER_LEVEL:/ 4
@@ -556,7 +556,7 @@ desc:Golpea a un objetivo desde arriba con un rayo, seguido de un trueno.
 desc:  Si se apunta una dirección o el objetivo no es una casilla transitable en la
 desc: línea de visión, el jugador será el objetivo.
 
-spell:Earth Rising:14:5:40:12
+spell:Levantamiento de Tierra:14:5:40:12
 effect:SHORT_BEAM:SHARD:4:5
 dice:$Dd6
 expr:D:PLAYER_LEVEL:/ 3 + 2
@@ -574,22 +574,22 @@ expr:D:PLAYER_LEVEL:/ 7
 desc:Inmoviliza a cada monstruo adyacente y no resistente durante un número
 desc: de turnos dependiente del nivel; los animales quedan hechizados por más tiempo.
 
-spell:Mass Sleep:25:15:50:15
+spell:Sueño en Masa:25:15:50:15
 effect:PROJECT_LOS:SLEEP_ALL
 dice:$B
 expr:B:PLAYER_LEVEL:* 10 + 500
 desc:Intenta dormir a cada monstruo dentro de la línea de visión.
 desc:  Los monstruos que resisten el sueño no se ven afectados.
 
-spell:Become Pukel-man:30:20:75:50
+spell:Convertirse en Hombre-Pukel:30:20:75:50
 effect:SHAPECHANGE:Pukel-man
 desc:Te da la forma de una estatua de los Drúedain, lento pero difícil de herir.
 
-spell:Eagle's Flight:35:20:80:80
+spell:Vuelo de Águila:35:20:80:80
 effect:SHAPECHANGE:eagle
 desc:Te da la forma de una de las grandes águilas de Manwë.
 
-spell:Bear Form:40:20:85:100
+spell:Forma de Oso:40:20:85:100
 effect:SHAPECHANGE:bear
 desc:Te permite tomar la forma de un gran oso de las montañas, apartando
 desc: a tus enemigos con tus poderosas garras.
@@ -598,7 +598,7 @@ book:nature book:dungeon:[Arte de la Naturaleza]:5:de naturaleza
 book-graphics:?:o
 book-properties:30000:15:40 to 100
 
-spell:Tremor:20:20:60:16
+spell:Temblor:20:20:60:16
 effect:EARTHQUAKE:TARGETED:4
 desc:Causa un terremoto dirigido de radio 4.
 desc:  Los terremotos pueden herir al jugador, dañar monstruos y destruir objetos
@@ -606,13 +606,13 @@ desc: en algunas casillas del área de efecto.
 desc:  Los artefactos no serán destruidos por este hechizo.
 desc:  Este hechizo no tiene efecto cuando se usa en la ciudad.
 
-spell:Haste Self:25:12:65:15
+spell:Acelerarse:25:12:65:15
 effect:TIMED_INC:FAST:0:5
 dice:$B+d20
 expr:B:PLAYER_LEVEL:+ 0
 desc:Te apresura (+10 a velocidad) durante una duración dependiente del nivel.
 
-spell:Revitalize:35:70:90:90
+spell:Revitalizar:35:70:90:90
 effect:RESTORE_STAT:STR
 effect:RESTORE_STAT:INT
 effect:RESTORE_STAT:WIS
@@ -621,13 +621,13 @@ effect:RESTORE_STAT:CON
 effect:RESTORE_EXP
 desc:Restaura todas las estadísticas y puntos de experiencia al máximo.
 
-spell:Rapid Regeneration:37:20:90:100
+spell:Regeneración Rápida:37:20:90:100
 effect:TIMED_INC:HEAL
 dice:5+1d3
 desc:Acelera la digestión para aumentar la regeneración de puntos de vida durante
 desc: los siguientes 5+1d3 turnos (o hasta tener hambre).
 
-spell:Herbal Curing:40:20:90:100
+spell:Curación con Hierbas:40:20:90:100
 effect:CURE:CUT
 effect:CURE:POISONED
 effect:CURE:STUN
@@ -641,7 +641,7 @@ book:nature book:dungeon:[Fuerzas Salvajes]:5:de naturaleza
 book-graphics:?:o
 book-properties:50000:10:60 to 100
 
-spell:Meteor Swarm:30:14:85:20
+spell:Lluvia de Meteoros:30:14:85:20
 effect:SWARM:METEOR:1
 dice:$B+m$M
 expr:B:PLAYER_LEVEL:/ 2 + 30
@@ -654,20 +654,20 @@ desc: a cada monstruo en su área de efecto.
 desc:  Si esto mata al monstruo que bloqueó el camino hacia la ubicación
 desc: objetivo, el siguiente meteoro puede continuar para encontrar otro objetivo.
 
-spell:Rift:35:20:60:25
+spell:Grieta:35:20:60:25
 effect:BEAM:GRAVITY
 dice:40+$Dd7
 expr:D:PLAYER_LEVEL:+ 0
 desc:Dispara un rayo de gravedad que daña a cada monstruo en su trayectoria
 desc: y tiene probabilidad de teletransportarlo.
 
-spell:Ice Storm:37:25:75:24
+spell:Tormenta de Hielo:37:25:75:24
 effect:PROJECT_LOS:ICE
 dice:3d$S
 expr:S:PLAYER_LEVEL:* 3
 desc:Golpea a cada monstruo en la línea de visión con láminas de hielo desde arriba.
 
-spell:Volcanic Eruption:40:30:75:50
+spell:Erupción Volcánica:40:30:75:50
 effect:SPHERE:FIRE:5:5
 dice:$B+d$S
 expr:B:PLAYER_LEVEL:* 3 / 2
@@ -676,7 +676,7 @@ effect:EARTHQUAKE:NONE:5
 desc:Crea una bola de fuego de radio 5, seguida de un terremoto de radio 5,
 desc: alrededor del jugador.
 
-spell:River of Lightning:43:35:75:100
+spell:Río de Relámpagos:43:35:75:100
 effect:ARC:PLASMA:0:20
 dice:$Dd8
 expr:D:PLAYER_LEVEL:+ 10
@@ -724,7 +724,7 @@ book-graphics:?:G
 book-properties:25:40:1 to 100
 equip:prayer book:[Manual del Novicio]:1:1:none
 
-spell:Call Light:1:1:10:2
+spell:Llamar a la Luz:1:1:10:2
 effect:LIGHT_AREA
 effect:SPHERE:LIGHT_WEAK:1:10
 dice:2d$S
@@ -739,7 +739,7 @@ effect-yx:22:40
 desc:Detecta todos los monstruos malvados en el área inmediata,
 desc: por un solo turno.
 
-spell:Minor Healing:1:2:15:4
+spell:Curación Menor:1:2:15:4
 effect:HEAL_HP
 dice:$B+m$M
 expr:B:PLAYER_LEVEL:+ 10
@@ -751,7 +751,7 @@ dice:20
 desc:Restaura una cantidad o porcentaje de puntos de vida dependiente del nivel, y
 desc: cura 20 puntos de cortes y de aturdimiento.
 
-spell:Bless:1:2:20:4
+spell:Bendición:1:2:20:4
 effect:TIMED_INC:BLESSED
 dice:$B+d$S
 expr:B:PLAYER_LEVEL:+ 10
@@ -759,12 +759,12 @@ expr:S:PLAYER_LEVEL:+ 10
 desc:Te bendice, dando una bonificación de +5 a CA y +10 a golpear, durante un
 desc: número de turnos dependiente del nivel.
 
-spell:Sense Invisible:3:4:25:4
+spell:Sentir lo Invisible:3:4:25:4
 effect:TIMED_INC:SINVIS
 dice:24+d24
 desc:Te permite ver monstruos invisibles durante 24+1d24 turnos.
 
-spell:Heroism:5:2:30:5
+spell:Heroísmo:5:2:30:5
 effect:HEAL_HP
 dice:10
 effect:CURE:AFRAID
@@ -780,7 +780,7 @@ book:prayer book:town:[Poder Purificador]:6:divina
 book-graphics:?:G
 book-properties:100:40:5 to 100
 
-spell:Orb of Draining:7:7:40:4
+spell:Esfera de Drenaje:7:7:40:4
 effect:BALL:HOLY_ORB:2:30
 dice:$B+3d6
 expr:B:PLAYER_LEVEL:* 3 / 2
@@ -789,7 +789,7 @@ desc: a cada monstruo en su área de efecto.
 desc:  Los monstruos malvados reciben el doble de daño.
 desc:  El área de efecto más grande se alcanza en el nivel 30.
 
-spell:Spear of Light:7:6:30:5
+spell:Lanza de Luz:7:6:30:5
 effect:LINE:LIGHT_WEAK
 dice:6d8
 desc:Dispara un rayo que ilumina cada casilla y daña a cada
@@ -801,7 +801,7 @@ dice:d$S
 expr:S:PLAYER_LEVEL:* 5
 desc:Inflige daño irresistible a cada monstruo no muerto dentro de la línea de visión.
 
-spell:Dispel Evil:12:20:70:10
+spell:Disipar el Mal:12:20:70:10
 effect:PROJECT_LOS_AWARE:DISP_EVIL
 dice:d$S
 expr:S:PLAYER_LEVEL:* 5
@@ -833,7 +833,7 @@ dice:$B
 expr:B:PLAYER_LEVEL:/ 2 + 30
 desc:Te teletransporta aleatoriamente una corta distancia.
 
-spell:Remembrance:20:30:90:50
+spell:Recuerdo:20:30:90:50
 effect:RESTORE_EXP
 desc:Restaura los puntos de experiencia al máximo si están por debajo del máximo.
 
@@ -847,7 +847,7 @@ desc: de retorno de nuevo.
 desc:  Esta oración no tiene efecto cuando la opción de restringir el uso de
 desc: escaleras y retorno está activada, a menos que Morgoth esté muerto.
 
-spell:Healing:30:50:80:100
+spell:Curación:30:50:80:100
 effect:HEAL_HP
 dice:2000
 effect:CURE:CUT
@@ -857,7 +857,7 @@ effect:CURE:AMNESIA
 desc:Restaura 2000 puntos de daño y cura todo aturdimiento, cortes, veneno
 desc: y amnesia.
 
-spell:Restoration:35:70:90:130
+spell:Restauración:35:70:90:130
 effect:RESTORE_STAT:STR
 effect:RESTORE_STAT:INT
 effect:RESTORE_STAT:WIS
@@ -865,7 +865,7 @@ effect:RESTORE_STAT:DEX
 effect:RESTORE_STAT:CON
 desc:Restaura al máximo todas las estadísticas que estén por debajo del máximo.
 
-spell:Clairvoyance:37:50:80:150
+spell:Clarividencia:37:50:80:150
 effect:LIGHT_LEVEL
 desc:Ilumina, traza el mapa y percibe todos los objetos en el nivel actual
 desc: completo de la mazmorra.
@@ -884,12 +884,12 @@ effect:ENCHANT:TOAC
 dice:1+1d3
 desc:Intenta mejorar la bonificación de clase de armadura de una pieza de armadura.
 
-spell:Smite Evil:25:20:70:40
+spell:Castigar al Mal:25:20:70:40
 effect:TIMED_INC:ATT_EVIL:0:5
 dice:20+d20
 desc:Hace que tus ataques cuerpo a cuerpo maten criaturas malvadas temporalmente.
 
-spell:Glyph of Warding:20:40:90:35
+spell:Glifo de Protección:20:40:90:35
 effect:GLYPH:WARDING
 desc:Inscribe un glifo de protección debajo de ti.
 desc:  Los monstruos invocados no pueden aparecer en el glifo.
@@ -899,7 +899,7 @@ desc:  Los monstruos de nivel más alto tienen más probabilidades de romper el 
 desc:  El glifo permanecerá donde está, hasta que un monstruo tenga éxito en
 desc: romperlo, o hasta que abandones el nivel.
 
-spell:Demon Bane:42:40:80:300
+spell:Azote de Demonios:42:40:80:300
 effect:TIMED_INC:ATT_DEMON:0:5
 dice:20+d20
 desc:Hace que tus ataques cuerpo a cuerpo maten demonios poderosamente temporalmente.
@@ -908,12 +908,12 @@ book:prayer book:dungeon:[Ira de los Valar]:5:divina
 book-graphics:?:g
 book-properties:50000:10:60 to 100
 
-spell:Banish Evil:25:25:80:250
+spell:Expulsar al Mal:25:25:80:250
 effect:PROJECT_LOS_AWARE:AWAY_EVIL
 dice:100
 desc:Teletransporta a cada monstruo malvado dentro de la línea de visión.
 
-spell:Word of Destruction:35:35:80:115
+spell:Palabra de Destrucción:35:35:80:115
 effect:DESTRUCTION:LIGHT:15
 desc:Destruye todo en un círculo de radio 15 a tu alrededor.
 desc:  Todos los monstruos, objetos y características del terreno en el área de
@@ -922,7 +922,7 @@ desc:  También quedarás cegado durante 10+1d10 turnos, a menos que
 desc: tengas resistencia a la ceguera o la luz.
 desc:  Esta oración no tiene efecto cuando se usa en la ciudad.
 
-spell:Holy Word:39:32:95:20
+spell:Palabra Sagrada:39:32:95:20
 effect:PROJECT_LOS_AWARE:DISP_EVIL
 dice:d$S
 expr:S:PLAYER_LEVEL:* 4
@@ -936,13 +936,13 @@ desc:Inflige daño irresistible a cada monstruo malvado dentro de la línea de v
 desc: restaura 1000 puntos de daño, cura todo aturdimiento, cura todo daño de corte,
 desc: neutraliza el veneno y elimina el miedo.
 
-spell:Spear of Oromë:40:10:75:130
+spell:Lanza de Oromë:40:10:75:130
 effect:BEAM:HOLY_ORB
 dice:$Dd8
 expr:D:PLAYER_LEVEL:/ 2
 desc:Dispara un rayo de magia sagrada que hace daño extra a las criaturas malvadas.
 
-spell:Light of Manwë:42:40:85:200
+spell:Luz de Manwë:42:40:85:200
 effect:BALL:LIGHT:4
 dice:$B
 expr:B:PLAYER_LEVEL:* 5
@@ -991,30 +991,30 @@ book-graphics:?:P
 book-properties:25:40:1 to 100
 equip:shadow book:[Hacia las Sombras]:1:1:none
 
-spell:Nether Bolt:1:1:22:2
+spell:Rayo de Inframundo:1:1:22:2
 effect:BOLT:NETHER
 dice:$Dd4
 expr:D:PLAYER_LEVEL:/ 4 + 3
 desc:Dispara un rayo de magia negra.
 
-spell:Sense Invisible:2:4:25:3
+spell:Sentir lo Invisible:2:4:25:3
 effect:TIMED_INC:SINVIS
 dice:24+d24
 desc:Te permite ver monstruos invisibles durante 24+1d24 turnos.
 
-spell:Create Darkness:3:3:10:4
+spell:Crear Oscuridad:3:3:10:4
 effect:DARKEN_AREA
 effect:SPHERE:DARK_WEAK:1:10
 dice:1
 desc:Oscurece todas las casillas en un área dependiente del nivel. Si estás en una habitación,
 desc: toda la habitación también se oscurecerá.
 
-spell:Bat Form:3:4:20:10
+spell:Forma de Murciélago:3:4:20:10
 effect:SHAPECHANGE:bat
 desc:Te transforma en la forma de un murciélago, débil pero con excelentes sentidos.
 desc:  Mientras estás transformado no puedes usar objetos.
 
-spell:Read Minds:4:4:10:6
+spell:Leer Mentes:4:4:10:6
 effect:DETECT_SOUL
 effect-yx:22:40
 effect:READ_MINDS
@@ -1029,13 +1029,13 @@ book:shadow book:town:[Rituales Oscuros]:5:de sombra
 book-graphics:?:P
 book-properties:400:40:10 to 100
 
-spell:Tap Unlife:7:0:50:3
+spell:Drenar No-Vida:7:0:50:3
 effect:TAP_UNLIFE
 dice:$Dd6
 expr:D:PLAYER_LEVEL:/ 4 + 2
 desc:Apunta al monstruo no muerto más cercano y lo daña para ganar maná del jugador.
 
-spell:Crush:10:6:40:5
+spell:Aplastar:10:6:40:5
 effect:PROJECT_LOS:MON_CRUSH
 dice:$B
 expr:B:PLAYER_LEVEL:* 4
@@ -1046,14 +1046,14 @@ desc:Mata instantáneamente a cualquier monstruo en la línea de visión con men
 desc: nivel del jugador en puntos de vida, también hiriendo al jugador. Otros monstruos no
 desc: resultan dañados.
 
-spell:Sleep Evil:12:5:50:5
+spell:Dormir a Malvados:12:5:50:5
 effect:PROJECT_LOS:SLEEP_EVIL
 dice:$B
 expr:B:PLAYER_LEVEL:* 10 + 500
 desc:Intenta dormir a cada monstruo malvado dentro de la línea de visión.
 desc:  Los monstruos que resisten la confusión no se ven afectados.
 
-spell:Shadow Shift:15:10:50:10
+spell:Cambio de Sombra:15:10:50:10
 effect:TELEPORT
 dice:30
 effect:DAMAGE
@@ -1062,7 +1062,7 @@ effect-msg:cambio de sombra
 desc:Desplaza tu espíritu una corta distancia, hiriendo tu cuerpo al ser
 desc: arrastrado.
 
-spell:Disenchant:16:12:50:15
+spell:Desencantar:16:12:50:15
 effect:BOLT:DISEN
 dice:2d$S
 expr:S:PLAYER_LEVEL:* 2 + 10
@@ -1073,33 +1073,33 @@ book:shadow book:town:[Miedo y Tormento]:5:de sombra
 book-graphics:?:P
 book-properties:1600:20:30 to 100
 
-spell:Frighten:17:4:40:12
+spell:Atemorizar:17:4:40:12
 effect:BOLT_AWARE:TURN_ALL
 dice:$B
 expr:B:PLAYER_LEVEL:+ 0
 desc:Intenta asustar a un solo monstruo durante una duración dependiente del nivel.
 desc:  Los monstruos que resisten el miedo no se ven afectados.
 
-spell:Vampire Strike:20:5:50:10
+spell:Golpe Vampírico:20:5:50:10
 effect:JUMP_AND_BITE
 dice:$B
 expr:B:PLAYER_LEVEL:* 2
 desc:Te teletransporta al monstruo vivo más cercano y drena un número
 desc: de puntos de vida dependiente del nivel, curando y alimentando al jugador.
 
-spell:Dispel Life:22:20:50:10
+spell:Disipar la Vida:22:20:50:10
 effect:PROJECT_LOS_AWARE:MON_DRAIN
 dice:d$S
 expr:S:PLAYER_LEVEL:* 3
 desc:Inflige daño irresistible a cada monstruo vivo dentro de la línea de visión.
 
-spell:Dark Spear:25:10:60:12
+spell:Lanza Oscura:25:10:60:12
 effect:LINE:DARK
 dice:2d$S
 expr:S:PLAYER_LEVEL:* 2
 desc:Dispara un rayo de oscuridad.
 
-spell:Warg Form:28:20:60:80
+spell:Forma de Huargo:28:20:60:80
 effect:SHAPECHANGE:warg
 desc:Te transforma en la forma de un huargo, y te otorga fuerza berserker
 desc: temporal, a costa de algunos puntos de vida.
@@ -1109,19 +1109,19 @@ book:shadow book:dungeon:[Poderes Mortales]:6:de sombra
 book-graphics:?:p
 book-properties:30000:15:40 to 100
 
-spell:Banish Spirits:25:25:80:25
+spell:Desterrar Espíritus:25:25:80:25
 effect:PROJECT_LOS_AWARE:AWAY_SPIRIT
 dice:100
 desc:Teletransporta a cada monstruo con un espíritu dentro de la línea de visión.
 
-spell:Annihilate:30:20:75:25
+spell:Aniquilar:30:20:75:25
 effect:BOLT:MON_DRAIN
 dice:$B
 expr:B:PLAYER_LEVEL:* 4
 desc:Inflige daño igual a cuatro veces el nivel del jugador a un solo monstruo que
 desc: no sea no muerto, elemental, gólem o vórtice.
 
-spell:Grond's Blow:35:35:80:115
+spell:Golpe de Grond:35:35:80:115
 effect:DESTRUCTION:DARK:15
 desc:Destruye todo en un círculo de radio 15 a tu alrededor.
 desc:  Todos los monstruos, objetos y características del terreno en el área de
@@ -1130,7 +1130,7 @@ desc:  También quedarás cegado durante 10+1d10 turnos, a menos que
 desc: tengas resistencia a la ceguera o la oscuridad.
 desc:  Este ritual no tiene efecto cuando se usa en la ciudad.
 
-spell:Unleash Chaos:38:15:90:100
+spell:Liberar el Caos:38:15:90:100
 effect:RANDOM
 dice:3
 effect:BEAM:CHAOS
@@ -1149,13 +1149,13 @@ expr:B:PLAYER_LEVEL:+ 0
 desc:Dispara un rayo, arco o bola de caos en la dirección elegida, despierta todo
 desc: en el área, e intenta asustar a todo en la línea de visión.
 
-spell:Fume of Mordor:40:50:80:150
+spell:Vapores de Mordor:40:50:80:150
 effect:DARKEN_LEVEL
 dice:1
 desc:Oscurece, traza el mapa y detecta todos los objetos en el nivel actual
 desc: completo de la mazmorra.
 
-spell:Storm of Darkness:43:16:80:200
+spell:Tormenta de Oscuridad:43:16:80:200
 effect:BALL:DARK:4
 dice:4d$S
 expr:S:PLAYER_LEVEL:* 2
@@ -1166,7 +1166,7 @@ book:shadow book:dungeon:[Corrupción del Espíritu]:5:de sombra
 book-graphics:?:p
 book-properties:50000:10:60 to 100
 
-spell:Power Sacrifice:27:0:20:20
+spell:Sacrificio de Poder:27:0:20:20
 effect:DAMAGE
 dice:50
 effect-msg:sacrificio propio
@@ -1174,14 +1174,14 @@ effect:RESTORE_MANA
 dice:50
 desc:Intercambia 50 puntos de vida por 50 de maná.
 
-spell:Zone of Unmagic:32:16:60:110
+spell:Zona Antimágica:32:16:60:110
 effect:SPOT:DISEN:4
 dice:$B
 expr:B:PLAYER_LEVEL:* 3
 desc:Produce una zona de desencantamiento que afecta al jugador y a los monstruos
 desc: dentro de radio 4.
 
-spell:Vampire Form:37:20:60:140
+spell:Forma de Vampiro:37:20:60:140
 effect:SHAPECHANGE:vampire
 effect:JUMP_AND_BITE
 dice:$B
@@ -1192,7 +1192,7 @@ desc: y drena un número de puntos de vida dependiente del nivel, curándote y a
 desc:  Cuando te transformas por primera vez, podrás temporalmente
 desc: quitar puntos de vida a los monstruos vivos con tu ataque de mordisco.
 
-spell:Curse:40:50:60:180
+spell:Maldecir:40:50:60:180
 effect:DAMAGE
 dice:100
 effect-msg:realizando una maldición
@@ -1203,7 +1203,7 @@ expr:S:MONSTER_PERCENT_HP_GONE:+ 50
 desc:Inflige daño directo a un solo monstruo, más cuanto más dañado esté el monstruo
 desc: ya, a costa de 100 puntos de vida.
 
-spell:Command:45:40:60:250
+spell:Dominar:45:40:60:250
 effect:COMMAND
 dice:5+1d10
 desc:Te permite tomar el control de un monstruo y moverlo en lugar de a ti mismo.
@@ -1248,7 +1248,7 @@ magic:1:400:3
 
 book:prayer book:town:[Manual del Novicio]:6:divina
 
-spell:Bless:1:2:20:4
+spell:Bendición:1:2:20:4
 effect:TIMED_INC:BLESSED
 dice:$B+d$S
 expr:B:PLAYER_LEVEL:+ 10
@@ -1262,7 +1262,7 @@ effect-yx:22:40
 desc:Detecta todos los monstruos malvados en el área inmediata,
 desc: por un solo turno.
 
-spell:Call Light:5:3:10:2
+spell:Llamar a la Luz:5:3:10:2
 effect:LIGHT_AREA
 effect:SPHERE:LIGHT_WEAK:1:10
 dice:2d$S
@@ -1271,7 +1271,7 @@ desc:Ilumina todas las casillas en un área dependiente del nivel, y daña
 desc: a todos los monstruos sensibles a la luz en el área de efecto.
 desc:  Si estás en una habitación, toda la habitación se iluminará también.
 
-spell:Minor Healing:7:3:15:4
+spell:Curación Menor:7:3:15:4
 effect:HEAL_HP
 dice:$B+m$M
 expr:B:PLAYER_LEVEL:+ 10
@@ -1283,12 +1283,12 @@ dice:20
 desc:Restaura una cantidad o porcentaje de puntos de vida dependiente del nivel, y
 desc: cura 20 puntos de cortes y de aturdimiento.
 
-spell:Sense Invisible:8:4:25:4
+spell:Sentir lo Invisible:8:4:25:4
 effect:TIMED_INC:SINVIS
 dice:24+d24
 desc:Te permite ver monstruos invisibles durante 24+1d24 turnos.
 
-spell:Heroism:12:5:30:5
+spell:Heroísmo:12:5:30:5
 effect:HEAL_HP
 dice:10
 effect:CURE:AFRAID
@@ -1328,7 +1328,7 @@ desc: de retorno de nuevo.
 desc:  Esta oración no tiene efecto cuando la opción de restringir el uso de
 desc: escaleras y retorno está activada, a menos que Morgoth esté muerto.
 
-spell:Healing:30:50:80:100
+spell:Curación:30:50:80:100
 effect:HEAL_HP
 dice:2000
 effect:CURE:CUT
@@ -1338,19 +1338,19 @@ effect:CURE:AMNESIA
 desc:Restaura 2000 puntos de daño y cura todo aturdimiento, cortes, veneno
 desc: y amnesia.
 
-spell:Clairvoyance:37:50:80:150
+spell:Clarividencia:37:50:80:150
 effect:LIGHT_LEVEL
 desc:Ilumina, traza el mapa y percibe todos los objetos en el nivel actual
 desc: completo de la mazmorra.
 
 book:prayer book:dungeon:[Bendiciones de Batalla]:5:divina
 
-spell:Smite Evil:25:20:70:40
+spell:Castigar al Mal:25:20:70:40
 effect:TIMED_INC:ATT_EVIL:0:5
 dice:20+d20
 desc:Hace que tus ataques cuerpo a cuerpo maten criaturas malvadas temporalmente.
 
-spell:Demon Bane:30:40:80:150
+spell:Azote de Demonios:30:40:80:150
 effect:TIMED_INC:ATT_DEMON:0:5
 dice:20+d20
 desc:Hace que tus ataques cuerpo a cuerpo maten demonios poderosamente temporalmente.
@@ -1365,7 +1365,7 @@ effect:ENCHANT:TOAC
 dice:1+1d3
 desc:Intenta mejorar la bonificación de clase de armadura de una pieza de armadura.
 
-spell:Single Combat:40:50:30:300
+spell:Combate Singular:40:50:30:300
 effect:SINGLE_COMBAT
 desc:Te encierra a ti y al monstruo objetivo en una celda de piedra de la que solo el
 desc: vencedor puede salir.
@@ -1421,7 +1421,7 @@ effect:TELEPORT
 dice:10
 desc:Te teletransporta aleatoriamente hasta 10 casillas de distancia.
 
-spell:Object Detection:10:3:60:5
+spell:Detección de Objetos:10:3:60:5
 effect:DETECT_ORE
 effect-yx:22:40
 effect:DETECT_GOLD
@@ -1430,7 +1430,7 @@ effect:DETECT_OBJECTS
 effect-yx:22:40
 desc:Detecta todos los objetos en el área inmediata.
 
-spell:Detect Stairs:12:3:50:5
+spell:Detectar Escaleras:12:3:50:5
 effect:DETECT_STAIRS
 effect-yx:44:60
 desc:Detecta todas las escaleras en un área amplia.
@@ -1444,7 +1444,7 @@ desc:  La probabilidad de éxito y el número de cargas obtenidas aumentan con t
 desc: nivel y disminuyen con el nivel de la varita o bastón y el número de cargas.
 desc:  Un intento fallido de recargar destruye una varita o bastón de la pila.
 
-spell:Reveal Monsters:25:3:40:8
+spell:Revelar Monstruos:25:3:40:8
 effect:DETECT_INVISIBLE_MONSTERS
 effect-yx:22:40
 effect:DETECT_VISIBLE_MONSTERS
@@ -1453,18 +1453,18 @@ desc:Detecta todos los monstruos en el área inmediata, por un solo turno.
 
 book:magic book:dungeon:[Control Arcano]:4:arcana
 
-spell:Teleport Self:17:6:35:5
+spell:Teletransportarse:17:6:35:5
 effect:TELEPORT
 dice:M$M
 expr:M:PLAYER_LEVEL:* 9 / 5
 desc:Te teletransporta aleatoriamente dentro del nivel actual.
 
-spell:Hit and Run:23:20:40:20
+spell:Golpear y Huir:23:20:40:20
 effect:TIMED_INC:ATT_RUN
 dice:10
 desc:Te prepara para teletransportarte una corta distancia después de robarle a un monstruo.
 
-spell:Teleport Other:30:10:30:50
+spell:Teletransportar a Otro:30:10:30:50
 effect:BOLT_STATUS:AWAY_ALL
 dice:$B
 expr:B:PLAYER_LEVEL:* 3
@@ -1527,26 +1527,26 @@ effect:DETECT_LIVING_MONSTERS
 effect-yx:22:40
 desc:Detecta todos los monstruos vivos en el área inmediata, por un solo turno.
 
-spell:Herbal Curing:9:6:30:4
+spell:Curación con Hierbas:9:6:30:4
 effect:CURE:CUT
 effect:CURE:POISONED
 effect:CURE:STUN
 effect:CURE:BLACKBREATH
 desc:Cura todos los cortes, veneno, aturdimiento y aliento negro.
 
-spell:Resist Poison:12:10:32:5
+spell:Resistir Veneno:12:10:32:5
 effect:TIMED_INC:OPP_POIS
 dice:20+d20
 desc:Te otorga resistencia al veneno durante 20+1d20 turnos.
 
-spell:Turn Stone to Mud:15:5:25:5
+spell:Piedra a Lodo:15:5:25:5
 effect:LINE:KILL_WALL
 dice:20+1d30
 desc:Produce un rayo que destruye la primera sección de pared que golpea,
 desc: a menos que sea una pared permanente. Cada monstruo atrapado en el rayo que
 desc: sea susceptible a removedor de roca recibe 20+1d30 puntos de daño.
 
-spell:Sense Surroundings:20:8:35:8
+spell:Percibir Entorno:20:8:35:8
 effect:MAP_AREA
 dice:$Dd$S
 expr:D:PLAYER_LEVEL:/ 30 + 1 * 22
@@ -1556,29 +1556,29 @@ desc:Traza el mapa del área cercana.
 
 book:nature book:dungeon:[Arte de la Naturaleza]:5:de naturaleza
 
-spell:Cover Tracks:20:20:40:40
+spell:Cubrir Huellas:20:20:40:40
 effect:TIMED_INC:COVERTRACKS:0:5
 dice:$B+d20
 expr:B:PLAYER_LEVEL:* 2
 desc:Evita que dejes un olor para que los monstruos te sigan durante una
 desc: duración dependiente del nivel.
 
-spell:Create Arrows:22:20:40:40
+spell:Crear Flechas:22:20:40:40
 effect:CREATE_ARROWS
 desc:Permite al jugador convertir un bastón en una pila de flechas, con calidad
 desc: dependiendo del nivel del bastón y del nivel del jugador.
 
-spell:Haste Self:25:12:65:15
+spell:Acelerarse:25:12:65:15
 effect:TIMED_INC:FAST:0:5
 dice:$B+d20
 expr:B:PLAYER_LEVEL:+ 0
 desc:Te apresura (+10 a velocidad) durante una duración dependiente del nivel.
 
-spell:Decoy:30:30:40:60
+spell:Señuelo:30:30:40:60
 effect:GLYPH:DECOY
 desc:Deja un señuelo mágico que se ve y suena como el jugador.
 
-spell:Brand Ammunition:40:60:95:120
+spell:Encantar Munición:40:60:95:120
 effect:BRAND_AMMO
 desc:Marca una pila de munición con fuego, frío o veneno
 desc: (seleccionado al azar) y al mismo tiempo intenta mejorar
@@ -1628,7 +1628,7 @@ magic:1:600:3
 
 book:shadow book:town:[Hacia las Sombras]:6:de sombra
 
-spell:Seek Battle:1:1:15:2
+spell:Buscar Batalla:1:1:15:2
 effect:DETECT_FEARFUL_MONSTERS
 effect-yx:22:40
 desc:Detecta todos los monstruos susceptibles al miedo en el área inmediata,
@@ -1644,7 +1644,7 @@ desc:Elimina el miedo y te otorga fuerza berserker (resistencia al miedo,
 desc: +75 habilidad cuerpo a cuerpo, -10 a CA, y evita la curación
 desc: con el tiempo) durante una duración dependiente del nivel.
 
-spell:Whirlwind Attack:5:4:25:6
+spell:Ataque Torbellino:5:4:25:6
 effect:SWEEP
 dice:$S
 expr:S:PLAYER_LEVEL:+ 10 / 15
@@ -1652,13 +1652,13 @@ desc:Inflige un número de golpes cuerpo a cuerpo dependiente del nivel a cada e
 desc:  En el nivel 5 haces un golpe y ganas un golpe adicional cada 15
 desc: niveles (2 a 20, 3 a 35 y 4 a 50).
 
-spell:Shatter Stone:7:3:20:8
+spell:Destrozar Piedra:7:3:20:8
 effect:SHORT_BEAM:KILL_WALL:1
 dice:20+1d30
 desc:Destruye una sección adyacente de pared o escombro, a menos que sea una pared
 desc: permanente. Inflige 20+1d30 de daño a monstruos vulnerables a removedor de roca.
 
-spell:Leap into Battle:10:5:30:10
+spell:Saltar a la Batalla:10:5:30:10
 effect:MOVE_ATTACK
 dice:$B
 expr:B:PLAYER_LEVEL:+ 5 / 15
@@ -1666,7 +1666,7 @@ desc:Corres hasta 4 espacios hacia el enemigo objetivo, luego realizas un
 desc: golpe cuerpo a cuerpo. Obtienes un golpe adicional en los niveles 25 y 40. Si te
 desc: moviste, el número de golpes se reduce en un 25% por cada espacio, luego se redondea.
 
-spell:Grim Purpose:13:8:30:12
+spell:Propósito Sombrío:13:8:30:12
 effect:SET_VALUE
 dice:12+d12
 effect:TIMED_INC:OPP_CONF
@@ -1677,7 +1677,7 @@ desc: durante 12+d12 turnos.
 
 book:shadow book:town:[Miedo y Tormento]:5:de sombra
 
-spell:Maim Foe:15:6:35:14
+spell:Mutilar Enemigo:15:6:35:14
 effect:MELEE_BLOWS:MON_STUN:6
 dice:$S
 expr:S:PLAYER_LEVEL:/ 15
@@ -1685,7 +1685,7 @@ desc:Intenta un número de golpes cuerpo a cuerpo dependiente del nivel contra e
 desc: objetivo. Obtienes 1 golpe por cada 15 niveles. Si alguno de estos golpes
 desc: daña al enemigo, será aturdido durante 6 turnos.
 
-spell:Howl of the Damned:18:8:30:16
+spell:Aullido de los Condenados:18:8:30:16
 effect:PROJECT_LOS:TURN_ALL
 dice:$B
 expr:B:PLAYER_LEVEL:+ 0
@@ -1693,32 +1693,32 @@ desc:Intenta asustar a cada monstruo en la línea de visión durante una duraci�
 desc: del nivel del jugador y la profundidad del monstruo. Los monstruos que resisten el miedo no se ven
 desc: afectados.
 
-spell:Relentless Taunting:24:10:32:20
+spell:Burla Implacable:24:10:32:20
 effect:TIMED_INC:TAUNT
 dice:12+d12
 desc:Hace que cualquier monstruo que pueda moverse esté más inclinado a correr hacia ti, y menos
 desc: propenso a usar un ataque a distancia (incluyendo hechizos y habilidades innatas).
 
-spell:Venom:28:18:35:30
+spell:Veneno:28:18:35:30
 effect:TIMED_INC:ATT_POIS:0:5
 dice:18+d18
 desc:Cubre todas tus armas cuerpo a cuerpo con veneno durante 18+d18 turnos.
 
-spell:Werewolf Form:32:30:40:100
+spell:Forma de Hombre Lobo:32:30:40:100
 effect:SHAPECHANGE:werewolf
 desc:¡Con un grito desgarrador te conviertes en un hombre lobo!
 desc:  En esta forma te mueves, atacas y curas más rápido.
 
 book:shadow book:dungeon:[Poderes Mortales]:4:de sombra
 
-spell:Bloodlust:30:25:37:80
+spell:Sed de Sangre:30:25:37:80
 effect:TIMED_INC:BLOODLUST:0:-1
 dice:10
 desc:Te da un poderoso deseo de matar, aumentando cada vez que lo satisfaces.
 desc:  Te otorga daño cuerpo a cuerpo extra y golpes extra, pero viene
 desc: con peligrosos efectos secundarios.
 
-spell:Unholy Reprieve:34:45:60:120
+spell:Tregua Profana:34:45:60:120
 effect:RESTORE_STAT:STR
 effect:RESTORE_STAT:INT
 effect:RESTORE_STAT:CON
@@ -1727,12 +1727,12 @@ effect:DAMAGE
 dice:66
 desc:Restaura FUE, INT, CON y experiencia a costa de 66 PV.
 
-spell:Forceful Blow:38:16:50:150
+spell:Golpe Contundente:38:16:50:150
 effect:MELEE_BLOWS:FORCE:200
 dice:1
 desc:Intenta un golpe cuerpo a cuerpo que inflige daño de fuerza adicional cuando golpea,
 desc: empujando al objetivo hacia atrás con probabilidad de aturdirlo.
 
-spell:Quake:44:39:55:175
+spell:Terremoto:44:39:55:175
 effect:EARTHQUAKE:NONE:13
 desc:Causa un terremoto de radio 13 centrado en el jugador.
