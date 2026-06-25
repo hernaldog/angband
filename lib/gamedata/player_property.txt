@@ -44,12 +44,12 @@ desc:Estás hecho de roca.
 
 type:player
 code:KNOW_MUSHROOM
-name:Saber de Setas
+name:Conoc. en Setas
 desc:Reconoces fácilmente las setas.
 
 type:player
 code:KNOW_ZAPPER
-name:Saber de Dispositivos
+name:Conoc. en Dispositivos
 desc:Reconoces fácilmente los dispositivos mágicos.
 
 type:player
@@ -219,7 +219,7 @@ desc:Tienes telepatía.
 type:object
 code:SEE_INVIS
 bindui:see_invis_ui_compact_0:0:1
-name:Ver Invisibles
+name:Ver lo Invisible
 desc:Puedes ver criaturas invisibles.
 
 type:object

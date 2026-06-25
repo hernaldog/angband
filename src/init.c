@@ -1339,7 +1339,7 @@ static errr finish_parse_player_prop(struct parser *p) {
 				new->type = string_make(embryo->ability.type);
 				new->desc = string_make(format("%s %s.", embryo->ability.desc, name));
 				my_strcap(name);
-				new->name = string_make(format("%s %s", name, embryo->ability.name));
+				new->name = string_make(format("%s a %s", embryo->ability.name, name)); //fix traduc antes Resistencia Oscuridad ahora Resistencia a Oscuridad
 				string_free(name);
 				new->value = embryo->ability.value;
 				boundui_cursor = embryo->boundui;
