@@ -1566,7 +1566,7 @@ static enum birth_stage get_history_command(void)
  * ------------------------------------------------------------------------ */
 static enum birth_stage get_confirm_command(void)
 {
-	const char *prompt = "['ESC' retroceder, 'S' empezar de nuevo, otra tecla para continuar]";
+	const char *prompt = "['ESC' volver, 'S' empezar de nuevo, otra tecla para continuar]";
 	struct keypress ke;
 
 	enum birth_stage next = BIRTH_RESET;
