@@ -444,7 +444,7 @@ static void show_obj_list(olist_detail_t mode)
 
 		/* Quiver may take multiple lines */
 		for (j = 0; j < quiver_slots; j++, i++) {
-			const char *fmt = "en Carcaj: %d proyectil%s";
+			const char *fmt = "En Carcaj: %d proyectil%s";
 			char letter = all_letters_nohjkl[in_term ? i - 1 : i];
 
 			/* Number of missiles in this "slot" */
@@ -462,7 +462,7 @@ static void show_obj_list(olist_detail_t mode)
 
 			/* Print the count */
 			strnfmt(tmp_val, sizeof(tmp_val), fmt, count,
-					count == 1 ? "" : "s");
+					count == 1 ? "" : "es");
 			c_put_str(COLOUR_L_UMBER, tmp_val, row + i, col + 3);
 		}
 	}
@@ -1041,7 +1041,7 @@ static void item_menu_browser(int oid, void *data, const region *local_area)
 	if (olist_mode & OLIST_QUIVER && player->upkeep->command_wrk == USE_INVEN) {
 		/* Quiver may take multiple lines */
 		for (j = 0; j < quiver_slots; j++, i++) {
-			const char *fmt = "en Carcaj: %d proyectil%s\n";
+			const char *fmt = "En Carcaj: %d proyectil%s\n";
 			char letter = all_letters_nohjkl[i];
 
 			/* Number of missiles in this "slot" */
@@ -1057,7 +1057,7 @@ static void item_menu_browser(int oid, void *data, const region *local_area)
 
 			/* Print the count */
 			strnfmt(tmp_val, sizeof(tmp_val), fmt, count,
-					count == 1 ? "" : "s");
+					count == 1 ? "" : "es");
 			text_out_c(COLOUR_L_UMBER, tmp_val, local_area->row + i, local_area->col + 3);
 		}
 	}

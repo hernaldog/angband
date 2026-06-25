@@ -621,12 +621,12 @@ struct object *gear_object_for_use(struct player *p, struct object *obj,
 	/* Print a message if desired */
 	if (message) {
 		if (artifact) {
-			msg("Ya no tienes6 %s (%c).", name, label);
+			msg("Ya no tienes %s (%c).", name, label);
 		} else if (first_remainder) {
 			label = gear_to_label(p, first_remainder);
-			msg("Tienes4 %s (1er %c).", name, label);
+			msg("Tienes %s (1er %c).", name, label);
 		} else {
-			msg("Tienes5 %s (%c).", name, label);
+			msg("Tienes %s (%c).", name, label);
 		}
 	}
 

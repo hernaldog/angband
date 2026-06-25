@@ -996,11 +996,15 @@ static void floor_carry_fail(struct chunk *c, struct object *drop, bool broke)
 	/* Delete completely */
 	if (known) {
 		char o_name[80];
+		bool plural = drop->number != 1;
+		bool feminine = object_is_feminine(drop);
+		const char *article = plural ?
+			(feminine ? "Las" : "Los") : (feminine ? "La" : "El");
 		const char *verb = broke ?
-			VERB_AGREEMENT(drop->number, "breaks", "break") :
-			VERB_AGREEMENT(drop->number, "disappears", "disappear");
+			VERB_AGREEMENT(drop->number, "se rompe", "se rompen") :
+			VERB_AGREEMENT(drop->number, "desaparece", "desaparecen");
 		object_desc(o_name, sizeof(o_name), drop, ODESC_BASE, player);
-		msg("The %s %s.", o_name, verb);
+		msg("%s %s %s.", article, o_name, verb);
 		if (!loc_is_zero(known->grid))
 			square_excise_object(player->cave, known->grid, known);
 		delist_object(player->cave, known);
