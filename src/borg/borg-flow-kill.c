@@ -2724,84 +2724,87 @@ void borg_near_monster_type(int dist)
          */
 
         /* run from certain scaries */
-        if (borg.trait[BI_CLEVEL] <= 5 && (strstr(r_ptr->name, "Squint")))
+        if (borg.trait[BI_CLEVEL] <= 5 && (strstr(r_ptr->name, "estrábico")))
             scaryguy_on_level = true;
 
         /* Mage and priest are extra fearful */
         if (borg.trait[BI_CLEVEL] <= 6
             && (borg.trait[BI_CLASS] == CLASS_MAGE
                 || borg.trait[BI_CLASS] == CLASS_PRIEST)
-            && (strstr(r_ptr->name, "Squint")))
+            && (strstr(r_ptr->name, "estrábico")))
             scaryguy_on_level = true;
 
         /* run from certain dungeon scaries */
         if (borg.trait[BI_CLEVEL] <= 5
             && (strstr(r_ptr->name, "Grip") || strstr(r_ptr->name, "Fang")
-                || strstr(r_ptr->name, "Small kobold")))
+                || strstr(r_ptr->name, "kobold pequeño")))
             scaryguy_on_level = true;
 
         /* run from certain scaries */
         if (borg.trait[BI_CLEVEL] <= 8
-            && (strstr(r_ptr->name, "Novice") || strstr(r_ptr->name, "Kobold")
-                || strstr(r_ptr->name, "Kobold archer")
-                || strstr(r_ptr->name, "Jackal")
-                || strstr(r_ptr->name, "Shrieker")
+            && (strstr(r_ptr->name, "acólito") || strstr(r_ptr->name, "aprendiz")
+                || strstr(r_ptr->name, "carterista")
+                || strstr(r_ptr->name, "soldado")
+                || strstr(r_ptr->name, "kobold")
+                || strstr(r_ptr->name, "arquero kobold")
+                || strstr(r_ptr->name, "perro salvaje")
+                || strstr(r_ptr->name, "setas chilladoras")
                 || strstr(r_ptr->name, "Granjero Maggot")
-                || strstr(r_ptr->name, "Golfo callejero inmundo")
-                || strstr(r_ptr->name, "Battle-scarred veteran")
-                || strstr(r_ptr->name, "Mean-looking mercenary")))
+                || strstr(r_ptr->name, "golfo callejero inmundo")
+                || strstr(r_ptr->name, "veterano marcado por la batalla")
+                || strstr(r_ptr->name, "mercenario de aspecto malvado")))
             scaryguy_on_level = true;
 
         if (borg.trait[BI_CLEVEL] <= 15
             && (strstr(r_ptr->name, "Bullr")
-                || ((strstr(r_ptr->name, "Giant white mouse")
-                        || strstr(r_ptr->name, "White worm mass")
-                        || strstr(r_ptr->name, "Green worm mass"))
+                || ((strstr(r_ptr->name, "ratón blanco gigante")
+                        || strstr(r_ptr->name, "masa de gusanos blancos")
+                        || strstr(r_ptr->name, "masa de gusanos verdes"))
                     && breeder_count >= borg.trait[BI_CLEVEL])))
             scaryguy_on_level = true;
 
         if (borg.trait[BI_CLEVEL] <= 20
-            && (strstr(r_ptr->name, "Cave spider")
+            && (strstr(r_ptr->name, "araña de cueva")
                 || strstr(r_ptr->name, "Pink naga")
                 || strstr(r_ptr->name, "Giant pink frog")
-                || strstr(r_ptr->name, "Radiation eye")
-                || (strstr(r_ptr->name, "Yellow worm mass")
+                || strstr(r_ptr->name, "ojo de radiación")
+                || (strstr(r_ptr->name, "masa de gusanos amarillos")
                     && breeder_count >= borg.trait[BI_CLEVEL])))
             scaryguy_on_level = true;
 
         if (borg.trait[BI_CLEVEL] < 45
-            && (strstr(r_ptr->name, "Gravity") || strstr(r_ptr->name, "Inertia")
-                || strstr(r_ptr->name, "Ancient")
+            && (strstr(r_ptr->name, "gravedad") || strstr(r_ptr->name, "inercia")
+                || strstr(r_ptr->name, "ancestral")
                 || strstr(r_ptr->name, "Beorn")
                 || strstr(r_ptr->name, "Dread") /* Appear in Groups */))
             scaryguy_on_level = true;
 
         /* Nether breath is bad */
         if (!borg.trait[BI_SRNTHR]
-            && (strstr(r_ptr->name, "Ossë, Herald of Ulmo")
-                || strstr(r_ptr->name, "Dracolich")
-                || strstr(r_ptr->name, "Dracolisk")))
+            && (strstr(r_ptr->name, "Ossë, Heraldo de Ulmo")
+                || strstr(r_ptr->name, "dracoliche")
+                || strstr(r_ptr->name, "dracolisco")))
             scaryguy_on_level = true;
 
         /* Blindness is really bad */
         if ((!borg.trait[BI_SRBLIND])
-            && ((strstr(r_ptr->name, "Light hound") && !borg.trait[BI_SRLITE])
-                || (strstr(r_ptr->name, "Dark hound")
+            && ((strstr(r_ptr->name, "sabueso de luz") && !borg.trait[BI_SRLITE])
+                || (strstr(r_ptr->name, "sabueso oscuro")
                     && !borg.trait[BI_SRDARK])))
             scaryguy_on_level = true;
 
         /* Chaos and Confusion are really bad */
         if ((!borg.trait[BI_SRKAOS] && !borg.trait[BI_SRCONF])
-            && (strstr(r_ptr->name, "Chaos")))
+            && (strstr(r_ptr->name, "caos")))
             scaryguy_on_level = true;
         if (!borg.trait[BI_SRCONF]
-            && (strstr(r_ptr->name, "Pukelman")
-                || strstr(r_ptr->name, "Nightmare")))
+            && (strstr(r_ptr->name, "pukelman")
+                || strstr(r_ptr->name, "pesadilla")))
             scaryguy_on_level = true;
 
         /* Poison is really Bad */
         if (!borg.trait[BI_RPOIS] && /* Note the RPois not SRPois */
-            (strstr(r_ptr->name, "Drolem")))
+            (strstr(r_ptr->name, "drolem")))
             scaryguy_on_level = true;
 
         /* Now do distance considerations */
@@ -3135,11 +3138,11 @@ static void borg_init_monster_names(void)
         what[size] = i;
 
         /* a few special uniques to look out for */
-        if (streq(r_ptr->name, "Morgoth, Lord of Darkness"))
+        if (streq(r_ptr->name, "Morgoth, Señor de la Oscuridad"))
             borg_morgoth_id = r_ptr->ridx;
-        if (streq(r_ptr->name, "Sauron, the Sorcerer"))
+        if (streq(r_ptr->name, "Sauron, el Hechicero"))
             borg_sauron_id = r_ptr->ridx;
-        if (streq(r_ptr->name, "The Tarrasque"))
+        if (streq(r_ptr->name, "El Tarrasque"))
             borg_tarrasque_id = r_ptr->ridx;
 
         size++;
