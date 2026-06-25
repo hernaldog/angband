@@ -64,7 +64,7 @@ phrase:de un Linaje Real.
 chart:3:50:20
 phrase:Eres la oveja negra de la familia.  
 chart:3:50:80
-phrase:Eres un orgullo para la familia.  
+phrase:Eres un orgullo para tu familia.  
 chart:3:50:100
 phrase:Eres un niño querido.  
 
@@ -181,7 +181,7 @@ phrase:Rey.
 chart:18:57:15
 phrase:Eres la oveja negra de la familia.  
 chart:18:57:85
-phrase:Eres un orgullo para la familia.  
+phrase:Eres un orgullo para tu familia.  
 chart:18:57:100
 phrase:Eres un niño querido.  
 
@@ -191,9 +191,9 @@ chart:19:20:100
 phrase:Tu padre era un Orco, 
 
 chart:20:2:20
-phrase:y es reconocido. Eres el hijo adoptado 
+phrase:y es algo reconocido. Eres el hijo adoptado 
 chart:20:2:100
-phrase:pero no es reconocido. Eres el hijo adoptado 
+phrase:pero no es algo reconocido. Eres el hijo adoptado 
 
 chart:21:22:30
 phrase:Tu madre era un Troll de Piedra 
@@ -256,9 +256,9 @@ chart:26:67:100
 phrase:y tu madre era una del harén del Jefe. 
 
 chart:50:51:20
-phrase:Tienes ojos marrón oscuro, 
+phrase:Tienes ojos color marrón oscuro, 
 chart:50:51:60
-phrase:Tienes ojos marrones, 
+phrase:Tienes ojos color marrón, 
 chart:50:51:70
 phrase:Tienes ojos color avellana, 
 chart:50:51:80
@@ -319,7 +319,7 @@ chart:56:0:100
 phrase:plateado, y una piel clara.
 
 chart:57:58:99
-phrase:Tienes ojos marrón oscuro, 
+phrase:Tienes ojos color marrón oscuro, 
 chart:57:58:100
 phrase:Tienes ojos rojos brillantes, 
 
@@ -387,9 +387,9 @@ phrase:leprosa.
 chart:67:68:10
 phrase:Tienes ojos negros, 
 chart:67:68:40
-phrase:Tienes ojos marrón oscuro, 
+phrase:Tienes ojos color marrón oscuro, 
 chart:67:68:80
-phrase:Tienes ojos marrones, 
+phrase:Tienes ojos color marrón, 
 chart:67:68:99
 phrase:Tienes ojos marrón claro, 
 chart:67:68:100
