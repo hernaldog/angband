@@ -142,19 +142,19 @@ type:object
 code:SUST_STR
 bindui:stat_mod_ui_compact_0<STR>:1:1
 name:Mantener Fuerza
-desc:Tu fuerza se mantiene..
+desc:Tu fuerza se mantiene.
 
 type:object
 code:SUST_INT
 bindui:stat_mod_ui_compact_0<INT>:1:1
 name:Mantener Inteligencia
-desc:Tu inteligencia se mantiene..
+desc:Tu inteligencia se mantiene.
 
 type:object
 code:SUST_WIS
 bindui:stat_mod_ui_compact_0<WIS>:1:1
 name:Mantener Sabiduría
-desc:Tu sabiduría se mantiene..
+desc:Tu sabiduría se mantiene.
 
 type:object
 code:SUST_DEX
@@ -232,7 +232,7 @@ type:object
 code:HOLD_LIFE
 bindui:holdlife_ui_compact_0:0:1
 name:Mantener Vida
-desc:Tu fuerza vital se mantiene..
+desc:Tu fuerza vital se mantiene.
 
 type:object
 code:IMPACT

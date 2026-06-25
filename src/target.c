@@ -67,31 +67,31 @@ void look_mon_desc(char *buf, size_t max, int m_idx)
 	/* Assess health */
 	if (mon->hp >= mon->maxhp) {
 		/* No damage */
-		my_strcpy(buf, (living ? "unhurt" : "undamaged"), max);
+		my_strcpy(buf, (living ? "ileso" : "sin daños"), max);
 	} else {
 		/* Calculate a health "percentage" */
 		int perc = 100L * mon->hp / mon->maxhp;
 
 		if (perc >= 60)
-			my_strcpy(buf, (living ? "somewhat wounded" : "somewhat damaged"),
+			my_strcpy(buf, (living ? "algo herido" : "algo dañado"),
 					  max);
 		else if (perc >= 25)
-			my_strcpy(buf, (living ? "wounded" : "damaged"), max);
+			my_strcpy(buf, (living ? "herido" : "dañado"), max);
 		else if (perc >= 10)
-			my_strcpy(buf, (living ? "badly wounded" : "badly damaged"), max);
+			my_strcpy(buf, (living ? "gravemente herido" : "gravemente dañado"), max);
 		else
-			my_strcpy(buf, (living ? "almost dead" : "almost destroyed"), max);
+			my_strcpy(buf, (living ? "casi muerto" : "casi destruido"), max);
 	}
 
 	/* Effect status */
-	if (mon->m_timed[MON_TMD_SLEEP]) my_strcat(buf, ", asleep", max);
-	if (mon->m_timed[MON_TMD_HOLD]) my_strcat(buf, ", held", max);
-	if (mon->m_timed[MON_TMD_DISEN]) my_strcat(buf, ", disenchanted", max);
-	if (mon->m_timed[MON_TMD_CONF]) my_strcat(buf, ", confused", max);
-	if (mon->m_timed[MON_TMD_FEAR]) my_strcat(buf, ", afraid", max);
-	if (mon->m_timed[MON_TMD_STUN]) my_strcat(buf, ", stunned", max);
-	if (mon->m_timed[MON_TMD_SLOW]) my_strcat(buf, ", slowed", max);
-	if (mon->m_timed[MON_TMD_FAST]) my_strcat(buf, ", hasted", max);
+	if (mon->m_timed[MON_TMD_SLEEP]) my_strcat(buf, ", dormido", max);
+	if (mon->m_timed[MON_TMD_HOLD]) my_strcat(buf, ", paralizado", max);
+	if (mon->m_timed[MON_TMD_DISEN]) my_strcat(buf, ", desencantado", max);
+	if (mon->m_timed[MON_TMD_CONF]) my_strcat(buf, ", confundido", max);
+	if (mon->m_timed[MON_TMD_FEAR]) my_strcat(buf, ", asustado", max);
+	if (mon->m_timed[MON_TMD_STUN]) my_strcat(buf, ", aturdido", max);
+	if (mon->m_timed[MON_TMD_SLOW]) my_strcat(buf, ", ralentizado", max);
+	if (mon->m_timed[MON_TMD_FAST]) my_strcat(buf, ", apresurado", max);
 }
 
 
@@ -504,7 +504,7 @@ bool target_set_closest(int mode, monster_predicate pred)
 
 	/* If nothing was prepared, then return */
 	if (point_set_size(targets) < 1) {
-		msg("No Available Target.");
+		msg("No hay objetivos.");
 		point_set_dispose(targets);
 		return false;
 	}
@@ -514,7 +514,7 @@ bool target_set_closest(int mode, monster_predicate pred)
 	
 	/* Target the monster, if possible */
 	if (!target_able(mon)) {
-		msg("No Available Target.");
+		msg("No hay objetivos.");
 		point_set_dispose(targets);
 		return false;
 	}
@@ -522,7 +522,7 @@ bool target_set_closest(int mode, monster_predicate pred)
 	/* Target the monster */
 	monster_desc(m_name, sizeof(m_name), mon, MDESC_CAPITAL | MDESC_COMMA);
 	if (!(mode & TARGET_QUIET))
-		msg("%s is targeted.", m_name);
+		msg("%s ha sido seleccionado como objetivo.", m_name);
 
 	/* Set up target information */
 	monster_race_track(player->upkeep, mon->race);
