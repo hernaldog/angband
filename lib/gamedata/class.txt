@@ -203,7 +203,7 @@ title:Archimago
 
 magic:1:300:5
 
-book:magic book:town:[Primeros Conjuros]:7:arcane
+book:magic book:town:[Primeros Conjuros]:7:arcana
 book-graphics:?:R
 book-properties:25:40:1 to 100
 equip:magic book:[Primeros Conjuros]:1:1:none
@@ -260,7 +260,7 @@ dice:$B
 expr:B:PLAYER_LEVEL:* 2
 desc:Dispara una bola de fuego de radio 2.
 
-book:magic book:town:[Ataques y Conocimientos]:6:arcane
+book:magic book:town:[Ataques y Conocimientos]:6:arcana
 book-graphics:?:R
 book-properties:400:40:10 to 100
 
@@ -308,7 +308,7 @@ dice:$Dd8
 expr:D:PLAYER_LEVEL:/ 2
 desc:Expulsa ácido en un cono de 60 grados, golpeando a todos los monstruos hasta 10 casillas.
 
-book:magic book:town:[Defensas Mágicas]:6:arcane
+book:magic book:town:[Defensas Mágicas]:6:arcana
 book-graphics:?:R
 book-properties:1600:20:30 to 100
 
@@ -349,7 +349,7 @@ effect:TIMED_INC:FASTCAST
 dice:5+1d5
 desc:Aumenta la velocidad de lanzamiento de hechizos en un 33% durante 5+1d5 turnos.
 
-book:magic book:dungeon:[Control Arcano]:6:arcane
+book:magic book:dungeon:[Control Arcano]:6:arcana
 book-graphics:?:r
 book-properties:30000:15:40 to 100
 
@@ -403,7 +403,7 @@ dice:$Dd8
 expr:D:PLAYER_LEVEL:+ 0
 desc:Dispara un rayo de fuerza de corto alcance.
 
-book:magic book:dungeon:[Tomo de Poder del Mago]:5:arcane
+book:magic book:dungeon:[Tomo de Poder del Mago]:5:arcana
 book-graphics:?:r
 book-properties:50000:10:60 to 100
 
@@ -480,7 +480,7 @@ title:Alto Místico
 
 magic:1:350:5
 
-book:nature book:town:[Amuletos Menores]:6:nature
+book:nature book:town:[Amuletos Menores]:6:de naturaleza
 book-graphics:?:y
 book-properties:25:40:1 to 100
 equip:nature book:[Amuletos Menores]:1:1:none
@@ -518,7 +518,7 @@ dice:5+d$S
 expr:S:PLAYER_LEVEL:- 5
 desc:Ralentiza a un monstruo; más efectivo contra animales.
 
-book:nature book:town:[Dones de la Naturaleza]:6:nature
+book:nature book:town:[Dones de la Naturaleza]:6:de naturaleza
 book-graphics:?:y
 book-properties:400:40:10 to 100
 
@@ -563,7 +563,7 @@ expr:D:PLAYER_LEVEL:/ 3 + 2
 desc:Hace que fragmentos exploten en una línea desde la tierra, golpeando objetos y
 desc: monstruos. La longitud de la línea aumenta con el nivel del jugador.
 
-book:nature book:dungeon:[Dominio de las Criaturas]:5:nature
+book:nature book:dungeon:[Dominio de las Criaturas]:5:de naturaleza
 book-graphics:?:o
 book-properties:10000:20:30 to 100
 
@@ -594,7 +594,7 @@ effect:SHAPECHANGE:bear
 desc:Te permite tomar la forma de un gran oso de las montañas, apartando
 desc: a tus enemigos con tus poderosas garras.
 
-book:nature book:dungeon:[Arte de la Naturaleza]:5:nature
+book:nature book:dungeon:[Arte de la Naturaleza]:5:de naturaleza
 book-graphics:?:o
 book-properties:30000:15:40 to 100
 
@@ -637,7 +637,7 @@ dice:80
 desc:Cura todos los cortes, veneno, aturdimiento y aliento negro, y te deja
 desc: bien alimentado.
 
-book:nature book:dungeon:[Fuerzas Salvajes]:5:nature
+book:nature book:dungeon:[Fuerzas Salvajes]:5:de naturaleza
 book-graphics:?:o
 book-properties:50000:10:60 to 100
 
@@ -719,7 +719,7 @@ title:Sumo Sacerdote
 
 magic:1:350:5
 
-book:prayer book:town:[Manual del Novicio]:6:divine
+book:prayer book:town:[Manual del Novicio]:6:divina
 book-graphics:?:G
 book-properties:25:40:1 to 100
 equip:prayer book:[Manual del Novicio]:1:1:none
@@ -776,7 +776,7 @@ desc:Cura 10 puntos de daño, elimina el miedo y, a partir del nivel 20,
 desc: te otorga heroísmo (resistencia al miedo y una bonificación de +12 a golpear)
 desc: durante una duración dependiente del nivel.
 
-book:prayer book:town:[Poder Purificador]:6:divine
+book:prayer book:town:[Poder Purificador]:6:divina
 book-graphics:?:G
 book-properties:100:40:5 to 100
 
@@ -823,7 +823,7 @@ expr:S:PLAYER_LEVEL:+ 0
 desc:Intenta eliminar una maldición de un objeto, más efectivo a niveles
 desc: de personaje más altos.
 
-book:prayer book:dungeon:[Sanación y Santuario]:6:divine
+book:prayer book:dungeon:[Sanación y Santuario]:6:divina
 book-graphics:?:g
 book-properties:10000:20:30 to 100
 
@@ -870,7 +870,7 @@ effect:LIGHT_LEVEL
 desc:Ilumina, traza el mapa y percibe todos los objetos en el nivel actual
 desc: completo de la mazmorra.
 
-book:prayer book:dungeon:[Bendiciones de Batalla]:5:divine
+book:prayer book:dungeon:[Bendiciones de Batalla]:5:divina
 book-graphics:?:g
 book-properties:30000:15:40 to 100
 
@@ -904,7 +904,7 @@ effect:TIMED_INC:ATT_DEMON:0:5
 dice:20+d20
 desc:Hace que tus ataques cuerpo a cuerpo maten demonios poderosamente temporalmente.
 
-book:prayer book:dungeon:[Ira de los Valar]:5:divine
+book:prayer book:dungeon:[Ira de los Valar]:5:divina
 book-graphics:?:g
 book-properties:50000:10:60 to 100
 
@@ -986,7 +986,7 @@ title:Señor de la Noche
 
 magic:1:300:5
 
-book:shadow book:town:[Hacia las Sombras]:5:shadow
+book:shadow book:town:[Hacia las Sombras]:5:de sombra
 book-graphics:?:P
 book-properties:25:40:1 to 100
 equip:shadow book:[Hacia las Sombras]:1:1:none
@@ -1025,7 +1025,7 @@ desc:Detecta todos los monstruos que tienen un espíritu en el área inmediata,
 desc: y luego traza un mapa en una región a su alrededor, aumentando de tamaño con
 desc: el nivel de personaje.
 
-book:shadow book:town:[Rituales Oscuros]:5:shadow
+book:shadow book:town:[Rituales Oscuros]:5:de sombra
 book-graphics:?:P
 book-properties:400:40:10 to 100
 
@@ -1069,7 +1069,7 @@ expr:S:PLAYER_LEVEL:* 2 + 10
 desc:Lanza un rayo que hiere, y hace que los monstruos lanzadores de hechizos tengan menos éxito
 desc: al lanzar hechizos.
 
-book:shadow book:town:[Miedo y Tormento]:5:shadow
+book:shadow book:town:[Miedo y Tormento]:5:de sombra
 book-graphics:?:P
 book-properties:1600:20:30 to 100
 
@@ -1105,7 +1105,7 @@ desc:Te transforma en la forma de un huargo, y te otorga fuerza berserker
 desc: temporal, a costa de algunos puntos de vida.
 
 
-book:shadow book:dungeon:[Poderes Mortales]:6:shadow
+book:shadow book:dungeon:[Poderes Mortales]:6:de sombra
 book-graphics:?:p
 book-properties:30000:15:40 to 100
 
@@ -1162,7 +1162,7 @@ expr:S:PLAYER_LEVEL:* 2
 desc:Invoca una bola de oscuridad de radio 4.
 
 
-book:shadow book:dungeon:[Corrupción del Espíritu]:5:shadow
+book:shadow book:dungeon:[Corrupción del Espíritu]:5:de sombra
 book-graphics:?:p
 book-properties:50000:10:60 to 100
 
@@ -1246,7 +1246,7 @@ title:Señor Paladín
 
 magic:1:400:3
 
-book:prayer book:town:[Manual del Novicio]:6:divine
+book:prayer book:town:[Manual del Novicio]:6:divina
 
 spell:Bless:1:2:20:4
 effect:TIMED_INC:BLESSED
@@ -1300,7 +1300,7 @@ desc:Cura 10 puntos de daño, elimina el miedo y, a partir del nivel 15,
 desc: te otorga heroísmo (resistencia al miedo y una bonificación de +12 a golpear)
 desc: durante una duración dependiente del nivel.
 
-book:prayer book:dungeon:[Sanación y Santuario]:5:divine
+book:prayer book:dungeon:[Sanación y Santuario]:5:divina
 
 spell:Protección contra el Mal:15:8:42:5
 effect:TIMED_INC:PROTEVIL
@@ -1343,7 +1343,7 @@ effect:LIGHT_LEVEL
 desc:Ilumina, traza el mapa y percibe todos los objetos en el nivel actual
 desc: completo de la mazmorra.
 
-book:prayer book:dungeon:[Bendiciones de Batalla]:5:divine
+book:prayer book:dungeon:[Bendiciones de Batalla]:5:divina
 
 spell:Smite Evil:25:20:70:40
 effect:TIMED_INC:ATT_EVIL:0:5
@@ -1408,7 +1408,7 @@ title:Maestro Ladrón
 
 magic:5:350:2
 
-book:magic book:town:[Primeros Conjuros]:7:arcane
+book:magic book:town:[Primeros Conjuros]:7:arcana
 
 spell:Detectar Monstruos:5:1:50:4
 effect:DETECT_VISIBLE_MONSTERS
@@ -1451,7 +1451,7 @@ effect:DETECT_VISIBLE_MONSTERS
 effect-yx:22:40
 desc:Detecta todos los monstruos en el área inmediata, por un solo turno.
 
-book:magic book:dungeon:[Control Arcano]:4:arcane
+book:magic book:dungeon:[Control Arcano]:4:arcana
 
 spell:Teleport Self:17:6:35:5
 effect:TELEPORT
@@ -1515,7 +1515,7 @@ title:Señor Montaraz
 
 magic:3:400:2
 
-book:nature book:town:[Amuletos Menores]:6:nature
+book:nature book:town:[Amuletos Menores]:6:de naturaleza
 
 spell:Saciar Hambre:3:1:25:2
 effect:NOURISH:INC_TO
@@ -1554,7 +1554,7 @@ expr:S:PLAYER_LEVEL:/ 30 + 1 * 44
 desc:Traza el mapa del área cercana.
 
 
-book:nature book:dungeon:[Arte de la Naturaleza]:5:nature
+book:nature book:dungeon:[Arte de la Naturaleza]:5:de naturaleza
 
 spell:Cover Tracks:20:20:40:40
 effect:TIMED_INC:COVERTRACKS:0:5
@@ -1626,7 +1626,7 @@ title:Tirano
 
 magic:1:600:3
 
-book:shadow book:town:[Hacia las Sombras]:6:shadow
+book:shadow book:town:[Hacia las Sombras]:6:de sombra
 
 spell:Seek Battle:1:1:15:2
 effect:DETECT_FEARFUL_MONSTERS
@@ -1675,7 +1675,7 @@ effect:CLEAR_VALUE
 desc:Tu mente se vuelve demasiado concentrada para ser ralentizada, paralizada o confundida
 desc: durante 12+d12 turnos.
 
-book:shadow book:town:[Miedo y Tormento]:5:shadow
+book:shadow book:town:[Miedo y Tormento]:5:de sombra
 
 spell:Maim Foe:15:6:35:14
 effect:MELEE_BLOWS:MON_STUN:6
@@ -1709,7 +1709,7 @@ effect:SHAPECHANGE:werewolf
 desc:¡Con un grito desgarrador te conviertes en un hombre lobo!
 desc:  En esta forma te mueves, atacas y curas más rápido.
 
-book:shadow book:dungeon:[Poderes Mortales]:4:shadow
+book:shadow book:dungeon:[Poderes Mortales]:4:de sombra
 
 spell:Bloodlust:30:25:37:80
 effect:TIMED_INC:BLOODLUST:0:-1

@@ -83,7 +83,7 @@ desc:Puedes alcanzar una tasa de éxito perfecta con la magia.
 
 type:player
 code:BEAM
-name:Haz de Hechizo Extra
+name:Lanzamiento de rayos extra
 desc:Tus hechizos de proyectil a menudo se convierten en haces.
 
 type:player

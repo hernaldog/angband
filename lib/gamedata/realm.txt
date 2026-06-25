@@ -7,25 +7,25 @@
 # book-noun: type of book used
 
 
-name:arcane
+name:arcana
 stat:INT
 verb:cast
 spell-noun:hechizo
 book-noun:magic book
 
-name:divine
+name:divina
 stat:WIS
 verb:recite
 spell-noun:prayer
 book-noun:prayer book
 
-name:nature
+name:de naturaleza
 stat:WIS
 verb:entonar
 spell-noun:verso
 book-noun:nature book
 
-name:shadow
+name:de sombra
 stat:INT
 verb:perform
 spell-noun:ritual

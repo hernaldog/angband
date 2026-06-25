@@ -363,7 +363,7 @@ static void class_help(int i, void *db, const region *l)
 				realm = realm_next;
 			}
 		}
-		text_out_e("\nAprende magia de %s", buf);
+		text_out_e("\nAprende magia %s", buf);
 	}
 
 	for (ability = player_abilities; ability; ability = ability->next) {
