@@ -105,208 +105,208 @@ feat:PASS_RUBBLE:*:0x80:0x99
 trap:glyph of warding:*:0x80:0x9A
 
 # visible trap -- trap door (3 tiles)
-trap:trap door:torch:0x81:0x8E
-trap:trap door:los:0x81:0x8E
-trap:trap door:lit:0x81:0x8C
-trap:trap door:dark:0x81:0x8D
+trap:trampilla:torch:0x81:0x8E
+trap:trampilla:los:0x81:0x8E
+trap:trampilla:lit:0x81:0x8C
+trap:trampilla:dark:0x81:0x8D
 
 # visible trap -- open pit (3 tiles)
-trap:pit:torch:0x81:0x8B
-trap:pit:los:0x81:0x8B
-trap:pit:lit:0x81:0x89
-trap:pit:dark:0x81:0x8A
+trap:pozo:torch:0x81:0x8B
+trap:pozo:los:0x81:0x8B
+trap:pozo:lit:0x81:0x89
+trap:pozo:dark:0x81:0x8A
 
 # visible trap -- spiked pit (3 tiles)
-trap:spiked pit:torch:0x81:0x8B
-trap:spiked pit:los:0x81:0x8B
-trap:spiked pit:lit:0x81:0x89
-trap:spiked pit:dark:0x81:0x8A
+trap:pozo con púas:torch:0x81:0x8B
+trap:pozo con púas:los:0x81:0x8B
+trap:pozo con púas:lit:0x81:0x89
+trap:pozo con púas:dark:0x81:0x8A
 
 # visible trap -- poison pit (3 tiles)
-trap:poison pit:torch:0x81:0x8B
-trap:poison pit:los:0x81:0x8B
-trap:poison pit:lit:0x81:0x89
-trap:poison pit:dark:0x81:0x8A
+trap:pozo venenoso:torch:0x81:0x8B
+trap:pozo venenoso:los:0x81:0x8B
+trap:pozo venenoso:lit:0x81:0x89
+trap:pozo venenoso:dark:0x81:0x8A
 
 # visible trap -- rune -- summon (3 tiles)
-trap:rune of summon foe:torch:0x81:0x91
-trap:rune of summon foe:los:0x81:0x91
-trap:rune of summon foe:lit:0x81:0x8F
-trap:rune of summon foe:dark:0x81:0x90
+trap:runa de invocar enemigo:torch:0x81:0x91
+trap:runa de invocar enemigo:los:0x81:0x91
+trap:runa de invocar enemigo:lit:0x81:0x8F
+trap:runa de invocar enemigo:dark:0x81:0x90
 
 # visible trap -- rune -- summoning (3 tiles)
-trap:rune of summoning:torch:0x81:0x91
-trap:rune of summoning:los:0x81:0x91
-trap:rune of summoning:lit:0x81:0x8F
-trap:rune of summoning:dark:0x81:0x90
+trap:runa de invocación:torch:0x81:0x91
+trap:runa de invocación:los:0x81:0x91
+trap:runa de invocación:lit:0x81:0x8F
+trap:runa de invocación:dark:0x81:0x90
 
 # visible trap -- rune -- summon undead (3 tiles)
-trap:rune of necromancy:torch:0x81:0x91
-trap:rune of necromancy:los:0x81:0x91
-trap:rune of necromancy:lit:0x81:0x8F
-trap:rune of necromancy:dark:0x81:0x90
+trap:runa de nigromancia:torch:0x81:0x91
+trap:runa de nigromancia:los:0x81:0x91
+trap:runa de nigromancia:lit:0x81:0x8F
+trap:runa de nigromancia:dark:0x81:0x90
 
 # visible trap -- rune -- summon dragons (3 tiles)
-trap:rune of dragonsong:torch:0x81:0x91
-trap:rune of dragonsong:los:0x81:0x91
-trap:rune of dragonsong:lit:0x81:0x8F
-trap:rune of dragonsong:dark:0x81:0x90
+trap:runa del canto de dragón:torch:0x81:0x91
+trap:runa del canto de dragón:los:0x81:0x91
+trap:runa del canto de dragón:lit:0x81:0x8F
+trap:runa del canto de dragón:dark:0x81:0x90
 
 # visible trap -- rune -- summon demons (3 tiles)
-trap:hellhole:torch:0x81:0x91
-trap:hellhole:los:0x81:0x91
-trap:hellhole:lit:0x81:0x8F
-trap:hellhole:dark:0x81:0x90
+trap:boca del infierno:torch:0x81:0x91
+trap:boca del infierno:los:0x81:0x91
+trap:boca del infierno:lit:0x81:0x8F
+trap:boca del infierno:dark:0x81:0x90
 
 # visible trap -- rune -- teleport (3 tiles)
-trap:teleport rune:torch:0x81:0x94
-trap:teleport rune:los:0x81:0x94
-trap:teleport rune:lit:0x81:0x92
-trap:teleport rune:dark:0x81:0x93
+trap:runa de teletransporte:torch:0x81:0x94
+trap:runa de teletransporte:los:0x81:0x94
+trap:runa de teletransporte:lit:0x81:0x92
+trap:runa de teletransporte:dark:0x81:0x93
 
 # visible trap -- spot -- fire (3 tiles)
-trap:fire trap:torch:0x81:0x88
-trap:fire trap:los:0x81:0x88
-trap:fire trap:lit:0x81:0x86
-trap:fire trap:dark:0x81:0x87
+trap:trampa de fuego:torch:0x81:0x88
+trap:trampa de fuego:los:0x81:0x88
+trap:trampa de fuego:lit:0x81:0x86
+trap:trampa de fuego:dark:0x81:0x87
 
 # visible trap -- spot -- acid (3 tiles)
-trap:acid trap:torch:0x81:0x88
-trap:acid trap:los:0x81:0x88
-trap:acid trap:lit:0x81:0x86
-trap:acid trap:dark:0x81:0x87
+trap:trampa de ácido:torch:0x81:0x88
+trap:trampa de ácido:los:0x81:0x88
+trap:trampa de ácido:lit:0x81:0x86
+trap:trampa de ácido:dark:0x81:0x87
 
 # visible trap -- dart -- slow (3 tiles)
-trap:slow dart:torch:0x81:0x82
-trap:slow dart:los:0x81:0x82
-trap:slow dart:lit:0x81:0x80
-trap:slow dart:dark:0x81:0x81
+trap:dardo ralentizador:torch:0x81:0x82
+trap:dardo ralentizador:los:0x81:0x82
+trap:dardo ralentizador:lit:0x81:0x80
+trap:dardo ralentizador:dark:0x81:0x81
 
 # visible trap -- dart -- lose str (3 tiles)
-trap:strength loss dart:torch:0x81:0x82
-trap:strength loss dart:los:0x81:0x82
-trap:strength loss dart:lit:0x81:0x80
-trap:strength loss dart:dark:0x81:0x81
+trap:dardo de pérdida de fuerza:torch:0x81:0x82
+trap:dardo de pérdida de fuerza:los:0x81:0x82
+trap:dardo de pérdida de fuerza:lit:0x81:0x80
+trap:dardo de pérdida de fuerza:dark:0x81:0x81
 
 # visible trap -- dart -- lose dex (3 tiles)
-trap:dexterity loss dart:torch:0x81:0x82
-trap:dexterity loss dart:los:0x81:0x82
-trap:dexterity loss dart:lit:0x81:0x80
-trap:dexterity loss dart:dark:0x81:0x81
+trap:dardo de pérdida de destreza:torch:0x81:0x82
+trap:dardo de pérdida de destreza:los:0x81:0x82
+trap:dardo de pérdida de destreza:lit:0x81:0x80
+trap:dardo de pérdida de destreza:dark:0x81:0x81
 
 # visible trap -- dart -- lose con (3 tiles)
-trap:constitution loss dart:torch:0x81:0x82
-trap:constitution loss dart:los:0x81:0x82
-trap:constitution loss dart:lit:0x81:0x80
-trap:constitution loss dart:dark:0x81:0x81
+trap:dardo de pérdida de constitución:torch:0x81:0x82
+trap:dardo de pérdida de constitución:los:0x81:0x82
+trap:dardo de pérdida de constitución:lit:0x81:0x80
+trap:dardo de pérdida de constitución:dark:0x81:0x81
 
 # visible trap -- gas -- blind (3 tiles)
-trap:blinding gas trap:torch:0x81:0x85
-trap:blinding gas trap:los:0x81:0x85
-trap:blinding gas trap:lit:0x81:0x83
-trap:blinding gas trap:dark:0x81:0x84
+trap:trampa de gas cegador:torch:0x81:0x85
+trap:trampa de gas cegador:los:0x81:0x85
+trap:trampa de gas cegador:lit:0x81:0x83
+trap:trampa de gas cegador:dark:0x81:0x84
 
 # visible trap -- gas -- confuse (3 tiles)
-trap:confusion gas trap:torch:0x81:0x85
-trap:confusion gas trap:los:0x81:0x85
-trap:confusion gas trap:lit:0x81:0x83
-trap:confusion gas trap:dark:0x81:0x84
+trap:trampa de gas confusor:torch:0x81:0x85
+trap:trampa de gas confusor:los:0x81:0x85
+trap:trampa de gas confusor:lit:0x81:0x83
+trap:trampa de gas confusor:dark:0x81:0x84
 
 # visible trap -- gas -- poison (3 tiles)
-trap:poison gas trap:torch:0x81:0x85
-trap:poison gas trap:los:0x81:0x85
-trap:poison gas trap:lit:0x81:0x83
-trap:poison gas trap:dark:0x81:0x84
+trap:trampa de gas venenoso:torch:0x81:0x85
+trap:trampa de gas venenoso:los:0x81:0x85
+trap:trampa de gas venenoso:lit:0x81:0x83
+trap:trampa de gas venenoso:dark:0x81:0x84
 
 # visible trap -- gas -- sleep (3 tiles)
-trap:sleep gas trap:torch:0x81:0x85
-trap:sleep gas trap:los:0x81:0x85
-trap:sleep gas trap:lit:0x81:0x83
-trap:sleep gas trap:dark:0x81:0x84
+trap:trampa de gas somnífero:torch:0x81:0x85
+trap:trampa de gas somnífero:los:0x81:0x85
+trap:trampa de gas somnífero:lit:0x81:0x83
+trap:trampa de gas somnífero:dark:0x81:0x84
 
 # visible trap -- alarm -- aggravation (3 tiles)
-trap:aggravation trap:torch:0x82:0x82
-trap:aggravation trap:los:0x82:0x82
-trap:aggravation trap:lit:0x82:0x80
-trap:aggravation trap:dark:0x82:0x81
+trap:trampa de provocación:torch:0x82:0x82
+trap:trampa de provocación:los:0x82:0x82
+trap:trampa de provocación:lit:0x82:0x80
+trap:trampa de provocación:dark:0x82:0x81
 
 # visible trap -- explosion -- mine (3 tiles)
-trap:mine trap:torch:0x82:0x88
-trap:mine trap:los:0x82:0x88
-trap:mine trap:lit:0x82:0x86
-trap:mine trap:dark:0x82:0x87
+trap:trampa de mina:torch:0x82:0x88
+trap:trampa de mina:los:0x82:0x88
+trap:trampa de mina:lit:0x82:0x86
+trap:trampa de mina:dark:0x82:0x87
 
 # visible trap -- explosion -- blast (3 tiles)
-trap:blast trap:torch:0x82:0x88
-trap:blast trap:los:0x82:0x88
-trap:blast trap:lit:0x82:0x86
-trap:blast trap:dark:0x82:0x87
+trap:trampa de explosión:torch:0x82:0x88
+trap:trampa de explosión:los:0x82:0x88
+trap:trampa de explosión:lit:0x82:0x86
+trap:trampa de explosión:dark:0x82:0x87
 
 # visible trap -- mental assault -- mind blast (3 tiles)
-trap:mind blasting trap:torch:0x82:0x8B
-trap:mind blasting trap:los:0x82:0x8B
-trap:mind blasting trap:lit:0x82:0x89
-trap:mind blasting trap:dark:0x82:0x8A
+trap:trampa de golpe mental:torch:0x82:0x8B
+trap:trampa de golpe mental:los:0x82:0x8B
+trap:trampa de golpe mental:lit:0x82:0x89
+trap:trampa de golpe mental:dark:0x82:0x8A
 
 # visible trap -- mental assault -- brain smash (3 tiles)
-trap:brain smashing trap:torch:0x82:0x8B
-trap:brain smashing trap:los:0x82:0x8B
-trap:brain smashing trap:lit:0x82:0x89
-trap:brain smashing trap:dark:0x82:0x8A
+trap:trampa de destrucción cerebral:torch:0x82:0x8B
+trap:trampa de destrucción cerebral:los:0x82:0x8B
+trap:trampa de destrucción cerebral:lit:0x82:0x89
+trap:trampa de destrucción cerebral:dark:0x82:0x8A
 
 # visible trap -- ancient mechanism -- rock fall (3 tiles)
-trap:rock fall trap:torch:0x82:0x85
-trap:rock fall trap:los:0x82:0x85
-trap:rock fall trap:lit:0x82:0x83
-trap:rock fall trap:dark:0x82:0x84
+trap:trampa de caída de rocas:torch:0x82:0x85
+trap:trampa de caída de rocas:los:0x82:0x85
+trap:trampa de caída de rocas:lit:0x82:0x83
+trap:trampa de caída de rocas:dark:0x82:0x84
 
 # visible trap -- ancient mechanism -- earthquake (3 tiles)
-trap:earthquake trap:torch:0x82:0x85
-trap:earthquake trap:los:0x82:0x85
-trap:earthquake trap:lit:0x82:0x83
-trap:earthquake trap:dark:0x82:0x84
+trap:trampa de terremoto:torch:0x82:0x85
+trap:trampa de terremoto:los:0x82:0x85
+trap:trampa de terremoto:lit:0x82:0x83
+trap:trampa de terremoto:dark:0x82:0x84
 
 # visible trap -- ancient mechanism -- area blast (3 tiles)
-trap:area blast trap:torch:0x82:0x85
-trap:area blast trap:los:0x82:0x85
-trap:area blast trap:lit:0x82:0x83
-trap:area blast trap:dark:0x82:0x84
+trap:trampa de explosión de área:torch:0x82:0x85
+trap:trampa de explosión de área:los:0x82:0x85
+trap:trampa de explosión de área:lit:0x82:0x83
+trap:trampa de explosión de área:dark:0x82:0x84
 
 # visible trap -- blinding flash (3 tiles)
-trap:blinding flash trap:torch:0x82:0x8E
-trap:blinding flash trap:los:0x82:0x8E
-trap:blinding flash trap:lit:0x82:0x8C
-trap:blinding flash trap:dark:0x82:0x8D
+trap:trampa de destello cegador:torch:0x82:0x8E
+trap:trampa de destello cegador:los:0x82:0x8E
+trap:trampa de destello cegador:lit:0x82:0x8C
+trap:trampa de destello cegador:dark:0x82:0x8D
 
 # visible trap -- blinding (3 tiles)
-trap:blinding trap:torch:0x82:0x91
-trap:blinding trap:los:0x82:0x91
-trap:blinding trap:lit:0x82:0x8F
-trap:blinding trap:dark:0x82:0x90
+trap:trampa cegadora:torch:0x82:0x91
+trap:trampa cegadora:los:0x82:0x91
+trap:trampa cegadora:lit:0x82:0x8F
+trap:trampa cegadora:dark:0x82:0x90
 
 # visible trap -- mana drain (3 tiles)
-trap:mana drain trap:torch:0x82:0x94
-trap:mana drain trap:los:0x82:0x94
-trap:mana drain trap:lit:0x82:0x92
-trap:mana drain trap:dark:0x82:0x93
+trap:trampa de drenaje de maná:torch:0x82:0x94
+trap:trampa de drenaje de maná:los:0x82:0x94
+trap:trampa de drenaje de maná:lit:0x82:0x92
+trap:trampa de drenaje de maná:dark:0x82:0x93
 
 # visible trap -- whirling knives (3 tiles)
-trap:knife trap:torch:0x82:0x97
-trap:knife trap:los:0x82:0x97
-trap:knife trap:lit:0x82:0x95
-trap:knife trap:dark:0x82:0x96
+trap:trampa de cuchillos:torch:0x82:0x97
+trap:trampa de cuchillos:los:0x82:0x97
+trap:trampa de cuchillos:lit:0x82:0x95
+trap:trampa de cuchillos:dark:0x82:0x96
 
 # visible trap -- petrifier (3 tiles)
-trap:petrifying trap:torch:0x82:0x9A
-trap:petrifying trap:los:0x82:0x9A
-trap:petrifying trap:lit:0x82:0x98
-trap:petrifying trap:dark:0x82:0x99
+trap:trampa petrificante:torch:0x82:0x9A
+trap:trampa petrificante:los:0x82:0x9A
+trap:trampa petrificante:lit:0x82:0x98
+trap:trampa petrificante:dark:0x82:0x99
 
 # visible trap -- alarm -- siren (3 tiles)
-trap:siren:torch:0x82:0x82
-trap:siren:los:0x82:0x82
-trap:siren:lit:0x82:0x80
-trap:siren:dark:0x82:0x81
+trap:sirena:torch:0x82:0x82
+trap:sirena:los:0x82:0x82
+trap:sirena:lit:0x82:0x80
+trap:sirena:dark:0x82:0x81
 
 ##### Object attr/char definitions #####
 
