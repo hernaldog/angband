@@ -141,20 +141,20 @@ desc: estés, mayores serán estas ganancias de salud.
 type:object
 code:SUST_STR
 bindui:stat_mod_ui_compact_0<STR>:1:1
-name:Sostener Fuerza
-desc:Tu fuerza está sostenida.
+name:Mantener Fuerza
+desc:Tu fuerza se mantiene..
 
 type:object
 code:SUST_INT
 bindui:stat_mod_ui_compact_0<INT>:1:1
-name:Sostener Inteligencia
-desc:Tu inteligencia está sostenida.
+name:Mantener Inteligencia
+desc:Tu inteligencia se mantiene..
 
 type:object
 code:SUST_WIS
 bindui:stat_mod_ui_compact_0<WIS>:1:1
-name:Sostener Sabiduría
-desc:Tu sabiduría está sostenida.
+name:Mantener Sabiduría
+desc:Tu sabiduría se mantiene..
 
 type:object
 code:SUST_DEX
@@ -232,7 +232,7 @@ type:object
 code:HOLD_LIFE
 bindui:holdlife_ui_compact_0:0:1
 name:Mantener Vida
-desc:Tu fuerza vital está sostenida.
+desc:Tu fuerza vital se mantiene..
 
 type:object
 code:IMPACT
