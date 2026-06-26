@@ -254,7 +254,7 @@ fail:5:OPP_POIS
 
 name:CUT
 desc:heridas
-grade:y:10:Rozadura:Te han hecho una rozadura.
+grade:y:10:Rozadura:Has recibido un rasguño.
 grade:y:25:Corte Leve:Te han hecho un corte leve.
 grade:o:50:Mal Corte:Te han hecho un mal corte.
 grade:o:100:Corte Desagradable:Te han hecho un corte desagradable.

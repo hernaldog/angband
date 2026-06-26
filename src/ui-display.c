@@ -2608,7 +2608,6 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		/* Get the object */
 		struct object *obj = floor_list[0];
 		char o_name[80];
-		char o_name_final[80];
 
 		if (!can_pickup)
 			p = "no tienes espacio para";
@@ -2616,6 +2615,7 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 			p = "Sientes";
 
 		/* Describe the object.  Less detail if blind. */
+		/* fix traduc: object_desc ya antepone el número o "un par de" */
 		if (blind) {
 			object_desc(o_name, sizeof(o_name), obj,
 				ODESC_PREFIX | ODESC_BASE, player);
@@ -2626,18 +2626,8 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 
 		/* Message */
 		event_signal(EVENT_MESSAGE_FLUSH);
-		
-		/* fix traduc: "un"/"una" si hay un solo objeto, y el número si hay más de uno */
-		if (obj->number == 1) {
-			strnfmt(o_name_final, sizeof(o_name_final), "%s %s",
-				object_is_feminine(obj) ? "una" : "un", o_name);
-		} else {
-			strnfmt(o_name_final, sizeof(o_name_final), "%d %s", obj->number, o_name);
-		}
 
-		msg("%s %s.", p, o_name_final); ///Fix traduc Ves X objeto
-		 
-		// fin fix traduc
+		msg("%s %s.", p, o_name); ///Fix traduc Ves X objeto
 	} else {
 		ui_event e;
 

@@ -1153,7 +1153,7 @@ void drop_near(struct chunk *c, struct object **dropped, int chance,
 	if (floor_carry(c, best, *dropped, &dont_ignore)) {
 		sound(MSG_DROP);
 		if (dont_ignore && (square(c, best)->mon < 0)) {
-			msg("Sientes algo rodar bajo tus pies.");
+			msg("Sientes que algo rueda bajo tus pies.");
 		}
 	} else {
 		floor_carry_fail(c, *dropped, false);
