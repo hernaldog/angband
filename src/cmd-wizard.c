@@ -217,16 +217,16 @@ static void wiz_display_item(const struct object *obj, bool all,
 
 	prt(buf, 2, j);
 
-	prt(format("combat = (%dd%d) (%+d,%+d) [%d,%+d]",
+	prt(format("combate = (%dd%d) (%+d,%+d) [%d,%+d]",
 		obj->dd, obj->ds, object_to_hit(all ? obj : obj->known),
 		object_to_dam(all ? obj : obj->known), obj->ac,
 		object_to_ac(all ? obj : obj->known)), 4, j);
 
-	prt(format("kind = %-5lu  tval = %-5d  sval = %-5d  wgt = %-3d     timeout = %-d",
+	prt(format("tipo = %-5lu  tval = %-5d  sval = %-5d  peso = %-3d     tiempo = %-d",
 		(unsigned long)obj->kind->kidx, obj->tval, obj->sval,
 		object_weight_one(obj), obj->timeout), 5, j);
 
-	prt(format("number = %-3d  pval = %-5d  name1 = %-4ld  egoidx = %-4ld  cost = %ld",
+	prt(format("número = %-3d  pval = %-5d  name1 = %-4ld  egoidx = %-4ld  coste = %ld",
 		obj->number, obj->pval,
 		obj->artifact ? (long)obj->artifact->aidx : 0L,
 		obj->ego ? (long)obj->ego->eidx : -1L,
@@ -235,28 +235,31 @@ static void wiz_display_item(const struct object *obj, bool all,
 	nflg = MIN(OF_MAX - FLAG_START, 80);
 
 	/* Set up header line. */
-	if (nflg >= 6) {
+	if (nflg >= 9) {
 		buf[0] = '+';
-		k = (nflg - 6) / 2;
+		k = (nflg - 9) / 2;
 		for (i = 1; i < k; ++i) {
 			buf[i] = '-';
 		}
 	} else {
 		k = 0;
 	}
-	buf[k] = 'F';
-	buf[k + 1] = 'L';
-	buf[k + 2] = 'A';
-	buf[k + 3] = 'G';
-	buf[k + 4] = 'S';
-	for (i = k + 5; i < nflg - 1; ++i) {
+	buf[k] = 'B';
+	buf[k + 1] = 'A';
+	buf[k + 2] = 'N';
+	buf[k + 3] = 'D';
+	buf[k + 4] = 'E';
+	buf[k + 5] = 'R';
+	buf[k + 6] = 'A';
+	buf[k + 7] = 'S';
+	for (i = k + 8; i < nflg - 1; ++i) {
 		buf[i] = '-';
 	}
-	if (nflg >= 7) {
+	if (nflg >= 10) {
 		buf[nflg - 1] = '+';
 		buf[nflg] = '\0';
 	} else {
-		buf[k + 5] = '\0';
+		buf[k + 8] = '\0';
 	}
 	prt(buf, 16, j);
 
@@ -392,13 +395,13 @@ void do_cmd_wiz_acquire(struct command *cmd)
 	int n, great;
 
 	if (cmd_get_arg_choice(cmd, "choice", &great) != CMD_OK) {
-		great = (get_check("Acquire great objects? ")) ? 1 : 0;
+		great = (get_check("¿Adquirir objetos excelentes? ")) ? 1 : 0;
 		cmd_set_arg_choice(cmd, "choice", great);
 	}
 
 	if (cmd_get_arg_number(cmd, "quantity", &n) != CMD_OK) {
 		n = get_quantity((great) ?
-			"How many great objects? " : "How many good objects? ",
+			"¿Cuántos objetos excelentes? " : "¿Cuántos objetos buenos? ",
 			40);
 		if (n < 1) return;
 		cmd_set_arg_number(cmd, "quantity", n);
@@ -452,7 +455,7 @@ void do_cmd_wiz_banish(struct command *cmd)
 	int d, i;
 
 	if (cmd_get_arg_number(cmd, "range", &d) != CMD_OK) {
-		d = get_quantity("Zap within what distance? ",
+		d = get_quantity("¿Lanzar dentro de qué distancia? ",
 			z_info->max_sight);
 		cmd_set_arg_number(cmd, "range", d);
 	}
@@ -489,20 +492,20 @@ void do_cmd_wiz_change_item_quantity(struct command *cmd)
 	int update = 0;
 
 	if (cmd_get_arg_item(cmd, "item", &obj) != CMD_OK) {
-		if (!get_item(&obj, "Change quantity of which item? ",
-				"You have nothing to change.", cmd->code,
+		if (!get_item(&obj, "¿A qué objeto cambiar la cantidad? ",
+				"No tienes nada que cambiar.", cmd->code,
 				NULL, (USE_INVEN | USE_QUIVER | USE_FLOOR))) {
 			return;
 		}
 		cmd_set_arg_item(cmd, "item", obj);
 	} else if (object_is_equipped(player->body, obj)) {
-		msg("Can not change the quantity of an equipped item.");
+		msg("No se puede cambiar la cantidad de un objeto equipado.");
 		return;
 	}
 
 	/* Don't allow multiple artifacts. */
 	if (obj->artifact) {
-		msg("Can not modify the quantity of an artifact.");
+		msg("No se puede modificar la cantidad de un artefacto.");
 		return;
 	}
 
@@ -523,7 +526,7 @@ void do_cmd_wiz_change_item_quantity(struct command *cmd)
 	if (cmd_get_arg_number(cmd, "quantity", &n) != CMD_OK) {
 		char prompt[80], s[80];
 
-		strnfmt(prompt, sizeof(prompt), "Quantity (1-%d): ", nmax);
+		strnfmt(prompt, sizeof(prompt), "Cantidad (1-%d): ", nmax);
 
 		/* Set the default value. */
 		strnfmt(s, sizeof(s), "%d", obj->number);
@@ -597,7 +600,7 @@ void do_cmd_wiz_collect_disconnect_stats(struct command *cmd)
 		/* Set default. */
 		strnfmt(s, sizeof(s), "%d", default_nsim);
 
-		if (!get_string("Number of simulations: ", s, sizeof(s))) return;
+		if (!get_string("Número de simulaciones: ", s, sizeof(s))) return;
 		if (!get_int_from_string(s, &nsim) || nsim < 1) return;
 		cmd_set_arg_number(cmd, "quantity", nsim);
 	}
@@ -605,7 +608,7 @@ void do_cmd_wiz_collect_disconnect_stats(struct command *cmd)
 
 	if (cmd_get_arg_choice(cmd, "choice", &stop_on_disconnect) != CMD_OK) {
 		stop_on_disconnect =
-			get_check("Stop if disconnected level found? ") ? 1 : 0;
+			get_check("¿Detener si se encuentra un nivel desconectado? ") ? 1 : 0;
 		cmd_set_arg_choice(cmd, "choice", stop_on_disconnect);
 	}
 
@@ -634,7 +637,7 @@ void do_cmd_wiz_collect_obj_mon_stats(struct command *cmd)
 		/* Set default. */
 		strnfmt(s, sizeof(s), "%d", default_nsim);
 
-		if (!get_string("Number of simulations: ", s, sizeof(s))) return;
+		if (!get_string("Número de simulaciones: ", s, sizeof(s))) return;
 		if (!get_int_from_string(s, &nsim) || nsim < 1) return;
 		cmd_set_arg_number(cmd, "quantity", nsim);
 	}
@@ -644,12 +647,12 @@ void do_cmd_wiz_collect_obj_mon_stats(struct command *cmd)
 		/* Set default. */
 		strnfmt(s, sizeof(s), "%d", default_simtype);
 
-		if (!get_string("Type of Sim: Diving (1) or Clearing (2) ",
+		if (!get_string("Tipo de Sim: Buceo (1) o Limpieza (2) ",
 			s, sizeof(s))) return;
 		if (!get_int_from_string(s, &simtype) || simtype < 1 ||
 			simtype > 2) return;
 		if (simtype == 2) {
-			if (get_check("Regen randarts (warning SLOW)? ")) {
+			if (get_check("¿Regenerar artefactos aleatorios (aviso: LENTO)? ")) {
 				simtype = 3;
 			}
 		}
@@ -680,7 +683,7 @@ void do_cmd_wiz_collect_pit_stats(struct command *cmd)
 		/* Set default. */
 		strnfmt(s, sizeof(s), "%d", 1000);
 
-		if (!get_string("Number of simulations per depth: ", s,
+		if (!get_string("Número de simulaciones por profundidad: ", s,
 				sizeof(s))) return;
 		if (!get_int_from_string(s, &nsim) || nsim < 1) return;
 		cmd_set_arg_number(cmd, "quantity", nsim);
@@ -690,7 +693,7 @@ void do_cmd_wiz_collect_pit_stats(struct command *cmd)
 		/* Set default. */
 		strnfmt(s, sizeof(s), "%d", 1);
 
-		if (!get_string("Pit type (1-3): ", s, sizeof(s))) return;
+		if (!get_string("Tipo de cámara (1-3): ", s, sizeof(s))) return;
 		if (!get_int_from_string(s, &pittype) || pittype < 1 ||
 			pittype > 3) return;
 		cmd_set_arg_choice(cmd, "choice", pittype);
@@ -700,7 +703,7 @@ void do_cmd_wiz_collect_pit_stats(struct command *cmd)
 		/* Set default. */
 		strnfmt(s, sizeof(s), "%d", player->depth);
 
-		if (!get_string("Minimum depth: ", s, sizeof(s))) return;
+		if (!get_string("Profundidad mínima: ", s, sizeof(s))) return;
 		if (!get_int_from_string(s, &depth_min)
 				|| depth_min < 1) return;
 		cmd_set_arg_number(cmd, "depth_min", depth_min);
@@ -710,7 +713,7 @@ void do_cmd_wiz_collect_pit_stats(struct command *cmd)
 		/* Set default. */
 		strnfmt(s, sizeof(s), "%d", depth_min);
 
-		if (!get_string("Maximum depth: ", s, sizeof(s))) return;
+		if (!get_string("Profundidad máxima: ", s, sizeof(s))) return;
 		if (!get_int_from_string(s, &depth_max)
 				|| depth_max < depth_min) return;
 		cmd_set_arg_number(cmd, "depth_max", depth_max);
@@ -753,7 +756,7 @@ void do_cmd_wiz_create_all_artifact_from_tval(struct command *cmd)
 		char s[80] = "";
 
 		strnfmt(prompt, sizeof(prompt),
-			"Create all artifacts of which tval (1-%d)? ",
+			"¿Crear todos los artefactos de qué tval (1-%d)? ",
 			TV_MAX - 1);
 		if (!get_string(prompt, s, sizeof(s))) return;
 		if (!get_int_from_string(s, &tval) || tval < 1 ||
@@ -811,7 +814,7 @@ void do_cmd_wiz_create_all_obj_from_tval(struct command *cmd)
 		char s[80] = "";
 
 		strnfmt(prompt, sizeof(prompt),
-			"Create all items of which tval (1-%d)? ", TV_MAX - 1);
+			"¿Crear todos los objetos de qué tval (1-%d)? ", TV_MAX - 1);
 		if (!get_string(prompt, s, sizeof(s))) return;
 		if (!get_int_from_string(s, &tval) || tval < 1 ||
 			tval >= TV_MAX) return;
@@ -819,7 +822,7 @@ void do_cmd_wiz_create_all_obj_from_tval(struct command *cmd)
 	}
 
 	if (cmd_get_arg_choice(cmd, "choice", &art) != CMD_OK) {
-		art = get_check("Create instant artifacts? ");
+		art = get_check("¿Crear artefactos instantáneos? ");
 		cmd_set_arg_choice(cmd, "choice", art);
 	}
 
@@ -849,7 +852,7 @@ void do_cmd_wiz_create_artifact(struct command *cmd)
 		char s[80] = "";
 
 		strnfmt(prompt, sizeof(prompt),
-			"Create which artifact (1-%d)? ", z_info->a_max - 1);
+			"¿Qué artefacto crear (1-%d)? ", z_info->a_max - 1);
 		if (!get_string(prompt, s, sizeof(s))) return;
 		if (!get_int_from_string(s, &ind)) return;
 		cmd_set_arg_number(cmd, "index", ind);
@@ -861,7 +864,7 @@ void do_cmd_wiz_create_artifact(struct command *cmd)
 
 		wiz_drop_object(obj);
 	} else {
-		msg("That's not a valid artifact.");
+		msg("Ese no es un artefacto válido.");
 	}
 }
 
@@ -880,7 +883,7 @@ void do_cmd_wiz_create_obj(struct command *cmd)
 		char s[80] = "";
 
 		strnfmt(prompt, sizeof(prompt),
-			"Create which object (0-%d)? ", z_info->k_max - 1);
+			"¿Qué objeto crear (0-%d)? ", z_info->k_max - 1);
 		if (!get_string(prompt, s, sizeof(s))) return;
 		if (!get_int_from_string(s, &ind)) return;
 		cmd_set_arg_number(cmd, "index", ind);
@@ -892,7 +895,7 @@ void do_cmd_wiz_create_obj(struct command *cmd)
 
 		wiz_drop_object(obj);
 	} else {
-		msg("That's not a valid kind of object.");
+		msg("Ese no es un tipo de objeto válido.");
 	}
 }
 
@@ -909,7 +912,7 @@ void do_cmd_wiz_create_trap(struct command *cmd)
 	if (cmd_get_arg_number(cmd, "index", &tidx) != CMD_OK) {
 		char s[80] = "";
 
-		if (!get_string("Create which trap? ", s, sizeof(s))) return;
+		if (!get_string("¿Qué trampa crear? ", s, sizeof(s))) return;
 		if (!get_int_from_string(s, &tidx)) {
 			const struct trap_kind *trap = lookup_trap(s);
 
@@ -922,11 +925,11 @@ void do_cmd_wiz_create_trap(struct command *cmd)
 			|| square_isplayertrap(cave, player->grid)
 			|| square_iswebbed(cave, player->grid)
 			|| square_object(cave, player->grid)) {
-		msg("You can't place a trap there!");
+		msg("¡No puedes colocar una trampa ahí!");
 	} else if (player->depth == 0) {
-		msg("You can't place a trap in the town!");
+		msg("¡No puedes colocar una trampa en la ciudad!");
 	} else if (tidx < 1 || tidx >= z_info->trap_max) {
-		msg("Trap not found.");
+		msg("Trampa no encontrada.");
 	} else {
 		place_trap(cave, player->grid, tidx, 0);
 		/* Can not repeat since there's now a trap here. */
@@ -989,7 +992,7 @@ void do_cmd_wiz_cure_all(struct command *cmd)
 	player->upkeep->redraw |= PR_BASIC | PR_EXTRA | PR_MAP | PR_EQUIP;
 
 	/* Give the player some feedback */
-	msg("You feel *much* better!");
+	msg("¡Te sientes *mucho* mejor!");
 }
 
 
@@ -1010,8 +1013,8 @@ void do_cmd_wiz_curse_item(struct command *cmd)
 	int update;
 
 	if (cmd_get_arg_item(cmd, "item", &obj) != CMD_OK) {
-		if (!get_item(&obj, "Change curse on which item? ",
-				"You have nothing to change.", cmd->code,
+		if (!get_item(&obj, "¿A qué objeto cambiar la maldición? ",
+				"No tienes nada que cambiar.", cmd->code,
 				NULL, (USE_EQUIP | USE_INVEN | USE_QUIVER |
 				USE_FLOOR))) {
 			return;
@@ -1022,7 +1025,7 @@ void do_cmd_wiz_curse_item(struct command *cmd)
 	/* Get curse. */
 	if (cmd_get_arg_number(cmd, "index", &curse_index) != CMD_OK) {
 		strnfmt(s, sizeof(s), "0");
-		if (!get_string("Enter curse name or index: ",
+		if (!get_string("Introduce nombre o índice de la maldición: ",
 				s, sizeof(s))) return;
 		if (!get_int_from_string(s, &curse_index)) {
 			curse_index = lookup_curse(s);
@@ -1036,7 +1039,7 @@ void do_cmd_wiz_curse_item(struct command *cmd)
 	/* Get power for curse. */
 	if (cmd_get_arg_number(cmd, "power", &power) != CMD_OK) {
 		strnfmt(s, sizeof(s), "0");
-		if (!get_string("Enter curse power (0 removes): ", s,
+		if (!get_string("Introduce el poder de la maldición (0 elimina): ", s,
 				sizeof(s)) || !get_int_from_string(s, &power)) {
 			return;
 		}
@@ -1111,7 +1114,7 @@ void do_cmd_wiz_display_keylog(struct command *cmd)
 
 	screen_save();
 
-	prt("Previous keypresses (top most recent):", 0, 0);
+	prt("Pulsaciones anteriores (la más reciente arriba):", 0, 0);
 
 	for (i = 0; i < KEYLOG_SIZE; i++) {
 		if (i < log_size) {
@@ -1141,7 +1144,7 @@ void do_cmd_wiz_display_keylog(struct command *cmd)
 		prt(buf, i + 1, 0);
 	}
 
-	prt("Press any key to continue.", KEYLOG_SIZE + 1, 0);
+	prt("Pulsa cualquier tecla para continuar.", KEYLOG_SIZE + 1, 0);
 	anykey();
 	screen_load();
 }
@@ -1165,16 +1168,16 @@ void do_cmd_wiz_dump_level_map(struct command *cmd)
 	char title[80];
 	ang_file *fo;
 
-	strnfmt(title, sizeof(title), "Map of level %d", player->depth);
+	strnfmt(title, sizeof(title), "Mapa del nivel %d", player->depth);
 	if (!get_file("level.html", path, sizeof(path)) ||
-			!get_string("Title for map: ", title, sizeof(title))) {
+			!get_string("Título para el mapa: ", title, sizeof(title))) {
 		return;
 	}
 	fo = file_open(path, MODE_WRITE, FTYPE_TEXT);
 	if (fo) {
 		dump_level(fo, title, cave, NULL);
 		if (file_close(fo)) {
-			msg("Level dumped to %s.", path);
+			msg("Nivel volcado a %s.", path);
 		}
 	}
 }
@@ -1194,7 +1197,7 @@ void do_cmd_wiz_edit_player_exp(struct command *cmd)
 	/* Set default value. */
 	strnfmt(s, sizeof(s), "%ld", (long)(player->exp));
 
-	if (!get_string("Experience: ", s, sizeof(s)) ||
+	if (!get_string("Experiencia: ", s, sizeof(s)) ||
 			!get_long_from_string(s, &newv)) {
 		/* Set next editing stage to break. */
 		edit_player_state = EDIT_PLAYER_BREAK;
@@ -1226,7 +1229,7 @@ void do_cmd_wiz_edit_player_gold(struct command *cmd)
 	/* Set default value. */
 	strnfmt(s, sizeof(s), "%ld", (long)(player->au));
 
-	if (!get_string("Gold: ", s, sizeof(s)) ||
+	if (!get_string("Oro: ", s, sizeof(s)) ||
 			!get_long_from_string(s, &newv)) {
 		/* Set next editing stage to break. */
 		edit_player_state = EDIT_PLAYER_BREAK;
@@ -1303,7 +1306,7 @@ void do_cmd_wiz_edit_player_stat(struct command *cmd)
 
 	if (cmd_get_arg_choice(cmd, "choice", &stat) != CMD_OK) {
 		strnfmt(prompt, sizeof(prompt),
-			"Edit which stat (name or 0-%d): ", STAT_MAX - 1);
+			"¿Qué estadística editar (nombre o 0-%d): ", STAT_MAX - 1);
 
 		/* Set default value. */
 		strnfmt(s, sizeof(s), "%s", stat_idx_to_name(0));
@@ -1366,7 +1369,7 @@ void do_cmd_wiz_increase_exp(struct command *cmd)
 	int n;
 
 	if (cmd_get_arg_number(cmd, "quantity", &n) != CMD_OK) {
-		n = get_quantity("Gain how much experience? ", 9999);
+		n = get_quantity("¿Cuánta experiencia ganar? ", 9999);
 		cmd_set_arg_number(cmd, "quantity", n);
 	}
 
@@ -1393,7 +1396,7 @@ void do_cmd_wiz_jump_level(struct command *cmd)
 	if (cmd_get_arg_number(cmd, "level", &level) != CMD_OK) {
 		char prompt[80], s[80];
 
-		strnfmt(prompt, sizeof(prompt), "Jump to level (0-%d): ",
+		strnfmt(prompt, sizeof(prompt), "Saltar al nivel (0-%d): ",
 			z_info->max_depth - 1);
 
 		/* Set default */
@@ -1408,7 +1411,7 @@ void do_cmd_wiz_jump_level(struct command *cmd)
 	if (level < 0 || level >= z_info->max_depth) return;
 
 	if (cmd_get_arg_choice(cmd, "choice", &choose_gen) != CMD_OK) {
-		choose_gen = (get_check("Choose cave profile? ")) ? 1 : 0;
+		choose_gen = (get_check("¿Elegir perfil de cueva? ")) ? 1 : 0;
 		cmd_set_arg_choice(cmd, "choice", choose_gen);
 	}
 
@@ -1416,7 +1419,7 @@ void do_cmd_wiz_jump_level(struct command *cmd)
 		player->noscore |= NOSCORE_JUMPING;
 	}
 
-	msg("You jump to dungeon level %d.", level);
+	msg("Saltas al nivel de mazmorra %d.", level);
 	dungeon_change_level(player, level);
 
 	/*
@@ -1440,7 +1443,7 @@ void do_cmd_wiz_learn_object_kinds(struct command *cmd)
 	if (cmd_get_arg_number(cmd, "level", &level) != CMD_OK) {
 		char s[80] = "100";
 
-		if (!get_string("Learn object kinds up to level (0-100)? ",
+		if (!get_string("¿Aprender tipos de objetos hasta el nivel (0-100)? ",
 			s, sizeof(s))) return;
 		if (!get_int_from_string(s, &level)) return;
 		cmd_set_arg_number(cmd, "level", level);
@@ -1457,7 +1460,7 @@ void do_cmd_wiz_learn_object_kinds(struct command *cmd)
 	}
 
 	update_player_object_knowledge(player);
-	msg("You now know about many items!");
+	msg("¡Ahora conoces muchos objetos!");
 }
 
 
@@ -1534,7 +1537,7 @@ void do_cmd_wiz_peek_noise_scent(struct command *cmd)
 		wiz_hack_map(cave, player, wiz_hack_map_peek_noise, &i);
 
 		/* Get key */
-		if (!get_com(format("Depth %d: ", i), &kp)) break;
+		if (!get_com(format("Profundidad %d: ", i), &kp)) break;
 
 		/* Redraw map */
 		prt_map();
@@ -1545,7 +1548,7 @@ void do_cmd_wiz_peek_noise_scent(struct command *cmd)
 		wiz_hack_map(cave, player, wiz_hack_map_peek_scent, &i);
 
 		/* Get key */
-		if (!get_com(format("Depth %d: ", i), &kp)) break;
+		if (!get_com(format("Profundidad %d: ", i), &kp)) break;
 
 		/* Redraw map */
 		prt_map();
@@ -1584,7 +1587,7 @@ void do_cmd_wiz_perform_effect(struct command *cmd)
 	screen_save();
 
 	/* Get the name */
-	if (get_string("Do which effect: ", name, sizeof(name))) {
+	if (get_string("¿Qué efecto: ", name, sizeof(name))) {
 		/* See if an effect index was entered */
 		if (!get_int_from_string(name, &index)) {
 			/* If not, find the effect with that name */
@@ -1593,20 +1596,20 @@ void do_cmd_wiz_perform_effect(struct command *cmd)
 
 		/* Failed */
 		if (index <= EF_NONE || index >= EF_MAX) {
-			msg("No effect found.");
+			msg("Efecto no encontrado.");
 			return;
 		}
 	}
 
 	/* Get the dice */
-	if (! get_string("Enter damage dice (eg 1+2d6M2): ", dice,
+	if (! get_string("Introduce los dados de daño (ej. 1+2d6M2): ", dice,
 			sizeof(dice))) {
 		my_strcpy(dice, "0", sizeof(dice));
 	}
 
 	/* Get the effect subtype */
 	my_strcpy(name, "0", sizeof(name));
-	if (get_string("Enter name or number for effect subtype: ", name,
+	if (get_string("Introduce nombre o número del subtipo de efecto: ", name,
 			sizeof(name))) {
 		/* See if an effect parameter was entered */
 		p1 = effect_subtype(index, name);
@@ -1614,10 +1617,10 @@ void do_cmd_wiz_perform_effect(struct command *cmd)
 	}
 
 	/* Get the parameters */
-	p2 = get_quantity("Enter second parameter (radius): ", 100);
-	p3 = get_quantity("Enter third parameter (other): ", 100);
-	y = get_quantity("Enter y parameter: ", 100);
-	x = get_quantity("Enter x parameter: ", 100);
+	p2 = get_quantity("Introduce el segundo parámetro (radio): ", 100);
+	p3 = get_quantity("Introduce el tercer parámetro (otro): ", 100);
+	y = get_quantity("Introduce el parámetro y: ", 100);
+	x = get_quantity("Introduce el parámetro x: ", 100);
 
 	/* Reload the screen */
 	screen_load();
@@ -1625,7 +1628,7 @@ void do_cmd_wiz_perform_effect(struct command *cmd)
 	effect_simple(index, source_player(), dice, p1, p2, p3, y, x, &ident);
 
 	if (ident) {
-		msg("Identified!");
+		msg("¡Identificado!");
 	}
 }
 
@@ -1678,8 +1681,8 @@ void do_cmd_wiz_play_item(struct command *cmd)
 		}
 	} else {
 		if (cmd_get_arg_item(cmd, "item", &obj) != CMD_OK || !obj) {
-			if (!get_item(&obj, "Play with which object? ",
-					"You have nothing to play with.",
+			if (!get_item(&obj, "¿Con qué objeto jugar? ",
+					"No tienes nada con qué jugar.",
 					cmd->code, NULL, (USE_EQUIP |
 					USE_INVEN | USE_QUIVER | USE_FLOOR))) {
 				return;
@@ -1722,7 +1725,7 @@ void do_cmd_wiz_play_item(struct command *cmd)
 	wiz_display_item(obj, display_all_prop != 0, player);
 
 	/* Get choice. */
-	if (get_com("[a]ccept [s]tatistics [r]eroll [t]weak [c]urse [q]uantity [k]nown? ", &ch)) {
+	if (get_com("(a) Aceptar  (s) Estadísticas  (r) Rehacer  (t) Ajustar  (c) Maldición  (q) Cantidad  (k) Conocido? ", &ch)) {
 		bool queue_failed = false;
 
 		switch (ch) {
@@ -1847,16 +1850,16 @@ void do_cmd_wiz_play_item(struct command *cmd)
 		}
 
 		if (queue_failed &&
-				get_check("Couldn't proceed.  Stop playing with item and lose all changes? ")) {
+				get_check("No se pudo continuar.  ¿Detener el juego con el objeto y perder todos los cambios? ")) {
 			done = true;
 			if (object_changed) {
-				done_msg = "Bailed out.  Changes to item lost.";
+				done_msg = "Abandonado.  Se perdieron los cambios del objeto.";
 			}
 		}
 	} else {
 		done = true;
 		if (object_changed) {
-			done_msg = "Changes ignored.";
+			done_msg = "Cambios ignorados.";
 		}
 	}
 
@@ -1865,7 +1868,7 @@ void do_cmd_wiz_play_item(struct command *cmd)
 		if (cmdq_push_copy(cmd) != 0) {
 			/* Failed.  Bail out without saving changes. */
 			done = true;
-			done_msg = "Couldn't queue command.  Changes lost.";
+			done_msg = "No se pudo encolar el comando.  Cambios perdidos.";
 		}
 	}
 
@@ -2004,7 +2007,7 @@ void do_cmd_wiz_query_feature(struct command *cmd)
 	if (cmd_get_arg_choice(cmd, "choice", &feature_class) != CMD_OK) {
 		char choice;
 
-		if (!get_com("Debug Command Feature Query: ", &choice)) return;
+		if (!get_com("Consulta de característica (depuración): ", &choice)) return;
 		feature_class = choice;
 		cmd_set_arg_choice(cmd, "choice", feature_class);
 	}
@@ -2102,7 +2105,7 @@ void do_cmd_wiz_query_feature(struct command *cmd)
 
 		/* Invalid entry */
 		default:
-			msg("That was an invalid selection.  Use one of fobuztcdhmqgpra .");
+			msg("Esa fue una selección no válida.  Usa una de fobuztcdhmqgpra .");
 			return;
 	}
 
@@ -2110,7 +2113,7 @@ void do_cmd_wiz_query_feature(struct command *cmd)
 
 	Term_redraw();
 
-	msg("Press any key.");
+	msg("Pulsa cualquier tecla.");
 	inkey_ex();
 	prt("", 0, 0);
 
@@ -2161,7 +2164,7 @@ void do_cmd_wiz_query_square_flag(struct command *cmd)
 	if (cmd_get_arg_choice(cmd, "choice", &flag) != CMD_OK) {
 		char c;
 
-		if (!get_com("Debug Command Query [grasvwdftniolx]: ", &c))
+		if (!get_com("Consulta de depuración [grasvwdftniolx]: ", &c))
 			return;
 		switch (c) {
 			case 'g': flag = SQUARE_GLOW; break;
@@ -2186,7 +2189,7 @@ void do_cmd_wiz_query_square_flag(struct command *cmd)
 
 	Term_redraw();
 
-	msg("Press any key.");
+	msg("Pulsa cualquier tecla.");
 	inkey_ex();
 	prt("", 0, 0);
 
@@ -2218,11 +2221,11 @@ void do_cmd_wiz_recall_monster(struct command *cmd)
 		char s[80] = "";
 		char c;
 
-		if (!get_com("Full recall for [a]ll monsters or [s]pecific monster? ", &c)) return;
+		if (!get_com("¿Recuerdo total para [a] todos los monstruos o [s] uno específico? ", &c)) return;
 		if (c == 'a' || c == 'A') {
 			r_idx = -1;
 		} else if (c == 's' || c == 'S') {
-			if (!get_string("Which monster? ", s, sizeof(s)))
+			if (!get_string("¿Qué monstruo? ", s, sizeof(s)))
 				return;
 			if (!get_int_from_string(s, &r_idx)) {
 				const struct monster_race *race =
@@ -2249,7 +2252,7 @@ void do_cmd_wiz_recall_monster(struct command *cmd)
 			cheat_monster_lore(&r_info[i], &l_list[i]);
 		}
 	} else {
-		msg("No monster found.");
+		msg("No se encontró el monstruo.");
 	}
 }
 
@@ -2292,7 +2295,7 @@ void do_cmd_wiz_rerate(struct command *cmd)
 	player->upkeep->update |= PU_HP;
 	player->upkeep->redraw |= PR_HP;
 
-	msg("Current Life Rating is %d/100.", percent);
+	msg("La puntuación de vida actual es %d/100.", percent);
 }
 
 
@@ -2314,8 +2317,8 @@ void do_cmd_wiz_reroll_item(struct command *cmd)
 
 	/* Get the item to reroll. */
 	if (cmd_get_arg_item(cmd, "item", &obj) != CMD_OK) {
-		if (!get_item(&obj, "Reroll which item? ",
-				"You have nothing to reroll.", cmd->code,
+		if (!get_item(&obj, "¿Qué objeto rehacer? ",
+				"No tienes nada que rehacer.", cmd->code,
 				NULL, (USE_EQUIP | USE_INVEN | USE_QUIVER |
 				USE_FLOOR))) {
 			return;
@@ -2327,7 +2330,7 @@ void do_cmd_wiz_reroll_item(struct command *cmd)
 	if (cmd_get_arg_choice(cmd, "choice", &roll_choice) != CMD_OK) {
 		char ch;
 
-		if (!get_com("Roll as [n]ormal, [g]ood, or [e]xcellent? ", &ch)) {
+		if (!get_com("¿Tirada [n]ormal, [g] buena, o [e]xcelente? ", &ch)) {
 			return;
 		}
 		if (ch == 'n' || ch == 'N') {
@@ -2438,7 +2441,7 @@ void do_cmd_wiz_reroll_item(struct command *cmd)
 void do_cmd_wiz_stat_item(struct command *cmd)
 {
 	const char *repfmt =
-		"Rolls: %ld, Matches: %ld, Better: %ld, Worse: %ld, Other: %ld";
+		"Tiradas: %ld, Coincidencias: %ld, Mejores: %ld, Peores: %ld, Otras: %ld";
 	int level = player->depth;
 	int treasure_choice = 0;
 	bool good = false, great = false;
@@ -2450,8 +2453,8 @@ void do_cmd_wiz_stat_item(struct command *cmd)
 
 	/* Get the target item for comparison. */
 	if (cmd_get_arg_item(cmd, "item", &obj) != CMD_OK) {
-		if (!get_item(&obj, "Compare with which item? ",
-				"You have nothing to compare.", cmd->code,
+		if (!get_item(&obj, "¿Comparar con qué objeto? ",
+				"No tienes nada con qué comparar.", cmd->code,
 				NULL, (USE_EQUIP | USE_INVEN | USE_QUIVER |
 				USE_FLOOR))) {
 			return;
@@ -2466,7 +2469,7 @@ void do_cmd_wiz_stat_item(struct command *cmd)
 	if (cmd_get_arg_choice(cmd, "choice", &treasure_choice) != CMD_OK) {
 		char ch;
 
-		if (!get_com("Roll for [n]ormal, [g]ood, or [e]xcellent treasure? ", &ch)) {
+		if (!get_com("¿Tesoro [n]ormal, [g] bueno, o [e]xcelente? ", &ch)) {
 			return;
 		}
 		if (ch == 'n' || ch == 'N') {
@@ -2483,15 +2486,15 @@ void do_cmd_wiz_stat_item(struct command *cmd)
 	if (treasure_choice == 0) {
 		good = false;
 		great = false;
-		quality = "normal";
+		quality = "normales";
 	} else if (treasure_choice == 1) {
 		good = true;
 		great = false;
-		quality = "good";
+		quality = "buenos";
 	} else if (treasure_choice == 2) {
 		good = true;
 		great = true;
-		quality = "excellent";
+		quality = "excelentes";
 	} else {
 		return;
 	}
@@ -2500,7 +2503,7 @@ void do_cmd_wiz_stat_item(struct command *cmd)
 	if (cmd_get_arg_number(cmd, "depth", &level) != CMD_OK) {
 		char prompt[80], s[80];
 
-		strnfmt(prompt, sizeof(prompt), "Depth for treasure (0-%d): ",
+		strnfmt(prompt, sizeof(prompt), "Profundidad para el tesoro (0-%d): ",
 			z_info->max_depth - 1);
 
 		/* Set default. */
@@ -2518,7 +2521,7 @@ void do_cmd_wiz_stat_item(struct command *cmd)
 	}
 
 	/* Give feedback about what's going to be done. */
-	msg("Creating a lot of %s items.  Base level = %d.", quality, level);
+	msg("Creando muchos objetos %s.  Nivel base = %d.", quality, level);
 	event_signal(EVENT_MESSAGE_FLUSH);
 
 	for (i = 0; i < n; i++) {
@@ -2631,7 +2634,7 @@ void do_cmd_wiz_summon_named(struct command *cmd)
 	} else {
 		char s[80] = "";
 
-		if (!get_string("Summon which monster? ", s, sizeof(s))) return;
+		if (!get_string("¿Qué monstruo invocar? ", s, sizeof(s))) return;
 		/* See if an index was entered */
 		if (get_int_from_string(s, &r_idx)) {
 			if (r_idx > 0 && r_idx < z_info->r_max) {
@@ -2647,7 +2650,7 @@ void do_cmd_wiz_summon_named(struct command *cmd)
 	}
 
 	if (r == NULL) {
-		msg("No monster found.");
+		msg("No se encontró el monstruo.");
 		return;
 	}
 
@@ -2658,7 +2661,7 @@ void do_cmd_wiz_summon_named(struct command *cmd)
 		/* Pick an empty location. */
 		if (i >= 10 || scatter_ext(cave, &grid, 1, player->grid, 1,
 				true, square_isempty) == 0) {
-			msg("Could not place monster.");
+			msg("No se pudo colocar al monstruo.");
 			break;
 		}
 
@@ -2683,7 +2686,7 @@ void do_cmd_wiz_summon_random(struct command *cmd)
 	int n, i;
 
 	if (cmd_get_arg_number(cmd, "quantity", &n) != CMD_OK) {
-		n = get_quantity("How many monsters? ", 40);
+		n = get_quantity("¿Cuántos monstruos? ", 40);
 		if (n < 1) n = 1;
 		cmd_set_arg_number(cmd, "quantity", n);
 	}
@@ -2708,7 +2711,7 @@ void do_cmd_wiz_teleport_random(struct command *cmd)
 	if (cmd_get_arg_number(cmd, "range", &range) != CMD_OK) {
 		char s[80] = "100";
 
-		if (!get_string("Teleport range? ", s, sizeof(s))) return;
+		if (!get_string("¿Rango de teletransporte? ", s, sizeof(s))) return;
 		if (!get_int_from_string(s, &range) || range < 1) return;
 		cmd_set_arg_number(cmd, "range", range);
 	}
@@ -2743,7 +2746,7 @@ void do_cmd_wiz_teleport_to(struct command *cmd)
 		effect_simple(EF_TELEPORT_TO, source_player(), "0", 0, 0, 0,
 			grid.y, grid.x, NULL);
 	} else {
-		msg("The square you are aiming for is impassable.");
+		msg("La casilla a la que apuntas es infranqueable.");
 	}
 }
 
@@ -2772,8 +2775,8 @@ void do_cmd_wiz_tweak_item(struct command *cmd)
 
 	/* Get the item to tweak. */
 	if (cmd_get_arg_item(cmd, "item", &obj) != CMD_OK) {
-		if (!get_item(&obj, "Tweak which item? ",
-				"You have nothing to tweak.", cmd->code,
+		if (!get_item(&obj, "¿Qué objeto ajustar? ",
+				"No tienes nada que ajustar.", cmd->code,
 				NULL, (USE_EQUIP | USE_INVEN | USE_QUIVER |
 				USE_FLOOR))) {
 			return;
@@ -2798,7 +2801,7 @@ void do_cmd_wiz_tweak_item(struct command *cmd)
 	} else {
 		strnfmt(tmp_val, sizeof(tmp_val), "-1");
 	}
-	if (!get_string("Enter ego item: ", tmp_val, sizeof(tmp_val))) return;
+	if (!get_string("Introduce el ítem ego: ", tmp_val, sizeof(tmp_val))) return;
 
 	/* Accept index or name */
 	if (get_int_from_string(tmp_val, &val)) {
@@ -2837,7 +2840,7 @@ void do_cmd_wiz_tweak_item(struct command *cmd)
 	} else {
 		strnfmt(tmp_val, sizeof(tmp_val), "0");
 	}
-	if (!get_string("Enter new artifact: ", tmp_val, sizeof(tmp_val))) {
+	if (!get_string("Introduce el nuevo artefacto: ", tmp_val, sizeof(tmp_val))) {
 		if (update) {
 			wiz_play_item_standard_upkeep(player, obj);
 		} else {
@@ -2880,7 +2883,7 @@ void do_cmd_wiz_tweak_item(struct command *cmd)
 
 #define WIZ_TWEAK(attribute, name) do {\
 		char prompt[80];\
-		strnfmt(prompt, sizeof(prompt), "Enter new %s setting: ", name);\
+		strnfmt(prompt, sizeof(prompt), "Introduce el nuevo valor de %s: ", name);\
 		strnfmt(tmp_val, sizeof(tmp_val), "%d", obj->attribute);\
 		if (!get_string(prompt, tmp_val, sizeof(tmp_val))) {\
 			if (update) {\
@@ -2898,9 +2901,9 @@ void do_cmd_wiz_tweak_item(struct command *cmd)
 	for (i = 0; i < OBJ_MOD_MAX; i++) {
 		WIZ_TWEAK(modifiers[i], obj_mods[i]);
 	}
-	WIZ_TWEAK(to_a, "AC bonus");
-	WIZ_TWEAK(to_h, "to-hit");
-	WIZ_TWEAK(to_d, "to-dam");
+	WIZ_TWEAK(to_a, "bonificación de AC");
+	WIZ_TWEAK(to_h, "al golpe");
+	WIZ_TWEAK(to_d, "al daño");
 
 	if (update) {
 		wiz_play_item_standard_upkeep(player, obj);
@@ -2924,11 +2927,11 @@ void do_cmd_wiz_wipe_recall(struct command *cmd)
 		char s[80] = "";
 		char c;
 
-		if (!get_com("Wipe recall for [a]ll monsters or [s]pecific monster? ", &c)) return;
+		if (!get_com("¿Borrar recuerdo de [a] todos los monstruos o [s] uno específico? ", &c)) return;
 		if (c == 'a' || c == 'A') {
 			r_idx = -1;
 		} else if (c == 's' || c == 'S') {
-			if (!get_string("Which monster? ", s, sizeof(s)))
+			if (!get_string("¿Qué monstruo? ", s, sizeof(s)))
 				return;
 			if (!get_int_from_string(s, &r_idx)) {
 				const struct monster_race *race =
@@ -2955,7 +2958,7 @@ void do_cmd_wiz_wipe_recall(struct command *cmd)
 			wipe_monster_lore(&r_info[i], &l_list[i]);
 		}
 	} else {
-		msg("No monster found.");
+		msg("No se encontró el monstruo.");
 	}
 }
 

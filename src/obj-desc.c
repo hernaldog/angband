@@ -174,7 +174,7 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
         	}      
 
 		case TV_SCROLL:
-			return (show_flavor ? "& Pergamino~ titulado #" : "& Pergamino~");
+			return (show_flavor ? "& Pergamino~ titulado~ #" : "& Pergamino~");
 
 		case TV_MAGIC_BOOK:
 			if (terse)

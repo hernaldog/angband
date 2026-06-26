@@ -16,181 +16,181 @@
 default:break-chance:10
 default:max-stack:40
 
-name:chest:Chest~
+name:chest:Cofre~
 graphics:slate
 # max-stack:1
 flags:HATES_ACID | HATES_FIRE
 
-name:shot:Shot~
+name:shot:Bala~
 graphics:light umber
 break:0
 # max-stack:40
 flags:SHOW_DICE
 
-name:arrow:Arrow~
+name:arrow:Flecha~
 graphics:light umber
 break:35
 # max-stack:40
 flags:HATES_ACID | HATES_FIRE
 flags:SHOW_DICE
 
-name:bolt:Bolt~
+name:bolt:Saeta~
 graphics:light umber
 break:20
 # max-stack:40
 flags:HATES_ACID
 flags:SHOW_DICE
 
-name:bow:Bow~
+name:bow:Arco~
 graphics:umber
 # max-stack:1
 flags:HATES_ACID | HATES_FIRE
 flags:SHOW_MULT
 
-name:digger:Digger~
+name:digger:Pico~
 graphics:slate
 # max-stack:1
 flags:SHOW_DICE
 
-name:hafted:Hafted weapon~
+name:hafted:Armas Contundentes
 graphics:white
 # max-stack:1
 flags:HATES_ACID | HATES_FIRE
 flags:SHOW_DICE
 
-name:polearm:Polearm~
+name:polearm:Arma~ de Asta
 graphics:white
 # max-stack:1
 flags:HATES_ACID | HATES_FIRE
 flags:SHOW_DICE
 
-name:sword:Bladed weapon~
+name:sword:Armas Cortantes
 graphics:white
 # max-stack:1
 flags:HATES_ACID
 flags:SHOW_DICE
 
-name:boots:Boot~
+name:boots:Bota~
 graphics:light umber
 # max-stack:1
 flags:HATES_ACID | HATES_FIRE
 
-name:gloves:Glove~
+name:gloves:Guante~
 graphics:light umber
 # max-stack:1
 flags:HATES_ACID | HATES_FIRE
 
-name:helm:Helm~
+name:helm:Yelmo~
 graphics:light umber
 # max-stack:1
 flags:HATES_ACID
 
-name:crown:Crown~
+name:crown:Corona~
 graphics:light umber
 # max-stack:1
 flags:HATES_ACID
 
-name:shield:Shield~
+name:shield:Escudo~
 graphics:light umber
 # max-stack:1
 flags:HATES_ACID
 
-name:cloak:Cloak~
+name:cloak:Capa~
 graphics:light umber
 # max-stack:1
 flags:HATES_ACID | HATES_FIRE
 
-name:soft armor:Soft Armor~
+name:soft armor:Armaduras Ligeras
 graphics:slate
 # max-stack:1
 flags:HATES_ACID | HATES_FIRE
 
-name:hard armor:Hard Armor~
+name:hard armor:Armaduras Pesadas
 graphics:slate
 # max-stack:1
 flags:HATES_ACID
 
-name:dragon armor:Dragon Armor~
+name:dragon armor:Armadura~ de Dragón
 graphics:slate
 # max-stack:1
 
-name:light:Light~
+name:light:Fuente~ de Luz
 graphics:yellow
 break:50
 # max-stack:10
 flags:HATES_FIRE
 
-name:amulet:Amulet~
+name:amulet:Amuleto~
 graphics:orange
 # max-stack:2
 
-name:ring:Ring~
+name:ring:Anillo~
 graphics:red
 # max-stack:5
 flags:HATES_ELEC
 
-name:staff:Staff~
+name:staff:Báculo~
 graphics:light umber
 # max-stack:5
 flags:HATES_ACID | HATES_FIRE | EASY_KNOW
 
-name:wand:Wand~
+name:wand:Varita~
 graphics:green
 # max-stack:5
 flags:HATES_ELEC | EASY_KNOW
 
-name:rod:Rod~
+name:rod:Vara~
 graphics:light purple
 # max-stack:5
 flags:HATES_ELEC | EASY_KNOW
 
-name:scroll:Scroll~
+name:scroll:Pergamino~
 graphics:white
 # max-stack:20
 flags:HATES_ACID | HATES_FIRE | EASY_KNOW
 
-name:potion:Potion~
+name:potion:Pociones
 graphics:light blue
 break:100
 # max-stack:20
 flags:HATES_COLD | HATES_SOUND | HATES_SHARD | HATES_ICE | HATES_FORCE
 flags:EASY_KNOW
 
-name:flask:Flask~
+name:flask:Frasco~
 graphics:yellow
 break:100
 # max-stack:20
 flags:HATES_COLD | HATES_SOUND | HATES_SHARD | HATES_ICE | HATES_FORCE
 flags:EASY_KNOW
 
-name:food:Food
+name:food:Comida
 graphics:light umber
 break:100
 # max-stack:10
 flags:EASY_KNOW
 
-name:mushroom:Mushroom~
+name:mushroom:Seta~
 graphics:light umber
 break:100
 # max-stack:10
 flags:EASY_KNOW
 
-name:magic book:Magic Book~
+name:magic book:Libros de Magia
 graphics:light red
 # max-stack:5
 flags:HATES_FIRE | EASY_KNOW
 
-name:prayer book:Prayer Book~
+name:prayer book:Libros Sagrados
 graphics:light green
 # max-stack:5
 flags:HATES_FIRE | EASY_KNOW
 
-name:nature book:Nature Book~
+name:nature book:Libros de Naturaleza
 graphics:yellow
 # max-stack:5
 flags:HATES_FIRE | EASY_KNOW
 
-name:shadow book:Shadow Book~
+name:shadow book:Libros de Sombras
 graphics:light purple
 # max-stack:5
 flags:HATES_FIRE | EASY_KNOW

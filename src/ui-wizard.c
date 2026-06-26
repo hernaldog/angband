@@ -158,9 +158,9 @@ static void wiz_create_item_subdisplay(struct menu *m, int oid, bool cursor,
 
 		object_base_name(name, sizeof(name), current_tval, true);
 		if (choose_artifact) {
-			strnfmt(buf, sizeof(buf), "All artifact %s", name);
+			strnfmt(buf, sizeof(buf), "Todos los artefactos: %s", name);
 		} else {
-			strnfmt(buf, sizeof(buf), "All %s", name);
+			strnfmt(buf, sizeof(buf), "Todos: %s", name);
 		}
 	} else {
 		if (choose_artifact) {
@@ -223,9 +223,9 @@ static void wiz_create_item_display(struct menu *m, int oid, bool cursor,
 
 	if (oid == WIZ_CREATE_ALL_MENU_ITEM) {
 		if (choose_artifact) {
-			my_strcpy(buf, "All artifacts", sizeof(buf));
+			my_strcpy(buf, "Todos los artefactos", sizeof(buf));
 		} else {
-			my_strcpy(buf, "All objects", sizeof(buf));
+			my_strcpy(buf, "Todos los objetos", sizeof(buf));
 		}
 	} else {
 		object_base_name(buf, sizeof(buf), oid, true);
@@ -296,9 +296,9 @@ static bool wiz_create_item_action(struct menu *m, const ui_event *e, int oid)
 
 	object_base_name(buf, sizeof(buf), oid, true);
 	if (choose_artifact) {
-		strnfmt(title, sizeof(title), "Which artifact %s? ", buf);
+		strnfmt(title, sizeof(title), "¿Qué artefacto: %s? ", buf);
 	} else {
-		strnfmt(title, sizeof(title), "What kind of %s?", buf);
+		strnfmt(title, sizeof(title), "¿Qué tipo de %s?", buf);
 	}
 	menu->title = title;
 
@@ -335,7 +335,7 @@ void wiz_create_item(bool art)
 	choose_artifact = art;
 
 	menu->selections = all_letters;
-	menu->title = art ? "What kind of artifact?" : "What kind of object?";
+	menu->title = art ? "¿Qué tipo de artefacto?" : "¿Qué tipo de objeto?";
 
 	/* Make a list of all tvals for the filter */
 	for (i = 0, n = 0; i < TV_MAX; i++) {
