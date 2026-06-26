@@ -1693,7 +1693,7 @@ void textui_obj_examine(void)
 	struct object *obj;
 
 	/* Select item */
-	if (!get_item(&obj, "¿Examinar qué objeto?", "No tienes nada que examinar.",
+	if (!get_item(&obj, "¿Qué objeto examinar?", "No tienes nada que examinar.",
 			CMD_NULL, NULL, (USE_EQUIP | USE_INVEN | USE_QUIVER | USE_FLOOR | IS_HARMLESS)))
 		return;
 

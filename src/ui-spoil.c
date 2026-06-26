@@ -46,10 +46,10 @@ static void spoiler_menu_act(const char *title, int row)
 static struct menu *spoil_menu = NULL;
 static menu_action spoil_actions[] =
 {
-	{ 0, 0, "Brief Object Info (obj-desc.spo)", spoiler_menu_act },
-	{ 0, 0, "Brief Artifact Info (artifact.spo)", spoiler_menu_act },
-	{ 0, 0, "Brief Monster Info (mon-desc.spo)", spoiler_menu_act },
-	{ 0, 0, "Full Monster Info (mon-info.spo)", spoiler_menu_act },
+	{ 0, 0, "Información breve de objetos (obj-desc.spo)", spoiler_menu_act },
+	{ 0, 0, "Información breve de artefactos (artifact.spo)", spoiler_menu_act },
+	{ 0, 0, "Información breve de monstruos (mon-desc.spo)", spoiler_menu_act },
+	{ 0, 0, "Información completa de monstruos (mon-info.spo)", spoiler_menu_act },
 };
 
 
@@ -62,7 +62,7 @@ void do_cmd_spoilers(void)
 		spoil_menu = menu_new_action(spoil_actions,
 			N_ELEMENTS(spoil_actions));
 		spoil_menu->selections = all_letters_nohjkl;
-		spoil_menu->title = "Create spoilers";
+		spoil_menu->title = "Crear spoilers";
 	}
 
 	screen_save();

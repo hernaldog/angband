@@ -306,7 +306,7 @@ static void death_examine(const char *title, int row)
 	const char *q, *s;
 
 	/* Get an item */
-	q = "¿Examinar qué objeto? ";
+	q = "¿Qué objeto examinar? ";
 	s = "No tienes nada que examinar.";
 
 	while (get_item(&obj, q, s, 0, NULL, (USE_INVEN | USE_QUIVER | USE_EQUIP | IS_HARMLESS))) {

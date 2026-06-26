@@ -27,8 +27,8 @@
  */
 static void print_history_header(void)
 {
-	c_put_str(COLOUR_WHITE, "[Player history]", 0, 0);
-	c_put_str(COLOUR_L_BLUE, "      Turn   Depth  Note", 1, 0);
+	c_put_str(COLOUR_WHITE, "[Historial del jugador]", 0, 0);
+	c_put_str(COLOUR_L_BLUE, "      Turno  Profund.  Nota", 1, 0);
 }
 
 
@@ -70,13 +70,13 @@ void history_display(void)
 				history_list_local[i].event);
 
 			if (hist_has(history_list_local[i].type, HIST_ARTIFACT_LOST))
-				my_strcat(buf, " (LOST)", sizeof(buf));
+				my_strcat(buf, " (PERDIDO)", sizeof(buf));
 
 			/* Size of header = 3 lines */
 			prt(buf, row + 2, 0);
 			row++;
 		}
-		prt("[Arrow keys scroll, p/PgUp for previous page, n/PgDn for next page, ESC to exit.]", hgt - 1, 0);
+		prt("[Flechas para desplazar, p/RePág página anterior, n/AvPág página sgte., ESC para salir.]", hgt - 1, 0);
 
 		ch = inkey();
 
@@ -132,8 +132,8 @@ void dump_history(ang_file *file)
 	size_t i;
 	char buf[120];
 
-	file_putf(file, "[Player history]\n");
-	file_putf(file, "      Turn   Depth  Note\n");
+	file_putf(file, "[Historial del jugador]\n");
+	file_putf(file, "      Turno  Profund.  Nota\n");
 
 	for (i = 0; i < max_item; i++) {
 		strnfmt(buf, sizeof(buf), "%10ld%7d\'  %s",

@@ -154,9 +154,9 @@ static void display_scores_aux(const struct high_score scores[], int from,
 
 		/* Wait for response; prompt centered on 80 character line */
 		if (allow_scrolling) {
-			prt("[Pulsa ESC para salir, arriba para página anterior, otra tecla para página sgte.]", 23, 6);
+			prt("[Pulsa ESC para salir, arriba para página anterior, otra tecla para página sgte.]", 23, 2);
 		} else {
-			prt("[Pulsa ESC para salir, otra tecla para av. página hasta salir.]", 23, 9);
+			prt("[Pulsa ESC para salir, otra tecla para av. página hasta salir.]", 23, 9); //fix traduc se mueve un poco a la izquierda
 		}
 		ch = inkey();
 		prt("", 23, 0);
