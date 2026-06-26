@@ -269,12 +269,12 @@ bool confirm_debug(void)
 	}
 
 	/* Otherwise, use a generic procedure.  First, mention effects. */
-	msg("You are about to use the dangerous, unsupported, debug commands!");
-	msg("Your machine may crash, and your savefile may become corrupted!");
+	msg("¡Estás a punto de usar los comandos de depuración, peligrosos y no soportados!");
+	msg("¡Tu máquina puede colgarse, y tu partida guardada puede corromperse!");
 	event_signal(EVENT_MESSAGE_FLUSH);
 
 	/* Then verify. */
-	return get_check("Are you sure you want to use the debug commands? ");
+	return get_check("¿Seguro que quieres usar los comandos de depuración? ");
 }
 
 /**

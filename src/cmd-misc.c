@@ -128,12 +128,12 @@ void do_cmd_try_borg(void)
 	if (!(player->noscore & NOSCORE_BORG))
 	{
 		/* Mention effects */
-		msg("You are about to use the dangerous, unsupported, borg commands!");
-		msg("Your machine may crash, and your savefile may become corrupted!");
+		msg("¡Estás a punto de usar los comandos del borg, peligrosos y no soportados!");
+		msg("¡Tu máquina puede colgarse, y tu partida guardada puede corromperse!");
 		event_signal(EVENT_MESSAGE_FLUSH);
 
 		/* Verify request */
-		if (!get_check("Are you sure you want to use the borg commands? "))
+		if (!get_check("¿Seguro que quieres usar los comandos del borg? "))
 			return;
 
 		/* Mark savefile */

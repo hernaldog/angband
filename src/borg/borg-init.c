@@ -184,7 +184,7 @@ bool borg_init_txt_file(void)
             "borg_munchkin_level")
         || !streq(borg_settings[BORG_RESPAWN_RACE].setting_string,
             "borg_respawn_race")) {
-        msg("borg settings structures not correct.  aborting. ");
+        msg("las estructuras de configuración del borg no son correctas.  abortando. ");
         borg_init_failure = true;
     }
 
@@ -197,22 +197,22 @@ bool borg_init_txt_file(void)
     /* No file, use defaults*/
     if (!fp) {
         /* Complain */
-        msg("*****WARNING***** You do not have a proper BORG.TXT file!");
-        msg("writing borg.txt to the \\user\\ subdirectory with default "
-            "values");
-        msg("Which is: %s", buf);
+        msg("*****AVISO***** ¡No tienes un archivo BORG.TXT correcto!");
+        msg("escribiendo borg.txt en el subdirectorio \\user\\ con valores "
+            "predeterminados");
+        msg("Que es: %s", buf);
         event_signal(EVENT_MESSAGE_FLUSH);
 
         fp = file_open(buf, MODE_WRITE, FTYPE_TEXT);
         if (!fp) {
-            borg_warning("*****WARNING***** unable to write default BORG.TXT file!");
+            borg_warning("*****AVISO***** ¡no se pudo escribir el archivo BORG.TXT predeterminado!");
             return true;
         }
-        file_putf(fp, "# BORG.txt default settings \n");
+        file_putf(fp, "# BORG.txt configuración predeterminada \n");
         file_putf(
-            fp, "# A more descriptive version of this file is delivered. \n");
-        file_putf(fp, "# Check your original install for borg.txt and \n");
-        file_putf(fp, "# replace this one with the delivered version. \n\n");
+            fp, "# Se incluye una versión más descriptiva de este archivo. \n");
+        file_putf(fp, "# Revisa tu instalación original para encontrar borg.txt y \n");
+        file_putf(fp, "# reemplaza este por la versión incluida. \n\n");
 
         for (i = 0; i < BORG_MAX_SETTINGS; i++) {
             if (borg_settings[i].setting_type == 'b')
@@ -281,20 +281,20 @@ bool borg_init_txt_file(void)
         warning = true;
         if (old_formulas_found) {
             borg_warning(
-                "** Borg's dynamic calculations enabled but old formulas "
-                "found in borg.txt.");
-            borg_warning("** formulas disabled ** ");
+                "** Los cálculos dinámicos del Borg están activados pero se "
+                "encontraron fórmulas antiguas en borg.txt.");
+            borg_warning("** fórmulas desactivadas ** ");
             borg_cfg[BORG_USES_DYNAMIC_CALCS] = false;
         } else if (!formulas_found) {
             borg_warning(
-                "** Borg's dynamic calculations enabled but no formulas "
-                "found in borg.txt.");
-            borg_warning("** formulas disabled ** ");
+                "** Los cálculos dinámicos del Borg están activados pero no "
+                "se encontraron fórmulas en borg.txt.");
+            borg_warning("** fórmulas desactivadas ** ");
             borg_cfg[BORG_USES_DYNAMIC_CALCS] = false;
         } else {
             borg_warning(
-                "Borg's dynamic calculations enabled.  You may see some "
-                "performance loss (~20 percent).");
+                "Los cálculos dinámicos del Borg están activados.  Puedes "
+                "notar cierta pérdida de rendimiento (~20 por ciento).");
         }
 
         /* Flush it */
@@ -472,7 +472,7 @@ void borg_init(void)
     do_cmd_redraw();
 
     /* Message */
-    borg_note("Initializing the Borg... (memory)");
+    borg_note("Inicializando el Borg... (memoria)");
     borg_init_failure = false;
 
     /* Flush it */
@@ -492,13 +492,13 @@ void borg_init(void)
     /*** Initialize borg.ini options ***/
 
     /* Message */
-    borg_note("Initializing the Borg... (borg.txt)");
+    borg_note("Inicializando el Borg... (borg.txt)");
     warning_given = borg_init_txt_file();
 
     /*** Initialize game options ***/
 
     /* Message */
-    borg_note("Initializing the Borg... (options)");
+    borg_note("Inicializando el Borg... (opciones)");
 
     /* Flush it */
     Term_fresh();
@@ -552,7 +552,7 @@ void borg_init(void)
     /*** Various ***/
 
     /* Message */
-    borg_note("Initializing the Borg... (various)");
+    borg_note("Inicializando el Borg... (varios)");
 
     /* Flush it */
     Term_fresh();
@@ -603,7 +603,7 @@ void borg_init(void)
     /*** All done ***/
 
     /* Done initialization */
-    borg_note("Initializing the Borg... done.");
+    borg_note("Inicializando el Borg... hecho.");
 
     /* Reset the clock */
     borg_t = 10;
@@ -619,40 +619,40 @@ void borg_init(void)
         || !streq(player_id2class(CLASS_ROGUE)->name, "Rogue")
         || !streq(player_id2class(CLASS_RANGER)->name, "Ranger")
         || !streq(player_id2class(CLASS_BLACKGUARD)->name, "Blackguard")) {
-        borg_note("**STARTUP FAILURE** classes do not match");
+        borg_note("**FALLO DE INICIO** las clases no coinciden");
         borg_init_failure = true;
     }
 
     /* Don't allow the user to do stupid things unless they ask to */
     if (!borg_cfg[BORG_ALLOW_STRANGE_OPTS]) {
         if (OPT(player, birth_force_descend)) {
-            borg_note("**STARTUP FAILURE** must allow up stairs");
-            borg_note("** birth option failure **");
+            borg_note("**FALLO DE INICIO** debe permitir escaleras hacia arriba");
+            borg_note("** fallo de opción de nacimiento **");
             borg_init_failure = true;
         }
 
         if (!OPT(player, birth_connect_stairs)) {
-            borg_note("**STARTUP FAILURE** must connect stairs");
-            borg_note("** birth option failure **");
+            borg_note("**FALLO DE INICIO** las escaleras deben estar conectadas");
+            borg_note("** fallo de opción de nacimiento **");
             borg_init_failure = true;
         }
 
         if (OPT(player, birth_no_recall)) {
-            borg_note("**STARTUP FAILURE** must allow recall");
-            borg_note("** birth option failure **");
+            borg_note("**FALLO DE INICIO** debe permitir el recall");
+            borg_note("** fallo de opción de nacimiento **");
             borg_init_failure = true;
         }
 
         if (OPT(player, birth_percent_damage)) {
-            borg_note("**STARTUP FAILURE** strange damage calculation");
-            borg_note("** birth option failure **");
+            borg_note("**FALLO DE INICIO** cálculo de daño extraño");
+            borg_note("** fallo de opción de nacimiento **");
             borg_init_failure = true;
         }
     }
 
     /* Official message */
     if (!borg_init_failure && !warning_given)
-        borg_note("# Ready...");
+        borg_note("# Listo...");
 
     /* Now it is ready */
     borg_initialized = true;
