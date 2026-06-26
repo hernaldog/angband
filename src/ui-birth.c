@@ -103,13 +103,13 @@ bool arg_force_name;
 static enum birth_stage textui_birth_quickstart(void)
 //phantom name change changes
 {
-	const char *prompt = "['S': usar; 'N': rehacer; 'C': cambiar nombre/historia; '=': opciones nacimiento]";
+	const char *prompt = "['S': usar; 'N': rehacer; 'C': cambiar nombre/historia; '=': opciones]";
 
 	enum birth_stage next = BIRTH_QUICKSTART;
 
 	/* Prompt for it */
 	prt("¿Nuevo personaje basado en anterior?:", 0, 0);
-	prt(prompt, Term->hgt - 1, Term->wid / 2 - strlen(prompt) / 2);
+	prt(prompt, Term->hgt - 1, Term->wid / 2 - strlen(prompt) / 2 - 10); // fix traduc se mueve a la izquierda los textos en español son más largos
 
 	do {
 		/* Get a key */
