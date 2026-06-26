@@ -141,11 +141,11 @@ void lore_description(textblock *tb, const struct monster_race *race,
 
 	/* Do we know everything */
 	if (lore_is_fully_known(race))
-		textblock_append(tb, "You know everything about this monster.");
+		textblock_append(tb, "Conoces todo sobre este monstruo.");
 
 	/* Notice "Quest" monsters */
 	if (rf_has(race->flags, RF_QUESTOR))
-		textblock_append(tb, "You feel an intense desire to kill this monster...  ");
+		textblock_append(tb, "Sientes un intenso deseo de matar a este monstruo...  ");
 
 	textblock_append(tb, "\n");
 }
