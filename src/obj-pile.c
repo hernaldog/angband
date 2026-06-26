@@ -873,7 +873,7 @@ struct object *floor_object_for_use(struct player *p, struct object *obj,
 			obj->number = num;
 
 		/* Print a message */
-		msg("You see %s.", name);
+		msg("Ves %s.", name);
 	}
 
 	return usable;
@@ -1153,7 +1153,7 @@ void drop_near(struct chunk *c, struct object **dropped, int chance,
 	if (floor_carry(c, best, *dropped, &dont_ignore)) {
 		sound(MSG_DROP);
 		if (dont_ignore && (square(c, best)->mon < 0)) {
-			msg("You feel something roll beneath your feet.");
+			msg("Sientes algo rodar bajo tus pies.");
 		}
 	} else {
 		floor_carry_fail(c, *dropped, false);
@@ -1285,8 +1285,7 @@ void floor_item_charges(struct object *obj)
 	if (!object_flavor_is_aware(obj)) return;
 
 	/* Print a message */
-	msg("There %s %d charge%s remaining.", (obj->pval != 1) ? "are" : "is",
-	     obj->pval, (obj->pval != 1) ? "s" : "");
+	msg("Quedan %d carga%s.", obj->pval, (obj->pval != 1) ? "s" : "");
 }
 
 
