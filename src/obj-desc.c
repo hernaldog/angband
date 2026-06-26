@@ -223,6 +223,17 @@ static size_t obj_desc_name_prefix(char *buf, size_t max, size_t end,
 {
 	//fix traduc: para traducir al español no se usa prefijo en la palabra, se usará numero manual y palabra directa sin prefijo
 	// Ves 1 Manzana o Ves 4 Pergaminos y no "Ves una manzada" o "Ves unas manzanas"
+	if (obj->artifact || number == 0)
+		return end;
+
+	if (number == 1) {
+		/* fix traduc: las botas/sandalias se cuentan por pares */
+		if (obj->tval == TV_BOOTS)
+			strnfcat(buf, max, &end, "un par de ");
+		return end;
+	}
+
+	strnfcat(buf, max, &end, "%d ", number);
 	return end;
 }
 
