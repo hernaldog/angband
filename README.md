@@ -48,7 +48,7 @@ Algunas capturas del estado actual de la traducción:
 ![Inventario](captura31.png)
 ![Tienda](captura4.png)
 
-## Test de traducciones
+## Testing
 
 ### Modo Mago
 El juego por si solo tiene un modo símple de testear las traducciones. Puedes usar el modo mago, que no registra el puntaje.
@@ -58,6 +58,12 @@ El juego por si solo tiene un modo símple de testear las traducciones. Puedes u
   - c: selecciona el objeto que quieras que aparezca bajo tus pies, saldrá un menú
   - s: hace aparecer uno más monstruos aleatorios cercanos. Te preguntará por la cantidad.
   - n: hace aparecer un monstruo cercano. Puedes escribir el nombre del monstruo (ej: naga negro) o un número con el ID del monstruo
+  - a: curarte
+  - j: teletransportarse a un nivel
+  - w: iluminar nivel
+  - T: crear trampa, luego escribe el nombre exacto, ejemplo: trampa de gas
+  - A: subir al nivel 50 (máximo nivel del personaje respecto a la experiencia)
+- Resto de comandos están en archivo: \docs\hacking\debug.rst
   
 ### Eliminar puntajes
 Luego de cada prueba posterior a una traducción recomiendo eliminar archivo \lib\user\scores\scores.raw ya que te guarda tu historial y con el tiempo ya debes presionar decenas de veces Espacio para salir del programa.

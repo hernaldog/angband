@@ -437,9 +437,9 @@ bool square_reveal_trap(struct chunk *c, struct loc grid, bool always,
 		/* We want to talk about it */
 		if (domsg) {
 			if (found_trap == 1)
-				msg("You have found a trap.");
+				msg("Has encontrado una trampa.");
 			else
-				msg("You have found %d traps.", found_trap);
+				msg("Has encontrado %d trampas.", found_trap);
 		}
 
 		/* Memorize */
@@ -650,7 +650,7 @@ bool square_set_trap_timeout(struct chunk *c, struct loc grid, bool domsg,
 
 		/* Message if requested */
 		if (domsg) {
-			msg("You have disabled the %s.",
+			msg("Has desactivado %s.",
 				current_trap->kind->name);
 		}
 

@@ -640,21 +640,21 @@ static struct file_parser vault_parser = {
 static void run_template_parser(void) {
 	/* Initialize room info */
 	event_signal_message(EVENT_INITSTATUS, 0,
-						 "Initializing arrays... (dungeon profiles)");
+						 "Inicializando arrays... (perfiles de mazmorra)");
 	if (run_parser(&profile_parser))
-		quit("Cannot initialize dungeon profiles");
+		quit("No se pueden inicializar los perfiles de mazmorra");
 
 	/* Initialize room info */
 	event_signal_message(EVENT_INITSTATUS, 0,
-						 "Initializing arrays... (room templates)");
+						 "Inicializando arrays... (plantillas de sala)");
 	if (run_parser(&room_parser))
-		quit("Cannot initialize room templates");
+		quit("No se pueden inicializar las plantillas de sala");
 
 	/* Initialize vault info */
 	event_signal_message(EVENT_INITSTATUS, 0,
-						 "Initializing arrays... (vaults)");
+						 "Inicializando arrays... (bóvedas)");
 	if (run_parser(&vault_parser))
-		quit("Cannot initialize vaults");
+		quit("No se pueden inicializar las bóvedas");
 }
 
 
@@ -828,7 +828,7 @@ static const struct cave_profile *choose_profile(struct player *p)
 		p->noscore &= ~(NOSCORE_JUMPING);
 
 		/* Ask debug players for the profile they want */
-		if (get_string("Profile name (eg classic): ", name, sizeof(name)))
+		if (get_string("Nombre de perfil (ej. classic): ", name, sizeof(name)))
 			profile = find_cave_profile(name);
 
 		/* If no valid profile name given, fall through */
@@ -882,7 +882,7 @@ static const struct cave_profile *choose_profile(struct player *p)
 	if (profile)
 		return profile;
 	else
-		quit("Failed to find cave profile!");
+		quit("¡No se ha podido encontrar el perfil de cueva!");
 
 	return NULL;
 }
@@ -1086,7 +1086,7 @@ static void cleanup_dun_data(struct dun_data *dd)
  */
 static struct chunk *cave_generate(struct player *p, int height, int width)
 {
-	const char *error = "no generation";
+	const char *error = "sin generación";
 	int i, tries = 0;
 	struct chunk *chunk = NULL;
 
@@ -1153,10 +1153,10 @@ static struct chunk *cave_generate(struct player *p, int height, int width)
 		chunk = dun->profile->builder(p, height, width, &error);
 		if (!chunk) {
 			if (!error) {
-				error = "unspecified level builder failure";
+				error = "fallo no especificado del generador de nivel";
 			}
 			if (OPT(p, cheat_room)) {
-				msg("Generation restarted: %s.", error);
+				msg("Generación reiniciada: %s.", error);
 			}
 			cleanup_dun_data(dun);
 			event_signal_flag(EVENT_GEN_LEVEL_END, false);
@@ -1211,11 +1211,11 @@ static struct chunk *cave_generate(struct player *p, int height, int width)
 
 		/* Regenerate levels that overflow their maxima */
 		if (cave_monster_max(chunk) >= z_info->level_monster_max)
-			error = "too many monsters";
+			error = "demasiados monstruos";
 
 		if (error) {
 			if (OPT(p, cheat_room)) {
-				msg("Generation restarted: %s.", error);
+				msg("Generación reiniciada: %s.", error);
 			}
 			uncreate_artifacts(chunk);
 			cave_clear(chunk, p);

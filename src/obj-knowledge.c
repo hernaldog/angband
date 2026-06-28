@@ -64,9 +64,9 @@
 static size_t rune_max;
 static struct rune *rune_list;
 static const char *c_rune[] = {
-	"enchantment to armor",
-	"enchantment to hit",
-	"enchantment to damage"
+	"encantamiento de armadura",
+	"encantamiento de golpe",
+	"encantamiento de daño"
 };
 
 /**
@@ -323,13 +323,13 @@ const char *rune_name(size_t i)
 	struct rune *r = &rune_list[i];
 
 	if (r->variety == RUNE_VAR_BRAND)
-		return format("%s brand", r->name);
+		return format("marca de %s", r->name);
 	else if (r->variety == RUNE_VAR_SLAY)
-		return format("slay %s", r->name);
+		return format("matar %s", r->name);
 	else if (r->variety == RUNE_VAR_CURSE)
-		return format("%s curse", r->name);
+		return format("maldición de %s", r->name);
 	else if (r->variety == RUNE_VAR_RESIST)
-		return format("resist %s", r->name);
+		return format("resistir %s", r->name);
 	else
 		return format("%s", r->name);
 
@@ -347,44 +347,44 @@ const char *rune_desc(size_t i)
 		/* Combat runes */
 		case RUNE_VAR_COMBAT: {
 			if (r->index == COMBAT_RUNE_TO_A)
-				return "Object magically increases the player's armor class";
+				return "El objeto aumenta mágicamente la clase de armadura del jugador";
 			else if (r->index == COMBAT_RUNE_TO_H)
-				return "Object magically increases the player's chance to hit";
+				return "El objeto aumenta mágicamente la probabilidad de golpear del jugador";
 			else if (r->index == COMBAT_RUNE_TO_D)
-				return "Object magically increases the player's damage";
+				return "El objeto aumenta mágicamente el daño del jugador";
 			break;
 		}
 		/* Mod runes */
 		case RUNE_VAR_MOD: {
-			return format("Object gives the player a magical bonus to %s.",
+			return format("El objeto da al jugador una bonificación mágica a %s.",
 						  r->name);
 			break;
 		}
 		/* Element runes */
 		case RUNE_VAR_RESIST: {
-			return format("Object affects the player's resistance to %s.",
+			return format("El objeto afecta a la resistencia del jugador a %s.",
 						  r->name);
 			break;
 		}
 		/* Brand runes */
 		case RUNE_VAR_BRAND: {
-			return format("Object brands the player's attacks with %s.",
+			return format("El objeto marca los ataques del jugador con %s.",
 						  r->name);
 			break;
 		}
 		/* Slay runes */
 		case RUNE_VAR_SLAY: {
-			return format("Object makes the player's attacks against %s more powerful.", r->name);
+			return format("El objeto hace los ataques del jugador contra %s más poderosos.", r->name);
 			break;
 		}
 		/* Curse runes */
 		case RUNE_VAR_CURSE: {
-			return format("Object %s.", curses[r->index].desc);
+			return format("El objeto %s.", curses[r->index].desc);
 			break;
 		}
 		/* Flag runes */
 		case RUNE_VAR_FLAG: {
-			return format("Object gives the player the property of %s.",
+			return format("El objeto le da al jugador la propiedad de %s.",
 						  r->name);
 			break;
 		}
@@ -1185,11 +1185,11 @@ void player_know_object(struct player *p, struct object *obj)
 		if (object_is_carried(p, obj)) {
 			object_desc(o_name, sizeof(o_name), obj,
 				ODESC_PREFIX | ODESC_FULL, p);
-			msg("You have %s (%c).", o_name, gear_to_label(p, obj));
+			msg("Tienes %s (%c).", o_name, gear_to_label(p, obj));
 		} else if (cave && square_holds_object(cave, p->grid, obj)) {
 			object_desc(o_name, sizeof(o_name), obj,
 				ODESC_PREFIX | ODESC_FULL, p);
-			msg("On the ground: %s.", o_name);
+			msg("En el suelo: %s.", o_name);
 		}
 	}
 
@@ -1491,63 +1491,63 @@ static void mod_message(struct object *obj, int mod)
 	switch (mod) {
 		case OBJ_MOD_STR:
 			if (obj->modifiers[OBJ_MOD_STR] > 0)
-				msg("You feel stronger!");
+				msg("¡Te sientes más fuerte!");
 			else if (obj->modifiers[OBJ_MOD_STR] < 0)
-				msg("You feel weaker!");
+				msg("¡Te sientes más débil!");
 			break;
 		case OBJ_MOD_INT:
 			if (obj->modifiers[OBJ_MOD_INT] > 0)
-				msg("You feel smarter!");
+				msg("¡Te sientes más inteligente!");
 			else if (obj->modifiers[OBJ_MOD_INT] < 0)
-				msg("You feel more stupid!");
+				msg("¡Te sientes más estúpido!");
 			break;
 		case OBJ_MOD_WIS:
 			if (obj->modifiers[OBJ_MOD_WIS] > 0)
-				msg("You feel wiser!");
+				msg("¡Te sientes más sabio!");
 			else if (obj->modifiers[OBJ_MOD_WIS] < 0)
-				msg("You feel more naive!");
+				msg("¡Te sientes más ingenuo!");
 			break;
 		case OBJ_MOD_DEX:
 			if (obj->modifiers[OBJ_MOD_DEX] > 0)
-				msg("You feel more dextrous!");
+				msg("¡Te sientes más destro!");
 			else if (obj->modifiers[OBJ_MOD_DEX] < 0)
-				msg("You feel clumsier!");
+				msg("¡Te sientes más torpe!");
 			break;
 		case OBJ_MOD_CON:
 			if (obj->modifiers[OBJ_MOD_CON] > 0)
-				msg("You feel healthier!");
+				msg("¡Te sientes más sano!");
 			else if (obj->modifiers[OBJ_MOD_CON] < 0)
-				msg("You feel sicklier!");
+				msg("¡Te sientes más enfermizo!");
 			break;
 		case OBJ_MOD_STEALTH:
 			if (obj->modifiers[OBJ_MOD_STEALTH] > 0)
-				msg("You feel stealthier.");
+				msg("Te sientes más sigiloso.");
 			else if (obj->modifiers[OBJ_MOD_STEALTH] < 0)
-				msg("You feel noisier.");
+				msg("Te sientes más ruidoso.");
 			break;
 		case OBJ_MOD_SPEED:
 			if (obj->modifiers[OBJ_MOD_SPEED] > 0)
-				msg("You feel strangely quick.");
+				msg("Te sientes extrañamente rápido.");
 			else if (obj->modifiers[OBJ_MOD_SPEED] < 0)
-				msg("You feel strangely sluggish.");
+				msg("Te sientes extrañamente lento.");
 			break;
 		case OBJ_MOD_BLOWS:
 			if (obj->modifiers[OBJ_MOD_BLOWS] > 0)
-				msg("Your weapon tingles in your hands.");
+				msg("Tu arma hormiguea en tus manos.");
 			else if (obj->modifiers[OBJ_MOD_BLOWS] < 0)
-				msg("Your weapon aches in your hands.");
+				msg("Tu arma duele en tus manos.");
 			break;
 		case OBJ_MOD_SHOTS:
 			if (obj->modifiers[OBJ_MOD_SHOTS] > 0)
-				msg("Your missile weapon tingles in your hands.");
+				msg("Tu arma de proyectiles hormiguea en tus manos.");
 			else if (obj->modifiers[OBJ_MOD_SHOTS] < 0)
-				msg("Your missile weapon aches in your hands.");
+				msg("Tu arma de proyectiles duele en tus manos.");
 			break;
 		case OBJ_MOD_INFRA:
-			msg("Your eyes tingle.");
+			msg("Tus ojos hormiguean.");
 			break;
 		case OBJ_MOD_LIGHT:
-			msg("It glows!");
+			msg("¡Brilla!");
 			break;
 		default:
 			break;
@@ -1739,7 +1739,7 @@ static bool object_curses_find_element(struct player *p, struct object *obj, int
 			if (curses[i].obj->el_info[elem].res_level != 0) {
 				/* Learn the element properties if we don't know yet */
 				if (!p->obj_k->el_info[elem].res_level) {
-					msg("Your %s glows.", o_name);
+					msg("Tu %s brilla.", o_name);
 
 					player_learn_rune(p, rune_index(RUNE_VAR_RESIST, elem),
 									  true);
@@ -2143,7 +2143,7 @@ void equip_learn_element(struct player *p, int element)
 			object_desc(o_name, sizeof(o_name), obj, ODESC_BASE, p);
 
 			/* Message */
-			msg("Your %s glows.", o_name);
+			msg("Tu %s brilla.", o_name);
 
 			/* Learn the element properties */
 			player_learn_rune(p, rune_index(RUNE_VAR_RESIST, element), true);
