@@ -99,7 +99,7 @@ static bool borg_think_dungeon_lunal(void)
 
     /* No Lunal mode if starving or in town */
     if (borg.trait[BI_CDEPTH] == 0 || borg.trait[BI_ISWEAK]) {
-        borg_note("# Leaving Lunal Mode. (Town or Weak)");
+        borg_note("# Abandonando Modo Lunar. (Pueblo o Débil)");
         borg.lunal_mode = false;
         return false;
     }
@@ -155,7 +155,7 @@ static bool borg_think_dungeon_lunal(void)
 
     /* If no down stair is known, act normal */
     if (track_more.num == 0 && track_less.num == 0) {
-        borg_note("# Leaving Lunal Mode. (No Stairs seen)");
+        borg_note("# Abandonando Modo Lunar. (No se ven escaleras)");
         borg.lunal_mode = false;
         return false;
     }
@@ -169,7 +169,7 @@ static bool borg_think_dungeon_lunal(void)
             borg.lunal_mode         = false;
             borg.goal.fleeing       = false;
             borg.goal.fleeing_lunal = false;
-            borg_note("# Self Lunal mode disengaged normally.");
+            borg_note("# Modo Lunar Automático desactivado normalmente.");
             return false;
         }
     }
@@ -181,11 +181,11 @@ static bool borg_think_dungeon_lunal(void)
     if (need == BORG_MET_NEED)
         return true;
     else if (need == BORG_UNMET_NEED)
-        borg_note("# Lunal. (need fuel)");
+        borg_note("# Lunar. (necesito combustible)");
 
     /* No Light at all */
     if (borg.trait[BI_LIGHT] == 0 && borg_items[INVEN_LIGHT].tval == 0) {
-        borg_note("# No Light at all.");
+        borg_note("# Sin luz en absoluto.");
         return false;
     }
 
@@ -226,7 +226,7 @@ static bool borg_think_dungeon_lunal(void)
         return true;
 
     /*leave level right away. */
-    borg_note("# Fleeing level. Lunal Mode");
+    borg_note("# Huyendo del nivel. Modo Lunar");
     borg.goal.fleeing_lunal = true;
     borg.goal.fleeing       = true;
 
@@ -265,7 +265,7 @@ static bool borg_think_dungeon_lunal(void)
         if ((b_j < closeness && safe_place) || tmp_ag->feat == FEAT_LESS) {
 
             /* Note */
-            borg_note("# Lunal Mode.  Power Climb (needing to sell). ");
+            borg_note("# Modo Lunar.  Subida de Poder (necesito vender). ");
 
             /* Set to help borg move better */
             borg.goal.less = true;
@@ -298,7 +298,7 @@ static bool borg_think_dungeon_lunal(void)
         int y, x;
 
         if (track_more.num >= 2)
-            borg_note("# Lunal Mode: I know of a down stair.");
+            borg_note("# Modo Lunar: Conozco una escalera hacia abajo.");
 
         /* Check for an existing "down stairs" */
         for (i = 0; i < track_more.num; i++) {
@@ -320,7 +320,7 @@ static bool borg_think_dungeon_lunal(void)
         if ((b_j < 8 && safe_place) || ag->feat == FEAT_MORE
             || borg.trait[BI_CDEPTH] < 30) {
             /* Note */
-            borg_note("# Lunal Mode.  Power Diving. ");
+            borg_note("# Modo Lunar.  Buceo de Poder. ");
 
             /* Continue leaving the level */
             if (borg_flow_old(GOAL_FLEE))
@@ -367,7 +367,7 @@ static bool borg_think_dungeon_lunal(void)
         if ((b_j < 8 && safe_place) || tmp_ag->feat == FEAT_LESS) {
 
             /* Note */
-            borg_note("# Lunal Mode.  Power Climb. ");
+            borg_note("# Modo Lunar.  Subida de Poder. ");
 
             /* Set to help borg move better */
             borg.goal.less = true;
@@ -378,7 +378,7 @@ static bool borg_think_dungeon_lunal(void)
 
             /* Flow to UpStair */
             if (borg_flow_stair_less(GOAL_FLEE, false)) {
-                borg_note("# Looking for stairs. Lunal Mode.");
+                borg_note("# Buscando escaleras. Modo Lunar.");
 
                 /* Success */
                 return true;
@@ -402,7 +402,7 @@ static bool borg_think_dungeon_lunal(void)
             return true;
 
         /* Note */
-        borg_note("# Lunal Mode.  Any Stair. ");
+        borg_note("# Modo Lunar.  Cualquier Escalera. ");
 
         /* Try to find some stairs */
         if (borg_flow_stair_both(GOAL_FLEE, true))
@@ -411,16 +411,16 @@ static bool borg_think_dungeon_lunal(void)
 
     /* Lunal Mode - Reached 99 */
     if (borg.trait[BI_CDEPTH] == 99) {
-        borg_note("# Lunal Mode ended at depth.");
+        borg_note("# Modo Lunar terminado en profundidad.");
     }
 
     /* Unable to do it */
     if (borg.trait[BI_CDEPTH] > 1) {
-        borg_note("# Lunal Mode ended incorrectly.");
+        borg_note("# Modo Lunar terminado incorrectamente.");
     }
 
     /* return to normal borg_think_dungeon */
-    borg_note("Leaving Lunal Mode. (End of Lunal Mode)");
+    borg_note("Abandonando Modo Lunar. (Fin del Modo Lunar)");
     borg.lunal_mode   = false;
     borg.goal.fleeing = borg.goal.fleeing_lunal = false;
     return false;
@@ -454,7 +454,7 @@ static bool borg_think_dungeon_munchkin(void)
 
     /* Not if starving or in town */
     if (borg.trait[BI_CDEPTH] == 0 || borg.trait[BI_ISWEAK]) {
-        borg_note("# Leaving munchkin Mode. (Town or Weak)");
+        borg_note("# Abandonando Modo Munchkin. (Pueblo o Débil)");
         borg.munchkin_mode = false;
         return false;
     }
@@ -510,7 +510,7 @@ static bool borg_think_dungeon_munchkin(void)
 
     /* If no down stair is known, act normal */
     if (track_more.num == 0 && track_less.num == 0) {
-        borg_note("# Leaving Munchkin Mode. (No Stairs seen)");
+        borg_note("# Abandonando Modo Munchkin. (No se ven escaleras)");
         borg.munchkin_mode = false;
         return false;
     }
@@ -522,11 +522,11 @@ static bool borg_think_dungeon_munchkin(void)
     if (need == BORG_MET_NEED)
         return true;
     else if (need == BORG_UNMET_NEED)
-        borg_note("# Munchkin. (need fuel)");
+        borg_note("# Munchkin. (necesito combustible)");
 
     /* No Light at all */
     if (borg.trait[BI_LIGHT] == 0) {
-        borg_note("# No Light at all.");
+        borg_note("# Sin luz en absoluto.");
     }
 
     /* Define if safe_place is true or not */
@@ -579,7 +579,7 @@ static bool borg_think_dungeon_munchkin(void)
         return true;
 
     /*leave level right away. */
-    borg_note("# Fleeing level. Munchkin Mode");
+    borg_note("# Huyendo del nivel. Modo Munchkin");
     borg.goal.fleeing_munchkin = true;
     borg.goal.fleeing          = true;
 
@@ -625,7 +625,7 @@ static bool borg_think_dungeon_munchkin(void)
         if ((b_j < closeness && safe_place) || tmp_ag->feat == FEAT_LESS) {
 
             /* Note */
-            borg_note("# Munchkin Mode.  Power Climb (needing to sell). ");
+            borg_note("# Modo Munchkin.  Subida de Poder (necesito vender). ");
 
             /* Set to help borg move better */
             borg.goal.less = true;
@@ -687,7 +687,7 @@ static bool borg_think_dungeon_munchkin(void)
         if ((b_j < closeness && safe_place) || tmp_ag->feat == FEAT_LESS) {
 
             /* Note */
-            borg_note("# Munchkin Mode.  Power Climb. ");
+            borg_note("# Modo Munchkin.  Subida de Poder. ");
 
             /* Set to help borg move better */
             borg.goal.less = true;
@@ -698,7 +698,7 @@ static bool borg_think_dungeon_munchkin(void)
 
             /* Flow to UpStair */
             if (borg_flow_stair_less(GOAL_FLEE, true)) {
-                borg_note("# Looking for stairs. Munchkin Mode.");
+                borg_note("# Buscando escaleras. Modo Munchkin.");
 
                 /* Success */
                 return true;
@@ -720,7 +720,7 @@ static bool borg_think_dungeon_munchkin(void)
         b_j = -1;
 
         if (track_more.num >= 1)
-            borg_note("# Munchkin Mode: I know of a down stair.");
+            borg_note("# Modo Munchkin: Conozco una escalera hacia abajo.");
 
         /* Check for an existing "down stairs" */
         for (i = 0; i < track_more.num; i++) {
@@ -746,7 +746,7 @@ static bool borg_think_dungeon_munchkin(void)
         if ((b_j < closeness && safe_place) || ag->feat == FEAT_MORE
             || borg.trait[BI_CDEPTH] == 1) {
             /* Note */
-            borg_note("# Munchkin Mode.  Power Diving. ");
+            borg_note("# Modo Munchkin.  Buceo de Poder. ");
 
             /* Continue leaving the level */
             if (borg_flow_old(GOAL_FLEE))
@@ -795,7 +795,7 @@ static bool borg_think_dungeon_munchkin(void)
         if ((b_j < closeness && safe_place) || tmp_ag->feat == FEAT_LESS) {
 
             /* Note */
-            borg_note("# Munchkin Mode.  Power Climb. ");
+            borg_note("# Modo Munchkin.  Subida de Poder. ");
 
             /* Set to help borg move better */
             borg.goal.less = true;
@@ -806,7 +806,7 @@ static bool borg_think_dungeon_munchkin(void)
 
             /* Flow to UpStair */
             if (borg_flow_stair_less(GOAL_FLEE, true)) {
-                borg_note("# Looking for stairs. Munchkin Mode.");
+                borg_note("# Buscando escaleras. Modo Munchkin.");
 
                 /* Success */
                 return true;
@@ -830,7 +830,7 @@ static bool borg_think_dungeon_munchkin(void)
             return true;
 
         /* Note */
-        borg_note("# Munchkin Mode.  Any Stair. ");
+        borg_note("# Modo Munchkin.  Cualquier Escalera. ");
 
         /* Adjacent Monster.  Either attack it, or try to outrun it */
         for (i = 0; i < 8; i++) {
@@ -915,7 +915,7 @@ static bool borg_think_dungeon_munchkin(void)
     }
 
     /* return to normal borg_think_dungeon */
-    borg_note("Leaving Munchkin Mode. (End of Mode)");
+    borg_note("Abandonando Modo Munchkin. (Fin del Modo)");
     borg.munchkin_mode = false;
     borg.goal.fleeing = borg.goal.fleeing_munchkin = false;
     return false;
@@ -951,7 +951,7 @@ static bool borg_think_dungeon_brave(void)
     /* Usable stairs */
     if (borg_grids[borg.c.y][borg.c.x].feat == FEAT_MORE) {
         /* Take the stairs */
-        borg_note("# Fleeing via stairs.");
+        borg_note("# Huyendo por escaleras.");
         borg_keypress('>');
 
         /* Success */
@@ -971,7 +971,7 @@ static bool borg_think_dungeon_brave(void)
 
         /* Try to find some stairs up */
         if (borg_flow_stair_less(GOAL_FLEE, false)) {
-            borg_note("# Looking for stairs. Goal_less, brave.");
+            borg_note("# Buscando escaleras. Sin objetivo, valiente.");
             return true;
         }
     }
@@ -988,7 +988,7 @@ static bool borg_think_dungeon_brave(void)
             borg.stair_less = false;
 
         if (borg.stair_less == true) {
-            borg_note("# Fleeing and leaving the level. Brave Thinking.");
+            borg_note("# Huyendo y abandonando el nivel. Pensamiento valiente.");
         }
 
         /* Go down if fleeing or prepared. */
@@ -1003,7 +1003,7 @@ static bool borg_think_dungeon_brave(void)
         /* Try to find some stairs up */
         if (borg.stair_less)
             if (borg_flow_stair_less(GOAL_FLEE, false)) {
-                borg_note("# Looking for stairs. Flee, brave.");
+                borg_note("# Buscando escaleras. Huir, valiente.");
                 return true;
             }
 
@@ -1238,7 +1238,7 @@ bool borg_think_dungeon(void)
 
     /* redraw the screen if we need to */
     if (my_need_redraw) {
-        borg_note(format("#  Redrawing screen."));
+        borg_note(format("#  Redibujando pantalla."));
         do_cmd_redraw();
         my_need_redraw = false;
     }
@@ -1248,7 +1248,7 @@ bool borg_think_dungeon(void)
         /* Start leaving */
         if (!borg.goal.leaving) {
             /* Note */
-            borg_note("# Leaving (boredom)");
+            borg_note("# Abandonando (aburrimiento)");
 
             /* Start leaving */
             borg.goal.leaving = true;
@@ -1257,7 +1257,7 @@ bool borg_think_dungeon(void)
         /* Start fleeing */
         if (!borg.goal.fleeing) {
             /* Note */
-            borg_note("# Fleeing (boredom)");
+            borg_note("# Huyendo (aburrimiento)");
 
             /* Start fleeing */
             borg.goal.fleeing = true;
@@ -1282,7 +1282,7 @@ bool borg_think_dungeon(void)
         /* Start leaving */
         if (!borg.goal.leaving) {
             /* Note */
-            borg_note("# Leaving (finish shopping)");
+            borg_note("# Abandonando (terminar de comprar)");
 
             /* Start leaving */
             borg.goal.leaving = true;
@@ -1291,7 +1291,7 @@ bool borg_think_dungeon(void)
         /* Start fleeing */
         if (!borg.goal.fleeing) {
             /* Note */
-            borg_note("# Fleeing (finish shopping)");
+            borg_note("# Huyendo (terminar de comprar)");
 
             /* Start fleeing */
             borg.goal.fleeing = true;
@@ -1333,7 +1333,7 @@ bool borg_think_dungeon(void)
         /* Start leaving */
         if (!borg.goal.leaving) {
             /* Note */
-            borg_note("# Leaving (bouncing-borg)");
+            borg_note("# Abandonando (borg rebotando)");
 
             /* Start leaving */
             borg.goal.leaving = true;
@@ -1342,7 +1342,7 @@ bool borg_think_dungeon(void)
         /* Start fleeing */
         if (!borg.goal.fleeing) {
             /* Note */
-            borg_note("# Fleeing (bouncing-borg)");
+            borg_note("# Huyendo (borg rebotando)");
 
             /* Start fleeing */
             borg.goal.fleeing = true;
@@ -1378,7 +1378,7 @@ bool borg_think_dungeon(void)
         /* Ignore monsters from caution */
         if (!borg.goal.ignoring && borg_t >= 2500) {
             /* Flee */
-            borg_note("# Ignoring breeders (no recall)");
+            borg_note("# Ignorando criadores (sin retorno)");
 
             /* Ignore multipliers */
             borg.goal.ignoring = true;
@@ -1387,7 +1387,7 @@ bool borg_think_dungeon(void)
         /* Start leaving */
         if (!borg.goal.leaving) {
             /* Note */
-            borg_note("# Leaving (no recall)");
+            borg_note("# Abandonando (sin retorno)");
 
             /* Start leaving */
             borg.goal.leaving = true;
@@ -1396,7 +1396,7 @@ bool borg_think_dungeon(void)
         /* Start fleeing */
         if (!borg.goal.fleeing) {
             /* Note */
-            borg_note("# Fleeing (no recall)");
+            borg_note("# Huyendo (sin retorno)");
 
             /* Start fleeing */
             borg.goal.fleeing = true;
@@ -1454,7 +1454,7 @@ bool borg_think_dungeon(void)
         /* Clear the flag to Return to the upstair-- we are close enough now */
         else if (borg.goal.less && b_j < 3) {
             /* Note */
-            borg_note("# Close enough to Stair.");
+            borg_note("# Suficientemente cerca de la Escalera.");
 
             /* Clear the flag */
             borg.goal.less = false;
@@ -1500,7 +1500,7 @@ bool borg_think_dungeon(void)
     if (track_less.num && borg.trait[BI_CLEVEL] < 10 && !borg.goal.less
         && (char *)NULL != borg_prepared(borg.trait[BI_CDEPTH])) {
         /* Note */
-        borg_note("# Needing to get back on correct depth");
+        borg_note("# Necesito volver a la profundidad correcta");
 
         /* Start returning */
         borg.goal.less = true;
@@ -1673,7 +1673,7 @@ bool borg_think_dungeon(void)
                 /* if not dangerous, wait here */
                 if (borg_danger(borg.c.y, borg.c.x, 1, true, false) == 0) {
                     /* rest here a moment */
-                    borg_note("# Resting on stair to gain Mana.");
+                    borg_note("# Descansando en escalera para recuperar Maná.");
                     borg_keypress(',');
                     return true;
                 }
@@ -1696,7 +1696,7 @@ bool borg_think_dungeon(void)
                 /* if not dangerous, wait here */
                 if (borg_danger(borg.c.y, borg.c.x, 1, true, false) == 0) {
                     /* rest here a moment */
-                    borg_note("# Resting on town stair to gain Mana.");
+                    borg_note("# Descansando en escalera del pueblo para recuperar Maná.");
                     borg_keypress(',');
                     return true;
                 }
@@ -1709,7 +1709,7 @@ bool borg_think_dungeon(void)
 
         /* Try to find some stairs up */
         if (borg_flow_stair_less(GOAL_FLEE, true)) {
-            borg_note("# Looking for stairs. Stair hugging.");
+            borg_note("# Buscando escaleras. Aferrado a la escalera.");
             return true;
         }
     }
@@ -1719,7 +1719,7 @@ bool borg_think_dungeon(void)
      */
     if (borg.trait[BI_CDEPTH] == 0 && borg.trait[BI_CLEVEL] < 6
         && borg.trait[BI_GOLD] < 10 && borg_count_sell() < 5) {
-        borg_note("# Nothing to sell in town (leaving).");
+        borg_note("# Nada que vender en el pueblo (abandonando).");
         borg.goal.leaving = true;
 
         /* Continue fleeing the level */
@@ -1745,7 +1745,7 @@ bool borg_think_dungeon(void)
 
         /* Try to find some stairs up */
         if (borg_flow_stair_less(GOAL_FLEE, false)) {
-            borg_note("# Looking for stairs. Goal_less, Fleeing.");
+            borg_note("# Buscando escaleras. Sin objetivo, Huyendo.");
             return true;
         }
     }
@@ -1757,7 +1757,7 @@ bool borg_think_dungeon(void)
         if (OPT(player, birth_force_descend))
             borg.stair_less = false;
 
-        borg_note("# Fleeing and leaving the level. (Looking for any stair)");
+        borg_note("# Huyendo y abandonando el nivel. (Buscando cualquier escalera)");
 
         /* Continue fleeing the level */
         if (borg_flow_old(GOAL_FLEE))
@@ -1769,7 +1769,7 @@ bool borg_think_dungeon(void)
 
         /* Try to find some stairs up */
         if (borg_flow_stair_less(GOAL_FLEE, false)) {
-            borg_note("# Looking for stairs. Fleeing.");
+            borg_note("# Buscando escaleras. Huyendo.");
             return true;
         }
 
@@ -1886,7 +1886,7 @@ bool borg_think_dungeon(void)
             && borg.trait[BI_GOLD] < 25000 && borg_count_sell() >= 13)) {
         if (borg.ready_morgoth == 0 && !OPT(player, birth_force_descend)) {
             borg_note(
-                "# Fleeing and leaving the level (Looking for Up Stair).");
+                "# Huyendo y abandonando el nivel (Buscando escalera hacia arriba).");
             borg.stair_less = true;
         }
 
@@ -1901,7 +1901,7 @@ bool borg_think_dungeon(void)
         /* Try to find some stairs up */
         if (borg.stair_less) {
             if (borg_flow_stair_less(GOAL_FLEE, false)) {
-                borg_note("# Looking for stairs. Goal_Leaving.");
+                borg_note("# Buscando escaleras. Objetivo: Abandonar.");
 
                 return true;
             }
@@ -1942,7 +1942,7 @@ bool borg_think_dungeon(void)
         /* Attempt to use those stairs */
         if (borg.stair_more && borg_flow_stair_more(GOAL_BORE, true, false)) {
             /* Leave a note */
-            borg_note("# Powerdiving.");
+            borg_note("# Buceo de poder.");
             return true;
         }
     }
@@ -2090,7 +2090,7 @@ bool borg_think_dungeon(void)
     if (borg.goal.recalling
         && (borg_danger(borg.c.y, borg.c.x, 1, true, false) <= 0)) {
         /* Take note */
-        borg_note("# Waiting for Recall...");
+        borg_note("# Esperando el Retorno...");
 
         /* Rest until done */
         borg_keypress('R');
@@ -2120,7 +2120,7 @@ bool borg_think_dungeon(void)
         bool done = false;
 
         /* Note */
-        borg_note(format("# Boosting bravery (1) from %d to %d!", avoidance,
+        borg_note(format("# Aumentando valentía (1) de %d a %d!", avoidance,
             borg.trait[BI_CURHP] * 2));
 
         /* Ignore some danger */
@@ -2152,7 +2152,7 @@ bool borg_think_dungeon(void)
 
     /* Phase to get out of being twitchy up to 3 times per level. */
     if (borg.times_twitch < 3) {
-        borg_note("# Considering Phase (twitchy)");
+        borg_note("# Considerando Puerta de Fase (nervioso)");
 
         /* Phase */
         if (borg_allow_teleport()
@@ -2174,7 +2174,7 @@ bool borg_think_dungeon(void)
         bool done = false;
 
         /* Note */
-        borg_note(format("# Boosting bravery (2) from %d to %d!", avoidance,
+        borg_note(format("# Aumentando valentía (2) de %d a %d!", avoidance,
             borg.trait[BI_MAXHP] * 4));
 
         /* Ignore some danger */
@@ -2284,7 +2284,7 @@ bool borg_think_dungeon(void)
                 || borg_read_scroll(sv_scroll_teleport_level)
                 || borg_activate_item(act_tele_level))) {
             /* Success */
-            borg_note("# Teleport (twitchy)");
+            borg_note("# Teletransporte (nervioso)");
             return true;
         }
     }
@@ -2294,7 +2294,7 @@ bool borg_think_dungeon(void)
         if (borg_recall()) {
 
             /* Note */
-            borg_note("# Recalling (twitchy)");
+            borg_note("# Activando Retorno (nervioso)");
 
             /* Success */
             return true;

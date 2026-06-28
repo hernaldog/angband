@@ -69,7 +69,7 @@ void borg_oops(const char *what)
     borg_active = false;
 
     /* Give a warning */
-    borg_note(format("# Aborting (%s).", what));
+    borg_note(format("# Abortando (%s).", what));
 
     /* Forget borg keys */
     borg_flush();
@@ -179,7 +179,7 @@ bool borg_think(void)
     /* save now */
     if (borg_save && borg_save_game()) {
         /* Log */
-        borg_note("# Auto Save!");
+        borg_note("# ¡Guardado automático!");
 
         borg_save = false;
 

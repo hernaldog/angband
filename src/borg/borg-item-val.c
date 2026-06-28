@@ -265,15 +265,15 @@ void borg_init_item_val(void)
     sv_food_ration     = borg_lookup_sval_fail(tval, "Ración de Comida");
     sv_food_slime_mold = borg_lookup_sval_fail(tval, "Moho Baboso");
     sv_food_draught    = borg_lookup_sval_fail(tval, "Trago de los Ents");
-    sv_food_pint       = borg_lookup_sval_fail(tval, "Pinta de Vino Fino");
+    sv_food_pint       = borg_lookup_sval_fail(tval, "Sorbo de Vino Fino");
     sv_food_sip        = borg_lookup_sval_fail(tval, "Sorbo de Miruvor");
     sv_food_waybread   = borg_lookup_sval_fail(tval, "Trozo de Pan Élfico");
     sv_food_honey_cake = borg_lookup_sval_fail(tval, "Pastel de Miel");
     sv_food_slice      = borg_lookup_sval_fail(tval, "Trozo de Carne");
-    sv_food_handful    = borg_lookup_sval_fail(tval, "Puñado de Frutas Secas");
+    sv_food_handful    = borg_lookup_sval_fail(tval, "Puñado de Fruta Seca");
 
     tval               = tval_find_idx("mushroom");
-    sv_mush_second_sight  = borg_lookup_sval_fail(tval, "Segunda Visión");
+    sv_mush_second_sight  = borg_lookup_sval_fail(tval, "Segunda Vista");
     sv_mush_fast_recovery = borg_lookup_sval_fail(tval, "Recuperación Rápida");
     sv_mush_restoring     = borg_lookup_sval_fail(tval, "Vigor");
     sv_mush_mana          = borg_lookup_sval_fail(tval, "Mente Clara");
@@ -282,9 +282,9 @@ void borg_init_item_val(void)
     sv_mush_stoneskin     = borg_lookup_sval_fail(tval, "Piel de Piedra");
     kv_mush_stoneskin     = borg_lookup_kind(tval, sv_mush_stoneskin);
     sv_mush_debility      = borg_lookup_sval_fail(tval, "Debilidad");
-    sv_mush_sprinting     = borg_lookup_sval_fail(tval, "Espínt");
+    sv_mush_sprinting     = borg_lookup_sval_fail(tval, "Velocidad");
     sv_mush_cure_mind     = borg_lookup_sval_fail(tval, "Mente Clara");
-    sv_mush_purging       = borg_lookup_sval_fail(tval, "Purgación");
+    sv_mush_purging       = borg_lookup_sval_fail(tval, "Purga");
 
     tval                  = tval_find_idx("light");
     sv_light_lantern      = borg_lookup_sval_fail(tval, "Linterna");
@@ -296,14 +296,14 @@ void borg_init_item_val(void)
 
     tval                  = tval_find_idx("potion");
     sv_potion_cure_critical
-        = borg_lookup_sval_fail(tval, "Cura Heridas Críticas");
-    sv_potion_cure_serious = borg_lookup_sval_fail(tval, "Cura Heridas Graves");
-    sv_potion_cure_light   = borg_lookup_sval_fail(tval, "Cura Heridas Leves");
-    sv_potion_healing      = borg_lookup_sval_fail(tval, "Curación");
+        = borg_lookup_sval_fail(tval, "Curar Heridas Críticas");
+    sv_potion_cure_serious = borg_lookup_sval_fail(tval, "Curar Heridas Graves");
+    sv_potion_cure_light   = borg_lookup_sval_fail(tval, "Curar Heridas Leves");
+    sv_potion_healing      = borg_lookup_sval_fail(tval, "Sanación");
     kv_potion_healing      = borg_lookup_kind(tval, sv_potion_healing);
-    sv_potion_star_healing = borg_lookup_sval_fail(tval, "*Curación*");
+    sv_potion_star_healing = borg_lookup_sval_fail(tval, "*Sanación*");
     sv_potion_life         = borg_lookup_sval_fail(tval, "Vida");
-    sv_potion_restore_mana = borg_lookup_sval_fail(tval, "Restaurar Maná");
+    sv_potion_restore_mana = borg_lookup_sval_fail(tval, "Restaurar Mana");
     kv_potion_restore_mana = borg_lookup_kind(tval, sv_potion_restore_mana);
     sv_potion_cure_poison  = borg_lookup_sval_fail(tval, "Neutralizar Veneno");
     sv_potion_resist_heat  = borg_lookup_sval_fail(tval, "Resistir Calor");
@@ -315,7 +315,7 @@ void borg_init_item_val(void)
     sv_potion_inc_dex      = borg_lookup_sval_fail(tval, "Destreza");
     sv_potion_inc_con      = borg_lookup_sval_fail(tval, "Constitución");
     sv_potion_inc_all      = borg_lookup_sval_fail(tval, "Aumento");
-    sv_potion_inc_str2     = borg_lookup_sval_fail(tval, "Fortaleza");
+    sv_potion_inc_str2     = borg_lookup_sval_fail(tval, "Fuerza Física");
     sv_potion_inc_int2     = borg_lookup_sval_fail(tval, "intelecto");
     sv_potion_inc_wis2     = borg_lookup_sval_fail(tval, "Contemplación");
     sv_potion_inc_dex2     = borg_lookup_sval_fail(tval, "Agilidad");
@@ -329,23 +329,23 @@ void borg_init_item_val(void)
     sv_potion_blindness    = borg_lookup_sval_fail(tval, "Ceguera");
     sv_potion_confusion    = borg_lookup_sval_fail(tval, "Confusión");
     sv_potion_heroism      = borg_lookup_sval_fail(tval, "Heroísmo");
-    sv_potion_boldness     = borg_lookup_sval_fail(tval, "Osadía");
+    sv_potion_boldness     = borg_lookup_sval_fail(tval, "Audacia");
     sv_potion_detect_invis = borg_lookup_sval_fail(tval, "Visión Verdadera");
     sv_potion_enlightenment  = borg_lookup_sval_fail(tval, "Iluminación");
     sv_potion_slime_mold     = borg_lookup_sval_fail(tval, "Jugo de Moho Baboso");
-    sv_potion_infravision    = borg_lookup_sval_fail(tval, "Infravición");
+    sv_potion_infravision    = borg_lookup_sval_fail(tval, "Infravisión");
     sv_potion_inc_exp        = borg_lookup_sval_fail(tval, "Experiencia");
 
     tval                     = tval_find_idx("scroll");
-    sv_scroll_identify       = borg_lookup_sval_fail(tval, "Runa de Identificar");
+    sv_scroll_identify       = borg_lookup_sval_fail(tval, "Identificar Runa");
     sv_scroll_phase_door     = borg_lookup_sval_fail(tval, "Puerta de Fase");
-    sv_scroll_teleport       = borg_lookup_sval_fail(tval, "Teletransporte");
+    sv_scroll_teleport       = borg_lookup_sval_fail(tval, "Teletransportación");
     sv_scroll_word_of_recall = borg_lookup_sval_fail(tval, "Palabra de Retorno");
     sv_scroll_enchant_armor  = borg_lookup_sval_fail(tval, "Encantar Armadura");
     sv_scroll_enchant_weapon_to_hit
         = borg_lookup_sval_fail(tval, "Encantamiento de golpe certero");
     sv_scroll_enchant_weapon_to_dam
-        = borg_lookup_sval_fail(tval, "Encantamiento de Daño");
+        = borg_lookup_sval_fail(tval, "Encantar Arma para Daño");
     sv_scroll_star_enchant_armor
         = borg_lookup_sval_fail(tval, "*Encantar Armadura*");
     sv_scroll_star_enchant_weapon
@@ -364,10 +364,10 @@ void borg_init_item_val(void)
     sv_scroll_blessing       = borg_lookup_sval_fail(tval, "Bendición");
     sv_scroll_holy_chant     = borg_lookup_sval_fail(tval, "Canto Sagrado");
     sv_scroll_holy_prayer    = borg_lookup_sval_fail(tval, "Oración Sagrada");
-    sv_scroll_detect_invis   = borg_lookup_sval_fail(tval, "Detectar Invisibles");
-    sv_scroll_satisfy_hunger = borg_lookup_sval_fail(tval, "Quitar Hambre");
+    sv_scroll_detect_invis   = borg_lookup_sval_fail(tval, "Detección de lo Invisible");
+    sv_scroll_satisfy_hunger = borg_lookup_sval_fail(tval, "Saciar Hambre");
     sv_scroll_light          = borg_lookup_sval_fail(tval, "Luz");
-    sv_scroll_mapping        = borg_lookup_sval_fail(tval, "Mapa Mágico");
+    sv_scroll_mapping        = borg_lookup_sval_fail(tval, "Mapeo Mágico");
     sv_scroll_acquirement    = borg_lookup_sval_fail(tval, "Adquisición");
     sv_scroll_star_acquirement = borg_lookup_sval_fail(tval, "*Adquisición*");
     sv_scroll_remove_curse     = borg_lookup_sval_fail(tval, "Eliminar Maldición");
@@ -379,20 +379,20 @@ void borg_init_item_val(void)
         = borg_lookup_sval_fail(tval, "Confundir Monstruo");
     sv_scroll_trap_door_destruction
         = borg_lookup_sval_fail(tval, "Destrucción de Puertas");
-    sv_scroll_dispel_undead = borg_lookup_sval_fail(tval, "Disipar No-muertos");
+    sv_scroll_dispel_undead = borg_lookup_sval_fail(tval, "Dispersar No Muerto");
 
     tval                    = tval_find_idx("ring");
     sv_ring_flames          = borg_lookup_sval_fail(tval, "Llamas");
     sv_ring_ice             = borg_lookup_sval_fail(tval, "Hielo");
     sv_ring_acid            = borg_lookup_sval_fail(tval, "Ácido");
-    sv_ring_lightning       = borg_lookup_sval_fail(tval, "Relámpagos");
+    sv_ring_lightning       = borg_lookup_sval_fail(tval, "Relámpago");
     sv_ring_digging         = borg_lookup_sval_fail(tval, "Excavación");
     sv_ring_speed           = borg_lookup_sval_fail(tval, "Velocidad");
     sv_ring_damage          = borg_lookup_sval_fail(tval, "Daño");
-    sv_ring_dog             = borg_lookup_sval_fail(tval, "del Perro");
+    sv_ring_dog             = borg_lookup_sval_fail(tval, "el Perro");
 
     tval                    = tval_find_idx("amulet");
-    sv_amulet_teleportation = borg_lookup_sval_fail(tval, "Teletransporte");
+    sv_amulet_teleportation = borg_lookup_sval_fail(tval, "Teletransportación");
 
     tval                    = tval_find_idx("rod");
     sv_rod_recall           = borg_lookup_sval_fail(tval, "Retorno");
@@ -400,42 +400,42 @@ void borg_init_item_val(void)
     sv_rod_detection        = borg_lookup_sval_fail(tval, "Detección");
     sv_rod_illumination     = borg_lookup_sval_fail(tval, "Iluminación");
     sv_rod_speed            = borg_lookup_sval_fail(tval, "Velocidad");
-    sv_rod_mapping          = borg_lookup_sval_fail(tval, "Mapa Mágico");
+    sv_rod_mapping          = borg_lookup_sval_fail(tval, "Mapeo Mágico");
     sv_rod_healing          = borg_lookup_sval_fail(tval, "Curación");
     kv_rod_healing          = borg_lookup_kind(tval, sv_rod_healing);
     sv_rod_light            = borg_lookup_sval_fail(tval, "Luz");
-    sv_rod_fire_bolt        = borg_lookup_sval_fail(tval, "Proyectil de Fuego");
-    sv_rod_elec_bolt        = borg_lookup_sval_fail(tval, "Proyectil de Relámpago");
-    sv_rod_cold_bolt        = borg_lookup_sval_fail(tval, "Proyectil de Escarcha");
-    sv_rod_acid_bolt        = borg_lookup_sval_fail(tval, "Proyectil de Ácido");
+    sv_rod_fire_bolt        = borg_lookup_sval_fail(tval, "Rayos de Fuego");
+    sv_rod_elec_bolt        = borg_lookup_sval_fail(tval, "Rayos de Relámpago");
+    sv_rod_cold_bolt        = borg_lookup_sval_fail(tval, "Rayos de Escarcha");
+    sv_rod_acid_bolt        = borg_lookup_sval_fail(tval, "Rayos de Ácido");
     sv_rod_drain_life       = borg_lookup_sval_fail(tval, "Drenar Vida");
-    sv_rod_fire_ball        = borg_lookup_sval_fail(tval, "Bola de Fuego");
-    sv_rod_elec_ball        = borg_lookup_sval_fail(tval, "Bola de Relámpagos");
-    sv_rod_cold_ball        = borg_lookup_sval_fail(tval, "Bola de Frío");
-    sv_rod_acid_ball        = borg_lookup_sval_fail(tval, "Bola de Ácido");
+    sv_rod_fire_ball        = borg_lookup_sval_fail(tval, "Bolas de Fuego");
+    sv_rod_elec_ball        = borg_lookup_sval_fail(tval, "Bolas Relámpago");
+    sv_rod_cold_ball        = borg_lookup_sval_fail(tval, "Bolas de Frío");
+    sv_rod_acid_ball        = borg_lookup_sval_fail(tval, "Bolas de Ácido");
     sv_rod_teleport_other   = borg_lookup_sval_fail(tval, "Teletransportar Otro");
     sv_rod_slow_monster     = borg_lookup_sval_fail(tval, "Ralentizar Monstruo");
-    sv_rod_sleep_monster    = borg_lookup_sval_fail(tval, "Paralizar Monstruo");
+    sv_rod_sleep_monster    = borg_lookup_sval_fail(tval, "Retener Monstruo");
     sv_rod_curing           = borg_lookup_sval_fail(tval, "Curación");
 
     tval                    = tval_find_idx("staff");
-    sv_staff_teleportation  = borg_lookup_sval_fail(tval, "Teletransporte");
+    sv_staff_teleportation  = borg_lookup_sval_fail(tval, "Teletransportación");
     sv_staff_destruction    = borg_lookup_sval_fail(tval, "*Destrucción*");
     sv_staff_speed          = borg_lookup_sval_fail(tval, "Velocidad");
     sv_staff_healing        = borg_lookup_sval_fail(tval, "Curación");
-    sv_staff_the_magi       = borg_lookup_sval_fail(tval, "del Mago");
+    sv_staff_the_magi       = borg_lookup_sval_fail(tval, "el Mago");
     sv_staff_power          = borg_lookup_sval_fail(tval, "Poder");
     sv_staff_holiness       = borg_lookup_sval_fail(tval, "Santidad");
     kv_staff_holiness       = borg_lookup_kind(tval, sv_staff_holiness);
     sv_staff_curing         = borg_lookup_sval_fail(tval, "Curación");
     sv_staff_sleep_monsters = borg_lookup_sval_fail(tval, "Dormir Monstruos");
-    sv_staff_slow_monsters  = borg_lookup_sval_fail(tval, "Ralentizar Monstruos");
-    sv_staff_detect_invis   = borg_lookup_sval_fail(tval, "Detectar Invisibles");
-    sv_staff_detect_evil    = borg_lookup_sval_fail(tval, "Detectar Mal");
-    sv_staff_dispel_evil    = borg_lookup_sval_fail(tval, "Disipar Mal");
-    sv_staff_banishment     = borg_lookup_sval_fail(tval, "Exilio");
+    sv_staff_slow_monsters  = borg_lookup_sval_fail(tval, "Ralentizar Monstruo");
+    sv_staff_detect_invis   = borg_lookup_sval_fail(tval, "Detección de lo Invisible");
+    sv_staff_detect_evil    = borg_lookup_sval_fail(tval, "Detección del Mal");
+    sv_staff_dispel_evil    = borg_lookup_sval_fail(tval, "Dispersar Mal");
+    sv_staff_banishment     = borg_lookup_sval_fail(tval, "Destierro");
     sv_staff_light          = borg_lookup_sval_fail(tval, "Luz");
-    sv_staff_mapping        = borg_lookup_sval_fail(tval, "Mapa");
+    sv_staff_mapping        = borg_lookup_sval_fail(tval, "Mapeo");
     sv_staff_remove_curse   = borg_lookup_sval_fail(tval, "Eliminar Maldición");
 
     tval                    = tval_find_idx("wand");
@@ -449,18 +449,18 @@ void borg_init_item_val(void)
     kv_wand_annihilation    = borg_lookup_kind(tval, sv_wand_annihilation);
     sv_wand_stone_to_mud    = borg_lookup_sval_fail(tval, "Piedra a Lodo");
     sv_wand_wonder          = borg_lookup_sval_fail(tval, "Maravilla");
-    sv_wand_hold_monster    = borg_lookup_sval_fail(tval, "Paralizar Monstruo");
+    sv_wand_hold_monster    = borg_lookup_sval_fail(tval, "Retener Monstruo");
     sv_wand_slow_monster    = borg_lookup_sval_fail(tval, "Ralentizar Monstruo");
     sv_wand_fear_monster    = borg_lookup_sval_fail(tval, "Asustar Monstruo");
     sv_wand_confuse_monster = borg_lookup_sval_fail(tval, "Confundir Monstruo");
-    sv_wand_fire_bolt       = borg_lookup_sval_fail(tval, "Proyectil de Fuego");
-    sv_wand_cold_bolt       = borg_lookup_sval_fail(tval, "Proyectil de Escarcha");
-    sv_wand_acid_bolt       = borg_lookup_sval_fail(tval, "Proyectil de Ácido");
-    sv_wand_elec_bolt       = borg_lookup_sval_fail(tval, "Proyectil de Relámpago");
-    sv_wand_fire_ball       = borg_lookup_sval_fail(tval, "Bola de Fuego");
-    sv_wand_cold_ball       = borg_lookup_sval_fail(tval, "Bola de Frío");
-    sv_wand_acid_ball       = borg_lookup_sval_fail(tval, "Bola de Ácido");
-    sv_wand_elec_ball       = borg_lookup_sval_fail(tval, "Bola de Relámpagos");
+    sv_wand_fire_bolt       = borg_lookup_sval_fail(tval, "Rayos de Fuego");
+    sv_wand_cold_bolt       = borg_lookup_sval_fail(tval, "Rayos de Escarcha");
+    sv_wand_acid_bolt       = borg_lookup_sval_fail(tval, "Rayos de Ácido");
+    sv_wand_elec_bolt       = borg_lookup_sval_fail(tval, "Rayos de Relámpago");
+    sv_wand_fire_ball       = borg_lookup_sval_fail(tval, "Bolas de Fuego");
+    sv_wand_cold_ball       = borg_lookup_sval_fail(tval, "Bolas de Frío");
+    sv_wand_acid_ball       = borg_lookup_sval_fail(tval, "Bolas de Ácido");
+    sv_wand_elec_ball       = borg_lookup_sval_fail(tval, "Bolas Relámpago");
     sv_wand_dragon_cold     = borg_lookup_sval_fail(tval, "Escarcha de Dragón");
     sv_wand_dragon_fire     = borg_lookup_sval_fail(tval, "Llama de Dragón");
     sv_wand_drain_life      = borg_lookup_sval_fail(tval, "Drenar Vida");
@@ -485,7 +485,7 @@ void borg_init_item_val(void)
 
     tval                    = tval_find_idx("gloves");
     sv_set_of_leather_gloves
-        = borg_lookup_sval_fail(tval, "Par de Guantes de Cuero");
+        = borg_lookup_sval_fail(tval, "Guantes de Cuero");
 
     tval            = tval_find_idx("cloak");
     sv_cloak        = borg_lookup_sval_fail(tval, "Capa");

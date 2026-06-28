@@ -331,7 +331,7 @@ bool borg_flow_recover(int dist)
     borg_flow_spread(dist, false, true, false, -1, false);
 
     /* Attempt to Commit the flow */
-    if (!borg_flow_commit("Recover Grid", GOAL_RECOVER))
+    if (!borg_flow_commit("Casilla de Recuperación", GOAL_RECOVER))
         return false;
 
     /* Take one step */
@@ -442,7 +442,7 @@ bool borg_flow_vein(bool viewable, int nearness)
     borg_flow_spread(nearness, true, !viewable, false, -1, false);
 
     /* Attempt to Commit the flow */
-    if (!borg_flow_commit("vein", GOAL_TAKE))
+    if (!borg_flow_commit("veta", GOAL_TAKE))
         return false;
 
     /* Take one step */
@@ -526,7 +526,7 @@ bool borg_flow_spastic(bool bored)
         ag        = &borg_grids[borg.c.y][borg.c.x];
 
         /* Take note */
-        borg_note(format("# Spastic Searching at (%d,%d)...value:%d", borg.c.x,
+        borg_note(format("# Búsqueda errática en (%d,%d)...valor:%d", borg.c.x,
             borg.c.y, ag->xtra));
 
         /* Count searching */
@@ -752,7 +752,7 @@ bool borg_flow_spastic(bool bored)
     borg_flow_spread(250, true, false, false, -1, false);
 
     /* Attempt to Commit the flow */
-    if (!borg_flow_commit("spastic", GOAL_XTRA))
+    if (!borg_flow_commit("errático", GOAL_XTRA))
         return false;
 
     /* Take one step */
@@ -787,7 +787,7 @@ bool borg_flow_shop_entry(int i)
     /* Re-enter a shop if needed */
     if ((x == borg.c.x) && (y == borg.c.y)) {
         /* Note */
-        borg_note("# Re-entering a shop");
+        borg_note("# Volviendo a entrar en una tienda");
 
         /* Enter the store */
         borg_keypress('5');
@@ -861,7 +861,7 @@ bool borg_flow_light(int why)
     borg_flow_spread(250, true, false, false, -1, false);
 
     /* Attempt to Commit the flow */
-    if (!borg_flow_commit("a lighted area", why))
+    if (!borg_flow_commit("un área iluminada", why))
         return false;
 
     /* Take one step */
@@ -957,7 +957,7 @@ bool borg_flow_vault(int nearness)
     borg_flow_spread(250, true, false, false, -1, false);
 
     /* Attempt to Commit the flow */
-    if (!borg_flow_commit("vault excavation", GOAL_VAULT))
+    if (!borg_flow_commit("excavación de bóveda", GOAL_VAULT))
         return false;
 
     /* Take one step */
@@ -980,7 +980,7 @@ bool borg_twitchy(void)
     struct loc l;
 
     /* This is a bad thing */
-    borg_note("# Twitchy!");
+    borg_note("# ¡Nervioso!");
 
     /* try to phase out of it */
     if (borg_allow_teleport()) {

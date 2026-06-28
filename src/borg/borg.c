@@ -250,7 +250,7 @@ static struct keypress internal_borg_inkey(int flush_first)
     /* Deactivate */
     if (!borg_active) {
         /* Message */
-        borg_note("# Removing keypress hook");
+        borg_note("# Quitando gancho de pulsaciones de tecla");
 
         /* Remove hook */
         inkey_hack = NULL;
@@ -282,7 +282,7 @@ static struct keypress internal_borg_inkey(int flush_first)
         /* Only flush if needed */
         if (borg_inkey(false) != 0) {
             /* Message */
-            borg_note("# Flushing keypress buffer");
+            borg_note("# Vaciando el búfer de pulsaciones de tecla");
 
             /* Flush keys */
             borg_flush();
@@ -307,7 +307,7 @@ static struct keypress internal_borg_inkey(int flush_first)
 #if 0
     /* just used for debugging.  Not so useful in general */
     if (borg_cfg[BORG_VERBOSE])
-        borg_note(format("got message '%s'", buf));
+        borg_note(format("mensaje recibido '%s'", buf));
 #endif 
     /* Trim whitespace */
     buf = borg_trim(buf);
@@ -373,7 +373,7 @@ static struct keypress internal_borg_inkey(int flush_first)
         && (suffix(buf, " -more-"))) {
 
         if (borg_cfg[BORG_VERBOSE])
-            borg_note("# message with -more-");
+            borg_note("# mensaje con -más-");
 
         /* Get the message */
         if (0 == borg_what_text(0, 0, x - 7, &t_a, buffer)) {
@@ -382,7 +382,7 @@ static struct keypress internal_borg_inkey(int flush_first)
         }
         /* Clear the message */
         if (borg_cfg[BORG_VERBOSE])
-            borg_note("clearing -more-");
+            borg_note("limpiando -más-");
         key.code = ' ';
         return key;
     }
@@ -391,7 +391,7 @@ static struct keypress internal_borg_inkey(int flush_first)
     /* about cheating death comes up.  */
     if (!character_dungeon) {
         if (borg_cfg[BORG_VERBOSE])
-            borg_note("# Mid reincarnation, no map yet");
+            borg_note("# A mitad de reencarnación, todavía sin mapa");
         /* do nothing */
         key.code = KC_ENTER;
 
@@ -409,7 +409,7 @@ static struct keypress internal_borg_inkey(int flush_first)
     /* And the game wants a command */
     if (borg_prompt && inkey_flag) {
         if (borg_cfg[BORG_VERBOSE])
-            borg_note("# parse normal message");
+            borg_note("# analizando mensaje normal");
         /* Get the message(s) */
         buf = buffer;
         if (0
@@ -456,14 +456,14 @@ static struct keypress internal_borg_inkey(int flush_first)
         && ch_evt.key.code != 10) {
         /* Oops */
         if (ch_evt.key.code >= 32 && ch_evt.key.code <= 126) {
-            borg_note(format("# User key press <%lu><%c>",
+            borg_note(format("# Pulsación de tecla del usuario <%lu><%c>",
                 (unsigned long)ch_evt.key.code, (char)ch_evt.key.code));
         } else {
-            borg_note(format("# User key press <%lu>",
+            borg_note(format("# Pulsación de tecla del usuario <%lu>",
                 (unsigned long)ch_evt.key.code));
         }
-        borg_note(format("# Key type was <%d><%c>", ch_evt.type, ch_evt.type));
-        borg_oops("user abort");
+        borg_note(format("# El tipo de tecla fue <%d><%c>", ch_evt.type, ch_evt.type));
+        borg_oops("abort de usuario");
 
         key.code = ESCAPE;
         return key;
@@ -674,12 +674,12 @@ void do_cmd_borg(void)
         borg_step = 0;
 
         if (player->opts.lazymove_delay != 0) {
-            borg_note("# Turning off lazy movement controls");
+            borg_note("# Desactivando controles de movimiento perezoso");
             player->opts.lazymove_delay = 0;
         }
 
         /* Message */
-        borg_note("# Installing keypress hook");
+        borg_note("# Instalando gancho de pulsaciones de tecla");
 
         /* If the clock overflowed, fix that  */
         if (borg_t > 9000)

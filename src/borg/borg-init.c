@@ -610,15 +610,15 @@ void borg_init(void)
 
     /* note: I would check if player_id2class returns null but it */
     /* never does, even on a bad class */
-    if (!streq(player_id2class(CLASS_WARRIOR)->name, "Warrior")
-        || !streq(player_id2class(CLASS_MAGE)->name, "Mage")
-        || !streq(player_id2class(CLASS_DRUID)->name, "Druid")
-        || !streq(player_id2class(CLASS_PRIEST)->name, "Priest")
-        || !streq(player_id2class(CLASS_NECROMANCER)->name, "Necromancer")
-        || !streq(player_id2class(CLASS_PALADIN)->name, "Paladin")
-        || !streq(player_id2class(CLASS_ROGUE)->name, "Rogue")
-        || !streq(player_id2class(CLASS_RANGER)->name, "Ranger")
-        || !streq(player_id2class(CLASS_BLACKGUARD)->name, "Blackguard")) {
+    if (!streq(player_id2class(CLASS_WARRIOR)->name, "Guerrero")
+        || !streq(player_id2class(CLASS_MAGE)->name, "Mago")
+        || !streq(player_id2class(CLASS_DRUID)->name, "Druida")
+        || !streq(player_id2class(CLASS_PRIEST)->name, "Sacerdote")
+        || !streq(player_id2class(CLASS_NECROMANCER)->name, "Nigromante")
+        || !streq(player_id2class(CLASS_PALADIN)->name, "Paladín")
+        || !streq(player_id2class(CLASS_ROGUE)->name, "Pícaro")
+        || !streq(player_id2class(CLASS_RANGER)->name, "Explorador")
+        || !streq(player_id2class(CLASS_BLACKGUARD)->name, "Rufián")) {
         borg_note("**FALLO DE INICIO** las clases no coinciden");
         borg_init_failure = true;
     }
