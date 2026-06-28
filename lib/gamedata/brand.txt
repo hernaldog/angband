@@ -25,7 +25,7 @@
 #     list-mon-race-flags.h
 
 code:ACID_3
-name:ácido
+name:Ã¡cido
 verb:dissolve
 multiplier:3
 o-multiplier:25
@@ -33,7 +33,7 @@ power:161
 resist-flag:IM_ACID
 
 code:ELEC_3
-name:relámpago
+name:relÃ¡mpago
 verb:shock
 multiplier:3
 o-multiplier:25
@@ -50,7 +50,7 @@ resist-flag:IM_FIRE
 vuln-flag:HURT_FIRE
 
 code:COLD_3
-name:frío
+name:frÃ­o
 verb:freeze
 multiplier:3
 o-multiplier:25
@@ -67,7 +67,7 @@ power:122
 resist-flag:IM_POIS
 
 code:ACID_2
-name:ácido
+name:Ã¡cido
 verb:corrode
 multiplier:2
 o-multiplier:15
@@ -75,7 +75,7 @@ power:130
 resist-flag:IM_ACID
 
 code:ELEC_2
-name:relámpago
+name:relÃ¡mpago
 verb:zap
 multiplier:2
 o-multiplier:15
@@ -92,7 +92,7 @@ resist-flag:IM_FIRE
 vuln-flag:HURT_FIRE
 
 code:COLD_2
-name:frío
+name:frÃ­o
 verb:chill
 multiplier:2
 o-multiplier:15

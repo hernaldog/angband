@@ -93,7 +93,7 @@ lash-type:MISSILE
 name:ACID
 power:20
 eval:20
-desc:disparar ácido
+desc:disparar Ã¡cido
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
@@ -189,7 +189,7 @@ lash-type:TIME
 name:LOSE_WIS
 power:0
 eval:20
-desc:reducir sabiduría
+desc:reducir sabidurÃ­a
 lore-color-base:Orange
 lore-color-resist:Light Green
 effect-type:flag
@@ -209,7 +209,7 @@ lash-type:TIME
 name:LOSE_CON
 power:0
 eval:30
-desc:reducir constitución
+desc:reducir constituciÃ³n
 lore-color-base:Orange
 lore-color-resist:Light Green
 effect-type:flag
