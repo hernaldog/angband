@@ -1195,7 +1195,7 @@ errr process_pref_file_command(const char *s)
 static void print_error(const char *name, struct parser *p) {
 	struct parser_state s;
 	parser_getstate(p, &s);
-	msg("Parse error in %s line %d column %d: %s: %s", name,
+	msg("Error de análisis en %s línea %d columna %d: %s: %s", name,
 	           s.line, s.col, s.msg, parser_error_str[s.error]);
 	event_signal(EVENT_MESSAGE_FLUSH);
 }

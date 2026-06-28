@@ -322,7 +322,7 @@ bool borg_think(void)
 
     /* Check for being in a store CHEAT*/
     if ((0 == borg_what_text(1, 3, 4, &t_a, buf))
-        && (streq(buf, "Stor") || streq(buf, "Home"))) {
+        && streq(buf, "Inve")) {
         /* Cheat the store number */
         shop_num = square_shopnum(cave, player->grid);
 
