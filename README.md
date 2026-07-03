@@ -153,7 +153,8 @@ Así toma las librerías .dll correctas.
 ## Consideraciones si vas a traducir
 
 ### Encoding
-Todos los archivo deben traducirse usando encoding **UTF-8** del tipo No BOM (Byte Order Market).
+- Todos los archivos *.c, *.h, *.txt deben traducirse usando encoding **UTF-8** del tipo No BOM (Byte Order Market).
+- Se agrega #pragma code_page(65001) en archivo de menú Windows src/win/angband.rc para que soporte archivo en UTF-8 No BOM.
 
 ### Traduciendo archivos .c
 
