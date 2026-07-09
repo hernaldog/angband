@@ -47,6 +47,8 @@ Se mantienen las mismas dos licencias originales:
 ## Capturas
 Algunas capturas del estado actual de la traducción:
 
+![Selección de idioma](captura5.png)
+![Ventana Windows en Español](captura6.png)
 ![Intro](captura1.png)
 ![Selección de personaje](captura2.png)
 ![Inventario](captura31.png)
