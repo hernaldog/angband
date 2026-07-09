@@ -17,6 +17,7 @@
  *    are included in all such copies.  Other copyrights may also apply.
  */
 
+#include "lang.h"
 #include "mon-desc.h"
 #include "mon-list.h"
 #include "mon-lore.h"
@@ -62,7 +63,7 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 	int total;
 	char line_buffer[200];
 	const char *punctuation = (lines_to_display == 0) ? "." : ":";
-	const char *others = (show_others) ? "otros " : "";
+	const char *others = (show_others) ? _("other ") : "";
 	size_t max_line_length = 0;
 
 	if (list == NULL || list->entries == NULL)
@@ -72,7 +73,7 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 
 	if (list->total_monsters[section] == 0) {
 		max_line_length = strnfmt(line_buffer, sizeof(line_buffer),
-								  "No hay monstruos a la vista.\n"); //mejora de traducción, prefix no se usa acá
+								  _("No monsters in sight.\n"));
 
 		if (tb != NULL)
 			textblock_append(tb, "%s", line_buffer);
@@ -85,7 +86,7 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 	}
 
 	max_line_length = strnfmt(line_buffer, sizeof(line_buffer),
-							  "%s %d %smonstruo%s%s\n",
+							  _("%s %d %smonster%s%s\n"),
 							  prefix,
 							  list->total_monsters[section],
 							  others,
@@ -128,9 +129,9 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 		count_in_section = list->entries[index].count[section];
 
 		if (asleep_in_section > 0 && count_in_section > 1)
-			strnfmt(asleep, sizeof(asleep), " (%d dormidos)", asleep_in_section);
+			strnfmt(asleep, sizeof(asleep), _(" (%d asleep)"), asleep_in_section);
 		else if (asleep_in_section == 1 && count_in_section == 1)
-			strnfmt(asleep, sizeof(asleep), " (dormido)");
+			strnfmt(asleep, sizeof(asleep), _(" (asleep)"));
 
 		/* Clip the monster name to fit, and append the sleep tag. */
 		name_width = MIN(full_width - utf8_strlen(asleep), sizeof(line_buffer));
@@ -185,7 +186,7 @@ static void monster_list_format_section(const monster_list_t *list, textblock *t
 	}
 
 	if (tb != NULL)
-		textblock_append(tb, "%6s...y %d otros.\n", " ",
+		textblock_append(tb, _("%6s...and %d others.\n"), " ",
 						 remaining_monster_total);
 }
 
@@ -210,7 +211,7 @@ static bool monster_list_format_special(const monster_list_t *list, textblock *t
 {
 	if (player->timed[TMD_IMAGE] > 0) {
 		/* Hack - message needs newline to calculate width properly. */
-		const char *message = "Tus alucinaciones son demasiado salvajes para ver las cosas con claridad.\n";
+		const char *message = _("Your hallucinations are too wild to see things clearly.\n");
 
 		if (max_height_result != NULL)
 			*max_height_result = 1;
@@ -293,7 +294,7 @@ static void monster_list_format_textblock(const monster_list_t *list, textblock 
 
 	monster_list_format_section(list, tb, MONSTER_LIST_SECTION_LOS,
 								los_lines_to_display, max_width,
-								"Puedes ver", false, &max_los_line);
+								_("You can see"), false, &max_los_line);
 
 	if (list->total_entries[MONSTER_LIST_SECTION_ESP] > 0) {
 		bool show_others = list->total_monsters[MONSTER_LIST_SECTION_LOS] > 0;
@@ -303,7 +304,7 @@ static void monster_list_format_textblock(const monster_list_t *list, textblock 
 
 		monster_list_format_section(list, tb, MONSTER_LIST_SECTION_ESP,
 									esp_lines_to_display, max_width,
-									"Has detectado", show_others,
+									_("You have detected"), show_others,
 									&max_esp_line);
 	}
 
@@ -439,10 +440,10 @@ void monster_list_show_interactive(int height, int width)
 		char buf[300];
 
 		if (sort_exp) {
-			my_strcpy(buf, "Presiona 'x' para DESACTIVAR 'ordenar por exp'", sizeof(buf));
+			my_strcpy(buf, _("Press 'x' to DISABLE 'sort by exp'"), sizeof(buf));
 		}
 		else {
-			my_strcpy(buf, "Presiona 'x' para ACTIVAR 'ordenar por exp'", sizeof(buf));
+			my_strcpy(buf, _("Press 'x' to ENABLE 'sort by exp'"), sizeof(buf));
 		}
 
 		ch = textui_textblock_show(tb, r, buf);

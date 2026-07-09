@@ -549,7 +549,7 @@ void do_cmd_borg(void)
         if (auto_start_borg == false)
 #endif
         {
-            if (!get_com("Comando del Borg: ", &cmd))
+            if (!get_com("Comando Borg: ", &cmd))
                 return;
         }
 
@@ -595,7 +595,7 @@ void do_cmd_borg(void)
         Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'g' muestra el rasgo de la casilla.");
         Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando 'z' activa al Borg.");
         Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'h' función Borg_Has.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '?' Lista de comandos del Borg.");
+        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '?' Lista de comandos Borg.");
         Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'i' muestra info de la casilla.");
         Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '!' Tiempo.");
         Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'k' muestra info del monstruo.");
@@ -756,7 +756,7 @@ void do_cmd_borg(void)
     case 'f':
     case 'F': {
         /* Get a "Borg command", or abort */
-        if (!get_com("Comando del Borg: Alternar indicador: (b/c/k/l/s/v) ", &cmd))
+        if (!get_com("Comando Borg: Alternar indicador: (b/c/k/l/s/v) ", &cmd))
             return;
 
         switch (cmd) {
@@ -817,7 +817,7 @@ void do_cmd_borg(void)
     /* Command: toggle "cheat" flags */
     case 'c': {
         /* Get a "Borg command", or abort */
-        if (!get_com("Comando del Borg: Alternar Trucos: (d)", &cmd))
+        if (!get_com("Comando Borg: Alternar Trucos: (d)", &cmd))
             return;
 
         switch (cmd) {
@@ -872,7 +872,7 @@ void do_cmd_borg(void)
         bool     glyph = false;
 
         /* Get a "Borg command", or abort */
-        if (!get_com("Comando del Borg: Mostrar casillas: ", &cmd))
+        if (!get_com("Comando Borg: Mostrar casillas: ", &cmd))
             return;
 
         /* Extract a flag */
@@ -1032,7 +1032,7 @@ void do_cmd_borg(void)
         uint16_t mask;
 
         /* Get a "Borg command", or abort */
-        if (!get_com("Comando del Borg: Mostrar casillas: ", &cmd))
+        if (!get_com("Comando Borg: Mostrar casillas: ", &cmd))
             return;
 
         /* Extract a flag */
@@ -1327,7 +1327,7 @@ void do_cmd_borg(void)
         y   = l.y;
 
         /* Get a "Borg command", or abort */
-        if (!get_com("Comando del Borg: Mostrar arco (Y/y): ", &cmd))
+        if (!get_com("Comando Borg: Mostrar arco (Y/y): ", &cmd))
             return;
 
         msg("Ruta de objetivo real");
@@ -2031,7 +2031,7 @@ void do_cmd_borg(void)
     /* Oops */
     default: {
         /* Message */
-        msg("Ese no es un comando válido del Borg.");
+        msg("Ese no es un comando válido Borg.");
         break;
     }
     }

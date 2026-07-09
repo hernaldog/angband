@@ -21,6 +21,7 @@
 #include "cmd-core.h"
 #include "effects.h"
 #include "init.h"
+#include "lang.h"
 #include "monster.h"
 #include "obj-tval.h"
 #include "obj-util.h"
@@ -468,7 +469,7 @@ void spell_learn(int spell_index)
 	player->spell_order[i] = spell_index;
 
 	/* Mention the result */
-	msgt(MSG_STUDY, "Has aprendido el %s %s.", spell->realm->spell_noun,
+	msgt(MSG_STUDY, _("You have learned the %s of %s."), spell->realm->spell_noun,
 		 spell->name);
 
 	/* One less spell available */
@@ -476,9 +477,9 @@ void spell_learn(int spell_index)
 
 	/* Message if needed */
 	if (player->upkeep->new_spells == 1) {
-		msg("Puedes aprender un nuevo %s.", spell->realm->spell_noun);
+		msg(_("You can learn a new %s."), spell->realm->spell_noun);
 	} else if (player->upkeep->new_spells) {
-		msg("Puedes aprender %d %s más%s.", player->upkeep->new_spells,
+		msg(_("You can learn %d more %s%s."), player->upkeep->new_spells,
 			spell->realm->spell_noun, PLURAL(player->upkeep->new_spells));
 	}
 
@@ -510,7 +511,7 @@ bool spell_cast(int spell_index, int dir, struct command *cmd)
 	/* Fail or succeed */
 	if (randint0(100) < chance) {
 		event_signal(EVENT_INPUT_FLUSH);
-		msg("¡No has podido concentrarte lo suficiente!");
+		msg(_("You failed to concentrate hard enough!"));
 	} else {
 		/* Cast the spell */
 		if (!effect_do(spell->effect, source_player(), NULL, &ident, true, dir,

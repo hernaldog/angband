@@ -252,6 +252,7 @@ xcopy $(MSBuildProjectDirectory)\lib\* $(OutDir)lib\ /DESY /exclude:$(MSBuildPro
     <ClCompile Include="src\grafmode.c" />
     <ClCompile Include="src\guid.c" />
     <ClCompile Include="src\init.c" />
+    <ClCompile Include="src\lang.c" />
     <ClCompile Include="src\load.c" />
     <ClCompile Include="src\main-win.c" />
     <ClCompile Include="src\message.c" />

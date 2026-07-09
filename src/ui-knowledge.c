@@ -63,6 +63,7 @@
 #include "ui-target.h"
 #include "wizard.h"
 #include "z-util.h"
+#include "lang.h"
 
 /**
  * The first part of this file contains the knowledge menus.  Generic display
@@ -521,7 +522,7 @@ static void display_glyphs(int col, int row, int height, int width, uint8_t a,
 	        Term_erase(col, row + i, width);
 
 	/* Prompt */
-	prt("Elige color:", row + height/2, col);
+	prt(_("Choose color:"), row + height/2, col);
 	Term_locate(&x, &y);
 	for (i = 0; i < MAX_COLORS; i++) big_pad(x + i, y, i, c);
 	
@@ -642,7 +643,7 @@ static bool glyph_command(ui_event ke, bool *glyph_picker_ptr,
 	
 			    /* Ask the user for a code point */
 			    Term_gotoxy(col, row + height/2 + 2);
-			    res = get_string("(hasta 5 dígitos hex):", code_point, 5);
+			    res = get_string(_("(up to 5 hex digits):"), code_point, 5);
 	
 			    /* Process input */
 			    if (res) {
@@ -718,7 +719,7 @@ static void display_group_member(struct menu *menu, int oid,
 static const char *recall_prompt(int oid)
 {
 	(void)oid;
-	return ", 'r' para recordar";
+	return _(", 'r' to recall");
 }
 
 #define swap(a, b) (swapspace = (void*)(a)), ((a) = (b)), ((b) = swapspace)
@@ -860,9 +861,9 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 		if (redraw) {
 			/* Print the title bits */
 			region_erase(&title_area);
-			prt(format("Conocimiento - %s", title), 2, 0);
-			prt("Grupo", 4, 0);
-			prt("Nombre", 4, g_name_len + 3);
+			prt(format(_("Knowledge - %s"), title), 2, 0);
+			prt(_("Group"), 4, 0);
+			prt(_("Name"), 4, g_name_len + 3);
 
 			if (otherfields)
 				prt(otherfields, 4, 46);
@@ -911,14 +912,14 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 		{
 			const char *pedit = (!o_funcs.xattr) ? "" :
 					(!(attr_idx|char_idx) ?
-					 ", 'c' para copiar" : ", 'c', 'p' para pegar");
+					 _(", 'c' to copy") : _(", 'c', 'p' to paste"));
 			const char *xtra = o_funcs.xtra_prompt ?
 				o_funcs.xtra_prompt(oid) : "";
 			const char *pvs = "";
 
-			if (tile_picker) pvs = ", ENTER para aceptar";
-			else if (glyph_picker) pvs = ", 'i' para insertar, ENTER para aceptar";
-			else if (o_funcs.xattr) pvs = ", 'v' para visuales";
+			if (tile_picker) pvs = _(", ENTER to accept");
+			else if (glyph_picker) pvs = _(", 'i' to insert, ENTER to accept");
+			else if (o_funcs.xattr) pvs = _(", 'v' for visuals");
 
 			prt(format("<dir>%s%s%s, ESC", pvs, pedit, xtra), hgt - 1, 0);
 		}
@@ -1070,7 +1071,7 @@ static void display_knowledge(const char *title, int *obj_list, int o_count,
 
 	/* Prompt */
 	if (!grp_cnt)
-		prt(format("Ningún %s conocido.", title), 15, 0);
+		prt(format(_("No known %s."), title), 15, 0);
 
 	mem_free(g_names);
 	mem_free(g_offset);
@@ -1135,9 +1136,9 @@ static void display_monster(int col, int row, bool cursor, int oid)
 
 	/* Display kills */
 	if (!race->rarity) {
-		put_str(format("%s", "forma"), row, 70);
+		put_str(format("%s", _("shape")), row, 70);
 	} else if (rf_has(race->flags, RF_UNIQUE)) {
-		put_str(format("%s", (race->max_num == 0)?  " muerto" : "vivo"),
+		put_str(format("%s", (race->max_num == 0)?  _(" dead") : _("alive")),
 				row, 70);
 	} else {
 		put_str(format("%5d", lore->pkills), row, 70);
@@ -1246,7 +1247,7 @@ static void mon_summary(int gid, const int *item_list, int n, int top,
 	/* Different display for the first item if we've got uniques to show */
 	if (gid == 0 &&
 		rf_has((&r_info[default_join[item_list[0]].oid])->flags, RF_UNIQUE)) {
-		c_prt(COLOUR_L_BLUE, format("%d únicos conocidos, %d asesinados.", n, kills),
+		c_prt(COLOUR_L_BLUE, format(_("%d known uniques, %d killed."), n, kills),
 					row, col);
 	} else {
 		int tkills = 0;
@@ -1254,7 +1255,7 @@ static void mon_summary(int gid, const int *item_list, int n, int top,
 		for (i = 0; i < z_info->r_max; i++)
 			tkills += l_list[i].pkills;
 
-		c_prt(COLOUR_L_BLUE, format("Criaturas asesinadas: %d/%d (en grupo/en total)", kills, tkills), row, col);
+		c_prt(COLOUR_L_BLUE, format(_("Creatures killed: %d/%d (in group/total)"), kills, tkills), row, col);
 	}
 }
 
@@ -1371,8 +1372,8 @@ static void do_cmd_knowledge_monsters(const char *name, int row)
 		}
 	}
 
-	display_knowledge("monstruos", monsters, m_count, r_funcs, m_funcs,
-			"                   Símb  Muertes");
+	display_knowledge(_("monsters"), monsters, m_count, r_funcs, m_funcs,
+			_("                   Sym  Kills"));
 	mem_free(default_join);
 	mem_free(monsters);
 }
@@ -1385,7 +1386,7 @@ static void do_cmd_knowledge_monsters(const char *name, int row)
 /**
  * These are used for all the object sections
  */
-static const grouper object_text_order[] =
+static grouper object_text_order[] =
 {
 	{TV_RING,			"Anillo"			},
 	{TV_AMULET,			"Amuleto"		},
@@ -1422,6 +1423,16 @@ static const grouper object_text_order[] =
 	{TV_DIGGING,		"Pico"		},
 	{TV_GOLD,			"Dinero"			},
 	{0,					NULL			}
+};
+
+static const char *object_text_order_en[N_ELEMENTS(object_text_order)] =
+{
+	"Ring", "Amulet", "Potion", "Scroll", "Wand", "Staff", "Rod",
+	"Food", "Mushroom", "Priest Book", "Magic Book", "Nature Book",
+	"Shadow Book", "Mystery Book", "Light", "Flask", "Sword",
+	"Polearm", "Hafted Weapon", "Bow", "Ammo", NULL, NULL, "Shield",
+	"Crown", "Helm", "Gloves", "Boots", "Cloak", "Dragon Scale Mail",
+	"Hard Armor", "Soft Armor", "Digger", "Money", NULL
 };
 
 static int *obj_group_order = NULL;
@@ -1677,10 +1688,10 @@ static void do_cmd_knowledge_artifacts(const char *name, int row)
 	a_count = collect_known_artifacts(artifacts, z_info->a_max);
 
 	if (OPT(player, birth_randarts)) {
-		strnfmt(title, sizeof(title), "artefactos (semilla %08lx)",
+		strnfmt(title, sizeof(title), _("artifacts (seed %08lx)"),
 			(unsigned long)seed_randart);
 	} else {
-		strnfmt(title, sizeof(title), "artefactos");
+		strnfmt(title, sizeof(title), _("artifacts"));
 	}
 	display_knowledge(title, artifacts, a_count, obj_f, art_f, NULL);
 	mem_free(artifacts);
@@ -1801,7 +1812,7 @@ static void do_cmd_knowledge_ego_items(const char *name, int row)
 		}
 	}
 
-	display_knowledge("objetos de égida", egoitems, e_count, obj_f, ego_f, NULL);
+	display_knowledge(_("ego items"), egoitems, e_count, obj_f, ego_f, NULL);
 
 	mem_free(default_join);
 	mem_free(egoitems);
@@ -1836,7 +1847,7 @@ static void display_object(int col, int row, bool cursor, int oid)
 
 	/* If the type is "tried", display that */
 	if (kind->tried && !aware)
-		my_strcat(o_name, " {probado}", sizeof(o_name));
+		my_strcat(o_name, _(" {tried}"), sizeof(o_name));
 
 	/* Display the name */
 	c_prt(attr, o_name, row, col);
@@ -1844,7 +1855,7 @@ static void display_object(int col, int row, bool cursor, int oid)
 	/* Show ignore status */
 	if ((aware && kind_is_ignored_aware(kind)) ||
 		(!aware && kind_is_ignored_unaware(kind)))
-		c_put_str(attr, "Sí", row, 46);
+		c_put_str(attr, _("Yes"), row, 46);
 
 
 	/* Show autoinscription if around */
@@ -1981,8 +1992,8 @@ static const char *o_xtra_prompt(int oid)
 {
 	struct object_kind *kind = objkind_byid(oid);
 
-	const char *no_insc = ", 's' para alternar ignorar, 'r'ecordar, '{'";
-	const char *with_insc = ", 's' para alternar ignorar, 'r'ecordar, '{', '}'";
+	const char *no_insc = _(", 's' to toggle ignore, 'r'ecall, '{'");
+	const char *with_insc = _(", 's' to toggle ignore, 'r'ecall, '{', '}'");
 
 	if (!kind) return NULL;
 
@@ -2029,7 +2040,7 @@ static void o_xtra_act(struct keypress ch, int oid)
 		screen_save();
 
 		/* Prompt */
-		prt("Inscribir con: ", 0, 0);
+		prt(_("Inscribe with: "), 0, 0);
 
 		/* Default note */
 		if (k->note_aware || k->note_unaware)
@@ -2084,8 +2095,8 @@ void textui_browse_object_knowledge(const char *name, int row)
 		}
 	}
 
-	display_knowledge("objetos conocidos", objects, o_count, kind_f, obj_f,
-					  "Ignorar  Inscrito          Símb");
+	display_knowledge(_("known objects"), objects, o_count, kind_f, obj_f,
+					  _("Ignore  Inscribed          Sym"));
 
 	mem_free(objects);
 }
@@ -2107,6 +2118,18 @@ static const char *rune_group_text[] =
 	"Azotes",
 	"Maldiciones",
 	"Otro",
+	NULL
+};
+
+static const char *rune_group_text_en[N_ELEMENTS(rune_group_text)] =
+{
+	"Combat",
+	"Modifiers",
+	"Resistances",
+	"Brands",
+	"Slays",
+	"Curses",
+	"Other",
 	NULL
 };
 
@@ -2157,8 +2180,8 @@ static void rune_lore(int oid)
  */
 static const char *rune_xtra_prompt(int oid)
 {
-	const char *no_insc = ", 'r'ecordar, '{'";
-	const char *with_insc = ", 'r'ecordar, '{', '}'";
+	const char *no_insc = _(", 'r'ecall, '{'");
+	const char *with_insc = _(", 'r'ecall, '{', '}'");
 
 	/* Appropriate prompt */
 	return rune_note(oid) ? with_insc : no_insc;
@@ -2180,7 +2203,7 @@ static void rune_xtra_act(struct keypress ch, int oid)
 		screen_save();
 
 		/* Prompt */
-		prt("Inscribir con: ", 0, 0);
+		prt(_("Inscribe with: "), 0, 0);
 
 		/* Default note */
 		if (rune_note(oid))
@@ -2235,9 +2258,9 @@ static void do_cmd_knowledge_runes(const char *name, int row)
 		runes[count++] = i;
 	}
 
-	strnfmt(buf, sizeof(buf), "runas (%d desconocidas)", rune_max - count);
+	strnfmt(buf, sizeof(buf), _("runes (%d unknown)"), rune_max - count);
 
-	display_knowledge(buf, runes, count, rune_var_f, rune_f, "Inscrito");
+	display_knowledge(buf, runes, count, rune_var_f, rune_f, _("Inscribed"));
 	mem_free(runes);
 }
 
@@ -2259,6 +2282,19 @@ static const char *feature_group_text[] =
 	"Obstrucciones",
 	"Tiendas",
 	"Otro",
+	NULL
+};
+
+static const char *feature_group_text_en[N_ELEMENTS(feature_group_text)] =
+{
+	"Floors",
+	"Doors",
+	"Stairs",
+	"Walls",
+	"Veins",
+	"Obstructions",
+	"Stores",
+	"Other",
 	NULL
 };
 
@@ -2345,10 +2381,10 @@ static const char *feat_prompt(int oid)
 {
 	(void)oid;
 		switch (f_uik_lighting) {
-				case LIGHTING_LIT:  return ", 't/T' para iluminación (iluminado)";
-                case LIGHTING_TORCH: return ", 't/T' para iluminación (antorcha)";
-				case LIGHTING_LOS:  return ", 't/T' para iluminación (LdV)";
-				default:	return ", 't/T' para iluminación (oscuro)";
+				case LIGHTING_LIT:  return _(", 't/T' to change lighting (lit)");
+                case LIGHTING_TORCH: return _(", 't/T' to change lighting (torch)");
+				case LIGHTING_LOS:  return _(", 't/T' to change lighting (LOS)");
+				default:	return _(", 't/T' to change lighting (dark)");
 		}		
 }
 
@@ -2403,8 +2439,8 @@ static void do_cmd_knowledge_features(const char *name, int row)
 		features[f_count++] = i;
 	}
 
-	display_knowledge("características", features, f_count, fkind_f, feat_f,
-					  "                    Símb");
+	display_knowledge(_("features"), features, f_count, fkind_f, feat_f,
+					  _("                    Sym"));
 	mem_free(features);
 }
 
@@ -2422,6 +2458,15 @@ static const char *trap_group_text[] =
 	"Cerrajería",
 	"Trampas",
 	"Otro",
+	NULL
+};
+
+static const char *trap_group_text_en[N_ELEMENTS(trap_group_text)] =
+{
+	"Runes",
+	"Locks",
+	"Traps",
+	"Other",
 	NULL
 };
 
@@ -2530,7 +2575,7 @@ static void trap_lore(int oid)
 static const char *trap_prompt(int oid)
 {
 	(void)oid;
-	return ", 't' para cambiar iluminación";
+	return _(", 't' to change lighting");
 }
 
 /**
@@ -2581,8 +2626,8 @@ static void do_cmd_knowledge_traps(const char *name, int row)
 		traps[t_count++] = i;
 	}
 
-	display_knowledge("trampas", traps, t_count, tkind_f, trap_f,
-					  "                    Símb");
+	display_knowledge(_("traps"), traps, t_count, tkind_f, trap_f,
+					  _("                    Sym"));
 	mem_free(traps);
 }
 
@@ -2647,43 +2692,43 @@ static const char *skill_index_to_name(int i)
 
 	switch (i) {
 	case SKILL_DISARM_PHYS:
-		name = "desarme físico";
+		name = _("physical disarming");
 		break;
 
 	case SKILL_DISARM_MAGIC:
-		name = "desarme mágico";
+		name = _("magic disarming");
 		break;
 
 	case SKILL_DEVICE:
-		name = "dispositivos mágicos";
+		name = _("magic devices");
 		break;
 
 	case SKILL_SAVE:
-		name = "tiradas de salvación";
+		name = _("saving throw");
 		break;
 
 	case SKILL_SEARCH:
-		name = "búsqueda";
+		name = _("searching");
 		break;
 
 	case SKILL_TO_HIT_MELEE:
-		name = "ataque cuerpo a cuerpo";
+		name = _("melee to-hit");
 		break;
 
 	case SKILL_TO_HIT_BOW:
-		name = "puntería con arco";
+		name = _("bow to-hit");
 		break;
 
 	case SKILL_TO_HIT_THROW:
-		name = "puntería al lanzar";
+		name = _("throwing to-hit");
 		break;
 
 	case SKILL_DIGGING:
-		name = "excavación";
+		name = _("digging");
 		break;
 
 	default:
-		name = "habilidad desconocida";
+		name = _("unknown skill");
 		break;
 	}
 
@@ -2700,7 +2745,7 @@ static void shape_lore_append_list(textblock *tb,
 		textblock_append(tb, " %s", list[0]);
 	}
 	for (i = 1; i < n; ++i) {
-		textblock_append(tb, "%s %s", (i < n - 1) ? "," : " y",
+		textblock_append(tb, "%s %s", (i < n - 1) ? "," : _(" and"),
 			list[i]);
 	}
 }
@@ -2716,22 +2761,22 @@ static void shape_lore_append_basic_combat(textblock *tb,
 	int n = 0;
 
 	if (s->to_a != 0) {
-		strnfmt(toa_msg, sizeof(toa_msg), "%+d a CA", s->to_a);
+		strnfmt(toa_msg, sizeof(toa_msg), _("%+d to AC"), s->to_a);
 		msgs[n] = toa_msg;
 		++n;
 	}
 	if (s->to_h != 0) {
-		strnfmt(toh_msg, sizeof(toh_msg), "%+d a atacar", s->to_h);
+		strnfmt(toh_msg, sizeof(toh_msg), _("%+d to hit"), s->to_h);
 		msgs[n] = toh_msg;
 		++n;
 	}
 	if (s->to_d != 0) {
-		strnfmt(tod_msg, sizeof(tod_msg), "%+d a daño", s->to_d);
+		strnfmt(tod_msg, sizeof(tod_msg), _("%+d to damage"), s->to_d);
 		msgs[n] = tod_msg;
 		++n;
 	}
 	if (n > 0) {
-		textblock_append(tb, "Añade");
+		textblock_append(tb, _("Adds"));
 		shape_lore_append_list(tb, msgs, n);
 		textblock_append(tb, ".\n");
 	}
@@ -2748,14 +2793,14 @@ static void shape_lore_append_skills(textblock *tb,
 	for (i = 0; i < SKILL_MAX; ++i) {
 		if (s->skills[i] != 0) {
 			shape_lore_helper_append_to_list(
-				format("%+d a %s", s->skills[i],
+				format(_("%+d to %s"), s->skills[i],
 					skill_index_to_name(i)),
 				&msgs, &nmax, &n);
 		}
 	}
 
 	if (n > 0) {
-		textblock_append(tb, "Añade");
+		textblock_append(tb, _("Adds"));
 		shape_lore_append_list(tb, msgs, n);
 		textblock_append(tb, ".\n");
 		for (i = 0; i < n; ++i) {
@@ -2777,7 +2822,7 @@ static void shape_lore_append_non_stat_modifiers(textblock *tb,
 	for (i = STAT_MAX; i < OBJ_MOD_MAX; ++i) {
 		if (s->modifiers[i] != 0) {
 			shape_lore_helper_append_to_list(
-				format("%+d a %s",
+				format(_("%+d to %s"),
 					s->modifiers[i],
 					lookup_obj_property(OBJ_PROPERTY_MOD, i)->name),
 				&msgs, &nmax, &n);
@@ -2785,7 +2830,7 @@ static void shape_lore_append_non_stat_modifiers(textblock *tb,
 	}
 
 	if (n > 0) {
-		textblock_append(tb, "Añade");
+		textblock_append(tb, _("Adds"));
 		shape_lore_append_list(tb, msgs, n);
 		textblock_append(tb, ".\n");
 		for (i = 0; i < n; ++i) {
@@ -2807,7 +2852,7 @@ static void shape_lore_append_stat_modifiers(textblock *tb,
 	for (i = 0; i < STAT_MAX; ++i) {
 		if (s->modifiers[i] != 0) {
 			shape_lore_helper_append_to_list(
-				format("%+d a %s",
+				format(_("%+d to %s"),
 					s->modifiers[i],
 					lookup_obj_property(OBJ_PROPERTY_MOD, i)->name),
 				&msgs, &nmax, &n);
@@ -2815,7 +2860,7 @@ static void shape_lore_append_stat_modifiers(textblock *tb,
 	}
 
 	if (n > 0) {
-		textblock_append(tb, "Añade");
+		textblock_append(tb, _("Adds"));
 		shape_lore_append_list(tb, msgs, n);
 		textblock_append(tb, ".\n");
 		for (i = 0; i < n; ++i) {
@@ -2850,19 +2895,19 @@ static void shape_lore_append_resistances(textblock *tb,
 	}
 
 	if (nvul != 0) {
-		textblock_append(tb, "Te hace vulnerable a");
+		textblock_append(tb, _("Makes you vulnerable to"));
 		shape_lore_append_list(tb, vul, nvul);
 		textblock_append(tb, ".\n");
 	}
 
 	if (nres != 0) {
-		textblock_append(tb, "Te hace resistente a");
+		textblock_append(tb, _("Makes you resistant to"));
 		shape_lore_append_list(tb, res, nres);
 		textblock_append(tb, ".\n");
 	}
 
 	if (nimm != 0) {
-		textblock_append(tb, "Te hace inmune a");
+		textblock_append(tb, _("Makes you immune to"));
 		shape_lore_append_list(tb, imm, nimm);
 		textblock_append(tb, ".\n");
 	}
@@ -2888,7 +2933,7 @@ static void shape_lore_append_protection_flags(textblock *tb,
 	}
 
 	if (n > 0) {
-		textblock_append(tb, "Proporciona protección contra");
+		textblock_append(tb, _("Provides protection against"));
 		shape_lore_append_list(tb, msgs, n);
 		textblock_append(tb, ".\n");
 		for (i = 0; i < n; ++i) {
@@ -2918,7 +2963,7 @@ static void shape_lore_append_sustains(textblock *tb,
 	}
 
 	if (n > 0) {
-		textblock_append(tb, "Sostiene");
+		textblock_append(tb, _("Sustains"));
 		shape_lore_append_list(tb, msgs, n);
 		textblock_append(tb, ".\n");
 		for (i = 0; i < n; ++i) {
@@ -2968,7 +3013,7 @@ static void shape_lore_append_misc_flags(textblock *tb,
 static void shape_lore_append_change_effects(textblock *tb,
 	const struct player_shape *s)
 {
-	textblock *tbe = effect_describe(s->effect, "Cambiar a la forma ", 0, false);
+	textblock *tbe = effect_describe(s->effect, _("Change shape to "), 0, false);
 
 	if (tbe) {
 		textblock_append_textblock(tb, tbe);
@@ -3010,7 +3055,7 @@ static void shape_lore_append_triggering_spells(textblock *tb,
 							textblock_append(tb, "\n");
 						}
 						textblock_append(tb,
-							"El hechizo %s, %s, de %s desencadena el cambio de forma.",
+							_("The spell %s, %s, of %s triggers the shapechange."),
 							c->name,
 							spell->name,
 							kind->name
@@ -3036,13 +3081,13 @@ static void shape_lore(const struct player_shape *s)
 	textblock *tb = textblock_new();
 
 	textblock_append(tb, "%s", s->name);
-	textblock_append(tb, "\nComo todas las formas, el equipo en el momento del "
-		"cambio de forma establece los atributos base, incluyendo daño "
-		"por golpe, número de golpes y resistencias. Mientras estás cambiado, "
-		"los objetos en tu mochila o en el suelo (excepto para recoger o "
-		"comer) son inaccesibles. Para volver a tu forma normal, "
-		"lanza un hechizo o usa un comando de objeto que no sea comer "
-		"(soltar, por ejemplo).\n");
+	textblock_append(tb, _("\nAs with all forms, the equipment at the time of the "
+		"shapechange sets the base attributes, including damage "
+		"per hit, number of blows, and resistances. While changed, "
+		"the items in your pack or on the floor (except to pick up or "
+		"eat) are inaccessible. To return to your normal form, "
+		"cast a spell or use an item command other than eating "
+		"(dropping, for example).\n"));
 	shape_lore_append_basic_combat(tb, s);
 	shape_lore_append_skills(tb, s);
 	shape_lore_append_non_stat_modifiers(tb, s);
@@ -3124,12 +3169,12 @@ static void do_cmd_knowledge_shapechange(const char *name, int row)
 
 		if (redraw) {
 			region_erase(&header_region);
-			prt("Conocimiento - formas", 2, 0);
-			prt("Nombre", 4, 0);
+			prt(_("Knowledge - shapes"), 2, 0);
+			prt(_("Name"), 4, 0);
 			for (i = 0; i < MIN(80, wnew); i++) {
 				Term_putch(i, 5, COLOUR_WHITE, L'=');
 			}
-			prt("<dir>, 'r' para recordar, ESC", h - 2, 0);
+			prt(_("<dir>, 'r' to recall, ESC"), h - 2, 0);
 			redraw = false;
 		}
 
@@ -3331,7 +3376,7 @@ static errr finish_ui_knowledge_parser(struct parser *p)
 
 	/* Set the element at the end which receives special treatment. */
 	monster_group[count].next = NULL;
-	monster_group[count].name = string_make("***Sin clasificar***");
+	monster_group[count].name = string_make(_("***Unclassified***"));
 	monster_group[count].inc_bases = NULL;
 	rf_wipe(monster_group[count].inc_flags);
 	monster_group[count].n_inc_bases = 0;
@@ -3484,21 +3529,21 @@ static void reset_main_knowledge_menu(void)
 	struct {
 		const char *label; void (*action)(const char*, int);
 	} pre_store_actions[] = {
-		{ "Mostrar conocimiento de objetos", textui_browse_object_knowledge },
-		{ "Mostrar conocimiento de runas", do_cmd_knowledge_runes },
-		{ "Mostrar conocimiento de artefactos", do_cmd_knowledge_artifacts },
-		{ "Mostrar conocimiento de objetos de égida", do_cmd_knowledge_ego_items },
-		{ "Mostrar conocimiento de monstruos", do_cmd_knowledge_monsters },
-		{ "Mostrar conocimiento de características", do_cmd_knowledge_features },
-		{ "Mostrar conocimiento de trampas", do_cmd_knowledge_traps },
-		{ "Mostrar efectos de cambio de forma", do_cmd_knowledge_shapechange },
+		{ _("Display object knowledge"), textui_browse_object_knowledge },
+		{ _("Display rune knowledge"), do_cmd_knowledge_runes },
+		{ _("Display artifact knowledge"), do_cmd_knowledge_artifacts },
+		{ _("Display ego item knowledge"), do_cmd_knowledge_ego_items },
+		{ _("Display monster knowledge"), do_cmd_knowledge_monsters },
+		{ _("Display feature knowledge"), do_cmd_knowledge_features },
+		{ _("Display trap knowledge"), do_cmd_knowledge_traps },
+		{ _("Display shapechange effects"), do_cmd_knowledge_shapechange },
 	};
 	struct {
 		const char *label; void (*action)(const char*, int);
 	} post_store_actions[] = {
-		{ "Mostrar salón de la fama", do_cmd_knowledge_scores },
-		{ "Mostrar historial del personaje", do_cmd_knowledge_history },
-		{ "Mostrar comparación de equipables", do_cmd_knowledge_equip_cmp },
+		{ _("Display scores"), do_cmd_knowledge_scores },
+		{ _("Display character history"), do_cmd_knowledge_history },
+		{ _("Display equippables comparison"), do_cmd_knowledge_equip_cmp },
 	};
 	const char *shortcuts[] = {
 		" (1)", " (2)", " (3)",
@@ -3553,10 +3598,10 @@ static void reset_main_knowledge_menu(void)
 
 		main_knowledge_menu.labels[i] =
 			string_make((name) ?
-				format("Mostrar contenido de %s'%s%s",
+				format(_("Show contents of %s'%s%s"),
 				name, (suffix(name, "s")) ? "" : "s",
 				(j < 9) ? shortcuts[j] : "") :
-				format("Mostrar contenido de tienda %d%s",
+				format(_("Show contents of store %d%s"),
 				j + 1, (j < 9) ? shortcuts[j] : ""));
 		main_knowledge_menu.actions[i].name =
 			main_knowledge_menu.labels[i];
@@ -3577,7 +3622,7 @@ static void reset_main_knowledge_menu(void)
 		menu_find_iter(MN_ITER_ACTIONS));
 	menu_setpriv(&main_knowledge_menu.m, main_knowledge_menu.count,
 		main_knowledge_menu.actions);
-	main_knowledge_menu.m.title = "Mostrar conocimiento actual";
+	main_knowledge_menu.m.title = _("Display current knowledge");
 	main_knowledge_menu.m.selections = all_letters_nohjkl;
 	/*
 	 * These are shortcuts to get the contents of the stores by number;
@@ -3603,12 +3648,23 @@ void textui_knowledge_init(void)
 
 	/* initialize other static variables */
 	if (run_parser(&ui_knowledge_parser) != PARSE_ERROR_NONE) {
-		quit_fmt("Se encontró un error al analizar ui_knowledge.txt");
+		quit_fmt(_("Error parsing ui_knowledge.txt"));
 	}
 
 	if (!obj_group_order) {
 		int i;
 		int gid = -1;
+
+		if (strcmp(lang_current, "en") == 0) {
+			for (i = 0; i < (int) N_ELEMENTS(object_text_order); i++)
+				object_text_order[i].name = object_text_order_en[i];
+			for (i = 0; i < (int) N_ELEMENTS(trap_group_text); i++)
+				trap_group_text[i] = trap_group_text_en[i];
+			for (i = 0; i < (int) N_ELEMENTS(rune_group_text); i++)
+				rune_group_text[i] = rune_group_text_en[i];
+			for (i = 0; i < (int) N_ELEMENTS(feature_group_text); i++)
+				feature_group_text[i] = feature_group_text_en[i];
+		}
 
 		obj_group_order = mem_zalloc((TV_MAX + 1) * sizeof(int));
 
@@ -3794,15 +3850,15 @@ void do_cmd_messages(void)
 		}
 
 		/* Display header */
-		prt(format("Recuerdo de mensajes (%d-%d de %d), desplazamiento %d",
+		prt(format(_("Message recall (%d-%d of %d), offset %d"),
 				   i, i + j - 1, n, q), 0, 0);
 
 		/* Display prompt (not very informative) */
 		if (strlen(shower))
-			prt("[Teclas de movimiento para navegar, '-' para siguiente, '=' para buscar]",
+			prt(_("[Movement keys to navigate, '-' for next, '=' to search]"),
 				hgt - 1, 0);
 		else
-			prt("[Teclas de movimiento para navegar, '=' para buscar, o ESCAPE para salir]",
+			prt(_("[Movement keys to navigate, '=' to search, or ESCAPE to exit]"),
 				hgt - 1, 0);
 			
 		/* Get a command */
@@ -3833,7 +3889,7 @@ void do_cmd_messages(void)
 				case '=':
 				{
 					/* Get the string to find */
-					prt("Buscar: ", hgt - 1, 0);
+					prt(_("Find: "), hgt - 1, 0);
 					if (!askfor_aux(shower, sizeof shower, NULL)) continue;
 		
 					/* Set to find */
@@ -3915,7 +3971,7 @@ void do_cmd_inven(void)
 	int ret = 3;
 
 	if (player->upkeep->inven[0] == NULL) {
-		msg("No tienes nada en tu inventario.");
+		msg(_("You have nothing in your inventory."));
 		return;
 	}
 
@@ -3928,8 +3984,8 @@ void do_cmd_inven(void)
 		screen_save();
 
 		/* Get an item to use a context command on (Display the inventory) */
-		if (get_item(&obj, "Seleccionar Objeto:",
-				"Error en do_cmd_inven(), por favor informa.",
+		if (get_item(&obj, _("Select Item:"),
+				_("Error in do_cmd_inven(), please report."),
 				CMD_NULL, NULL, GET_ITEM_PARAMS)) {
 			/* Load screen */
 			screen_load();
@@ -3961,7 +4017,7 @@ void do_cmd_equip(void)
 	int ret = 3;
 
 	if (!player->upkeep->equip_cnt) {
-		msg("No estás empuñando o usando nada.");
+		msg(_("You are not wielding or wearing anything."));
 		return;
 	}
 
@@ -3974,8 +4030,8 @@ void do_cmd_equip(void)
 		screen_save();
 
 		/* Get an item to use a context command on (Display the equipment) */
-		if (get_item(&obj, "Seleccionar Objeto:",
-				"Error en do_cmd_equip(), por favor informa.",
+		if (get_item(&obj, _("Select Item:"),
+				_("Error in do_cmd_equip(), please report."),
 				CMD_NULL, NULL, GET_ITEM_PARAMS)) {
 			/* Load screen */
 			screen_load();
@@ -4010,7 +4066,7 @@ void do_cmd_quiver(void)
 	int ret = 3;
 
 	if (player->upkeep->quiver_cnt == 0) {
-		msg("No tienes nada en tu carcaj.");
+		msg(_("You have nothing in your quiver."));
 		return;
 	}
 
@@ -4023,8 +4079,8 @@ void do_cmd_quiver(void)
 		screen_save();
 
 		/* Get an item to use a context command on (Display the quiver) */
-		if (get_item(&obj, "Seleccionar Objeto:",
-				"Error en do_cmd_quiver(), por favor informa.",
+		if (get_item(&obj, _("Select Item:"),
+				_("Error in do_cmd_quiver(), please report."),
 				CMD_NULL, NULL, GET_ITEM_PARAMS)) {
 			/* Load screen */
 			screen_load();
@@ -4058,7 +4114,7 @@ void do_cmd_look(void)
 	/* Look around */
 	if (target_set_interactive(TARGET_LOOK, -1, -1, true))
 	{
-		msg("Objetivo Seleccionado.");
+		msg(_("Target Selected."));
 	}
 }
 
@@ -4103,20 +4159,20 @@ void do_cmd_locate(void)
 		if ((y2 == y1) && (x2 == x1)) {
 			tmp_val[0] = '\0';
 		} else {
-			strnfmt(tmp_val, sizeof(tmp_val), "%s%s de",
-			        ((y2 < y1) ? " norte" : (y2 > y1) ? " sur" : ""),
-			        ((x2 < x1) ? " oeste" : (x2 > x1) ? " este" : ""));
+			strnfmt(tmp_val, sizeof(tmp_val), _("%s%s of"),
+			        ((y2 < y1) ? _(" north") : (y2 > y1) ? _(" south") : ""),
+			        ((x2 < x1) ? _(" west") : (x2 > x1) ? _(" east") : ""));
 		}
 
 		/* Prepare to ask which way to look */
 		strnfmt(out_val, sizeof(out_val),
-		        "Sector del mapa [%d,%d], que está%s tu sector. ¿Dirección?",
+		        _("Map sector [%d,%d], which is%s your sector. Direction?"),
 		        (2 * y2) / panel_hgt, (2 * x2) / panel_wid, tmp_val);
 
 		/* More detail */
 		if (OPT(player, center_player)) {
 			strnfmt(out_val, sizeof(out_val),
-		        	"Sector del mapa [%d(%02d),%d(%02d)], que está%s tu sector. ¿Dirección?",
+		        	_("Map sector [%d(%02d),%d(%02d)], which is%s your sector. Direction?"),
 					(2 * y2) / panel_hgt, (2 * y2) % panel_hgt,
 					(2 * x2) / panel_wid, (2 * x2) % panel_wid, tmp_val);
 		}
@@ -4259,9 +4315,9 @@ static void lookup_symbol(keycode_t key, char *buf, size_t max)
 
 	/* No matches */
         if (utf32_isprint(key)) {
-			strnfmt(buf, max, "%s - Símbolo Desconocido.", key_utf8);
+			strnfmt(buf, max, _("%s - Unknown Symbol."), key_utf8);
         } else {
-			strnfmt(buf, max, "? - Símbolo Desconocido.");
+			strnfmt(buf, max, _("? - Unknown Symbol."));
         }
 	
 	return;
@@ -4296,7 +4352,7 @@ void do_cmd_query_symbol(void)
 	uint16_t *who;
 
 	/* Get a character, or abort */
-	if (!get_com_ex("Introduce el carácter a identificar, o control+[ANU]: ",
+	if (!get_com_ex(_("Enter character to be identified, or control+[ANU]: "),
 			&sym) || sym.type == EVT_MOUSE) {
 		return;
 	}
@@ -4304,13 +4360,13 @@ void do_cmd_query_symbol(void)
 	/* Describe */
 	if (sym.key.code == KTRL('A')) {
 		all = true;
-		my_strcpy(buf, "Lista completa de monstruos.", sizeof(buf));
+		my_strcpy(buf, _("Full monster list."), sizeof(buf));
 	} else if (sym.key.code == KTRL('U')) {
 		all = uniq = true;
-		my_strcpy(buf, "Lista de monstruos únicos.", sizeof(buf));
+		my_strcpy(buf, _("Unique monster list."), sizeof(buf));
 	} else if (sym.key.code == KTRL('N')) {
 		all = norm = true;
-		my_strcpy(buf, "Lista de monstruos no únicos.", sizeof(buf));
+		my_strcpy(buf, _("Non-unique monster list."), sizeof(buf));
 	} else {
 		lookup_symbol(sym.key.code, buf, sizeof(buf));
 	}
@@ -4350,7 +4406,7 @@ void do_cmd_query_symbol(void)
 	}
 
 	/* Prompt */
-	put_str("¿Recordar detalles? (y/k/n): ", 0, 40);
+	put_str(_("Recall details? (y/k/n): "), 0, 40);
 
 	/* Query */
 	query = inkey();
@@ -4362,7 +4418,9 @@ void do_cmd_query_symbol(void)
 	if (query.code == 'k') {
 		/* Sort by kills (and level) */
 		sort(who, num, sizeof(*who), cmp_pkill);
-	} else if (query.code == 'y' || query.code == 'p') {
+	} else if (query.code == 'y' || query.code == 'p' ||
+			(streq(lang_current, "es") &&
+			 (query.code == 's' || query.code == 'S'))) {
 		/* Sort by level; accept 'p' as legacy */
 		sort(who, num, sizeof(*who), cmp_level);
 	} else {
@@ -4392,7 +4450,7 @@ void do_cmd_query_symbol(void)
 		tb = textblock_new();
 		lore_title(tb, race);
 
-		textblock_append(tb, " [(r)ecordar, ESC]");
+		textblock_append(tb, _(" [(r)ecall, ESC]"));
 		textui_textblock_place(tb, SCREEN_REGION, NULL);
 		textblock_free(tb);
 

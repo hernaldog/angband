@@ -24,6 +24,7 @@
 #include "game-input.h"
 #include "game-world.h"
 #include "init.h"
+#include "lang.h"
 #include "monster.h"
 #include "obj-gear.h"
 #include "obj-util.h"
@@ -133,7 +134,7 @@ void do_cmd_xxx_options(void)
  */
 void do_cmd_unknown(void)
 {
-	prt("Presiona '?' para ayuda.", 0, 0);
+	prt(_("Press '?' for help."), 0, 0);
 }
 
 
@@ -148,10 +149,11 @@ void do_cmd_version(void)
 	region local_area = { 0, 0, 0, 0 };
 
 	my_strcpy(header_buf,
-			  format("Estás jugando a %s. Escribe '?' para más información.", buildver),
+			  format(_("You are playing %s. Type '?' for more information."), buildver),
 			  sizeof(header_buf));
 	textblock_append(tb, "\n");
-	textblock_append(tb, "%s", copyright);
+	textblock_append(tb, "%s",
+			  (strcmp(lang_current, "en") == 0) ? copyright_en : copyright);
 	textui_textblock_show(tb, local_area, header_buf);
 	textblock_free(tb);
 }
@@ -166,16 +168,16 @@ void textui_cmd_retire(void)
 
 	/* Verify */
 	if (player->total_winner) {
-		if (!get_check("¿Quieres eliminar tu personaje? "))
+		if (!get_check(_("Do you want to delete your character? ")))
 			return;
 	} else {
 		struct keypress ch;
 
-		if (!get_check("¿Realmente quieres eliminar tu personaje?"))
+		if (!get_check(_("Do you really want to delete your character?")))
 			return;
 
 		/* Special Verification for retirement */
-		prt("Por favor, verifica QUE TE RETIRAS DE ESTE PERSONAJE escribiendo el símbolo '@': ", 0, 0);
+		prt(_("Please verify THAT YOU ARE RETIRING FROM THIS CHARACTER by typing the '@' symbol: "), 0, 0);
 		event_signal(EVENT_INPUT_FLUSH);
 		ch = inkey();
 		prt("", 0, 0);
@@ -190,7 +192,7 @@ void textui_cmd_retire(void)
  */
 void textui_cmd_rest(void)
 {
-	const char *p = "Descansar (0-9999, '!' HP o PM, '*' HP y PM, '&' hasta terminar): ";
+	const char *p = _("Rest (0-9999, '!' HP or SP, '*' HP and SP, '&' as needed): ");
 
 	char out_val[5] = "& ";
 
@@ -321,7 +323,7 @@ void html_screenshot(const char *path, int mode, term *other_term)
 	/* Oops */
 	if (!fp) {
 		mem_free(mbbuf);
-		plog_fmt("¡No se puede escribir el archivo '%s'!", path);
+		plog_fmt(_("Cannot write file '%s'!"), path);
 		return;
 	}
 
@@ -507,7 +509,7 @@ static void do_cmd_save_screen_html(int mode, term *other_term)
 
 	/* Check for failure */
 	if (!fff) {
-		msg("El volcado de pantalla falló.");
+		msg(_("Screen dump failed."));
 		event_signal(EVENT_MESSAGE_FLUSH);
 		return;
 	}
@@ -529,7 +531,7 @@ static void do_cmd_save_screen_html(int mode, term *other_term)
 	file_delete(file_name);
 	do_cmd_redraw();
 
-	msg("Volcado de pantalla %s guardado.", mode ? "texto de foro" : "HTML");
+	msg(_("Screen dump %s saved."), mode ? _("forum text") : "HTML");
 	event_signal(EVENT_MESSAGE_FLUSH);
 }
 
@@ -539,7 +541,7 @@ static void do_cmd_save_screen_html(int mode, term *other_term)
  */
 void do_cmd_save_screen(void)
 {
-	char ch = get_char("¿Volcar como (H)TML o texto de (F)oro? ", "hf", 2, ' ');
+	char ch = get_char(_("Dump as (H)TML or (F)orum text? "), "hf", 2, ' ');
 	int mode = 0;
 	term *ml_term;
 
@@ -555,7 +557,7 @@ void do_cmd_save_screen(void)
 	}
 	ml_term = find_first_subwindow(PW_MONLIST);
 	if (ml_term) {
-		if (!get_check("¿Incluir lista de monstruos? ")) ml_term = NULL;
+		if (!get_check(_("Include monster list? "))) ml_term = NULL;
 	}
 	do_cmd_save_screen_html(mode, ml_term);
 }

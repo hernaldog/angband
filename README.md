@@ -4,7 +4,7 @@
 Hernaldo González  - hernaldog@gmail.com
 
 # Status general de la traducción
-90%
+98%
 
 ## Bitácora principal
 - 21-02-2026: Se entiende como compilar en Windows 11 y hacen pruebas de concepto.
@@ -17,6 +17,10 @@ Hernaldo González  - hernaldog@gmail.com
 - 17-04-2026: Se traducen todos los objetos
 - 13-06-2026: Razas, Clases, Versos del Druida, ajustes generales para mejorar semántica
 - 25-06-2006: Se agrega género a los objetos para mejor traducción: Ves una Poción, Ves una Galleta, etc. Se traducen opciones de modo mago.
+- 09-07-2026: Se crea un sistema multi-idioma que soporta por ahora Inglés y Español. Permite en un futuro traducir a más idiomas. Se agregan dos lenguajes Inglés y Español desde el Menú Principal de Windows. 
+Por abajo se crea un archivo lib/locale/es.po que tiene el diccionario de strings de la interfaz (src/*.c, *.h) para español. Si en un futuro se quiere traducir a portuguez solo hay que crear locale/pt.po
+Se usa un sistema "lang_current" para temas que el diccionario simple no puede resolver. Para los .txt de objetos, monstruos, terrenos, etc se usan carpetas separadas 
+lib/gamedata/en/*.txt y lib/gamedata/es/*.txt. Falta solo probar y probar en ambos idioma inglés y español.
 
 ## Motivación
 Me entantan los juegos Roguelike clásicos como Moria, Rogue, etc, a la vez, siempre me ha gustado el Señor de los Anillos, y que mejor que este gran juego que uno los dos mundos. 
@@ -56,17 +60,33 @@ El juego por si solo tiene un modo símple de testear las traducciones. Puedes u
 - Control + w para entrar a modo mago (no se puntua)
 - Control + a para activar comandos
   - c: selecciona el objeto que quieras que aparezca bajo tus pies, saldrá un menú
-  - s: hace aparecer uno más monstruos aleatorios cercanos. Te preguntará por la cantidad.
+  - s: hace aparecer uno o más monstruos aleatorios cercanos. Te preguntará por la cantidad.
   - n: hace aparecer un monstruo cercano. Puedes escribir el nombre del monstruo (ej: naga negro) o un número con el ID del monstruo
   - a: curarte
-  - j: teletransportarse a un nivel
+  - j: teletransportarse a un nivel. Puedes escribir el nombre de perfil: classic, lair, town, moria, cavern y otros
   - w: iluminar nivel
   - T: crear trampa, luego escribe el nombre exacto, ejemplo: trampa de gas
   - A: subir al nivel 50 (máximo nivel del personaje respecto a la experiencia)
 - Resto de comandos están en archivo: \docs\hacking\debug.rst
-  
+
+### Teclas especiales que no están en teclado Español o Latinoamericano
+
+Hay teclas con más textos ocultos a simple vista. Ejemplo la tecla ~.
+
+Para asignar ~ a un teclado Español o Latinoamericano debes asignar en las opciones del juego.
+- Presiona =
+- Presiona e para "Editar mapa de teclas (avanzado)"
+- Presiona d para "Crear un mapa de teclas"
+- Presiona la tecla ñ del teclado
+- Escribe la tecla que quieres mapear, en este caso presiona tecla ALT + 126 para asignar la ~.
+- Presiona = para guardar
+- Selecciona b "Guardar mapas de teclas en archivo" para que te quede un archivo .prf local y la siguiente partida ya está guardado ese cambio
+
+Con esto ya tienes la tecla ñ para mostrar el Conocimiento actual
+
+
 ### Eliminar puntajes
-Luego de cada prueba posterior a una traducción recomiendo eliminar archivo \lib\user\scores\scores.raw ya que te guarda tu historial y con el tiempo ya debes presionar decenas de veces Espacio para salir del programa.
+Luego de cada prueba posterior a una traducción recomiendo eliminar dentro de \lib\user\scores\ archivos scores.raw y scores.old, ya que te guarda tu historial y con el tiempo ya debes presionar decenas de veces Espacio para salir del programa.
 
 ## Pasos para la compilación si quieres colaborar
 
@@ -221,148 +241,3 @@ Contenido del script shell:
     echo "Abriendo juego C:/juegos/angband-src-esp/src/game/angband.exe"
     
     C:/juegos/angband-src-esp/src/game/angband.exe
-
-
-## Pendientes de traducción
-- Limpiar y dejar solo traducciones al español que aportan a la salida en pantalla del juego pero no comentarios u otros. A Excepción de nuevos parámetros que implican algo relacionado a la traducción: Pendiente
-- Cambios de imágenes gráficas General Store, Armory, Magic Items, Black Market, Temple.
-- Cambios en tabulaciones o largos de frase que se ven mal visualmente como "Selecciona Nuevo" se ve muy a la derecha
-- Enemigo bites you, enemigo misses you, etc
-- En el lore de las criaturas como "Ello tiene una media valoración" o "No se sabe nada de su ataque de su"
-- Has detectado X objetos: 6 Light Teal Pocións. Acá o inglés o español y la s está rara. Archivo "obj-desc.c"
-- Mejorar: The fruit bat (offscreen) se despertan.
-- Mejorar: "Ves un fruit bat (unhurt, hasted)
-- Mejorar: "Puedes aprender 2 rituals más."
-- Cuando bebes una poción sin identificar, la descubres y dice luego "Tienes Pociones de Fuerza Berserk", debería decir "Descubriste Pociones..."
-- Mensajes cuando estás sin luz y te pegan
-
-## Varios ok
-- Mejorar mensaje inferior-izq: "The"... ej: "The masa de gusanos blancos empieza a moverse más rápido" -> ok
-- Has encontrado 18 piezas de oro en gold, buscar mejor traducción -> ok
-- No se pueden traducir nombres de monstruos (monster.txt) si se hace indica error al cargar partida: ok, al traducir un txt debe compilarserse e iniciar una nueva partida
-- Mejorar lista de items: un Apple: ok
-- The cutpurse ¡huye aterrorizados!. Dice con "s" y es uno solo: ok se dejó sin s fijo por ahora
-- Mejorar: "Puedes ver ningún monstuo": ok
-- Tecla S "Race and class abilities": ok
-- Tecla V información de licencia: ok
-- Mejorar "Puedes ver ningún objeto": ok
-- Mejorar "Este parece ser un lugar manso y resguardado: ok
-- Varios objetos en plural como Ration, por Racións, y es Raciones, Pastels de Miel por Pasteles de Miel -> ok
-- Mejorar donde dice "T o m o s Nigromántico" por "Tomos de Nigrómantico": ok
-- Ver si está correcto en venta de Magic Items a la derecha del precio dice "prom", ej "100 prom": ok, es prom de "avg" en inglés y se ve en el juego original
-- Mejorar: "You have 7 Rations of Food (a).": ok
-- Con tecla d "Soltar qué objeto", por "¿Qué objeto soltar?": ok
-- You drop, debe decir "Soltaste x objeto": ok
-- Cambios de unidades a Sistema métrico decimal: ok
-  - menú superior derecho lb a kg
-  - peso de listado de items menú superior de lb a kg
-  - lista de items al usar i inventario, w usar o d drop de lb a kg
-  - nuevo personaje unidades peso de st lb a kg
-  - nuevo personaje carga y sobrepeso de lb a kg
-  - nuevo personaje altura de pies y pulgadas a cms
-  - nuevo personaje de ft a mt (infravisión)
-  - tiendas de ciudad pesos de items de lb a kg
-
-## Detalle de la traducción por archivo
-
-| Archivo                                  | % Avance | TODO                                                 |
-| -----------------------------------------| ------   | -----------------------------------------------------|
-| docs\attack.rst                          | 100      |
-| docs\command.rst                         | 100      |
-| docs\dungeon.rst                         | 100      |
-| docs\customize.rst                       | 100      |
-| docs\hacking\modifying.rst               | 100      |
-| lib\gamedata\body.txt                    | 100      |
-| lib\gamedata\brand.txt                   | 100      | Tiene estados ice, fire, acid, etc.
-| lib\gamedata\class.txt                   | 100      |
-| lib\gamedata\player_property.txt         | 100      |
-| lib\gamedata\history.txt                 | 100      |
-| lib\gamedata\hints.txt                   | 100      |
-| lib\gamedata\player_timed.txt            | 70       | No traducir :Hungry: afecta a new game, hay que revisar todo el texto|
-| lib\gamedata\object.txt                  | 90       | Faltan traducir textos name|
-| lib\gamedata\ego_item.txt                | 100      |
-| lib\gamedata\object_property.txt         | 100      |
-| lib\gamedata\monster_spell.txt           | 100      |
-| lib\gamedata\monster.txt                 | 100      | Revisar textos se pueden mejorar|
-| lib\gamedata\blow_methods.txt            | 100      |
-| lib\gamedata\flavor.txt                  | 100      |
-| lib\gamedata\terrain.txt                 | 100      |
-| lib\gamedata\pain.txt                    | 100      |
-| lib\gamedata\p_race.txt                  | 100      |
-| lib\gamedata\projection.txt              | 100      | Tiene más estados ice, dark, sound, shards, etc
-| lib\gamedata\realm.txt                   | 30       |
-| lib\gamedata\trap.txt                    | 90       | Nombres de Trampas. TODO: revisar si se puede traducir discolored spot:fire trap
-| lib\help\commands.txt                    | 100      |
-| lib\help\index.txt                       | 100      |
-| lib\help\r_index.txt                     | 100      |
-| lib\help\symbols.txt                     | 100      |
-| lib\screens\news.txt                     | 100      |
-| src\borg\borg.txt                        | 100      |
-| src\borg\borg-item.c                     | 100      |
-| src\main-win.c                           | 100      |
-| src\borg\borg-messages.c                 | 100      |
-| src\mon-util.c                           | 100      |
-| src\cmd-cave.c                           | 100      |
-| src\borg\borg-item-val.c                 | 100      |
-| src\ui-mon-list.c                        | 100      | Corregir traducción "Puedes ver ningún monstruo".|
-| src\ui-knowledge.c                       | 100      |
-| src\ui-game.c                            | 100      |
-| src\ui-score.c                           | 100      |
-| src\ui-event.h                           | 100      |
-| src\list-equip-slots.h                   | 100      |
-| src\obj-desc.c                           | 100      |
-| src\ui-obj-list.c                        | 100      |
-| src\ui-birth.c                           | 100      |
-| src\ui-help                              | 100      |
-| src\cmd-obj.c                            | 100      |
-| src\ui-object.c                          | 100      | Peso de inventario menú superior derecho, comando i y comando w|
-| src\ui-input.c                           | 100      |
-| src\player-attack.c                      | 100      |
-| src\player-util.c                        | 100      |
-| src\ui-command.c                         | 100      |
-| src\ui-player.c                          | 100      | Nuevo personaje: unidades al español de peso, altura, carga, sobrepeso, distancia de infravisión|
-| src\list-options.h                       | 100      |
-| src\ui-options.c                         | 100      |
-| src\ui-display.c                         | 100      |
-| src\ui-context.c                         | 100      | 
-| src\mon-lore.c                           | 100      | Corregir frases varias |
-| src\player-calcs.c                       | 100      |
-| src\player-spell.c                       | 100      |
-| src\ui-spell.c                           | 100      | Corregir "Estudiar qué libro?"|
-| src\score.c                              | 100      |
-| src\ui-target.c                          | 100      |
-| src\cmd-pickup.c                         | 100      |
-| src\ui-death.c                           | 100      |
-| src\player.c                             | 100      |
-| src\mon-move.c                           | 100      |
-| src\mon-desc.c                           | 100      |
-| src\list-mon-message.h                   | 100      |
-| src\ui-store.c                           | 100      |
-| src\cave.c                               | 100      |
-| src\list-origins.h                       | 100      |
-| src\obj-info.c                           | 100      |
-| src\effects-info.c                       | 100      |
-| src\list-effects.h                       | 100      |
-| src\ui-output.c                          | 100      |
-| src\buildid.c                            | 100      |
-| src\ui-player-properties.c               | 100      |
-| src\list-mon-race-flags.h                | 100      |
-| src\obj-gear.c                           | 100      |
-| src\mon-attack.c                         | 100      |
-| src\mon-init.c                           | 100      |
-| src\mon-blows.h                          | 100      |
-| src\mon-blows.c                          | 100      |
-| src\obj-tval.c                           | 100      |
-| src\object.h                             | 100      |
-| src\obj-desc.h                           | 100      |
-| src\obj-tval.h                           | 100      |
-| src\obj-list.c                           | 100      |
-| src\obj-util.c                           | 100      |
-| src\obj-init.h                           | 100      |
-| src\obj-init.c                           | 100      |
-| src\obj-chest.c                          | 100      |
-| src\obj-power.c                          | 100      |
-| src\player.h                             | 100      |
-| src\store.c                              | 100      |
-| src\effect-handler-general.c             | 100      |
-| src\effect-handler-attack.c              | 100      |

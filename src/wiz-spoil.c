@@ -21,6 +21,7 @@
 #include "cmds.h"
 #include "game-world.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-lore.h"
 #include "monster.h"
 #include "obj-desc.h"
@@ -81,7 +82,7 @@ static void spoiler_underline(const char *str, char c)
 /**
  * The basic items categorized by type
  */
-static const grouper group_item[] =
+static grouper group_item[] =
 {
 	{ TV_SHOT,		"Munición" },
 	{ TV_ARROW,		  NULL },
@@ -129,6 +130,56 @@ static const grouper group_item[] =
 	{ TV_FLASK,		  NULL },
 
 	{ 0, "" }
+};
+
+/* English equivalents of group_item[], swapped in when lang_current is "en" */
+static const char *group_item_en[N_ELEMENTS(group_item)] = {
+	"Ammunition",
+	NULL,
+	NULL,
+
+	"Bows",
+
+	"Weapons",
+	NULL,
+	NULL,
+	NULL,
+
+	"Armor (Body)",
+	NULL,
+	NULL,
+
+	"Armor (Misc)",
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+
+	"Amulets",
+	"Rings",
+
+	"Scrolls",
+	"Potions",
+	"Food",
+	"Mushrooms",
+
+	"Rods",
+	"Wands",
+	"Staves",
+
+	"Magic Books",
+	"Prayer Books",
+	"Nature Books",
+	"Shadow Books",
+	"Mysterious Books",
+
+	"Chests",
+
+	"Lights and fuel",
+	NULL,
+
+	""
 };
 
 
@@ -211,13 +262,22 @@ void spoil_obj_desc(const char *fname)
 	char dam[80];
 	const char *format = "%-51s  %7s%6s%4s%9s\n";
 
+	if (strcmp(lang_current, "en") == 0) {
+		size_t gi;
+
+		for (gi = 0; gi < N_ELEMENTS(group_item); gi++) {
+			if (group_item_en[gi])
+				group_item[gi].name = group_item_en[gi];
+		}
+	}
+
 	/* Open the file */
 	path_build(buf, sizeof(buf), ANGBAND_DIR_USER, fname);
 	fh = file_open(buf, MODE_WRITE, FTYPE_TEXT);
 
 	/* Oops */
 	if (!fh) {
-		msg("No se puede crear el archivo de spoiler.");
+		msg(_("Can't create the spoiler file."));
 		return;
 	}
 
@@ -225,10 +285,10 @@ void spoil_obj_desc(const char *fname)
 	who = mem_zalloc(z_info->r_max * sizeof(uint16_t));
 
 	/* Header */
-	file_putf(fh, "Archivo de Spoiler -- Objetos Básicos (%s)\n\n\n", buildid);
+	file_putf(fh, _("Spoiler File -- Basic Objects (%s)\n\n\n"), buildid);
 
 	/* More Header */
-	file_putf(fh, format, "Descripción", "Daño/AC", "Peso", "Niv", "Coste");
+	file_putf(fh, format, _("Description"), _("Dam/AC"), _("Weight"), _("Lev"), _("Cost"));
 	file_putf(fh, format, "----------------------------------------",
 	        "------", "---", "---", "----");
 
@@ -327,12 +387,12 @@ void spoil_obj_desc(const char *fname)
 
 	/* Check for errors */
 	if (!file_close(fh)) {
-		msg("No se puede cerrar el archivo de spoiler.");
+		msg(_("Can't close the spoiler file."));
 		return;
 	}
 
 	/* Message */
-	msg("Archivo de spoiler creado correctamente.");
+	msg(_("Successfully created a spoiler file."));
 }
 
 
@@ -348,7 +408,7 @@ void spoil_obj_desc(const char *fname)
 /**
  * The artifacts categorized by type
  */
-static const grouper group_artifact[] =
+static grouper group_artifact[] =
 {
 	{ TV_SWORD,         "Espadas" },
 	{ TV_POLEARM,       "Armas de Asta" },
@@ -374,6 +434,32 @@ static const grouper group_artifact[] =
 	{ 0, NULL }
 };
 
+/* English equivalents of group_artifact[], swapped in when lang_current is "en" */
+static const char *group_artifact_en[N_ELEMENTS(group_artifact)] = {
+	"Swords",
+	"Polearms",
+	"Hafted Weapons",
+	"Bows",
+	"Diggers",
+
+	"Body Armor",
+	NULL,
+	NULL,
+
+	"Cloaks",
+	"Shields",
+	"Helms/Crowns",
+	NULL,
+	"Gloves",
+	"Boots",
+
+	"Light Sources",
+	"Amulets",
+	"Rings",
+
+	NULL
+};
+
 
 /**
  * Create a spoiler file for artifacts
@@ -383,13 +469,22 @@ void spoil_artifact(const char *fname)
 	int i, j;
 	char buf[1024];
 
+	if (strcmp(lang_current, "en") == 0) {
+		size_t gi;
+
+		for (gi = 0; gi < N_ELEMENTS(group_artifact); gi++) {
+			if (group_artifact_en[gi])
+				group_artifact[gi].name = group_artifact_en[gi];
+		}
+	}
+
 	/* Build the filename */
 	path_build(buf, sizeof(buf), ANGBAND_DIR_USER, fname);
 	fh = file_open(buf, MODE_WRITE, FTYPE_TEXT);
 
 	/* Oops */
 	if (!fh) {
-		msg("No se puede crear el archivo de spoiler.");
+		msg(_("Can't create the spoiler file."));
 		return;
 	}
 
@@ -398,9 +493,9 @@ void spoil_artifact(const char *fname)
 	text_out_file = fh;
 
 	/* Dump the header */
-	spoiler_underline(format("Spoilers de Artefactos para %s", buildid), '=');
+	spoiler_underline(format(_("Artifact Spoilers for %s"), buildid), '=');
 
-	text_out("\n La semilla de artefactos aleatorios es %lu\n", (unsigned long)seed_randart);
+	text_out(_("\n The randart seed is %lu\n"), (unsigned long)seed_randart);
 
 	/* List the artifacts by tval */
 	for (i = 0; group_artifact[i].tval; i++) {
@@ -459,7 +554,7 @@ void spoil_artifact(const char *fname)
 			 * its power rating.
 			 */
 			art_weight = object_weight_one(obj);
-			text_out("\nNivel Mín %u, Nivel Máx %u, Probabilidad de generación %u, Poder %ld, %d.%d lbs\n",
+			text_out(_("\nMin Level %u, Max Level %u, Generation Chance %u, Power %ld, %d.%d lbs\n"),
 				art->alloc_min, art->alloc_max, art->alloc_prob,
 				(long)object_power(obj, false, NULL),
 				art_weight / 10, art_weight % 10);
@@ -475,12 +570,12 @@ void spoil_artifact(const char *fname)
 
 	/* Check for errors */
 	if (!file_close(fh)) {
-		msg("No se puede cerrar el archivo de spoiler.");
+		msg(_("Can't close the spoiler file."));
 		return;
 	}
 
 	/* Message */
-	msg("Archivo de spoiler creado correctamente.");
+	msg(_("Successfully created a spoiler file."));
 }
 
 
@@ -514,17 +609,17 @@ void spoil_mon_desc(const char *fname)
 
 	/* Oops */
 	if (!fh) {
-		msg("No se puede crear el archivo de spoiler.");
+		msg(_("Can't create the spoiler file."));
 		return;
 	}
 
 	/* Dump the header */
-	file_putf(fh, "Spoilers de Monstruos para %s\n", buildid);
+	file_putf(fh, _("Monster Spoilers for %s\n"), buildid);
 	file_putf(fh, "------------------------------------------\n\n");
 
 	/* Dump the header */
 	file_putf(fh, "%-40.40s%4s%4s%6s%8s%4s  %11.11s\n",
-	        "Nombre", "Niv", "Rar", "Vel", "Pv", "Ca", "Info Visual");
+	        _("Name"), _("Lev"), _("Rar"), _("Spd"), _("HP"), _("AC"), _("Visual Info"));
 	file_putf(fh, "%-40.40s%4s%4s%6s%8s%4s  %11.11s\n",
 	        "----", "---", "---", "---", "--", "--", "-----------");
 
@@ -557,7 +652,7 @@ void spoil_mon_desc(const char *fname)
 		else if (rf_has(race->flags, RF_UNIQUE))
 			strnfmt(nam, sizeof(nam), "[U] %s", name);
 		else
-			strnfmt(nam, sizeof(nam), "El %s", name);
+			strnfmt(nam, sizeof(nam), _("The %s"), name);
 
 		/* Level */
 		strnfmt(lev, sizeof(lev), "%d", race->level);
@@ -587,7 +682,7 @@ void spoil_mon_desc(const char *fname)
 			strnfmt(exp, sizeof(exp), "%s '%s'",
 				attr_to_text(race->d_attr), mbbuf);
 		} else {
-			strnfmt(exp, sizeof(exp), "%s (carácter inválido)",
+			strnfmt(exp, sizeof(exp), _("%s (invalid character)"),
 				attr_to_text(race->d_attr));
 		}
 
@@ -619,12 +714,12 @@ void spoil_mon_desc(const char *fname)
 
 	/* Check for errors */
 	if (!file_close(fh)) {
-		msg("No se puede cerrar el archivo de spoiler.");
+		msg(_("Can't close the spoiler file."));
 		return;
 	}
 
 	/* Worked */
-	msg("Archivo de spoiler creado correctamente.");
+	msg(_("Successfully created a spoiler file."));
 }
 
 
@@ -653,13 +748,13 @@ void spoil_mon_info(const char *fname)
 	fh = file_open(buf, MODE_WRITE, FTYPE_TEXT);
 
 	if (!fh) {
-		msg("No se puede crear el archivo de spoiler.");
+		msg(_("Can't create the spoiler file."));
 		return;
 	}
 
 	/* Dump the header */
 	tb = textblock_new();
-	textblock_append(tb, "Spoilers de Monstruos para %s\n", buildid);
+	textblock_append(tb, _("Monster Spoilers for %s\n"), buildid);
 	textblock_append(tb, "------------------------------------------\n\n");
 	textblock_to_file(tb, fh, 0, 75);
 	textblock_free(tb);
@@ -695,7 +790,7 @@ void spoil_mon_info(const char *fname)
 		else if (rf_has(race->flags, RF_UNIQUE))
 			textblock_append(tb, "[U] ");
 		else
-			textblock_append(tb, "El ");
+			textblock_append(tb, _("The "));
 
 		/* As of 3.5, race->name and race->text are stored as UTF-8 strings;
 		 * there is no conversion from the source edit files. */
@@ -707,23 +802,23 @@ void spoil_mon_info(const char *fname)
 			mbbuf[n_mbbuf] = '\0';
 			textblock_append(tb, " '%s')\n", mbbuf);
 		} else {
-			textblock_append(tb, " (carácter inválido))\n");
+			textblock_append(tb, _(" (invalid character))\n"));
 		}
 
 		/* Line 2: number, level, rarity, speed, HP, AC, exp */
 		textblock_append(tb, "=== ");
-		textblock_append(tb, "Núm:%d  ", r_idx);
-		textblock_append(tb, "Niv:%d  ", race->level);
-		textblock_append(tb, "Rar:%d  ", race->rarity);
+		textblock_append(tb, _("Num:%d  "), r_idx);
+		textblock_append(tb, _("Lev:%d  "), race->level);
+		textblock_append(tb, _("Rar:%d  "), race->rarity);
 
 		if (race->speed >= 110)
-			textblock_append(tb, "Vel:+%d  ", (race->speed - 110));
+			textblock_append(tb, _("Spd:+%d  "), (race->speed - 110));
 		else
-			textblock_append(tb, "Vel:-%d  ", (110 - race->speed));
+			textblock_append(tb, _("Spd:-%d  "), (110 - race->speed));
 
-		textblock_append(tb, "Pv:%d  ", race->avg_hp);
-		textblock_append(tb, "Ca:%d  ", race->ac);
-		textblock_append(tb, "Exp:%ld\n", (long)(race->mexp));
+		textblock_append(tb, _("HP:%d  "), race->avg_hp);
+		textblock_append(tb, _("AC:%d  "), race->ac);
+		textblock_append(tb, _("Exp:%ld\n"), (long)(race->mexp));
 
 		/* Normal description (with automatic line breaks) */
 		lore_description(tb, race, lore, true);
@@ -741,9 +836,9 @@ void spoil_mon_info(const char *fname)
 
 	/* Check for errors */
 	if (!file_close(fh)) {
-		msg("No se puede cerrar el archivo de spoiler.");
+		msg(_("Can't close the spoiler file."));
 		return;
 	}
 
-	msg("Archivo de spoiler creado correctamente.");
+	msg(_("Successfully created a spoiler file."));
 }

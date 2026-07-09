@@ -19,6 +19,7 @@
 #include "angband.h"
 #include "cmd-core.h"
 #include "game-input.h"
+#include "lang.h"
 #include "player.h"
 
 bool (*get_string_hook)(const char *prompt, char *buf, size_t len);
@@ -269,12 +270,12 @@ bool confirm_debug(void)
 	}
 
 	/* Otherwise, use a generic procedure.  First, mention effects. */
-	msg("¡Estás a punto de usar los comandos de depuración, peligrosos y no soportados!");
-	msg("¡Tu máquina puede colgarse, y tu partida guardada puede corromperse!");
+	msg(_("You are about to use the dangerous, unsupported debug commands!"));
+	msg(_("Your machine may crash, and your savefile may become corrupted!"));
 	event_signal(EVENT_MESSAGE_FLUSH);
 
 	/* Then verify. */
-	return get_check("¿Seguro que quieres usar los comandos de depuración? ");
+	return get_check(_("Are you sure you want to use the debug commands? "));
 }
 
 /**

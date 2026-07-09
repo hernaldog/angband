@@ -18,6 +18,7 @@
  */
 
 #include "angband.h"
+#include "lang.h"
 #include "ui-input.h"
 #include "ui-menu.h"
 #include "ui-output.h"
@@ -52,6 +53,13 @@ static menu_action spoil_actions[] =
 	{ 0, 0, "Información completa de monstruos (mon-info.spo)", spoiler_menu_act },
 };
 
+static const char *spoil_actions_en[N_ELEMENTS(spoil_actions)] = {
+	"Brief info on objects (obj-desc.spo)",
+	"Brief info on artifacts (artifact.spo)",
+	"Brief info on monsters (mon-desc.spo)",
+	"Full info on monsters (mon-info.spo)"
+};
+
 
 /**
  * Display menu for generating spoiler files.
@@ -59,10 +67,17 @@ static menu_action spoil_actions[] =
 void do_cmd_spoilers(void)
 {
 	if (!spoil_menu) {
+		if (strcmp(lang_current, "en") == 0) {
+			size_t i;
+
+			for (i = 0; i < N_ELEMENTS(spoil_actions); i++)
+				spoil_actions[i].name = spoil_actions_en[i];
+		}
+
 		spoil_menu = menu_new_action(spoil_actions,
 			N_ELEMENTS(spoil_actions));
 		spoil_menu->selections = all_letters_nohjkl;
-		spoil_menu->title = "Crear spoilers";
+		spoil_menu->title = _("Create spoilers");
 	}
 
 	screen_save();

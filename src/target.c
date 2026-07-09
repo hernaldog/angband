@@ -21,6 +21,7 @@
 #include "cmd-core.h"
 #include "game-input.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-desc.h"
 #include "mon-util.h"
 #include "monster.h"
@@ -67,31 +68,31 @@ void look_mon_desc(char *buf, size_t max, int m_idx)
 	/* Assess health */
 	if (mon->hp >= mon->maxhp) {
 		/* No damage */
-		my_strcpy(buf, (living ? "ileso" : "sin daños"), max);
+		my_strcpy(buf, (living ? _("unhurt") : _("undamaged")), max);
 	} else {
 		/* Calculate a health "percentage" */
 		int perc = 100L * mon->hp / mon->maxhp;
 
 		if (perc >= 60)
-			my_strcpy(buf, (living ? "algo herido" : "algo dañado"),
+			my_strcpy(buf, (living ? _("somewhat wounded") : _("somewhat damaged")),
 					  max);
 		else if (perc >= 25)
-			my_strcpy(buf, (living ? "herido" : "dañado"), max);
+			my_strcpy(buf, (living ? _("wounded") : _("damaged")), max);
 		else if (perc >= 10)
-			my_strcpy(buf, (living ? "gravemente herido" : "gravemente dañado"), max);
+			my_strcpy(buf, (living ? _("badly wounded") : _("badly damaged")), max);
 		else
-			my_strcpy(buf, (living ? "casi muerto" : "casi destruido"), max);
+			my_strcpy(buf, (living ? _("almost dead") : _("almost destroyed")), max);
 	}
 
 	/* Effect status */
-	if (mon->m_timed[MON_TMD_SLEEP]) my_strcat(buf, ", dormido", max);
-	if (mon->m_timed[MON_TMD_HOLD]) my_strcat(buf, ", paralizado", max);
-	if (mon->m_timed[MON_TMD_DISEN]) my_strcat(buf, ", desencantado", max);
-	if (mon->m_timed[MON_TMD_CONF]) my_strcat(buf, ", confundido", max);
-	if (mon->m_timed[MON_TMD_FEAR]) my_strcat(buf, ", asustado", max);
-	if (mon->m_timed[MON_TMD_STUN]) my_strcat(buf, ", aturdido", max);
-	if (mon->m_timed[MON_TMD_SLOW]) my_strcat(buf, ", ralentizado", max);
-	if (mon->m_timed[MON_TMD_FAST]) my_strcat(buf, ", apresurado", max);
+	if (mon->m_timed[MON_TMD_SLEEP]) my_strcat(buf, _(", asleep"), max);
+	if (mon->m_timed[MON_TMD_HOLD]) my_strcat(buf, _(", held"), max);
+	if (mon->m_timed[MON_TMD_DISEN]) my_strcat(buf, _(", disenchanted"), max);
+	if (mon->m_timed[MON_TMD_CONF]) my_strcat(buf, _(", confused"), max);
+	if (mon->m_timed[MON_TMD_FEAR]) my_strcat(buf, _(", afraid"), max);
+	if (mon->m_timed[MON_TMD_STUN]) my_strcat(buf, _(", stunned"), max);
+	if (mon->m_timed[MON_TMD_SLOW]) my_strcat(buf, _(", slowed"), max);
+	if (mon->m_timed[MON_TMD_FAST]) my_strcat(buf, _(", hasted"), max);
 }
 
 
@@ -504,7 +505,7 @@ bool target_set_closest(int mode, monster_predicate pred)
 
 	/* If nothing was prepared, then return */
 	if (point_set_size(targets) < 1) {
-		msg("No hay objetivos.");
+		msg(_("No targets."));
 		point_set_dispose(targets);
 		return false;
 	}
@@ -514,7 +515,7 @@ bool target_set_closest(int mode, monster_predicate pred)
 	
 	/* Target the monster, if possible */
 	if (!target_able(mon)) {
-		msg("No hay objetivos.");
+		msg(_("No targets."));
 		point_set_dispose(targets);
 		return false;
 	}

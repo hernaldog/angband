@@ -18,6 +18,7 @@
 
 #include "effects.h"
 #include "init.h"
+#include "lang.h"
 #include "obj-pile.h"
 #include "obj-util.h"
 #include "player-birth.h"
@@ -138,7 +139,7 @@ const struct magic_realm *lookup_realm(const char *name)
 	}
 
 	/* Fail horribly */
-	quit_fmt("Fallo al encontrar el reino mágico %s", name);
+	quit_fmt(_("Failed to find the magic realm %s"), name);
 	return realm;
 }
 
@@ -243,11 +244,11 @@ static void adjust_level(struct player *p, bool verbose)
 
 		if (verbose) {
 			/* Log level updates */
-			strnfmt(buf, sizeof(buf), "Alcanzado el nivel %d", p->lev);
+			strnfmt(buf, sizeof(buf), _("Reached level %d"), p->lev);
 			history_add(p, buf, HIST_GAIN_LEVEL);
 
 			/* Message */
-			msgt(MSG_LEVEL, "Bienvenido al nivel %d.",	p->lev);
+			msgt(MSG_LEVEL, _("Welcome to level %d."),	p->lev);
 		}
 
 		effect_simple(EF_RESTORE_STAT, source_none(), "0", STAT_STR, 0, 0, 0, 0, NULL);
@@ -357,7 +358,7 @@ bool player_restore_mana(struct player *p, int amt) {
 	}
 	p->upkeep->redraw |= PR_MANA;
 
-	msg("Sientes que parte de tu energía regresa.");
+	msg(_("You feel some of your energy return."));
 
 	return p->csp != old_csp;
 }

@@ -17,3 +17,4 @@ src/libangband.dll.a
 *.epp
 src/.ninja_lock
 src/angband.code-workspace
+build

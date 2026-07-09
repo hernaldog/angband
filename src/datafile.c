@@ -23,6 +23,7 @@
 #include "datafile.h"
 #include "game-world.h"
 #include "init.h"
+#include "lang.h"
 #include "parser.h"
 
 /**
@@ -45,10 +46,10 @@ const char *parser_error_str[PARSE_ERROR_MAX] = {
 static void print_error(struct file_parser *fp, struct parser *p) {
 	struct parser_state s;
 	parser_getstate(p, &s);
-	msg("Error de análisis en %s línea %d columna %d: %s: %s", fp->name,
-	           s.line, s.col, s.msg, parser_error_str[s.error]);
+	msg(_("Parse error in %s line %d column %d: %s: %s"), fp->name,
+	           s.line, s.col, s.msg, _(parser_error_str[s.error]));
 	event_signal(EVENT_MESSAGE_FLUSH);
-	quit_fmt("Error de análisis en %s línea %d columna %d.", fp->name, s.line, s.col);
+	quit_fmt(_("Parse error in %s line %d column %d."), fp->name, s.line, s.col);
 }
 
 errr run_parser(struct file_parser *fp) {
@@ -66,7 +67,7 @@ errr run_parser(struct file_parser *fp) {
 	if (r) {
 		msg("Parser finish error in %s: %s", fp->name,
 			(r > 0 && r < PARSE_ERROR_MAX) ?
-			parser_error_str[r] : "unspecified error");
+			_(parser_error_str[r]) : _("unspecified error"));
 		event_signal(EVENT_MESSAGE_FLUSH);
 		quit_fmt("Parser finish error in %s.", fp->name);
 	}

@@ -1,0 +1,90 @@
+Symbols On Your Map
+===================
+
+The symbols on your map can be divided into three categories: Dungeon
+features such as walls, floors, doors and traps; Objects that can be
+picked up such as treasure, weapons, magical devices, etc.; and creatures
+that may or may not move around the dungeon, but which are mostly harmful
+to your character's well-being.
+
+Some symbols are used to represent more than one type of entity, and some
+symbols are used to represent entities in more than one category. The symbol
+"@" (by default) is used to represent the character.
+
+You will not need to remember all the symbols and their meanings.
+The "look" command ('/') will identify any character that appears on your
+map (see 'commands.txt').
+
+Note that you can use a "user preference file" to change
+any of these symbols to something you feel more comfortable with.
+
+
+
+Features that do not block line of sight
+--------------------------------------------------
+
+.  A floor space                 1  General Store entrance
+.  A trap (hidden)               2  Armoury entrance
+^  A trap (known)                3  Weaponsmith entrance
+;  A glyph of warding            4  Bookseller entrance
+'  An open door                  5  Alchemy shop entrance
+'  A broken door                 6  Magic shop entrance
+<  A staircase up                7  Black Market entrance
+>  A staircase down              8  Your Home entrance
+#  A lava pool
+
+
+Features that block line of sight
+-----------------------------------------------
+
+#  A secret door                 #  A wall
++  A closed door                 %  A mineral vein
++  A locked door                 *  A mineral vein with treasure
+:  A pile of rubble               :  A passable pile of rubble
+
+
+Objects
+-------
+
+!  A potion (or flask)           /  A polearm
+?  A scroll (or book)            |  An edged weapon
+,  A mushroom (or food)          \  A hafted weapon
+-  A wand or rod                 }  A sling, bow or crossbow
+_  A staff                       {  A shot, arrow or bolt
+=  A ring                        (  Soft armor
+"  An amulet                     [  Hard armor
+$  Gold or gems                  ]  Miscellaneous armor
+~  Lights, Tools, Chests, etc    )  A shield
+&  Multiple objects
+
+
+Monsters
+---------
+
+$  Creeping Coins          ,  Mushroom Patch
+a  Ant                     A  Angel
+b  Bat                     B  Bird
+c  Centipede                C  Canine (Dog)
+d  Dragon                   D  Ancient Dragon
+e  Eye                      E  Elemental
+f  Feline (Cat)             F  Dragonfly
+g  Golem                    G  Ghost
+h  Humanoid                 H  Hybrid
+i  Icky Thing                I  Insect
+j  Jelly                    J  Snake
+k  Kobold                   K  Killer Beetle
+l  Tree/Ent                 L  Lich
+m  Mold                     M  Multi-Headed Hydra
+n  Naga                     N  -
+o  Orc                      O  Ogre
+p  Human "person"           P  Giant "person"
+q  Quadruped                Q  Quylthulg (Pulsating Flesh Mound)
+r  Rodent                   R  Reptile/Amphibian
+s  Skeleton                 S  Spider/Scorpion/Tick
+t  Townsfolk                T  Troll
+u  Minor Demon              U  Major Demon
+v  Vortex                   V  Vampire
+w  Worm or Worm Mass        W  Wraith/Wight
+x  -                        X  Xorn/Xaren
+y  Yeek                     Y  Yeti
+z  Zombie/Mummy             Z  Zephyr Hound

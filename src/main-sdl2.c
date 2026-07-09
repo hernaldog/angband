@@ -17,6 +17,7 @@
  */
 
 #include "angband.h"
+#include "lang.h"
 
 #ifdef USE_SDL2
 
@@ -7947,7 +7948,7 @@ static void print_error(const char *name, struct parser *parser)
 			state.line,
 			state.col,
 			state.msg,
-			parser_error_str[state.error]);
+			_(parser_error_str[state.error]));
 }
 
 static bool read_config_file(struct my_app *a)

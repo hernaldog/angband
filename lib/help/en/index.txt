@@ -1,0 +1,23 @@
+This is a brief in-game reference on the available commands and
+the symbols you may encounter in the game. For more help, see:
+
+   https://angband.readthedocs.io/en/latest/
+
+
+Please choose one of the following help files:
+
+    (a) Available commands
+    (b) Available symbols
+
+
+
+
+Browser/help commands:
+  #     go to line           %  go to file           ?  go to last file/menu
+  SPACE advance 1 page       -  back 1 page           /  find text
+  RET   advance 1 line       =  back 1 line           &  show (highlight) text
+  +     advance 1/2 page     _  back 1/2 page         !  toggle case sensitivity
+
+.. menu:: [a] commands.txt
+
+.. menu:: [b] symbols.txt

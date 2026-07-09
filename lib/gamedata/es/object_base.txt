@@ -1,0 +1,199 @@
+# File: object_base.txt
+#
+# This file is used to initialize object base information for Angband.
+# Object bases correspond to tvals as defined in src/list-tvals.h.
+
+# === Understanding object_base.txt ===
+
+# default: lines are default values for any object base
+
+# name: tval:name
+# graphics: default attr for inventory display
+# break: breakage chance when thrown
+# max-stack: maximum number that can appear in a stack
+# flags: default flags
+
+default:break-chance:10
+default:max-stack:40
+
+name:chest:Cofre~
+graphics:slate
+# max-stack:1
+flags:HATES_ACID | HATES_FIRE
+
+name:shot:Bala~
+graphics:light umber
+break:0
+# max-stack:40
+flags:SHOW_DICE
+
+name:arrow:Flecha~
+graphics:light umber
+break:35
+# max-stack:40
+flags:HATES_ACID | HATES_FIRE
+flags:SHOW_DICE
+
+name:bolt:Saeta~
+graphics:light umber
+break:20
+# max-stack:40
+flags:HATES_ACID
+flags:SHOW_DICE
+
+name:bow:Arco~
+graphics:umber
+# max-stack:1
+flags:HATES_ACID | HATES_FIRE
+flags:SHOW_MULT
+
+name:digger:Pico~
+graphics:slate
+# max-stack:1
+flags:SHOW_DICE
+
+name:hafted:Armas Contundentes
+graphics:white
+# max-stack:1
+flags:HATES_ACID | HATES_FIRE
+flags:SHOW_DICE
+
+name:polearm:Arma~ de Asta
+graphics:white
+# max-stack:1
+flags:HATES_ACID | HATES_FIRE
+flags:SHOW_DICE
+
+name:sword:Armas Cortantes
+graphics:white
+# max-stack:1
+flags:HATES_ACID
+flags:SHOW_DICE
+
+name:boots:Bota~
+graphics:light umber
+# max-stack:1
+flags:HATES_ACID | HATES_FIRE
+
+name:gloves:Guante~
+graphics:light umber
+# max-stack:1
+flags:HATES_ACID | HATES_FIRE
+
+name:helm:Yelmo~
+graphics:light umber
+# max-stack:1
+flags:HATES_ACID
+
+name:crown:Corona~
+graphics:light umber
+# max-stack:1
+flags:HATES_ACID
+
+name:shield:Escudo~
+graphics:light umber
+# max-stack:1
+flags:HATES_ACID
+
+name:cloak:Capa~
+graphics:light umber
+# max-stack:1
+flags:HATES_ACID | HATES_FIRE
+
+name:soft armor:Armaduras Ligeras
+graphics:slate
+# max-stack:1
+flags:HATES_ACID | HATES_FIRE
+
+name:hard armor:Armaduras Pesadas
+graphics:slate
+# max-stack:1
+flags:HATES_ACID
+
+name:dragon armor:Armadura~ de Dragón
+graphics:slate
+# max-stack:1
+
+name:light:Fuente~ de Luz
+graphics:yellow
+break:50
+# max-stack:10
+flags:HATES_FIRE
+
+name:amulet:Amuleto~
+graphics:orange
+# max-stack:2
+
+name:ring:Anillo~
+graphics:red
+# max-stack:5
+flags:HATES_ELEC
+
+name:staff:Báculo~
+graphics:light umber
+# max-stack:5
+flags:HATES_ACID | HATES_FIRE | EASY_KNOW
+
+name:wand:Varita~
+graphics:green
+# max-stack:5
+flags:HATES_ELEC | EASY_KNOW
+
+name:rod:Vara~
+graphics:light purple
+# max-stack:5
+flags:HATES_ELEC | EASY_KNOW
+
+name:scroll:Pergamino~
+graphics:white
+# max-stack:20
+flags:HATES_ACID | HATES_FIRE | EASY_KNOW
+
+name:potion:Pociones
+graphics:light blue
+break:100
+# max-stack:20
+flags:HATES_COLD | HATES_SOUND | HATES_SHARD | HATES_ICE | HATES_FORCE
+flags:EASY_KNOW
+
+name:flask:Frasco~
+graphics:yellow
+break:100
+# max-stack:20
+flags:HATES_COLD | HATES_SOUND | HATES_SHARD | HATES_ICE | HATES_FORCE
+flags:EASY_KNOW
+
+name:food:Comida
+graphics:light umber
+break:100
+# max-stack:10
+flags:EASY_KNOW
+
+name:mushroom:Seta~
+graphics:light umber
+break:100
+# max-stack:10
+flags:EASY_KNOW
+
+name:magic book:Libros de Magia
+graphics:light red
+# max-stack:5
+flags:HATES_FIRE | EASY_KNOW
+
+name:prayer book:Libros Sagrados
+graphics:light green
+# max-stack:5
+flags:HATES_FIRE | EASY_KNOW
+
+name:nature book:Libros de Naturaleza
+graphics:yellow
+# max-stack:5
+flags:HATES_FIRE | EASY_KNOW
+
+name:shadow book:Libros de Sombras
+graphics:light purple
+# max-stack:5
+flags:HATES_FIRE | EASY_KNOW
+
+name:gold
+graphics:light yellow

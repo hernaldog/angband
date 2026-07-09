@@ -155,7 +155,7 @@ static bool borg_message_contains(
 static const char *prefix_feeling_danger[] = {
     "Aún no estás seguro sobre este lugar",
     "Presagios de muerte acechan este lugar", 
-    "Este lugar parece asesino",
+    "Este lugar se ve mortal",
     "Este lugar parece terriblemente peligroso", 
     "Te sientes ansioso en este lugar",
     "Te sientes nervioso en este lugar", 

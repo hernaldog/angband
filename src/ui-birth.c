@@ -17,6 +17,7 @@
  */
 
 #include "angband.h"
+#include "lang.h"
 #include "cmds.h"
 #include "cmd-core.h"
 #include "game-event.h"
@@ -103,13 +104,13 @@ bool arg_force_name;
 static enum birth_stage textui_birth_quickstart(void)
 //phantom name change changes
 {
-	const char *prompt = "['S': usar; 'N': rehacer; 'C': cambiar nombre/historia; '=': opciones]";
+	const char *prompt = _("['Y': use as is; 'N': redo; 'C': change name/history; '=': set birth options]");
 
 	enum birth_stage next = BIRTH_QUICKSTART;
 
 	/* Prompt for it */
-	prt("¿Nuevo personaje basado en anterior?:", 0, 0);
-	prt(prompt, Term->hgt - 1, Term->wid / 2 - strlen(prompt) / 2 - 10); // fix traduc se mueve a la izquierda los textos en español son más largos
+	prt(_("New character based on previous one:"), 0, 0);
+	prt(prompt, Term->hgt - 1, MAX(0, Term->wid / 2 - (int)strlen(prompt) / 2));
 
 	do {
 		/* Get a key */
@@ -222,19 +223,25 @@ static void skill_help(const int r_skills[], const int c_skills[], int mhp, int 
 	for (i = 0; i < SKILL_MAX ; ++i)
 		skills[i] = (r_skills ? r_skills[i] : 0 ) + (c_skills ? c_skills[i] : 0);
 
-	text_out_e("Golpear/Disparar/Lanzar: %+d/%+d/%+d\n", skills[SKILL_TO_HIT_MELEE],
+	text_out_e(_("Hit/Shoot/Throw: %+d/%+d/%+d\n"), skills[SKILL_TO_HIT_MELEE],
 			   skills[SKILL_TO_HIT_BOW], skills[SKILL_TO_HIT_THROW]);
-	text_out_e("Dado de golpe: %2d   Modificador EXP: %d%%\n", mhp, exp);
-	text_out_e("Desarmar: %+3d/%+3d   Dispositivos: %+3d\n", skills[SKILL_DISARM_PHYS],
+	text_out_e(_("Hit die: %2d   XP mod: %d%%\n"), mhp, exp);
+	text_out_e(_("Disarm: %+3d/%+3d   Devices: %+3d\n"), skills[SKILL_DISARM_PHYS],
 			   skills[SKILL_DISARM_MAGIC], skills[SKILL_DEVICE]);
-	text_out_e("Salvación:   %+3d   Sigilo: %+3d\n", skills[SKILL_SAVE],
+	text_out_e(_("Save:   %+3d   Stealth: %+3d\n"), skills[SKILL_SAVE],
 			   skills[SKILL_STEALTH]);
 	if (infra >= 0)
-		text_out_e("Infravisión:  %d pies\n", infra * 10);
-	text_out_e("Excavar:      %+d\n", skills[SKILL_DIGGING]);
-	text_out_e("Buscar:       %+d", skills[SKILL_SEARCH]);
+		text_out_e(_("Infravision:  %d ft\n"), infra * 10);
+	text_out_e(_("Digging:      %+d\n"), skills[SKILL_DIGGING]);
+	text_out_e(_("Search:       %+d"), skills[SKILL_SEARCH]);
 	if (infra < 0)
 		text_out_e("\n");
+}
+
+static const char *birth_stat_name(int stat)
+{
+	static const char *en[STAT_MAX] = {"Str: ", "Int: ", "Wis: ", "Dex: ", "Con: "};
+	return _(en[stat]);
 }
 
 static void race_help(int i, void *db, const region *l)
@@ -257,13 +264,13 @@ static void race_help(int i, void *db, const region *l)
 	Term_gotoxy(RACE_AUX_COL, TABLE_ROW);
 
 	for (j = 0; j < len; j++) {  
-		const char *name = stat_names_reduced[j];
+		const char *name = birth_stat_name(j);
 		int adj = r->r_adj[j];
 
 		text_out_e("%s%+3d", name, adj);
 
 		if (j * 2 + 1 < STAT_MAX) {
-			name = stat_names_reduced[j + len];
+			name = birth_stat_name(j + len);
 			adj = r->r_adj[j + len];
 			text_out_e("  %s%+3d", name, adj);
 		}
@@ -321,13 +328,13 @@ static void class_help(int i, void *db, const region *l)
 	Term_gotoxy(CLASS_AUX_COL, TABLE_ROW);
 
 	for (j = 0; j < len; j++) {  
-		const char *name = stat_names_reduced[j];
+		const char *name = birth_stat_name(j);
 		int adj = c->c_adj[j] + r->r_adj[j];
 
 		text_out_e("%s%+3d", name, adj);
 
 		if (j*2 + 1 < STAT_MAX) {
-			name = stat_names_reduced[j + len];
+			name = birth_stat_name(j + len);
 			adj = c->c_adj[j + len] + r->r_adj[j + len];
 			text_out_e("  %s%+3d", name, adj);
 		}
@@ -363,7 +370,7 @@ static void class_help(int i, void *db, const region *l)
 				realm = realm_next;
 			}
 		}
-		text_out_e("\nAprende magia %s", buf);
+		text_out_e(_("\nLearns %s magic"), buf);
 	}
 
 	for (ability = player_abilities; ability; ability = ability->next) {
@@ -433,7 +440,7 @@ static bool use_context_menu_birth(struct menu *current_menu,
 	menu_dynamic_add_label(m, "Mostrar opciones de nacimiento", '=',
 		ACT_CTX_BIRTH_OPT, labels);
 	if (menu_data->allow_random) {
-		menu_dynamic_add_label(m, "Seleccionar uno al azar", '*',
+		menu_dynamic_add_label(m, _("Select one at random"), '*',
 			ACT_CTX_BIRTH_RAND, labels);
 	}
 	menu_dynamic_add_label(m, "Terminar con elecciones aleatorias", '@',
@@ -543,9 +550,9 @@ static void setup_menus(void)
 	struct player_class *c;
 	struct player_race *r;
 
-	const char *roller_choices[MAX_BIRTH_ROLLERS] = { 
-		"Basado en puntos", 
-		"Generador estándar" 
+	const char *roller_choices[MAX_BIRTH_ROLLERS] = {
+		_("Point-based"),
+		_("Standard roller")
 	};
 
 	struct birthmenu_data *mdata;
@@ -561,7 +568,7 @@ static void setup_menus(void)
 
 	for (i = 0, r = races; r; r = r->next, i++)
 		mdata->items[r->ridx] = r->name;
-	mdata->hint = "La raza afecta a las estadísticas y habilidades, da resistencias y capacidades.";
+	mdata->hint = _("Race affects stats and skills, and may confer resistances and abilities.");
 
 	/* Count the classes */
 	n = 0;
@@ -574,7 +581,7 @@ static void setup_menus(void)
 
 	for (i = 0, c = classes; c; c = c->next, i++)
 		mdata->items[c->cidx] = c->name;
-	mdata->hint = "La clase afecta a las estadísticas, habilidades y otros rasgos del personaje.";
+	mdata->hint = _("Class affects stats, skills, and other character traits.");
 		
 	/* Roller menu straightforward */
 	init_birth_menu(&roller_menu, MAX_BIRTH_ROLLERS, 0, &roller_region, false,
@@ -582,7 +589,7 @@ static void setup_menus(void)
 	mdata = roller_menu.menu_data;
 	for (i = 0; i < MAX_BIRTH_ROLLERS; i++)
 		mdata->items[i] = roller_choices[i];
-	mdata->hint = "Elige cómo generar tus estadísticas. Se recomienda el basado en puntos.";
+	mdata->hint = _("Choose how to generate your intrinsic stats. Point-based is recommended.");
 }
 
 /**
@@ -619,14 +626,16 @@ static void clear_question(void)
 }
 
 
-#define BIRTH_MENU_HELPTEXT \
-	"{light blue}Por favor, selecciona los rasgos de tu personaje:{/}\n\n" \
-	"Usa las {light green}teclas de movimiento{/} para desplazarte por el menú, " \
-	"{light green}Enter{/} para seleccionar el elemento, '{light green}*{/}' " \
-	"para usar una opción aleatoria, '{light green}@{/}' para armar el personaje completo de forma aleatoria, " \
-	"'{light green}ESC{/}' para retroceder en el proceso, " \
-	"'{light green}={/}' para ver opciones de nacimiento, '{light green}?{/}' " \
-	"para ayuda, o '{light green}Ctrl-X{/}' para salir."
+#define BIRTH_MENU_HELPTEXT_EN \
+	"{light blue}Please select your character traits from the menus below:{/}\n\n" \
+	"Use the {light green}movement keys{/} to scroll the menu, " \
+	"{light green}Enter{/} to select the current menu item, '{light green}*{/}' " \
+	"for a random menu item, '{light green}@{/}' to finish the character with random selections, " \
+	"'{light green}ESC{/}' to step back through the birth process, " \
+	"'{light green}={/}' for the birth options, '{light green}?{/}' " \
+	"for help, or '{light green}Ctrl-X{/}' to quit."
+
+#define BIRTH_MENU_HELPTEXT _(BIRTH_MENU_HELPTEXT_EN)
 
 /**
  * Show the birth instructions on an otherwise blank screen
@@ -893,10 +902,10 @@ static enum birth_stage roller_command(bool first_call)
 		prev_roll = false;
 
 	/* Prepare a prompt (must squeeze everything in) */
-	strnfcat(prompt, sizeof (prompt), &promptlen, "['r' para tirar");
-	if (prev_roll) 
-		strnfcat(prompt, sizeof(prompt), &promptlen, ", 'p' tirada anterior");
-	strnfcat(prompt, sizeof (prompt), &promptlen, " o 'Enter' para aceptar]");
+	strnfcat(prompt, sizeof(prompt), &promptlen, _("['r' to reroll"));
+	if (prev_roll)
+		strnfcat(prompt, sizeof(prompt), &promptlen, _(", 'p' for previous roll"));
+	strnfcat(prompt, sizeof(prompt), &promptlen, _(" or 'Enter' to accept]"));
 
 	/* Prompt for it */
 	prt(prompt, Term->hgt - 1, Term->wid / 2 - promptlen / 2);
@@ -949,17 +958,17 @@ static enum birth_stage roller_command(bool first_call)
 			struct menu *m = menu_dynamic_new();
 
 			m->selections = labels;
-			menu_dynamic_add_label(m, "Volver a tirar", 'r',
+			menu_dynamic_add_label(m, _("Reroll"), 'r',
 				ACT_CTX_BIRTH_ROLL_REROLL, labels);
 			if (prev_roll) {
-				menu_dynamic_add_label(m, "Recuperar anterior",
+				menu_dynamic_add_label(m, _("Retrieve previous"),
 					'p', ACT_CTX_BIRTH_ROLL_PREV, labels);
 			}
-			menu_dynamic_add_label(m, "Aceptar", 'a',
+			menu_dynamic_add_label(m, _("Accept"), 'a',
 				ACT_CTX_BIRTH_ROLL_ACCEPT, labels);
-			menu_dynamic_add_label(m, "Salir", 'q',
+			menu_dynamic_add_label(m, _("Quit"), 'q',
 				ACT_CTX_BIRTH_ROLL_QUIT, labels);
-			menu_dynamic_add_label(m, "Ayuda", '?',
+			menu_dynamic_add_label(m, _("Help"), '?',
 				ACT_CTX_BIRTH_ROLL_HELP, labels);
 
 			screen_save();
@@ -1063,7 +1072,7 @@ static void point_based_points(game_event_type type, game_event_data *data,
 	int remaining = data->birthpoints.remaining;
 
 	/* Display the costs header */
-	put_str("Coste", COSTS_ROW - 1, COSTS_COL);
+	put_str(_("Cost"), COSTS_ROW - 1, COSTS_COL);
 	
 	for (i = 0; i < STAT_MAX; i++) {
 		/* Remember what's allowed. */
@@ -1079,13 +1088,13 @@ static void point_based_points(game_event_type type, game_event_data *data,
 		sum += spent[i];
 	}
 	
-	put_str(format("Coste Total: %2d/%2d", sum, remaining + sum),
+	put_str(format(_("Total Cost: %2d/%2d"), sum, remaining + sum),
 		COSTS_ROW + STAT_MAX, TOTAL_COL);
 }
 
 static void point_based_start(void)
 {
-	const char *prompt = "[arr/aba mover, izq/der cambiar, 'r' reiniciar, 'Enter' aceptar]";
+	const char *prompt = _("[up/down to move, left/right to modify, 'r' to reset, 'Enter' to accept]");
 	int i;
 
 	/* Clear */
@@ -1095,7 +1104,7 @@ static void point_based_start(void)
 	display_player_xtra_info();
 	display_player_stat_info();
 
-	prt(prompt, Term->hgt - 1, Term->wid / 2 - strlen(prompt) / 2 - 15);  // fix traduc  se mueve a la izquierda los textos en español son más largos
+	prt(prompt, Term->hgt - 1, MAX(0, Term->wid / 2 - (int)strlen(prompt) / 2));
 
 	for (i = 0; i < STAT_MAX; ++i) {
 		buysell[i] = 0;
@@ -1220,19 +1229,19 @@ static enum birth_stage point_based_command(void)
 			m->selections = labels;
 			if (in.mouse.y == COSTS_ROW + stat
 					&& (buysell[stat] & 1)) {
-				menu_dynamic_add_label(m, "Vender", 's',
+				menu_dynamic_add_label(m, _("Sell"), 's',
 					ACT_CTX_BIRTH_PTS_SELL, labels);
 			}
 			if (in.mouse.y == COSTS_ROW + stat
 					&& (buysell[stat] & 2)) {
-				menu_dynamic_add_label(m, "Comprar", 'b',
+				menu_dynamic_add_label(m, _("Buy"), 'b',
 					ACT_CTX_BIRTH_PTS_BUY, labels);
 			}
-			menu_dynamic_add_label(m, "Aceptar", 'a',
+			menu_dynamic_add_label(m, _("Accept"), 'a',
 				ACT_CTX_BIRTH_PTS_ACCEPT, labels);
-			menu_dynamic_add_label(m, "Reiniciar", 'r',
+			menu_dynamic_add_label(m, _("Reset"), 'r',
 				ACT_CTX_BIRTH_PTS_RESET, labels);
-			menu_dynamic_add_label(m, "Salir", 'q',
+			menu_dynamic_add_label(m, _("Quit"), 'q',
 				ACT_CTX_BIRTH_PTS_QUIT, labels);
 
 			screen_save();
@@ -1316,7 +1325,7 @@ static enum birth_stage get_name_command(void)
 	} else if (get_character_name(name, sizeof(name))
 			&& (savefile[0]
 			|| !savefile_name_already_used(name, true, true)
-			|| get_check("¿Ya existe un archivo guardado para ese nombre. ¿Sobrescribirlo? "))) {
+			|| get_check(_("A savefile for that name exists.  Overwrite it? ")))) {
 		cmdq_push(CMD_NAME_CHOICE);
 		cmd_set_arg_string(cmdq_peek(), "name", name);
 		next = BIRTH_HISTORY_CHOICE;
@@ -1532,7 +1541,7 @@ static enum birth_stage get_history_command(void)
 	my_strcpy(old_history, player->history, sizeof(old_history));
 
 	/* Ask for some history */
-	prt("¿Aceptar la historia del personaje? [s/n]", 0, 0);
+	prt(_("Accept character history? [y/n]"), 0, 0);
 	ke = inkey();
 
 	/* Quit, go back, change history, or accept */
@@ -1566,13 +1575,13 @@ static enum birth_stage get_history_command(void)
  * ------------------------------------------------------------------------ */
 static enum birth_stage get_confirm_command(void)
 {
-	const char *prompt = "['ESC' volver, 'S' empezar de nuevo, otra tecla para continuar]";
+	const char *prompt = _("['ESC' to step back, 'S' to start over, or any other key to continue]");
 	struct keypress ke;
 
 	enum birth_stage next = BIRTH_RESET;
 
 	/* Prompt for it */
-	prt(prompt, Term->hgt - 1, Term->wid / 2 - strlen(prompt) / 2 -15); //fix traduc un poco más a la izquerda por textos en español son más largos
+	prt(prompt, Term->hgt - 1, MAX(0, Term->wid / 2 - (int)strlen(prompt) / 2));
 
 	/* Get a key */
 	ke = inkey();

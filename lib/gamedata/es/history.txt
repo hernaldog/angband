@@ -1,0 +1,413 @@
+# File: history.txt
+
+
+# This file is used to initialize the "player history" information for 
+# the Angband game.
+
+# Do not modify this file unless you know exactly what you are doing,
+# unless you wish to risk possible system crashes and broken savefiles.
+
+# Background information:
+# Pieces of player backstory are chosen from "charts", which are lists of
+# phrases or sentences with similar general meaning.
+
+# 'chart' lines give the number of the current chart, the number of the chart
+# that will be used next (or 0 if the last chart), and a cutoff for choosing
+# the current line.  If the first field in two chart lines is the same, the
+# second should be as well, to maintain consistent choices and end up with
+# something readable.
+
+# 'phrase' lines are the actual chart entries which make up the history.
+
+# Chart progression by race:
+#   Human/Dunadan -->  1 -->  2 -->  3 --> 50 --> 51 --> 52 --> 53
+#   Half-Elf      -->  4 -->  1 -->  2 -->  3 --> 50 --> 51 --> 52 --> 53
+#   Elf           -->  5 -->  6 -->  9 --> 54 --> 55 --> 56
+#   High-Elf      -->  7 -->  8 -->  9 --> 54 --> 55 --> 56
+#   Hobbit        --> 10 --> 11 -->  3 --> 50 --> 51 --> 52 --> 53
+#   Gnome         --> 13 --> 14 -->  3 --> 50 --> 51 --> 52 --> 53
+#   Dwarf         --> 16 --> 17 --> 18 --> 57 --> 58 --> 59 --> 60 --> 61
+#   Half-Orc      --> 19 --> 20 -->  2 -->  3 --> 50 --> 51 --> 52 --> 53
+#   Half-Troll    --> 21 --> 22 --> 62 --> 63 --> 64 --> 65 --> 66
+#   Kobold        --> 23 --> 24 --> 25 --> 26 --> 67 --> 68 --> 69
+
+# This table *must* be correct or the history may look very silly.
+
+# Note that the "spacing" in the "description" lines is very important!
+
+
+
+chart:1:2:10
+phrase:Eres el hijo ilegítimo y no reconocido 
+chart:1:2:20
+phrase:Eres el hijo ilegítimo pero reconocido 
+chart:1:2:95
+phrase:Eres uno de varios hijos 
+chart:1:2:100
+phrase:Eres el primer hijo 
+
+chart:2:3:40
+phrase:de un Siervo.  
+chart:2:3:65
+phrase:de un Propietario.  
+chart:2:3:80
+phrase:de un Ciudadano.  
+chart:2:3:90
+phrase:de un Gremialista.  
+chart:2:3:96
+phrase:de un Caballero con Tierras.  
+chart:2:3:99
+phrase:de un Noble Titulado.  
+chart:2:3:100
+phrase:de un Linaje Real.  
+
+chart:3:50:20
+phrase:Eres la oveja negra de la familia.  
+chart:3:50:80
+phrase:Eres un orgullo para tu familia.  
+chart:3:50:100
+phrase:Eres un niño querido.  
+
+chart:4:1:15
+phrase:Tu madre era de los Avari. 
+chart:4:1:30
+phrase:Tu padre era de los Avari. 
+chart:4:1:50
+phrase:Tu madre era de los Nandor. 
+chart:4:1:70
+phrase:Tu padre era de los Nandor.  
+chart:4:1:85
+phrase:Tu madre era de los Sindar.  
+chart:4:1:95
+phrase:Tu padre era de los Sindar.  
+chart:4:1:98
+phrase:Tu madre era de los Noldor.  
+chart:4:1:100
+phrase:Tu padre era de los Noldor.  
+
+chart:5:6:60
+phrase:Eres uno de varios hijos 
+chart:5:6:100
+phrase:Eres el hijo único 
+
+chart:6:9:40
+phrase:de un Avarin 
+chart:6:9:70
+phrase:de un Nandorin 
+chart:6:9:100
+phrase:de un Sindarin 
+
+chart:7:8:60
+phrase:Eres uno de varios hijos 
+chart:7:8:100
+phrase:Eres el hijo único 
+
+chart:8:9:75
+phrase:de un Telerin 
+chart:8:9:95
+phrase:de un Noldorin 
+chart:8:9:100
+phrase:de un Vanyarin 
+
+chart:9:54:40
+phrase:Guardabosques.  
+chart:9:54:70
+phrase:Arquero.  
+chart:9:54:87
+phrase:Guerrero.  
+chart:9:54:95
+phrase:Mago.  
+chart:9:54:99
+phrase:Príncipe.  
+chart:9:54:100
+phrase:Rey.  
+
+chart:10:11:85
+phrase:Eres uno de varios hijos de un Hobbit 
+chart:10:11:100
+phrase:Eres el hijo único de un Hobbit 
+
+chart:11:3:20
+phrase:Burglés.  
+chart:11:3:30
+phrase:Moliner.  
+chart:11:3:40
+phrase:Tabernero.  
+chart:11:3:50
+phrase:Arquero.  
+chart:11:3:80
+phrase:Guerrero.  
+chart:11:3:95
+phrase:Alguacil.  
+chart:11:3:99
+phrase:Alcalde.  
+chart:11:3:100
+phrase:Anciano del Clan.  
+
+chart:13:14:85
+phrase:Eres uno de varios hijos de un Gnomo 
+chart:13:14:100
+phrase:Eres el hijo único de un Gnomo 
+
+chart:14:3:20
+phrase:Mendigo.  
+chart:14:3:50
+phrase:Fanfarrón.  
+chart:14:3:75
+phrase:Bromista.  
+chart:14:3:95
+phrase:Guerrero.  
+chart:14:3:100
+phrase:Mago.  
+
+chart:16:17:25
+phrase:Eres uno de dos hijos de un Enano 
+chart:16:17:100
+phrase:Eres el hijo único de un Enano 
+
+chart:17:18:10
+phrase:Ladrón.  
+chart:17:18:25
+phrase:Guardia de Prisión.  
+chart:17:18:75
+phrase:Minero.  
+chart:17:18:90
+phrase:Guerrero.  
+chart:17:18:99
+phrase:Sacerdote.  
+chart:17:18:100
+phrase:Rey.  
+
+chart:18:57:15
+phrase:Eres la oveja negra de la familia.  
+chart:18:57:85
+phrase:Eres un orgullo para tu familia.  
+chart:18:57:100
+phrase:Eres un niño querido.  
+
+chart:19:20:25
+phrase:Tu madre era un Orco, 
+chart:19:20:100
+phrase:Tu padre era un Orco, 
+
+chart:20:2:20
+phrase:y es algo reconocido. Eres el hijo adoptado 
+chart:20:2:100
+phrase:pero no es algo reconocido. Eres el hijo adoptado 
+
+chart:21:22:30
+phrase:Tu madre era un Troll de Piedra 
+chart:21:22:60
+phrase:Tu padre era un Troll de Piedra 
+chart:21:22:75
+phrase:Tu madre era un Troll de Cueva 
+chart:21:22:90
+phrase:Tu padre era un Troll de Cueva 
+chart:21:22:95
+phrase:Tu madre era un Troll de Agua 
+chart:21:22:100
+phrase:Tu padre era un Troll de Agua 
+
+chart:22:62:5
+phrase:Cocinero.  
+chart:22:62:95
+phrase:Guerrero.  
+chart:22:62:99
+phrase:Chamán.  
+chart:22:62:100
+phrase:Jefe del Clan.  
+
+chart:23:24:20
+phrase:Eres el más pequeño de 
+chart:23:24:80
+phrase:Procedes de 
+chart:23:24:100
+phrase:Eres el más grande de 
+
+chart:24:25:15
+phrase:una camada de 3 cachorros. 
+chart:24:25:40
+phrase:una camada de 4 cachorros. 
+chart:24:25:70
+phrase:una camada de 5 cachorros. 
+chart:24:25:85
+phrase:una camada de 6 cachorros. 
+chart:24:25:95
+phrase:una camada de 7 cachorros. 
+chart:24:25:100
+phrase:una camada de 8 cachorros. 
+
+chart:25:26:25
+phrase:Tu padre era un granjero de hongos, 
+chart:25:26:50
+phrase:Tu padre era un cazador, 
+chart:25:26:75
+phrase:Tu padre era un guerrero, 
+chart:25:26:95
+phrase:Tu padre era un chamán, 
+chart:25:26:100
+phrase:Tu padre era el jefe tribal, 
+
+chart:26:67:20
+phrase:y tu madre era una prisionera de guerra. 
+chart:26:67:95
+phrase:y tu madre era una cocinera. 
+chart:26:67:100
+phrase:y tu madre era una del harén del Jefe. 
+
+chart:50:51:20
+phrase:Tienes ojos color marrón oscuro, 
+chart:50:51:60
+phrase:Tienes ojos color marrón, 
+chart:50:51:70
+phrase:Tienes ojos color avellana, 
+chart:50:51:80
+phrase:Tienes ojos verdes, 
+chart:50:51:90
+phrase:Tienes ojos azules, 
+chart:50:51:100
+phrase:Tienes ojos color azul grisáceo, 
+
+chart:51:52:70
+phrase:pelo liso y 
+chart:51:52:90
+phrase:pelo ondulado y 
+chart:51:52:100
+phrase:pelo rizado y 
+
+chart:52:53:30
+phrase:negro, 
+chart:52:53:70
+phrase:castaño, 
+chart:52:53:80
+phrase:cobrizo, 
+chart:52:53:90
+phrase:rojo, 
+chart:52:53:100
+phrase:rubio, 
+
+chart:53:0:10
+phrase:y una piel muy oscura.
+chart:53:0:30
+phrase:y una piel oscura.
+chart:53:0:80
+phrase:y una piel normal.
+chart:53:0:90
+phrase:y una piel clara.
+chart:53:0:100
+phrase:y una piel muy clara.
+
+chart:54:55:85
+phrase:Tienes ojos de color gris claro, 
+chart:54:55:95
+phrase:Tienes ojos azul claro, 
+chart:54:55:100
+phrase:Tienes ojos verde claro, 
+
+chart:55:56:75
+phrase:pelo liso y 
+chart:55:56:100
+phrase:pelo ondulado y 
+
+chart:56:0:75
+phrase:negro, y una piel clara.
+chart:56:0:85
+phrase:castaño, y una piel clara.
+chart:56:0:95
+phrase:rubio, y una piel clara.
+chart:56:0:100
+phrase:plateado, y una piel clara.
+
+chart:57:58:99
+phrase:Tienes ojos color marrón oscuro, 
+chart:57:58:100
+phrase:Tienes ojos rojos brillantes, 
+
+chart:58:59:90
+phrase:liso 
+chart:58:59:100
+phrase:ondulado 
+
+chart:59:60:75
+phrase:pelo negro, 
+chart:59:60:100
+phrase:pelo castaño, 
+
+chart:60:61:25
+phrase:barba de un pie, 
+chart:60:61:60
+phrase:barba de dos pies, 
+chart:60:61:90
+phrase:barba de tres pies, 
+chart:60:61:100
+phrase:barba de cuatro pies, 
+
+chart:61:0:100
+phrase:y una piel oscura.
+
+chart:62:63:60
+phrase:Tienes ojos verde babosa, 
+chart:62:63:85
+phrase:Tienes ojos amarillo vómito, 
+chart:62:63:99
+phrase:Tienes ojos azul inyectados en sangre, 
+chart:62:63:100
+phrase:Tienes ojos rojos brillantes, 
+
+chart:63:64:33
+phrase:sucio 
+chart:63:64:66
+phrase:sarnoso 
+chart:63:64:100
+phrase:grasiento 
+
+chart:64:65:33
+phrase:pelo verde alga, 
+chart:64:65:66
+phrase:pelo rojo brillante, 
+chart:64:65:100
+phrase:pelo púrpura oscuro, 
+
+chart:65:66:25
+phrase:y piel verde 
+chart:65:66:50
+phrase:y piel azul 
+chart:65:66:75
+phrase:y piel blanca 
+chart:65:66:100
+phrase:y piel negra 
+
+chart:66:0:33
+phrase:ulcerosa.
+chart:66:0:66
+phrase:costrosa.
+chart:66:0:100
+phrase:leprosa.
+
+chart:67:68:10
+phrase:Tienes ojos negros, 
+chart:67:68:40
+phrase:Tienes ojos color marrón oscuro, 
+chart:67:68:80
+phrase:Tienes ojos color marrón, 
+chart:67:68:99
+phrase:Tienes ojos marrón claro, 
+chart:67:68:100
+phrase:Tienes ojos rojos brillantes, 
+
+chart:68:69:40
+phrase:una piel marrón oscura, 
+chart:68:69:60
+phrase:una piel marrón rojiza, 
+chart:68:69:95
+phrase:una piel verde oliva, 
+chart:68:69:100
+phrase:una piel azul profundo, 
+
+chart:69:0:10
+phrase:y dientes grandes y planos.
+chart:69:0:90
+phrase:y dientes pequeños y afilados.
+chart:69:0:100
+phrase:y dientes grandes y afilados.
+

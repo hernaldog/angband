@@ -23,6 +23,7 @@
 #include "cmds.h"
 #include "game-input.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-lore.h"
 #include "mon-util.h"
 #include "player-calcs.h"
@@ -39,12 +40,12 @@ void do_cmd_wizard(void)
 	/* Verify first time */
 	if (!(player->noscore & NOSCORE_WIZARD)) {
 		/* Mention effects */
-		msg("¡Estás a punto de entrar en modo 'mago' por primera vez!");
-		msg("¡Esto es una forma de trampa, y tu partida no será puntuada!");
+		msg(_("You are about to enter 'wizard' mode for the first time!"));
+		msg(_("This is a form of cheating, and your game will not be scored!"));
 		event_signal(EVENT_MESSAGE_FLUSH);
 
 		/* Verify request */
-		if (!get_check("¿Seguro que quieres entrar en modo mago? "))
+		if (!get_check(_("Are you sure you want to enter wizard mode? ")))
 			return;
 
 		/* Mark savefile */
@@ -54,10 +55,10 @@ void do_cmd_wizard(void)
 	/* Toggle mode */
 	if (player->wizard) {
 		player->wizard = false;
-		msg("Modo mago desactivado.");
+		msg(_("Wizard mode off."));
 	} else {
 		player->wizard = true;
-		msg("Modo mago activado.");
+		msg(_("Wizard mode on."));
 	}
 
 	/* Update monsters */
@@ -74,7 +75,7 @@ void do_cmd_retire(struct command *cmd)
 {
 	/* Treat retired character as dead to satisfy end of game logic. */
 	player->is_dead = true;
-	my_strcpy(player->died_from, "Retirándose", sizeof(player->died_from));
+	my_strcpy(player->died_from, "Retiring", sizeof(player->died_from));
 }
 
 /**
@@ -94,19 +95,19 @@ void do_cmd_note(void)
 	my_strcpy(note, "", sizeof(note));
 
 	/* Read a line of input from the user */
-	if (!get_string("Nota: ", tmp, sizeof(tmp))) return;
+	if (!get_string(_("Note: "), tmp, sizeof(tmp))) return;
 
 	/* Ignore empty notes */
 	if (!tmp[0] || (tmp[0] == ' ')) return;
 
 	/* Format the note correctly, supporting some cute /me commands */
 	if (strncmp(tmp, "/say ", 5) == 0)
-		strnfmt(note, sizeof(note), "-- %s dice: \"%s\"", player->full_name,
+		strnfmt(note, sizeof(note), _("-- %s says: \"%s\""), player->full_name,
 				&tmp[5]);
 	else if (strncmp(tmp, "/me", 3) == 0)
 		strnfmt(note, sizeof(note), "-- %s%s", player->full_name, &tmp[3]);
 	else
-		strnfmt(note, sizeof(note), "-- Nota: %s", tmp);
+		strnfmt(note, sizeof(note), _("-- Note: %s"), tmp);
 
 	/* Display the note (omitting the "-- " prefix) */
 	msg("%s", &note[3]);
@@ -128,12 +129,12 @@ void do_cmd_try_borg(void)
 	if (!(player->noscore & NOSCORE_BORG))
 	{
 		/* Mention effects */
-		msg("¡Estás a punto de usar los comandos del borg, peligrosos y no soportados!");
-		msg("¡Tu máquina puede colgarse, y tu partida guardada puede corromperse!");
+		msg(_("You are about to use the dangerous, unsupported, borg commands!"));
+		msg(_("Your machine may crash, and your savefile may become corrupted!"));
 		event_signal(EVENT_MESSAGE_FLUSH);
 
 		/* Verify request */
-		if (!get_check("¿Seguro que quieres usar los comandos del borg? "))
+		if (!get_check(_("Are you sure you want to use the borg commands? ")))
 			return;
 
 		/* Mark savefile */

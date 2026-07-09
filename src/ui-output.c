@@ -17,6 +17,7 @@
  */
 #include "angband.h"
 #include "cave.h"
+#include "lang.h"
 #include "player-calcs.h"
 #include "ui-input.h"
 #include "ui-output.h"
@@ -182,7 +183,7 @@ struct keypress textui_textblock_show(textblock *tb, region orig_area, const cha
 
 		Term_erase(area.col, area.row + area.page_rows, area.width);
 		Term_erase(area.col, area.row + area.page_rows + 1, area.width);
-		c_put_str(COLOUR_L_BLUE, "(Arriba/Abajo o ESCAPE para salir.)",
+		c_put_str(COLOUR_L_BLUE, _("(Up/Down or ESCAPE to exit.)"),
 				area.row + area.page_rows + 1, area.col);
 
 		/* Pager mode */
@@ -216,7 +217,7 @@ struct keypress textui_textblock_show(textblock *tb, region orig_area, const cha
 
 		Term_erase(area.col, area.row + n_lines, area.width);
 		Term_erase(area.col, area.row + n_lines + 1, area.width);
-		c_put_str(COLOUR_L_BLUE, "(Presiona cualquier tecla para continuar.)",
+		c_put_str(COLOUR_L_BLUE, _("(Press any key to continue.)"),
 				area.row + n_lines + 1, area.col);
 		ch = inkey();
 	}

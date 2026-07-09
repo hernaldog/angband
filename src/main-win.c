@@ -71,6 +71,7 @@
 #include "ui-output.h"
 #include "ui-prefs.h"
 #include "win/win-menu.h"
+#include "lang.h"
 
 /* Set the minimum version of Windows to accept so AlphaBlend() is available */
 #ifndef WINVER
@@ -391,6 +392,7 @@ static BLENDFUNCTION blendfn;
  * Full path to ANGBAND.INI
  */
 static char *ini_file = NULL;
+static char angband_lib_dir[1024]; /* lib\ path, saved for lang_init() */
 
 /**
  * Name of application
@@ -538,7 +540,7 @@ static void validate_file(const char *s)
 {
 	/* Verify or fail */
 	if (!file_exists(s))
-		quit_fmt("No se puede encontrar el archivo requerido:\n%s", s);
+		quit_fmt(_("Cannot find required file:\n%s"), s);
 }
 
 
@@ -549,7 +551,7 @@ static void validate_dir(const char *s)
 {
 	/* Verify or fail */
 	if (!check_dir(s))
-		quit_fmt("No se puede encontrar el directorio requerido:\n%s", s);
+		quit_fmt(_("Cannot find required directory:\n%s"), s);
 }
 
 
@@ -966,7 +968,7 @@ static int new_palette(void)
 		nEntries = GetPaletteEntries(hBmPal, 0, 255, lppe);
 		if ((nEntries == 0) || (nEntries > 220)) {
 			/* Warn the user */
-			plog("Por favor, cambia al modo de color alto o color verdadero.");
+			plog(_("Please switch to high- or true-color mode."));
 
 			/* Cleanup */
 			mem_free(lppe);
@@ -1021,7 +1023,7 @@ static int new_palette(void)
 
 	/* Create a new palette, or fail */
 	hNewPal = CreatePalette(pLogPal);
-	if (!hNewPal) quit("¡No se puede crear la paleta de colores!");
+	if (!hNewPal) quit(_("Cannot create palette!"));
 
 	/* Free the palette */
 	mem_free(pLogPal);
@@ -1034,7 +1036,7 @@ static int new_palette(void)
 	SelectPalette(hdc, hNewPal, 0);
 	i = RealizePalette(hdc);
 	ReleaseDC(td->w, hdc);
-	if (i == 0) quit("¡No se puede activar la paleta de colores!");
+	if (i == 0) quit(_("Cannot realize palette!"));
 
 	/* Sub-windows */
 	for (i = 1; i < MAX_TERM_DATA; i++) {
@@ -1076,13 +1078,13 @@ static bool init_graphics(void)
 	}
 	if (mode) {
 		if (!mode->pref[0]) {
-			plog_fmt("nombre de preferencia de tile inválido '%s'", mode->menuname);
+			plog_fmt(_("invalid tile prefname '%s'"), mode->menuname);
 			return false;
 		}
 		wid = mode->cell_width;
 		hgt = mode->cell_height;
 		if ((wid < 2) || (hgt < 2)) {
-			plog_fmt("dimensiones de tile inválidas en el conjunto de tiles: '%s'",
+			plog_fmt(_("invalid tile dimensions in tileset: '%s'"),
 					 mode->menuname);
 			return false;
 		}
@@ -1096,7 +1098,7 @@ static bool init_graphics(void)
 
 		current_graphics_mode = mode;
 	} else {
-		plog("no se pudo encontrar el modo gráfico");
+		plog(_("could not find graphics mode"));
 		return false;
 	}
 
@@ -1109,7 +1111,7 @@ static bool init_graphics(void)
 		if (strstr(name, "_pre")) {
 			/* if so, just load it */
 			if (!ReadDIB2_PNG(data[0].w, buf, &infGraph, NULL, false)) {
-				plog_fmt("No se puede leer el archivo '%s'", name);
+				plog_fmt(_("Cannot read file '%s'"), name);
 				return false;
 			}
 		} else {
@@ -1139,14 +1141,14 @@ static bool init_graphics(void)
 			if (ext && have_space) {
 				/* at this point we know the file exists, so load it */
 				if (!ReadDIB2_PNG(data[0].w, modname, &infGraph, NULL, false)) {
-					plog_fmt("No se puede leer la versión premultiplicada del archivo '%s'",
+					plog_fmt(_("Cannot read premultiplied version of file '%s'"),
 							 name);
 					return false;
 				}
 			} else {
 				/* if not, load the base file and premultiply it */
 				if (!ReadDIB2_PNG(data[0].w, buf, &infGraph, NULL, true)) {
-					plog_fmt("No se puede leer el archivo '%s'", name);
+					plog_fmt(_("Cannot read file '%s'"), name);
 					return false;
 				}
 				/* save the premultiplied file */
@@ -1155,13 +1157,13 @@ static bool init_graphics(void)
 				   infGraph.hBitmap,infGraph.hPalette,
 				   1, NULL,
 				   infGraph.ImageWidth, infGraph.ImageHeight, false) < 0) {
-				   plog_fmt("No se puede escribir la versión premultiplicada del archivo '%s'", name);
+				   plog_fmt(_("Cannot write premultiplied version of file '%s'"), name);
 				   }*/
 			}
 		}
 	} else {
 		if (!ReadDIB2_PNG(data[0].w, buf, &infGraph, &infMask, false)) {
-			plog_fmt("No se puede leer el archivo '%s'", name);
+			plog_fmt(_("Cannot read file '%s'"), name);
 			return false;
 		}
 	}
@@ -1175,7 +1177,7 @@ static bool init_graphics(void)
 		/* Free bitmap XXX XXX XXX */
 
 		/* Oops */
-		plog("¡No se puede activar la paleta de colores!");
+		plog(_("Cannot activate palette!"));
 		return (false);
 	}
 
@@ -1250,7 +1252,7 @@ static bool load_sound_win(const char *filename, int ftyp,
 			break;
 
 		default:
-			plog_fmt("Sonido: Error - Tipo de archivo no compatible");
+			plog(_("Sound: Oops - Unsupported file type"));
 			break;
 	}
 
@@ -1525,7 +1527,9 @@ static void term_change_font(term_data *td)
 	memset(&ofn, 0, sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = data[0].w;
-	ofn.lpstrFilter = "Archivos de Fuente Angband (*.fon)\0*.fon\0";
+	ofn.lpstrFilter = (strcmp(lang_current, "en") == 0) ?
+		"Angband Font Files (*.fon)\0*.fon\0" :
+		"Archivos de Fuente Angband (*.fon)\0*.fon\0";
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFile = tmp;
 	ofn.nMaxFile = 128;
@@ -1730,7 +1734,7 @@ static errr Term_xtra_win_react(void)
 		/* Initialize (if needed) */
 		if (arg_graphics && !init_graphics()) {
 			/* Warning */
-			plog("¡No se pueden inicializar los gráficos!");
+			plog(_("Cannot initialize graphics!"));
 
 			/* Cannot enable */
 			arg_graphics = GRAPHICS_NONE;
@@ -2698,6 +2702,214 @@ static void term_data_link(term_data *td)
 
 
 /**
+ * Save language to INI and restart the application.
+ */
+static void restart_with_language(const char *new_lang)
+{
+	STARTUPINFOA si;
+	PROCESS_INFORMATION pi;
+
+	/* Save the game before restarting, so no progress is lost. */
+	if (game_in_progress && character_generated && inkey_flag) {
+		msg_flag = false;
+		save_game();
+		close_game(true);
+	}
+
+	/* Flush the current window layout to the INI before the child process
+	 * starts, otherwise it can read the file before this process's normal
+	 * quit-time save_prefs() call has written it, and end up with an
+	 * incomplete/default layout for some windows. */
+	save_prefs();
+
+	WritePrivateProfileStringA("Angband", "Language", new_lang, ini_file);
+
+	ZeroMemory(&si, sizeof(si));
+	si.cb = sizeof(si);
+	ZeroMemory(&pi, sizeof(pi));
+
+	if (CreateProcessA(argv0, NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+		CloseHandle(pi.hProcess);
+		CloseHandle(pi.hThread);
+	}
+
+	quit(NULL);
+}
+
+/**
+ * Set checkmarks in the Language submenu to reflect the active language.
+ */
+static void update_language_checkmarks(void)
+{
+	HMENU hm = GetMenu(data[0].w);
+	UINT en_flag = (strcmp(lang_current, "en") == 0) ? MF_CHECKED : MF_UNCHECKED;
+	UINT es_flag = (strcmp(lang_current, "es") == 0) ? MF_CHECKED : MF_UNCHECKED;
+	CheckMenuItem(hm, IDM_OPTIONS_LANG_EN, MF_BYCOMMAND | en_flag);
+	CheckMenuItem(hm, IDM_OPTIONS_LANG_ES, MF_BYCOMMAND | es_flag);
+}
+
+/**
+ * Helper: update a menu item's display text (by position or command ID).
+ * Converts UTF-8 text to UTF-16 so accented characters render correctly.
+ */
+static void set_menu_text(HMENU hm, UINT pos_or_id, BOOL by_pos, const char *text)
+{
+	wchar_t wbuf[256];
+	MENUITEMINFOW mii;
+	MultiByteToWideChar(CP_UTF8, 0, text, -1, wbuf, 256);
+	mii.cbSize = sizeof(MENUITEMINFOW);
+	mii.fMask = MIIM_STRING;
+	mii.dwTypeData = wbuf;
+	SetMenuItemInfoW(hm, pos_or_id, by_pos, &mii);
+}
+
+/**
+ * Apply translated strings to all menu items (called after main window is created).
+ * No-op for English (menus already come from the .rc in English).
+ */
+static void rebuild_menus(void)
+{
+	HMENU hm, wsub, osub, gsub;
+	char buf[64];
+	int i;
+
+	if (strcmp(lang_current, "en") == 0) return;
+
+	hm = GetMenu(data[0].w);
+
+	/* --- File menu (bar pos 0) --- */
+	set_menu_text(hm, 0, TRUE, _("&File"));
+	{
+		HMENU fsub = GetSubMenu(hm, 0);
+		set_menu_text(fsub, IDM_FILE_NEW,  FALSE, _("&New\tCtrl+N"));
+		set_menu_text(fsub, IDM_FILE_OPEN, FALSE, _("&Open...\tCtrl+O"));
+		set_menu_text(fsub, IDM_FILE_SAVE, FALSE, _("&Save\tCtrl+S"));
+		set_menu_text(fsub, IDM_FILE_EXIT, FALSE, _("E&xit\tCtrl+X"));
+	}
+
+	/* --- Window menu (bar pos 1) --- */
+	set_menu_text(hm, 1, TRUE, _("&Window"));
+	wsub = GetSubMenu(hm, 1);
+
+	set_menu_text(wsub, 0, TRUE, _("&Visibility"));
+	{
+		HMENU vsub = GetSubMenu(wsub, 0);
+		for (i = 0; i < MAX_TERM_DATA; i++) {
+			strnfmt(buf, sizeof(buf), _("Term-%d window"), i);
+			set_menu_text(vsub, IDM_WINDOW_VIS_0 + i, FALSE, buf);
+		}
+	}
+
+	set_menu_text(wsub, 1, TRUE, _("&Font"));
+	{
+		HMENU fnsub = GetSubMenu(wsub, 1);
+		for (i = 0; i < MAX_TERM_DATA; i++) {
+			strnfmt(buf, sizeof(buf), _("Term-%d window"), i);
+			set_menu_text(fnsub, IDM_WINDOW_FONT_0 + i, FALSE, buf);
+		}
+	}
+
+	/* pos 2 is separator; pos 3 = Bizarre Display */
+	set_menu_text(wsub, 3, TRUE, _("Bizarre Display"));
+	{
+		HMENU bsub = GetSubMenu(wsub, 3);
+		for (i = 0; i < MAX_TERM_DATA; i++) {
+			strnfmt(buf, sizeof(buf), _("Term-%d window"), i);
+			set_menu_text(bsub, IDM_WINDOW_BIZ_0 + i, FALSE, buf);
+		}
+	}
+
+	set_menu_text(wsub, 4, TRUE, _("Increase Tile Width"));
+	{
+		HMENU sub = GetSubMenu(wsub, 4);
+		for (i = 0; i < MAX_TERM_DATA; i++) {
+			strnfmt(buf, sizeof(buf), _("Term-%d window"), i);
+			set_menu_text(sub, IDM_WINDOW_I_WID_0 + i, FALSE, buf);
+		}
+	}
+
+	set_menu_text(wsub, 5, TRUE, _("Decrease Tile Width"));
+	{
+		HMENU sub = GetSubMenu(wsub, 5);
+		for (i = 0; i < MAX_TERM_DATA; i++) {
+			strnfmt(buf, sizeof(buf), _("Term-%d window"), i);
+			set_menu_text(sub, IDM_WINDOW_D_WID_0 + i, FALSE, buf);
+		}
+	}
+
+	set_menu_text(wsub, 6, TRUE, _("Increase Tile Height"));
+	{
+		HMENU sub = GetSubMenu(wsub, 6);
+		for (i = 0; i < MAX_TERM_DATA; i++) {
+			strnfmt(buf, sizeof(buf), _("Term-%d window"), i);
+			set_menu_text(sub, IDM_WINDOW_I_HGT_0 + i, FALSE, buf);
+		}
+	}
+
+	set_menu_text(wsub, 7, TRUE, _("Decrease Tile Height"));
+	{
+		HMENU sub = GetSubMenu(wsub, 7);
+		for (i = 0; i < MAX_TERM_DATA; i++) {
+			strnfmt(buf, sizeof(buf), _("Term-%d window"), i);
+			set_menu_text(sub, IDM_WINDOW_D_HGT_0 + i, FALSE, buf);
+		}
+	}
+
+	/* pos 8 = separator; pos 9 = Term 0 Font Tile Size */
+	set_menu_text(wsub, 9, TRUE, _("Term 0 Font Tile Size"));
+	{
+		HMENU tsub = GetSubMenu(wsub, 9);
+		set_menu_text(tsub, IDM_TILE_FONT, FALSE, _("Font"));
+	}
+
+	set_menu_text(wsub, IDM_WINDOW_OPT,   FALSE, _("Term Options"));
+	set_menu_text(wsub, IDM_WINDOW_RESET, FALSE, _("Reset Layout"));
+
+	/* --- Options menu (bar pos 2) --- */
+	set_menu_text(hm, 2, TRUE, _("&Options"));
+	osub = GetSubMenu(hm, 2);
+
+	set_menu_text(osub, 0, TRUE, _("&Graphics"));
+	gsub = GetSubMenu(osub, 0);
+	set_menu_text(gsub, IDM_OPTIONS_GRAPHICS_NONE, FALSE, _("&None"));
+	set_menu_text(gsub, IDM_OPTIONS_GRAPHICS_NICE, FALSE, _("Enable nice &graphics"));
+	/* Tile Multiplier popup is the last item in the Graphics submenu */
+	{
+		int n = GetMenuItemCount(gsub);
+		if (n > 0) {
+			HMENU tilesub = GetSubMenu(gsub, n - 1);
+			if (tilesub) {
+				set_menu_text(gsub, (UINT)(n - 1), TRUE, _("&Tile Multiplier"));
+				/* Individual tile sizes don't need translation */
+			}
+		}
+	}
+
+	/* Language popup (pos 2, after separator at pos 1) */
+	set_menu_text(osub, 2, TRUE, _("Language"));
+	{
+		HMENU lsub = GetSubMenu(osub, 2);
+		if (lsub) {
+			set_menu_text(lsub, IDM_OPTIONS_LANG_EN, FALSE, _("English"));
+			set_menu_text(lsub, IDM_OPTIONS_LANG_ES, FALSE, _("Spanish"));
+		}
+	}
+
+	set_menu_text(osub, IDM_OPTIONS_LOW_PRIORITY, FALSE, _("Low Priority"));
+	set_menu_text(osub, IDM_OPTIONS_SAVER,        FALSE, _("Activate Screensaver"));
+	set_menu_text(osub, IDM_OPTIONS_SCREENSHOT,   FALSE, _("&Screenshot"));
+
+	/* --- Help menu (bar pos 3) --- */
+	set_menu_text(hm, 3, TRUE, _("&Help"));
+	{
+		HMENU hsub = GetSubMenu(hm, 3);
+		set_menu_text(hsub, IDM_HELP_GENERAL, FALSE, _("&Contents"));
+	}
+
+	DrawMenuBar(data[0].w);
+}
+
+/**
  * Create the windows
  *
  * First, instantiate the "default" values, then read the "ini_file"
@@ -2816,7 +3028,7 @@ static void init_windows(void)
 		                       td->size_wid, td->size_hgt,
 		                       HWND_DESKTOP, NULL, hInstance, NULL);
 		my_td = NULL;
-		if (!td->w) quit("Error al crear la subventana");
+		if (!td->w) quit(_("Failed to create sub-window"));
 
 		term_data_link(td);
 		angband_term[i] = &td->t;
@@ -2852,7 +3064,7 @@ static void init_windows(void)
 	                       td->size_wid, td->size_hgt,
 	                       HWND_DESKTOP, NULL, hInstance, NULL);
 	my_td = NULL;
-	if (!td->w) quit_fmt("Error al crear la ventana %s", VERSION_NAME);
+	if (!td->w) quit_fmt(_("Failed to create %s window"), VERSION_NAME);
 
 	term_data_link(td);
 	term_screen = &td->t;
@@ -2913,6 +3125,10 @@ static void init_windows(void)
 	blendfn.AlphaFormat = AC_SRC_ALPHA;
 	blendfn.SourceConstantAlpha = 255;
 
+
+	/* Apply translated menu text and language checkmarks */
+	rebuild_menus();
+	update_language_checkmarks();
 
 	/* Process pending messages */
 	(void)Term_xtra_win_flush();
@@ -3453,9 +3669,9 @@ static void process_menus(WORD wCmd)
 		case IDM_FILE_NEW:
 		{
 			if (!initialized) {
-				plog("Todavía no puedes hacer eso...");
+				plog(_("You cannot do that yet..."));
 			} else if (game_in_progress) {
-				plog("No puedes iniciar una nueva partida mientras sigues jugando.");
+				plog(_("You can't start a new game while you're still playing!"));
 			} else {
 				/* Start game */
 				game_in_progress = true;
@@ -3470,14 +3686,16 @@ static void process_menus(WORD wCmd)
 		case IDM_FILE_OPEN:
 		{
 			if (!initialized) {
-				plog("Todavía no puedes hacer eso...");
+				plog(_("You cannot do that yet..."));
 			} else if (game_in_progress) {
-				plog("No puedes abrir una nueva partida mientras sigues jugando.");
+				plog(_("You can't open a new game while you're still playing!"));
 			} else {
 				memset(&ofn, 0, sizeof(ofn));
 				ofn.lStructSize = sizeof(ofn);
 				ofn.hwndOwner = data[0].w;
-				ofn.lpstrFilter = "Archivos de Partida (*.)\0*\0";
+				ofn.lpstrFilter = (strcmp(lang_current, "en") == 0) ?
+					"Save Files (*.)\0*\0" :
+					"Archivos de Partida (*.)\0*\0";
 				ofn.nFilterIndex = 1;
 				ofn.lpstrFile = savefile;
 				ofn.nMaxFile = 1024;
@@ -3511,7 +3729,7 @@ static void process_menus(WORD wCmd)
 				save_game();
 			} else {
 				/* Paranoia */
-				plog("No puedes hacer eso en este momento.");
+				plog(_("You may not do that right now."));
 			}
 			break;
 		}
@@ -3522,7 +3740,7 @@ static void process_menus(WORD wCmd)
 			if (game_in_progress && character_generated) {
 				/* Paranoia */
 				if (!inkey_flag) {
-					plog("No puedes hacer eso en este momento.");
+					plog(_("You may not do that right now."));
 					break;
 				}
 
@@ -3539,7 +3757,7 @@ static void process_menus(WORD wCmd)
 
 		case IDM_WINDOW_VIS_0:
 		{
-			plog("¡No tienes permiso para hacer eso!");
+			plog(_("You are not allowed to do that!"));
 
 			break;
 		}
@@ -3582,7 +3800,7 @@ static void process_menus(WORD wCmd)
 		case IDM_WINDOW_FONT_7:
 		{
 			if ((use_graphics_nice) && (!inkey_flag || !initialized)) {
-				plog("No puedes hacer eso en este momento.");
+				plog(_("You may not do that right now."));
 				break;
 			}
                   
@@ -3733,14 +3951,18 @@ static void process_menus(WORD wCmd)
 		case IDM_WINDOW_RESET: {
 			/* Paranoia */
 			if (!inkey_flag || !initialized) {
-				plog("No puedes hacer eso en este momento.");
+				plog(_("You may not do that right now."));
 				break;
 			}
 			
 			
-			if (MessageBox(NULL,
-					"Esto restablecerá el tamaño y la disposición de las ventanas de Angband\n según el tamaño de tu pantalla. ¿Deseas continuar?",
-					VERSION_NAME, MB_YESNO|MB_ICONWARNING) == IDYES) {
+			wchar_t wmsg[1024], wtitle[128];
+			MultiByteToWideChar(CP_UTF8, 0,
+				_("This will reset the size and layout of the angband windows\n based on your screen size. Do you want to continue?"),
+				-1, wmsg, 1024);
+			MultiByteToWideChar(CP_UTF8, 0, VERSION_NAME, -1, wtitle, 128);
+			if (MessageBoxW(NULL, wmsg, wtitle,
+					MB_YESNO|MB_ICONWARNING) == IDYES) {
 				term *old = Term;
 				RECT rc;
 
@@ -3810,7 +4032,7 @@ static void process_menus(WORD wCmd)
 		case IDM_OPTIONS_GRAPHICS_NICE: {
 			/* Paranoia */
 			if (!inkey_flag || !initialized) {
-				plog("No puedes hacer eso en este momento.");
+				plog(_("You may not do that right now."));
 				break;
 			}
 
@@ -3842,7 +4064,7 @@ static void process_menus(WORD wCmd)
 		{
 			/* Paranoia */
 			if (!inkey_flag || !initialized) {
-				plog("No puedes hacer eso en este momento.");
+				plog(_("You may not do that right now."));
 				break;
 			}
 			switch (wCmd)
@@ -3953,7 +4175,7 @@ static void process_menus(WORD wCmd)
 		{
 			/* Paranoia */
 			if (!inkey_flag || !initialized) {
-				plog("No puedes hacer eso en este momento.");
+				plog(_("You may not do that right now."));
 				break;
 			}
 			td = &data[0];
@@ -4079,7 +4301,7 @@ static void process_menus(WORD wCmd)
 
 					screensaver_active = true;
 				} else {
-					plog("Error al crear la ventana del salvapantallas");
+					plog(_("Failed to create saver window"));
 				}
 			}
 
@@ -4087,6 +4309,27 @@ static void process_menus(WORD wCmd)
 		}
 
 #endif /* USE_SAVER */
+
+		case IDM_OPTIONS_LANG_EN:
+		case IDM_OPTIONS_LANG_ES:
+		{
+			const char *new_lang = (wCmd == IDM_OPTIONS_LANG_EN) ? "en" : "es";
+			if (strcmp(lang_current, new_lang) == 0) break;
+			{
+				wchar_t wmsg[1024], wtitle[128];
+				MultiByteToWideChar(CP_UTF8, 0,
+					_("The game will save and restart to apply the language change.\n\n"
+					  "Warning: save files created in the current language "
+					  "may not load correctly after switching languages."),
+					-1, wmsg, 1024);
+				MultiByteToWideChar(CP_UTF8, 0, _("Language"), -1, wtitle, 128);
+				if (MessageBoxW(data[0].w, wmsg, wtitle,
+						MB_OKCANCEL | MB_ICONWARNING) == IDOK) {
+					restart_with_language(new_lang);
+				}
+			}
+			break;
+		}
 
 		case IDM_OPTIONS_LOW_PRIORITY:
 		{
@@ -4126,7 +4369,7 @@ static void process_menus(WORD wCmd)
 			path_build(path, sizeof(path), ANGBAND_DIR_USER, filename);
 			td = &data[0];
 			if (!SaveWindow_PNG(td->w, path)) {
-				plog("Error al guardar la captura de pantalla.");
+				plog(_("Screenshot Save Failed."));
 			}
 			break;
 		}
@@ -4139,7 +4382,7 @@ static void process_menus(WORD wCmd)
 
 				/* Paranoia */
 				if (!inkey_flag || !initialized) {
-					plog("No puedes hacer eso en este momento.");
+					plog(_("You may not do that right now."));
 					break;
 				}
 
@@ -4518,7 +4761,7 @@ static LRESULT FAR PASCAL AngbandWndProc(HWND hWnd, UINT uMsg,
 		case WM_QUIT: {
 			if (game_in_progress && character_generated) {
 				if (uMsg == WM_QUERYENDSESSION && !inkey_flag) {
-					plog("Por favor, cierra todos los menus abiertos antes de salir del juego.");
+					plog(_("Please exit any open menus before closing the game."));
 					return false;
 				}
 
@@ -4536,7 +4779,7 @@ static LRESULT FAR PASCAL AngbandWndProc(HWND hWnd, UINT uMsg,
 		{
 			if (game_in_progress && character_generated) {
 				if (!inkey_flag) {
-					plog("Por favor, cierra todos los menus abiertos antes de salir del juego.");
+					plog(_("Please exit any open menus before closing the game."));
 					return 0;
 				}
 
@@ -4999,7 +5242,7 @@ static void hack_plog(const char *str)
 {
 	/* Give a warning */
 	if (str)
-		MessageBox(NULL, str, "Advertencia", MB_ICONEXCLAMATION | MB_OK);
+		MessageBox(NULL, str, _("Warning"), MB_ICONEXCLAMATION | MB_OK);
 }
 
 
@@ -5051,7 +5294,7 @@ static void hook_plog(const char *str)
 
 	/* Warning */
 	if (str)
-		MessageBox(data[0].w, str, "Advertencia", MB_ICONEXCLAMATION | MB_OK);
+		MessageBox(data[0].w, str, _("Warning"), MB_ICONEXCLAMATION | MB_OK);
 }
 
 
@@ -5181,6 +5424,9 @@ static void init_stuff(void)
 
 	/* Add "lib" to the path */
 	my_strcpy(path + i + 1, "lib\\", sizeof(path) - i - 1);
+
+	/* Save for lang_init() */
+	my_strcpy(angband_lib_dir, path, sizeof(angband_lib_dir));
 
 	/* Validate the path */
 	validate_dir(path);
@@ -5355,6 +5601,35 @@ int FAR PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,
 	/* Prepare the filepaths */
 	init_stuff();
 
+	/* Read language from INI, default to English */
+	{
+		char lang[8];
+		GetPrivateProfileStringA("Angband", "Language", "en", lang, sizeof(lang), ini_file);
+
+		/* Load translations for the chosen language */
+		lang_init(lang, angband_lib_dir);
+
+		/* Redirect gamedata to language-specific subdirectory if it exists */
+		{
+			char new_gamedata[1024];
+			path_build(new_gamedata, sizeof(new_gamedata), ANGBAND_DIR_GAMEDATA, lang);
+			if (check_dir(new_gamedata)) {
+				string_free(ANGBAND_DIR_GAMEDATA);
+				ANGBAND_DIR_GAMEDATA = string_make(new_gamedata);
+			}
+		}
+
+		/* Redirect screens to language-specific subdirectory if it exists */
+		{
+			char new_screens[1024];
+			path_build(new_screens, sizeof(new_screens), ANGBAND_DIR_SCREENS, lang);
+			if (check_dir(new_screens)) {
+				string_free(ANGBAND_DIR_SCREENS);
+				ANGBAND_DIR_SCREENS = string_make(new_screens);
+			}
+		}
+	}
+
 	/* Determine if display is 16/256/true color */
 	hdc = GetDC(NULL);
 	colors16 = (GetDeviceCaps(hdc, BITSPIXEL) == 4);
@@ -5379,7 +5654,25 @@ int FAR PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,
 
 	/* load the possible graphics modes */
 	if (!init_graphics_modes()) {
-		plog_fmt("Error al cargar la lista de modos gráficos");
+		plog(_("Graphics list load failed"));
+	}
+
+	/* Redirect tile prf files to language-specific subdirectory when available.
+	 * e.g. lib/tiles/nomad/  ->  lib/tiles/nomad/es/  (for Spanish)
+	 * Falls back to the tileset root if no language subdir exists. */
+	{
+		graphics_mode *gmode = graphics_modes;
+		while (gmode) {
+			if (gmode->grafID != GRAPHICS_NONE && gmode->path[0]) {
+				char lang_tile_path[256];
+				path_build(lang_tile_path, sizeof(lang_tile_path),
+				           gmode->path, lang_current);
+				if (check_dir(lang_tile_path)) {
+					my_strcpy(gmode->prf_path, lang_tile_path, sizeof(gmode->prf_path));
+				}
+			}
+			gmode = gmode->pNext;
+		}
 	}
 
 	/* Prepare the windows */
@@ -5424,8 +5717,11 @@ int FAR PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,
 	check_for_save_file(lpCmdLine);
 
 	/* Prompt the user */
-	prt("[Selecciona 'Nuevo' u 'Abrir' desde menú 'Archivo']",
-		(Term->hgt - 23) / 5 + 23, (Term->wid - 53) / 2);  // fix traduc se corre a la izquierda ya que los textos en español son un poco más largos
+	{
+		const char *start_msg = _("[Choose 'New' or 'Open' from the 'File' menu]");
+		prt(start_msg, (Term->hgt - 23) / 5 + 23,
+			(Term->wid - (int)strlen(start_msg)) / 2);
+	}
 	Term_fresh();
 
 	/* Process messages forever */
@@ -5469,7 +5765,7 @@ static bool create_savefile_tracking_file(bool message_on_failure)
 	if (multapp_file == INVALID_HANDLE_VALUE) {
 		result = false;
 		if (message_on_failure) {
-			plog_fmt("Otra instancia del juego parece estar usando ese archivo de partida. Si eso es incorrecto, elimina %s e intentalo de nuevo.", name);
+			plog_fmt(_("Another instance of the game appears to using that savefile.  If that's incorrect, delete %s and retry."), name);
 		}
 	}
 

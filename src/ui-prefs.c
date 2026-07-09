@@ -22,6 +22,7 @@
 #include "game-input.h"
 #include "grafmode.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-util.h"
 #include "monster.h"
 #include "obj-ignore.h"
@@ -368,7 +369,7 @@ void option_dump(ang_file *fff)
 			/* Only dump the flag if true */
 			if (window_flag[i] & (((uint32_t) 1) << j)) {
 				file_putf(fff, "# Window '%s', Flag '%s'\n",
-						  angband_term_name[i], window_flag_desc[j]);
+						  angband_term_name[i], _(window_flag_desc[j]));
 				file_putf(fff, "window:%d:%d:1\n", i, j);
 
 				/* Skip a line */
@@ -1195,8 +1196,8 @@ errr process_pref_file_command(const char *s)
 static void print_error(const char *name, struct parser *p) {
 	struct parser_state s;
 	parser_getstate(p, &s);
-	msg("Error de análisis en %s línea %d columna %d: %s: %s", name,
-	           s.line, s.col, s.msg, parser_error_str[s.error]);
+	msg(_("Parse error in %s line %d column %d: %s: %s"), name,
+	           s.line, s.col, s.msg, _(parser_error_str[s.error]));
 	event_signal(EVENT_MESSAGE_FLUSH);
 }
 
@@ -1315,7 +1316,7 @@ bool process_pref_file(const char *name, bool quiet, bool user)
 	/* If not found, do a check of the current graphics directory */
 	if (!root_success && current_graphics_mode)
 		root_success = process_pref_file_layered(name, quiet, user,
-												 current_graphics_mode->path,
+												 current_graphics_mode->prf_path,
 												 NULL, NULL);
 
 	/* Next, we want to force a check for the file in the user location.
@@ -1406,7 +1407,7 @@ void reset_visuals(bool load_prefs)
 		assert(mode);
 
 		/* Build path to the pref file */
-		path_build(buf, sizeof buf, mode->path, mode->pref);
+		path_build(buf, sizeof buf, mode->prf_path, mode->pref);
 
 		process_pref_file_named(buf, false, false);
 	} else {
@@ -1478,7 +1479,7 @@ void do_cmd_pref(void)
 	my_strcpy(tmp, "", sizeof(tmp));
 
 	/* Ask for a "user pref command" */
-	if (!get_string("Pref: ", tmp, 80)) return;
+	if (!get_string(_("Pref: "), tmp, 80)) return;
 
 	/* Process that pref command */
 	(void)process_pref_file_command(tmp);

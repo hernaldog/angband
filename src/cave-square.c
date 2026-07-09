@@ -20,6 +20,7 @@
 #include "cave.h"
 #include "game-world.h"
 #include "init.h"
+#include "lang.h"
 #include "monster.h"
 #include "obj-knowledge.h"
 #include "obj-pile.h"
@@ -1566,7 +1567,7 @@ const char *square_apparent_look_in_preposition(struct chunk *c, struct loc grid
 	int actual = square(c, grid)->feat;
 	const struct feature *fp = f_info[actual].mimic ?
 		f_info[actual].mimic : &f_info[actual];
-	return (fp->look_in_preposition) ?  fp->look_in_preposition : "sobre ";
+	return (fp->look_in_preposition) ?  fp->look_in_preposition : _("on ");
 }
 
 /* Memorize the terrain */

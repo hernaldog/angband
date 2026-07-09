@@ -1,0 +1,2501 @@
+# File: artifact.txt
+
+
+# This file is used to initialize the "artifact" information for Angband.
+
+# === Understanding artifact.txt ===
+
+# name: item name
+# base-object: tval : sval
+# graphics: symbol : color
+# level: level
+# weight: weight
+# cost: cost
+# alloc: allocation probability : min " to " max
+# attack: base damage : plus to-hit : plus to-dam
+# armor: base armor class : plus to-ac
+# flags: flag | flag | etc
+# act: activation
+# time : recharge time
+# msg: message when activated
+# values: label[value] | label[value] | etc.
+# brand: code
+# slay: code
+# curse: name : power
+# desc: description
+
+# 'name' indicates the beginning of an entry.
+
+# 'base-object' is for base object type. The tval is for the type of item, the
+# sval identifies the subtype.  If the sval is not a standard object kind
+# as defined in object.txt, the game will generate a special object kind,
+# and these are known as 'special artifacts'.
+
+# 'graphics' is for symbol and color. It is needed for special artifacts.
+
+# 'level' indicates difficulty of any activation.
+
+# 'weight' is in tenth-pounds
+
+# 'cost' is the item's value.
+
+# 'alloc' is for allocation details. alloc_prob is the % chance of the artifact
+# being generated, min depth is the earliest it is normally found, max
+# depth is the deepest it is ever found.
+
+# 'attack' is for combat attack information, the item's base damage and pluses
+# to-hit and to-dam.
+
+# 'armor' is for armor information, the item's base armor class and plus to-ac.
+
+# 'flags' is for object flags as listed in list-object-flags.h. These are
+# fairly self-explanatory. As many flags: lines may be used as are needed to 
+# specify all the flags and flags are separated by the '|' symbol.
+
+# 'act' is for activation. The activation is the effect the artifact
+# activates for.
+
+# 'time' is for recharge time. The recharge time calculates from the recharge
+# time plus a random value between 1 and the recharge time dice (if not 0).
+
+# 'msg' is for activation message text, if different from the regular effect
+# message.
+
+# 'values' is for properties that take a value.  Valid properties are the
+# object modifiers (as found in list-stats.h and list-object-modifiers.h) or
+# resistances ('RES_' prepended to the element name from list-elements.h).
+# The value appears in brackets after the property name and must be an integer.
+# For resistances, the useful values are 1 (resist), 3 (immune), and -1
+# (vulnerable).  Use as many 'values' lines as are needed to specify the
+# properties of the object.  If listing more than one property on a line,
+# separate them with '|'.
+
+# 'brand' adds a brand to the artifact.  It should be omitted for artifacts
+# without brands and may appear more than once for artifacts with multiple
+# brands.  Specify the brand to be added by its code in brand.txt.
+
+# 'slay' adds a slay to the artifact.  It should be omitted for artifacts
+# without slays and may appear more than once for artifacts with multiple
+# slays.  Specify the slay to be added by its code in slay.txt.
+
+# 'curse' adds a curse to the artifact.  It should be omitted for artifacts
+# without curses and may appear more than once for artifacts with multiple
+# curses.  A curse has a name (as given in curse.txt) and a power.  The power
+# is a positive integer and indicates how hard it is to remove the curse.  A
+# larger power is more difficult to remove.
+
+# 'desc' is for the artifact description.  These appear when the item is
+# identified.  Special thanks to J.R.R Tolkien, without whom the words would
+# be unwritten, the images unconceived, the deed undone. -LM-
+# Contributors: Jeff Butler, Neal Hackler, Ethan Sicotte, Pat Tracy,
+# Yuanli Zhou 
+
+### IMPORTANT NOTES ###
+# (1.) Any changes or additions to the file may have influence on randarts
+# and may break savefile compatibility for old savegames with randarts.  If
+# using random artifacts, finish your existing game before making any
+# changes to the artifact.txt file at all.
+# (2.) Removing any artifact, or changing its "base" type (as defined by
+# the tval and sval entries in the "base-object:" line), will break savefile
+# compatibility for ALL savefiles.
+# (3.) Adding a new artifact, WILL now affect savefile compatibility for all
+# savefiles.
+
+
+
+### Light Sources ###
+
+name:of Galadriel
+base-object:light:Vial
+graphics:~:y
+level:5
+weight:10
+cost:10000
+alloc:40:5 to 100
+attack:1d1:0:0
+armor:0:0
+flags:NO_FUEL
+values:LIGHT[4]
+act:ILLUMINATION
+time:10+d10
+desc:Una pequeña redoma de cristal que contiene la luz de la Estrella de
+desc: Eärendil. Su luz es imperecedera, y cerca de ella la oscuridad no
+desc: puede perdurar.
+
+name:of Elendil
+base-object:light:Estrella
+graphics:~:y
+level:30
+weight:5
+cost:30000
+alloc:4:30 to 100
+attack:1d1:0:0
+armor:0:0
+flags:SEE_INVIS | NO_FUEL
+values:LIGHT[4]
+act:MAPPING
+time:50+d50
+desc:La brillante Estrella del Norte, un preciado tesoro heredado de la
+desc: casa de Elendil.
+
+name:of Thráin
+base-object:light:Piedra del Arca
+graphics:~:y
+level:50
+weight:5
+cost:50000
+alloc:2:50 to 127
+attack:1d1:0:0
+armor:0:0
+flags:SEE_INVIS | HOLD_LIFE | NO_FUEL
+values:LIGHT[4] | RES_LIGHT[1] | RES_DARK[1]
+act:CLAIRVOYANCE
+time:50+d50
+desc:Un gran globo que parece contener luz de luna, el célebre Corazón de
+desc: la Montaña.  Fragmenta la luz que cae sobre él en diez mil chispas de
+desc: resplandor blanco veteadas de destellos del arco iris.
+
+#name:of Westernesse
+#base-object:light:Palantir
+#graphics:~:y
+#level:75
+#weight:200
+#cost:100000
+#alloc:2:75 to 127
+#attack:10d10:0:0
+#armor:0:0
+# F:DRAIN_MANA | 
+#flags:NO_FUEL
+#flags:SEE_INVIS | TELEPATHY | 
+#flags:PROT_BLIND | AGGRAVATE | DRAIN_EXP | 
+#flags:LIGHT
+#act:CLAIRVOYANCE
+#time:50+d50
+#msg:The {kind} glow{s} a deep green...
+#values:INT[2] | WIS[2] | INFRA[3] |  SEARCH[3] | LIGHT[3] | RES_CHAOS[1]
+#desc:A great globe with a heart of fire, the Palantír provides the wearer with
+#desc: sight of far places - at a cost, for those espied upon are aware of it.
+
+
+### Swords and Daggers ###
+
+name:'Angrist'
+base-object:sword:Daga
+level:20
+weight:12
+cost:100000
+alloc:2:60 to 100
+attack:2d7:18:16
+armor:0:5
+flags:FREE_ACT | SUST_DEX
+values:DEX[4] | RES_ACID[1] | RES_DARK[1]
+brand:ACID_3
+slay:EVIL_2
+slay:TROLL_3
+slay:ORC_3
+desc:Forjada por Telchar, el más grande de los herreros Enanos, y empleada
+desc: por Beren para arrancar un Silmaril de la corona de Morgoth, esta larga
+desc: daga de tajo corta el metal común con la misma facilidad que sugiere
+desc: su nombre, "Hendidora de Hierro".
+
+name:'Narthanc'
+base-object:sword:Daga
+level:1
+weight:12
+cost:12000
+alloc:40:1 to 50
+attack:1d4:9:12
+armor:0:10
+values:RES_FIRE[1]
+brand:FIRE_3
+act:FIRE_BOLT
+time:8+d8
+desc:En lugar de una hoja, de la empuñadura de esta daga parece brotar una
+desc: llama.
+
+name:'Nimthanc'
+base-object:sword:Daga
+level:1
+weight:12
+cost:11000
+alloc:40:1 to 50
+attack:1d4:9:12
+armor:0:10
+values:RES_COLD[1]
+brand:COLD_3
+act:COLD_BOLT
+time:7+d8
+desc:De la empuñadura de esta daga brota, más que una hoja, un carámbano
+desc: de hielo.
+
+name:'Dethanc'
+base-object:sword:Daga
+level:1
+weight:12
+cost:13000
+alloc:40:1 to 50
+attack:1d4:9:12
+armor:0:10
+values:RES_ELEC[1]
+brand:ELEC_3
+act:ELEC_BOLT
+time:6+d6
+desc:En esta daga está atrapada la fuerza misma del rayo.
+
+name:of Rilia
+base-object:sword:Daga
+level:5
+weight:12
+cost:15000
+alloc:5:5 to 75
+attack:2d4:14:13
+armor:0:0
+values:RES_POIS[1] | RES_DISEN[1]
+slay:ORC_3
+slay:TROLL_3
+brand:POIS_3
+act:STINKING_CLOUD
+time:4+d4
+desc:Un gran estilete que reluce con un veneno inodoro, al cual quien lo
+desc: porta parece extrañamente inmune.
+
+name:'Belangil'
+base-object:sword:Daga
+level:10
+weight:12
+cost:40000
+alloc:2:10 to 80
+attack:3d4:16:14
+armor:0:0
+flags:SEE_INVIS | SLOW_DIGEST | REGEN
+values:DEX[2] | RES_COLD[1]
+brand:COLD_3
+act:COLD_BALL50
+time:5+d5
+desc:Una daga escarchada envuelta en un nimbo de hielo, con empuñadura de
+desc: cuerno de alce y un filo capaz de herir al viento.
+
+name:of Azaghâl
+base-object:sword:Daga de Parada
+level:18
+weight:30
+cost:50000
+alloc:3:18 to 100
+attack:2d5:12:14
+armor:0:0
+flags:PROT_FEAR
+values:RES_FIRE[3] | RES_ACID[1]
+slay:DRAGON_5
+desc:Azaghâl, rey Enano de Belegost, cayó ante Glaurung en la Batalla de
+desc: las Lágrimas Innumerables.  Con su último aliento, Azaghâl hundió esta
+desc: hoja en el vientre de Glaurung con tal fuerza que el Padre de los
+desc: Dragones huyó del campo con todos los suyos, y al principio se creyó
+desc: que había recibido una herida mortal.
+
+name:of Maedhros
+base-object:sword:Daga de Parada
+level:15
+weight:30
+cost:20000
+alloc:3:15 to 65
+attack:2d6:12:15
+armor:0:0
+flags:FREE_ACT | SEE_INVIS
+values:INT[3] | DEX[3]
+slay:TROLL_3
+slay:GIANT_3
+desc:Una hoja corta de estocada con una gran guarda, portada por el hijo
+desc: mayor de Fëanor, Maedhros el Alto, quien perdió su mano derecha al
+desc: escapar de Angband.
+
+name:'Forasgil'
+base-object:sword:Estoque
+level:1
+weight:40
+cost:15000
+alloc:38:5 to 50
+attack:1d12:12:19
+armor:0:0
+values:LIGHT[1] | RES_COLD[1] | RES_LIGHT[1]
+brand:COLD_3
+slay:ANIMAL_2
+desc:Una aguja de hielo, esbelta y afilada, que aferra fríamente a su presa
+desc: empalada.
+
+name:'Careth Asdriag'
+base-object:sword:Estoque
+level:15
+weight:40
+cost:25000
+alloc:10:15 to 80
+attack:2d6:16:12
+armor:0:0
+values:BLOWS[1] | STR[2] | DEX[2] | CON[2]
+slay:DRAGON_3
+slay:ANIMAL_2
+slay:TROLL_3
+slay:GIANT_3
+slay:ORC_3
+desc:Reliquia de los intrépidos Señores de Rhûn, en el lejano oriente, y un
+desc: nombre que siembra el pavor entre las criaturas naturales y
+desc: antinaturales.
+
+name:'Sting'
+base-object:sword:Espada Corta
+level:20
+weight:75
+cost:100000
+alloc:6:20 to 100
+attack:1d7:7:8
+armor:0:0
+flags:PROT_FEAR | FREE_ACT | SEE_INVIS
+values:SPEED[3] | BLOWS[2] | STR[1] | DEX[1] | CON[1] | LIGHT[1] | RES_LIGHT[1]
+slay:EVIL_2
+slay:UNDEAD_3
+slay:ORC_3
+slay:ANIMAL_2
+desc:"Te daré un nombre, y te llamaré Sting."  Del tamaño perfecto para
+desc: Bilbo, y marcada para siempre por el valor que él halló en Mirkwood,
+desc: esta pequeña y robusta hoja otorga a quien la porta una pericia en
+desc: combate y una capacidad de supervivencia que no sabía que poseía.
+
+name:'Dagmor'
+base-object:sword:Espada Corta
+level:20
+weight:80
+cost:15000
+alloc:12:20 to 80
+attack:1d7:13:11
+armor:0:0
+flags:SLOW_DIGEST | REGEN
+values:BLOWS[2]
+brand:POIS_3
+slay:ANIMAL_2
+desc:Una hoja corta y robusta portada por Beren, cuyo cuerno resonó antaño
+desc: en los claros de Brethil.
+
+name:'Gondricam'
+base-object:sword:Alfanje
+level:20
+weight:110
+cost:28000
+alloc:12:20 to 65
+attack:1d8:10:11
+armor:0:50
+flags:FEATHER | SEE_INVIS | REGEN | FREE_ACT
+values:DEX[4] | STEALTH[2]
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1]
+desc:Célebre defensora de los mares de Lebennin.  Una hoja corta y
+desc: ligeramente curva de tajo, con un filo perfecto que reluce limpiamente
+desc: al sol, objeto de odio para los hombres de Umbar que la enfrentaron en
+desc: combate.
+
+name:'Haradekket'
+base-object:sword:Cimitarra
+level:20
+weight:130
+cost:30000
+alloc:7:20 to 80
+attack:4d2:9:11
+armor:0:0
+flags:SEE_INVIS
+values:DEX[2] | BLOWS[2]
+slay:ANIMAL_2
+slay:EVIL_2
+slay:UNDEAD_3
+desc:Una cimitarra damasquinada que se maneja con maravillosa facilidad.
+desc: Célebre en canciones como la "Hoz de Harad", y enemiga mortal de los
+desc: no-muertos.
+
+name:'Ringil'
+base-object:sword:Espada Larga
+level:40
+weight:130
+cost:300000
+alloc:1:20 to 127
+attack:4d5:22:25
+armor:0:0
+flags:PROT_FEAR | BLESSED | FREE_ACT | SEE_INVIS | SLOW_DIGEST | REGEN
+values:SPEED[10] | LIGHT[1] | RES_COLD[1] | RES_LIGHT[1]
+brand:COLD_3
+slay:EVIL_2
+slay:UNDEAD_3
+slay:TROLL_3
+slay:DEMON_5
+act:COLD_BALL100
+time:40
+desc:El arma de Fingolfin, Alto Rey de los Noldor; brilla como una columna
+desc: de hielo iluminada por una luz inextinguible.  Morgoth, en tiempos
+desc: antiguos, solo de mala gana acudió a enfrentarla; su pie cojo le
+desc: recordará su poder si algún día vuelve a encararla.
+
+name:'Andúril'
+base-object:sword:Espada Larga
+level:35
+weight:130
+cost:80000
+alloc:3:20 to 127
+attack:3d5:10:15
+armor:0:10
+flags:PROT_FEAR | FREE_ACT | BLESSED | SUST_STR | SUST_DEX | SEE_INVIS
+values:STR[4] | DEX[4] | RES_FIRE[1] | RES_DISEN[1]
+brand:FIRE_3
+slay:EVIL_2
+slay:TROLL_3
+slay:ORC_3
+slay:UNDEAD_3
+act:FIRE_BALL72
+time:40
+desc:La célebre "Llama del Oeste", la Espada que fue Quebrada y ha sido
+desc: forjada de nuevo.  Resplandece con la esencia del fuego, quien la porta
+desc: es poderoso en combate, y ninguna criatura de Sauron puede resistirla.
+
+name:'Anguirel'
+base-object:sword:Espada Larga
+level:20
+weight:130
+cost:40000
+alloc:3:20 to 127
+attack:2d5:10:12
+armor:0:0
+flags:AGGRAVATE | FREE_ACT | SEE_INVIS
+values:SPEED[3] | STR[2] | CON[2] | BLOWS[1] | LIGHT[1] | 
+values:RES_ELEC[1] | RES_LIGHT[1] | RES_DARK[1]
+brand:POIS_3
+slay:EVIL_2
+slay:DEMON_3
+desc:Esta hoja negra fue forjada con hierro meteórico por Eöl, el Elfo
+desc: Oscuro.  Está imbuida de la malicia de su creador; tan peligrosa para
+desc: quien la empuña como letal para sus enemigos.
+
+name:'Elvagil'
+base-object:sword:Espada Larga
+level:1
+weight:130
+cost:30000
+alloc:50:10 to 50
+attack:2d5:12:12
+armor:0:0
+flags:FEATHER | SEE_INVIS
+values:DEX[2] | STEALTH[2]
+slay:TROLL_3
+slay:ORC_3
+desc:La "Hoja Cantora", cuyo portador puede matar Orcos y Trolls en los
+desc: lugares ocultos y secretos de la tierra.
+
+name:'Aranrúth'
+base-object:sword:Espada Ancha
+level:20
+weight:150
+cost:50000
+alloc:2:20 to 100
+attack:3d5:20:12
+armor:0:0
+flags:FREE_ACT | FEATHER | SLOW_DIGEST
+values:DEX[4] | RES_COLD[1]
+slay:DEMON_3
+slay:ORC_3
+act:COLD_BOLT2
+time:50
+desc:La hermosa espada de Thingol, justamente llamada "Ira del Rey".
+desc: Reluce con un frío capaz de helar el corazón de los demonios, y te
+desc: sientes ágil y de pie ligero al asir su empuñadura con incrustaciones
+desc: de oro y plata.
+
+name:'Glamdring'
+base-object:sword:Espada Ancha
+level:20
+weight:150
+cost:40000
+alloc:5:20 to 80
+attack:2d5:10:15
+armor:0:0
+flags:BLESSED | SLOW_DIGEST
+values:SEARCH[1] | LIGHT[1] | RES_FIRE[1] | RES_LIGHT[1]
+brand:FIRE_3
+slay:ORC_3
+slay:DEMON_3
+slay:EVIL_2
+desc:Esta hoja resplandeciente y ardiente, compañera de Orcrist, ganó su
+desc: apodo "Machacadora" entre los orcos moribundos que osaron contemplar
+desc: la oculta Gondolin.
+
+name:'Aeglin'
+base-object:sword:Espada Ancha
+level:20
+weight:150
+cost:45000
+alloc:3:20 to 100
+attack:2d5:12:16
+armor:0:0
+flags:BLESSED | PROT_BLIND | SLOW_DIGEST
+values:SEARCH[1] | LIGHT[1] | RES_ELEC[1]
+brand:ELEC_3
+slay:ORC_3
+slay:TROLL_3
+slay:GIANT_3
+desc:Compañera de Orcrist y Glamdring, y como ellas perdida durante largo
+desc: tiempo, esta espada está continuamente cubierta de pequeños arcos de
+desc: rayos cautivos que destellan y danzan de forma inquietante en los
+desc: globos de luz que crean.
+
+name:'Orcrist'
+base-object:sword:Espada Ancha
+level:20
+weight:150
+cost:40000
+alloc:5:20 to 80
+attack:2d5:10:15
+armor:0:0
+flags:BLESSED | SLOW_DIGEST
+values:SEARCH[1] | LIGHT[1] | RES_COLD[1] | RES_DARK[1]
+brand:COLD_3
+slay:EVIL_2
+slay:ORC_3
+slay:DRAGON_3
+desc:Esta hoja de brillo helado, compañera de Glamdring, es llamada
+desc: simplemente "Mordedora" por los orcos que llegaron a conocer su poder
+desc: demasiado bien.
+
+name:'Calris'
+base-object:sword:Espada Bastarda
+level:30
+weight:140
+cost:100000
+alloc:7:30 to 127
+attack:3d7:0:20
+armor:0:0
+# F:DRAIN_HP | 
+flags:AGGRAVATE
+values:CON[5] | RES_DISEN[1]
+slay:DRAGON_5
+slay:EVIL_2
+slay:DEMON_3
+slay:TROLL_3
+curse:air swing:30
+desc:Esta espada tiene runas de poder grabadas en su ornamentada
+desc: empuñadura, y un único canal de sangre que reluce de un azul helado
+desc: cuando empuñas esta poderosa y peligrosa arma.
+
+name:of Éowyn
+base-object:sword:Espada Bastarda
+level:30
+weight:140
+cost:120000
+alloc:3:30 to 127
+attack:4d4:12:16
+armor:0:0
+flags:PROT_FEAR
+values:STR[4] | STEALTH[2] | RES_NETHER[1] | RES_DARK[1] | RES_COLD[1]
+slay:EVIL_2
+slay:UNDEAD_5
+slay:GIANT_3
+slay:ANIMAL_2
+desc:La hoja de la legendaria Doncella Escudera de Rohan, que dio muerte a
+desc: la infame montura del señor de Morgul antes de abatir al propio y
+desc: poderoso Rey Brujo, a quien ningún hombre mortal podía detener.
+
+name:'Aglarang'
+base-object:sword:Katana
+level:30
+weight:50
+cost:40000
+alloc:4:30 to 100
+attack:6d6:10:10
+armor:0:0
+flags:SUST_DEX
+values:SPEED[5] | DEX[5] | BLOWS[1]
+desc:Una espada absolutamente perfecta, de talla impecable, con un filo que
+desc: corta roca y hueso sin esfuerzo, y hechizos que vuelven a quien la
+desc: porta ágil y veloz.
+desc:  Es el combate hecho arma.
+
+name:'Gurthang'
+base-object:sword:Mandoble
+level:30
+weight:200
+cost:100000
+alloc:3:30 to 100
+attack:3d6:13:17
+armor:0:0
+flags:FREE_ACT | SLOW_DIGEST | REGEN
+values:STR[2] | RES_FIRE[1] | RES_POIS[1]
+brand:POIS_3
+brand:FIRE_3
+slay:DRAGON_5
+desc:Una espada gigantesca que empuñó antaño el poderoso Túrin, y un azote
+desc: de dragones aún mayor; pues ¿qué gusano podría resistir la hoja que se
+desc: bañó en la sangre de Glaurung?
+
+name:'Zarcuthra'
+base-object:sword:Mandoble
+level:30
+weight:240
+cost:200000
+alloc:1:30 to 127
+attack:3d8:19:21
+armor:0:0
+# F:DRAIN_MANA | 
+flags:FREE_ACT | SEE_INVIS | AGGRAVATE
+values:STR[4] | INFRA[2] | RES_FIRE[1] | RES_CHAOS[1]
+brand:FIRE_3
+slay:DRAGON_5
+slay:ANIMAL_2
+slay:EVIL_2
+slay:UNDEAD_3
+slay:DEMON_3
+slay:TROLL_3
+slay:GIANT_3
+slay:ORC_3
+desc:Runas oscuras y letales resaltan contra el acero desnudo de esta
+desc: temible arma, y sientes un poder iracundo de matar y desgarrar según
+desc: te acercas lentamente.
+
+name:'Mormegil'
+base-object:sword:Mandoble
+level:30
+weight:250
+cost:10000
+alloc:7:30 to 100
+attack:3d6:-15:-15
+armor:0:-10
+# F:DRAIN_HP | DRAIN_MANA | 
+flags: SEE_INVIS | HOLD_LIFE | AGGRAVATE | DRAIN_EXP
+values:SPEED[-10]
+brand:POIS_3
+slay:DRAGON_5
+slay:UNDEAD_3
+desc:Una espada retorcida y repugnante, con púas y protuberancias
+desc: ennegrecidas; su solo nombre es una maldición en labios de Elfos y
+desc: Hombres.  Se dice que bebe la propia sangre vital de quien la empuña.
+
+name:'Crisdurian'
+base-object:sword:Espada del Verdugo
+level:40
+weight:260
+cost:100000
+alloc:4:40 to 127
+attack:4d6:18:19
+armor:0:0
+flags:SEE_INVIS
+slay:DRAGON_3
+slay:EVIL_2
+slay:UNDEAD_3
+slay:TROLL_3
+slay:GIANT_3
+slay:ORC_3
+desc:Un arma de gigante, con una hoja larga, alta y recta que surge de una
+desc: empuñadura maciza de doble punta.  Sobre su hoja están escritos
+desc: hechizos de perdición contra los vivos y los no-muertos por igual.
+
+name:'Doomcaller'
+base-object:sword:Hoja del Caos
+level:70
+weight:180
+cost:200000
+alloc:4:70 to 127
+attack:4d7:18:28
+armor:0:-50
+# F:DRAIN_HP | 
+flags:FREE_ACT | SEE_INVIS | TELEPATHY | AGGRAVATE
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1] | RES_CHAOS[1]
+brand:COLD_3
+slay:ANIMAL_2
+slay:DRAGON_5
+slay:EVIL_2
+slay:TROLL_3
+slay:DEMON_3
+desc:Esta arma de ira, forjada por una desesperada banda de bersérkers,
+desc: se hunde ávidamente en la carne cedente de tus enemigos.  Tú mismo
+desc: caes bajo la sombra de la muerte incluso mientras infliges heridas
+desc: que no sanarán.
+
+
+### Blunt Weapons ###
+
+name:of Gothmog
+base-object:hafted:Látigo
+level:60
+weight:90
+cost:25000
+alloc:4:60 to 127
+attack:6d3:13:15
+armor:0:0
+# F:DRAIN_HP | 
+flags:AGGRAVATE
+act:FIRE_BALL
+time:15
+values:STR[3] | INT[-3] | DEX[-3] | WIS[-3] | LIGHT[1]
+values:RES_FIRE[3] | RES_ELEC[1] | RES_DARK[1]
+brand:FIRE_3
+slay:ANIMAL_2
+slay:DRAGON_5
+slay:TROLL_3
+slay:GIANT_3
+desc:Un gran látigo de fuego crepitante de un Balrog; esta arma podría
+desc: someter incluso a Ungoliant.
+
+name:of Fundin Bluecloak
+base-object:hafted:Bola con Cadena
+level:65
+weight:130
+cost:60000
+alloc:2:65 to 127
+attack:4d4:13:17
+armor:0:10
+flags:HOLD_LIFE
+values:STR[4] | WIS[4] | LIGHT[1] | RES_FIRE[1] | RES_ELEC[1] | RES_NETHER[1]
+slay:EVIL_2
+slay:UNDEAD_3
+act:DISPEL_EVIL
+time:100+d100
+desc:El arma de un poderoso sacerdote enano, cuya sombra, según se
+desc: rumorea, aún ronda los salones de Angband.
+
+name:'Bloodspike'
+base-object:hafted:Lucero del Alba
+level:20
+weight:150
+cost:30000
+alloc:3:20 to 75
+attack:2d6:8:22
+armor:0:0
+flags:SEE_INVIS
+values:STR[4] | RES_NEXUS[1]
+brand:POIS_3
+slay:ANIMAL_2
+slay:TROLL_3
+slay:ORC_3
+desc:Te sientes fuerte y firme de pie mientras haces girar su bola con
+desc: púas y la bañas en la sangre de tus enemigos.
+
+name:'Firestar'
+base-object:hafted:Lucero del Alba
+level:25
+weight:150
+cost:35000
+alloc:7:20 to 100
+attack:2d6:15:17
+armor:0:2
+values:RES_FIRE[3]
+brand:FIRE_3
+act:FIRE_BALL72
+time:20
+desc:Un célebre señor de batalla de antaño, con una cabeza tan rojiza como
+desc: brasas que aún puede alzarse con ira.
+
+name:'Totila'
+base-object:hafted:Mayal
+level:20
+weight:150
+cost:55000
+alloc:12:20 to 65
+attack:3d6:16:12
+armor:0:0
+flags:PROT_CONF
+act:CONFUSE2
+time:15
+values:STEALTH[2] | SPEED[2] | RES_FIRE[1]
+brand:FIRE_3
+slay:EVIL_2
+desc:Un mayal cuya cabeza aturde a quienes la miran mientras la haces
+desc: girar, y se convierte en un cometa de fuego al descargarla.
+
+name:'Thunderfist'
+base-object:hafted:Gran Mayal a Dos Manos
+level:45
+weight:300
+cost:160000
+alloc:3:45 to 127
+attack:3d9:5:18
+armor:0:0
+flags:PROT_FEAR | 
+values:STR[4] | CON[3] | RES_ELEC[1] | RES_FIRE[1] | RES_DARK[1]
+brand:ELEC_3
+brand:FIRE_3
+slay:ANIMAL_2
+slay:TROLL_3
+slay:ORC_3
+desc:El arma perdida hace tiempo de Kzurin, campeón Enano de la antigua
+desc: Belegost.  Runas de fuerza adornan su mango, y llamas y chispas rugen
+desc: y crepitan alrededor de su enorme cabeza.
+
+name:'Taratol'
+base-object:hafted:Maza
+level:35
+weight:200
+cost:50000
+alloc:7:20 to 100
+attack:3d6:12:12
+armor:0:0
+values:RES_ELEC[3]
+brand:ELEC_3
+slay:DRAGON_5
+act:HASTE1
+time:100+d100
+desc:Una gran maza estriada que te envuelve en un nimbo de rayos vivos.
+desc:  Permaneces completamente ileso, incluso mientras gruesas chispas
+desc: crepitan alrededor de tus dedos y cejas.
+
+name:'Nar-i-vagil'
+base-object:hafted:Bastón
+level:20
+weight:150
+cost:70000
+alloc:5:20 to 80
+attack:1d9:10:20
+armor:0:0
+values:INT[4] | RES_FIRE[1] | RES_POIS[1]
+brand:FIRE_3
+slay:ANIMAL_2
+desc:Nombrado en honor a una estrella ardiente y engastado con gemas
+desc: invaluables que portan auras místicas de protección y pensamiento.
+
+name:'Eriril'
+base-object:hafted:Bastón
+level:15
+weight:150
+cost:20000
+alloc:5:20 to 100
+attack:1d9:13:15
+armor:0:0
+flags:SEE_INVIS
+values:INT[4] | WIS[4] | LIGHT[1] | RES_LIGHT[1]
+slay:EVIL_2
+act:DETECT_OBJECTS
+time:50+d50
+desc:El radiante báculo dorado de un Istar legendario; este compañero de
+desc: mago otorga una vista aguda y un claro conocimiento de muchas cosas
+desc: ocultas.
+
+name:of Olórin
+base-object:hafted:Bastón
+level:20
+weight:150
+cost:130000
+alloc:1:30 to 100
+attack:2d9:10:13
+armor:0:0
+flags:HOLD_LIFE | SEE_INVIS
+values:INT[4] | WIS[4] | RES_FIRE[1] | RES_NETHER[1]
+brand:FIRE_3
+slay:DEMON_5
+slay:EVIL_2
+slay:TROLL_3
+slay:ORC_3
+act:PROBING
+time:20
+desc:Un báculo alto y robusto, portado antaño por Gandalf.  Runas
+desc: toscamente talladas que invocan el elemento Tierra resaltan sobre su
+desc: superficie nudosa, y ninguna criatura que viva a la sombra de las
+desc: montañas puede resistir los golpes que asesta.
+
+name:of Aulë
+base-object:hafted:Gran Martillo
+level:40
+weight:120
+cost:250000
+alloc:1:40 to 127
+attack:18d1:19:21
+armor:0:5
+# F:DRAIN_MANA | 
+flags:PROT_FEAR | FREE_ACT | SEE_INVIS
+values:TUNNEL[8] | WIS[4]
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1] | RES_NEXUS[1]
+brand:ACID_3
+slay:DRAGON_5
+slay:EVIL_2
+slay:UNDEAD_3
+slay:DEMON_3
+desc:El maravilloso martillo de Aulë, creador de los sabios señores Enanos
+desc: de antaño.  Porta magias demoledoras que ninguna serpiente o demonio
+desc: puede resistir, e invoca la fuerza de las montañas para repeler el
+desc: tumulto de los elementos.
+
+name:'Deathwreaker'
+base-object:hafted:Maza de Disrupción
+level:80
+weight:400
+cost:400000
+alloc:3:80 to 127
+attack:7d8:18:18
+armor:0:0
+# F:DRAIN_MANA | 
+flags:AGGRAVATE
+values:STR[6] | TUNNEL[4]
+values:RES_FIRE[3] | RES_DARK[1] | RES_CHAOS[1] | RES_DISEN[1]
+brand:FIRE_3
+slay:DRAGON_3
+slay:ANIMAL_2
+slay:EVIL_2
+slay:UNDEAD_5
+desc:Un arma tan colosal que parece superar la fuerza de los mortales, y
+desc: sin embargo sientes el poder de los gigantes crecer en ti al alzarla.
+desc:  Al empuñar su mango de ébano y acero, coronas de fuego arden, y
+desc: poderosos hechizos para preservar la magia surgen a tu alrededor.
+desc:  ¡Empuñas el Terror de los Dragones y la Desesperación de los
+desc: No-muertos!
+
+
+### Polearms ###
+
+name:'Aiglos'
+base-object:polearm:Lanza
+level:40
+weight:50
+cost:140000
+alloc:2:15 to 100
+attack:3d6:15:25
+armor:0:5
+flags:PROT_FEAR | FREE_ACT | SLOW_DIGEST | BLESSED
+values:DEX[4] | WIS[2] | RES_COLD[1]
+brand:COLD_3
+slay:EVIL_2
+slay:TROLL_3
+slay:ORC_3
+slay:UNDEAD_5
+act:COLD_BALL100
+time:35
+desc:La poderosa lanza de Gil-galad, célebre como "Punta de Nieve" en las
+desc: canciones de los Elfos.  Contra ella, todas las inmundas corrupciones
+desc: de Sauron se estrellaron en vano.
+
+name:of Oromë
+base-object:polearm:Lanza
+level:5
+weight:50
+cost:60000
+alloc:2:15 to 127
+attack:4d6:15:15
+armor:0:0
+# F:DRAIN_MANA | 
+flags:FEATHER | SEE_INVIS | BLESSED | 
+values:INT[4] | SPEED[4] | INFRA[4] | LIGHT[1] | RES_FIRE[1] | RES_LIGHT[1]
+brand:FIRE_3
+slay:GIANT_3
+slay:ANIMAL_2
+act:STONE_TO_MUD
+time:5
+desc:La lanza de estocada del sabio Oromë el Vala, poderosa contra los
+desc: gigantes de la escarcha, y capaz de perforar roca o carne con
+desc: facilidad.
+
+name:'Nimloth'
+base-object:polearm:Lanza
+level:15
+weight:50
+cost:30000
+alloc:8:15 to 65
+attack:1d7:11:13
+armor:0:0
+flags:BLESSED | SEE_INVIS
+values:STEALTH[3] | SPEED[3] | RES_COLD[1]
+brand:COLD_3
+slay:UNDEAD_3
+desc:Una fina punta de acero forjado tres veces corona un asta recta de
+desc: madera silvana, tallada de un árbol legendario, y hechizos para
+desc: quebrar la voluntad de los no-muertos e infundir frío en el pecho de
+desc: tus enemigos recaen sobre esta lanza perfectamente equilibrada.
+
+name:of Melkor
+base-object:polearm:Lanza
+level:65
+weight:200
+cost:100000
+alloc:2:65 to 127
+attack:4d6:-12:20
+armor:0:0 
+# F:DRAIN_MANA | DRAIN_HP | 
+flags:DRAIN_EXP | AGGRAVATE | PROT_BLIND
+values:STEALTH[-4] | WIS[-4] | RES_DARK[1] | RES_LIGHT[1] | RES_NETHER[1]
+brand:POIS_3
+desc:Una poderosa y pesada lanza negra, empuñada antaño por el propio
+desc: Señor de las Tinieblas cuando llegó a Valinor con ira.  Su mordida
+desc: envenenada horadó los Dos Árboles con heridas que jamás sanaron.
+
+name:of Wrath
+base-object:polearm:Tridente
+level:15
+weight:70
+cost:90000
+alloc:3:15 to 100
+attack:3d10:16:18
+armor:0:0 
+flags:SEE_INVIS | BLESSED | 
+values:STR[2] | DEX[2] | RES_LIGHT[1] | RES_DARK[1]
+brand:POIS_3
+slay:EVIL_2
+slay:UNDEAD_5
+desc:Una lanza masiva de tres puntas, tan enorme que normalmente requiere
+desc: ambas manos para blandirla, que evoca el espíritu de Ossë, quien con
+desc: ella atravesó legiones de seres malignos y no-muertos.
+
+name:of Ulmo
+base-object:polearm:Tridente
+level:27
+weight:70
+cost:120000
+alloc:1:30 to 127
+attack:4d10:15:19
+armor:0:0
+flags:FREE_ACT | HOLD_LIFE | SEE_INVIS | SLOW_DIGEST | REGEN | BLESSED
+values:DEX[4] | RES_ACID[3] | RES_NETHER[1]
+slay:DRAGON_3
+slay:ANIMAL_2
+act:TELE_OTHER
+time:50
+desc:El arma imponente del Vala Ulmo, Señor de las Aguas.  El más poderoso
+desc: de todos los poderes del bien salvo el propio Manwë, Ulmo se ríe con
+desc: desprecio de los temibles poderes de los no-muertos, y domina por
+desc: completo el Elemento del agua.
+
+name:'Osondir'
+base-object:polearm:Alabarda
+level:20
+weight:140
+cost:22000
+alloc:12:25 to 80
+attack:3d7:16:12
+armor:0:0
+flags:BLESSED | FEATHER | SEE_INVIS
+values:STR[3] | WIS[3] | RES_FIRE[1] | RES_SOUND[1]
+brand:FIRE_3
+slay:UNDEAD_3
+slay:GIANT_3
+desc:Señorial y alto se irguió Osondir contra la ira de los gigantes, y de
+desc: mirada clara en los túmulos siniestros, blandiendo una alabarda que
+desc: brillaba en rojo rubí.
+
+name:'Til-i-arc'
+base-object:polearm:Pica
+level:20
+weight:160
+cost:32000
+alloc:7:20 to 80
+attack:1d15:10:12
+armor:0:10
+flags:SUST_INT | SLOW_DIGEST
+values:STR[3] | INT[3] | SPEED[2] | RES_FIRE[1] | RES_COLD[1]
+brand:FIRE_3
+brand:COLD_3
+slay:DEMON_3
+slay:TROLL_3
+slay:GIANT_3
+desc:Dentro de esta larga lanza a dos manos habitan los espíritus de
+desc: gigantes de escarcha y demonios de fuego, que combaten eternamente,
+desc: encadenados por ataduras hechiceras.
+
+name:of Théoden
+base-object:polearm:Hacha de Pico
+level:30
+weight:180
+cost:40000
+alloc:7:20 to 100
+attack:2d6:8:10
+armor:0:0
+flags:TELEPATHY | SLOW_DIGEST
+values:WIS[3] | CON[3]
+slay:DRAGON_3
+act:DRAIN_LIFE2
+time:40
+desc:La estrecha cabeza de hacha de esta arma podría perforar la armadura
+desc: de un mismísimo Dragón, y los designios de tus enemigos quedan
+desc: desnudos y al descubierto.
+
+name:of Húrin
+base-object:polearm:Hacha de Pico
+level:20
+weight:180
+cost:90000
+alloc:7:20 to 100
+attack:3d6:12:15
+armor:0:0
+# F:DRAIN_MANA | 
+act:BERSERKER
+time:80+d80
+values:STR[2] | CON[2] | LIGHT[1] | RES_ACID[1] | RES_DARK[1] | RES_FIRE[1]
+brand:ACID_3
+slay:DRAGON_3
+slay:TROLL_3
+slay:DEMON_5
+desc:Empuñada por Húrin Thalion, último señor de Dor-Lómin en la
+desc: Batalla de las Lágrimas Innumerables.  Se irguió solo, con sus
+desc: amigos y parientes muertos a su alrededor, su hacha humeante en
+desc: la sangre negra de la guardia trol de Gothmog.  No menos de setenta
+desc: veces, mientras mataba a sus enemigos, profirió su poderoso grito
+desc: de guerra: "¡Aurë entuluva!" - "¡El día volverá!"
+
+name:'Barukkheled'
+base-object:polearm:Hacha Ancha
+level:20
+weight:160
+cost:50000
+alloc:12:20 to 75
+attack:2d6:13:19
+armor:0:0
+flags:SEE_INVIS
+values:CON[3]
+slay:EVIL_2
+slay:TROLL_3
+slay:GIANT_3
+slay:ORC_3
+desc:Una reliquia real de la costa del sur, poderosa en combate contra las
+desc: criaturas malignas de la tierra.
+
+name:of Balli Stonehand
+base-object:polearm:Hacha de Batalla
+level:30
+weight:170
+cost:90000
+alloc:7:30 to 100
+attack:3d8:8:11
+armor:0:5
+flags:FREE_ACT | PROT_BLIND | FEATHER | SEE_INVIS | REGEN
+values:STR[3] | CON[3] | STEALTH[1] | RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1]
+values:RES_COLD[1]
+slay:DEMON_3
+slay:TROLL_3
+slay:ORC_3
+desc:Las dos hojas gemelas de esta arma fueron forjadas en Belegost, y
+desc: poderosas fuerzas de resistencia y perseverancia aguardan listas para
+desc: su próximo dueño.
+
+name:'Lotharang'
+base-object:polearm:Hacha de Batalla
+level:30
+weight:170
+cost:21000
+alloc:7:30 to 100
+attack:2d8:14:13
+armor:0:0
+act:CURE_SERIOUS
+time:3+d3
+values:STR[3] | DEX[3] | BLOWS[1] | RES_DISEN[1]
+slay:TROLL_3
+slay:ORC_3
+desc:Un hacha de doble filo magistralmente forjada, portada antaño por
+desc: Ceruthain, comandante de los Montaraces de Arnor.
+
+name:'Mundwine'
+base-object:polearm:Hacha Lochaber
+level:30
+weight:240
+cost:30000
+alloc:12:30 to 100
+attack:3d10:12:17
+armor:0:0
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1]
+slay:EVIL_2
+slay:ANIMAL_2
+slay:DEMON_3
+desc:Un hacha masiva con dos cabezas afiladas como navajas, tan grande que
+desc: normalmente requiere ambas manos para blandirla, con hechizos para
+desc: repeler los elementos intrincadamente grabados en su superficie con
+desc: filigranas de oro.
+
+name:of Durin
+base-object:polearm:Gran Hacha
+level:30
+weight:230
+cost:150000
+alloc:1:40 to 127
+attack:4d4:10:20
+armor:0:15
+flags:FREE_ACT | PROT_FEAR
+values:TUNNEL[5] | STR[3] | CON[3] | STEALTH[-1]
+values:RES_ACID[1] | RES_FIRE[1] | RES_LIGHT[1] | RES_DARK[1] | RES_CHAOS[1]
+brand:ACID_3
+brand:FIRE_3
+slay:DRAGON_5
+slay:DEMON_3
+slay:TROLL_3
+slay:ORC_3
+desc:Las dos enormes cabezas de hacha de este arma, terror de un demonio
+desc: antiguo, relucen con incrustaciones de mithril que narran sagas de
+desc: resistencia.  Los poderes de Khazad-dûm protegen a quien la porta y
+desc: destruyen todo mal hallado bajo tierra.
+
+name:of Eönwë
+base-object:polearm:Gran Hacha
+level:30
+weight:230
+cost:200000
+alloc:1:40 to 127
+attack:5d4:15:18
+armor:0:8
+flags:PROT_FEAR | FREE_ACT | SEE_INVIS | BLESSED
+values:STR[2] | INT[2] | WIS[2] | DEX[2] | CON[2] | RES_COLD[3]
+brand:COLD_3
+slay:EVIL_2
+slay:UNDEAD_3
+slay:DEMON_5
+slay:ORC_3
+act:LOSKILL
+time:1000
+desc:El hacha de Eönwë, líder de las Huestes del Oeste en la Guerra de la
+desc: Ira, golpea con furia helada a los no-muertos, dispersa huestes de
+desc: mal con una sola palabra, y otorga poderes de cuerpo y mente propios
+desc: de un Maia.
+
+name:'Avavir'
+base-object:polearm:Guadaña
+level:20
+weight:180
+cost:18000
+alloc:12:45 to 100
+attack:5d3:18:12
+armor:0:30
+flags:FREE_ACT | SEE_INVIS
+act:RECALL
+time:200
+values:DEX[3] | SPEED[3] | LIGHT[1] | RES_FIRE[1] | RES_COLD[1] | RES_LIGHT[1]
+brand:FIRE_3
+brand:COLD_3
+desc:Albergando poderes elementales cuya lucha tiñe esta arma de rojo y del
+desc: blanco más puro, esta reluciente segadora lleva en su interior el
+desc: poder de partir y regresar.
+
+name:of Pain
+base-object:polearm:Gladius
+level:30
+weight:300
+cost:50000
+alloc:4:30 to 127
+attack:6d9:0:30
+armor:0:0
+desc:La enorme cuchilla que corona esta guja brilla en rojo sangre y
+desc: negro; letales hechizos de aniquilación se arremolinan y danzan
+desc: cuando descargas a este mirmidón de la muerte.
+
+name:of the Eorlingas
+base-object:polearm:Lanza de Caballería
+level:20
+weight:360
+cost:55000
+alloc:4:20 to 100
+attack:2d17:3:21
+armor:0:0
+flags:PROT_FEAR | SEE_INVIS
+values:STR[2] | DEX[2] | SPEED[2]
+slay:EVIL_2
+slay:TROLL_3
+slay:ORC_3
+desc:"¡Adelante, Eorlingas!"  Al campo de Celebrant llegó Eorl el Joven,
+desc: más allá de toda esperanza, para salvar a la asediada Gondor, y ante
+desc: su lanza huyeron trolls colosales y lobos terribles.
+
+name:'Turmil'
+base-object:hafted:Maza de Plomo
+level:20
+weight:120
+cost:30000
+alloc:7:20 to 100
+attack:4d4:10:11
+armor:0:8
+flags:BLESSED | REGEN
+act:DRAIN_LIFE1
+time:40
+values:WIS[4] | INFRA[4] | LIGHT[1] | RES_COLD[3] | RES_LIGHT[1]
+brand:COLD_3
+slay:ORC_3
+desc:Empuñada antaño por el Sumo Sacerdote de Meneltarma, esta gran maza
+desc: reluce fríamente como si estuviera bañada por la luna, y puede
+desc: asestar golpes igualmente poderosos, tanto espirituales como
+desc: físicos.
+
+
+### Missile Weapons ###
+
+name:of Amrod
+base-object:bow:Arco Corto
+level:25
+weight:30
+cost:9000
+alloc:10:30 to 100
+attack:0d0:12:15
+armor:0:0
+flags:REGEN
+values:STR[2] | CON[2] | MIGHT[2] | RES_FIRE[1] | RES_ELEC[1] | RES_COLD[1]
+desc:Uno de un par de arcos de caza que pertenecieron a los dos hijos
+desc: menores de Fëanor.  Los arcos son semejantes y a la vez distintos,
+desc: tal como lo eran los hermanos gemelos.
+
+name:of Amras
+base-object:bow:Arco Corto
+level:25
+weight:30
+cost:9000
+alloc:10:30 to 80
+attack:0d0:12:15
+armor:0:0
+flags:SLOW_DIGEST
+values:INT[2] | WIS[2] | DEX[2] | SHOTS[5] | MIGHT[1] | SPEED[1]
+values:RES_FIRE[1] | RES_ELEC[1] | RES_COLD[1]
+desc:Uno de un par de arcos de caza que pertenecieron a los dos hijos
+desc: menores de Fëanor.  Los arcos son semejantes y a la vez distintos,
+desc: tal como lo eran los hermanos gemelos.
+
+name:'Belthronding'
+base-object:bow:Arco Largo
+level:40
+weight:40
+cost:35000
+alloc:5:40 to 127
+attack:0d0:20:22
+armor:0:0
+values:DEX[3] | SPEED[1] | STEALTH[1] | SHOTS[10] | RES_DISEN[1]
+desc:El gran arco de Beleg Cúthalion, el arquero más famoso de los Elfos.
+desc:  Su armazón de tejo negro sostiene cuerdas de tendón de oso, y en
+desc: tiempos antiguos, solo el propio Beleg podía tensarlo.
+
+name:of Bard
+base-object:bow:Arco Largo
+level:30
+weight:40
+cost:20000
+alloc:5:40 to 127
+attack:0d0:17:19
+armor:0:0
+flags:FREE_ACT | 
+values:MIGHT[2] | DEX[1] | SPEED[1]
+desc:El gran arco de tejo del adusto Bardo, quien disparó la flecha más
+desc: poderosa que las canciones recuerdan.
+
+name:'Cubragol'
+base-object:bow:Ballesta Ligera
+level:50
+weight:110
+cost:50000
+alloc:4:50 to 127
+attack:0d0:10:14
+armor:0:0
+values:SPEED[10] | RES_FIRE[1]
+brand:FIRE_3
+desc:Una ballesta que otorga una velocidad ardiente a quien la encuentra,
+desc: e imbuye sus virotes con un fuego inextinguible.
+
+name:of Umbar
+base-object:bow:Ballesta Pesada
+level:45
+weight:200
+cost:35000
+alloc:5:60 to 127
+attack:4d1:18:18
+armor:0:0
+flags:AGGRAVATE | PROT_BLIND
+act:ARROW
+time:20+d20
+values:MIGHT[2] | STR[1] | CON[1] | RES_LIGHT[1] | RES_DARK[1] | RES_ELEC[1]
+desc:Una gran ballesta de bronce con brazos de acero reluciente.  Dispara
+desc: virotes con enorme potencia para aquellos lo bastante valientes para
+desc: arriesgarse a la traición.
+
+
+### Digging Tools ###
+
+name:of Erebor
+base-object:digger:Pick
+level:55
+weight:180
+cost:30000
+alloc:20:55 to 100
+attack:4d3:5:20
+armor:0:0
+flags:SUST_STR
+values:TUNNEL[5] | STR[3] | CON[3] | LIGHT[1]
+values:RES_CHAOS[1] | RES_LIGHT[1] | RES_DARK[1]
+brand:ACID_3
+slay:ORC_3
+slay:TROLL_3
+slay:DEMON_3
+desc:Un fino pico enano, apto para un minero, y adecuado como arma en
+desc: caso de que quien lo empuñe tenga que abrirse paso cavando hasta la
+desc: fortaleza de un enemigo.
+
+name:of Náin
+base-object:digger:Azada
+level:10
+weight:240
+cost:30000
+alloc:12:60 to 100
+attack:2d8:12:18
+armor:0:0
+act:STONE_TO_MUD
+time:2
+values:TUNNEL[6] | SEARCH[4] | INFRA[4] | STR[4] | RES_DARK[1] | RES_DISEN[1]
+slay:ORC_3
+slay:TROLL_3
+slay:GIANT_3
+slay:DRAGON_3
+desc:Un poderoso azadón Enano, tan bueno para cercenar cuellos de orco
+desc: como para tallar piedra.  Náin, Rey de las Colinas de Hierro, condujo
+desc: a sus guerreros portadores de azadones a la Batalla de Azanulbizar,
+desc: y ningún Orco pudo resistirlos, aunque el propio Náin cayó ante su
+desc: señor Azog.
+
+
+### Boots ###
+
+name:of Fëanor
+base-object:boots:Botas de Cuero
+level:30
+weight:20
+cost:300000
+alloc:1:40 to 127
+attack:1d1:0:0
+armor:2:20
+values:SPEED[15] | RES_NEXUS[1]
+act:HASTE1
+time:200
+desc:Este maravilloso par de botas de cuero impulsó antaño a Fëanor,
+desc: creador de los Silmarils y el más poderoso de los Eldar, a cumplir
+desc: su desafío heroico y luchar por una Tierra Media sometida a
+desc: esclavitud.  "Caras serán tenidas esas canciones, y sin embargo bien
+desc: compradas.  Pues el precio no pudo ser otro."
+
+name:'Dal-i-thalion'
+base-object:boots:Botas de Cuero
+level:10
+weight:20
+cost:40000
+alloc:4:50 to 100
+attack:1d1:0:0
+armor:2:15
+flags:FREE_ACT
+flags:PROT_CONF | SUST_CON
+values:DEX[5] | SPEED[5] | RES_NETHER[1]
+act:REM_FEAR_POIS
+time:5
+desc:Un par de botines de cordones altos, que otorgan una agilidad
+desc: extraordinaria y protección contra los poderes de la corrupción y el
+desc: marchitamiento.
+
+name:of Wormtongue
+base-object:boots:Botas de Cuero
+level:10
+weight:20
+cost:17000
+alloc:8:15 to 80
+attack:1d1:-1:-1
+armor:2:0
+flags:FEATHER | TRAP_IMMUNE
+values:MOVES[1] | INT[2] | DEX[2] | STEALTH[2]
+act:TELE_PHASE
+time:20
+desc:Un par de zapatos de correr usados antaño por el traicionero Gríma
+desc: hijo de Gálmód, la Lengua de Serpiente de Edoras.  Son idóneos para
+desc: un mensajero, un sirviente, un espía... o un cobarde.
+
+name:of Radagast
+base-object:boots:Botas de Cuero
+level:10
+weight:20
+cost:7000
+alloc:8:15 to 70
+attack:1d1:0:0
+armor:2:12
+flags:FREE_ACT | FEATHER
+values:INFRA[5] | STEALTH[3] | WIS[1] | RES_COLD[1]
+desc:Hechas de cuero marrón, cubiertas de raspones y polvo, estas botas
+desc: conservan aún la magia de Radagast, amigo de las aves y la
+desc: naturaleza.
+
+name:of Thrór
+base-object:boots:Botas Herradas con Acero
+level:30
+weight:60
+cost:12000
+alloc:5:30 to 100
+attack:1d1:0:0
+armor:7:20
+flags:PROT_FEAR
+values:STR[3] | CON[3] | SPEED[3] | STEALTH[-1]
+desc:Un calzado robusto de cuero y acero, tan resistente como el sufrido
+desc: rey Enano en el exilio que lo llevó.
+
+name:'Stormwalker'
+base-object:boots:Botas Herradas con Mithril
+level:30
+weight:40
+cost:40000
+alloc:3:60 to 127
+attack:1d1:0:0
+armor:8:24
+values:SPEED[6] | RES_ELEC[3] | RES_SOUND[1]
+act:BERSERKER
+time:100
+desc:Y cortaron las manos y los pies de Gelmir, y por último su cabeza, a
+desc: la vista de los Elfos, y lo abandonaron.  Por mala fortuna allí se
+desc: encontraba Gwindor de Nargothrond, el hermano de Gelmir.  Entonces su
+desc: ira se encendió hasta la locura, y se lanzó a caballo, y muchos
+desc: jinetes con él; y persiguieron a los heraldos y les dieron muerte, y
+desc: se internaron profundamente en la hueste principal.
+
+
+### Helmets and Crowns ###
+
+name:of Thranduil
+base-object:helm:Gorro de Cuero Duro
+level:50
+weight:15
+cost:50000
+alloc:14:40 to 100
+attack:0d0:0:0
+armor:2:10
+flags:PROT_BLIND | TELEPATHY
+values:INT[2] | WIS[2]
+desc:El gorro de caza del Rey Thranduil, a cuyos oídos llegan todos los
+desc: secretos de su dominio boscoso.
+
+name:of Thengel
+base-object:helm:Casco de Metal
+level:10
+weight:20
+cost:22000
+alloc:18:10 to 100
+attack:1d1:0:0
+armor:3:12
+flags:PROT_CONF
+values:WIS[3]
+desc:Un yelmo estriado hecho de acero y realzado con escenas de valentía
+desc: en plata finamente grabada.  Otorga a quien lo porta nobleza y
+desc: sabiduría.
+
+name:of Celebrimbor
+base-object:helm:Casco de Metal
+level:55
+weight:20
+cost:45000
+alloc:8:55 to 100
+attack:1d1:0:0
+armor:3:18
+values:INT[2] | DEX[2] | SEARCH[3]
+values:RES_FIRE[1] | RES_ACID[1] | RES_DISEN[1] | RES_SHARD[1]
+desc:Un yelmo de metal forjado por el más grande herrero Noldorin de la
+desc: Segunda Edad; sirve igual de bien en la batalla que en la fragua, y
+desc: su encantamiento jamás disminuirá.
+
+name:of Dor-Lómin
+base-object:helm:Yelmo de Hierro
+level:40
+weight:50
+cost:300000
+alloc:5:40 to 127
+attack:1d3:0:0
+armor:7:20
+flags:PROT_FEAR
+flags:SEE_INVIS | TELEPATHY
+values:STR[4] | CON[4] | DEX[2] | STEALTH[-1]
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1]
+desc:El legendario Yelmo-Dragón, forjado por uno de los legendarios
+desc: herreros Enanos de la Primera Edad.  El rostro del poderoso Glaurung
+desc: forma su cimera, y la sola visión del yelmo, portado por Túrin
+desc: Turambar, sembraba el pavor en el corazón de los siervos de Morgoth.
+
+name:'Holhenneth'
+base-object:helm:Yelmo de Hierro
+level:20
+weight:50
+cost:100000
+alloc:18:20 to 100
+attack:1d3:0:0
+armor:7:10
+flags:PROT_BLIND | PROT_CONF | SEE_INVIS
+values:INT[2] | WIS[2] | SEARCH[2]
+act:DETECT_ALL
+time:55+d55
+desc:Un famoso yelmo de hierro forjado que otorga extraordinarios poderes
+desc: de mente y percepción.
+
+name:of Gorlim
+base-object:helm:Yelmo de Hierro
+level:20
+weight:75
+cost:1
+alloc:18:20 to 75
+attack:1d3:8:8
+armor:7:10
+flags:PROT_FEAR | 
+flags:SEE_INVIS | FREE_ACT | AGGRAVATE
+values:INT[-3] | WIS[-3] | SEARCH[-5]
+desc:Una pieza de cabeza, ostentosa y bárbara, que traicionó a un guerrero
+desc: cuando más necesitaba socorro.
+
+name:of Hammerhand
+base-object:helm:Yelmo de Acero
+level:20
+weight:60
+cost:45000
+alloc:11:40 to 127
+attack:1d3:0:0
+armor:9:20
+flags:FREE_ACT
+values:STR[3] | DEX[3] | CON[3] | STEALTH[-2]
+values:RES_ACID[1] | RES_NEXUS[1] | RES_COLD[1] | RES_DARK[1]
+desc:Un gran yelmo, tan firme y distintivo como el héroe del Dique
+desc: Occidental.  Durante muchos largos meses estuvo Helm Mano de Martillo
+desc: asediado en Cuernavilla, y sin embargo salía una y otra vez entre sus
+desc: enemigos y mataba a muchos.  Aunque conocían su llegada, ninguno pudo
+desc: hacerle frente.
+
+name:of Berúthiel
+base-object:crown:Corona de Hierro
+level:40
+weight:20
+cost:1
+alloc:8:45 to 100
+attack:1d1:0:0
+armor:0:20
+flags:FREE_ACT | SEE_INVIS | TELEPATHY
+values:CON[-5] | STR[-3] | DEX[-3]
+desc:El aro de acero de tono medianoche de la reina hechicera Berúthiel.
+desc:  Otorga extraordinarios poderes de visión y percepción a un terrible
+desc: costo físico.
+
+name:of Gondor
+base-object:crown:Corona de Oro
+level:40
+weight:30
+cost:100000
+alloc:5:45 to 127
+attack:1d1:0:0
+armor:0:15
+flags:PROT_BLIND | PROT_CONF | PROT_STUN
+flags:SEE_INVIS | REGEN
+values:STR[3] | CON[3] | WIS[2] | LIGHT[1]
+values:RES_COLD[1] | RES_FIRE[1] | RES_LIGHT[1]
+act:HEAL1
+time:250
+desc:De la agonizante Númenor, Elendil trajo este reluciente aro alado,
+desc: emblema de Gondor a lo largo de una edad del mundo.
+
+name:of Númenor
+base-object:crown:Corona Incrustada de Joyas
+level:60
+weight:40
+cost:50000
+alloc:5:60 to 127
+attack:1d1:0:0
+armor:0:18
+# F: DRAIN_MANA
+flags:SEE_INVIS | FREE_ACT | PROT_STUN | PROT_BLIND
+# A:ANALYZE:50
+values:INT[3] | DEX[2] | SEARCH[3] | LIGHT[1]
+values:RES_SHARD[1] | RES_COLD[1] | RES_LIGHT[1] | RES_DARK[1]
+desc:Una corona dorada masiva, engastada con maravillosas gemas de
+desc: pensamiento y protección, portada antaño por los reyes de la antigua
+desc: Númenor.
+
+
+### Light Armor ###
+
+name:'Hithlomir'
+base-object:soft armour:Armadura de Cuero Blando
+level:20
+weight:80
+cost:45000
+alloc:20:20 to 80
+attack:0d0:0:0
+armor:10:20
+values:STEALTH[3] | RES_DARK[1] | RES_NETHER[1]
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1]
+desc:Familiarizada con los caminos secretos ocultos en la oscuridad, esta
+desc: coraza de cuero es en verdad más de lo que aparenta.
+
+name:of Himring
+base-object:soft armour:Armadura de Cuero Duro
+level:30
+weight:100
+cost:35000
+alloc:20:25 to 90
+attack:0d0:0:0
+armor:20:15
+values:RES_CHAOS[1] | RES_NETHER[1] | RES_POIS[1]
+act:PROTEVIL
+time:100+d100
+desc:En esta coraza tachonada de cuero flexible vive la memoria de la
+desc: invicta Himring, fortaleza desafiante rodeada por las legiones de
+desc: Morgoth.
+
+name:'Thalkettoth'
+base-object:soft armour:Cota de Escamas de Cuero
+level:20
+weight:60
+cost:25000
+alloc:20:30 to 100
+attack:1d1:-1:0
+armor:20:25
+flags:FREE_ACT
+values:DEX[3] | SPEED[3] | RES_ACID[1] | RES_SHARD[1]
+desc:Una túnica y falda asombrosamente ligeras, cosidas con gruesas
+desc: escamas superpuestas de cuero endurecido.  Quienes la visten se
+desc: mueven con agilidad y firmeza.
+
+
+### Heavy Armor ###
+
+name:of Arvedui
+base-object:hard armour:Cota de Malla
+level:20
+weight:220
+cost:32000
+alloc:30:20 to 75
+attack:1d4:-2:0
+armor:40:15
+values:STR[2] | RES_SHARD[1] | RES_NEXUS[1]
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1]
+desc:Una loriga, calzas y mangas de anillos de acero entrelazados, bien
+desc: acolchadas con cuero.  Te sientes tan fuerte y alto como Arvedui,
+desc: último rey de Arnor, al ponértela.
+
+name:of Caspanion
+base-object:hard armour:Cota de Malla Reforzada
+level:25
+weight:270
+cost:40000
+alloc:11:35 to 100
+attack:1d4:-2:0
+armor:45:20
+flags:PROT_CONF
+values:INT[2] | WIS[2] | CON[3] | RES_ACID[1] | RES_POIS[1]
+act:DESTROY_DOORS
+time:10
+desc:Una loriga, calzas y mangas de anillos de acero entrelazados,
+desc: reforzadas estratégicamente en puntos vitales con una segunda capa de
+desc: malla.  En su interior yacen hechizos para realzar el cuerpo y la
+desc: mente, y ninguna puerta puede cerrar el paso a quien la porta.
+
+name:of the Rohirrim
+base-object:hard armour:Armadura Brigantina Metálica
+level:30
+weight:200
+cost:30000
+alloc:30:45 to 100
+attack:1d4:0:0
+armor:50:15
+flags:PROT_FEAR | PROT_CONF
+values:STR[2] | DEX[2]
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1] | RES_SOUND[1]
+desc:Pequeñas placas de acero cubren una capa interior de lona resistente,
+desc: y tanto el metal como la tela lucen escenas de caza y guerra.  Al
+desc: ponerte la armadura de Eorl el Joven, sin par en combate, sientes su
+desc: espíritu envolverte.
+
+name:of Isildur
+base-object:hard armour:Armadura de Placas Completas
+level:30
+weight:300
+cost:50000
+alloc:30:55 to 127
+attack:2d4:0:0
+armor:75:25
+flags:PROT_CONF
+values:CON[1] | RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1]
+values:RES_SOUND[1] | RES_NEXUS[1]
+desc:Una reluciente armadura de acero que cubre a quien la porta de cuello
+desc: a pies, con runas de protección y estabilidad grabadas profundamente
+desc: en su superficie.
+
+name:'Belegennon'
+base-object:hard armour:Cota de Malla de Mithril
+level:20
+weight:150
+cost:105000
+alloc:30:55 to 127
+attack:1d4:-1:0
+armor:35:20
+values:DAM_RED[5]
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1] | RES_POIS[1]
+act:TELE_PHASE
+time:2
+desc:Esta maravillosa cota de finos eslabones reluce ante tus ojos como
+desc: la luz sobre un mar ondulante, con gemas que centellean como
+desc: estrellas, y el sonido de sus anillos al agitarse semejante al
+desc: tintineo de la lluvia en un estanque.
+desc:  Permanece intacta en medio de la furia de los elementos, y los
+desc: golpes parecen extrañamente menos poderosos.
+
+name:of Celeborn
+base-object:hard armour:Cota de Placas de Mithril
+level:40
+weight:250
+cost:150000
+alloc:30:65 to 127
+attack:2d4:-3:0
+armor:65:25
+values:STR[3] | RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1]
+values:RES_DARK[1] | RES_DISEN[1]
+act:BANISHMENT
+time:500
+desc:Una reluciente armadura de plata verdadera, forjada hace mucho por
+desc: legendarios herreros enanos.  Brilla con el blanco más puro al
+desc: contemplarla, y son poderosos sus dones de protección y destierro.
+
+name:'Soulkeeper'
+base-object:hard armour:Cota de Placas de Adamantita
+level:75
+weight:420
+cost:300000
+alloc:11:75 to 127
+attack:2d4:-4:0
+armor:90:20
+flags:HOLD_LIFE | SUST_CON | PROT_FEAR
+values:CON[2] | RES_ACID[1] | RES_COLD[1] | RES_DARK[1] | RES_NETHER[1]
+values:RES_NEXUS[1] | RES_CHAOS[1]
+act:HEAL2
+time:444
+desc:Una armadura de adamante imperecedero, con una fuerza invencible para
+desc: resistir magias malignas y disruptivas.  Protege la fuerza vital de
+desc: quien la porta como ninguna otra cosa puede hacerlo.
+
+
+### Capas ###
+
+name:'Colluin'
+base-object:cloak:Capas
+level:12
+weight:10
+cost:50000
+alloc:2:5 to 100
+attack:0d0:0:0
+armor:1:15
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1] | RES_POIS[1]
+act:RESIST_ALL
+time:111
+desc:Una capa portada por un héroe de Valinor, una tierra completamente
+desc: ajena a la contienda de los Elementos.
+
+name:'Holcolleth'
+base-object:cloak:Capas
+level:13
+weight:10
+cost:18000
+alloc:5:5 to 100
+attack:0d0:0:0
+armor:1:4
+values:STEALTH[3] | INT[2] | WIS[2] | RES_ACID[1]
+act:SLEEPII
+time:55
+desc:Este manto gris élfico posee grandes poderes de tranquilidad y
+desc: ocultamiento, y otorga a quien lo porta el conocimiento y la
+desc: sabiduría de los Sindar.
+
+name:of Thingol
+base-object:cloak:Capas
+level:62
+weight:10
+cost:35000
+alloc:5:5 to 100
+attack:0d0:0:0
+armor:1:18
+flags:FREE_ACT
+values:DEX[3] | RES_ACID[1] | RES_FIRE[1] | RES_COLD[1]
+act:RECHARGE
+time:70
+desc:Una capa translúcida de gris nacarado, con runas élficas
+desc: resplandecientes y cargadas de energía, tan serenas y claras como la
+desc: luz de la luna sobre aguas quietas.
+
+name:of Thorongil
+base-object:cloak:Capas
+level:5
+weight:10
+cost:8000
+alloc:10:5 to 75
+attack:0d0:0:0
+armor:1:10
+flags:FREE_ACT | PROT_FEAR | SEE_INVIS
+values:RES_ACID[1]
+desc:Esta capa reluciente de verdes y marrones fue portada en su juventud
+desc: por Aragorn, un capitán de mirada aguda de Rohan y Gondor, valiente
+desc: tanto en tierra como en mar.
+
+name:'Colannon'
+base-object:cloak:Capas
+level:26
+weight:10
+cost:20000
+alloc:5:5 to 100
+attack:0d0:0:0
+armor:1:15
+values:STEALTH[2] | SPEED[2] | RES_NEXUS[1]
+act:TELE_LONG
+time:45
+desc:Una capa de seda fina, azul cristalino, portada por un mensajero
+desc: silencioso de las fuerzas de la Ley.  Rara vez su portador se
+desc: desviará de su misión.
+
+name:of Lúthien
+base-object:cloak:Capa Élfica
+level:40
+weight:5
+cost:45000
+alloc:2:40 to 127
+attack:0d0:0:0
+armor:6:20
+values:INT[4] | WIS[4] | STEALTH[3] | SPEED[2]
+values:RES_ACID[1] | RES_FIRE[1] | RES_COLD[1]
+act:RESTORE_LIFE
+time:250
+desc:Los opacos pliegues de medianoche de esta capa, incrustados con
+desc: multitud de diminutos diamantes, se arremolinan a tu alrededor, y
+desc: sientes un atisbo, un fragmento de las magias restauradoras de
+desc: Lúthien, el ser más hermoso que jamás conoció la muerte.
+
+name:of Tuor
+base-object:cloak:Capa Etérea
+level:40
+weight:0
+cost:35000
+alloc:2:70 to 127
+attack:0d0:0:0
+armor:6:12
+flags:FREE_ACT | SEE_INVIS
+values:STEALTH[4] | DEX[4] | RES_ACID[3]
+desc:La gran capa entregada a Tuor por el Morador de las Profundidades.
+desc:  Al envolverte de la cabeza a los pies resuenan las palabras de
+desc: Ulmo: "Así caminarás bajo mi sombra".
+
+
+### Gloves and Gauntlets ###
+
+name:'Cambeleg'
+base-object:gloves:Par de Guantes de Cuero
+level:10
+weight:5
+cost:36000
+alloc:3:10 to 100
+attack:0d0:8:8
+armor:1:15
+flags:FREE_ACT | 
+values:STR[2] | CON[2]
+desc:El calzado de manos de un héroe, que confiere gran destreza en la
+desc: batalla.
+
+name:'Cammithrim'
+base-object:gloves:Par de Guantes de Cuero
+level:10
+weight:5
+cost:30000
+alloc:18:10 to 80
+attack:0d0:5:5
+armor:1:10
+flags:FREE_ACT | SUST_CON
+values:LIGHT[1] | RES_LIGHT[1]
+act:MISSILE
+time:2
+desc:Estos guantes brillan con tal intensidad que iluminan el camino de
+desc: quien los porta y lanzan proyectiles mágicos con gran frecuencia.
+
+name:'Paurhach'
+base-object:gloves:Par de Manoplas
+level:1
+weight:25
+cost:15000
+alloc:40:10 to 60
+attack:1d1:0:0
+armor:3:14
+flags:REGEN
+values:RES_FIRE[1]
+act:FIRE_BOLT
+time:8+d8
+desc:Un par de guanteletes que arden con un calor antinatural.
+
+name:'Paurnimmen'
+base-object:gloves:Par de Manoplas
+level:1
+weight:25
+cost:13000
+alloc:5:50 to 127
+attack:1d1:0:0
+armor:3:14
+flags:SLOW_DIGEST
+values:RES_COLD[1]
+brand:COLD_2
+act:COLD_BOLT
+time:7+d7
+desc:Un par de guantes que hielan con un frío antinatural.
+
+name:'Pauraegen'
+base-object:gloves:Par de Manoplas
+level:1
+weight:25
+cost:11000
+alloc:23:10 to 75
+attack:1d1:0:0
+armor:3:14
+values:LIGHT[1] | RES_ELEC[1] | RES_LIGHT[1]
+act:ELEC_BOLT
+time:6+d6
+desc:Un par de guantes con chispas que crepitan a través de sus
+desc: protectores de nudillos.
+
+name:'Paurnen'
+base-object:gloves:Par de Manoplas
+level:1
+weight:25
+cost:12000
+alloc:30:10 to 60
+attack:1d1:3:3
+armor:3:14
+flags:FEATHER
+act:ACID_BOLT
+time:5+d5
+values:RES_ACID[1]
+desc:Un par de guanteletes que desprenden un olor acre y repugnante, y
+desc: sin embargo permanecen impolutos.
+
+name:'Camlost'
+base-object:gloves:Par de Manoplas
+level:10
+weight:25
+cost:0
+alloc:5:10 to 100
+attack:1d1:-12:-12
+armor:3:0
+flags:FREE_ACT | DRAIN_EXP | AGGRAVATE
+values:STR[-3] | DEX[-3] | RES_FIRE[1] | RES_DISEN[1]
+desc:Un par de guanteletes debilitantes, llamados así en honor a Beren,
+desc: quien regresó ante Thingol tras perder ante Carcharoth la mano que
+desc: sostenía un Silmaril.
+
+name:of Eöl
+base-object:gloves:Par de Manoplas
+level:55
+weight:25
+cost:40000
+alloc:3:55 to 127
+attack:1d1:0:0
+armor:3:14
+flags:FREE_ACT | FEATHER | AGGRAVATE
+values:INT[3] | RES_ELEC[1] | RES_DARK[1] | RES_POIS[1] | RES_FIRE[3]
+act:MANA_BOLT
+time:30+d30
+desc:Los guanteletes herrados de hierro del herrero Elfo Oscuro Eöl,
+desc: quien los imbuyó de magias que podía canalizar en la batalla.
+
+name:of Fingolfin
+base-object:gloves:Guantes de Combate
+level:40
+weight:40
+cost:110000
+alloc:3:40 to 127
+attack:1d1:10:10
+armor:5:20
+flags:FREE_ACT
+values:DEX[4] | RES_ACID[1]
+act:ARROW
+time:30+d30
+msg:Your {kind} grow{s} magical spikes...
+desc:El calzado de manos de Fingolfin, el rey-guerrero Elfo, quien
+desc: infligió a Morgoth siete poderosas heridas y un dolor que perdurará
+desc: hasta el fin de Arda.
+
+
+### Shields ###
+
+name:of Elros
+base-object:shield:Escudo de Mimbre
+level:40
+weight:30
+cost:60000
+alloc:10:50 to 127
+attack:1d1:0:0
+armor:2:20
+flags:PROT_CONF | HOLD_LIFE
+values:CON[4] | WIS[1] | INT[1] | RES_ELEC[1] | RES_SHARD[1]
+desc:El escudo de Elros Tar-Minyatur, fundador de Númenor.  Al recibir de
+desc: los Valar una larga vida, incluso su escudo quedó imbuido de poder.
+
+name:of Thorin
+base-object:shield:Escudo de Metal Pequeño
+level:40
+weight:65
+cost:60000
+alloc:14:40 to 127
+attack:1d2:0:0
+armor:5:25
+flags:PROT_FEAR | FREE_ACT
+values:CON[4] | STR[3] | STEALTH[-1] | RES_SOUND[1] | RES_ACID[3] | RES_CHAOS[1]
+desc:Invocando la fuerza y resistencia de Thorin, Rey bajo la Montaña,
+desc: este pequeño escudo metálico es inmune al Elemento Tierra.
+
+name:of Celegorm
+base-object:shield:Escudo de Cuero
+level:30
+weight:60
+cost:12000
+alloc:28:30 to 100
+attack:1d3:0:0
+armor:8:20
+flags:PROT_BLIND
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1]
+values:RES_LIGHT[1] | RES_DARK[1]
+desc:Este escudo, blasonado con una multitud de criaturas no vistas en
+desc: eras, protegió antaño a Celegorm, Señor de Himlad; a su alrededor
+desc: yace un equilibrio místico, que contiene los conflictos de los
+desc: elementos.
+
+name:of the Haradrim
+base-object:shield:Escudo de Cuero
+level:35
+weight:90
+cost:25000
+alloc:10:35 to 127
+attack:1d3:5:5
+armor:9:15
+flags:SUST_STR | SUST_CON | PROT_FEAR | PROT_BLIND
+values:STR[2] | CON[2] | STEALTH[-2] | RES_POIS[1]
+act:BERSERKER
+time:50
+desc:El escudo pintado de un cacique del lejano Harad, ostentoso y
+desc: bárbaro.  Quien lo porte no temerá nada y luchará con fuerza
+desc: antinatural, pero también atraerá la atención sobre sí mismo.
+
+name:of Anárion
+base-object:shield:Escudo de Metal Grande
+level:40
+weight:120
+cost:160000
+alloc:11:40 to 100
+attack:1d5:0:0
+armor:12:20
+flags:SUST_STR | SUST_INT | SUST_WIS | SUST_DEX | SUST_CON
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1]
+desc:El gran escudo reforzado en metal del hijo menor de Elendil,
+desc: Anárion, a quien ni siquiera Sauron pudo corromper.
+
+name:of Eärendil
+base-object:shield:Knight's Shield
+level:32
+weight:160
+cost:90000
+alloc:6:65 to 127
+attack:1d6:0:0
+armor:10:15
+values:RES_DARK[1] | RES_NETHER[1] | RES_ELEC[1] | RES_FIRE[1] | LIGHT[1]
+flags:PROT_BLIND
+act:CURE_TEMP
+time:100
+msg:Your {kind} throbs deep blue...
+desc:Un escudo resplandeciente forjado para Eärendil el Medio Elfo, hijo
+desc: de Tuor e Idril, "grabado con runas para preservarlo de toda herida y
+desc: daño".
+
+# should be Shield of Deflection
+name:of Gil-galad
+base-object:shield:Escudo de Mithril
+level:30
+weight:80
+cost:65000
+alloc:25:70 to 127
+attack:1d4:0:0
+armor:20:20
+flags:SUST_WIS | SUST_DEX
+values:WIS[5] | LIGHT[1] | RES_ELEC[1] | RES_ACID[1] | RES_DISEN[1]
+values:RES_DARK[1]
+act:STARLIGHT2
+time:100
+desc:El legendario escudo de Ereinion Gil-galad, quien luchó abriéndose
+desc: paso hasta las puertas de la Torre Oscura, y con quien llegó la luz
+desc: incluso a Gorgoroth.
+
+
+### Rings ###
+
+name:of Barahir
+base-object:ring:Anillo
+graphics:=:d
+level:50
+weight:2
+cost:65000
+alloc:4:50 to 100
+values:STR[1] | INT[1] | WIS[1] | DEX[1] | CON[1] | STEALTH[1]
+values:RES_POIS[1] | RES_DARK[1]
+desc:Dos serpientes gemelas con ojos de esmeralda se encuentran bajo una
+desc: corona de flores para formar este anillo, un antiguo tesoro de la
+desc: casa de Isildur.
+
+name:of Tulkas
+base-object:ring:Band
+graphics:=:d
+level:60
+weight:2
+cost:150000
+alloc:2:70 to 127
+flags:PROT_FEAR | 
+values:STR[4] | DEX[4] | CON[4]
+act:HASTE2
+time:150+d150
+desc:El tesoro de Tulkas, el más veloz e iracundo de los Valar.
+
+name:'Narya'
+base-object:ring:Anillo de Fuego
+graphics:=:d
+level:30
+weight:2
+cost:100000
+alloc:2:70 to 127
+attack:0d0:2:2
+armor:0:0
+flags:FREE_ACT | SEE_INVIS | SLOW_DIGEST | REGEN | TELEPATHY
+flags:SUST_STR | SUST_CON | PROT_FEAR
+act:PROTEVIL
+time:200+4d50
+msg:{name} glows deep red...
+values:STR[1] | INT[1] | WIS[1] | DEX[1] | CON[1] | SPEED[5] | RES_FIRE[3]
+desc:El Anillo de Fuego, hecho de oro y engastado con un rubí que
+desc: resplandece como una llama.  Narya es uno de los Tres Anillos de
+desc: Poder creados por Celebrimbor y ocultados por los Elfos de Sauron.
+
+name:'Nenya'
+base-object:ring:Anillo de Adamant
+graphics:=:d
+level:40
+weight:2
+cost:200000
+alloc:2:80 to 127
+attack:0d0:3:3
+armor:0:0
+flags:HOLD_LIFE | FREE_ACT | SEE_INVIS | 
+flags:FEATHER | REGEN
+flags:SUST_INT | SUST_WIS | SUST_CON
+flags:PROT_BLIND | TELEPATHY | 
+act:RESTORE_LIFE
+time:200+2d50
+msg:{name} glows bright white...
+values:STR[2] | INT[2] | WIS[2] | DEX[2] | CON[2] | SPEED[5] | RES_COLD[3]
+desc:El Anillo de Adamante, hecho de mithril con una piedra blanca pura
+desc: como pieza central.  Nenya es uno de los Tres Anillos de Poder
+desc: creados por Celebrimbor y ocultados por los Elfos de Sauron.
+
+name:'Vilya'
+base-object:ring:Anillo del Firmamento
+graphics:=:d
+level:80
+weight:2
+cost:300000
+alloc:1:90 to 127
+attack:0d0:5:5
+armor:0:0
+flags:HOLD_LIFE | FREE_ACT | SEE_INVIS
+flags:FEATHER | SLOW_DIGEST | REGEN | TELEPATHY
+flags:SUST_DEX | SUST_INT | SUST_CON
+act:HEAL2
+time:200+2d50
+msg:{name} glows deep blue...
+values:STR[3] | INT[3] | WIS[3] | DEX[3] | CON[3] | SPEED[5]
+values:RES_ELEC[3] | RES_POIS[1] | RES_DARK[1]
+desc:El Anillo de Zafiro, hecho de oro con una brillante gema azul que
+desc: resplandece como estrellas.  Reluce intocable a pesar de todo lo que
+desc: Morgoth jamás forjó.  Vilya es uno de los Tres Anillos de Poder
+desc: creados por Celebrimbor y ocultados por los Elfos de Sauron.
+
+name:'The One Ring'
+base-object:ring:Anillo de Poder
+graphics:=:y
+level:75
+weight:2
+cost:5000000
+alloc:1:100 to 127
+attack:0d0:15:15
+armor:0:0
+# F: DRAIN_MANA | DRAIN_HP | 
+flags:AGGRAVATE | DRAIN_EXP | SEE_INVIS | REGEN | TELEPATHY | STICKY
+flags:SUST_STR | SUST_DEX | SUST_CON | SUST_INT | SUST_WIS
+values:STR[5] | INT[5] | WIS[5] | DEX[5] | CON[5] | SPEED[5]
+values:RES_FIRE[3] | RES_COLD[3] | RES_ELEC[3] | RES_ACID[3] | RES_DARK[1]
+values:RES_DISEN[1] | RES_POIS[1] | RES_NETHER[1]
+act:BIZARRE
+time:200+9d50
+desc:"Un Anillo para gobernarlos a todos, Un Anillo para encontrarlos, Un
+desc: Anillo para atraerlos a todos y atarlos en las tinieblas."  Hecho de
+desc: oro macizo, e inscrito con runas ocultas en la infame lengua de
+desc: Mordor, el Azote de Isildur posee poderes tan grandes que
+desc: inevitablemente corrompe y domina a cualquier ser mortal que lo
+desc: porte.
+
+
+### Amulets ###
+
+name:of Carlammas
+base-object:amulet:Amuleto
+graphics:":d
+level:30
+weight:3
+cost:60000
+alloc:10:50 to 100
+act:PROTEVIL
+time:225+d225
+values:CON[3] | STR[1] | RES_FIRE[1]
+desc:Un círculo ardiente de bronce, con poderosos hechizos para repeler y
+desc: desterrar el mal.
+
+name:of Ingwë
+base-object:amulet:Colgante
+graphics:":d
+level:65
+weight:3
+cost:90000
+alloc:3:65 to 127
+flags:SEE_INVIS | FREE_ACT | PROT_CONF
+values:INT[3] | WIS[3] | INFRA[4] | RES_ACID[1] | RES_COLD[1] | RES_ELEC[1]
+act:DISPEL_EVIL
+time:50+d50
+desc:La antigua reliquia de Ingwë, alto señor de los Vanyar, ante quien
+desc: nada maligno podía resistir.
+
+name:of the Dwarves
+base-object:amulet:Collar
+graphics:":y
+level:50
+weight:3
+cost:75000
+alloc:2:50 to 127
+flags:SEE_INVIS | FREE_ACT | REGEN | PROT_FEAR | 
+values:STR[3] | CON[3] | INFRA[5] | LIGHT[1]
+desc:El Nauglamír, un collar de oro engastado con multitud de relucientes
+desc: gemas de Valinor.  El radiante Silmaril de Fëanor cuelga en su
+desc: centro como su gloria suprema.  Los firmes espíritus de los
+desc: artesanos Enanos que trabajaron largamente en las herrerías de las
+desc: montañas permanecen aún dentro de él, y descansa sobre quien lo porta
+desc: liviano como una telaraña.
+
+name:'Elessar'
+base-object:amulet:Piedra de Elfo
+graphics:":g
+level:60
+weight:3
+cost:40000
+alloc:2:60 to 127
+attack:0d0:0:0
+armor:0:10
+flags:PROT_FEAR
+values:STR[2] | WIS[2] | SPEED[2] | RES_FIRE[1] | RES_POIS[1]
+act:HEAL1
+time:200
+desc:Una piedra verde, imbuida con el poder del pueblo élfico y la luz del
+desc: Sol.  Quienes miran a través de ella ven a los ancianos y enfermos
+desc: jóvenes de nuevo, y quien la porta trae sanación tras la victoria en
+desc: la batalla.
+
+name:'Evenstar'
+base-object:amulet:Joya
+graphics:":w
+level:40
+weight:3
+cost:25000
+alloc:2:30 to 70
+flags:HOLD_LIFE | SUST_CON | SUST_WIS | REGEN
+values:WIS[2] | RES_DARK[1] | RES_COLD[1] | RES_NETHER[1]
+act:RESTORE_LIFE
+time:150
+desc:Una sencilla joya blanca, entregada por la Reina Arwen a Frodo
+desc: Bolsón antes de su regreso a la Comarca.
+
+#name:of Amandil
+#base-object:amulet:55
+#level:65
+#weight:3
+#cost:90000
+#alloc:3:60 to 127
+#flags:PROT_FEAR | PROT_BLIND | PROT_STUN | PROT_CONF
+#values:SEARCH[4] | SPEED[2] | RES_ELEC[1] | RES_COLD[1]
+#desc:The pendant of Amandil, the last Lord of Andúnië, and mighty
+#desc: ship-captain of Númenor.  First among Númenóreans to see
+#desc: Sauron for what he was.
+
+
+### Dragon Scale Mails ###
+
+name:'Razorback'
+base-object:dragon armour:Cota de Escamas de Dragón Multicolor
+level:60
+weight:200
+cost:400000
+alloc:11:90 to 127
+attack:2d4:-4:0
+armor:50:25
+flags:FREE_ACT | SEE_INVIS | AGGRAVATE
+values:LIGHT[1] | RES_ELEC[3] | RES_DISEN[1] | RES_ACID[1] | RES_FIRE[1]
+values:RES_COLD[1] | RES_POIS[1] | RES_LIGHT[1] | RES_DARK[1]
+act:STAR_BALL
+time:50
+desc:Una armadura masiva de pesadas escamas de dragón, profundamente
+desc: saturadas de muchos colores.  Palpita con energías coléricas, y
+desc: sientes el poder elemental crudo del Rayo indomado al ponértela.
+
+name:'Mediator'
+base-object:dragon armour:Cota de Escamas de Dragón del Equilibrio
+level:60
+weight:250
+cost:400000
+alloc:8:95 to 127
+attack:2d4:-4:0
+armor:60:25
+flags:FREE_ACT | SLOW_DIGEST | REGEN | 
+values:RES_CHAOS[1] | RES_DISEN[1] | RES_SHARD[1] | RES_SOUND[1] | RES_NEXUS[1]
+act:STAR_BALL
+time:50
+desc:Una gran armadura de piel de dragón, engastada con escamas de muchos
+desc: tonos.  Hasta los más poderosos gusanos de la Ley y el Caos temen el
+desc: juicio de quien la porta.
+
+name:'Bladeturner'
+base-object:dragon armour:Cota de Escamas de Dragón del Poder
+level:55
+weight:250
+cost:500000
+alloc:6:100 to 127
+attack:2d4:-8:0
+armor:80:35
+flags:HOLD_LIFE | REGEN | PROT_FEAR | PROT_BLIND | PROT_CONF 
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1] | RES_POIS[1]
+values:RES_LIGHT[1] | RES_DARK[1] | RES_SOUND[1] | RES_SHARD[1] | RES_NETHER[1]
+values:RES_NEXUS[1] | RES_CHAOS[1] | RES_DISEN[1]
+act:RAGE_BLESS_RESIST
+time:50
+desc:Una armadura de adamante con escamas de todos los colores.  Poderes
+desc: elementales y etéreos sin restricción se arremolinan a su alrededor
+desc: en un nimbo inextricablemente entremezclado.
+
+
+### Quest artifacts ###
+
+name:'Grond'
+base-object:hafted:Martillo Poderoso
+level:100
+weight:1000
+cost:500000
+alloc:0:100 to 100
+attack:9d9:5:25
+armor:0:10
+flags:IMPACT | SEE_INVIS | TELEPATHY | AGGRAVATE
+slay:DRAGON_5
+slay:ANIMAL_2
+slay:EVIL_2
+slay:UNDEAD_5
+slay:DEMON_5
+slay:TROLL_3
+slay:ORC_3
+desc:El poderoso Martillo del Inframundo, ennegrecido por hechizos de
+desc: perdición y destrucción.  Quien lo empuña tiene en su mano las vidas
+desc: de todos los siervos de Morgoth.
+
+name:of Morgoth
+base-object:crown:Corona Masiva de Hierro
+level:100
+weight:400
+cost:10000000
+alloc:0:100 to 100
+attack:1d1:0:0
+armor:0:0
+flags:PROT_CONF | SEE_INVIS | TELEPATHY | PROT_FEAR | STICKY
+values:STR[50] | INT[50] | WIS[50] | DEX[50] | CON[50] | INFRA[50]
+values:LIGHT[1]
+values:RES_ACID[1] | RES_ELEC[1] | RES_FIRE[1] | RES_COLD[1] | RES_POIS[1]
+values:RES_LIGHT[1] | RES_DARK[1] | RES_NEXUS[1] | RES_NETHER[1]
+desc:Conteniendo gran parte del poder de aquel que fue antaño el más
+desc: poderoso entre los Ainur, esta sencilla corona de hierro tiene
+desc: engastados los dos Silmarils restantes, los mayores tesoros de la
+desc: Tierra Media.

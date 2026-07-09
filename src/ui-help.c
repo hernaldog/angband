@@ -18,6 +18,7 @@
 #include "angband.h"
 #include "buildid.h"
 #include "init.h"
+#include "lang.h"
 #include "ui-help.h"
 #include "ui-input.h"
 #include "ui-output.h"
@@ -138,16 +139,32 @@ bool show_file(const char *name, const char *what, int line, int mode)
 
 	/* Look in "help" */
 	if (!fff) {
-		strnfmt(caption, sizeof(caption), "Archivo de ayuda '%s'", name);
+		strnfmt(caption, sizeof(caption), _("Help file '%s'"), name);
 
+		/*
+		 * Redirect help files to a language-specific subdirectory when
+		 * available, e.g. lib/help/  ->  lib/help/en/  (for English).
+		 * Falls back to the base (Spanish) file if no translation exists.
+		 */
 		path_build(path, sizeof(path), ANGBAND_DIR_HELP, name);
+		if (strcmp(lang_current, "en") == 0) {
+			char lang_help_dir[1024];
+			char lang_path[1024];
+
+			path_build(lang_help_dir, sizeof(lang_help_dir),
+				ANGBAND_DIR_HELP, lang_current);
+			path_build(lang_path, sizeof(lang_path), lang_help_dir, name);
+			if (file_exists(lang_path)) {
+				my_strcpy(path, lang_path, sizeof(path));
+			}
+		}
 		fff = file_open(path, MODE_READ, FTYPE_TEXT);
 	}
 
 	/* Oops */
 	if (!fff) {
 		/* Message */
-		msg("No se puede abrir '%s'.", name);
+		msg(_("Can't open '%s'."), name);
 		event_signal(EVENT_MESSAGE_FLUSH);
 
 		/* Oops */
@@ -329,20 +346,20 @@ bool show_file(const char *name, const char *what, int line, int mode)
 
 
 		/* Show a general "title" */
-		prt(format("[%s, %s, Línea %d-%d/%d]", buildid,
+		prt(format(_("[%s, %s, Line %d-%d/%d]"), buildid,
 		           caption, line, line + hgt - 4, size), 0, 0);
 
 
 		/* Prompt */
 		if (menu) {
 			/* Menu screen */
-			prt("[Pulsa una Letra, o ESC para salir.]", hgt - 1, 0);
+			prt(_("[Press a Letter, or ESC to exit.]"), hgt - 1, 0);
 		} else if (size <= hgt - 4) {
 			/* Small files */
-			prt("[Pulsa ESC para salir.]", hgt - 1, 0);
+			prt(_("[Press ESC to exit.]"), hgt - 1, 0);
 		} else {
 			/* Large files */
-			prt("[Pulsa Espacio para avanzar, o ESC para salir.]", hgt - 1, 0);
+			prt(_("[Press Space to advance, or ESC to exit.]"), hgt - 1, 0);
 		}
 
 		/* Get a keypress */
@@ -358,7 +375,7 @@ bool show_file(const char *name, const char *what, int line, int mode)
 		/* Try showing */
 		if (ch.code == '&') {
 			/* Get "shower" */
-			prt("Mostrar: ", hgt - 1, 0);
+			prt(_("Show: "), hgt - 1, 0);
 			(void)askfor_aux(shower, sizeof(shower), NULL);
 
 			/* Make the "shower" lowercase */
@@ -368,7 +385,7 @@ bool show_file(const char *name, const char *what, int line, int mode)
 		/* Try finding */
 		if (ch.code == '/') {
 			/* Get "finder" */
-			prt("Buscar: ", hgt - 1, 0);
+			prt(_("Find: "), hgt - 1, 0);
 			if (askfor_aux(finder, sizeof(finder), NULL)) {
 				/* Find it */
 				find = finder;
@@ -387,7 +404,7 @@ bool show_file(const char *name, const char *what, int line, int mode)
 		if (ch.code == '#') {
 			char tmp[80] = "0";
 
-			prt("Ir a Línea: ", hgt - 1, 0);
+			prt(_("Go to Line: "), hgt - 1, 0);
 			if (askfor_aux(tmp, sizeof(tmp), NULL))
 				line = atoi(tmp);
 		}
@@ -402,7 +419,7 @@ bool show_file(const char *name, const char *what, int line, int mode)
 				my_strcpy(ftmp, "index.txt", sizeof(ftmp));
 			}
 
-			prt("Ir a Archivo: ", hgt - 1, 0);
+			prt(_("Go to File: "), hgt - 1, 0);
 			if (askfor_aux(ftmp, sizeof(ftmp), NULL)) {
 				if (!show_file(ftmp, NULL, 0, mode))
 					ch.code = ESCAPE;

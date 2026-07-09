@@ -19,6 +19,7 @@
 
 #include "angband.h"
 #include "init.h"
+#include "lang.h"
 #include "obj-list.h"
 #include "obj-util.h"
 #include "ui-object.h"
@@ -65,7 +66,7 @@ static void object_list_format_section(const object_list_t *list,
 	int total;
 	char line_buffer[200];
 	const char *punctuation = (lines_to_display == 0) ? "." : ":";
-	const char *others = (show_others) ? "otros " : "";
+	const char *others = (show_others) ? _("other ") : "";
 	size_t max_line_length = 0;
 
 	if (list == NULL || list->entries == NULL)
@@ -75,7 +76,7 @@ static void object_list_format_section(const object_list_t *list,
 
 	if (list->total_entries[section] == 0) {
 		max_line_length = strnfmt(line_buffer, sizeof(line_buffer),
-								 "No hay objetos a la vista.\n"); //mejora de traducción, no se usa prefix
+								 _("No objects in sight.\n"));
 
 		if (tb != NULL)
 			textblock_append(tb, "%s", line_buffer);
@@ -88,7 +89,7 @@ static void object_list_format_section(const object_list_t *list,
 	}
 
 	max_line_length = strnfmt(line_buffer, sizeof(line_buffer),
-							  "%s %d %sobjeto%s%s\n", prefix,
+							  _("%s %d %sobject%s%s\n"), prefix,
 							  list->total_entries[section], others,
 							  PLURAL(list->total_entries[section]),
 							  punctuation);
@@ -178,7 +179,7 @@ static void object_list_format_section(const object_list_t *list,
 	remaining_object_total = total - entry_index;
 
 	if (tb != NULL)
-		textblock_append(tb, "%6s...y %d otros.\n", " ", remaining_object_total);
+		textblock_append(tb, _("%6s...and %d others.\n"), " ", remaining_object_total);
 }
 
 /**
@@ -276,7 +277,7 @@ static void object_list_format_textblock(const object_list_t *list,
         
 	object_list_format_section(list, tb, OBJECT_LIST_SECTION_LOS,
 							   los_lines_to_display, max_width,
-							   "Ves", false, &max_los_line);
+							   _("You see"), false, &max_los_line);
 
 	if (list->total_entries[OBJECT_LIST_SECTION_NO_LOS] > 0) {
          bool show_others = list->total_objects[OBJECT_LIST_SECTION_LOS] > 0;
@@ -286,7 +287,7 @@ static void object_list_format_textblock(const object_list_t *list,
 
          object_list_format_section(list, tb, OBJECT_LIST_SECTION_NO_LOS,
 									no_los_lines_to_display, max_width,
-									"Detectas", show_others,
+									_("You detect"), show_others,
 									&max_no_los_line);
 	}
 

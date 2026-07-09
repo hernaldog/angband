@@ -21,6 +21,7 @@
 #include "effects.h"
 #include "generate.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-init.h"
 #include "mon-lore.h"
 #include "mon-msg.h"
@@ -1045,7 +1046,7 @@ static enum parser_error parse_mon_base_flags(struct parser *p) {
 	s = strtok(flags, " |");
 	while (s) {
 		if (grab_flag(rb->flags, RF_SIZE, r_info_flags, s)) {
-			plog(format("bandera de base de monstruo incorrecta: %s", s));
+			plog(format(_("invalid monster base flag: %s"), s));
 			string_free(flags);
 			return PARSE_ERROR_INVALID_FLAG;
 		}
@@ -1319,7 +1320,7 @@ static enum parser_error parse_monster_flags(struct parser *p) {
 	s = strtok(flags, " |");
 	while (s) {
 		if (grab_flag(r->flags, RF_SIZE, r_info_flags, s)) {
-			plog(format("bandera de raza de monstruo incorrecta: %s", s));
+			plog(format(_("invalid monster race flag: %s"), s));
 			string_free(flags);
 			return PARSE_ERROR_INVALID_FLAG;
 		}
@@ -1343,7 +1344,7 @@ static enum parser_error parse_monster_flags_off(struct parser *p) {
 	s = strtok(flags, " |");
 	while (s) {
 		if (remove_flag(r->flags, RF_SIZE, r_info_flags, s)) {
-			plog(format("bandera de raza de monstruo incorrecta: %s", s));
+			plog(format(_("invalid monster race flag: %s"), s));
 			string_free(flags);
 			return PARSE_ERROR_INVALID_FLAG;
 		}
@@ -1411,7 +1412,7 @@ static enum parser_error parse_monster_spells(struct parser *p) {
 	s = strtok(flags, " |");
 	while (s) {
 		if (grab_flag(r->spell_flags, RSF_SIZE, r_info_spell_flags, s)) {
-			plog(format("bandera de hechizo de monstruo incorrecta: %s", s));
+			plog(format(_("invalid monster spell flag: %s"), s));
 			ret = PARSE_ERROR_INVALID_FLAG;
 			break;
 		}
@@ -1836,7 +1837,7 @@ static errr finish_parse_monster(struct parser *p) {
 				f->race = lookup_monster(f->name);
 			}
 			if (!f->race) {
-				quit_fmt("No se pudo encontrar amigo llamado '%s' para el monstruo '%s'",
+				quit_fmt(_("Could not find friend named '%s' for monster '%s'"),
 						 f->name, race->name);
 			}
 			string_free(f->name);
@@ -1845,7 +1846,7 @@ static errr finish_parse_monster(struct parser *p) {
 			if (!s->base) {
 				s->race = lookup_monster(s->name);
 				if (!s->race) {
-					quit_fmt("No se pudo encontrar forma llamada '%s' para el monstruo '%s'",
+					quit_fmt(_("Could not find shape named '%s' for monster '%s'"),
 							 s->name, race->name);
 				}
 			}
@@ -2556,7 +2557,7 @@ static struct parser *init_parse_lore(void) {
 static errr run_parse_lore(struct parser *p) {
 	/* Failure is always an option */
 	if (parse_file(p, "lore")) {
-		event_signal_message(EVENT_INITSTATUS, 0, "No se encontró archivo de conocimiento de monstruos");
+		event_signal_message(EVENT_INITSTATUS, 0, _("Monster memory file not found"));
 	}
 	return PARSE_ERROR_NONE;
 }

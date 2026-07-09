@@ -18,6 +18,7 @@
 #include "angband.h"
 #include "buildid.h"
 #include "game-world.h"
+#include "lang.h"
 #include "score.h"
 #include "ui-input.h"
 #include "ui-output.h"
@@ -42,6 +43,7 @@ static void display_score_page(const struct high_score scores[], int start,
 		struct player_race *r;
 		char out_val[160];
 		char tmp_val[160];
+		bool en = (strcmp(lang_current, "en") == 0);
 
 		/* Indicate death in yellow */
 		attr = (start == highlight) ? COLOUR_L_GREEN : COLOUR_WHITE;
@@ -67,30 +69,44 @@ static void display_score_page(const struct high_score scores[], int start,
 
 		/* Dump some info */
 		strnfmt(out_val, sizeof(out_val),
-				"%3d.%9s  %s %s %s, nivel %d",
+				_("%3d.%9s  %s %s %s, level %d"),
 				start + 1, score->pts, score->who,
-				r ? r->name : "<ninguna>", c ? c->name : "<ninguna>",
+				r ? r->name : _("<none>"),
+				c ? c->name : _("<none>"),
 				clev);
 
 		/* Append a "maximum level" */
 		if (mlev > clev)
-			my_strcat(out_val, format(" (Máx %d)", mlev), sizeof(out_val));
+			my_strcat(out_val, format(_(" (Max %d)"), mlev), sizeof(out_val));
 
 		/* Dump the first line */
 		c_put_str(attr, out_val, n * 4 + 2, 0);
 
 
 		/* Died where? */
-		if (!cdun)
-			strnfmt(out_val, sizeof(out_val), "Matado por %s en la ciudad",
-					score->how);
-		else
+		if (!en && streq(score->how, _("nobody (yet!)"))) {
+			/* Still alive: "Killed by nobody (yet!)" reads awkwardly
+			 * translated literally into Spanish. */
+			if (!cdun)
+				strnfmt(out_val, sizeof(out_val),
+						_("Nobody has killed you in the town (yet!)"));
+			else
+				strnfmt(out_val, sizeof(out_val),
+						_("Nobody has killed you on dungeon level %d (yet!)"),
+						cdun);
+		} else if (!cdun) {
 			strnfmt(out_val, sizeof(out_val),
-					"Matado por %s en el nivel de mazmorra %d", score->how, cdun);
+					_("Killed by %s in the town"),
+					score->how);
+		} else {
+			strnfmt(out_val, sizeof(out_val),
+					_("Killed by %s on dungeon level %d"),
+					score->how, cdun);
+		}
 
 		/* Append a "maximum level" */
 		if (mdun > cdun)
-			my_strcat(out_val, format(" (Máx %d)", mdun), sizeof(out_val));
+			my_strcat(out_val, format(_(" (Max %d)"), mdun), sizeof(out_val));
 
 		/* Dump the info */
 		c_put_str(attr, out_val, n * 4 + 3, 15);
@@ -105,7 +121,7 @@ static void display_score_page(const struct high_score scores[], int start,
 
 		/* And still another line of info */
 		strnfmt(out_val, sizeof(out_val),
-				"(Usuario %s, Fecha %s, Oro %s, Turno %s).",
+				_("(User %s, Date %s, Gold %s, Turn %s)."),
 				user, when, gold, aged);
 		c_put_str(attr, out_val, n * 4 + 4, 15);
 	}
@@ -144,19 +160,19 @@ static void display_scores_aux(const struct high_score scores[], int from,
 
 		/* Title */
 		if (k > 0) {
-			put_str(format("%s Salón de la Fama (desde la posición %d)",
+			put_str(format(_("%s Hall of Fame (from position %d)"),
 				VERSION_NAME, k + 1), 0, 21);
 		} else {
-			put_str(format("%s Salón de la Fama", VERSION_NAME), 0, 30);
+			put_str(format(_("%s Hall of Fame"), VERSION_NAME), 0, 30);
 		}
 
 		display_score_page(scores, k, count, highlight);
 
 		/* Wait for response; prompt centered on 80 character line */
 		if (allow_scrolling) {
-			prt("[Pulsa ESC para salir, arriba para página anterior, otra tecla para página sgte.]", 23, 2);
+			prt(_("[Press ESC to exit, up for previous page, any key for next page.]"), 23, 2);
 		} else {
-			prt("[Pulsa ESC para salir, otra tecla para av. página hasta salir.]", 23, 9); //fix traduc se mueve un poco a la izquierda
+			prt(_("[Press ESC to exit, any other key to advance pages until done.]"), 23, 9); //fix traduc se mueve un poco a la izquierda
 		}
 		ch = inkey();
 		prt("", 23, 0);
@@ -199,7 +215,8 @@ void predict_score(bool allow_scrolling)
 
 	/* Read scores, place current score */
 	highscore_read(scores, N_ELEMENTS(scores));
-	build_score(&the_score, player, "nadie (¡todavía!)", NULL);
+	build_score(&the_score, player,
+		_("nobody (yet!)"), NULL);
 
 	if (player->is_dead)
 		j = highscore_where(&the_score, scores, N_ELEMENTS(scores));

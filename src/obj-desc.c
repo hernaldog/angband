@@ -17,6 +17,7 @@
  */
 
 #include "angband.h"
+#include "lang.h"
 #include "obj-chest.h"
 #include "obj-desc.h"
 #include "obj-gear.h"
@@ -126,91 +127,69 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 		return obj->kind->name;
 
 	/* Analyze the object */
-	switch (obj->tval)
-	{
-		case TV_FLASK:
-		case TV_CHEST:
-		case TV_SHOT:
-		case TV_BOLT:
-		case TV_ARROW:
-		case TV_BOW:
-		case TV_HAFTED:
-		case TV_POLEARM:
-		case TV_SWORD:
-		case TV_DIGGING:
-		case TV_BOOTS:
-		case TV_GLOVES:
-		case TV_CLOAK:
-		case TV_CROWN:
-		case TV_HELM:
-		case TV_SHIELD:
-		case TV_SOFT_ARMOR:
-		case TV_HARD_ARMOR:
-		case TV_DRAG_ARMOR:
-		case TV_LIGHT:
-		case TV_FOOD:
-			return obj->kind->name;
-
-		case TV_AMULET:
-			return (show_flavor ? "& Amuleto~ #" : "& Amuleto~");
-
-		case TV_RING:
-			return (show_flavor ? "& Anillo~ #" : "& Anillo~");
-
-		case TV_STAFF:
-			return (show_flavor ? "& Báculo~ #" : "& Báculo~");
-
-		case TV_WAND:
-			return (show_flavor ? "& Varita~ #" : "& Varita~");
-
-		case TV_ROD:
-			return (show_flavor ? "& Vara~ #" : "& Vara~");
-
-		case TV_POTION:			
-			if (plural) { //fix traduc plural
-        		return (show_flavor ? "Pociones #" : "Pociones");
-        	} else {        		
-        		return (show_flavor ? "& Poción #" : "& Poción");
-        	}      
-
-		case TV_SCROLL:
-			return (show_flavor ? "& Pergamino~ titulado~ #" : "& Pergamino~");
-
-		case TV_MAGIC_BOOK:
-			if (terse)
-				return "& Libro~ #";
-			else
-				return "& Libro~ de Hechizos Mágicos #";
-
-		case TV_PRAYER_BOOK:
-			if (terse)
-				return "& Libro~ #";
-			else
-				return "& Libro~ Sagrado~ de Plegarias #";
-
-		case TV_NATURE_BOOK:
-			if (terse)
-				return "& Libro~ #";
-			else
-				return "& Libro~ de Magias Naturales #";
-
-		case TV_SHADOW_BOOK:
-			if (terse)
-				return "& Tomo~ #";
-			else
-				return "& Tomo~ Necromántico~ #";
-
-		case TV_OTHER_BOOK:
-			if (terse)
-				return "& Libro~ #";
-			else
-				return "& Libro~ de Misterios #";
-
-		case TV_MUSHROOM:
-			return (show_flavor ? "& Seta~ #" : "& Seta~");
+	if (strcmp(lang_current, "es") == 0) {
+		/* Spanish base names */
+		switch (obj->tval) {
+			case TV_FLASK: case TV_CHEST: case TV_SHOT: case TV_BOLT:
+			case TV_ARROW: case TV_BOW: case TV_HAFTED: case TV_POLEARM:
+			case TV_SWORD: case TV_DIGGING: case TV_BOOTS: case TV_GLOVES:
+			case TV_CLOAK: case TV_CROWN: case TV_HELM: case TV_SHIELD:
+			case TV_SOFT_ARMOR: case TV_HARD_ARMOR: case TV_DRAG_ARMOR:
+			case TV_LIGHT: case TV_FOOD:
+				return obj->kind->name;
+			case TV_AMULET:   return (show_flavor ? "& Amuleto~ #"  : "& Amuleto~");
+			case TV_RING:     return (show_flavor ? "& Anillo~ #"   : "& Anillo~");
+			case TV_STAFF:    return (show_flavor ? "& Báculo~ #"   : "& Báculo~");
+			case TV_WAND:     return (show_flavor ? "& Varita~ #"   : "& Varita~");
+			case TV_ROD:      return (show_flavor ? "& Vara~ #"     : "& Vara~");
+			case TV_POTION:
+				if (plural) return (show_flavor ? "Pociones #" : "Pociones");
+				return (show_flavor ? "& Poción #" : "& Poción");
+			case TV_SCROLL:   return (show_flavor ? "& Pergamino~ titulado~ #" : "& Pergamino~");
+			case TV_MAGIC_BOOK:
+				return terse ? "& Libro~ #" : "& Libro~ de Hechizos Mágicos #";
+			case TV_PRAYER_BOOK:
+				return terse ? "& Libro~ #" : "& Libro~ Sagrado~ de Plegarias #";
+			case TV_NATURE_BOOK:
+				return terse ? "& Libro~ #" : "& Libro~ de Magias Naturales #";
+			case TV_SHADOW_BOOK:
+				return terse ? "& Tomo~ #"  : "& Tomo~ Necromántico~ #";
+			case TV_OTHER_BOOK:
+				return terse ? "& Libro~ #" : "& Libro~ de Misterios #";
+			case TV_MUSHROOM: return (show_flavor ? "& Seta~ #"     : "& Seta~");
+		}
+		return "(nada)";
+	} else {
+		/* English base names */
+		switch (obj->tval) {
+			case TV_FLASK: case TV_CHEST: case TV_SHOT: case TV_BOLT:
+			case TV_ARROW: case TV_BOW: case TV_HAFTED: case TV_POLEARM:
+			case TV_SWORD: case TV_DIGGING: case TV_BOOTS: case TV_GLOVES:
+			case TV_CLOAK: case TV_CROWN: case TV_HELM: case TV_SHIELD:
+			case TV_SOFT_ARMOR: case TV_HARD_ARMOR: case TV_DRAG_ARMOR:
+			case TV_LIGHT: case TV_FOOD:
+				return obj->kind->name;
+			case TV_AMULET:   return (show_flavor ? "& # Amulet~"   : "& Amulet~");
+			case TV_RING:     return (show_flavor ? "& # Ring~"     : "& Ring~");
+			case TV_STAFF:    return (show_flavor ? "& # Sta|ff|ves|" : "& Sta|ff|ves|");
+			case TV_WAND:     return (show_flavor ? "& # Wand~"     : "& Wand~");
+			case TV_ROD:      return (show_flavor ? "& # Rod~"      : "& Rod~");
+			case TV_POTION:   return (show_flavor ? "& # Potion~"   : "& Potion~");
+			case TV_SCROLL:   return (show_flavor ? "& Scroll~ titled #" : "& Scroll~");
+			case TV_MAGIC_BOOK:
+				return terse ? "& Book~ #" : "& Book~ of Magic Spells #";
+			case TV_PRAYER_BOOK:
+				return terse ? "& Book~ #" : "& Holy Book~ of Prayers #";
+			case TV_NATURE_BOOK:
+				return terse ? "& Book~ #" : "& Book~ of Nature Magics #";
+			case TV_SHADOW_BOOK:
+				return terse ? "& Tome~ #"  : "& Necromantic Tome~ #";
+			case TV_OTHER_BOOK:
+				return terse ? "& Book~ #"  : "& Book of Mysteries~ #";
+			case TV_MUSHROOM: return (show_flavor ? "& # Mushroom~" : "& Mushroom~");
+		}
+		return "(nothing)";
 	}
-
-	return "(nada)";
 }
 
 
@@ -221,19 +200,37 @@ static size_t obj_desc_name_prefix(char *buf, size_t max, size_t end,
 		const struct object *obj, const char *basename,
 		const char *modstr, bool terse, uint16_t number)
 {
-	//fix traduc: para traducir al español no se usa prefijo en la palabra, se usará numero manual y palabra directa sin prefijo
-	// Ves 1 Manzana o Ves 4 Pergaminos y no "Ves una manzada" o "Ves unas manzanas"
-	if (obj->artifact || number == 0)
-		return end;
-
-	if (number == 1) {
-		/* fix traduc: las botas/sandalias se cuentan por pares */
-		if (obj->tval == TV_BOOTS)
-			strnfcat(buf, max, &end, "un par de ");
-		return end;
+	if (strcmp(lang_current, "es") == 0) {
+		/* Spanish: no articles, just number; boots counted as pairs */
+		if (obj->artifact || number == 0) return end;
+		if (number == 1) {
+			if (obj->tval == TV_BOOTS)
+				strnfcat(buf, max, &end, "un par de ");
+			return end;
+		}
+		strnfcat(buf, max, &end, "%d ", number);
+	} else {
+		/* English: a/an article, "no more", numbered stacks */
+		if (number == 0) {
+			strnfcat(buf, max, &end, "no more ");
+		} else if (number > 1) {
+			strnfcat(buf, max, &end, "%u ", number);
+		} else if (object_is_known_artifact(obj)) {
+			strnfcat(buf, max, &end, "the ");
+		} else if (*basename == '&') {
+			bool an = false;
+			const char *lookahead = basename + 1;
+			while (*lookahead == ' ') lookahead++;
+			if (*lookahead == '#') {
+				if (modstr && is_a_vowel(*modstr)) an = true;
+			} else if (is_a_vowel(*lookahead)) {
+				an = true;
+			}
+			if (!terse) {
+				strnfcat(buf, max, &end, an ? "an " : "a ");
+			}
+		}
 	}
-
-	strnfcat(buf, max, &end, "%d ", number);
 	return end;
 }
 
@@ -358,7 +355,9 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 		if (terse)
 			strnfcat(buf, max, &end, " '%s'", obj->kind->name);
 		else
-			strnfcat(buf, max, &end, " de %s", obj->kind->name);
+			strnfcat(buf, max, &end,
+			_(" of %s"),
+			obj->kind->name);
 	}
 
 	return end;
@@ -460,7 +459,7 @@ static size_t obj_desc_light(const struct object *obj, char *buf, size_t max,
 {
 	/* Fuelled light sources get number of remaining turns appended */
 	if (tval_is_light(obj) && !of_has(obj->flags, OF_NO_FUEL))
-		strnfcat(buf, max, &end, " (%d turnos)", obj->timeout);
+		strnfcat(buf, max, &end, _(" (%d turns)"), obj->timeout);
 
 	return end;
 }
@@ -518,14 +517,14 @@ static size_t obj_desc_charges(const struct object *obj, char *buf, size_t max,
 
 	/* Wands and staffs have charges, others may be charging */
 	if (aware && tval_can_have_charges(obj)) {
-		strnfcat(buf, max, &end, " (%d carga%s)", obj->pval,
+		strnfcat(buf, max, &end, _(" (%d charge%s)"), obj->pval,
 				 PLURAL(obj->pval));
 	} else if (obj->timeout > 0) {
 		if (tval_is_rod(obj) && obj->number > 1)
-			strnfcat(buf, max, &end, " (%d recargándose)", number_charging(obj));
+			strnfcat(buf, max, &end, _(" (%d recharging)"), number_charging(obj));
 		else if (tval_is_rod(obj) || obj->activation || obj->effect)
 			/* Artifacts, single rods */
-			strnfcat(buf, max, &end, " (recargándose)");
+			strnfcat(buf, max, &end, _(" (recharging)"));
 	}
 
 	return end;
@@ -547,18 +546,18 @@ static size_t obj_desc_inscrip(const struct object *obj, char *buf,
 	/* Use special inscription, if any */
 	if (!object_flavor_is_aware(obj)) {
 		if (tval_can_have_charges(obj) && (obj->pval == 0))
-			u[n++] = "vacío";
+			u[n++] = _("empty");
 		if (object_flavor_was_tried(obj))
-			u[n++] = "probado";
+			u[n++] = _("tried");
 	}
 
 	/* Note curses */
 	if (obj->known->curses)
-		u[n++] = "maldito";
+		u[n++] = _("cursed");
 
 	/* Note ignore */
 	if (p && ignore_item_ok(p, obj))
-		u[n++] = "ignorar";
+		u[n++] = _("ignore");
 
 	/* Note unknown properties */
 	if (!object_runes_known(obj) && (obj->known->notice & OBJ_NOTICE_ASSESSED))
@@ -589,11 +588,11 @@ static size_t obj_desc_aware(const struct object *obj, char *buf, size_t max,
 							 size_t end)
 {
 	if (!object_flavor_is_aware(obj)) {
-		strnfcat(buf, max, &end, " {no visto}");
+		strnfcat(buf, max, &end, _(" {unseen}"));
 	} else if (!object_runes_known(obj)) {
 		strnfcat(buf, max, &end, " {??}");
 	} else if (obj->known->curses) {
-		strnfcat(buf, max, &end, " {maldito}");
+		strnfcat(buf, max, &end, _(" {cursed}"));
 	}
 
 	return end;
@@ -638,19 +637,19 @@ size_t object_desc(char *buf, size_t max, const struct object *obj,
 
 	/* Simple description for null item */
 	if (!obj || !obj->known)
-		return strnfmt(buf, max, "(nada)");
+		return strnfmt(buf, max, _("(nothing)"));
 
 	/* Unknown itema and cash get straightforward descriptions */
 	if (obj->known && obj->kind != obj->known->kind) {
 		if (prefix)
-			return strnfmt(buf, max, "un objeto desconocido");
-		return strnfmt(buf, max, "objeto desconocido");
+			return strnfmt(buf, max, _("an unknown item"));
+		return strnfmt(buf, max, _("unknown item"));
 	}
 
 	if (tval_is_money(obj))
-		return strnfmt(buf, max, "%d piezas de oro en %s%s",
+		return strnfmt(buf, max, _("%d pieces of gold worth of %s%s"),
 				obj->pval, obj->kind->name,
-				ignore_item_ok(p, obj) ? " {ignorar}" : "");
+				ignore_item_ok(p, obj) ? _(" {ignore}") : "");
 
 	/* Egos and kinds whose name we know are seen */
 	if (obj->known->ego && !spoil)

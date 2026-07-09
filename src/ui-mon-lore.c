@@ -18,6 +18,7 @@
 
 #include "angband.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-lore.h"
 #include "ui-mon-lore.h"
 #include "ui-output.h"
@@ -52,7 +53,7 @@ void lore_title(textblock *tb, const struct monster_race *race)
 
 	/* A title (use "The" for non-uniques) */
 	if (!rf_has(race->flags, RF_UNIQUE))
-		textblock_append(tb, "Criatura "); //fix traduc: revisar donde se ve en pantalla
+		textblock_append(tb, streq(lang_current, "es") ? "Criatura " : "The ");
 	else if (OPT(player, purple_uniques)) {
 		standard_attr = COLOUR_VIOLET;
 		if (!(optional_attr & 0x80))

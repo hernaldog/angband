@@ -20,6 +20,7 @@
 #include "datafile.h"
 #include "grafmode.h"
 #include "init.h"
+#include "lang.h"
 
 graphics_mode *graphics_modes;
 graphics_mode *current_graphics_mode = NULL;
@@ -54,6 +55,7 @@ static enum parser_error parse_graf_directory(struct parser *p) {
 
 	/* Build a usable path */
 	path_build(mode->path, sizeof(mode->path), ANGBAND_DIR_TILES, dir);
+	my_strcpy(mode->prf_path, mode->path, sizeof(mode->prf_path));
 
 	return PARSE_ERROR_NONE;
 }
@@ -142,6 +144,7 @@ static errr finish_parse_grafmode(struct parser *p) {
 	graphics_modes[count].overdrawMax = 0;
 	my_strcpy(graphics_modes[count].pref, "none", 8);
 	my_strcpy(graphics_modes[count].path, "", 32);
+	my_strcpy(graphics_modes[count].prf_path, "", 32);
 	my_strcpy(graphics_modes[count].file, "", 32);
 	my_strcpy(graphics_modes[count].menuname, "None", 32);
 
@@ -167,8 +170,8 @@ static errr finish_parse_grafmode(struct parser *p) {
 static void print_error(const char *name, struct parser *p) {
 	struct parser_state s;
 	parser_getstate(p, &s);
-	msg("Error de análisis en %s línea %d columna %d: %s: %s", name,
-	           s.line, s.col, s.msg, parser_error_str[s.error]);
+	msg(_("Parse error in %s line %d column %d: %s: %s"), name,
+	           s.line, s.col, s.msg, _(parser_error_str[s.error]));
 	event_signal(EVENT_MESSAGE_FLUSH);
 }
 

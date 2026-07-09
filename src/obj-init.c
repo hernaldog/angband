@@ -28,6 +28,7 @@
 #include "datafile.h"
 #include "effects.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-util.h"
 #include "obj-curse.h"
 #include "obj-ignore.h"
@@ -435,9 +436,9 @@ static errr finish_parse_projection(struct parser *p) {
 	}
 
 	if (element_count + 1 < (int) N_ELEMENTS(element_names)) {
-		quit_fmt("¡Demasiados pocos elementos en projection.txt!");
+		quit_fmt(_("Too few elements in projection.txt!"));
 	} else if (element_count + 1 > (int) N_ELEMENTS(element_names)) {
-		quit_fmt("¡Demasiados elementos en projection.txt!");
+		quit_fmt(_("Too many elements in projection.txt!"));
 	}
 
 	/* Allocate the direct access list and copy the data to it */
@@ -1380,8 +1381,8 @@ static errr finish_parse_curse(struct parser *p) {
 		next = curse->next;
 		if (curse->obj->weight < 0 && of_has(curse->obj->flags,
 				OF_MULTIPLY_WEIGHT)) {
-			plog_fmt("La maldición '%s' usa MULTIPLY_WEIGHT y tiene"
-				" un ajuste de peso negativo", curse->name);
+			plog_fmt(_("The curse '%s' uses MULTIPLY_WEIGHT and has"
+				" a negative weight adjustment"), curse->name);
 			if (result == PARSE_ERROR_NONE) {
 				result = PARSE_ERROR_INVALID_VALUE;
 			}

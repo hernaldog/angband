@@ -24,6 +24,7 @@
 #include "cave.h"
 #include "effects.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-attack.h"
 #include "mon-blows.h"
 #include "mon-desc.h"
@@ -457,7 +458,7 @@ bool make_ranged_attack(struct monster *mon)
 	/* Check for spell failure (innate attacks never fail) */
 	failrate = monster_spell_failrate(mon);
 	if (!mon_spell_is_innate(thrown_spell) && (randint0(100) < failrate)) {
-		msg("%s intenta lanzar un hechizo, pero falla.", m_name);
+		msg(_("%s tries to cast a spell, but fails."), m_name);
 		return true;
 	}
 
@@ -602,7 +603,7 @@ bool make_attack_normal(struct monster *mon, struct player *p)
 				if (monster_is_evil(mon) && p->lev >= rlev &&
 				    randint0(100) + p->lev > 50) {
 					/* Message */
-					msg("%s es repelido.", m_name);
+					msg(_("%s is repelled."), m_name);
 
 					/* Next attack */
 					continue;
@@ -647,7 +648,7 @@ bool make_attack_normal(struct monster *mon, struct player *p)
 				blinked = context.blinked;
 				damage = context.damage;
 			} else {
-				msg("ERROR: Manejador de efecto no encontrado para %s.", effect->name);
+				msg(_("ERROR: Effect handler not found for %s."), effect->name);
 			}
 
 			/* Don't cut or stun if player is dead */
@@ -719,7 +720,7 @@ bool make_attack_normal(struct monster *mon, struct player *p)
 			if (monster_is_visible(mon) &&	method->miss) {
 				/* Disturbing */
 				disturb(p);
-				msg("%s no logra darte.", m_name);
+				msg(_("%s misses you."), m_name);
 			}
 		}
 
@@ -838,7 +839,7 @@ bool monster_attack_monster(struct monster *mon, struct monster *t_mon)
 				blinked = context.blinked;
 				damage = context.damage;
 			} else {
-				msg("ERROR: Manejador de efecto no encontrado para %s.", effect->name);
+				msg(_("ERROR: Effect handler not found for %s."), effect->name);
 			}
 
 			/* Handle stun */
@@ -865,7 +866,7 @@ bool monster_attack_monster(struct monster *mon, struct monster *t_mon)
 		} else {
 			/* Visible monster missed monster, so notify if appropriate. */
 			if (monster_is_visible(mon) && method->miss) {
-				msg("%s falla contra %s.", m_name, t_name);
+				msg(_("%s misses %s."), m_name, t_name);
 			}
 		}
 

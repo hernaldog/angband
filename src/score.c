@@ -19,6 +19,7 @@
 #include "buildid.h"
 #include "game-world.h"
 #include "init.h"
+#include "lang.h"
 #include "score.h"
 
 
@@ -254,27 +255,27 @@ void enter_score(const struct player *p, const time_t *death_time)
 		if (!p->opts.opt[j])
 			continue;
 
-		msg("Puntuación no registrada para tramposos.");
+		msg(_("Score not registered for cheaters."));
 		event_signal(EVENT_MESSAGE_FLUSH);
 		return;
 	}
 
 	/* Add a new entry, if allowed */
 	if (p->noscore & (NOSCORE_WIZARD | NOSCORE_DEBUG)) {
-		msg("Puntuación no registrada para magos.");
+		msg(_("Score not registered for wizards."));
 		event_signal(EVENT_MESSAGE_FLUSH);
 #ifdef ALLOW_BORG
 #ifndef SCORE_BORGS
 	}	else if (p->noscore & (NOSCORE_BORG)) {
-		msg("Puntuación no registrada para borgs.");
+		msg(_("Score not registered for borgs."));
 		event_signal(EVENT_MESSAGE_FLUSH);
 #endif
 #endif
-	} else if (!p->total_winner && streq(p->died_from, "Interrupción")) {
-		msg("Puntuación no registrada debido a interrupción.");
+	} else if (!p->total_winner && streq(p->died_from, "Interrupting")) {
+		msg(_("Score not registered due to interruption."));
 		event_signal(EVENT_MESSAGE_FLUSH);
-	} else if (!p->total_winner && streq(p->died_from, "Retirada")) {
-		msg("Puntuación no registrada debido a retirada.");
+	} else if (!p->total_winner && streq(p->died_from, "Retiring")) {
+		msg(_("Score not registered due to retirement."));
 		event_signal(EVENT_MESSAGE_FLUSH);
 	} else {
 		struct high_score entry;

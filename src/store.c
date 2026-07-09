@@ -24,6 +24,7 @@
 #include "game-world.h"
 #include "hint.h"
 #include "init.h"
+#include "lang.h"
 #include "monster.h"
 #include "obj-desc.h"
 #include "obj-gear.h"
@@ -333,8 +334,8 @@ static struct file_parser store_parser = {
 
 void store_init(void)
 {
-	event_signal_message(EVENT_INITSTATUS, 0, "Inicializando tiendas...");
-	if (run_parser(&store_parser)) quit("No se pueden inicializar las tiendas");
+	event_signal_message(EVENT_INITSTATUS, 0, _("Initializing stores..."));
+	if (run_parser(&store_parser)) quit(_("Cannot initialize stores"));
 }
 
 void store_reset(void) {
@@ -434,48 +435,48 @@ static bool store_sale_should_reduce_stock(struct store *store,
  */
 static const char *comment_worthless[] =
 {
-	"¡Arrgghh!",
-	"¡Bastardo!",
-	"Oyes a alguien sollozando...",
-	"¡El tendero aúlla de agonía!",
-	"¡El tendero se lamenta con angustia!",
-	"El tendero golpea su cabeza contra el mostrador."
+	"Arrgghh!",
+	"You bastard!",
+	"You hear someone sobbing...",
+	"The shopkeeper howls in agony!",
+	"The shopkeeper wails in anguish!",
+	"The shopkeeper beats his head against the counter."
 };
 
 static const char *comment_bad[] =
 {
-	"¡Maldición!",
-	"¡Qué demonio!",
-	"El tendero te maldice.",
-	"El tendero te fulmina con la mirada."
+	"Damn!",
+	"What a shame!",
+	"The shopkeeper curses at you.",
+	"The shopkeeper glares at you."
 };
 
 static const char *comment_accept[] =
 {
-	"De acuerdo.",
-	"Bien.",
-	"¡Aceptado!",
-	"¡Acordado!",
-	"¡Hecho!",
-	"¡Tomado!"
+	"Okay.",
+	"Fine.",
+	"Accepted!",
+	"Agreed!",
+	"Done!",
+	"Taken!"
 };
 
 static const char *comment_good[] =
 {
-	"¡Genial!",
-	"¡Has hecho mi día!",
-	"El tendero ríe entre dientes.",
-	"El tendero ríe tontamente.",
-	"El tendero ríe a carcajadas."
+	"Cool!",
+	"You've made my day!",
+	"The shopkeeper chuckles.",
+	"The shopkeeper snickers.",
+	"The shopkeeper laughs loudly."
 };
 
 static const char *comment_great[] =
 {
-	"¡Yupi!",
-	"¡Creo que me voy a jubilar!",
-	"El tendero salta de alegría.",
-	"El tendero sonríe alegremente.",
-	"Vaya. Voy a ponerle tu nombre a mi nueva villa en tu honor."
+	"Yipee!",
+	"I think I'll retire!",
+	"The shopkeeper jumps for joy.",
+	"The shopkeeper smiles happily.",
+	"Wow. I'm going to name my new villa in your honour."
 };
 
 
@@ -492,19 +493,19 @@ static void purchase_analyze(int price, int value, int guess)
 {
 	/* Item was worthless, but we bought it */
 	if ((value <= 0) && (price > value))
-		msgt(MSG_STORE1, "%s", ONE_OF(comment_worthless));
+		msgt(MSG_STORE1, "%s", _(ONE_OF(comment_worthless)));
 
 	/* Item was cheaper than we thought, and we paid more than necessary */
 	else if ((value < guess) && (price > value))
-		msgt(MSG_STORE2, "%s", ONE_OF(comment_bad));
+		msgt(MSG_STORE2, "%s", _(ONE_OF(comment_bad)));
 
 	/* Item was a good bargain, and we got away with it */
 	else if ((value > guess) && (value < (4 * guess)) && (price < value))
-		msgt(MSG_STORE3, "%s", ONE_OF(comment_good));
+		msgt(MSG_STORE3, "%s", _(ONE_OF(comment_good)));
 
 	/* Item was a great bargain, and we got away with it */
 	else if ((value > guess) && (price < value))
-		msgt(MSG_STORE4, "%s", ONE_OF(comment_great));
+		msgt(MSG_STORE4, "%s", _(ONE_OF(comment_great)));
 }
 
 
@@ -1348,9 +1349,9 @@ static void store_maint(struct store *s)
 			store_delete_random(s);
 
 		if (!restock_attempts)
-			quit_fmt("No se puede (des-)abastecer %s. Por favor, reporta este error",
+			quit_fmt(_("Cannot (de-)stock %s. Please report this bug"),
 				(f_info[s->feat].name) ? f_info[s->feat].name :
-				format("tienda %d", f_info[s->feat].shopnum));
+				format(_("store %d"), f_info[s->feat].shopnum));
 	} else {
 		/* For the Bookseller, occasionally sell a book */
 		if (s->always_num && s->stock_num) {
@@ -1406,9 +1407,9 @@ static void store_maint(struct store *s)
 			store_create_random(s);
 
 		if (!restock_attempts)
-			quit_fmt("No se puede (re-)abastecer %s. Por favor, reporta este error",
+			quit_fmt(_("Cannot (re-)stock %s. Please report this bug"),
 				(f_info[s->feat].name) ? f_info[s->feat].name :
-				format("tienda %d", f_info[s->feat].shopnum));
+				format(_("store %d"), f_info[s->feat].shopnum));
 	}
 }
 
@@ -1417,7 +1418,7 @@ static void store_maint(struct store *s)
  */
 void store_update(void)
 {
-	if (OPT(player, cheat_xtra)) msg("Actualizando tiendas...");
+	if (OPT(player, cheat_xtra)) msg(_("Updating stores..."));
 	while (daycount--) {
 		int n;
 
@@ -1437,7 +1438,7 @@ void store_update(void)
 			int n_without_home = 0;
 
 			/* Message */
-			if (OPT(player, cheat_xtra)) msg("Cambiando a un tendero...");
+			if (OPT(player, cheat_xtra)) msg(_("Changing a shopkeeper..."));
 
 			/* Pick a random shop (except home) */
 			for (n = 0; n < z_info->store_max; n++) {
@@ -1455,7 +1456,7 @@ void store_update(void)
 		}
 	}
 	daycount = 0;
-	if (OPT(player, cheat_xtra)) msg("Listo.");
+	if (OPT(player, cheat_xtra)) msg(_("Done."));
 }
 
 /** Owner stuff **/
@@ -1656,7 +1657,7 @@ void do_cmd_buy(struct command *cmd)
 	struct store *store = store_at(cave, player->grid);
 
 	if (!store) {
-		msg("No puedes comprar objetos cuando no estás en una tienda.");
+		msg(_("You cannot buy items when you are not in a store."));
 		return;
 	}
 
@@ -1666,7 +1667,7 @@ void do_cmd_buy(struct command *cmd)
 		return;
 
 	if (!pile_contains(store->stock, obj)) {
-		msg("No puedes comprar ese objeto porque no está en la tienda.");
+		msg(_("You cannot buy that item because it is not in the store."));
 		return;
 	}
 
@@ -1679,7 +1680,7 @@ void do_cmd_buy(struct command *cmd)
 
 	/* Ensure we have room */
 	if (bought->number > inven_carry_num(player, bought)) {
-		msg("No puedes llevar tantos objetos.");
+		msg(_("You cannot carry that many items."));
 		object_delete(NULL, NULL, &bought);
 		return;
 	}
@@ -1697,7 +1698,7 @@ void do_cmd_buy(struct command *cmd)
 	price = price_item(store, bought, false, bought->number);
 
 	if (price > player->au) {
-		msg("No puedes permitirte esa compra.");
+		msg(_("You cannot afford that purchase."));
 		object_delete(NULL, NULL, &bought);
 		return;
 	}
@@ -1721,9 +1722,9 @@ void do_cmd_buy(struct command *cmd)
       }
 
 	/* Message */
-	if (one_in_(3)) msgt(MSG_STORE5, "%s", ONE_OF(comment_accept));	
+	if (one_in_(3)) msgt(MSG_STORE5, "%s", _(ONE_OF(comment_accept)));
 	//fix traduc
-	msg("Compraste %s por %d de oro.", o_name_final, price);
+	msg(_("You bought %s for %d gold."), o_name_final, price);
 
 	/* Erase the inscription */
 	bought->note = 0;
@@ -1768,11 +1769,11 @@ void do_cmd_buy(struct command *cmd)
 			/* Sometimes shuffle the shopkeeper */
 			if (one_in_(z_info->store_shuffle)) {
 				/* Shuffle */
-				msg("El tendero se jubila.");
+				msg(_("The shopkeeper retires."));
 				store_shuffle(store);
 			} else
 				/* Maintain */
-				msg("El tendero saca algunas existencias nuevas.");
+				msg(_("The shopkeeper brings out some new stock."));
 
 			/* New inventory */
 			for (i = 0; i < 10; ++i)
@@ -1798,7 +1799,7 @@ void do_cmd_retrieve(struct command *cmd)
 	if (!store) return;
 
 	if (store->feat != FEAT_HOME) {
-		msg("No estás actualmente en tu hogar.");
+		msg(_("You are not currently at your home."));
 		return;
 	}
 
@@ -1807,7 +1808,7 @@ void do_cmd_retrieve(struct command *cmd)
 		return;
 
 	if (!pile_contains(store->stock, obj)) {
-		msg("No puedes recuperar ese objeto porque no está en el hogar.");
+		msg(_("You cannot retrieve that item because it is not at home."));
 		return;
 	}
 
@@ -1820,7 +1821,7 @@ void do_cmd_retrieve(struct command *cmd)
 
 	/* Ensure we have room */
 	if (picked_item->number > inven_carry_num(player, picked_item)) {
-		msg("No puedes llevar tantos objetos.");
+		msg(_("You cannot carry that many items."));
 		object_delete(NULL, NULL, &picked_item);
 		return;
 	}
@@ -1897,19 +1898,19 @@ void do_cmd_sell(struct command *cmd)
 
 	/* Cannot remove stickied objects */
 	if (object_is_equipped(player->body, obj) && !obj_can_takeoff(obj)) {
-		msg("Mmm, parece estar pegado.");
+		msg(_("Hmmm, it seems to be stuck."));
 		return;
 	}
 
 	/* Check we are somewhere we can sell the items. */
 	if (!store) {
-		msg("No puedes vender objetos cuando no estás en una tienda.");
+		msg(_("You cannot sell items when you are not in a store."));
 		return;
 	}
 
 	/* Check the store wants the items being sold */
 	if (!store_will_buy(store, obj)) {
-		msg("No deseo comprar este objeto.");
+		msg(_("I do not wish to buy this item."));
 		return;
 	}
 
@@ -1919,7 +1920,7 @@ void do_cmd_sell(struct command *cmd)
 	/* Check if the store has space for the items */
 	if (!store_check_num(store, &dummy_item)) {
 		object_wipe(&dummy_item);
-		msg("No tengo espacio en mi tienda para guardarlo.");
+		msg(_("I have no space in my store to keep it."));
 		return;
 	}
 
@@ -1979,10 +1980,10 @@ void do_cmd_sell(struct command *cmd)
 	/* Describe the result (in message buffer) */
 	if (OPT(player, birth_no_selling)) {
 		//fix traduc
-		msg("Tenías %s (%c).", o_name_final, label);
+		msg(_("You had %s (%c)."), o_name_final, label);
 	} else {
 		//fix traduc
-		msg("Vendiste %s (%c) por %d de oro.", o_name_final, label, price);
+		msg(_("You sold %s (%c) for %d gold."), o_name_final, label, price);
 		/* Analyze the prices (and comment verbally) */
 		purchase_analyze(price, value, dummy);	    
 	}
@@ -2042,13 +2043,13 @@ void do_cmd_stash(struct command *cmd)
 
 	/* Check we are somewhere we can stash items. */
 	if (!store || store->feat != FEAT_HOME) {
-		msg("No estás en tu hogar.");
+		msg(_("You are not at your home."));
 		return;
 	}
 
 	/* Cannot remove stickied objects */
 	if (object_is_equipped(player->body, obj) && !obj_can_takeoff(obj)) {
-		msg("Mmm, parece estar pegado.");
+		msg(_("Hmmm, it seems to be stuck."));
 		return;
 	}	
 
@@ -2062,7 +2063,7 @@ void do_cmd_stash(struct command *cmd)
 	 */
 	object_wipe(&dummy);
 	if (no_room) {
-		msg("Tu hogar está lleno.");
+		msg(_("Your home is full."));
 		return;
 	}
 
@@ -2083,7 +2084,7 @@ void do_cmd_stash(struct command *cmd)
 
 	/* Message */
 	//fix traduc
-	msg("Soltaste %s (%c).", o_name_final, label);
+	msg(_("You dropped %s (%c)."), o_name_final, label);
 
 	/* Handle stuff */
 	handle_stuff(player);

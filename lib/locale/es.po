@@ -1,0 +1,6671 @@
+# Spanish translation for Angband
+# msgid  = original English string (used as key in source code)
+# msgstr = Spanish translation
+
+# --- main-win.c: error/system messages ---
+
+msgid "Cannot find required file:\n%s"
+msgstr "No se puede encontrar el archivo requerido:\n%s"
+
+msgid "Cannot find required directory:\n%s"
+msgstr "No se puede encontrar el directorio requerido:\n%s"
+
+msgid "Please switch to high- or true-color mode."
+msgstr "Por favor, cambia al modo de color alto o color verdadero."
+
+msgid "Cannot create palette!"
+msgstr "¡No se puede crear la paleta de colores!"
+
+msgid "Cannot realize palette!"
+msgstr "¡No se puede activar la paleta de colores!"
+
+msgid "Cannot activate palette!"
+msgstr "¡No se puede activar la paleta de colores!"
+
+msgid "invalid tile prefname '%s'"
+msgstr "nombre de preferencia de tile inválido '%s'"
+
+msgid "invalid tile dimensions in tileset: '%s'"
+msgstr "dimensiones de tile inválidas en el conjunto de tiles: '%s'"
+
+msgid "could not find graphics mode"
+msgstr "no se pudo encontrar el modo gráfico"
+
+msgid "Cannot read file '%s'"
+msgstr "No se puede leer el archivo '%s'"
+
+msgid "Cannot read premultiplied version of file '%s'"
+msgstr "No se puede leer la versión premultiplicada del archivo '%s'"
+
+msgid "Cannot write premultiplied version of file '%s'"
+msgstr "No se puede escribir la versión premultiplicada del archivo '%s'"
+
+msgid "Sound: Oops - Unsupported file type"
+msgstr "Sonido: Error - Tipo de archivo no compatible"
+
+msgid "Cannot initialize graphics!"
+msgstr "¡No se pueden inicializar los gráficos!"
+
+msgid "Failed to create sub-window"
+msgstr "Error al crear la subventana"
+
+msgid "Failed to create %s window"
+msgstr "Error al crear la ventana %s"
+
+msgid "You cannot do that yet..."
+msgstr "Todavía no puedes hacer eso..."
+
+msgid "You can't start a new game while you're still playing!"
+msgstr "No puedes iniciar una nueva partida mientras sigues jugando."
+
+msgid "You can't open a new game while you're still playing!"
+msgstr "No puedes abrir una nueva partida mientras sigues jugando."
+
+msgid "You may not do that right now."
+msgstr "No puedes hacer eso en este momento."
+
+msgid "You are not allowed to do that!"
+msgstr "¡No tienes permiso para hacer eso!"
+
+msgid "This will reset the size and layout of the angband windows\n based on your screen size. Do you want to continue?"
+msgstr "Esto restablecerá el tamaño y la disposición de las ventanas de Angband\n según el tamaño de tu pantalla. ¿Deseas continuar?"
+
+msgid "Failed to create saver window"
+msgstr "Error al crear la ventana del salvapantallas"
+
+msgid "Screenshot Save Failed."
+msgstr "Error al guardar la captura de pantalla."
+
+msgid "Please exit any open menus before closing the game."
+msgstr "Por favor, cierra todos los menus abiertos antes de salir del juego."
+
+msgid "Graphics list load failed"
+msgstr "Error al cargar la lista de modos gráficos"
+
+msgid "[Choose 'New' or 'Open' from the 'File' menu]"
+msgstr "[Selecciona 'Nuevo' u 'Abrir' desde menú 'Archivo']"
+
+msgid "Another instance of the game appears to using that savefile.  If that's incorrect, delete %s and retry."
+msgstr "Otra instancia del juego parece estar usando ese archivo de partida. Si eso es incorrecto, elimina %s e intentalo de nuevo."
+
+# MessageBox titles
+msgid "Warning"
+msgstr "Advertencia"
+
+# --- Menu strings (used by rebuild_menus in main-win.c) ---
+
+msgid "&File"
+msgstr "&Archivo"
+
+msgid "&New\tCtrl+N"
+msgstr "&Nuevo\tCtrl+N"
+
+msgid "&Open...\tCtrl+O"
+msgstr "&Abrir...\tCtrl+O"
+
+msgid "&Save\tCtrl+S"
+msgstr "&Guardar\tCtrl+S"
+
+msgid "E&xit\tCtrl+X"
+msgstr "S&alir\tCtrl+X"
+
+msgid "&Window"
+msgstr "&Ventana"
+
+msgid "&Visibility"
+msgstr "&Visibilidad"
+
+msgid "Term-%d window"
+msgstr "Ventana Term-%d"
+
+msgid "&Font"
+msgstr "&Fuente"
+
+msgid "Bizarre Display"
+msgstr "Pantalla alternativa"
+
+msgid "Increase Tile Width"
+msgstr "Aumentar ancho de celda"
+
+msgid "Decrease Tile Width"
+msgstr "Reducir ancho de celda"
+
+msgid "Increase Tile Height"
+msgstr "Aumentar alto de celda"
+
+msgid "Decrease Tile Height"
+msgstr "Reducir alto de celda"
+
+msgid "Term 0 Font Tile Size"
+msgstr "Tamaño de celda fuente Term 0"
+
+msgid "Font"
+msgstr "Fuente"
+
+msgid "Term Options"
+msgstr "Opciones de ventana"
+
+msgid "Reset Layout"
+msgstr "Restablecer diseño"
+
+msgid "&Options"
+msgstr "&Opciones"
+
+msgid "&Graphics"
+msgstr "&Gráficos"
+
+msgid "&None"
+msgstr "&Ninguno"
+
+msgid "Enable nice &graphics"
+msgstr "Gráficos &mejorados"
+
+msgid "&Tile Multiplier"
+msgstr "&Multiplicador de celda"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "English"
+msgstr "Inglés"
+
+msgid "Spanish"
+msgstr "Español"
+
+msgid "The game will save and restart to apply the language change.\n\nWarning: save files created in the current language may not load correctly after switching languages."
+msgstr "El juego se guardará y reiniciará para aplicar el cambio de idioma.\n\nAdvertencia: los archivos de guardado creados en el idioma actual pueden no cargarse correctamente al cambiar de idioma."
+
+msgid "Low Priority"
+msgstr "Prioridad baja"
+
+msgid "Activate Screensaver"
+msgstr "Activar salvapantallas"
+
+msgid "&Screenshot"
+msgstr "Ca&ptura de pantalla"
+
+msgid "&Help"
+msgstr "A&yuda"
+
+msgid "&Contents"
+msgstr "&Contenidos"
+
+# --- cmd-obj.c / obj-desc.c / player-attack.c / player-util.c / ui-spell.c ---
+
+msgid "You see %s."
+msgstr "Ves1 %s."
+
+msgid "You have %s (1st %c)."
+msgstr "Tienes %s (1er %c)."
+
+msgid "You have discovered %s (%c)."
+msgstr "Descubriste %s (%c)."
+
+msgid "Read which scroll? "
+msgstr "¿Qué pergamino leer? "
+
+msgid "You have no scrolls to read."
+msgstr "No tienes pergaminos para leer."
+
+msgid "Quaff which potion? "
+msgstr "¿Qué poción beber? "
+
+msgid "You have no potions from which to quaff."
+msgstr "No tienes pociones para beber."
+
+msgid " of %s"
+msgstr " de %s"
+
+msgid " (%d turns)"
+msgstr " (%d turnos)"
+
+msgid "You have nothing to fire with."
+msgstr "No tienes nada con qué disparar."
+
+msgid "You cannot pray or produce magics."
+msgstr "No puedes rezar o producir magias."
+
+msgid "Browse which book? "
+msgstr "¿Qué libro examinar? "
+
+msgid "You have no books that you can read."
+msgstr "No tienes libros que puedas leer."
+
+# --- score.c / ui-command.c / ui-help.c / ui-input.c / ui-knowledge.c ---
+
+msgid "Score not registered for cheaters."
+msgstr "Puntuación no registrada para tramposos."
+
+msgid "Score not registered for wizards."
+msgstr "Puntuación no registrada para magos."
+
+msgid "Score not registered for borgs."
+msgstr "Puntuación no registrada para borgs."
+
+msgid "Score not registered due to interruption."
+msgstr "Puntuación no registrada debido a interrupción."
+
+msgid "Score not registered due to retirement."
+msgstr "Puntuación no registrada debido a retirada."
+
+msgid "Do you want to delete your character? "
+msgstr "¿Quieres eliminar tu personaje? "
+
+msgid "Do you really want to delete your character?"
+msgstr "¿Realmente quieres eliminar tu personaje?"
+
+msgid "Please verify THAT YOU ARE RETIRING FROM THIS CHARACTER by typing the '@' symbol: "
+msgstr "Por favor, verifica QUE TE RETIRAS DE ESTE PERSONAJE escribiendo el símbolo '@': "
+
+msgid "[%s, %s, Line %d-%d/%d]"
+msgstr "[%s, %s, Línea %d-%d/%d]"
+
+msgid "[Press a Letter, or ESC to exit.]"
+msgstr "[Pulsa una Letra, o ESC para salir.]"
+
+msgid "[Press ESC to exit.]"
+msgstr "[Pulsa ESC para salir.]"
+
+msgid "[Press Space to advance, or ESC to exit.]"
+msgstr "[Pulsa Espacio para avanzar, o ESC para salir.]"
+
+msgid "Accept"
+msgstr "Aceptar"
+
+msgid "Set to random name"
+msgstr "Establecer nombre aleatorio"
+
+msgid "Clear name"
+msgstr "Borrar nombre"
+
+msgid "Enter a name for your character (* for a random name): "
+msgstr "Introduce un nombre para tu personaje (* aleatorio): "
+
+msgid "File name: "
+msgstr "Nombre de archivo: "
+
+msgid "y/n"
+msgstr "s/n"
+
+msgid "Message recall (%d-%d of %d), offset %d"
+msgstr "Recuerdo de mensajes (%d-%d de %d), desplazamiento %d"
+
+msgid "[Movement keys to navigate, '-' for next, '=' to search]"
+msgstr "[Teclas de movimiento para navegar, '-' para siguiente, '=' para buscar]"
+
+msgid "[Movement keys to navigate, '=' to search, or ESCAPE to exit]"
+msgstr "[Teclas de movimiento para navegar, '=' para buscar, o ESCAPE para salir]"
+
+msgid "Select Item:"
+msgstr "Seleccionar Objeto:"
+
+# --- ui-death.c / ui-display.c ---
+
+msgid "Character dump successful."
+msgstr "Volcado de personaje exitoso."
+
+msgid "Character dump failed!"
+msgstr "¡Volcado de personaje falló!"
+
+msgid "Your home contains (page %d): -more-"
+msgstr "Tu hogar contiene (página %d): -más-"
+
+msgid "Examine which item? "
+msgstr "¿Qué objeto examinar? "
+
+msgid "You have nothing to examine."
+msgstr "No tienes nada que examinar."
+
+msgid "the"
+msgstr "el"
+
+msgid "Magnificent"
+msgstr "Magnífico"
+
+msgid "Level: %d"
+msgstr "Nivel: %d"
+
+msgid "Retired on Level %d"
+msgstr "Retirado en el Nivel %d"
+
+msgid "Killed on Level %d"
+msgstr "Matado en el Nivel %d"
+
+msgid "by %s."
+msgstr "por %s."
+
+msgid "on %-.24s"
+msgstr "el %-.24s"
+
+msgid "All Hail the Mighty Champion!"
+msgstr "¡Todos alaben al Poderoso Campeón!"
+
+msgid "Press any key to see more information: "
+msgstr "Pulsa cualquier tecla para ver más información: "
+
+msgid "You are wielding: -more-"
+msgstr "Estás usando: -más-"
+
+msgid "You are carrying: -more-"
+msgstr "Llevas: -más-"
+
+msgid "Your quiver contains: -more-"
+msgstr "Tu carcaj contiene: -más-"
+
+msgid "Start a new game? "
+msgstr "¿Empezar una nueva partida? "
+
+msgid "Do you want to quit? "
+msgstr "¿Quieres salir? "
+
+msgid "[=-WIZARD-=]"
+msgstr "[=-MAGO-=]"
+
+msgid "***WINNER***"
+msgstr "***GANADOR***"
+
+msgid "LEVEL "
+msgstr "NIVEL "
+
+msgid "Level "
+msgstr "Nivel "
+
+msgid "NXT"
+msgstr "SIG"
+
+msgid "Nxt"
+msgstr "Sig"
+
+msgid "Town"
+msgstr "Ciudad"
+
+msgid "Light"
+msgstr "Luz"
+
+# --- ui-object.c / ui-birth.c ---
+
+msgid "Burden %s (%s %s) "
+msgstr "Carga %s (%s %s) "
+
+msgid "overweight"
+msgstr "sobrecargado"
+
+msgid "remaining"
+msgstr "restantes"
+
+msgid " / for Equip,"
+msgstr " / para Equip,"
+
+msgid " | for Quiver,"
+msgstr " | para Carcaj,"
+
+msgid " - for floor,"
+msgstr " - para suelo,"
+
+msgid " / for Inven,"
+msgstr " / para Inven,"
+
+msgid "Quiver:"
+msgstr "Carcaj:"
+
+msgid "Throwing items:"
+msgstr "Objetos para lanzar:"
+
+msgid "Floor:"
+msgstr "Suelo:"
+
+msgid "Ignore which item? "
+msgstr "¿Qué objeto ignorar? "
+
+msgid "You have nothing to ignore."
+msgstr "No tienes nada que ignorar."
+
+msgid "['Y': use as is; 'N': redo; 'C': change name/history; '=': set birth options]"
+msgstr "['S': usar; 'N': rehacer; 'C': cambiar nombre/historia; '=': opciones]"
+
+msgid "New character based on previous one:"
+msgstr "¿Nuevo personaje basado en anterior?:"
+
+msgid "Hit/Shoot/Throw: %+d/%+d/%+d\n"
+msgstr "Golpear/Disparar/Lanzar: %+d/%+d/%+d\n"
+
+msgid "Hit die: %2d   XP mod: %d%%\n"
+msgstr "Dado de golpe: %2d   Modificador EXP: %d%%\n"
+
+msgid "Disarm: %+3d/%+3d   Devices: %+3d\n"
+msgstr "Desarmar: %+3d/%+3d   Dispositivos: %+3d\n"
+
+msgid "Save:   %+3d   Stealth: %+3d\n"
+msgstr "Salvación:   %+3d   Sigilo: %+3d\n"
+
+msgid "Infravision:  %d ft\n"
+msgstr "Infravisión:  %d pies\n"
+
+msgid "Digging:      %+d\n"
+msgstr "Excavar:      %+d\n"
+
+msgid "Search:       %+d"
+msgstr "Buscar:       %+d"
+
+msgid "Str: "
+msgstr "Fue: "
+
+msgid "Wis: "
+msgstr "Sab: "
+
+msgid "Dex: "
+msgstr "Des: "
+
+msgid "STR: "
+msgstr "FUE: "
+
+msgid "WIS: "
+msgstr "SAB: "
+
+msgid "DEX: "
+msgstr "DES: "
+
+msgid "\nLearns %s magic"
+msgstr "\nAprende magia %s"
+
+msgid "Select one at random"
+msgstr "Seleccionar uno al azar"
+
+msgid "Point-based"
+msgstr "Basado en puntos"
+
+msgid "Standard roller"
+msgstr "Generador estándar"
+
+msgid "Race affects stats and skills, and may confer resistances and abilities."
+msgstr "La raza afecta a las estadísticas y habilidades, da resistencias y capacidades."
+
+msgid "Class affects stats, skills, and other character traits."
+msgstr "La clase afecta a las estadísticas, habilidades y otros rasgos del personaje."
+
+msgid "Choose how to generate your intrinsic stats. Point-based is recommended."
+msgstr "Elige cómo generar tus estadísticas. Se recomienda el basado en puntos."
+
+msgid "{light blue}Please select your character traits from the menus below:{/}\n\nUse the {light green}movement keys{/} to scroll the menu, {light green}Enter{/} to select the current menu item, '{light green}*{/}' for a random menu item, '{light green}@{/}' to finish the character with random selections, '{light green}ESC{/}' to step back through the birth process, '{light green}={/}' for the birth options, '{light green}?{/}' for help, or '{light green}Ctrl-X{/}' to quit."
+msgstr "{light blue}Por favor, selecciona los rasgos de tu personaje:{/}\n\nUsa las {light green}teclas de movimiento{/} para desplazarte por el menú, {light green}Enter{/} para seleccionar el elemento, '{light green}*{/}' para usar una opción aleatoria, '{light green}@{/}' para armar el personaje completo de forma aleatoria, '{light green}ESC{/}' para retroceder en el proceso, '{light green}={/}' para ver opciones de nacimiento, '{light green}?{/}' para ayuda, o '{light green}Ctrl-X{/}' para salir."
+
+msgid "['r' to reroll"
+msgstr "['r' para tirar"
+
+msgid ", 'p' for previous roll"
+msgstr ", 'p' tirada anterior"
+
+msgid " or 'Enter' to accept]"
+msgstr " o 'Enter' para aceptar]"
+
+msgid "Reroll"
+msgstr "Volver a tirar"
+
+msgid "Retrieve previous"
+msgstr "Recuperar anterior"
+
+msgid "Quit"
+msgstr "Salir"
+
+msgid "Help"
+msgstr "Ayuda"
+
+msgid "Cost"
+msgstr "Coste"
+
+msgid "Total Cost: %2d/%2d"
+msgstr "Coste Total: %2d/%2d"
+
+msgid "[up/down to move, left/right to modify, 'r' to reset, 'Enter' to accept]"
+msgstr "[arr/aba mover, izq/der cambiar, 'r' reiniciar, 'Enter' aceptar]"
+
+msgid "Sell"
+msgstr "Vender"
+
+msgid "Buy"
+msgstr "Comprar"
+
+msgid "Reset"
+msgstr "Reiniciar"
+
+msgid "A savefile for that name exists.  Overwrite it? "
+msgstr "¿Ya existe un archivo guardado para ese nombre. ¿Sobrescribirlo? "
+
+msgid "Accept character history? [y/n]"
+msgstr "¿Aceptar la historia del personaje? [s/n]"
+
+msgid "['ESC' to step back, 'S' to start over, or any other key to continue]"
+msgstr "['ESC' volver, 'S' empezar de nuevo, otra tecla para continuar]"
+
+# --- ui-player.c / ui-score.c ---
+
+msgid "Very Bad"
+msgstr "Muy Malo"
+
+msgid "Bad"
+msgstr "Malo"
+
+msgid "Poor"
+msgstr "Bajo"
+
+msgid "Fair"
+msgstr "Normal"
+
+msgid "Good"
+msgstr "Bueno"
+
+msgid "Very Good"
+msgstr "Muy Bueno"
+
+msgid "Excellent"
+msgstr "Excelente"
+
+msgid "Superb"
+msgstr "Magnífico"
+
+msgid "Heroic"
+msgstr "Heroico"
+
+msgid "Legendary"
+msgstr "Legendario"
+
+msgid "  Self"
+msgstr "  Prop"
+
+msgid "  Best"
+msgstr "  Mejo"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Race"
+msgstr "Raza"
+
+msgid "Class"
+msgstr "Clases"
+
+msgid "Title"
+msgstr "Título"
+
+msgid "Level"
+msgstr "Nivel"
+
+msgid "Cur Exp"
+msgstr "Exp Actual"
+
+msgid "Adv Exp"
+msgstr "Sig Exp"
+
+msgid "Gold"
+msgstr "Oro"
+
+msgid "Burden"
+msgstr "Carga"
+
+msgid "Overweight"
+msgstr "Sobrepeso"
+
+msgid "Max Depth"
+msgstr "Prof Máxima"
+
+msgid "Armor"
+msgstr "Armadura"
+
+msgid "To-hit"
+msgstr "Daño"
+
+msgid "Blows"
+msgstr "Golpes"
+
+msgid "Shoot to-dam"
+msgstr "Disparo"
+
+msgid "Shots"
+msgstr "Tiros"
+
+msgid "Saving Throw"
+msgstr "Tiro salvación"
+
+msgid "Stealth"
+msgstr "Sigilo"
+
+msgid "Disarm - phys."
+msgstr "Desarme físico"
+
+msgid "Disarm - magic"
+msgstr "Desarme mágico"
+
+msgid "Magic Devices"
+msgstr "Disp. Mágicos"
+
+msgid "Searching"
+msgstr "Búsqueda"
+
+msgid "Infravision"
+msgstr "Infravisión"
+
+msgid "Speed"
+msgstr "Velocidad"
+
+msgid "Age"
+msgstr "Edad"
+
+msgid "Height"
+msgstr "Altura"
+
+msgid "Weight"
+msgstr "Peso"
+
+msgid "Turns used:"
+msgstr "Turnos usados:"
+
+msgid "Game"
+msgstr "Juego"
+
+msgid "Standard"
+msgstr "Estándar"
+
+msgid "Resting"
+msgstr "Descansando"
+
+msgid "  [Last Messages]\n\n"
+msgstr "  [Últimos Mensajes]\n\n"
+
+msgid "\nRetired.\n\n"
+msgstr "\nRetirado.\n\n"
+
+msgid "\nKilled by %s.\n\n"
+msgstr "\nMuerto por %s.\n\n"
+
+msgid "['c' to change name, 'f' to file, 'h' to change mode, or ESC]"
+msgstr "['c' cambiar nombre, 'f' archivo, 'h' cambiar modo, o ESC]"
+
+msgid "You are not allowed to change your name!"
+msgstr "¡No puedes cambiar tu nombre!"
+
+msgid "%3d.%9s  %s %s %s, level %d"
+msgstr "%3d.%9s  %s %s %s, nivel %d"
+
+msgid "<none>"
+msgstr "<ninguna>"
+
+msgid " (Max %d)"
+msgstr " (Máx %d)"
+
+msgid "Killed by %s in the town"
+msgstr "Matado por %s en la ciudad"
+
+msgid "Killed by %s on dungeon level %d"
+msgstr "Matado por %s en el nivel de mazmorra %d"
+
+msgid "(User %s, Date %s, Gold %s, Turn %s)."
+msgstr "(Usuario %s, Fecha %s, Oro %s, Turno %s)."
+
+msgid "%s Hall of Fame (from position %d)"
+msgstr "%s Salón de la Fama (desde la posición %d)"
+
+msgid "%s Hall of Fame"
+msgstr "%s Salón de la Fama"
+
+msgid "[Press ESC to exit, up for previous page, any key for next page.]"
+msgstr "[Pulsa ESC para salir, arriba para página anterior, otra tecla para página sgte.]"
+
+msgid "[Press ESC to exit, any other key to advance pages until done.]"
+msgstr "[Pulsa ESC para salir, otra tecla para av. página hasta salir.]"
+
+msgid "nobody (yet!)"
+msgstr "nadie (¡todavía!)"
+
+msgid "Nobody has killed you in the town (yet!)"
+msgstr "Nadie lo ha matado (¡todavía!) en la ciudad"
+
+msgid "Nobody has killed you on dungeon level %d (yet!)"
+msgstr "Nadie lo ha matado (¡todavía!) en el nivel %d de la mazmorra"
+
+# --- ui-death.c (follow-up pass) ---
+
+msgid "Character dump successful."
+msgstr "Volcado de personaje exitoso."
+
+msgid "Character dump failed!"
+msgstr "¡Volcado de personaje falló!"
+
+msgid "Your home contains (page %d): -more-"
+msgstr "Tu hogar contiene (página %d): -más-"
+
+msgid "Examine which item? "
+msgstr "¿Qué objeto examinar? "
+
+msgid "You have nothing to examine."
+msgstr "No tienes nada que examinar."
+
+# --- ui-input.c: the "-more-" pager prompt ---
+
+msgid "-more-"
+msgstr "-más-"
+
+# --- ui-history.c / player-birth.c / player.c / mon-util.c: history log ---
+
+msgid "[Character History]"
+msgstr "[Historial del jugador]"
+
+msgid "      Turn    Depth   Note"
+msgstr "      Turno  Profund.  Nota"
+
+msgid " (LOST)"
+msgstr " (PERDIDO)"
+
+msgid "[Arrows to scroll, p/PgUp previous page, n/PgDn next page, ESC to exit.]"
+msgstr "[Flechas para desplazar, p/RePág página anterior, n/AvPág página sgte., ESC para salir.]"
+
+msgid "[Character History]\n"
+msgstr "[Historial del jugador]\n"
+
+msgid "      Turn    Depth   Note\n"
+msgstr "      Turno  Profund.  Nota\n"
+
+msgid "Began the quest to destroy Morgoth."
+msgstr "Comenzó la misión de destruir a Morgoth."
+
+msgid "Reached level %d"
+msgstr "Alcanzado el nivel %d"
+
+msgid "Slew %s"
+msgstr "Mató a %s"
+
+# --- ui-spoil.c / wiz-spoil.c: spoiler generation menu ---
+
+msgid "Brief info on objects (obj-desc.spo)"
+msgstr "Información breve de objetos (obj-desc.spo)"
+
+msgid "Brief info on artifacts (artifact.spo)"
+msgstr "Información breve de artefactos (artifact.spo)"
+
+msgid "Brief info on monsters (mon-desc.spo)"
+msgstr "Información breve de monstruos (mon-desc.spo)"
+
+msgid "Full info on monsters (mon-info.spo)"
+msgstr "Información completa de monstruos (mon-info.spo)"
+
+msgid "Create spoilers"
+msgstr "Crear spoilers"
+
+msgid "Successfully created a spoiler file."
+msgstr "Archivo de spoiler creado correctamente."
+
+# --- ui-context.c: right-click / context menus ---
+
+msgid "Knowledge"
+msgstr "Conocimiento"
+
+msgid "Show Map"
+msgstr "Mostrar Mapa"
+
+msgid "^Show Messages"
+msgstr "^Mostrar Mensajes"
+
+msgid "Show Monster List"
+msgstr "Mostrar Lista de Monstruos"
+
+msgid "Show Object List"
+msgstr "Mostrar Lista de Objetos"
+
+msgid "Toggle Ignore"
+msgstr "Alternar Ignorado"
+
+msgid "Ignore an Item"
+msgstr "Ignorar un objeto"
+
+msgid "Options"
+msgstr "Opciones"
+
+msgid "Commands"
+msgstr "Comandos"
+
+msgid "(Enter to select, ESC) Command:"
+msgstr "(Enter para seleccionar, ESC) Comando:"
+
+msgid "(Inventory) Weight %d.%d lb (%d.%d lb %s). Item for command: "
+msgstr "(Inventario) Carga %d.%d lb (%d.%d lb %s). Objeto para comando: "
+
+msgid "overweight"
+msgstr "sobrecargado"
+
+msgid "remaining"
+msgstr "restante"
+
+msgid "Use"
+msgstr "Usar"
+
+msgid "Cast"
+msgstr "Lanzar"
+
+msgid "Go Up"
+msgstr "Subir"
+
+msgid "Go Down"
+msgstr "Bajar"
+
+msgid "Explore"
+msgstr "Explorar"
+
+msgid "Look"
+msgstr "Mirar"
+
+msgid "Rest"
+msgstr "Descansar"
+
+msgid "Inventory"
+msgstr "Inventario"
+
+msgid "Floor"
+msgstr "Suelo"
+
+msgid "Pick Up"
+msgstr "Recoger"
+
+msgid "Character"
+msgstr "Personaje"
+
+msgid "^Center Map"
+msgstr "^Centrar Mapa"
+
+msgid "Other"
+msgstr "Otro"
+
+msgid "Target Selected."
+msgstr "Objetivo Seleccionado."
+
+msgid "Recall Info"
+msgstr "Recordar Info"
+
+msgid "Use Item On"
+msgstr "Usar Objeto En"
+
+msgid "Cast On"
+msgstr "Lanzar Sobre"
+
+msgid "Attack"
+msgstr "Atacar"
+
+msgid "Alter"
+msgstr "Alterar"
+
+msgid "Disarm Chest"
+msgstr "Desarmar Cofre"
+
+msgid "Open Chest"
+msgstr "Abrir Cofre"
+
+msgid "Open Disarmed Chest"
+msgstr "Abrir Cofre Desarmado"
+
+msgid "Steal"
+msgstr "Robar"
+
+msgid "Disarm"
+msgstr "Desarmar"
+
+msgid "Jump Onto"
+msgstr "Saltar Sobre"
+
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "Open"
+msgstr "Abrir"
+
+msgid "Lock"
+msgstr "Cerrar con Llave"
+
+msgid "Tunnel"
+msgstr "Excavar"
+
+msgid "Walk To"
+msgstr "Caminar Hacia"
+
+msgid "Find Path To"
+msgstr "Encontrar Ruta Hasta"
+
+msgid "Run To"
+msgstr "Correr Hacia"
+
+msgid "Fire At"
+msgstr "Disparar Sobre"
+
+msgid "Throw At"
+msgstr "Lanzar A"
+
+msgid "(Enter to select command, ESC to cancel) You see something strange:"
+msgstr "(Enter para seleccionar comando, ESC para cancelar) Ves algo extraño:"
+
+msgid "(Enter to select command, ESC to cancel) You see %s:"
+msgstr "(Enter para seleccionar comando, ESC para cancelar) Ves %s:"
+
+msgid "(Enter to select command, ESC to cancel) You see %s%s:"
+msgstr "(Enter para seleccionar comando, ESC para cancelar) Ves %s%s:"
+
+msgid "Inspect"
+msgstr "Inspeccionar"
+
+msgid "Study"
+msgstr "Estudiar"
+
+msgid "Browse"
+msgstr "Examinar"
+
+msgid "Aim"
+msgstr "Apuntar"
+
+msgid "Zap Rod"
+msgstr "Activar"
+
+msgid "Read"
+msgstr "Leer"
+
+msgid "Quaff"
+msgstr "Beber"
+
+msgid "Eat"
+msgstr "Comer"
+
+msgid "Activate"
+msgstr "Activar"
+
+msgid "Fire"
+msgstr "Disparar"
+
+msgid "Refuel"
+msgstr "Recargar"
+
+msgid "Take Off"
+msgstr "Quitar"
+
+msgid "Wear"
+msgstr "Equipar"
+
+msgid "Drop"
+msgstr "Soltar"
+
+msgid "Drop All"
+msgstr "Soltar Todo"
+
+msgid "Sell"
+msgstr "Vender"
+
+msgid "Throw"
+msgstr "Lanzar"
+
+msgid "Inscribe"
+msgstr "Inscribir"
+
+msgid "Uninscribe"
+msgstr "Desinscribir"
+
+msgid "Unignore"
+msgstr "Dejar de Ignorar"
+
+msgid "Ignore"
+msgstr "Ignorar"
+
+msgid "(Enter to select, ESC) Command for %s:"
+msgstr "(Enter para seleccionar, ESC) Comando para %s:"
+
+msgid "Item"
+msgstr "Objeto"
+
+msgid "Action"
+msgstr "Acción"
+
+msgid "Object Management"
+msgstr "Gestión de Objetos"
+
+msgid "Information"
+msgstr "Información"
+
+msgid "Utilities"
+msgstr "Utilidades"
+
+msgid "Miscellaneous"
+msgstr "Miscelánea"
+
+# --- obj-info.c: item inspection/description screen ---
+
+msgid "Causes "
+msgstr "Hace que "
+
+msgid "; this curse cannot be removed"
+msgstr "; esta maldición no se puede eliminar"
+
+msgid "Affects your %s\n"
+msgstr "Afecta a tu %s\n"
+
+msgid "Grants immunity to "
+msgstr "Otorga inmunidad a "
+
+msgid "Grants resistance to "
+msgstr "Otorga resistencia a "
+
+msgid "Makes you vulnerable to "
+msgstr "Te hace vulnerable a "
+
+msgid "Grants protection from "
+msgstr "Otorga protección contra "
+
+msgid "Cannot be damaged by "
+msgstr "No puede ser dañado por "
+
+msgid "Can be destroyed by "
+msgstr "Puede ser destruido por "
+
+msgid "Sustains "
+msgstr "Sustenta "
+
+msgid "Slays "
+msgstr "Aniquila a "
+
+msgid "Makes your melee attacks slay "
+msgstr "Hace que tus ataques cuerpo a cuerpo aniquilen a "
+
+msgid " (powerfully)"
+msgstr " (poderosamente)"
+
+msgid "Brands your blows with "
+msgstr "Marca tus golpes con "
+
+msgid "Makes your melee attacks brand with "
+msgstr "Hace que tus ataques cuerpo a cuerpo se marquen con "
+
+msgid "weak "
+msgstr "débil "
+
+msgid "blow%s/round.\n"
+msgstr "golpe%s/ronda.\n"
+
+msgid "With +%d STR and +%d DEX you would get %d.%d blows\n"
+msgstr "Con +%d FUE y +%d DES obtendrías %d.%d golpes\n"
+
+msgid "With +%d STR and +%d DEX you would attack a bit faster\n"
+msgstr "Con +%d FUE y +%d DES atacarías un poco más rápido\n"
+
+msgid "This weapon may benefit from one or more off-weapon brands or slays.\n"
+msgstr "Esta arma puede beneficiarse de una o más marcas o ataques especiales fuera del arma.\n"
+
+msgid "Average damage when thrown: "
+msgstr "Daño medio al arrojar: "
+
+msgid "Average damage/round: "
+msgstr "Daño medio/ronda: "
+
+msgid " and"
+msgstr " y"
+
+msgid " creatures not resistant to"
+msgstr " criaturas no resistentes a"
+
+msgid "%d.%d against"
+msgstr "%d.%d contra"
+
+msgid "%d against"
+msgstr "%d contra"
+
+msgid " and "
+msgstr " y "
+
+msgid ", and "
+msgstr ", y "
+
+msgid " against others"
+msgstr " contra otros"
+
+msgid "Can be thrown at creatures for a damaging effect.\n"
+msgstr "Puede ser arrojado a criaturas con efecto dañino.\n"
+
+msgid "Combat info:\n"
+msgstr "Información de combate:\n"
+
+msgid "You are too weak to use this weapon.\n"
+msgstr "Eres demasiado débil para usar esta arma.\n"
+
+msgid "When fired, hits targets up to "
+msgstr "Al disparar, alcanza objetivos hasta "
+
+msgid " feet away.\n"
+msgstr " pies de distancia.\n"
+
+msgid " chance of breaking upon contact.\n"
+msgstr " de probabilidad de romperse al contacto.\n"
+
+msgid "rubble"
+msgstr "escombros"
+
+msgid "magma veins"
+msgstr "vetas de magma"
+
+msgid "quartz veins"
+msgstr "vetas de cuarzo"
+
+msgid "granite"
+msgstr "granito"
+
+msgid "Clears "
+msgstr "Limpia "
+
+msgid "With this item, your current weapon clears "
+msgstr "Con este objeto, tu arma actual limpia "
+
+msgid "and "
+msgstr "y "
+
+msgid "does not affect "
+msgstr "no afecta a "
+
+msgid "%s in "
+msgstr "%s en "
+
+msgid "turn%s%s"
+msgstr "turno%s%s"
+
+msgid "Light of intensity "
+msgstr "Luz de intensidad "
+
+msgid "  Requires no fuel."
+msgstr "  No requiere combustible."
+
+msgid "  Refuels other lanterns up to %d turns of fuel."
+msgstr "  Recarga otras linternas hasta %d turnos de combustible."
+
+msgid "  Cannot be refueled."
+msgstr "  No se puede recargar."
+
+msgid "\nYou can read this book.\n"
+msgstr "\nPuedes leer este libro.\n"
+
+msgid "It can be eaten.\n"
+msgstr "Puede ser comido.\n"
+
+msgid "It can be drunk.\n"
+msgstr "Puede ser bebido.\n"
+
+msgid "It can be read.\n"
+msgstr "Puede ser leído.\n"
+
+msgid "It can be aimed.\n"
+msgstr "Puede ser dirigido.\n"
+
+msgid "It can be activated.\n"
+msgstr "Puede ser activado.\n"
+
+msgid "When activated, "
+msgstr "Cuando se activa, "
+
+msgid "When aimed, "
+msgstr "Al apuntar, "
+
+msgid "When eaten, "
+msgstr "Al comer, "
+
+msgid "When drunk, "
+msgstr "Al beber, "
+
+msgid "When read, "
+msgstr "Cuando se lee, "
+
+msgid "Takes "
+msgstr "Tarda "
+
+msgid " to "
+msgstr " a "
+
+msgid " turns to recharge"
+msgstr " turnos en recargarse"
+
+msgid " at your current speed"
+msgstr " a tu velocidad actual"
+
+msgid "The success chance is %d.%d%%\n"
+msgstr "La probabilidad de éxito es del %d.%d%%\n"
+
+msgid "at %d feet (level %d)"
+msgstr "a %d pies (nivel %d)"
+
+msgid "in town"
+msgstr "en la ciudad"
+
+msgid "a monster lost to history"
+msgstr "monstruo perdido en la historia"
+
+msgid "a "
+msgstr "un "
+
+msgid "Provides a random high resistance.  "
+msgstr "Proporciona una resistencia superior aleatoria.  "
+
+msgid "Provides a random sustain.  "
+msgstr "Proporciona una sustentación aleatoria.  "
+
+msgid "Provides a random power.  "
+msgstr "Proporciona una habilidad aleatoria.  "
+
+msgid "Provides a random power or basic resistance.  "
+msgstr "Proporciona una habilidad aleatoria o resistencia base.  "
+
+msgid "Burns without using fuel.  "
+msgstr "Arde eternamente sin combustible.  "
+
+msgid "\n\nYou do not know what this is.\n"
+msgstr "\n\nNo sabes qué es esto.\n"
+
+msgid "You do not know the full extent of this object's powers.\n"
+msgstr "Desconoces todo el potencial de este objeto.\n"
+
+msgid "\n\nThis object does not appear to possess any special abilities."
+msgstr "\n\nEste objeto no parece poseer ninguna habilidad especial."
+
+msgid "Error: the array of object types no longer contains the first type that can have this ego."
+msgstr "Error: el array de tipos de objetos ya no contiene el primer tipo que puede tener este ego."
+
+msgid "This ego does not appear on any object."
+msgstr "Este ego no aparece en ningún objeto."
+
+# --- list-effects.h: effect descriptions (potions, scrolls, spells, etc.) ---
+
+msgid "randomly "
+msgstr "aleatoriamente "
+
+msgid "deals %s damage to the player"
+msgstr "hace %s de daño al jugador"
+
+msgid "heals %s hitpoints%s"
+msgstr "cura %s puntos de vida%s"
+
+msgid "heal self"
+msgstr "curarse"
+
+msgid "heals the monster's hitpoints"
+msgstr "cura puntos de vida al monstruo"
+
+msgid "heals hitpoints of the monster's kin"
+msgstr "cura puntos de vida a monstruos aliados"
+
+msgid "%s for %s turns (%s percent)"
+msgstr "%s durante %s turnos (%s por ciento)"
+
+msgid "crunches"
+msgstr "cruje"
+
+msgid "cures %s"
+msgstr "cura %s"
+
+msgid "cure %s"
+msgstr "curar %s"
+
+msgid "sets %s for %s turns"
+msgstr "inflige %s durante %s turnos"
+
+msgid "set %s"
+msgstr "infligir %s"
+
+msgid "extends %s for %s turns"
+msgstr "extiende %s durante %s turnos"
+
+msgid "extend %s"
+msgstr "extender %s"
+
+msgid "extends %s for %s turns (unresistable)"
+msgstr "extiende %s durante %s turnos (irresistible)"
+
+msgid "increases the monster's %s by %s turns"
+msgstr "aumenta el %s del monstruo en %s turnos"
+
+msgid "reduces the duration of %s by %s turns"
+msgstr "reduce la duración de %s en %s turnos"
+
+msgid "reduce %s"
+msgstr "reducir %s"
+
+msgid "inscribes a glyph beneath you"
+msgstr "inscribe un glifo bajo ti"
+
+msgid "inscribe a glyph"
+msgstr "inscribir un glifo"
+
+msgid "creates a web"
+msgstr "crea una telaraña"
+
+msgid "create a web"
+msgstr "crear una telaraña"
+
+msgid "restores your %s"
+msgstr "restaura tu %s"
+
+msgid "restore %s"
+msgstr "restaurar %s"
+
+msgid "reduces your %s"
+msgstr "reduce tu %s"
+
+msgid "reduces a stat other than %s"
+msgstr "reduce una estadística distinta de %s"
+
+msgid "increases your %s"
+msgstr "aumenta tu %s"
+
+msgid "restores your experience"
+msgstr "restaura tu experiencia"
+
+msgid "restore experience"
+msgstr "restaurar experiencia"
+
+msgid "grants %d experience points"
+msgstr "otorga %d puntos de experiencia"
+
+msgid "drains your light source"
+msgstr "drena tu fuente de luz"
+
+msgid "drains some mana"
+msgstr "drena algo de maná"
+
+msgid "restores some mana"
+msgstr "restaura algo de maná"
+
+msgid "restore mana"
+msgstr "restaurar maná"
+
+msgid "attempts to remove a curse from an item with power %s"
+msgstr "intenta eliminar una maldición de un objeto con poder %s"
+
+msgid "remove curse"
+msgstr "eliminar maldición"
+
+msgid "returns you from the dungeon or takes you to it after a short delay"
+msgstr "te devuelve de la mazmorra o te lleva a ella tras una breve demora"
+
+msgid "recall"
+msgstr "retorno"
+
+msgid "teleports you up to five dungeon levels lower than the deepest point you have reached so far"
+msgstr "te teletransporta hasta cinco niveles de mazmorra más abajo del punto más profundo que has alcanzado hasta ahora"
+
+msgid "descend into the depths"
+msgstr "descender a las profundidades"
+
+msgid "creates a new dungeon level"
+msgstr "crea un nuevo nivel de mazmorra"
+
+msgid "alter reality"
+msgstr "alterar realidad"
+
+msgid "maps the area around you"
+msgstr "cartografía el área a tu alrededor"
+
+msgid "map surroundings"
+msgstr "cartografiar alrededores"
+
+msgid "maps the area near recently detected monsters"
+msgstr "cartografía el área cerca de monstruos detectados recientemente"
+
+msgid "read minds"
+msgstr "leer mentes"
+
+msgid "detects nearby traps"
+msgstr "detecta trampas cercanas"
+
+msgid "detect traps"
+msgstr "detectar trampas"
+
+msgid "detects nearby doors"
+msgstr "detecta puertas cercanas"
+
+msgid "detect doors"
+msgstr "detectar puertas"
+
+msgid "detects nearby stairs"
+msgstr "detecta escaleras cercanas"
+
+msgid "detect stairs"
+msgstr "detectar escaleras"
+
+msgid "detects nearby veins"
+msgstr "detecta vetas cercanas"
+
+msgid "detect veins"
+msgstr "detectar vetas"
+
+msgid "senses nearby gold"
+msgstr "percibe oro cercano"
+
+msgid "sense gold"
+msgstr "percibir oro"
+
+msgid "detects nearby gold"
+msgstr "detecta oro cercano"
+
+msgid "detect gold"
+msgstr "detectar oro"
+
+msgid "senses nearby objects"
+msgstr "percibe objetos cercanos"
+
+msgid "sense objects"
+msgstr "percibir objetos"
+
+msgid "detects nearby objects"
+msgstr "detecta objetos cercanos"
+
+msgid "detect objects"
+msgstr "detectar objetos"
+
+msgid "detects nearby living creatures"
+msgstr "detecta criaturas vivas cercanas"
+
+msgid "detect living"
+msgstr "detectar vivos"
+
+msgid "detects nearby visible creatures"
+msgstr "detecta criaturas visibles cercanas"
+
+msgid "detect visible"
+msgstr "detectar visibles"
+
+msgid "detects nearby invisible creatures"
+msgstr "detecta criaturas invisibles cercanas"
+
+msgid "detect invisible"
+msgstr "detectar invisibles"
+
+msgid "detects nearby creatures susceptible to fear"
+msgstr "detecta criaturas cercanas susceptibles al miedo"
+
+msgid "detect fearful"
+msgstr "detectar miedosos"
+
+msgid "identifies an unknown rune on a selected item"
+msgstr "identifica una runa desconocida en un objeto seleccionado"
+
+msgid "identify"
+msgstr "identificar"
+
+msgid "detects nearby evil creatures"
+msgstr "detecta criaturas malignas cercanas"
+
+msgid "detect evil"
+msgstr "detectar maldad"
+
+msgid "detects nearby creatures with a soul"
+msgstr "detecta criaturas con espíritu cercanas"
+
+msgid "detect souls"
+msgstr "detectar almas"
+
+msgid "creates a staircase beneath your feet"
+msgstr "crea una escalera bajo tus pies"
+
+msgid "create stairs"
+msgstr "crear escaleras"
+
+msgid "disenchants one of your wielded or worn items"
+msgstr "desencanta uno de tus objetos equipados"
+
+msgid "disenchant item"
+msgstr "desencantar objeto"
+
+msgid "attempts to magically enhance an item"
+msgstr "intenta mejorar mágicamente un objeto"
+
+msgid "enchant item"
+msgstr "encantar objeto"
+
+msgid "attempts to recharge a wand or staff, destroying it if it fails"
+msgstr "intenta recargar una varita o bastón, destruyéndolo si falla"
+
+msgid "recharge"
+msgstr "recargar"
+
+msgid "%s that are in line of sight"
+msgstr "%s que estén en la línea de visión"
+
+msgid "%s in line of sight"
+msgstr "%s en línea de visión"
+
+msgid "creates good items nearby"
+msgstr "crea objetos buenos cerca"
+
+msgid "create good items"
+msgstr "crear objetos buenos"
+
+msgid "wakes all nearby sleeping monsters"
+msgstr "despierta a todos los monstruos dormidos cercanos"
+
+msgid "wake all"
+msgstr "despertar a todos"
+
+msgid "summons %s to the current dungeon level"
+msgstr "invoca %s en el nivel actual de la mazmorra"
+
+msgid "summon %s"
+msgstr "invocar %s"
+
+msgid "removes all creatures of a given type from the level"
+msgstr "elimina del nivel a todas las criaturas de un tipo dado"
+
+msgid "banish"
+msgstr "desterrar"
+
+msgid "removes all nearby creatures"
+msgstr "elimina a todas las criaturas cercanas"
+
+msgid "banish all"
+msgstr "desterrar a todos"
+
+msgid "gives you information on the health and abilities of the monsters you can see"
+msgstr "te da información sobre la salud y habilidades de los monstruos que puedes ver"
+
+msgid "probe"
+msgstr "sondear"
+
+msgid "teleports %s randomly %s"
+msgstr "teletransporta %s aleatoriamente %s"
+
+msgid "teleport %s %s"
+msgstr "teletransportar %s %s"
+
+msgid "teleports to a target"
+msgstr "teletransporta hacia un objetivo"
+
+msgid "teleport to target"
+msgstr "teletransportar al objetivo"
+
+msgid "teleports you one level up or down"
+msgstr "te teletransporta un nivel arriba o abajo"
+
+msgid "teleport level"
+msgstr "teletransportar nivel"
+
+msgid "drops rubble around you"
+msgstr "hace caer escombros a tu alrededor"
+
+msgid "drops a wall of granite behind you"
+msgstr "hace caer un muro de granito detrás de ti"
+
+msgid "destroys an area around you in the shape of a circle of radius %d, and blinds you for 1d10+10 turns"
+msgstr "destruye un área a tu alrededor en forma de círculo de radio %d, y te ciega durante 1d10+10 turnos"
+
+msgid "destroy area"
+msgstr "destruir área"
+
+msgid "causes an earthquake around you of radius %d"
+msgstr "provoca un terremoto a tu alrededor de radio %d"
+
+msgid "cause earthquake"
+msgstr "provocar terremoto"
+
+msgid "completely lights and magically maps the level"
+msgstr "ilumina completamente y cartografía mágicamente el nivel"
+
+msgid "light level"
+msgstr "iluminar nivel"
+
+msgid "completely darkens and magically maps the level"
+msgstr "oscurece completamente y cartografía mágicamente el nivel"
+
+msgid "darken level"
+msgstr "oscurecer nivel"
+
+msgid "lights the surrounding area"
+msgstr "ilumina el área circundante"
+
+msgid "light area"
+msgstr "iluminar área"
+
+msgid "darkens the surrounding area"
+msgstr "oscurece el área circundante"
+
+msgid "darken area"
+msgstr "oscurecer área"
+
+msgid "creates a ball of %s with radius %d, centred on the player and hitting him, of full intensity to radius %d, dealing %s damage at the centre"
+msgstr "crea una esfera de %s con radio %d, centrada en el jugador y golpeándole, con intensidad total hasta radio %d, causando %s de daño en el centro"
+
+msgid "surround self with %s"
+msgstr "envolverse con %s"
+
+msgid "creates a ball of %s with radius %d, centred on the player, of full intensity to radius %d, dealing %s damage at the centre"
+msgstr "crea una esfera de %s con radio %d, centrada en el jugador, con intensidad total hasta radio %d, causando %s de daño en el centro"
+
+msgid "project %s"
+msgstr "proyectar %s"
+
+msgid "fires a ball of %s with radius %d, dealing %s damage at the centre"
+msgstr "dispara una bola de %s con radio %d, infligiendo %s de daño en el centro"
+
+msgid "fire a ball of %s"
+msgstr "disparar una esfera de %s"
+
+msgid "breathes a cone of %s with a width of %d degrees, dealing %s damage at the source"
+msgstr "exhala un cono de %s con una anchura de %d grados, causando %s de daño en el origen"
+
+msgid "breathe a cone of %s"
+msgstr "exhalar un cono de %s"
+
+msgid "produces a cone of %s with a width of %d degrees, dealing %s damage at the origin"
+msgstr "produce un cono de %s con una anchura de %d grados, causando %s de daño en el origen"
+
+msgid "produce a cone of %s"
+msgstr "producir un cono de %s"
+
+msgid "produces a beam of %s with length %d, dealing %s damage"
+msgstr "produce un rayo de %s con longitud %d, causando %s de daño"
+
+msgid "produce a beam of %s"
+msgstr "producir un rayo de %s"
+
+msgid "fires a beam of %s of length %d, dealing damage determined by blows"
+msgstr "dispara un rayo de %s de longitud %d, causando daño determinado por los golpes"
+
+msgid "lash with %s"
+msgstr "azotar con %s"
+
+msgid "fires a series of balls of %s of radius %d, dealing %s damage at the centre of each"
+msgstr "dispara una serie de esferas de %s de radio %d, causando %s de daño en el centro de cada una"
+
+msgid "fire a swarm of balls of %s"
+msgstr "disparar un enjambre de esferas de %s"
+
+msgid "creates a ball of %s with radius %d, dealing %s damage at the centre"
+msgstr "crea una esfera de %s con radio %d, causando %s de daño en el centro"
+
+msgid "strike with %s"
+msgstr "golpear con %s"
+
+msgid "fires a line of %s in all directions, each dealing %s damage"
+msgstr "dispara una línea de %s en todas direcciones, causando cada una %s de daño"
+
+msgid "fire a line of %s in all directions"
+msgstr "disparar una línea de %s en todas direcciones"
+
+msgid "fires balls of %s with radius %d in all directions, dealing %s damage at the centre of each"
+msgstr "dispara esferas de %s con radio %d en todas direcciones, causando %s de daño en el centro de cada una"
+
+msgid "fire balls of %s in all directions"
+msgstr "disparar esferas de %s en todas direcciones"
+
+msgid "fires a bolt of %s, dealing %s damage"
+msgstr "lanza un proyectil de %s causando %s de daño"
+
+msgid "fire a bolt of %s"
+msgstr "lanzar un proyectil de %s"
+
+msgid "fires a beam of %s, dealing %s damage"
+msgstr "lanza un rayo de %s causando %s de daño"
+
+msgid "fire a beam of %s"
+msgstr "lanzar un rayo de %s"
+
+msgid "fires a bolt or beam of %s, dealing %s damage"
+msgstr "lanza un rayo mágico de %s, infligiendo %s de daño"
+
+msgid "fire a bolt or beam of %s"
+msgstr "lanzar un proyectil o rayo de %s"
+
+msgid "creates a line of %s, dealing %s damage"
+msgstr "crea una línea de %s causando %s de daño"
+
+msgid "create a line of %s"
+msgstr "crear una línea de %s"
+
+msgid "creates a line that %s"
+msgstr "crea una línea que %s"
+
+msgid "create a line that %s"
+msgstr "crear una línea que %s"
+
+msgid "fires a bolt that %s"
+msgstr "lanza un proyectil que %s"
+
+msgid "fire a bolt that %s"
+msgstr "lanzar un proyectil que %s"
+
+msgid "fires a bolt that %s, dealing %s damage"
+msgstr "lanza un proyectil que %s, causando %s de daño"
+
+msgid "creates a bolt that %s"
+msgstr "crea un proyectil que %s"
+
+msgid "create a bolt that %s"
+msgstr "crear un proyectil que %s"
+
+msgid "%s in all adjacent squares"
+msgstr "%s en todas las casillas adyacentes"
+
+msgid "%s all adjacent"
+msgstr "%s todos los adyacentes"
+
+msgid "curses your worn armor"
+msgstr "maldice tu armadura equipada"
+
+msgid "curse armor"
+msgstr "maldecir armadura"
+
+msgid "curses your wielded melee weapon"
+msgstr "maldice tu arma cuerpo a cuerpo equipada"
+
+msgid "curse weapon"
+msgstr "maldecir arma"
+
+msgid "brands your wielded melee weapon"
+msgstr "marca tu arma cuerpo a cuerpo equipada"
+
+msgid "brand weapon"
+msgstr "marcar arma"
+
+msgid "brands a stack of ammunition"
+msgstr "marca una pila de munición"
+
+msgid "brand ammunition"
+msgstr "marcar munición"
+
+msgid "brands bolts with fire, unevenly"
+msgstr "marca virotes con fuego, de forma desequilibrada"
+
+msgid "brand bolts"
+msgstr "marcar virotes"
+
+msgid "uses a staff to create a stack of arrows"
+msgstr "usa un bastón para crear una pila de flechas"
+
+msgid "use staff for arrows"
+msgstr "usar bastón para flechas"
+
+msgid "drains magical energy from a staff or wand"
+msgstr "drena energía mágica de un bastón o varita"
+
+msgid "drain device"
+msgstr "drenar dispositivo"
+
+msgid "drains %s mana from the nearest undead monster, damaging it"
+msgstr "drena %s de maná del monstruo no muerto más cercano, dañándolo"
+
+msgid "drain unlife"
+msgstr "drenar no vida"
+
+msgid "changes the player's shape"
+msgstr "cambia la forma del jugador"
+
+msgid "change shape"
+msgstr "cambiar forma"
+
+msgid "directly damages a monster"
+msgstr "daña directamente a un monstruo"
+
+msgid "curse"
+msgstr "maldecir"
+
+msgid "takes control of a monster"
+msgstr "toma el control de un monstruo"
+
+msgid "command"
+msgstr "comandar"
+
+msgid "jumps to the nearest living monster and bites it"
+msgstr "salta al monstruo vivo más cercano y lo muerde"
+
+msgid "jump and bite"
+msgstr "saltar y morder"
+
+msgid "moves the player up to 4 spaces and makes up to %d melee blows"
+msgstr "mueve al jugador hasta 4 espacios y ejecuta hasta %d golpes cuerpo a cuerpo"
+
+msgid "move and attack"
+msgstr "moverse y atacar"
+
+msgid "faces a monster in single combat"
+msgstr "se enfrenta a un monstruo en combate singular"
+
+msgid "single combat"
+msgstr "combate singular"
+
+msgid "delivers %d blows against an adjacent monster"
+msgstr "asesta %d golpes contra un monstruo adyacente"
+
+msgid "pummel"
+msgstr "aporrear"
+
+msgid "delivers %d blows against all adjacent monsters"
+msgstr "asesta %d golpes contra todos los monstruos adyacentes"
+
+msgid "sweep"
+msgstr "barrido"
+
+msgid "does bizarre things"
+msgstr "hace cosas extrañas"
+
+msgid "do bizarre things"
+msgstr "hacer cosas extrañas"
+
+msgid "creates random and unpredictable effects"
+msgstr "crea efectos aleatorios e impredecibles"
+
+msgid "create random effects"
+msgstr "crear efectos aleatorios"
+
+msgid "selects one of "
+msgstr "selecciona uno de "
+
+# --- effect-handler-attack.c / effect-handler-general.c ---
+
+msgid "You feel a little better."
+msgstr "Te sientes un poco mejor."
+
+msgid "You feel better."
+msgstr "Te sientes mejor."
+
+msgid "You feel much better."
+msgstr "Te sientes mucho mejor."
+
+msgid "You feel very good."
+msgstr "Te sientes muy bien."
+
+msgid "%s looks REALLY healthy!"
+msgstr "¡%s se ve REALMENTE saludable!"
+
+msgid "%s sounds REALLY healthy!"
+msgstr "¡%s suena REALMENTE saludable!"
+
+msgid "%s looks healthier."
+msgstr "%s se ve más saludable."
+
+msgid "%s sounds healthier."
+msgstr "%s suena más saludable."
+
+msgid "%s recovers %s courage."
+msgstr "%s recupera %s coraje."
+
+msgid "yourself"
+msgstr "tí mismo"
+
+msgid "a bug"
+msgstr "un error"
+
+msgid "You take %d damage."
+msgstr "Recibes %d de daño."
+
+msgid "You breathe %s."
+msgstr "Exhalas %s."
+
+msgid "Light shoots in all directions!"
+msgstr "¡La luz se dispara en todas direcciones!"
+
+msgid "The ground trembles for a moment."
+msgstr "El suelo tiembla por un momento."
+
+msgid "There is a searing explosion of light!"
+msgstr "¡Hay una explosión abrasadora de luz!"
+
+msgid "Darkness seems to crush you!"
+msgstr "¡La oscuridad parece aplastarte!"
+
+msgid "The ground trembles! The ceiling caves in!"
+msgstr "¡El suelo tiembla! ¡El techo se derrumba!"
+
+msgid "The cave ceiling collapses on you!"
+msgstr "¡El techo de la cueva se derrumba sobre ti!"
+
+msgid "The cave floor twists unnaturally!"
+msgstr "¡El suelo de la cueva se retuerce de forma antinatural!"
+
+msgid "The cave quakes!"
+msgstr "¡La cueva tiembla!"
+
+msgid "You are hit by debris!"
+msgstr "¡Eres golpeado por escombros!"
+
+msgid "You are severely crushed!%s"
+msgstr "¡Eres aplastado severamente!%s"
+
+msgid "You nimbly dodge the blast!"
+msgstr "¡Esquivaste ágilmente la explosión!"
+
+msgid "You are crushed between the floor and ceiling!"
+msgstr "¡Eres aplastado entre el suelo y el techo!"
+
+msgid "an earthquake"
+msgstr "un terremoto"
+
+msgid "You draw power from %s. (%d)"
+msgstr "Extraes poder del %s. (%d)"
+
+msgid "You draw power from %s."
+msgstr "Extraes poder del %s."
+
+msgid " is destroyed! (f)"
+msgstr " ¡es destruida!"
+
+msgid " is destroyed! (m)"
+msgstr " ¡es destruido!"
+
+msgid "No monster selected!"
+msgstr "¡Ningún monstruo seleccionado!"
+
+msgid " dies! (%d)"
+msgstr " ¡muere! (%d)"
+
+msgid " dies!"
+msgstr " ¡muere!"
+
+msgid "There is not enough room next to %s!"
+msgstr "¡No hay suficiente espacio junto a %s!"
+
+msgid "You bite %s. (%d)"
+msgstr "Muerdes a %s. (%d)"
+
+msgid "You bite %s."
+msgstr "Muerdes a %s."
+
+msgid " is completely drained! (f)"
+msgstr " ¡es drenada por completo!"
+
+msgid " is completely drained! (m)"
+msgstr " ¡es drenado por completo!"
+
+msgid "This spell must target a monster."
+msgstr "Este hechizo debe apuntar a un monstruo."
+
+msgid "The way is blocked."
+msgstr "El camino está bloqueado."
+
+msgid "You are already in single combat!"
+msgstr "¡Ya estás en combate singular!"
+
+msgid "%s resists!"
+msgstr "¡%s resiste!"
+
+msgid "Target too far away (%d)."
+msgstr "Objetivo demasiado lejos (%d)."
+
+msgid "You must attack a monster."
+msgstr "Debes atacar a un monstruo."
+
+msgid "You feel a surge of power!"
+msgstr "¡Sientes una oleada de poder!"
+
+msgid "The spell fails; your %s is now fragile."
+msgstr "El hechizo falla; tu %s ahora es frágil."
+
+msgid "There is an explosion and a flash!"
+msgstr "¡Hay una explosión y un destello!"
+
+msgid "failed curse removal"
+msgstr "Fallo al eliminar maldición"
+
+msgid "The removal fails."
+msgstr "La eliminación falla."
+
+msgid "Enchant which item? "
+msgstr "¿Encantar qué objeto? "
+
+msgid "You have nothing to enchant."
+msgstr "No tienes nada para encantar."
+
+msgid "%s %s shine intensely!"
+msgstr "%s %s brillan intensamente!"
+
+msgid "%s %s shines intensely!"
+msgstr "%s %s brilla intensamente!"
+
+msgid "Your"
+msgstr "Tu"
+
+msgid "The"
+msgstr "El"
+
+msgid "The enchantment failed."
+msgstr "El encantamiento falló."
+
+msgid "The %s are surrounded by an aura of %s."
+msgstr "El %s están rodeados por un aura de %s."
+
+msgid "The %s is surrounded by an aura of %s."
+msgstr "El %s está rodeado por un aura de %s."
+
+msgid "The branding failed."
+msgstr "El marcado falló."
+
+msgid "You throw up!"
+msgstr "¡Vomitas!"
+
+msgid "It's crunchy."
+msgstr "Está crujiente."
+
+msgid "It nearly breaks your tooth!"
+msgstr "¡Casi te rompe un diente!"
+
+msgid "You can only deploy one decoy at a time."
+msgstr "Solo puedes desplegar un señuelo a la vez."
+
+msgid "There is no clear floor to cast the spell."
+msgstr "No hay suelo despejado para lanzar el hechizo."
+
+msgid "You feel less %s."
+msgstr "Te sientes menos %s."
+
+msgid "You feel very %s for a moment, but the feeling passes."
+msgstr "Te sientes muy %s por un momento, pero la sensación pasa."
+
+msgid "You feel very %s.%s"
+msgstr "Te sientes muy %s.%s"
+
+msgid "stat drain"
+msgstr "drenaje de estadística"
+
+msgid "You feel very %s."
+msgstr "Te sientes muy %s."
+
+msgid "You feel very %s!"
+msgstr "¡Te sientes muy %s!"
+
+msgid "You feel your life energies returning."
+msgstr "Sientes que tus energías vitales regresan."
+
+msgid "You feel more experienced."
+msgstr "Te sientes más experimentado."
+
+msgid "Your light dims."
+msgstr "Tu luz se atenúa."
+
+msgid "The drain fails."
+msgstr "El drenaje falla."
+
+msgid "You feel your head clear."
+msgstr "Sientes que tu cabeza se despeja."
+
+msgid "You feel your head clear a bit."
+msgstr "Sientes que tu cabeza se despeja un poco."
+
+msgid "Remove curse from which item? "
+msgstr "¿Eliminar maldición de qué objeto? "
+
+msgid "You have no curses to remove."
+msgstr "No tienes maldiciones para eliminar."
+
+msgid "Nothing happens."
+msgstr "No pasa nada."
+
+msgid "Are you sure you want to descend? "
+msgstr "¿Estás seguro de que quieres descender? "
+
+msgid "Set the recall depth to the current depth? "
+msgstr "¿Establecer profundidad de retorno a la profundidad actual? "
+
+msgid "The air around you becomes charged..."
+msgstr "El aire a tu alrededor se carga..."
+
+msgid "Word of Recall is already active. Do you want to cancel it? "
+msgstr "Palabra de Retorno ya está activa. ¿Quieres cancelarla? "
+
+msgid "A tension leaves the air around you..."
+msgstr "Una tensión abandona el aire a tu alrededor..."
+
+msgid "The air around you starts to swirl..."
+msgstr "El aire a tu alrededor comienza a arremolinarse..."
+
+msgid "You feel a malevolent presence blocking passage to the lower levels."
+msgstr "Sientes una presencia malévola bloqueando el paso a los niveles inferiores."
+
+msgid "The world changes!"
+msgstr "¡El mundo cambia!"
+
+msgid "Images form in your mind!"
+msgstr "¡Se forman imágenes en tu mente!"
+
+msgid "You sense the presence of traps!"
+msgstr "¡Sientes la presencia de trampas!"
+
+msgid "You sense no traps."
+msgstr "No sientes trampas."
+
+msgid "You sense the presence of doors!"
+msgstr "¡Sientes la presencia de puertas!"
+
+msgid "You sense no doors."
+msgstr "No sientes puertas."
+
+msgid "You sense the presence of stairs!"
+msgstr "¡Sientes la presencia de escaleras!"
+
+msgid "You sense no stairs."
+msgstr "No sientes escaleras."
+
+msgid "You sense the presence of buried treasure!"
+msgstr "¡Sientes la presencia de tesoro enterrado!"
+
+msgid "You sense no buried treasure."
+msgstr "No sientes tesoro enterrado."
+
+msgid "You sense the presence of gold!"
+msgstr "¡Sientes la presencia de oro!"
+
+msgid "You sense no gold."
+msgstr "No sientes oro."
+
+msgid "You detect the presence of gold!"
+msgstr "¡Detectas la presencia de oro!"
+
+msgid "You detect no gold."
+msgstr "No detectas oro."
+
+msgid "You sense the presence of objects!"
+msgstr "¡Sientes la presencia de objetos!"
+
+msgid "You sense no objects."
+msgstr "No sientes objetos."
+
+msgid "You detect the presence of objects!"
+msgstr "¡Detectas la presencia de objetos!"
+
+msgid "You detect no objects."
+msgstr "No detectas objetos."
+
+msgid "You sense life!"
+msgstr "¡Sientes vida!"
+
+msgid "You sense no life."
+msgstr "No sientes vida."
+
+msgid "You sense the presence of monsters!"
+msgstr "¡Sientes la presencia de monstruos!"
+
+msgid "You sense no monsters."
+msgstr "No sientes monstruos."
+
+msgid "You sense the presence of invisible creatures!"
+msgstr "¡Sientes la presencia de criaturas invisibles!"
+
+msgid "You sense no invisible creatures."
+msgstr "No sientes criaturas invisibles."
+
+msgid "These monsters could provide good sport."
+msgstr "Estos monstruos podrían proporcionar buen deporte."
+
+msgid "You smell no fear in the air."
+msgstr "No hueles miedo en el aire."
+
+msgid "You sense the presence of evil creatures!"
+msgstr "¡Sientes la presencia de criaturas malignas!"
+
+msgid "You sense no evil creatures."
+msgstr "No sientes criaturas malignas."
+
+msgid "You sense the presence of spirits!"
+msgstr "¡Sientes la presencia de espíritus!"
+
+msgid "You sense no spirits."
+msgstr "No sientes espíritus."
+
+msgid "Identify which item? "
+msgstr "¿Identificar qué objeto? "
+
+msgid "You have nothing to identify."
+msgstr "No tienes nada para identificar."
+
+msgid "There is no empty floor here."
+msgstr "No hay suelo vacío aquí."
+
+msgid "Nothing happens!"
+msgstr "¡No pasa nada!"
+
+msgid "Your %s (%c) resist disenchantment!"
+msgstr "¡Tu %s (%c) resisten el desencantamiento!"
+
+msgid "Your %s (%c) resists disenchantment!"
+msgstr "¡Tu %s (%c) resiste el desencantamiento!"
+
+msgid "Your %s (%c) were disenchanted!"
+msgstr "Tu %s (%c) fueron desencantados!"
+
+msgid "Your %s (%c) was disenchanted!"
+msgstr "Tu %s (%c) fue desencantado!"
+
+msgid "Recharge which item? "
+msgstr "¿Recargar qué objeto? "
+
+msgid "You have nothing to recharge."
+msgstr "No tienes nada para recargar."
+
+msgid "The recharge backfires dangerously!"
+msgstr "¡La recarga falla peligrosamente!"
+
+msgid "There is a bright flash of light."
+msgstr "Hay un destello brillante de luz."
+
+msgid "You hear a sudden stirring in the distance!"
+msgstr "¡Escuchas un repentino revuelo en la distancia!"
+
+msgid "But nothing comes."
+msgstr "Pero no viene nada."
+
+msgid "You hear %s appear nearby."
+msgstr "Escuchas %s aparecer cerca."
+
+msgid "many things"
+msgstr "muchas cosas"
+
+msgid "something"
+msgstr "algo"
+
+msgid "Choose a monster race (by symbol) to banish: "
+msgstr "Elige una raza de monstruo (por símbolo) para desterrar: "
+
+msgid "the strain of casting Banishment"
+msgstr "la tensión de lanzar Destierro"
+
+msgid "the strain of casting Mass Banishment"
+msgstr "la tensión de lanzar Destierro Masivo"
+
+msgid "Probing..."
+msgstr "Probando..."
+
+msgid "%s has %d hit point%s."
+msgstr "%s tiene %d punto%s de golpe."
+
+msgid "That's all."
+msgstr "Eso es todo."
+
+msgid "Teleportation forbidden!"
+msgstr "¡Teletransporte prohibido!"
+
+msgid "Failed to find teleport destination!"
+msgstr "¡Fallo al encontrar destino de teletransporte!"
+
+msgid "Error: TELEPORT_TO:SELF effect used that is not cast by a monster."
+msgstr "Error: efecto TELEPORT_TO:SELF usado que no es lanzado por un monstruo."
+
+msgid "You resist the effect!"
+msgstr "¡Resistes el efecto!"
+
+msgid "You rise through the ceiling."
+msgstr "Te elevas a través del techo."
+
+msgid "You sink through the floor."
+msgstr "Te hundes a través del suelo."
+
+msgid "An image of your surroundings forms in your mind..."
+msgstr "Una imagen de tu entorno se forma en tu mente..."
+
+msgid "A great darkness sweeps through the dungeon..."
+msgstr "Una gran oscuridad recorre la mazmorra..."
+
+msgid "You are surrounded by a white light."
+msgstr "Estás rodeado por una luz blanca."
+
+msgid "Darkness surrounds %s."
+msgstr "La oscuridad rodea a %s."
+
+msgid "Darkness surrounds the decoy."
+msgstr "La oscuridad rodea al señuelo."
+
+msgid "Darkness surrounds you."
+msgstr "La oscuridad te rodea."
+
+msgid "A terrible black aura tries to surround your armor, but your %s resists the effects!"
+msgstr "Un aura negra terrible intenta rodear tu armadura, ¡pero tu %s resiste los efectos!"
+
+msgid "A terrible black aura tries to surround your weapon, but your %s resists the effects!"
+msgstr "Un aura negra terrible intenta rodear tu arma, ¡pero tu %s resiste los efectos!"
+
+msgid "A terrible black aura strikes your %s!"
+msgstr "¡Un aura negra terrible golpea tu %s!"
+
+msgid "Brand which kind of ammunition? "
+msgstr "¿Marcar qué tipo de munición? "
+
+msgid "You have nothing to brand."
+msgstr "No tienes nada para marcar."
+
+msgid "Brand which bolt? "
+msgstr "¿Marcar qué virote? "
+
+msgid "You have no bolts to brand."
+msgstr "No tienes virote para marcar."
+
+msgid "Make arrows from which staff? "
+msgstr "¿Hacer flechas de qué bastón? "
+
+msgid "You have no staff to use."
+msgstr "No tienes ningún bastón para usar."
+
+msgid "Drain charges from which item? "
+msgstr "¿Drenar cargas de qué objeto? "
+
+msgid "You have nothing to drain charges from."
+msgstr "No tienes nada de qué drenar cargas."
+
+msgid "staff"
+msgstr "bastón"
+
+msgid "wand"
+msgstr "varita"
+
+msgid "That %s had no usable energy"
+msgstr "Ese %s no tenía energía utilizable"
+
+msgid "Your mana was already at maximum. %s not drained."
+msgstr "Tu mana ya estaba al máximo. %s no drenado."
+
+msgid "You assume the form of %s!"
+msgstr "¡Adoptas la forma de %s!"
+
+msgid "Your equipment merges into your body."
+msgstr "Tu equipo se fusiona con tu cuerpo."
+
+msgid "%s resists your command!"
+msgstr "¡%s resiste tu comando!"
+
+msgid "You are surrounded by an evil aura."
+msgstr "Estás rodeado por un aura maligna."
+
+msgid "You are surrounded by a powerful aura."
+msgstr "Estás rodeado por un aura poderosa."
+
+# --- ui-target.c ---
+
+msgid "<click>"
+msgstr "<clic>"
+
+msgid " look around. '"
+msgstr " miran alrededor. '"
+
+msgid "' moves to the selection. '"
+msgstr "' se mueve a la selección. '"
+
+msgid "' selects the player. '"
+msgstr "' selecciona al jugador. '"
+
+msgid "' exits. '"
+msgstr "' sale. '"
+
+msgid "' shows details. '"
+msgstr "' muestra detalles. '"
+
+msgid "' restricts to interesting places."
+msgstr "' restringe a lugares interesantes."
+
+msgid "' and '"
+msgstr "' y '"
+
+msgid "' cycles through places. '"
+msgstr "' recorren lugares. '"
+
+msgid "' allows free selection."
+msgstr "' permite selección libre."
+
+msgid " '"
+msgstr " '"
+
+msgid "' targets the selection."
+msgstr "' apunta a la selección."
+
+msgid "' ignores the selection."
+msgstr "' ignora la selección."
+
+msgid "', '"
+msgstr "', '"
+
+msgid "', and '"
+msgstr "', y '"
+
+msgid "' select the nearest stairs or unexplored area."
+msgstr "' seleccionan las escaleras más cercanas o área inexplorada."
+
+msgid "You are "
+msgstr "Estás "
+
+msgid "at "
+msgstr "en "
+
+msgid "You see "
+msgstr "Ves "
+
+msgid "You sense "
+msgstr "Sientes "
+
+msgid "You recall "
+msgstr "Recuerdas "
+
+msgid "something strange"
+msgstr "algo extraño"
+
+msgid "%s%s%s, %s (%d:%d, noise=%d, scent=%d)."
+msgstr "%s%s%s, %s (%d:%d, ruido=%d, olor=%d)."
+
+msgid "%s%s%s, %s."
+msgstr "%s%s%s, %s."
+
+msgid "%s%s%s (%s), %s (%d:%d, noise=%d, scent=%d)."
+msgstr "%s%s%s (%s), %s (%d:%d, ruido=%d, olor=%d)."
+
+msgid "%s%s%s (%s), %s."
+msgstr "%s%s%s (%s), %s."
+
+msgid "She is "
+msgstr "Ella está "
+
+msgid "He is "
+msgstr "Él está "
+
+msgid "It is "
+msgstr "Está "
+
+msgid "carrying "
+msgstr "llevando "
+
+msgid "also carrying "
+msgstr "también llevando "
+
+msgid "%s%s%s%s, %s (%d:%d, noise=%d, scent=%d)."
+msgstr "%s%s%s%s, %s (%d:%d, ruido=%d, olor=%d)."
+
+msgid "%s%s%s%s, %s."
+msgstr "%s%s%s%s, %s."
+
+msgid "%s%sa pile of %d objects, %s (%d:%d, noise=%d, scent=%d)."
+msgstr "%s%sun montón de %d objetos, %s (%d:%d, ruido=%d, olor=%d)."
+
+msgid "%s%sa pile of %d objects, %s."
+msgstr "%s%sun montón de %d objetos, %s."
+
+msgid "Target Aborted."
+msgstr "Apuntado Cancelado."
+
+# --- ui-wizard.c ---
+
+msgid "All artifacts: %s"
+msgstr "Todos los artefactos: %s"
+
+msgid "All: %s"
+msgstr "Todos: %s"
+
+msgid "All artifacts"
+msgstr "Todos los artefactos"
+
+msgid "All objects"
+msgstr "Todos los objetos"
+
+msgid "Which artifact: %s? "
+msgstr "¿Qué artefacto: %s? "
+
+msgid "Which kind of %s?"
+msgstr "¿Qué tipo de %s?"
+
+msgid "Which kind of artifact?"
+msgstr "¿Qué tipo de artefacto?"
+
+msgid "Which kind of object?"
+msgstr "¿Qué tipo de objeto?"
+
+# --- wiz-spoil.c ---
+
+msgid "Spoiler File -- Basic Objects (%s)\n\n\n"
+msgstr "Archivo de Spoiler -- Objetos Básicos (%s)\n\n\n"
+
+msgid "Description"
+msgstr "Descripción"
+
+msgid "Dam/AC"
+msgstr "Daño/AC"
+
+msgid "Lev"
+msgstr "Niv"
+
+msgid "Cost"
+msgstr "Coste"
+
+msgid "Can't close the spoiler file."
+msgstr "No se puede cerrar el archivo de spoiler."
+
+msgid "Can't create the spoiler file."
+msgstr "No se puede crear el archivo de spoiler."
+
+msgid "Artifact Spoilers for %s"
+msgstr "Spoilers de Artefactos para %s"
+
+msgid "\n The randart seed is %lu\n"
+msgstr "\n La semilla de artefactos aleatorios es %lu\n"
+
+msgid "\nMin Level %u, Max Level %u, Generation Chance %u, Power %ld, %d.%d lbs\n"
+msgstr "\nNivel Mín %u, Nivel Máx %u, Probabilidad de generación %u, Poder %ld, %d.%d lbs\n"
+
+msgid "Monster Spoilers for %s\n"
+msgstr "Spoilers de Monstruos para %s\n"
+
+msgid "Rar"
+msgstr "Rar"
+
+msgid "Spd"
+msgstr "Vel"
+
+msgid "HP"
+msgstr "Pv"
+
+msgid "AC"
+msgstr "Ca"
+
+msgid "Visual Info"
+msgstr "Info Visual"
+
+msgid "The %s"
+msgstr "El %s"
+
+msgid "%s (invalid character)"
+msgstr "%s (carácter inválido)"
+
+msgid "The "
+msgstr "El "
+
+msgid " (invalid character))\n"
+msgstr " (carácter inválido))\n"
+
+msgid "Num:%d  "
+msgstr "Núm:%d  "
+
+msgid "Lev:%d  "
+msgstr "Niv:%d  "
+
+msgid "Rar:%d  "
+msgstr "Rar:%d  "
+
+msgid "Spd:+%d  "
+msgstr "Vel:+%d  "
+
+msgid "Spd:-%d  "
+msgstr "Vel:-%d  "
+
+msgid "HP:%d  "
+msgstr "Pv:%d  "
+
+msgid "AC:%d  "
+msgstr "Ca:%d  "
+
+msgid "Exp:%ld\n"
+msgstr "Exp:%ld\n"
+
+# --- list-options.h (option descriptions, via option.c) ---
+
+msgid "Use roguelike command keys"
+msgstr "Usar teclas estilo roguelike"
+
+msgid "Use autoexplore commands"
+msgstr "Usar comandos de autoexploración"
+
+msgid "Use sound"
+msgstr "Usar sonido"
+
+msgid "Show the damage the player deals"
+msgstr "Mostrar el daño que el jugador inflige"
+
+msgid "Use old target by default"
+msgstr "Usar el objetivo antiguo por defecto"
+
+msgid "Always pickup items"
+msgstr "Recoger objetos siempre"
+
+msgid "Always pickup items matching inventory"
+msgstr "Recoger obj siempre que coincidan con el inventario"
+
+msgid "Show flavors in object descriptions"
+msgstr "Mostrar sabores en las descripciones de objetos"
+
+msgid "Highlight target with cursor"
+msgstr "Resaltar el objetivo con el cursor"
+
+msgid "Highlight player with cursor between turns"
+msgstr "Resaltar al jugador con el cursor entre turnos"
+
+msgid "Disturb whenever a visible monster moves"
+msgstr "Molestar cuando un monstruo visible se mueve"
+
+msgid "Show walls as solid blocks"
+msgstr "Mostrar paredes como bloques sólidos"
+
+msgid "Show walls with shaded background"
+msgstr "Mostrar paredes con fondo sombreado"
+
+msgid "Color: Light torchlight in yellow"
+msgstr "Color: Iluminar la luz de antorcha en amarillo"
+
+msgid "Color: Shimmer multi-colored things"
+msgstr "Color: Hacer brillar las cosas multicolores"
+
+msgid "Center map continuously"
+msgstr "Centrar el mapa continuamente"
+
+msgid "Color: Show unique monsters in purple"
+msgstr "Color: Mostrar monstruos únicos en púrpura"
+
+msgid "Automatically clear '-more-' prompts"
+msgstr "Limpiar automáticamente los avisos '-más-'"
+
+msgid "Color: Player color indicates % hit points"
+msgstr "Color: Color del jugador indica % de puntos de golpe"
+
+msgid "Allow mouse clicks to move the player"
+msgstr "Permitir clics del ratón para mover al jugador"
+
+msgid "Notify on object recharge"
+msgstr "Notificar al recargar objeto"
+
+msgid "Show effective speed as a multiplier"
+msgstr "Mostrar velocidad efectiva como multiplicador"
+
+msgid "Cheat: Peek into monster creation"
+msgstr "Trampa: Espiar la creación de monstruos"
+
+msgid "Score: Peek into monster creation"
+msgstr "Puntuación: Espiar la creación de monstruos"
+
+msgid "Cheat: Peek into dungeon creation"
+msgstr "Trampa: Espiar la creación de mazmorras"
+
+msgid "Score: Peek into dungeon creation"
+msgstr "Puntuación: Espiar la creación de mazmorras"
+
+msgid "Cheat: Peek into something else"
+msgstr "Trampa: Espiar otra cosa"
+
+msgid "Score: Peek into something else"
+msgstr "Puntuación: Espiar otra cosa"
+
+msgid "Cheat: Allow avoiding death"
+msgstr "Trampa: Permitir evitar la muerte"
+
+msgid "Score: Allow avoiding death"
+msgstr "Puntuación: Permitir evitar la muerte"
+
+msgid "Generate new random artifacts"
+msgstr "Generar nuevos artefactos aleatorios"
+
+msgid "Generate connected stairs"
+msgstr "Generar escaleras conectadas"
+
+msgid "Force player descent (never up stairs)"
+msgstr "Forzar descenso del jugador (sin escal arriba)"
+
+msgid "Word of Recall has no effect"
+msgstr "Palabra de Retorno no tiene efecto"
+
+msgid "Restrict the creation of artifacts"
+msgstr "Restringir la creación de artefactos"
+
+msgid "Stack objects on the floor"
+msgstr "Apilar objetos en el suelo"
+
+msgid "Lose artifacts when leaving level"
+msgstr "Perder artefactos al salir del nivel"
+
+msgid "Show level feelings"
+msgstr "Mostrar sensaciones de nivel"
+
+msgid "Increase gold drops but disable selling"
+msgstr "Aumentar caída de oro pero sin venta"
+
+msgid "Start with a useful equipment kit"
+msgstr "Comenzar con un kit de equipo útil"
+
+msgid "Monsters learn from their mistakes"
+msgstr "Los monstruos aprenden de sus errores"
+
+msgid "Know all runes at birth"
+msgstr "Conocer todas las runas al nacer"
+
+msgid "Know all flavors at birth"
+msgstr "Conocer todos los sabores al nacer"
+
+msgid "Persistent levels (experimental)"
+msgstr "Niveles persistentes (experimental)"
+
+msgid "To-dam is a percentage of dice (experimental)"
+msgstr "Para-dañar es un porcent de dados (experimental)"
+
+# --- list-parser-errors.h (via datafile.c / grafmode.c / ui-prefs.c / main-sdl2.c) ---
+
+msgid "(none)"
+msgstr "(ninguno)"
+
+msgid "bad expression string"
+msgstr "cadena de expresión incorrecta"
+
+msgid "element name mismatch"
+msgstr "el nombre del elemento no coincide"
+
+msgid "field too long"
+msgstr "campo demasiado largo"
+
+msgid "generic error"
+msgstr "error genérico"
+
+msgid "internal error"
+msgstr "error interno"
+
+msgid "invalid allocation"
+msgstr "asignación no válida"
+
+msgid "invalid color"
+msgstr "color no válido"
+
+msgid "invalid dice"
+msgstr "dados no válidos"
+
+msgid "invalid effect"
+msgstr "efecto no válido"
+
+msgid "invalid expression"
+msgstr "expresión no válida"
+
+msgid "invalid flag"
+msgstr "indicador no válido"
+
+msgid "invalid object property id type"
+msgstr "tipo de id de propiedad de objeto no válido"
+
+msgid "invalid item number"
+msgstr "número de objeto no válido"
+
+msgid "invalid power calculation iteration"
+msgstr "iteración de cálculo de poder no válida"
+
+msgid "invalid lighting"
+msgstr "iluminación no válida"
+
+msgid "invalid message"
+msgstr "mensaje no válido"
+
+msgid "invalid monster base"
+msgstr "base de monstruo no válida"
+
+msgid "invalid monster race"
+msgstr "raza de monstruo no válida"
+
+msgid "invalid monster group role"
+msgstr "rol de grupo de monstruo no válido"
+
+msgid "invalid object property code"
+msgstr "código de propiedad de objeto no válido"
+
+msgid "invalid option"
+msgstr "opción no válida"
+
+msgid "invalid power calculation operation"
+msgstr "operación de cálculo de poder no válida"
+
+msgid "invalid player property code"
+msgstr "código de propiedad de jugador no válido"
+
+msgid "invalid object property type"
+msgstr "tipo de propiedad de objeto no válido"
+
+msgid "invalid slay"
+msgstr "matanza no válida"
+
+msgid "invalid spell frequency"
+msgstr "frecuencia de hechizo no válida"
+
+msgid "invalid spell name"
+msgstr "nombre de hechizo no válido"
+
+msgid "invalid spell stat"
+msgstr "estadística de hechizo no válida"
+
+msgid "invalid object property subtype"
+msgstr "subtipo de propiedad de objeto no válido"
+
+msgid "invalid value"
+msgstr "valor no válido"
+
+msgid "missing blow effect type"
+msgstr "falta el tipo de efecto de golpe"
+
+msgid "missing field"
+msgstr "falta un campo"
+
+msgid "missing object property type"
+msgstr "falta el tipo de propiedad de objeto"
+
+msgid "missing player property type"
+msgstr "falta el tipo de propiedad de jugador"
+
+msgid "missing record header"
+msgstr "falta la cabecera del registro"
+
+msgid "artifact name not found"
+msgstr "nombre de artefacto no encontrado"
+
+msgid "no builder found"
+msgstr "no se encontró generador"
+
+msgid "file not found"
+msgstr "no se encontró el archivo"
+
+msgid "no object kind found for ego type"
+msgstr "no se encontró tipo de objeto para el tipo ego"
+
+msgid "object kind not found"
+msgstr "no se encontró el tipo de objeto"
+
+msgid "room not found"
+msgstr "no se encontró sala"
+
+msgid "non sequential records"
+msgstr "registros no secuenciales"
+
+msgid "not a number"
+msgstr "no es un número"
+
+msgid "not random"
+msgstr "no es aleatorio"
+
+msgid "not a special artifact"
+msgstr "no es un artefacto especial"
+
+msgid "obsolete file"
+msgstr "archivo obsoleto"
+
+msgid "out of bounds"
+msgstr "fuera de los límites"
+
+msgid "out of memory"
+msgstr "memoria agotada"
+
+msgid "directive used more than once"
+msgstr "directiva usada más de una vez"
+
+msgid "too few entries"
+msgstr "muy pocas entradas"
+
+msgid "too many entries"
+msgstr "demasiadas entradas"
+
+msgid "unbound expression"
+msgstr "expresión no vinculada"
+
+msgid "undefined directive"
+msgstr "directiva no definida"
+
+msgid "unrecognised blow"
+msgstr "golpe no reconocido"
+
+msgid "unrecognised brand"
+msgstr "marca no reconocida"
+
+msgid "unrecognised slay"
+msgstr "matanza no reconocida"
+
+msgid "unrecognised curse"
+msgstr "maldición no reconocida"
+
+msgid "unrecognised trap"
+msgstr "trampa no reconocida"
+
+msgid "unrecognised tval"
+msgstr "tval no reconocido"
+
+msgid "unrecognised sval"
+msgstr "sval no reconocido"
+
+msgid "unrecognised parameter"
+msgstr "parámetro no reconocido"
+
+msgid "vault too big"
+msgstr "bóveda demasiado grande"
+
+msgid "wrong length for vault description line"
+msgstr "longitud de línea de descripción de bóveda incorrecta"
+
+msgid "unspecified error"
+msgstr "error no especificado"
+
+# --- list-equip-slots.h (via obj-gear.c) ---
+
+msgid "Wielding"
+msgstr "Empuñado"
+
+msgid "just lifting"
+msgstr "solo levantando"
+
+msgid "attacking monsters with"
+msgstr "atacar monstruos con"
+
+msgid "Shooting"
+msgstr "A distancia"
+
+msgid "just holding"
+msgstr "solo sujetando"
+
+msgid "shooting missiles with"
+msgstr "disparar proyectiles con"
+
+msgid "On %s"
+msgstr "En %s"
+
+msgid "wearing on your %s"
+msgstr "llevar puesto en tu %s"
+
+msgid "wearing around your %s"
+msgstr "llevar alrededor de tu %s"
+
+msgid "Light source"
+msgstr "Fuente de luz"
+
+msgid "using to light your way"
+msgstr "usar para iluminar tu camino"
+
+msgid "On body"
+msgstr "En cuerpo"
+
+msgid "wearing on your body"
+msgstr "llevar puesto en tu cuerpo"
+
+msgid "Parse error in %s line %d column %d: %s: %s"
+msgstr "Error de análisis en %s línea %d columna %d: %s: %s"
+
+msgid "You have discovered a trap on the chest!"
+msgstr "¡Has descubierto una trampa en el cofre!"
+
+# --- ui-display.c (follow-up) ---
+
+msgid "Fast"
+msgstr "Rápido"
+
+msgid "Slow"
+msgstr "Lento"
+
+msgid "Display inven/equip"
+msgstr "Mostrar inv/equip"
+
+msgid "Display equip/inven"
+msgstr "Mostrar equip/inv"
+
+msgid "Display player (basic)"
+msgstr "Mostrar jugador (básico)"
+
+msgid "Display player (extra)"
+msgstr "Mostrar jugador (extra)"
+
+msgid "Display player (compact)"
+msgstr "Mostrar jugador (compacto)"
+
+msgid "Display map view"
+msgstr "Mostrar vista de mapa"
+
+msgid "Display messages"
+msgstr "Mostrar mensajes"
+
+msgid "Display overhead view"
+msgstr "Mostrar vista general"
+
+msgid "Display monster recall"
+msgstr "Mostrar recuerdo de monstruo"
+
+msgid "Display object recall"
+msgstr "Mostrar recuerdo de objeto"
+
+msgid "Display monster list"
+msgstr "Mostrar lista de monstruos"
+
+msgid "Display status"
+msgstr "Mostrar estado"
+
+msgid "Display item list"
+msgstr "Mostrar lista de objetos"
+
+msgid "Display player (top bar)"
+msgstr "Mostrar jugador (barra superior)"
+
+msgid "Display borg messages"
+msgstr "Mostrar mensajes de borg"
+
+msgid "Display borg status"
+msgstr "Mostrar estado de borg"
+
+msgid "The 'lib' directory is probably missing or damaged.\nMaybe the file was not extracted correctly.\nSee the file 'readme.txt' for more information."
+msgstr "El directorio 'lib' probablemente falta o está dañado.\nQuizás el archivo no se extrajo correctamente.\nConsulta el archivo 'readme.txt' para más información."
+
+msgid "Cannot access the file '%s'!"
+msgstr "¡No se puede acceder al archivo '%s'!"
+
+msgid "You see"
+msgstr "Ves"
+
+msgid "You have no room for"
+msgstr "no tienes espacio para"
+
+msgid "You feel"
+msgstr "Sientes"
+
+msgid "You have no room for the following objects"
+msgstr "No tienes espacio para los siguientes objetos"
+
+msgid "You feel something on the floor"
+msgstr "Sientes algo en el suelo"
+
+msgid "You see: "
+msgstr "Aquí se ve: "
+
+msgid "Saved successfully. Press any key to continue."
+msgstr "Guardado correctamente. Pulsa cualquier tecla para continuar."
+
+msgid "Save failed. Press any key to continue."
+msgstr "Fallo al guardar. Pulsa cualquier tecla para continuar."
+
+msgid "Restore failed. Press any key to continue."
+msgstr "Fallo al restaurar. Pulsa cualquier tecla para continuar."
+
+# --- final cleanup pass: ui-help.c / ui-input.c / effects-info.c / ui-object.c / ui-player.c / ui-spell.c ---
+
+msgid "Go to Line: "
+msgstr "Ir a Línea: "
+
+msgid "Confirm writing to %s? "
+msgstr "¿Confirmar escritura en %s? "
+
+msgid "Replace existing file? "
+msgstr "¿Reemplazar archivo existente? "
+
+msgid "Are you sure? "
+msgstr "¿Estás seguro? "
+
+msgid ", which your device skill increases by %d%%"
+msgstr ", con tu habilidad con dispositivos esto aumenta en un %d%%"
+
+msgid " for an average of %d.%d damage"
+msgstr " para un promedio de %d.%d de daño"
+
+msgid "An incorrect effect description was passed to effect_info(). Please report this bug."
+msgstr "Se pasó una descripción de efecto incorrecta a effect_info(). Por favor, informa de este error."
+
+msgid "An incorrect effect description was passed to effect_get_menu_name(). Please report this bug."
+msgstr "Se pasó una descripción de efecto incorrecta a effect_get_menu_name(). Por favor, informa de este error."
+
+msgid "do that with"
+msgstr "hacer eso con"
+
+msgid "Really %s"
+msgstr "¿Realmente %s"
+
+msgid "Examine which item?"
+msgstr "¿Qué objeto examinar?"
+
+msgid "You have nothing to examine."
+msgstr "No tienes nada que examinar."
+
+msgid "Hindrances"
+msgstr "Obstáculos"
+
+msgid "Modifiers"
+msgstr "Modificadores"
+
+msgid "Character dump failed!"
+msgstr "¡Fallo en el dump de personaje!"
+
+msgid " forgotten"
+msgstr " olvidado"
+
+msgid " untried"
+msgstr " no probado"
+
+msgid " unknown"
+msgstr " desconocido"
+
+msgid " difficult"
+msgstr " difícil"
+
+msgid "  Inflicts an average of"
+msgstr "  Inflige un promedio de"
+
+msgid " and"
+msgstr " y"
+
+msgid " damage."
+msgstr " de daño."
+
+msgid "Name                             Lv Mana Fail Info"
+msgstr "Nombre                           Nv Maná Fallo Info"
+
+msgid "Which %s to %s? ('?' to see description)"
+msgstr "¿Qué %s %s? ('?' para ver descripción)"
+
+msgid "Browsing %s. ('?' to see description)"
+msgstr "Examinando %s. ('?' para ver descripción)"
+
+msgid "Which book to %s?"
+msgstr "¿Qué libro %s?"
+
+msgid "cast"
+msgstr "castear"
+
+msgid "study"
+msgstr "estudiar"
+
+# --- ui-knowledge.c (group O) ---
+
+msgid "No known %s."
+msgstr "Ningún %s conocido."
+
+msgid "%d known uniques, %d killed."
+msgstr "%d únicos conocidos, %d asesinados."
+
+msgid "monsters"
+msgstr "monstruos"
+
+msgid "                   Sym  Kills"
+msgstr "                   Símb  Muertes"
+
+msgid "ego items"
+msgstr "objetos de égida"
+
+msgid "known objects"
+msgstr "objetos conocidos"
+
+msgid "Ignore  Inscribed          Sym"
+msgstr "Ignorar  Inscrito          Símb"
+
+msgid "Inscribed"
+msgstr "Inscrito"
+
+msgid "features"
+msgstr "características"
+
+msgid "                    Sym"
+msgstr "                    Símb"
+
+msgid "traps"
+msgstr "trampas"
+
+msgid "(up to 5 hex digits):"
+msgstr "(hasta 5 dígitos hex):"
+
+msgid "Yes"
+msgstr "Sí"
+
+msgid ", 't/T' to change lighting (lit)"
+msgstr ", 't/T' para iluminación (iluminado)"
+
+msgid ", 't/T' to change lighting (torch)"
+msgstr ", 't/T' para iluminación (antorcha)"
+
+msgid ", 't/T' to change lighting (LOS)"
+msgstr ", 't/T' para iluminación (LdV)"
+
+msgid ", 't/T' to change lighting (dark)"
+msgstr ", 't/T' para iluminación (oscuro)"
+
+msgid ", 't' to change lighting"
+msgstr ", 't' para cambiar iluminación"
+
+msgid "physical disarming"
+msgstr "desarme físico"
+
+msgid "magic disarming"
+msgstr "desarme mágico"
+
+msgid "magic devices"
+msgstr "dispositivos mágicos"
+
+msgid "saving throw"
+msgstr "tiradas de salvación"
+
+msgid "searching"
+msgstr "búsqueda"
+
+msgid "armor enchantment"
+msgstr "encantamiento de armadura"
+
+msgid "to-hit enchantment"
+msgstr "encantamiento de acierto"
+
+msgid "to-damage enchantment"
+msgstr "encantamiento de daño"
+
+msgid "melee to-hit"
+msgstr "ataque cuerpo a cuerpo"
+
+msgid "bow to-hit"
+msgstr "puntería con arco"
+
+msgid "throwing to-hit"
+msgstr "puntería al lanzar"
+
+msgid "digging"
+msgstr "excavación"
+
+msgid "unknown skill"
+msgstr "habilidad desconocida"
+
+msgid "%+d to AC"
+msgstr "%+d a CA"
+
+msgid "%+d to hit"
+msgstr "%+d a atacar"
+
+msgid "%+d to damage"
+msgstr "%+d a daño"
+
+msgid "Adds"
+msgstr "Añade"
+
+msgid "%+d to %s"
+msgstr "%+d a %s"
+
+msgid "Makes you vulnerable to"
+msgstr "Te hace vulnerable a"
+
+msgid "Makes you resistant to"
+msgstr "Te hace resistente a"
+
+msgid "Makes you immune to"
+msgstr "Te hace inmune a"
+
+msgid "Provides protection against"
+msgstr "Proporciona protección contra"
+
+msgid "Change shape to "
+msgstr "Cambiar a la forma "
+
+msgid "The spell %s, %s, of %s triggers the shapechange."
+msgstr "El hechizo %s, %s, de %s desencadena el cambio de forma."
+
+msgid "\nAs with all forms, the equipment at the time of the shapechange sets the base attributes, including damage per hit, number of blows, and resistances. While changed, the items in your pack or on the floor (except to pick up or eat) are inaccessible. To return to your normal form, cast a spell or use an item command other than eating (dropping, for example).\n"
+msgstr "\nComo todas las formas, el equipo en el momento del cambio de forma establece los atributos base, incluyendo daño por golpe, número de golpes y resistencias. Mientras estás cambiado, los objetos en tu mochila o en el suelo (excepto para recoger o comer) son inaccesibles. Para volver a tu forma normal, lanza un hechizo o usa un comando de objeto que no sea comer (soltar, por ejemplo).\n"
+
+msgid "Choose color:"
+msgstr "Elige color:"
+
+msgid ", 'r' to recall"
+msgstr ", 'r' para recordar"
+
+msgid "Knowledge - %s"
+msgstr "Conocimiento - %s"
+
+msgid "Group"
+msgstr "Grupo"
+
+msgid ", 'c' to copy"
+msgstr ", 'c' para copiar"
+
+msgid ", 'c', 'p' to paste"
+msgstr ", 'c', 'p' para pegar"
+
+msgid ", ENTER to accept"
+msgstr ", ENTER para aceptar"
+
+msgid ", 'i' to insert, ENTER to accept"
+msgstr ", 'i' para insertar, ENTER para aceptar"
+
+msgid ", 'v' for visuals"
+msgstr ", 'v' para visuales"
+
+msgid "shape"
+msgstr "forma"
+
+msgid " dead"
+msgstr " muerto"
+
+msgid "alive"
+msgstr "vivo"
+
+msgid "Creatures killed: %d/%d (in group/total)"
+msgstr "Criaturas asesinadas: %d/%d (en grupo/en total)"
+
+msgid "artifacts (seed %08lx)"
+msgstr "artefactos (semilla %08lx)"
+
+msgid "artifacts"
+msgstr "artefactos"
+
+msgid " {tried}"
+msgstr " {probado}"
+
+msgid ", 's' to toggle ignore, 'r'ecall, '{'"
+msgstr ", 's' para alternar ignorar, 'r'ecordar, '{'"
+
+msgid ", 's' to toggle ignore, 'r'ecall, '{', '}'"
+msgstr ", 's' para alternar ignorar, 'r'ecordar, '{', '}'"
+
+msgid "Inscribe with: "
+msgstr "Inscribir con: "
+
+msgid ", 'r'ecall, '{'"
+msgstr ", 'r'ecordar, '{'"
+
+msgid ", 'r'ecall, '{', '}'"
+msgstr ", 'r'ecordar, '{', '}'"
+
+msgid "runes (%d unknown)"
+msgstr "runas (%d desconocidas)"
+
+msgid "You are not wielding or wearing anything."
+msgstr "No estás empuñando o usando nada."
+
+msgid "%s%s of"
+msgstr "%s%s de"
+
+msgid " north"
+msgstr " norte"
+
+msgid " south"
+msgstr " sur"
+
+msgid " west"
+msgstr " oeste"
+
+msgid " east"
+msgstr " este"
+
+msgid "Map sector [%d,%d], which is%s your sector. Direction?"
+msgstr "Sector del mapa [%d,%d], que está%s tu sector. ¿Dirección?"
+
+msgid "Map sector [%d(%02d),%d(%02d)], which is%s your sector. Direction?"
+msgstr "Sector del mapa [%d(%02d),%d(%02d)], que está%s tu sector. ¿Dirección?"
+
+msgid "%s - Unknown Symbol."
+msgstr "%s - Símbolo Desconocido."
+
+msgid "? - Unknown Symbol."
+msgstr "? - Símbolo Desconocido."
+
+msgid "Enter character to be identified, or control+[ANU]: "
+msgstr "Introduce el carácter a identificar, o control+[ANU]: "
+
+msgid "Full monster list."
+msgstr "Lista completa de monstruos."
+
+msgid "Unique monster list."
+msgstr "Lista de monstruos únicos."
+
+msgid "Non-unique monster list."
+msgstr "Lista de monstruos no únicos."
+
+msgid "Recall details? (y/k/n): "
+msgstr "¿Recordar detalles? (s/k/n): "
+
+msgid "Error parsing ui_knowledge.txt"
+msgstr "Se encontró un error al analizar ui_knowledge.txt"
+
+msgid "Display object knowledge"
+msgstr "Mostrar conocimiento de objetos"
+
+msgid "Display rune knowledge"
+msgstr "Mostrar conocimiento de runas"
+
+msgid "Display artifact knowledge"
+msgstr "Mostrar conocimiento de artefactos"
+
+msgid "Display ego item knowledge"
+msgstr "Mostrar conocimiento de objetos de égida"
+
+msgid "Display monster knowledge"
+msgstr "Mostrar conocimiento de monstruos"
+
+msgid "Display feature knowledge"
+msgstr "Mostrar conocimiento de características"
+
+msgid "Display trap knowledge"
+msgstr "Mostrar conocimiento de trampas"
+
+msgid "Display shapechange effects"
+msgstr "Mostrar efectos de cambio de forma"
+
+msgid "Display scores"
+msgstr "Mostrar salón de la fama"
+
+msgid "Display character history"
+msgstr "Mostrar historial del personaje"
+
+msgid "Display equippables comparison"
+msgstr "Mostrar comparación de equipables"
+
+msgid "Show contents of %s'%s%s"
+msgstr "Mostrar contenido de %s'%s%s"
+
+msgid "Show contents of store %d%s"
+msgstr "Mostrar contenido de tienda %d%s"
+
+msgid "Display current knowledge"
+msgstr "Mostrar conocimiento actual"
+
+msgid "Find: "
+msgstr "Buscar: "
+
+msgid " [(r)ecall, ESC]"
+msgstr " [(r)ecordar, ESC]"
+
+# --- ui-game.c (group O) ---
+
+msgid "That is not a valid nested command."
+msgstr "Ese no es un comando anidado válido."
+
+msgid "Cancelled."
+msgstr "Cancelado."
+
+msgid "A panic save exists. Use it? "
+msgstr "Existe un guardado de pánico. ¿Usarlo? "
+
+msgid "Use %s: %s"
+msgstr "Usar %s: %s"
+
+msgid "Use %s"
+msgstr "Usar %s"
+
+msgid "New game"
+msgstr "Nueva partida"
+
+msgid "Can't open the savefile directory"
+msgstr "No se puede abrir el directorio de archivos guardados"
+
+msgid "Select the save to use (movement keys and enter or mouse) or exit"
+msgstr "Selecciona el guardado a usar (teclas de movimiento y enter o ratón) o salir"
+
+msgid "(escape or second mouse button)."
+msgstr "(escape o segundo botón del ratón)."
+
+msgid "The previously selected save file was not usable."
+msgstr "El archivo guardado seleccionado anteriormente no era utilizable."
+
+msgid "Corrupt savefile"
+msgstr "Archivo guardado corrupto"
+
+msgid "Invalid game mode in play_game()"
+msgstr "Modo de juego inválido en play_game()"
+
+msgid "Saving game..."
+msgstr "Guardando partida..."
+
+msgid "(saved)"
+msgstr "(guardado)"
+
+msgid "Saving game... done."
+msgstr "Guardando partida... listo."
+
+msgid "Saving game... failed!"
+msgstr "¡Guardando partida... falló!"
+
+msgid "Dump window settings"
+msgstr "Volcar configuración de ventanas"
+
+msgid "Failed to save subwindow preferences"
+msgstr "Fallo al guardar preferencias de subventana"
+
+msgid "lore save failed!"
+msgstr "¡fallo al guardar lore!"
+
+msgid "(alive and kicking)"
+msgstr "(vivo y coleando)"
+
+msgid "Save failed. Retry? "
+msgstr "Fallo al guardar. ¿Reintentar? "
+
+msgid "death save failed!"
+msgstr "¡fallo al guardar la muerte!"
+
+msgid "Press Return (or Escape)."
+msgstr "Pulsa Return (o Escape)."
+
+# --- ui-options.c (group O) ---
+
+msgid "%s to a pref file"
+msgstr "%s a un archivo de preferencias"
+
+msgid "File: "
+msgstr "Archivo: "
+
+msgid "Saved %s."
+msgstr "Guardado %s."
+
+msgid "Failed to save %s."
+msgstr "Fallo al guardar %s."
+
+msgid "Save as %s default options"
+msgstr "Guardar como opciones %s predeterminadas"
+
+msgid "Restore from saved values"
+msgstr "Restaurar desde valores guardados"
+
+msgid "Reset to factory values"
+msgstr "Restablecer a valores de fábrica"
+
+msgid "Set option (s/n/t), use movement keys or index"
+msgstr "Setear opción (s/n/t), usar teclas de mov o índice"
+
+msgid "You may only modify these options at birth."
+msgstr "Solo puedes modificar estas opciones en la creación del personaje."
+
+msgid "Set option (s/n/t), 'g' save, 'r' restore, 'x' reset"
+msgstr "Setear opción (s/n/t), 'g' guardar, 'r' restaurar, 'x' reiniciar"
+
+msgid "Birth Options"
+msgstr "Opciones de Nacimiento"
+
+msgid "Window flags (<dir> to move, 't'/Enter to toggle, or ESC)"
+msgstr "Opciones de ventana (<dir> para mover, 't'/Enter para alternar, o ESC)"
+
+msgid "(Unused option)"
+msgstr "(Opción no usada)"
+
+msgid "Dump keymaps"
+msgstr "Guardar mapas de teclas"
+
+msgid "Key: "
+msgstr "Tecla: "
+
+msgid "No keymap with that trigger. Press any key to continue."
+msgstr "Ningún mapa de teclas con ese desencadenante. Pulsa cualquier tecla para continuar."
+
+msgid "Found: "
+msgstr "Encontrado: "
+
+msgid "Press any key to continue."
+msgstr "Pulsa cualquier tecla para continuar."
+
+msgid "The '=' key is reserved."
+msgstr "La tecla '=' está reservada."
+
+msgid "Action: %s"
+msgstr "Acción: %s"
+
+msgid "  Press '=' when finished."
+msgstr "  Pulsa '=' cuando termines."
+
+msgid "  Use 'CTRL-u' to restart."
+msgstr "  Usa 'CTRL-u' para reiniciar."
+
+msgid "(The maximum keymap length is %d keys.)"
+msgstr "(La longitud máxima del mapa de teclas es de %d teclas.)"
+
+msgid "Keep this keymap? "
+msgstr "¿Guardar mapa de teclas? "
+
+msgid "To use it in other sessions, save the keymaps to a file. Press a key to continue."
+msgstr "Guarda tu configuración en un archivo para usarlos después. Pulsa cualquier tecla."
+
+msgid "Removed."
+msgstr "Eliminado."
+
+msgid "No keymap to remove!"
+msgstr "¡No hay mapa de teclas que eliminar!"
+
+msgid "Current action (if any) shown below:"
+msgstr "Acción actual (si la hay) mostrada abajo:"
+
+msgid "Visual attr/char tables reset."
+msgstr "Tablas de atributos/caracteres visuales reiniciadas."
+
+msgid "To edit visuals, use the knowledge menu"
+msgstr "Para editar visuales, usa el menú de conocimiento"
+
+msgid "Command: Modify colors"
+msgstr "Comando: Modificar colores"
+
+msgid "undefined"
+msgstr "indefinido"
+
+msgid "Color = %d, Name = %s, Index = %c"
+msgstr "Color = %d, Nombre = %s, Índice = %c"
+
+msgid "Command (n/N/k/K/r/R/v/V/a/A): "
+msgstr "Comando (n/N/k/K/r/R/v/V/a/A): "
+
+msgid "Command: Base Delay Factor"
+msgstr "Comando: Factor de Demora Base"
+
+msgid "New base delay factor (0-255): "
+msgstr "Nuevo factor de demora base (0-255): "
+
+msgid "Current base delay factor: %d ms"
+msgstr "Factor de demora base actual: %d ms"
+
+msgid "Left"
+msgstr "Izquierda"
+
+msgid "Top"
+msgstr "Arriba"
+
+msgid "None"
+msgstr "Ninguna"
+
+msgid "Command: Sidebar Mode"
+msgstr "Comando: Modo de Barra Lateral"
+
+msgid "Current mode: %s"
+msgstr "Modo actual: %s"
+
+msgid "ESC: back, other key: change"
+msgstr "ESC: volver, otra tecla: cambiar"
+
+msgid "Command: Hitpoint Warning"
+msgstr "Comando: Advertencia de Puntos de Golpe"
+
+msgid "New hitpoint warning (0-9): "
+msgstr "Nueva advertencia de puntos de golpe (0-9): "
+
+msgid "Current hitpoint warning: %d (%d%%)"
+msgstr "Advertencia de puntos de golpe actual: %d (%d%%)"
+
+msgid "Command: Movement Delay Factor"
+msgstr "Comando: Factor de Demora de Movimiento"
+
+msgid "New movement delay: "
+msgstr "Nueva demora de movimiento: "
+
+msgid "Current movement delay: %d (%d ms)"
+msgstr "Demora de movimiento actual: %d (%d ms)"
+
+msgid "Command: Load a user pref file"
+msgstr "Comando: Cargar un archivo de preferencias de usuario"
+
+msgid "Confirm loading of %s? "
+msgstr "¿Confirmar carga de %s? "
+
+msgid "Failed to load '%s'!"
+msgstr "¡Fallo al cargar '%s'!"
+
+msgid "Loaded '%s'."
+msgstr "Cargado '%s'."
+
+msgid "Dump window configuration"
+msgstr "Guardar configuración de ventanas"
+
+msgid "Dump autoinscriptions"
+msgstr "Guardar autoinscripciones"
+
+msgid "Dump character screen options"
+msgstr "Guardar opciones de pantalla de personaje"
+
+msgid "Ego item ignore menu"
+msgstr "Menú de ignorar objetos de égida"
+
+msgid "Quality ignore menu"
+msgstr "Menú de ignorar por calidad"
+
+msgid "Ignore the following %s:"
+msgstr "Ignorar los siguientes %s:"
+
+msgid "Options Menu"
+msgstr "Menú de Opciones"
+
+msgid "{light green}Movement keys{/} scroll the list\n{light red}ESC{/} returns to the previous menu\n{light blue}Enter{/} toggles the current setting."
+msgstr "{light green}Teclas de movimiento{/} desplazan la lista\n{light red}ESC{/} vuelve al menú anterior\n{light blue}Enter{/} alterna la configuración actual."
+
+# --- ui-display.c (group O) ---
+
+msgid "SP "
+msgstr "PM "
+
+msgid "Recall"
+msgstr "Retorno"
+
+msgid "Deep Descent"
+msgstr "Descenso"
+
+msgid "Rest      "
+msgstr "Desc      "
+
+msgid "Rep. %3d00"
+msgstr "Rep. %3d00"
+
+msgid "Repeat %3d"
+msgstr "Repetir %3d"
+
+msgid "DTrap "
+msgstr "DTrampa "
+
+msgid "Study (%d)"
+msgstr "Estudio (%d)"
+
+msgid "Not Ignored"
+msgstr "No Ignorado"
+
+msgid "You invoke wizard mode and cheat death."
+msgstr "Invitas al modo mago y burlas a la muerte."
+
+msgid "Please wait..."
+msgstr "Espera por favor..."
+
+# --- ui-help.c (group O) ---
+
+msgid "Help file '%s'"
+msgstr "Archivo de ayuda '%s'"
+
+msgid "Can't open '%s'."
+msgstr "No se puede abrir '%s'."
+
+msgid "Show: "
+msgstr "Mostrar: "
+
+msgid "Go to File: "
+msgstr "Ir a Archivo: "
+
+# --- ui-input.c (group O) ---
+
+msgid "Quantity (0-%d, *=all): "
+msgstr "Cantidad (0-%d, *=todo): "
+
+msgid "Saving as %s."
+msgstr "Guardando como %s."
+
+msgid "[Press any key to continue]"
+msgstr "[Pulsa cualquier tecla para continuar]"
+
+msgid "Repeat: %d"
+msgstr "Repetir: %d"
+
+msgid "Command: "
+msgstr "Comando: "
+
+msgid "Control: "
+msgstr "Control: "
+
+# --- ui-object.c (group O) ---
+
+msgid "%6d gp"
+msgstr "%6d po"
+
+msgid "%4d%% fail"
+msgstr "%4d%% fallo"
+
+msgid "    ? fail"
+msgstr "    ? fallo"
+
+msgid "%2d.%1d%% fail"
+msgstr "%2d.%1d%% fallo"
+
+msgid "Slot %-9d: "
+msgstr "Ranura %-9d: "
+
+msgid "(nothing)"
+msgstr "(nada)"
+
+msgid "In Quiver: %d missile%s"
+msgstr "En Carcaj: %d proyectil%s"
+
+msgid "In Quiver: %d missile%s\n"
+msgstr "En Carcaj: %d proyectil%s\n"
+
+msgid "In quiver"
+msgstr "En carcaj"
+
+msgid "Equipment"
+msgstr "Equipo"
+
+msgid "Quiver"
+msgstr "Carcaj"
+
+msgid "This item only"
+msgstr "Solo este objeto"
+
+msgid "Unignore this item"
+msgstr "Dejar de ignorar este objeto"
+
+msgid "All of the %s"
+msgstr "Todos los %s"
+
+msgid "Unignore all of the %s"
+msgstr "Dejar de ignorar todos los %s"
+
+msgid "All %s"
+msgstr "Todos %s"
+
+msgid "Unignore all %s"
+msgstr "Dejar de ignorar todos %s"
+
+msgid "All %s %s"
+msgstr "Todos los %s %s"
+
+msgid "(Enter to select, ESC) Ignore:"
+msgstr "(Enter para seleccionar, ESC) Ignorar:"
+
+# --- ui-player.c (group O) ---
+
+msgid "Resistances"
+msgstr "Resistencias"
+
+msgid "Abilities"
+msgstr "Habilidades"
+
+msgid "  [Character Equipment]\n\n"
+msgstr "  [Equipo de personaje]\n\n"
+
+msgid "\n\n  [Character Inventory]\n\n"
+msgstr "\n\n  [Inventario del personaje]\n\n"
+
+msgid "\n\n  [Character Quiver]\n\n"
+msgstr "\n\n  [Carcaj del personajes]\n\n"
+
+msgid "  [Home Inventory]\n\n"
+msgstr "  [Inventario inicial]\n\n"
+
+msgid "  [Options]\n\n"
+msgstr "  [Opciones]\n\n"
+
+msgid "User interface"
+msgstr "Interfaz de usuario"
+
+msgid "Birth"
+msgstr "Nacimiento"
+
+msgid "  [Randart Seed]\n\n"
+msgstr "  [Semilla de Randart]\n\n"
+
+msgid "Could not create file %s.new"
+msgstr "No se pudo crear el archivo %s.new"
+
+# --- ui-spell.c (group O) ---
+
+msgid "You cannot browse that."
+msgstr "No puedes examinar eso."
+
+msgid "(illegible)"
+msgstr "(ilegible)"
+
+# --- misc small pairs (group O) ---
+
+msgid "yes"
+msgstr "sí"
+
+msgid "s"
+msgstr "es"
+
+# --- ui-mon-list.c / ui-obj-list.c ---
+
+msgid "other "
+msgstr "otros "
+
+msgid "No monsters in sight.\n"
+msgstr "No hay monstruos a la vista.\n"
+
+msgid "%s %d %smonster%s%s\n"
+msgstr "%s %d %smonstruo%s%s\n"
+
+msgid " (%d asleep)"
+msgstr " (%d dormidos)"
+
+msgid " (asleep)"
+msgstr " (dormido)"
+
+msgid "%6s...and %d others.\n"
+msgstr "%6s...y %d otros.\n"
+
+msgid "Your hallucinations are too wild to see things clearly.\n"
+msgstr "Tus alucinaciones son demasiado salvajes para ver las cosas con claridad.\n"
+
+msgid "You can see"
+msgstr "Puedes ver"
+
+msgid "You have detected"
+msgstr "Has detectado"
+
+msgid "No objects in sight.\n"
+msgstr "No hay objetos a la vista.\n"
+
+msgid "%s %d %sobject%s%s\n"
+msgstr "%s %d %sobjeto%s%s\n"
+
+msgid "You detect"
+msgstr "Detectas"
+
+# --- obj-gear.c ---
+
+msgid "You no longer have %s (%c)."
+msgstr "Ya no tienes %s (%c)."
+
+msgid "You have %s (1st %c)."
+msgstr "Tienes %s (1er %c)."
+
+msgid "You have %s (%c)."
+msgstr "Tienes %s (%c)."
+
+msgid "You have %d charge%s remaining."
+msgstr "Te quedan %d carga%s."
+
+msgid "You picked up %s (1st %c)."
+msgstr "Recogiste %s (1er %c)."
+
+msgid "You picked up %s (%c)."
+msgstr "Recogiste %s (%c)."
+
+msgid "You dropped %s (%c)."
+msgstr "Soltaste %s (%c)."
+
+msgid "You have no more %s (%c)."
+msgstr "Ya no te quedan %s (%c)."
+
+msgid "You have 1 %s (%c) left."
+msgstr "Te queda 1 %s (%c)."
+
+msgid "You have %d %s (%c) left."
+msgstr "Te quedan %d %s (%c)."
+
+msgid "You have %d %s (1st %c) left."
+msgstr "Te quedan %d %s (1er %c)."
+
+msgid "You combine some items in your pack."
+msgstr "Combinaste algunos objetos en tu mochila."
+
+msgid "You dropped %s."
+msgstr "Soltaste %s."
+
+msgid "You no longer have %s."
+msgstr "Ya no tienes %s."
+
+# --- cave-square.c ---
+
+msgid "on "
+msgstr "sobre "
+
+# --- ui-player-properties.c ---
+
+msgid "Special Ability: %s"
+msgstr "Habilidad Especial: %s"
+
+msgid "Class: %s"
+msgstr "Clase: %s"
+
+msgid "Racial: %s"
+msgstr "Racial: %s"
+
+msgid "Mysterious"
+msgstr "Misterioso"
+
+msgid "Race and class abilities (%c-%c, ESC=exit): "
+msgstr "Habilidades de raza y clase (%c-%c, ESC=salir): "
+
+# --- ui-output.c ---
+
+msgid "(Press any key to continue.)"
+msgstr "(Presiona cualquier tecla para continuar.)"
+
+msgid "(Up/Down or ESCAPE to exit.)"
+msgstr "(Arriba/Abajo o ESCAPE para salir.)"
+
+# --- ui-mon-list.c (follow-up) ---
+
+msgid "Press 'x' to DISABLE 'sort by exp'"
+msgstr "Presiona 'x' para DESACTIVAR 'ordenar por exp'"
+
+msgid "Press 'x' to ENABLE 'sort by exp'"
+msgstr "Presiona 'x' para ACTIVAR 'ordenar por exp'"
+
+# --- mon-lore.c: lore_append_movement / lore_append_toughness / lore_append_exp ---
+
+msgid "This"
+msgstr "Esta"
+
+msgid " creature"
+msgstr " criatura"
+
+msgid " lives in the town"
+msgstr " vive en la ciudad"
+
+msgid " is found at depths of "
+msgstr " se encuentra a una profundidad de "
+
+msgid " is normally found at depths of "
+msgstr " normalmente se encuentra a una profundidad de "
+
+msgid " feet (level "
+msgstr " pies (nivel "
+
+msgid ", and moves"
+msgstr ", y se mueve"
+
+msgid " extremely"
+msgstr " extremadamente"
+
+msgid " somewhat"
+msgstr " algo"
+
+msgid " a bit"
+msgstr " un poco"
+
+msgid " erratically"
+msgstr " erráticamente"
+
+msgid ", and"
+msgstr ", y"
+
+msgid ", but "
+msgstr ", pero "
+
+msgid "does not deign to chase intruders"
+msgstr "no se digna a perseguir intrusos"
+
+msgid ", and an armor rating of "
+msgstr ", y una armadura de "
+
+msgid "You have a"
+msgstr "Tienes un"
+
+msgid "%% chance to hit such a creature in melee (if you can see it).  "
+msgstr "%% de probabilidad de golpear a la criatura cuerpo a cuerpo (si es que puedes verla).  "
+
+msgid "Slaying"
+msgstr "Matar"
+
+msgid "Eliminating"
+msgstr "Eliminar"
+
+msgid " is worth "
+msgstr " equivale a "
+
+msgid " for a character of level "
+msgstr " para un personaje de nivel "
+
+# --- list-origins.h: object origin descriptions ---
+
+msgid "Found lying on the floor %s"
+msgstr "Hallado en el suelo %s"
+
+msgid "Taken from a chest found %s"
+msgstr "Tomado de un cofre encontrado %s"
+
+msgid "Found lying on the floor of a special room %s"
+msgstr "Hallado en el suelo de una habitación especial %s"
+
+msgid "Found lying on the floor of a pit %s"
+msgstr "Hallado en el suelo de un foso %s"
+
+msgid "Found lying on the floor of a vault %s"
+msgstr "Hallado en el suelo de una bóveda %s"
+
+msgid "Found lying on the floor of a labyrinth %s"
+msgstr "Hallado en el suelo de un laberinto %s"
+
+msgid "Found lying on the floor of a cavern %s"
+msgstr "Hallado en el suelo de una caverna %s"
+
+msgid "Found under some rubble %s"
+msgstr "Hallado bajo unos escombros %s"
+
+msgid "Dropped by %s %s"
+msgstr "Arrojado por %s %s"
+
+msgid "Conjured into existence %s"
+msgstr "Conjurado por medios mágicos %s"
+
+msgid "Bought from a store"
+msgstr "Comprado en una tienda"
+
+msgid "An inheritance from your family"
+msgstr "Una herencia de tu familia"
+
+msgid "Created by debug option"
+msgstr "Creado por opción de depuración"
+
+msgid "Dropped by an unknown monster %s"
+msgstr "Arrojado por un monstruo desconocido %s"
+
+# --- Missing translations audit merge (708 entries) ---
+
+msgid "(a) Accept  (s) Statistics  (r) Reroll  (t) Tweak  (c) Curse  (q) Quantity  (k) Known? "
+msgstr "(a) Aceptar  (s) Estadísticas  (r) Repetir  (t) Ajustar  (c) Maldecir  (q) Cantidad  (k) ¿Conocido? "
+
+msgid "You can't remember how to read!"
+msgstr "¡No recuerdas cómo leer!"
+
+msgid "combat = (%dd%d) (%+d,%+d) [%d,%+d]"
+msgstr "combate = (%dd%d) (%+d,%+d) [%d,%+d]"
+
+msgid "Max Exp"
+msgstr "Exp Máx"
+
+msgid "%d coins were stolen!"
+msgstr "¡Te robaron %d monedas!"
+
+msgid "valued customer"
+msgstr "cliente apreciado"
+
+msgid "So great was his prowess and skill in war that the Elves said: "
+msgstr "Tan grande era su destreza y habilidad en la guerra que los Elfos decían: "
+
+msgid "You are struck by lightning!"
+msgstr "¡Te alcanza un rayo!"
+
+msgid "Wizard mode off."
+msgstr "Modo mago desactivado."
+
+msgid "You feel stealthier."
+msgstr "Te sientes más sigiloso."
+
+msgid "no"
+msgstr "no"
+
+msgid "You have damaged your health!"
+msgstr "¡Has dañado tu salud!"
+
+msgid "she"
+msgstr "ella"
+
+msgid "You activate it."
+msgstr "Lo activas."
+
+msgid "Gold: "
+msgstr "Oro: "
+
+msgid "How many good items? "
+msgstr "¿Cuántos objetos buenos? "
+
+msgid "Number of simulations per depth: "
+msgstr "Número de simulaciones por profundidad: "
+
+msgid "a fatal wound"
+msgstr "una herida fatal"
+
+msgid "Target out of range by %d squares. Fire anyway? "
+msgstr "El objetivo está fuera de alcance por %d casillas. ¿Disparar de todas formas? "
+
+msgid "How many %s%s? (max %d) "
+msgstr "¿Cuántos %s%s? (máx %d) "
+
+msgid "number = %-3d  pval = %-5d  name1 = %-4ld  egoidx = %-4ld  cost = %ld"
+msgstr "número = %-3d  pval = %-5d  name1 = %-4ld  egoidx = %-4ld  coste = %ld"
+
+msgid "You have nothing to take off."
+msgstr "No tienes nada que quitarte."
+
+msgid "You succeed in shield bashing your enemy!"
+msgstr "¡Consigues golpear a tu enemigo con el escudo!"
+
+msgid "Wipe recall for [a] all monsters or [s] a specific one? "
+msgstr "¿Borrar el recuerdo de [a] todos los monstruos o [s] uno específico? "
+
+msgid "Add %d power for damage dice, "
+msgstr "Añadir %d de poder por dados de daño, "
+
+msgid "You have no ammunition in the quiver to fire."
+msgstr "No tienes munición en el carcaj para disparar."
+
+msgid "You feel *much* better!"
+msgstr "¡Te sientes *mucho* mejor!"
+
+msgid "You can't see anything."
+msgstr "No puedes ver nada."
+
+msgid "That staff has no charges."
+msgstr "Ese báculo no tiene cargas."
+
+msgid "You were holding"
+msgstr "Estabas sosteniendo"
+
+msgid "Your Home"
+msgstr "Tu Casa"
+
+msgid "You vanish into the shadows!"
+msgstr "¡Desapareces entre las sombras!"
+
+msgid "Press any key."
+msgstr "Pulsa cualquier tecla."
+
+msgid "You miss %s."
+msgstr "Fallas contra %s."
+
+msgid "Fire which ammunition?"
+msgstr "¿Qué munición disparar?"
+
+msgid "Inscribe which item?"
+msgstr "¿Qué objeto inscribir?"
+
+msgid "Welcome to level %d."
+msgstr "Bienvenido al nivel %d."
+
+msgid "You cannot retrieve that item because it is not at home."
+msgstr "No puedes recuperar ese objeto porque no está en tu casa."
+
+msgid "Add %d power for multiple kills, total is %d\n"
+msgstr "Añadir %d de poder por múltiples muertes, total es %d\n"
+
+msgid "Experience: "
+msgstr "Experiencia: "
+
+msgid "unhurt"
+msgstr "ileso"
+
+msgid "You are not wielding a light."
+msgstr "No llevas una fuente de luz."
+
+msgid "'The Mormegil cannot be slain, save by mischance.'"
+msgstr "'El Mormegil no puede ser abatido, salvo por infortunio.'"
+
+msgid "No targets."
+msgstr "No hay objetivos."
+
+msgid "You feel less attuned to your weapon."
+msgstr "Te sientes menos conectado con tu arma."
+
+msgid "You are wielding %s (%c)."
+msgstr "Estás empuñando %s (%c)."
+
+msgid "Enter the ego item: "
+msgstr "Introduce el objeto ego: "
+
+msgid "The object gives the player a magical bonus to %s."
+msgstr "El objeto da al jugador un bono mágico a %s."
+
+msgid "You have slain this foe.  "
+msgstr "Has matado a este enemigo.  "
+
+msgid "Which monster? "
+msgstr "¿Qué monstruo? "
+
+msgid "to fire"
+msgstr "al fuego"
+
+msgid "brand of %s"
+msgstr "marca de %s"
+
+msgid "The square you are pointing at is impassable."
+msgstr "La casilla que señalas es intransitable."
+
+msgid "Your armor no longer encumbers your spell casting."
+msgstr "Tu armadura ya no entorpece tu lanzamiento de hechizos."
+
+msgid "unknown item"
+msgstr "objeto desconocido"
+
+msgid " exits this screen."
+msgstr " sale de esta pantalla."
+
+msgid "Enter name or number of the effect subtype: "
+msgstr "Introduce nombre o número del subtipo de efecto: "
+
+msgid "%s tries to steal %s %s, but fails."
+msgstr "%s intenta robar %s %s, pero falla."
+
+msgid "%s tries to cast a spell, but fails."
+msgstr "%s intenta lanzar un hechizo, pero falla."
+
+msgid "ERROR: Effect handler not found for %s."
+msgstr "ERROR: Manejador de efecto no encontrado para %s."
+
+msgid "%s is repelled."
+msgstr "%s es repelido."
+
+msgid "%s misses you."
+msgstr "%s no logra darte."
+
+msgid "%s misses %s."
+msgstr "%s falla contra %s."
+
+msgid "Enter the x parameter: "
+msgstr "Introduce el parámetro x: "
+
+msgid "Add %d power for to hit, total is %d\n"
+msgstr "Añadir %d de poder por golpear, total es %d\n"
+
+msgid "Drop which item? "
+msgstr "¿Qué objeto soltar? "
+
+msgid "treasure"
+msgstr "tesoro"
+
+msgid "The object gives the player the property of %s."
+msgstr "El objeto da al jugador la propiedad de %s."
+
+msgid "The object affects the player's resistance to %s."
+msgstr "El objeto afecta a la resistencia del jugador a %s."
+
+msgid "Note: "
+msgstr "Nota: "
+
+msgid " {ignore}"
+msgstr " {ignorar}"
+
+msgid " {unseen}"
+msgstr " {no visto}"
+
+msgid " {cursed}"
+msgstr " {maldito}"
+
+msgid " (%d charge%s)"
+msgstr " (%d carga%s)"
+
+msgid " a single "
+msgstr " un solo "
+
+msgid "Initializing arrays... (room templates)"
+msgstr "Inicializando matrices... (plantillas de salas)"
+
+msgid "Change the curse on which item? "
+msgstr "¿En qué objeto cambiar la maldición? "
+
+msgid "Add %d power for %s, total is %d\n"
+msgstr "Añadir %d de poder por %s, total es %d\n"
+
+msgid "Use which staff? "
+msgstr "¿Qué báculo usar? "
+
+msgid "Multiplier after extra might is %d\n"
+msgstr "El multiplicador tras la fuerza extra es %d\n"
+
+msgid "remains"
+msgstr "permanece"
+
+msgid "himself"
+msgstr "a sí mismo"
+
+msgid "almost destroyed"
+msgstr "casi destruido"
+
+msgid "You have learned the %s of %s."
+msgstr "Has aprendido el %s de %s."
+
+msgid "Your machine may crash, and your savefile may become corrupted!"
+msgstr "¡Tu máquina podría bloquearse, y tu partida guardada podría corromperse!"
+
+msgid ", but you have avenged yourself!  "
+msgstr ", ¡pero te has vengado!  "
+
+msgid "Include monster list? "
+msgstr "¿Incluir lista de monstruos? "
+
+msgid "You cannot modify the quantity of an artifact."
+msgstr "No puedes modificar la cantidad de un artefacto."
+
+msgid "Wear/wield the item to use it."
+msgstr "Viste/empuña el objeto para usarlo."
+
+msgid "There is no known path to a down staircase."
+msgstr "No hay un camino conocido hacia una escalera hacia abajo."
+
+msgid "The object magically increases the player's armor class"
+msgstr "El objeto aumenta mágicamente la clase de armadura del jugador"
+
+msgid "to lightning"
+msgstr "al rayo"
+
+msgid "You have picked the lock."
+msgstr "Has forzado la cerradura."
+
+msgid "Tweak which item? "
+msgstr "¿Qué objeto ajustar? "
+
+msgid "Your ancestors have killed at least %d of these creatures.  "
+msgstr "Tus antepasados han matado al menos %d de estas criaturas.  "
+
+msgid "You scream in sudden pain!%s"
+msgstr "¡Gritas de repentino dolor!%s"
+
+msgid "Use which item? "
+msgstr "¿Qué objeto usar? "
+
+msgid "object%s"
+msgstr "objeto%s"
+
+msgid "Cannot initialize room templates"
+msgstr "No se pueden inicializar las plantillas de salas"
+
+msgid "forum text"
+msgstr "texto de foro"
+
+msgid "You fuel your lamp."
+msgstr "Recargas tu lámpara."
+
+msgid "You hear a door burst open!"
+msgstr "¡Oyes una puerta abrirse de golpe!"
+
+msgid " sells"
+msgstr " vende"
+
+msgid "There is a door blocking your way."
+msgstr "Hay una puerta bloqueando tu camino."
+
+msgid "Activate which item? "
+msgstr "¿Qué objeto activar? "
+
+msgid " (you have %d)"
+msgstr " (tienes %d)"
+
+msgid "You have nothing to play with."
+msgstr "No tienes nada con qué jugar."
+
+msgid "You cannot see!"
+msgstr "¡No puedes ver!"
+
+msgid "You feel a door blocking your way."
+msgstr "Sientes una puerta bloqueando tu camino."
+
+msgid "Add %d power for slay and brand, total is %d\n"
+msgstr "Añadir %d de poder por matar y marcar, total es %d\n"
+
+msgid "You have removed the rubble %s."
+msgstr "Has retirado los escombros %s."
+
+msgid " or "
+msgstr " o "
+
+msgid ", or "
+msgstr ", o "
+
+msgid " (or %d%%, whichever is greater)"
+msgstr " (o %d%%, lo que sea mayor)"
+
+msgid "a level-dependent distance"
+msgstr "una distancia dependiente del nivel"
+
+msgid "some distance"
+msgstr "cierta distancia"
+
+msgid "%d grids"
+msgstr "%d casillas"
+
+msgid "a monster"
+msgstr "un monstruo"
+
+msgid "other"
+msgstr "a otro"
+
+msgid "you"
+msgstr "a ti"
+
+msgid "You are about to enter 'wizard' mode for the first time!"
+msgstr "¡Estás a punto de entrar en modo 'mago' por primera vez!"
+
+msgid "You quickly protect your money pouch!"
+msgstr "¡Proteges rápidamente tu bolsa de dinero!"
+
+msgid "Slays and brands: "
+msgstr "Muertes y marcas: "
+
+msgid "You have slain"
+msgstr "Has matado"
+
+msgid "You have killed %s."
+msgstr "Has matado a %s."
+
+msgid "You have destroyed %s."
+msgstr "Has destruido a %s."
+
+msgid "You have slain %s."
+msgstr "Has derrotado a %s."
+
+msgid "feeds you"
+msgstr "te alimenta"
+
+msgid "feed"
+msgstr "alimentar a"
+
+msgid "increase"
+msgstr "aumentar"
+
+msgid "hunger"
+msgstr "hambre"
+
+msgid "become"
+msgstr "convertirte en"
+
+msgid "bloated"
+msgstr "hinchado"
+
+msgid "satisfied"
+msgstr "satisfecho"
+
+msgid "hungry"
+msgstr "hambriento"
+
+msgid "leave"
+msgstr "dejarte"
+
+msgid "nourished"
+msgstr "nutrido"
+
+msgid "leaves you nourished"
+msgstr "te deja nutrido"
+
+msgid "uses enough food value"
+msgstr "usa suficiente valor alimenticio"
+
+msgid "You feel your life slipping away."
+msgstr "Sientes que tu vida se te escapa."
+
+msgid " inspects an item from your inventory. "
+msgstr " inspecciona un objeto de tu inventario. "
+
+msgid "Die? "
+msgstr "¿Morir? "
+
+msgid "You furiously attack a nearby foe!"
+msgstr "¡Atacas furiosamente a un enemigo cercano!"
+
+msgid "Store"
+msgstr "Tienda"
+
+msgid "There seems to be no path to explore."
+msgstr "Parece que no hay camino que explorar."
+
+msgid ", however"
+msgstr ", sin embargo"
+
+msgid "Current hitpoint score is %d/100."
+msgstr "La puntuación actual de puntos de golpe es %d/100."
+
+msgid "The %s was really a monster!"
+msgstr "¡%s era en realidad un monstruo!"
+
+msgid "You are about to use the dangerous, unsupported debug commands!"
+msgstr "¡Estás a punto de usar los peligrosos comandos de depuración no soportados!"
+
+msgid "Are you sure you want to use the borg commands? "
+msgstr "¿Seguro que quieres usar los comandos Borg? "
+
+msgid "You have nothing to inscribe."
+msgstr "No tienes nada que inscribir."
+
+msgid "You are thrown back by an explosion!"
+msgstr "¡Sales despedido por una explosión!"
+
+msgid "Which level do you want to return to (0 to cancel)? "
+msgstr "¿A qué nivel quieres volver (0 para cancelar)? "
+
+msgid "Maximum depth: "
+msgstr "Profundidad máxima: "
+
+msgid "You are shooting with %s (%c)."
+msgstr "Estás disparando con %s (%c)."
+
+msgid "Enter name or index of the curse: "
+msgstr "Introduce nombre o índice de la maldición: "
+
+msgid "Add %d for slay power, total is %d\n"
+msgstr "Añadir %d por poder de matar, total es %d\n"
+
+msgid "%s %s? [ESC, any other key to accept]"
+msgstr "¿%s %s? [ESC, cualquier otra tecla para aceptar]"
+
+msgid "You feel more dextrous!"
+msgstr "¡Te sientes más diestro!"
+
+msgid "You reorder your quiver."
+msgstr "Reordenas tu carcaj."
+
+msgid " an item from your inventory. "
+msgstr " un objeto de tu inventario. "
+
+msgid "You are playing %s. Type '?' for more information."
+msgstr "Estás jugando %s. Pulsa '?' para más información."
+
+msgid "\nbest power is: %d\n"
+msgstr "\nel mejor poder es: %d\n"
+
+msgid "erroneously"
+msgstr "erróneamente"
+
+msgid "incredibly fast"
+msgstr "increíblemente rápido"
+
+msgid "very fast"
+msgstr "muy rápido"
+
+msgid "fast"
+msgstr "rápido"
+
+msgid "fairly fast"
+msgstr "bastante rápido"
+
+msgid "normal speed"
+msgstr "velocidad normal"
+
+msgid "slow"
+msgstr "lento"
+
+msgid "very slow"
+msgstr "muy lento"
+
+msgid "incredibly slow"
+msgstr "increíblemente lento"
+
+msgid "hits"
+msgstr "golpea"
+
+msgid "You enter a maze of down staircases."
+msgstr "Entras en un laberinto de escaleras hacia abajo."
+
+msgid "The object %s."
+msgstr "El objeto %s."
+
+msgid ", who %s unavenged.  "
+msgstr ", que %s sin ser vengado.  "
+
+msgid "You bought %s for %d gold."
+msgstr "Compraste %s por %d de oro."
+
+msgid "Teleport range? "
+msgstr "¿Alcance de teletransporte? "
+
+msgid "to holy power"
+msgstr "al poder sagrado"
+
+msgid "Price"
+msgstr "Precio"
+
+msgid "You have no wands to aim."
+msgstr "No tienes varitas que apuntar."
+
+msgid "Updating stores..."
+msgstr "Actualizando tiendas..."
+
+msgid "to poison"
+msgstr "al veneno"
+
+msgid " meters away.  "
+msgstr " metros de distancia.  "
+
+msgid "normal"
+msgstr "normal"
+
+msgid "Your home is full."
+msgstr "Tu casa está llena."
+
+msgid "Price: %ld"
+msgstr "Precio: %ld"
+
+msgid "Give"
+msgstr "Dar"
+
+msgid "You have no food to eat."
+msgstr "No tienes comida para comer."
+
+msgid "to arrows"
+msgstr "a las flechas"
+
+msgid "activate it"
+msgstr "activarlo"
+
+msgid "Screen dump %s saved."
+msgstr "Captura de pantalla %s guardada."
+
+msgid "%s breeds explosively.  "
+msgstr "%s se reproduce explosivamente.  "
+
+msgid "All of your coins were stolen!"
+msgstr "¡Te robaron todas tus monedas!"
+
+msgid "Your pack overflows!"
+msgstr "¡Tu mochila rebosa!"
+
+msgid "to ice"
+msgstr "al hielo"
+
+msgid "Choose cave profile? "
+msgstr "¿Elegir perfil de cueva? "
+
+msgid "You failed to concentrate hard enough!"
+msgstr "¡No lograste concentrarte lo suficiente!"
+
+msgid "You do not have enough mana to %s this %s."
+msgstr "No tienes suficiente maná para %s este %s."
+
+msgid " (recharging)"
+msgstr " (recargando)"
+
+msgid "You have nothing in your inventory."
+msgstr "No tienes nada en tu inventario."
+
+msgid "and you have exterminated at least %d of the creatures.  "
+msgstr "y has exterminado al menos %d de las criaturas.  "
+
+msgid "Exit"
+msgstr "Salir"
+
+msgid "The object magically increases the player's chance to hit"
+msgstr "El objeto aumenta mágicamente la probabilidad de golpear del jugador"
+
+msgid " purchases"
+msgstr " compras"
+
+msgid "to force"
+msgstr "a la fuerza"
+
+msgid "to magic missiles"
+msgstr "a los proyectiles mágicos"
+
+msgid "You have activated %s!"
+msgstr "¡Has activado %s!"
+
+msgid "The object magically increases the player's damage"
+msgstr "El objeto aumenta mágicamente el daño del jugador"
+
+msgid "Return to normal and %s (s/n) or just (v) return? "
+msgstr "¿Volver a la normalidad y %s (s/n) o solo (v) volver? "
+
+msgid "You feel relieved to put down your heavy bow."
+msgstr "Sientes alivio al soltar tu pesado arco."
+
+msgid "The shopkeeper retires."
+msgstr "El tendero se retira."
+
+msgid "You have no trouble wielding your weapon."
+msgstr "No tienes problemas para empuñar tu arma."
+
+msgid "INHIBITING: AC bonus too high\n"
+msgstr "INHIBIENDO: bono de CA demasiado alto\n"
+
+msgid " up to "
+msgstr " hasta "
+
+msgid "%s disguises itself as something else.  "
+msgstr "%s se disfraza de otra cosa.  "
+
+msgid "You feel healthier!"
+msgstr "¡Te sientes más saludable!"
+
+msgid "FINAL POWER IS %d\n"
+msgstr "EL PODER FINAL ES %d\n"
+
+msgid "You hear a scream and the door slams shut!"
+msgstr "¡Oyes un grito y la puerta se cierra de golpe!"
+
+msgid "Sustains"
+msgstr "Sostiene"
+
+msgid " a"
+msgstr " un"
+
+msgid "You are too confused to read!"
+msgstr "¡Estás demasiado confuso para leer!"
+
+msgid "I see no down staircase here."
+msgstr "No veo ninguna escalera hacia abajo aquí."
+
+msgid "Are you sure you want to enter wizard mode? "
+msgstr "¿Seguro que quieres entrar en modo mago? "
+
+msgid "Hmmm, it seems to be stuck."
+msgstr "Hmmm, parece estar atascado."
+
+msgid "You see nothing there to open."
+msgstr "No ves nada ahí para abrir."
+
+msgid "You feel a wall blocking your way."
+msgstr "Sientes una pared bloqueando tu camino."
+
+msgid "I have no space in my store to keep it."
+msgstr "No tengo espacio en mi tienda para guardarlo."
+
+msgid "Take off which item?"
+msgstr "¿Qué objeto quitarte?"
+
+msgid "You stumble!"
+msgstr "¡Tropiezas!"
+
+msgid "You feel some of your energy return."
+msgstr "Sientes que parte de tu energía regresa."
+
+msgid "You can't go up from here!"
+msgstr "¡No puedes subir desde aquí!"
+
+msgid "Quantity (1-%d): "
+msgstr "Cantidad (1-%d): "
+
+msgid "You cannot take off %s that you are %s."
+msgstr "No puedes quitarte %s que estás %s."
+
+msgid "The Black Breath sickens you."
+msgstr "El Aliento Negro te enferma."
+
+msgid "error%s"
+msgstr "error%s"
+
+msgid "to disenchantment"
+msgstr "al desencantamiento"
+
+msgid "Study which book? "
+msgstr "¿Qué libro estudiar? "
+
+msgid "This seems to be permanent rock."
+msgstr "Esto parece ser roca permanente."
+
+msgid "Your weapon aches in your hands."
+msgstr "Tu arma duele en tus manos."
+
+msgid "invalid monster base flag: %s"
+msgstr "marca de base de monstruo inválida: %s"
+
+msgid "Initializing stores..."
+msgstr "Inicializando tiendas..."
+
+msgid "%s has killed %d of your ancestors"
+msgstr "%s ha matado a %d de tus antepasados"
+
+msgid "somewhat damaged"
+msgstr "algo dañado"
+
+msgid "and"
+msgstr "y"
+
+msgid "Too many elements in projection.txt!"
+msgstr "¡Demasiados elementos en projection.txt!"
+
+msgid "Creating many %s objects.  Base level = %d."
+msgstr "Creando muchos objetos %s.  Nivel base = %d."
+
+msgid "Done."
+msgstr "Hecho."
+
+msgid "You suddenly feel lethargic."
+msgstr "De repente te sientes letárgico."
+
+msgid "Add %d power for very high to_ac, total is %d\n"
+msgstr "Añadir %d de poder por to_ac muy alto, total es %d\n"
+
+msgid "The sun has risen."
+msgstr "El sol ha salido."
+
+msgid "You have nothing in your quiver."
+msgstr "No tienes nada en tu carcaj."
+
+msgid "Sell which item? "
+msgstr "¿Qué objeto vender? "
+
+msgid "Cannot (de-)stock %s. Please report this bug"
+msgstr "No se puede (des)almacenar %s. Por favor reporta este error"
+
+msgid "The floor opens beneath your feet!"
+msgstr "¡El suelo se abre bajo tus pies!"
+
+msgid "%s tries to steal something from %s, but fails."
+msgstr "%s intenta robarle algo a %s, pero falla."
+
+msgid "Minimum depth: "
+msgstr "Profundidad mínima: "
+
+msgid "Your lust for blood keeps you alive!"
+msgstr "¡Tu sed de sangre te mantiene con vida!"
+
+msgid "Number of simulations: "
+msgstr "Número de simulaciones: "
+
+msgid "You enter a maze of up staircases."
+msgstr "Entras en un laberinto de escaleras hacia arriba."
+
+msgid "You failed to lock the door."
+msgstr "No conseguiste cerrar la puerta con llave."
+
+msgid "to time"
+msgstr "al tiempo"
+
+msgid "almost dead"
+msgstr "casi muerto"
+
+msgid "%s has no physical attacks.  "
+msgstr "%s no tiene ataques físicos.  "
+
+msgid "You hammer futilely %s against %s."
+msgstr "Golpeas inútilmente %s contra %s."
+
+msgid "to water"
+msgstr "al agua"
+
+msgid "Rest (0-9999, '!' HP or SP, '*' HP and SP, '&' as needed): "
+msgstr "Descansar (0-9999, '!' PG o PM, '*' PG y PM, '&' según se necesite): "
+
+msgid "There is a pile of rubble in the way!"
+msgstr "¡Hay un montón de escombros en el camino!"
+
+msgid "INHIBITING - too much extra might - abandoning\n"
+msgstr "INHIBIENDO - demasiada fuerza extra - abandonando\n"
+
+msgid "Adding %d power for jewelry, total is %d\n"
+msgstr "Añadiendo %d de poder por joyería, total es %d\n"
+
+msgid "You return to your normal form."
+msgstr "Vuelves a tu forma normal."
+
+msgid "You feel more naive!"
+msgstr "¡Te sientes más ingenuo!"
+
+msgid ", and does not resist "
+msgstr ", y no resiste "
+
+msgid "Refuel with what fuel source? "
+msgstr "¿Con qué fuente de combustible recargar? "
+
+msgid "The sun has set."
+msgstr "El sol se ha puesto."
+
+msgid "You resist the effects!"
+msgstr "¡Resistes los efectos!"
+
+msgid "You feel yourself yanked upwards!"
+msgstr "¡Sientes que te arrastran hacia arriba!"
+
+msgid "Are you sure you want to go down? "
+msgstr "¿Seguro que quieres bajar? "
+
+msgid "Which artifact to create (1-%d)? "
+msgstr "¿Qué artefacto crear (1-%d)? "
+
+msgid "You cannot sell items when you are not in a store."
+msgstr "No puedes vender objetos cuando no estás en una tienda."
+
+msgid "You dig through the rubble %s."
+msgstr "Cavas a través de los escombros %s."
+
+msgid "Enter the power of the curse (0 removes): "
+msgstr "Introduce el poder de la maldición (0 la elimina): "
+
+msgid "Level map %d"
+msgstr "Mapa de nivel %d"
+
+msgid "itself"
+msgstr "a sí mismo"
+
+msgid "or"
+msgstr "o"
+
+msgid "***Unclassified***"
+msgstr "***Sin clasificar***"
+
+msgid "Enter the third parameter (other): "
+msgstr "Introduce el tercer parámetro (otro): "
+
+msgid "Failed to find the magic realm %s"
+msgstr "No se pudo encontrar el reino mágico %s"
+
+msgid "The monster cannot move."
+msgstr "El monstruo no puede moverse."
+
+msgid "You cannot change the quantity of an equipped item."
+msgstr "No puedes cambiar la cantidad de un objeto equipado."
+
+msgid "its"
+msgstr "su"
+
+msgid "You have found something!"
+msgstr "¡Has encontrado algo!"
+
+msgid "That was an invalid selection.  Use one of fobuztcdhmqgpra ."
+msgstr "Esa fue una selección inválida.  Usa una de fobuztcdhmqgpra ."
+
+msgid "You do not have enough gold for this item."
+msgstr "No tienes suficiente oro para este objeto."
+
+msgid "Change the quantity of which item? "
+msgstr "¿La cantidad de qué objeto cambiar? "
+
+msgid "Get which item?"
+msgstr "¿Qué objeto coger?"
+
+msgid "Inscription removed."
+msgstr "Inscripción eliminada."
+
+msgid "to inertia"
+msgstr "a la inercia"
+
+msgid "You feel strangely quick."
+msgstr "Te sientes extrañamente rápido."
+
+msgid "Error in do_cmd_equip(), please report."
+msgstr "Error en do_cmd_equip(), por favor repórtalo."
+
+msgid "to meteors"
+msgstr "a los meteoros"
+
+msgid "Add %d power for to_ac of %d, total is %d\n"
+msgstr "Añadir %d de poder por to_ac de %d, total es %d\n"
+
+msgid "You have no spells you can cast."
+msgstr "No tienes hechizos que puedas lanzar."
+
+msgid "Power is %d with all curses applied\n"
+msgstr "El poder es %d con todas las maldiciones aplicadas\n"
+
+msgid "Inhibiting - total ability bonus of %d is too high\n"
+msgstr "Inhibiendo - el bono total de habilidad de %d es demasiado alto\n"
+
+msgid "You grab hold of your pack!"
+msgstr "¡Te aferras a tu mochila!"
+
+msgid "to dark"
+msgstr "a la oscuridad"
+
+msgid "Error in do_cmd_wield(), please report."
+msgstr "Error en do_cmd_wield(), por favor repórtalo."
+
+msgid "You faint from lack of food."
+msgstr "Te desmayas por falta de comida."
+
+msgid "disarmed"
+msgstr "desarmado"
+
+msgid "Changes discarded."
+msgstr "Cambios descartados."
+
+msgid "to plasma"
+msgstr "al plasma"
+
+msgid "There is a monster in the way!"
+msgstr "¡Hay un monstruo en el camino!"
+
+msgid "Create all objects of which tval (1-%d)? "
+msgstr "¿Crear todos los objetos de qué tval (1-%d)? "
+
+msgid "Title for the map: "
+msgstr "Título para el mapa: "
+
+msgid "Could not find shape named '%s' for monster '%s'"
+msgstr "No se pudo encontrar la forma llamada '%s' para el monstruo '%s'"
+
+msgid "The object makes the player's attacks against %s more powerful."
+msgstr "El objeto hace más poderosos los ataques del jugador contra %s."
+
+msgid "good "
+msgstr "bueno "
+
+msgid "You have killed at least %d of these creatures.  "
+msgstr "Has matado al menos %d de estas criaturas.  "
+
+msgid "%s %s."
+msgstr "%s %s."
+
+msgid "Add %d power for %d %s, total is %d\n"
+msgstr "Añadir %d de poder por %d %s, total es %d\n"
+
+msgid "It looks like a typical town."
+msgstr "Parece un pueblo típico."
+
+msgid "too many monsters"
+msgstr "demasiados monstruos"
+
+msgid "Stop if a disconnected level is found? "
+msgstr "¿Detener si se encuentra un nivel desconectado? "
+
+msgid "Home Inventory"
+msgstr "Inventario de la Casa"
+
+msgid "You were wielding"
+msgstr "Estabas empuñando"
+
+msgid "You cannot learn any new spells from the books you have."
+msgstr "No puedes aprender ningún hechizo nuevo de los libros que tienes."
+
+msgid "You dig in %s %s."
+msgstr "Cavas en %s %s."
+
+msgid "You can't explore while confused."
+msgstr "No puedes explorar mientras estás confuso."
+
+msgid "You have destroyed"
+msgstr "Has destruido"
+
+msgid "You see nothing there to tunnel."
+msgstr "No ves nada ahí para excavar."
+
+msgid "remain"
+msgstr "permanecen"
+
+msgid "You feel a pile of rubble blocking your way."
+msgstr "Sientes un montón de escombros bloqueando tu camino."
+
+msgid "Buy one"
+msgstr "Comprar uno"
+
+msgid "Energy is drained from your pack!"
+msgstr "¡Se drena energía de tu mochila!"
+
+msgid "Generation restarted: %s."
+msgstr "Generación reiniciada: %s."
+
+msgid "The chest has no traps."
+msgstr "El cofre no tiene trampas."
+
+msgid "%s slams against the door."
+msgstr "%s se estrella contra la puerta."
+
+msgid "You keep hold of your life force!"
+msgstr "¡Mantienes el control de tu fuerza vital!"
+
+msgid "Parse error in %s line %d column %d."
+msgstr "Error de análisis en %s línea %d columna %d."
+
+msgid "A kill of this creature is worth "
+msgstr "Matar a esta criatura vale "
+
+msgid "You feel clumsier!"
+msgstr "¡Te sientes más torpe!"
+
+msgid "A scream and slamming door reply."
+msgstr "Un grito y un portazo responden."
+
+msgid "You set off a trap!"
+msgstr "¡Activas una trampa!"
+
+msgid "Compare with which item? "
+msgstr "¿Con qué objeto comparar? "
+
+msgid "Press '?' for help."
+msgstr "Pulsa '?' para ayuda."
+
+msgid "Could not place the monster."
+msgstr "No se pudo generar monstruo."
+
+msgid "On the floor: %s."
+msgstr "En el suelo: %s."
+
+msgid "Eat which food? "
+msgstr "¿Qué comida comer? "
+
+msgid "You have no rods to zap."
+msgstr "No tienes varas para usar."
+
+msgid "You feel sicklier!"
+msgstr "¡Te sientes más enfermizo!"
+
+msgid "The Black Breath dims your life force."
+msgstr "El Aliento Negro atenúa tu fuerza vital."
+
+msgid "I do not wish to buy this item."
+msgstr "No deseo comprar este objeto."
+
+msgid "You die."
+msgstr "Mueres."
+
+msgid "After multiplying power by might, total is %d\n"
+msgstr "Tras multiplicar el poder por la fuerza, el total es %d\n"
+
+msgid "*** LOW HITPOINT WARNING! ***"
+msgstr "*** ¡AVISO DE PUNTOS DE GOLPE BAJOS! ***"
+
+msgid "You have nothing to reroll."
+msgstr "No tienes nada que repetir."
+
+msgid "There is a pile of rubble blocking your way."
+msgstr "Hay un montón de escombros bloqueando tu camino."
+
+msgid "Jump to level (0-%d): "
+msgstr "Saltar al nivel (0-%d): "
+
+msgid "%s can "
+msgstr "%s puede "
+
+msgid "Are you sure you want to use the debug commands? "
+msgstr "¿Seguro que quieres usar los comandos de depuración? "
+
+msgid "Depth for the treasure (0-%d): "
+msgstr "Profundidad para el tesoro (0-%d): "
+
+msgid "Create instant artifacts? "
+msgstr "¿Crear artefactos instantáneos? "
+
+msgid "You have found a secret door."
+msgstr "Has encontrado una puerta secreta."
+
+msgid "%s may appear with other monsters"
+msgstr "%s puede aparecer con otros monstruos"
+
+msgid "exceptional "
+msgstr "excepcional "
+
+msgid "[N]ormal, [g]ood, or [e]xcellent treasure? "
+msgstr "¿Tesoro [n]ormal, [b]ueno o [e]xcelente? "
+
+msgid " time in "
+msgstr " tiempo en "
+
+msgid "Feature query (debug): "
+msgstr "Consulta de característica (depuración): "
+
+msgid "Your %s (%c) was eaten!"
+msgstr "¡Tu %s (%c) fue devorado!"
+
+msgid "You have no trouble wielding your bow."
+msgstr "No tienes problemas para empuñar tu arco."
+
+msgid "%s fiddles with the lock."
+msgstr "%s manipula la cerradura."
+
+msgid "resist %s"
+msgstr "resistir %s"
+
+msgid "%s cannot be "
+msgstr "%s no puede ser "
+
+msgid "somewhat wounded"
+msgstr "algo herido"
+
+msgid "an unknown item"
+msgstr "un objeto desconocido"
+
+msgid "You feel strange..."
+msgstr "Te sientes extraño..."
+
+msgid "You sold %s (%c) for %d gold."
+msgstr "Vendiste %s (%c) por %d de oro."
+
+msgid "invalid monster spell flag: %s"
+msgstr "marca de hechizo de monstruo inválida: %s"
+
+msgid "You cannot carry that many items."
+msgstr "No puedes llevar tantos objetos."
+
+msgid " normal speed, which is "
+msgstr " velocidad normal, que es "
+
+msgid "%s has a badly configured digging chance; please report this bug."
+msgstr "%s tiene una probabilidad de excavación mal configurada; por favor reporta este error."
+
+msgid "Too few elements in projection.txt!"
+msgstr "¡Muy pocos elementos en projection.txt!"
+
+msgid "You know nothing about its attack.  "
+msgstr "No sabes nada sobre su ataque.  "
+
+msgid ", and cannot be "
+msgstr ", y no puede ser "
+
+msgid "You are standing in the doorway."
+msgstr "Estás de pie en el umbral."
+
+msgid "Base multiplier for this weapon is %d\n"
+msgstr "El multiplicador base para esta arma es %d\n"
+
+msgid "No battles to the death are recalled.  "
+msgstr "No se recuerdan batallas a muerte.  "
+
+msgid " picks up"
+msgstr " recoge"
+
+msgid "Your %s has recharged."
+msgstr "Tu %s se ha recargado."
+
+msgid "Create all artifacts of which tval (1-%d)? "
+msgstr "¿Crear todos los artefactos de qué tval (1-%d)? "
+
+msgid "Which trap to create? "
+msgstr "¿Qué trampa crear? "
+
+msgid "You have nothing to tweak."
+msgstr "No tienes nada que ajustar."
+
+msgid "You cannot buy that item because it is not in the store."
+msgstr "No puedes comprar ese objeto porque no está en la tienda."
+
+msgid " and hunts in packs"
+msgstr " y caza en manadas"
+
+msgid " at least"
+msgstr " al menos"
+
+msgid "You feel something give way!"
+msgstr "¡Sientes que algo cede!"
+
+msgid "an "
+msgstr "un "
+
+msgid "You cannot afford that purchase."
+msgstr "No puedes permitirte esa compra."
+
+msgid " intelligently"
+msgstr " inteligentemente"
+
+msgid "You took off"
+msgstr "Te quitaste"
+
+msgid "tried"
+msgstr "intentó"
+
+msgid " has been defeated!"
+msgstr " ha sido derrotado!"
+
+msgid "it"
+msgstr "él"
+
+msgid ", afraid"
+msgstr ", asustado"
+
+msgid "<dir>, 'r' to recall, ESC"
+msgstr "<dir>, 'r' para recordar, ESC"
+
+msgid "You have learned the rune of %s."
+msgstr "Has aprendido la runa de %s."
+
+msgid "(Enter select, ESC) Command for %s:"
+msgstr "(Intro seleccionar, ESC) Comando para %s:"
+
+msgid "Effect not found."
+msgstr "Efecto no encontrado."
+
+msgid "cursed"
+msgstr "maldito"
+
+msgid "unspecified level generator failure"
+msgstr "fallo no especificado del generador de niveles"
+
+msgid "Play with which item? "
+msgstr "¿Con qué objeto jugar? "
+
+msgid "and your ancestors have exterminated at least %d of the creatures.  "
+msgstr "y tus antepasados han exterminado al menos %d de las criaturas.  "
+
+msgid "Take one"
+msgstr "Coger uno"
+
+msgid "transforms and changes shape!"
+msgstr "¡se transforma y cambia de forma!"
+
+msgid "Failed pickup of %s"
+msgstr "No se pudo recoger %s"
+
+msgid "one of your"
+msgstr "uno de tus"
+
+msgid "multiple traps"
+msgstr "múltiples trampas"
+
+msgid "Inspect inventory"
+msgstr "Inspeccionar inventario"
+
+msgid "The dungeon does not appear to extend deeper"
+msgstr "La mazmorra no parece extenderse más profundamente"
+
+msgid "You have had %s %s (%c) stolen!"
+msgstr "¡Te han robado %s %s (%c)!"
+
+msgid "Cannot (re-)stock %s. Please report this bug"
+msgstr "No se puede (re)almacenar %s. Por favor reporta este error"
+
+msgid "Something is here."
+msgstr "Hay algo aquí."
+
+msgid "The door appears to be broken."
+msgstr "La puerta parece estar rota."
+
+msgid "Regenerate random artifacts (warning: SLOW)? "
+msgstr "¿Regenerar artefactos aleatorios (aviso: LENTO)? "
+
+msgid "have"
+msgstr "han"
+
+msgid "Screen dump failed."
+msgstr "La captura de pantalla falló."
+
+msgid "Pit type (1-3): "
+msgstr "Tipo de foso (1-3): "
+
+msgid "You fail to steal %s from %s."
+msgstr "No consigues robar %s de %s."
+
+msgid "Add %d power for object activation, total is %d\n"
+msgstr "Añadir %d de poder por activación de objeto, total es %d\n"
+
+msgid "%s drops %s."
+msgstr "%s suelta %s."
+
+msgid "I see no up staircase here."
+msgstr "No veo ninguna escalera hacia arriba aquí."
+
+msgid "The object brands the player's attacks with %s."
+msgstr "El objeto marca los ataques del jugador con %s."
+
+msgid "You feel more stupid!"
+msgstr "¡Te sientes más estúpido!"
+
+msgid "Your light is growing faint."
+msgstr "Tu luz se está debilitando."
+
+msgid "Enter the y parameter: "
+msgstr "Introduce el parámetro y: "
+
+msgid "Add %d power for AC per unit weight, now %d\n"
+msgstr "Añadir %d de poder por CA por unidad de peso, ahora %d\n"
+
+msgid "You are too confused."
+msgstr "Estás demasiado confuso."
+
+msgid "Trap not found."
+msgstr "Trampa no encontrada."
+
+msgid ", held"
+msgstr ", sujeto"
+
+msgid "That ammunition cannot be fired by your current weapon."
+msgstr "Esa munición no puede ser disparada por tu arma actual."
+
+msgid "You have nothing to refuel with."
+msgstr "No tienes nada con qué recargar."
+
+msgid "his"
+msgstr "su"
+
+msgid "Adjusted power is %d for curse %s\n"
+msgstr "El poder ajustado es %d para la maldición %s\n"
+
+msgid "The Black Breath saps your strength."
+msgstr "El Aliento Negro debilita tu fuerza."
+
+msgid "You have disarmed the chest."
+msgstr "Has desarmado el cofre."
+
+msgid "That book has no spells you can learn."
+msgstr "Ese libro no tiene hechizos que puedas aprender."
+
+msgid "%s %s%s. %s"
+msgstr "%s a %s%s. %s"
+
+msgid "You are too afraid to attack %s!"
+msgstr "¡Estás demasiado asustado para atacar a %s!"
+
+msgid "Add 10 power for full set of slays, total is %d\n"
+msgstr "Añadir 10 de poder por el juego completo de muertes, total es %d\n"
+
+msgid "You have nothing I want. "
+msgstr "No tienes nada que quiera. "
+
+msgid "%d pieces of gold worth of %s%s"
+msgstr "%d piezas de oro en valor de %s%s"
+
+msgid "damaged"
+msgstr "dañado"
+
+msgid "The %s finds a mark."
+msgstr "%s encuentra su marca."
+
+msgid "You have no staves to use."
+msgstr "No tienes báculos que usar."
+
+msgid "INHIBITING - too many extra blows - abandoning\n"
+msgstr "INHIBIENDO - demasiados golpes extra - abandonando\n"
+
+msgid "You had %s (%c)."
+msgstr "Tenías %s (%c)."
+
+msgid "I see no trap."
+msgstr "No veo ninguna trampa."
+
+msgid "Identified!"
+msgstr "¡Identificado!"
+
+msgid "The %s has no charges left."
+msgstr "%s no tiene cargas restantes."
+
+msgid "You have trouble wielding such a heavy bow."
+msgstr "Tienes problemas para empuñar un arco tan pesado."
+
+msgid "You can't place a trap in the town!"
+msgstr "¡No puedes colocar una trampa en el pueblo!"
+
+msgid "Monster not found."
+msgstr "Monstruo no encontrado."
+
+msgid "Banish within what distance? "
+msgstr "¿Desterrar dentro de qué distancia? "
+
+msgid "badly wounded"
+msgstr "malherido"
+
+msgid "You have nothing to wear or wield."
+msgstr "No tienes nada que vestir o empuñar."
+
+msgid "-- Note: %s"
+msgstr "-- Nota: %s"
+
+msgid "You can learn a new %s."
+msgstr "Puedes aprender un nuevo %s."
+
+msgid "You cannot buy items when you are not in a store."
+msgstr "No puedes comprar objetos cuando no estás en una tienda."
+
+msgid "Pref: "
+msgstr "Pref: "
+
+msgid "Examine"
+msgstr "Examinar"
+
+msgid "Total of %d power added for curses, total is %d\n"
+msgstr "Total de %d de poder añadido por maldiciones, total es %d\n"
+
+msgid "him"
+msgstr "a él"
+
+msgid "Previous keypresses (most recent on top):"
+msgstr "Teclas anteriores (la más reciente arriba):"
+
+msgid " (%d recharging)"
+msgstr " (%d recargando)"
+
+msgid "Adding %d%% power for extra shots, total is %d\n"
+msgstr "Añadiendo %d%% de poder por disparos extra, total es %d\n"
+
+msgid "to nether"
+msgstr "al inframundo"
+
+msgid " your speed"
+msgstr " tu velocidad"
+
+msgid "empty"
+msgstr "vacío"
+
+msgid "%s may carry"
+msgstr "%s puede llevar"
+
+msgid "This is a form of cheating, and your game will not be scored!"
+msgstr "¡Esto es una forma de trampa, y tu partida no será puntuada!"
+
+msgid "Enter the damage dice (e.g. 1+2d6M2): "
+msgstr "Introduce los dados de daño (ej. 1+2d6M2): "
+
+msgid "The rune of protection is broken!"
+msgstr "¡La runa de protección está rota!"
+
+msgid "That book has no spells you can cast."
+msgstr "Ese libro no tiene hechizos que puedas lanzar."
+
+msgid " drops"
+msgstr " suelta"
+
+msgid "Oddly, it feels deathly cold!"
+msgstr "Extrañamente, ¡se siente mortalmente frío!"
+
+msgid "You have no items to use."
+msgstr "No tienes objetos que usar."
+
+msgid "to-damage"
+msgstr "al daño"
+
+msgid "You have nothing to change."
+msgstr "No tienes nada que cambiar."
+
+msgid "That is not a valid object type."
+msgstr "Ese no es un tipo de objeto válido."
+
+msgid "Your %s %s %s%s."
+msgstr "Tu %s %s %s%s."
+
+msgid "badly damaged"
+msgstr "muy dañado"
+
+msgid "to acid"
+msgstr "al ácido"
+
+msgid "Error in do_cmd_quiver(), please report."
+msgstr "Error en do_cmd_quiver(), por favor repórtalo."
+
+msgid "%s steals something from %s!"
+msgstr "¡%s le roba algo a %s!"
+
+msgid "%s resists "
+msgstr "%s resiste "
+
+msgid "You hit"
+msgstr "Golpeas"
+
+msgid "Add %d power for multiple slays, total is %d\n"
+msgstr "Añadir %d de poder por múltiples muertes, total es %d\n"
+
+msgid "You are too confused!"
+msgstr "¡Estás demasiado confuso!"
+
+msgid "%s shrouds %s surroundings in darkness.  "
+msgstr "%s envuelve %s alrededores en oscuridad.  "
+
+msgid "You jump to dungeon level %d."
+msgstr "Saltas al nivel de mazmorra %d."
+
+msgid "Add %d for non-weapon to_dam, total %d\n"
+msgstr "Añadir %d por to_dam sin arma, total %d\n"
+
+msgid "Which item to take? (ESC to cancel, Enter to select)"
+msgstr "¿Qué objeto coger? (ESC para cancelar, Intro para seleccionar)"
+
+msgid " (You cannot use it!)"
+msgstr " (¡No puedes usarlo!)"
+
+msgid "breathe "
+msgstr "aliento de "
+
+msgid "Add %d power for multiple brands, total is %d\n"
+msgstr "Añadir %d de poder por múltiples marcas, total es %d\n"
+
+msgid "You dig through the rubble %s with little effect."
+msgstr "Cavas a través de los escombros %s con poco efecto."
+
+msgid " (offscreen)"
+msgstr " (fuera de pantalla)"
+
+msgid "%d monsters"
+msgstr "%d monstruos"
+
+msgid "You are confused."
+msgstr "Estás confuso."
+
+msgid "Add %d power for extra blows, total is %d\n"
+msgstr "Añadir %d de poder por golpes extra, total es %d\n"
+
+msgid "The shopkeeper brings out some new stock."
+msgstr "El tendero saca mercancía nueva."
+
+msgid "This monster has no spells!"
+msgstr "¡Este monstruo no tiene hechizos!"
+
+msgid "Could not continue.  Stop playing with the item and lose all changes? "
+msgstr "No se pudo continuar.  ¿Dejar de jugar con el objeto y perder todos los cambios? "
+
+msgid "WHAM!"
+msgstr "¡PUM!"
+
+msgid "You have found %ld gold pieces worth of "
+msgstr "Has encontrado piezas de oro por valor de %ld de "
+
+msgid "You have found %s coins worth %ld gold."
+msgstr "Has encontrado monedas de %s por valor de %ld de oro."
+
+msgid "You have forgotten the %s of %s."
+msgstr "Has olvidado el %s de %s."
+
+msgid "treasure%s"
+msgstr "tesoro%s"
+
+msgid "Inscribe with what? "
+msgstr "¿Con qué inscribir? "
+
+msgid "Calculating curse power for %s...\n"
+msgstr "Calculando el poder de la maldición para %s...\n"
+
+msgid "is ever vigilant for"
+msgstr "está siempre vigilante ante"
+
+msgid "You were wearing"
+msgstr "Llevabas puesto"
+
+msgid "Give which item? "
+msgstr "¿Qué objeto dar? "
+
+msgid "something's"
+msgstr "de algo"
+
+msgid " (or "
+msgstr " (o "
+
+msgid "Wounds appear on your body!"
+msgstr "¡Aparecen heridas en tu cuerpo!"
+
+msgid "wounded"
+msgstr "herido"
+
+msgid "slay %s"
+msgstr "matar %s"
+
+msgid "Mushrooms for breakfast!"
+msgstr "¡Setas para desayunar!"
+
+msgid "You are about to use the dangerous, unsupported, borg commands!"
+msgstr "¡Estás a punto de usar los peligrosos comandos Borg no soportados!"
+
+msgid "You are not currently at your home."
+msgstr "No estás actualmente en tu casa."
+
+msgid "Your light has gone out!"
+msgstr "¡Tu luz se ha apagado!"
+
+msgid "someone"
+msgstr "alguien"
+
+msgid "Enter the new value for %s: "
+msgstr "Introduce el nuevo valor para %s: "
+
+msgid "%s is able to "
+msgstr "%s es capaz de "
+
+msgid "Knowledge - shapes"
+msgstr "Conocimiento - formas"
+
+msgid "Your lamp is full."
+msgstr "Tu lámpara está llena."
+
+msgid "You are covered in acid!"
+msgstr "¡Estás cubierto de ácido!"
+
+msgid "Direction ('5' for target, '*' or <click> to re-target, Escape to cancel)? "
+msgstr "¿Dirección ('5' para objetivo, '*' o <clic> para reapuntar, Escape para cancelar)? "
+
+msgid "Which item to buy? (ESC to cancel, Enter to select)"
+msgstr "¿Qué objeto comprar? (ESC para cancelar, Intro para seleccionar)"
+
+msgid "treasures"
+msgstr "tesoros"
+
+msgid "Could not find cave profile!"
+msgstr "¡No se pudo encontrar el perfil de cueva!"
+
+msgid "The creature"
+msgstr "La criatura"
+
+msgid "Which effect: "
+msgstr "¿Qué efecto: "
+
+msgid "You stand firm!"
+msgstr "¡Te mantienes firme!"
+
+msgid "Your missile weapon tingles in your hands."
+msgstr "Tu arma arrojadiza hormiguea en tus manos."
+
+msgid "Wizard mode on."
+msgstr "Modo mago activado."
+
+msgid "How many great items? "
+msgstr "¿Cuántos objetos excelentes? "
+
+msgid "You have trouble wielding such a heavy weapon."
+msgstr "Tienes problemas para empuñar un arma tan pesada."
+
+msgid "You see nothing there."
+msgstr "No ves nada ahí."
+
+msgid "to cold"
+msgstr "al frío"
+
+msgid "%s does not resist "
+msgstr "%s no resiste "
+
+msgid "There is a wall blocking your way."
+msgstr "Hay una pared bloqueando tu camino."
+
+msgid "Add %d power for multiple %s, total is %d\n"
+msgstr "Añadir %d de poder por múltiples %s, total es %d\n"
+
+msgid "%9ld avg"
+msgstr "%9ld prom"
+
+msgid "Your %s is damaged!"
+msgstr "¡Tu %s está dañado!"
+
+msgid "You failed to disarm the chest."
+msgstr "No conseguiste desarmar el cofre."
+
+msgid "someone's"
+msgstr "de alguien"
+
+msgid "cast spells"
+msgstr "lanzar hechizos"
+
+msgid "fails to wound"
+msgstr "no logra herir"
+
+msgid "You have remembered the %s of %s."
+msgstr "Has recordado el %s de %s."
+
+msgid "Take"
+msgstr "Coger"
+
+msgid "Add 20 power for full set of kills, total is %d\n"
+msgstr "Añadir 20 de poder por el juego completo de muertes, total es %d\n"
+
+msgid "There is no known path to an up staircase."
+msgstr "No hay un camino conocido hacia una escalera hacia arriba."
+
+msgid "You failed to pick the lock."
+msgstr "No conseguiste forzar la cerradura."
+
+msgid "Initializing arrays... (vaults)"
+msgstr "Inicializando matrices... (bóvedas)"
+
+msgid "You see nothing there to close."
+msgstr "No ves nada ahí para cerrar."
+
+msgid " an item. "
+msgstr " un objeto. "
+
+msgid "You feel weaker!"
+msgstr "¡Te sientes más débil!"
+
+msgid "You have nothing to compare with."
+msgstr "No tienes nada con qué comparar."
+
+msgid "How much experience to gain? "
+msgstr "¿Cuánta experiencia ganar? "
+
+msgid "Initializing arrays... (dungeon profiles)"
+msgstr "Inicializando matrices... (perfiles de mazmorra)"
+
+msgid "Which item to examine? (ESC to cancel, Enter to select)"
+msgstr "¿Qué objeto examinar? (ESC para cancelar, Intro para seleccionar)"
+
+msgid "You feel stronger!"
+msgstr "¡Te sientes más fuerte!"
+
+msgid " exits the building."
+msgstr " sale del edificio."
+
+msgid "One of your %s has recharged."
+msgstr "Uno de tus %s se ha recargado."
+
+msgid "Inscribing %s."
+msgstr "Inscribiendo %s."
+
+msgid "You clear the web."
+msgstr "Despejas la telaraña."
+
+msgid "Enter the second parameter (radius): "
+msgstr "Introduce el segundo parámetro (radio): "
+
+msgid " one or two "
+msgstr " uno o dos "
+
+msgid " one or two"
+msgstr " uno o dos"
+
+msgid "You feel yourself yanked downwards!"
+msgstr "¡Sientes que te arrastran hacia abajo!"
+
+msgid "Gold Remaining: %9ld"
+msgstr "Oro Restante: %9ld"
+
+msgid "You are enveloped in flames!"
+msgstr "¡Te envuelven las llamas!"
+
+msgid "poison"
+msgstr "veneno"
+
+msgid "the same as yours"
+msgstr "la misma que la tuya"
+
+msgid "Drop which item?"
+msgstr "¿Qué objeto soltar?"
+
+msgid "You feel relieved to put down your heavy weapon."
+msgstr "Sientes alivio al soltar tu pesada arma."
+
+msgid "Add %d power for non-weapon combat bonuses, "
+msgstr "Añadir %d de poder por bonos de combate sin arma, "
+
+msgid "Your eyes tingle."
+msgstr "Tus ojos hormiguean."
+
+msgid "You can't place a trap there!"
+msgstr "¡No puedes colocar una trampa ahí!"
+
+msgid "Could not queue the command.  Changes lost."
+msgstr "No se pudo encolar el comando.  Cambios perdidos."
+
+msgid "Adding %d power for base AC value\n"
+msgstr "Añadiendo %d de poder por valor base de CA\n"
+
+msgid "Your missile weapon aches in your hands."
+msgstr "Tu arma arrojadiza duele en tus manos."
+
+msgid "Your light source is %s (%c)."
+msgstr "Tu fuente de luz es %s (%c)."
+
+msgid "You turn around on the spot."
+msgstr "Das media vuelta en el sitio."
+
+msgid "You have disarmed %s."
+msgstr "Has desarmado %s."
+
+msgid "Nothing was stolen from you."
+msgstr "No te robaron nada."
+
+msgid "[ESC, any other key to accept]"
+msgstr "[ESC, cualquier otra tecla para aceptar]"
+
+msgid "Cannot initialize vaults"
+msgstr "No se pueden inicializar las bóvedas"
+
+msgid ", slowed"
+msgstr ", ralentizado"
+
+msgid "One of your %s (%c) was eaten!"
+msgstr "¡Uno de tus %s (%c) fue devorado!"
+
+msgid "You feel that %s"
+msgstr "Sientes que %s"
+
+msgid "to shards"
+msgstr "a las esquirlas"
+
+msgid "; about "
+msgstr "; sobre "
+
+msgid "%s regenerates quickly.  "
+msgstr "%s se regenera rápidamente.  "
+
+msgid "You have found something while digging %s!"
+msgstr "¡Has encontrado algo mientras cavabas %s!"
+
+msgid "Your purse feels lighter."
+msgstr "Tu bolsa se siente más ligera."
+
+msgid "You cannot learn a new %s yet!"
+msgstr "¡Todavía no puedes aprender un nuevo %s!"
+
+msgid "Un-inscribe which item?"
+msgstr "¿Qué objeto desinscribir?"
+
+msgid "You see nothing there to disarm."
+msgstr "No ves nada ahí para desarmar."
+
+msgid " damage on each of %s turns."
+msgstr " de daño en cada turno."
+
+msgid "to sound"
+msgstr "al sonido"
+
+msgid "her"
+msgstr "su"
+
+msgid "You lock the door."
+msgstr "Cierras la puerta con llave."
+
+msgid "Direction or <click> (Escape to cancel)? "
+msgstr "¿Dirección o <clic> (Escape para cancelar)? "
+
+msgid "Zap which rod? "
+msgstr "¿Qué vara usar? "
+
+msgid "%d of your ancestors %s been killed by this creature, "
+msgstr "%d de tus antepasados %s sido asesinados por esta criatura, "
+
+msgid ", asleep"
+msgstr ", dormido"
+
+msgid "use the rod"
+msgstr "usar la vara"
+
+msgid "That item is not within your reach."
+msgstr "Ese objeto no está a tu alcance."
+
+msgid "Dump as (H)TML or (F)orum text? "
+msgstr "¿Volcar como (H)TML o texto de (F)oro? "
+
+msgid "Replace which ring? "
+msgstr "¿Qué anillo reemplazar? "
+
+msgid "There is a wall in the way!"
+msgstr "¡Hay una pared en el camino!"
+
+msgid "Acquire great items? "
+msgstr "¿Adquirir objetos excelentes? "
+
+msgid "he"
+msgstr "él"
+
+msgid "to light"
+msgstr "a la luz"
+
+msgid "[N]ormal, [g]ood, or [e]xcellent roll? "
+msgstr "¿Tirada [n]ormal, [b]uena o [e]xcelente? "
+
+msgid "%s %s intruders, and can notice them from "
+msgstr "%s %s a los intrusos, y puede notarlos desde "
+
+msgid "Wear/wield which item?"
+msgstr "¿Qué objeto vestir o empuñar?"
+
+msgid "You cannot learn any %s in that book."
+msgstr "No puedes aprender ningún %s en ese libro."
+
+msgid "That item is still recharging."
+msgstr "Ese objeto todavía se está recargando."
+
+msgid "%s lights up %s surroundings.  "
+msgstr "%s ilumina %s alrededores.  "
+
+msgid "You feel attuned to your weapon."
+msgstr "Te sientes en sintonía con tu arma."
+
+msgid "That is not a valid artifact."
+msgstr "Ese no es un artefacto válido."
+
+msgid "INHIBITING - too many extra shots - abandoning\n"
+msgstr "INHIBIENDO - demasiados disparos extra - abandonando\n"
+
+msgid "use the wand"
+msgstr "usar la varita"
+
+msgid "You feel your life draining away."
+msgstr "Sientes que tu vida se drena."
+
+msgid "Aim which wand? "
+msgstr "¿Qué varita apuntar? "
+
+msgid "%s screams in rage!"
+msgstr "¡%s grita de rabia!"
+
+msgid ", and can "
+msgstr ", y puede "
+
+msgid "You feel strangely sluggish."
+msgstr "Te sientes extrañamente lento."
+
+msgid ", hasted"
+msgstr ", acelerado"
+
+msgid "Could not find friend named '%s' for monster '%s'"
+msgstr "No se pudo encontrar el amigo llamado '%s' para el monstruo '%s'"
+
+msgid "Your %s is unaffected!"
+msgstr "¡Tu %s no se ve afectado!"
+
+msgid "Attempt it anyway? "
+msgstr "¿Intentarlo de todas formas? "
+
+msgid "You have nothing to throw."
+msgstr "No tienes nada que lanzar."
+
+msgid "You are not at your home."
+msgstr "No estás en tu casa."
+
+msgid "Add %d power for high to_ac, total is %d\n"
+msgstr "Añadir %d de poder por to_ac alto, total es %d\n"
+
+msgid "%d power from to_dam\n"
+msgstr "%d de poder de to_dam\n"
+
+msgid "object%s or treasure%s"
+msgstr "objeto%s o tesoro%s"
+
+msgid " which "
+msgstr " que "
+
+msgid "Could not find shape %d!"
+msgstr "¡No se pudo encontrar la forma %d!"
+
+msgid "Sim type: Diving (1) or Clearing (2) "
+msgstr "Tipo de simulación: Buceo (1) o Limpieza (2) "
+
+msgid "You can learn %d more %s%s."
+msgstr "Puedes aprender %d más %s%s."
+
+msgid "Your light cannot be refueled."
+msgstr "Tu luz no se puede recargar."
+
+msgid "Valid commands: move, hold still, 's'drop, 'm'agic, or 'l'iberate."
+msgstr "Comandos válidos: mover, quedarse quieto, 's'oltar, 'm'agia, o 'l'iberar."
+
+msgid "The %s has recharged."
+msgstr "%s se ha recargado."
+
+msgid "You fail to wound"
+msgstr "No consigues herir"
+
+msgid "Depth %d: "
+msgstr "Profundidad %d: "
+
+msgid "Cannot write file '%s'!"
+msgstr "¡No se puede escribir el archivo '%s'!"
+
+msgid "Monster memory file not found"
+msgstr "Archivo de memoria de monstruos no encontrado"
+
+msgid "starvation"
+msgstr "inanición"
+
+msgid " specific objects"
+msgstr " objetos específicos"
+
+msgid "Your %s have recharged."
+msgstr "Tus %s se han recargado."
+
+msgid "Level dumped to %s."
+msgstr "Nivel volcado a %s."
+
+msgid "Reroll which item? "
+msgstr "¿Qué objeto repetir? "
+
+msgid "Debug query [grasvwdftniolx]: "
+msgstr "Consulta de depuración [grasvwdftniolx]: "
+
+msgid "Adding %d power for ammo, total is %d\n"
+msgstr "Añadiendo %d de poder por munición, total es %d\n"
+
+msgid "has"
+msgstr "ha"
+
+msgid "That wand has no charges."
+msgstr "Esa varita no tiene cargas."
+
+msgid "You can learn %d more %s."
+msgstr "Puedes aprender %d más %s."
+
+msgid "invalid monster race flag: %s"
+msgstr "marca de raza de monstruo inválida: %s"
+
+msgid ", averaging"
+msgstr ", con un promedio de"
+
+msgid "total is %d\n"
+msgstr "el total es %d\n"
+
+msgid "Throw which item?"
+msgstr "¿Qué objeto lanzar?"
+
+msgid "Error in do_cmd_inven(), please report."
+msgstr "Error en do_cmd_inven(), por favor repórtalo."
+
+msgid ", but resists "
+msgstr ", pero resiste "
+
+msgid "You have no suitable ammunition to fire."
+msgstr "No tienes munición adecuada para disparar."
+
+msgid "You have nothing you can un-inscribe."
+msgstr "No tienes nada que puedas desinscribir."
+
+msgid ", stunned"
+msgstr ", aturdido"
+
+msgid "You feel noisier."
+msgstr "Te sientes más ruidoso."
+
+msgid "You faint from the effort!"
+msgstr "¡Te desmayas por el esfuerzo!"
+
+msgid ", disenchanted"
+msgstr ", desencantado"
+
+msgid "You succeed in shield bashing your enemy! (%d)"
+msgstr "¡Consigues golpear a tu enemigo con el escudo! (%d)"
+
+msgid "You have finished the tunnel %s."
+msgstr "Has terminado el túnel %s."
+
+msgid "undamaged"
+msgstr "sin daño"
+
+msgid "Which stat to edit (name or 0-%d): "
+msgstr "¿Qué estadística editar (nombre o 0-%d): "
+
+msgid "You feel smarter!"
+msgstr "¡Te sientes más inteligente!"
+
+msgid " examines"
+msgstr " examina"
+
+msgid "store %d"
+msgstr "tienda %d"
+
+msgid "You now know many objects!"
+msgstr "¡Ahora conoces muchos objetos!"
+
+msgid "overexertion"
+msgstr "sobreesfuerzo"
+
+msgid "The weight of your armor encumbers your spell casting."
+msgstr "El peso de tu armadura entorpece tu lanzamiento de hechizos."
+
+msgid "curse of %s"
+msgstr "maldición de %s"
+
+msgid "You reorder your pack."
+msgstr "Reordenas tu mochila."
+
+msgid "You have no items to activate."
+msgstr "No tienes objetos que activar."
+
+msgid "Learn object types up to level (0-100)? "
+msgstr "¿Aprender tipos de objetos hasta el nivel (0-100)? "
+
+msgid "to mana"
+msgstr "al maná"
+
+msgid "Cannot initialize stores"
+msgstr "No se pueden inicializar las tiendas"
+
+msgid "Enter the new artifact: "
+msgstr "Introduce el nuevo artefacto: "
+
+msgid "Full recall for [a] all monsters or [s] a specific one? "
+msgstr "¿Recuerdo completo para [a] todos los monstruos o [s] uno específico? "
+
+msgid "You have nothing to drop."
+msgstr "No tienes nada que soltar."
+
+msgid "You failed to disarm %s."
+msgstr "No conseguiste desarmar %s."
+
+msgid "You punch"
+msgstr "Golpeas con el puño"
+
+msgid "You cannot do this while in %s form."
+msgstr "No puedes hacer esto mientras estás en forma de %s."
+
+msgid "You are wearing %s (%c)."
+msgstr "Te equipas %s (%c)."
+
+msgid "Changing a shopkeeper..."
+msgstr "Cambiando a un tendero..."
+
+msgid "%s %s%s."
+msgstr "%s a %s%s."
+
+msgid "You see no store here."
+msgstr "No ves ninguna tienda aquí."
+
+msgid "%s is vulnerable to "
+msgstr "%s es vulnerable "
+
+msgid "type = %-5lu  tval = %-5d  sval = %-5d  weight = %-3d     time = %-d"
+msgstr "type = %-5lu  tval = %-5d  sval = %-5d  peso = %-3d     tiempo = %-d"
+
+msgid "How many monsters? "
+msgstr "¿Cuántos monstruos? "
+
+msgid "That rod is still recharging."
+msgstr "Esa vara todavía se está recargando."
+
+msgid "It glows!"
+msgstr "¡Brilla!"
+
+msgid "herself"
+msgstr "a sí misma"
+
+msgid "and %s is not known to have ever been defeated.  "
+msgstr "y no se sabe que %s haya sido derrotado alguna vez.  "
+
+msgid "You are covered in frost!"
+msgstr "¡Estás cubierto de escarcha!"
+
+msgid "to gravity"
+msgstr "a la gravedad"
+
+msgid "You feel wiser!"
+msgstr "¡Te sientes más sabio!"
+
+msgid "use the staff"
+msgstr "usar el báculo"
+
+msgid "AC bonus"
+msgstr "bono de CA"
+
+msgid "Your %s %s %s%s. %s"
+msgstr "Tu %s %s %s%s. %s"
+
+msgid "No target monster selected!"
+msgstr "¡Ningún monstruo objetivo seleccionado!"
+
+msgid "(Enter select, ESC) Command:"
+msgstr "(Intro seleccionar, ESC) Comando:"
+
+msgid "Which object to create (0-%d)? "
+msgstr "¿Qué objeto crear (0-%d)? "
+
+msgid " up to"
+msgstr " hasta"
+
+msgid "Buy %s?%s %s"
+msgstr "¿Comprar %s?%s %s"
+
+msgid "to chaos"
+msgstr "al caos"
+
+msgid "Really take off %s? "
+msgstr "¿Realmente quitarte %s? "
+
+msgid ", confused"
+msgstr ", confuso"
+
+msgid "Which monster to summon? "
+msgstr "¿Qué monstruo generar? "
+
+msgid "Store Inventory"
+msgstr "Inventario de la Tienda"
+
+msgid "to nexus"
+msgstr "al nexo"
+
+msgid "Rescaling bow power, total is %d\n"
+msgstr "Reescalando el poder del arco, total es %d\n"
+
+msgid "You have no light to read by."
+msgstr "No tienes luz con la que leer."
+
+msgid "Could not find the %s shape!"
+msgstr "¡No se pudo encontrar la forma %s!"
+
+msgid "%s is lit.  "
+msgstr "%s está iluminado.  "
+
+msgid "The item cannot be used at the moment"
+msgstr "El objeto no se puede usar en este momento"
+
+msgid " this creature"
+msgstr " a esta criatura"
+
+msgid " gives an item to the store in exchange for its identification. Some wands and staves will also be recharged. "
+msgstr " da un objeto a la tienda a cambio de su identificación. Algunas varitas y báculos también serán recargados. "
+
+msgid "Add %d power for modifier total of %d, total is %d\n"
+msgstr "Añadir %d de poder por total de modificador de %d, total es %d\n"
+
+msgid "Your weapon tingles in your hands."
+msgstr "Tu arma hormiguea en tus manos."
+
+msgid "Cannot initialize dungeon profiles"
+msgstr "No se pueden inicializar los perfiles de mazmorra"
+
+msgid "%s is dark.  "
+msgstr "%s está oscuro.  "
+
+msgid "no generation"
+msgstr "sin generación"
+
+msgid "Abandoned.  Changes to the object were lost."
+msgstr "Abandonado.  Se perdieron los cambios del objeto."
+
+msgid "You failed to %s properly."
+msgstr "No conseguiste %s correctamente."
+
+msgid "-- %s says: \"%s\""
+msgstr "-- %s dice: \"%s\""
+
+msgid "Direction ('*' or <click> to target, \"'\" for closest, Escape to cancel)? "
+msgstr "¿Dirección ('*' o <clic> para apuntar, \"'\" para el más cercano, Escape para cancelar)? "
+
+# --- list-mon-message.h: monster reaction messages ---
+# msgid uses English [singular|plural] / {masc|fem} markup; msgstr must
+# keep the same [x|y] bracket structure so mon-msg.c can pick the form.
+
+msgid "[is|are] hurt."
+msgstr "[está|están] herid{o|a}[|s]."
+
+msgid "die[s|]."
+msgstr "muer[e|en]."
+
+msgid "[is|are] destroyed."
+msgstr "[está|están] destruid{o|a}[|s]."
+
+msgid "resist[s|] a lot."
+msgstr "resist[e|en] mucho."
+
+msgid "[is|are] hit hard."
+msgstr "recibe[|n] un golpe fuerte."
+
+msgid "resist[s|]."
+msgstr "resist[e|en]."
+
+msgid "[is|are] immune."
+msgstr "[es|son] inmune[|s]."
+
+msgid "resist[s|] somewhat."
+msgstr "resist[e|en] un poco."
+
+msgid "[is|are] unaffected!"
+msgstr "resulta[|n] iles{o|a}[|s]!"
+
+msgid "spawn[s|]!"
+msgstr "se reproduce[|n]!"
+
+msgid "look[s|] healthier."
+msgstr "se ve[|n] más san{o|a}[|s]."
+
+msgid "fall[s|] asleep!"
+msgstr "se duerme[|n]!"
+
+msgid "wake[s|] up."
+msgstr "despierta[|n]."
+
+msgid "cringe[s|] at the light!"
+msgstr "se encoge[|n] ante la luz!"
+
+msgid "shrivel[s|] in the light!"
+msgstr "se marchita[|n] con la luz!"
+
+msgid "lose[s|] some skin!"
+msgstr "pierde[|n] algo de piel!"
+
+msgid "dissolve[s|]!"
+msgstr "se disuelve[|n]!"
+
+msgid "catch[es|] fire!"
+msgstr "se incendia[|n]!"
+
+msgid "[is|are] badly frozen."
+msgstr "[está|están] muy congelad{o|a}[|s]."
+
+msgid "shudder[s|]."
+msgstr "se estremece[|n]."
+
+msgid "change[s|]!"
+msgstr "cambia[|n]!"
+
+msgid "disappear[s|]!"
+msgstr "desaparece[|n]!"
+
+msgid "[is|are] even more dazed."
+msgstr "[está|están] aún más aturdid{o|a}[|s]."
+
+msgid "[is|are] dazed."
+msgstr "[está|están] aturdid{o|a}[|s]."
+
+msgid "[is|are] no longer dazed."
+msgstr "ya no [está|están] aturdid{o|a}[|s]."
+
+msgid "look[s|] more confused."
+msgstr "parece[|n] más confundid{o|a}[|s]."
+
+msgid "look[s|] confused."
+msgstr "parece[|n] confundid{o|a}[|s]."
+
+msgid "[is|are] no longer confused."
+msgstr "ya no [está|están] confundid{o|a}[|s]."
+
+msgid "look[s|] slower."
+msgstr "se ve[|n] más lent{o|a}[|s]."
+
+msgid "speed[s|] up."
+msgstr "acelera[|n]."
+
+msgid "look[s|] even faster!"
+msgstr "se ve[|n] aún más rápid{o|a}[|s]!"
+
+msgid "start[s|] moving faster."
+msgstr "empieza[|n] a moverse más rápido."
+
+msgid "slow[s|] down."
+msgstr "se ralentiza[|n]."
+
+msgid "look[s|] more terrified!"
+msgstr "parece[|n] más aterrorizad{o|a}[|s]!"
+
+msgid "flee[s|] in terror!"
+msgstr "huye[|n] aterrorizad{o|a}[|s]!"
+
+msgid "[is|are] no longer afraid."
+msgstr "ya no [tiene|tienen] miedo."
+
+msgid "[is|are] paralyzed in place!"
+msgstr "[está|están] paralizad{o|a}[|s] en el sitio!"
+
+msgid "can move again."
+msgstr "puede[|n] moverse de nuevo."
+
+msgid "look[s|] less magical!"
+msgstr "parece[|n] menos mágic{o|a}[|s]!"
+
+msgid "look[s|] magical again."
+msgstr "parece[|n] mágic{o|a}[|s] de nuevo."
+
+msgid "fall[s|] under your spell!"
+msgstr "cae[|n] bajo tu hechizo!"
+
+msgid "[is|are] no longer under your control."
+msgstr "ya no [está|están] bajo tu control."
+
+msgid "glow[s|] for a moment."
+msgstr "brilla[|n] por un momento."
+
+msgid "You hear [a|several] scream[|s] of agony!"
+msgstr "Oyes [un|varios] grito[|s] de agonía!"
+
+msgid "disintegrate[s|]!"
+msgstr "se desintegra[|n]!"
+
+msgid "freeze[s|] and shatter[s|] to pieces!"
+msgstr "se congela[|n] y se hace[|n] pedazos!"
+
+msgid "lose[s|] some mana!"
+msgstr "pierde[|n] algo de maná!"
+
+msgid "look[s|] briefly puzzled."
+msgstr "parece[|n] brevemente confundid{o|a}[|s]."
+
+msgid "maintain[s|] the same shape."
+msgstr "mantiene[|n] la misma forma."
+
+msgid "[is|are] unharmed."
+msgstr "[está|están] iles{o|a}[|s]."
+
+msgid "appear[s|]!"
+msgstr "aparece[|n]!"
+
+msgid "There is a puff of smoke!"
+msgstr "Ves una nube de humo!"
+
+msgid "[is|are] embedded in the rock!"
+msgstr "[queda|quedan] atrapad{o|a}[|s] en la roca!"
+
+msgid "moan[s|] in pain!"
+msgstr "gime[|n] de dolor!"
+
+# --- player-attack.c: melee hit quality messages ---
+
+msgid "It was a good hit!"
+msgstr "¡Fue un buen golpe!"
+
+msgid "It was a great hit!"
+msgstr "¡Fue un gran golpe!"
+
+msgid "It was a superb hit!"
+msgstr "¡Fue un golpe soberbio!"
+
+msgid "It was a *GREAT* hit!"
+msgstr "¡Fue un golpe *GRANDIOSO*!"
+
+msgid "It was a *SUPERB* hit!"
+msgstr "¡Fue un golpe *SOBERBIO*!"
+
+# --- list-mon-race-flags.h: monster race flag descriptions ---
+
+msgid "invisible"
+msgstr "es invisible"
+
+msgid "cold blooded"
+msgstr "es de sangre fría"
+
+msgid "not detected by telepathy"
+msgstr "no es detectada por telepatía"
+
+msgid "rarely detected by telepathy"
+msgstr "rara vez es detectada por telepatía"
+
+msgid "open doors"
+msgstr "abrir puertas"
+
+msgid "bash down doors"
+msgstr "derribar puertas"
+
+msgid "pass through walls"
+msgstr "atravesar paredes"
+
+msgid "bore through walls"
+msgstr "perforar paredes"
+
+msgid "smash through walls"
+msgstr "destrozar paredes"
+
+msgid "push past weaker monsters"
+msgstr "empujar a monstruos más débiles"
+
+msgid "destroy weaker monsters"
+msgstr "destruir monstruos más débiles"
+
+msgid "pick up objects"
+msgstr "recoger objetos"
+
+msgid "destroy objects"
+msgstr "destruir objetos"
+
+msgid "clear webs"
+msgstr "limpiar telarañas"
+
+msgid "pass through webs"
+msgstr "atravesar telarañas"
+
+msgid "orc"
+msgstr "orco"
+
+msgid "troll"
+msgstr "trol"
+
+msgid "giant"
+msgstr "gigante"
+
+msgid "dragon"
+msgstr "dragón"
+
+msgid "demon"
+msgstr "demonio"
+
+msgid "natural"
+msgstr "natural"
+
+msgid "evil"
+msgstr "maligna"
+
+msgid "undead"
+msgstr "no-muerta"
+
+msgid "nonliving"
+msgstr "sin vida"
+
+msgid "metal"
+msgstr "metal"
+
+msgid "bright light"
+msgstr "a la luz brillante"
+
+msgid "rock remover"
+msgstr "al eliminador de roca"
+
+msgid "fire"
+msgstr "al fuego"
+
+msgid "cold"
+msgstr "al frío"
+
+msgid "acid"
+msgstr "ácido"
+
+msgid "lightning"
+msgstr "electricidad"
+
+msgid "nether"
+msgstr "nether"
+
+msgid "water"
+msgstr "agua"
+
+msgid "plasma"
+msgstr "plasma"
+
+msgid "nexus"
+msgstr "nexo"
+
+msgid "disenchantment"
+msgstr "desencantamiento"
+
+msgid "frightened"
+msgstr "asustada"
+
+msgid "stunned"
+msgstr "aturdida"
+
+msgid "confused"
+msgstr "dejar confusa"
+
+msgid "put to sleep"
+msgstr "poner a dormir"
+
+msgid "held"
+msgstr "retenida"
+
+msgid "slowed"
+msgstr "ralentizada"
+
+

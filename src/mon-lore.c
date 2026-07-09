@@ -20,6 +20,7 @@
 #include "effects.h"
 #include "game-world.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-attack.h"
 #include "mon-blows.h"
 #include "mon-init.h"
@@ -563,29 +564,29 @@ static const char *lore_describe_awareness(int16_t awareness)
 		int16_t threshold;
 		const char *description;
 	} lore_awareness_description[] = {
-		{200,	"prefiere ignorar a"},
-		{95,	"presta muy poca atención a"},
-		{75,	"presta poca atención a"},
-		{45,	"suele pasar por alto a"},
-		{25,	"tarda bastante en ver a"},
-		{10,	"tarda un tiempo en ver a"},
-		{5,		"es bastante observador de"},
-		{3,		"es observador de"},
-		{1,		"está alerta de"},
-		{0,		"está vigilante por"},
+		{200,	"prefers to ignore"},
+		{95,	"pays very little attention to"},
+		{75,	"pays little attention to"},
+		{45,	"tends to overlook"},
+		{25,	"takes quite a while to see"},
+		{10,	"takes a while to see"},
+		{5,		"is quite observant of"},
+		{3,		"is observant of"},
+		{1,		"is alert for"},
+		{0,		"is watchful for"},
 		{SHRT_MAX,	NULL},
 	};
 	const struct lore_awareness *current = lore_awareness_description;
 
 	while (current->threshold != SHRT_MAX && current->description != NULL) {
 		if (awareness > current->threshold)
-			return current->description;
+			return _(current->description);
 
 		current++;
 	}
 
 	/* Values zero and less are the most vigilant */
-	return "está siempre vigilante por";
+	return _("is ever vigilant for");
 }
 
 /**
@@ -604,27 +605,27 @@ static const char *lore_describe_speed(uint8_t speed)
 		uint8_t threshold;
 		const char *description;
 	} lore_speed_description[] = {
-		{130,	"increíblemente rápido"},
-		{120,	"muy rápido"},
-		{115,	"rápido"},
-		{110,	"bastante rápido"},
-		{109,	"velocidad normal"}, /* 110 es velocidad normal */
-		{99,	"lento"},
-		{89,	"muy lento"},
-		{0,		"increíblemente lento"},
+		{130,	"incredibly fast"},
+		{120,	"very fast"},
+		{115,	"fast"},
+		{110,	"fairly fast"},
+		{109,	"normal speed"}, /* 110 is normal speed */
+		{99,	"slow"},
+		{89,	"very slow"},
+		{0,		"incredibly slow"},
 		{UCHAR_MAX,	NULL},
 	};
 	const struct lore_speed *current = lore_speed_description;
 
 	while (current->threshold != UCHAR_MAX && current->description != NULL) {
 		if (speed > current->threshold)
-			return current->description;
+			return _(current->description);
 
 		current++;
 	}
 
 	/* Return a weird description, since the value wasn't found in the table */
-	return "erróneamente";
+	return _("erroneously");
 }
 
 /**
@@ -637,8 +638,10 @@ static void lore_adjective_speed(textblock *tb, const struct monster_race *race)
 {
 	/* "at" is separate from the normal speed description in order to use the
 	 * normal text colour */
-	if (race->speed == 110)
-		textblock_append(tb, "a ");
+	if (race->speed == 110) {
+		bool en = (strcmp(lang_current, "en") == 0);
+		textblock_append(tb, en ? "at " : "a ");
+	}
 
 	textblock_append_c(tb, COLOUR_GREEN, "%s", lore_describe_speed(race->speed));
 }
@@ -652,7 +655,7 @@ static void lore_adjective_speed(textblock *tb, const struct monster_race *race)
 static void lore_multiplier_speed(textblock *tb, const struct monster_race *race)
 {
 	// moves at 2.3x normal speed (0.9x your current speed)
-	textblock_append(tb, "a ");
+	textblock_append(tb, strcmp(lang_current, "en") == 0 ? "at " : "a ");
 
 	char buf[8] = "";
 	int multiplier = 10 * extract_energy[race->speed] / extract_energy[110];
@@ -663,7 +666,7 @@ static void lore_multiplier_speed(textblock *tb, const struct monster_race *race
 	strnfmt(buf, sizeof(buf), "%d.%dx", int_mul, dec_mul);
 	textblock_append_c(tb, COLOUR_L_BLUE, "%s", buf);
 
-	textblock_append(tb, " la velocidad normal, que es ");
+	textblock_append(tb, _(" normal speed, which is "));
 	multiplier = 100 * extract_energy[race->speed]
 		/ extract_energy[player->state.speed];
 	int_mul = multiplier / 100;
@@ -682,10 +685,10 @@ static void lore_multiplier_speed(textblock *tb, const struct monster_race *race
 		attr = COLOUR_RED;
 	}
 	if (player->state.speed == race->speed) {
-		textblock_append(tb, "la misma que la tuya");
+		textblock_append(tb, _("the same as yours"));
 	} else {
 		textblock_append_c(tb, attr, "%s", buf);
-		textblock_append(tb, " tu velocidad");
+		textblock_append(tb, _(" your speed"));
 	}
 }
 
@@ -715,9 +718,9 @@ static monster_sex_t lore_monster_sex(const struct monster_race *race)
 static const char *lore_pronoun_nominative(monster_sex_t sex, bool title_case)
 {
 	static const char *lore_pronouns[MON_SEX_MAX][2] = {
-		{"ello", "La criatura"}, //Fix traduc
-		{"él", "Él"},
-		{"ella", "Ella"},
+		{"it", "It"}, //Fix traduc
+		{"he", "He"},
+		{"she", "She"},
 	};
 
 	int pronoun_index = MON_SEX_NEUTER, case_index = 0;
@@ -728,7 +731,7 @@ static const char *lore_pronoun_nominative(monster_sex_t sex, bool title_case)
 	if (title_case)
 		case_index = 1;
 
-	return lore_pronouns[pronoun_index][case_index];
+	return _(lore_pronouns[pronoun_index][case_index]);
 }
 
 /**
@@ -744,9 +747,9 @@ static const char *lore_pronoun_nominative(monster_sex_t sex, bool title_case)
 static const char *lore_pronoun_possessive(monster_sex_t sex, bool title_case)
 {
 	static const char *lore_pronouns[MON_SEX_MAX][2] = {
-		{"su", "Su"},
-		{"su", "Su"},
-		{"su", "Su"},
+		{"its", "Its"},
+		{"his", "His"},
+		{"her", "Her"},
 	};
 
 	int pronoun_index = MON_SEX_NEUTER, case_index = 0;
@@ -757,7 +760,7 @@ static const char *lore_pronoun_possessive(monster_sex_t sex, bool title_case)
 	if (title_case)
 		case_index = 1;
 
-	return lore_pronouns[pronoun_index][case_index];
+	return _(lore_pronouns[pronoun_index][case_index]);
 }
 
 /**
@@ -797,7 +800,7 @@ static void lore_append_clause(textblock *tb, bitflag *f, uint8_t attr,
 				}
 				textblock_append(tb, " ");
 			}
-			textblock_append_c(tb, attr, "%s", describe_race_flag(flag));
+			textblock_append_c(tb, attr, "%s", _(describe_race_flag(flag)));
 		}
 		textblock_append(tb, "%s", end);
 	}
@@ -884,48 +887,48 @@ void lore_append_kills(textblock *tb, const struct monster_race *race,
 		/* We've been killed... */
 		if (lore->deaths) {
 			/* Killed ancestors */
-			textblock_append(tb, "%s ha matado a %d de tus antepasados",
+			textblock_append(tb, _("%s has killed %d of your ancestors"),
 							 lore_pronoun_nominative(msex, true), lore->deaths);
 
 			/* But we've also killed it */
 			if (dead)
-				textblock_append(tb, ", ¡pero te has vengado!  ");
+				textblock_append(tb, _(", but you have avenged yourself!  "));
 
 			/* Unavenged (ever) */
 			else
-				textblock_append(tb, ", que %s sin vengar.  ",
-								 VERB_AGREEMENT(lore->deaths, "permanece",
-												"permanecen"));
+				textblock_append(tb, _(", who %s unavenged.  "),
+								 VERB_AGREEMENT(lore->deaths, _("remains"),
+												_("remain")));
 		} else if (dead) { /* Dead unique who never hurt us */
-			textblock_append(tb, "Has matado a este enemigo.  ");
+			textblock_append(tb, _("You have slain this foe.  "));
 		} else {
 			/* Alive and never killed us */
 			out = false;
 		}
 	} else if (lore->deaths) {
 		/* Dead ancestors */
-		textblock_append(tb, "%d de tus antepasados %s sido asesinados por esta criatura, ", lore->deaths, VERB_AGREEMENT(lore->deaths, "ha", "han"));
+		textblock_append(tb, _("%d of your ancestors %s been killed by this creature, "), lore->deaths, VERB_AGREEMENT(lore->deaths, _("has"), _("have")));
 
 		if (lore->pkills) {
 			/* Some kills this life */
-			textblock_append(tb, "y has exterminado al menos %d de las criaturas.  ", lore->pkills);
+			textblock_append(tb, _("and you have exterminated at least %d of the creatures.  "), lore->pkills);
 		} else if (lore->tkills) {
 			/* Some kills past lives */
-			textblock_append(tb, "y tus antepasados han exterminado al menos %d de las criaturas.  ", lore->tkills);
+			textblock_append(tb, _("and your ancestors have exterminated at least %d of the creatures.  "), lore->tkills);
 		} else {
 			/* No kills */
-			textblock_append_c(tb, COLOUR_RED, "y %s no se sabe que haya sido derrotado nunca.  ", lore_pronoun_nominative(msex, false));
+			textblock_append_c(tb, COLOUR_RED, _("and %s is not known to have ever been defeated.  "), lore_pronoun_nominative(msex, false));
 		}
 	} else {
 		if (lore->pkills) {
 			/* Killed some this life */
-			textblock_append(tb, "Has matado al menos %d de estas criaturas.  ", lore->pkills);
+			textblock_append(tb, _("You have killed at least %d of these creatures.  "), lore->pkills);
 		} else if (lore->tkills) {
 			/* Killed some last life */
-			textblock_append(tb, "Tus antepasados han matado al menos %d de estas criaturas.  ", lore->tkills);
+			textblock_append(tb, _("Your ancestors have killed at least %d of these creatures.  "), lore->tkills);
 		} else {
 			/* Killed none */
-			textblock_append(tb, "No se recuerdan batallas a muerte.  ");
+			textblock_append(tb, _("No battles to the death are recalled.  "));
 		}
 	}
 
@@ -962,68 +965,80 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 						  const struct monster_lore *lore,
 						  bitflag known_flags[RF_SIZE])
 {
-	int f;
-	bitflag flags[RF_SIZE];
+	int f, f2;
+	bitflag flags[RF_SIZE], aflags[RF_SIZE];
+	bool en = (strcmp(lang_current, "en") == 0);
 
 	assert(tb && race && lore);
 
-	textblock_append(tb, "Esta");
-	/* Get adjectives */
-	
+	textblock_append(tb, _("This"));
 
 	/* Get noun */
 	create_mon_flag_mask(flags, RFT_RACE_N, RFT_MAX);
 	rf_inter(flags, race->flags);
 	f = rf_next(flags, FLAG_START);
+
+	/* Get adjectives */
+	create_mon_flag_mask(aflags, RFT_RACE_A, RFT_MAX);
+	rf_inter(aflags, race->flags);
+
+	/*
+	 * English puts adjectives before the noun ("evil creature"); Spanish
+	 * puts the noun first ("criatura malvada").
+	 */
+	if (en) {
+		for (f2 = rf_next(aflags, FLAG_START); f2; f2 = rf_next(aflags, f2 + 1)) {
+			textblock_append_c(tb, COLOUR_L_BLUE, " %s", _(describe_race_flag(f2)));
+		}
+	}
+
 	if (f) {
-		textblock_append_c(tb, COLOUR_L_BLUE, " %s", describe_race_flag(f));
+		textblock_append_c(tb, COLOUR_L_BLUE, " %s", _(describe_race_flag(f)));
 	} else {
-		textblock_append_c(tb, COLOUR_L_BLUE, " criatura");
+		textblock_append_c(tb, COLOUR_L_BLUE, _(" creature"));
 	}
 
-	/* Fix traduc mejora de traducción se inverte sustantivo antes de adjetivo, en español es así */
-	create_mon_flag_mask(flags, RFT_RACE_A, RFT_MAX);
-	rf_inter(flags, race->flags);
-	for (f = rf_next(flags, FLAG_START); f; f = rf_next(flags, f + 1)) {
-		textblock_append_c(tb, COLOUR_L_BLUE, " %s", describe_race_flag(f));
+	if (!en) {
+		for (f2 = rf_next(aflags, FLAG_START); f2; f2 = rf_next(aflags, f2 + 1)) {
+			textblock_append_c(tb, COLOUR_L_BLUE, " %s", _(describe_race_flag(f2)));
+		}
 	}
 
-	/* Fix traduc Describir ubicación */
+	/* Describe location */
 	if (race->level == 0) {
-		textblock_append(tb, " vive en la ciudad");
+		textblock_append(tb, _(" lives in the town"));
 	} else {
 		uint8_t colour = (race->level > player->max_depth) ?
 			COLOUR_RED : COLOUR_L_BLUE;
 
 		if (rf_has(known_flags, RF_FORCE_DEPTH))
-			textblock_append(tb, " se encuentra ");
+			textblock_append(tb, _(" is found at depths of "));
 		else
-			textblock_append(tb, " normalmente se encuentra ");
+			textblock_append(tb, _(" is normally found at depths of "));
 
-		textblock_append(tb, "a una profundidad de ");
 		textblock_append_c(tb, colour, "%d", race->level * 50);
-		textblock_append(tb, " pies (nivel ");
+		textblock_append(tb, _(" feet (level "));
 		textblock_append_c(tb, colour, "%d", race->level);
 		textblock_append(tb, ")");
 	}
 
-	textblock_append(tb, ", y se mueve");
+	textblock_append(tb, _(", and moves"));
 
 	/* Random-ness */
 	if (flags_test(known_flags, RF_SIZE, RF_RAND_50, RF_RAND_25, FLAG_END)) {
 		/* Adverb */
 		if (rf_has(known_flags, RF_RAND_50) && rf_has(known_flags, RF_RAND_25))
-			textblock_append(tb, " extremadamente");
+			textblock_append(tb, _(" extremely"));
 		else if (rf_has(known_flags, RF_RAND_50))
-			textblock_append(tb, " algo");
+			textblock_append(tb, _(" somewhat"));
 		else if (rf_has(known_flags, RF_RAND_25))
-			textblock_append(tb, " un poco");
+			textblock_append(tb, _(" a bit"));
 
 		/* Adjective */
-		textblock_append(tb, " erráticamente");
+		textblock_append(tb, _(" erratically"));
 
 		/* Occasional conjunction */
-		if (race->speed != 110) textblock_append(tb, ", y");
+		if (race->speed != 110) textblock_append(tb, _(", and"));
 	}
 
 	/* Speed */
@@ -1036,9 +1051,9 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 
 	/* The speed description also describes "attack speed" */
 	if (rf_has(known_flags, RF_NEVER_MOVE)) {
-		textblock_append(tb, ", pero ");
+		textblock_append(tb, _(", but "));
 		textblock_append_c(tb, COLOUR_L_GREEN,
-						   "no se digna a perseguir a los intrusos");
+						   _("does not deign to chase intruders"));
 	}
 
 	/* End this sentence */
@@ -1060,39 +1075,40 @@ void lore_append_toughness(textblock *tb, const struct monster_race *race,
 						   const struct monster_lore *lore,
 						   bitflag known_flags[RF_SIZE])
 {
-	//monster_sex_t msex = MON_SEX_NEUTER; // fix traduc no usado
 	struct object *weapon = equipped_item_by_slot_name(player, "weapon");
 
 	assert(tb && race && lore);
 
-	/* Extract a gender (if applicable) */
-	//msex = lore_monster_sex(race); // no se usa ahora con fix de traducción
-
 	/* Describe monster "toughness" */
 	if (lore->armour_known) {
+		bool en = (strcmp(lang_current, "en") == 0);
+		bool average = !rf_has(known_flags, RF_UNIQUE);
+
 		/* Hitpoints */
-		textblock_append(tb, "Tiene un nivel");  //Fin de traducción Ella tiene se saca el Ella
-
-        // fix traducción, orden en español con otra lectura
-		if (!rf_has(known_flags, RF_UNIQUE))
-			textblock_append(tb, " promedio");
-
-		textblock_append(tb, " de vida de ");
+		if (en) {
+			textblock_append(tb, average ?
+				"It has an average life rating of " :
+				"It has a life rating of ");
+		} else {
+			textblock_append(tb, average ?
+				"Tiene una vida media de " :
+				"Tiene una vida de ");
+		}
 		textblock_append_c(tb, COLOUR_L_BLUE, "%d", race->avg_hp);
 
 		/* Armor */
-		textblock_append(tb, ", y ");
+		textblock_append(tb, _(", and an armor rating of "));
 		textblock_append_c(tb, COLOUR_L_BLUE, "%d", race->ac);
-		textblock_append(tb, " de armadura.  ");
+		textblock_append(tb, ".  ");
 
 		/* Player's base chance to hit */
 		random_chance c;
 		hit_chance(&c, chance_of_melee_hit_base(player, weapon), race->ac);
 		int percent = random_chance_scaled(c, 100);
 
-		textblock_append(tb, "Tienes una probabilidad del");
+		textblock_append(tb, _("You have a"));
 		textblock_append_c(tb, COLOUR_L_BLUE, " %d", percent);
-		textblock_append(tb, "%% de golpear a la criatura en combate cuerpo a cuerpo (Si es que puedes verla).  ");
+		textblock_append(tb, _("%% chance to hit such a creature in melee (if you can see it).  "));
 	}
 }
 
@@ -1111,22 +1127,14 @@ void lore_append_exp(textblock *tb, const struct monster_race *race,
 					 const struct monster_lore *lore,
 					 bitflag known_flags[RF_SIZE])
 {
-	const char /*ordinal, fix traduc no se usa*/ *article;
 	char buf[20] = "";
 	long exp_integer, exp_fraction;
 	int16_t level;
+	bool en = (strcmp(lang_current, "en") == 0);
 
 	/* Check legality and that this is a placeable monster */
 	assert(tb && race && lore);
 	if (!race->rarity) return;
-
-	/* Introduction */
-	if (rf_has(known_flags, RF_UNIQUE))
-		textblock_append(tb, "Matar");
-	else
-		textblock_append(tb, "Eliminar a");
-
-	textblock_append(tb, " esta criatura");
 
 	/* calculate the integer exp part */
 	exp_integer = (long)race->mexp * race->level / player->lev;
@@ -1141,30 +1149,46 @@ void lore_append_exp(textblock *tb, const struct monster_race *race,
 	if (exp_fraction)
 		my_strcat(buf, format(".%02ld", exp_fraction), sizeof(buf));
 
-	/* Mention the experience */
-	textblock_append(tb, " equivale a ");
-	textblock_append_c(tb, COLOUR_BLUE, "%s punto%s", buf,
-		PLURAL((exp_integer == 1) && (exp_fraction == 0)));
-
-	/* Take account of annoying English */
-	/*ordinal = "º";
-	level = player->lev % 10;*/
-	//if ((player->lev / 10) == 1) /* nada */;
-	
-	/*
-	else if (level == 1) ordinal = "er";
-	else if (level == 2) ordinal = "do";
-	else if (level == 3) ordinal = "er";
-	else if (level == 7) ordinal = "mo";*/
-
-	/* Take account of "leading vowels" in numbers */
-	article = "un";
 	level = player->lev;
-	if ((level == 8) || (level == 11) || (level == 18)) article = "un";
 
-	/* Mention the dependance on the player's level */
-	textblock_append(tb, " para %s personaje de nivel %u.  ", article, //fix traduc
-					 level);
+	if (en) {
+		/* English uses an ordinal suffix (1st, 2nd, 3rd, 11th, ...) */
+		const char *ordinal;
+		int mod100 = level % 100;
+		int mod10 = level % 10;
+
+		if (mod100 >= 11 && mod100 <= 13) {
+			ordinal = "th";
+		} else if (mod10 == 1) {
+			ordinal = "st";
+		} else if (mod10 == 2) {
+			ordinal = "nd";
+		} else if (mod10 == 3) {
+			ordinal = "rd";
+		} else {
+			ordinal = "th";
+		}
+
+		textblock_append(tb, _("A kill of this creature is worth "));
+		textblock_append_c(tb, COLOUR_BLUE, "%s point%s", buf,
+			PLURAL((exp_integer == 1) && (exp_fraction == 0)));
+		textblock_append(tb, " for a ");
+		textblock_append_c(tb, COLOUR_L_BLUE, "%d%s", level, ordinal);
+		textblock_append(tb, " level character.  ");
+	} else {
+		if (rf_has(known_flags, RF_UNIQUE))
+			textblock_append(tb, _("Slaying"));
+		else
+			textblock_append(tb, _("Eliminating"));
+
+		textblock_append(tb, _(" this creature"));
+		textblock_append(tb, _(" is worth "));
+		textblock_append_c(tb, COLOUR_BLUE, "%s punto%s", buf,
+			PLURAL((exp_integer == 1) && (exp_fraction == 0)));
+		textblock_append(tb, _(" for a character of level "));
+		textblock_append_c(tb, COLOUR_L_BLUE, "%d", level);
+		textblock_append(tb, ".  ");
+	}
 }
 
 /**
@@ -1196,7 +1220,7 @@ void lore_append_drop(textblock *tb, const struct monster_race *race,
 
 	/* Drops gold and/or items */
 	if (n > 0 || nspec > 0) {
-		textblock_append(tb, "%s puede llevar",
+		textblock_append(tb, _("%s may carry"),
 			lore_pronoun_nominative(msex, true));
 
 		/* Report general drops */
@@ -1206,36 +1230,36 @@ void lore_append_drop(textblock *tb, const struct monster_race *race,
 
 			if (n == 1) {
 				textblock_append_c(tb, COLOUR_BLUE,
-					" un único ");
+					_(" a single "));
 			} else if (n == 2) {
 				textblock_append_c(tb, COLOUR_BLUE,
-					" uno o dos ");
+					_(" one or two "));
 			} else {
-				textblock_append(tb, " hasta ");
+				textblock_append(tb, _(" up to "));
 				textblock_append_c(tb, COLOUR_BLUE, "%d ", n);
 			}
 
 			/* Quality */
 			if (rf_has(known_flags, RF_DROP_GREAT)) {
 				textblock_append_c(tb, COLOUR_BLUE,
-					"excepcional ");
+					_("exceptional "));
 			} else if (rf_has(known_flags, RF_DROP_GOOD)) {
-				textblock_append_c(tb, COLOUR_BLUE, "buen ");
+				textblock_append_c(tb, COLOUR_BLUE, _("good "));
 			}
 
 			/* Objects or treasures */
 			if (only_item && only_gold) {
 				textblock_append_c(tb, COLOUR_BLUE,
-					"error%s", PLURAL(n));
+					_("error%s"), PLURAL(n));
 			} else if (only_item && !only_gold) {
 				textblock_append_c(tb, COLOUR_BLUE,
-					"objeto%s", PLURAL(n));
+					_("object%s"), PLURAL(n));
 			} else if (!only_item && only_gold) {
 				textblock_append_c(tb, COLOUR_BLUE,
-					"tesoro%s", PLURAL(n));
+					_("treasure%s"), PLURAL(n));
 			} else if (!only_item && !only_gold) {
 				textblock_append_c(tb, COLOUR_BLUE,
-					"objeto%s o tesoro%s",
+					_("object%s or treasure%s"),
 					PLURAL(n), PLURAL(n));
 			}
 		}
@@ -1246,18 +1270,18 @@ void lore_append_drop(textblock *tb, const struct monster_race *race,
 		 */
 		if (nspec > 0) {
 			if (n > 0) {
-				textblock_append(tb, " y");
+				textblock_append(tb, _(" and"));
 			}
 			if (nspec == 1) {
-				textblock_append(tb, " un");
+				textblock_append(tb, _(" a"));
 			} else if (nspec == 2) {
-				textblock_append(tb, " uno o dos");
+				textblock_append(tb, _(" one or two"));
 			} else {
-				textblock_append(tb, " hasta");
+				textblock_append(tb, _(" up to"));
 				textblock_append_c(tb, COLOUR_BLUE, " %d",
 					nspec);
 			}
-			textblock_append(tb, " objetos específicos");
+			textblock_append(tb, _(" specific objects"));
 		}
 
 		textblock_append(tb, ".  ");
@@ -1293,49 +1317,49 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 	/* Extract a gender (if applicable) and get a pronoun for the start of
 	 * sentences */
 	msex = lore_monster_sex(race);
-	initial_pronoun = "La criatura"; //fix traduc lore_pronoun_nominative(msex, true);
-	
+	initial_pronoun = _("The creature"); //fix traduc lore_pronoun_nominative(msex, true);
+
 
 	/* Describe environment-shaping abilities. */
 	create_mon_flag_mask(current_flags, RFT_ALTER, RFT_MAX);
 	rf_inter(current_flags, known_flags);
-	strnfmt(start, sizeof(start), "%s puede ", initial_pronoun);
-	lore_append_clause(tb, current_flags, COLOUR_WHITE, start, "y", ".  ");
+	strnfmt(start, sizeof(start), _("%s can "), initial_pronoun);
+	lore_append_clause(tb, current_flags, COLOUR_WHITE, start, _("and"), ".  ");
 
 	/* Describe detection traits */
 	create_mon_flag_mask(current_flags, RFT_DET, RFT_MAX);
 	rf_inter(current_flags, known_flags);
 	strnfmt(start, sizeof(start), "%s ", initial_pronoun); //fix traduc se saca "es" y se deja en list-mon-race-flags.h
-	lore_append_clause(tb, current_flags, COLOUR_WHITE, start, "y", ".  ");
+	lore_append_clause(tb, current_flags, COLOUR_WHITE, start, _("and"), ".  ");
 
 	/* Describe special things */
 	if (rf_has(known_flags, RF_UNAWARE))
-		textblock_append(tb, "%s se disfraza de otra cosa.  ",
+		textblock_append(tb, _("%s disguises itself as something else.  "),
 						 initial_pronoun);
 	if (rf_has(known_flags, RF_MULTIPLY))
-		textblock_append_c(tb, COLOUR_ORANGE, "%s se reproduce explosivamente.  ",
+		textblock_append_c(tb, COLOUR_ORANGE, _("%s breeds explosively.  "),
 						   initial_pronoun);
 	if (rf_has(known_flags, RF_REGENERATE))
-		textblock_append(tb, "%s se regenera rápidamente.  ", initial_pronoun);
+		textblock_append(tb, _("%s regenerates quickly.  "), initial_pronoun);
 
 	/* Describe light */
 	if (race->light > 1) {
-		textblock_append(tb, "%s ilumina %s alrededor.  ",
+		textblock_append(tb, _("%s lights up %s surroundings.  "),
 						 initial_pronoun, lore_pronoun_possessive(msex, false));
 	} else if (race->light == 1) {
-		textblock_append(tb, "%s está iluminado.  ", initial_pronoun);
+		textblock_append(tb, _("%s is lit.  "), initial_pronoun);
 	} else if (race->light == -1) {
-		textblock_append(tb, "%s está oscurecido.  ", initial_pronoun);
+		textblock_append(tb, _("%s is dark.  "), initial_pronoun);
 	} else if (race->light < -1) {
-		textblock_append(tb, "%s envuelve %s alrededores en oscuridad.  ",
+		textblock_append(tb, _("%s shrouds %s surroundings in darkness.  "),
 						 initial_pronoun, lore_pronoun_possessive(msex, false));
 	}
 
 	/* Collect susceptibilities */
 	create_mon_flag_mask(current_flags, RFT_VULN, RFT_VULN_I, RFT_MAX);
 	rf_inter(current_flags, known_flags);
-	strnfmt(start, sizeof(start), "%s es débil a ", initial_pronoun); //fix traduc
-	lore_append_clause(tb, current_flags, COLOUR_VIOLET, start, "y", "");
+	strnfmt(start, sizeof(start), _("%s is vulnerable to "), initial_pronoun); //fix traduc
+	lore_append_clause(tb, current_flags, COLOUR_VIOLET, start, _("and"), "");
 	if (!rf_is_empty(current_flags)) {
 		prev = true;
 	}
@@ -1353,11 +1377,11 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 		}
 	}
 	if (prev) {
-		my_strcpy(start, ", pero resiste ", sizeof(start));
+		my_strcpy(start, _(", but resists "), sizeof(start));
 	} else {
-		strnfmt(start, sizeof(start), "%s resiste ", initial_pronoun);
+		strnfmt(start, sizeof(start), _("%s resists "), initial_pronoun);
 	}
-	lore_append_clause(tb, current_flags, COLOUR_L_UMBER, start, "y", "");
+	lore_append_clause(tb, current_flags, COLOUR_L_UMBER, start, _("and"), "");
 	if (!rf_is_empty(current_flags)) {
 		prev = true;
 	}
@@ -1385,9 +1409,9 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 		}
 	}
 	if (prev) {
-		my_strcpy(start, ", y no resiste ", sizeof(start));
+		my_strcpy(start, _(", and does not resist "), sizeof(start));
 	} else {
-		strnfmt(start, sizeof(start), "%s no resiste ",
+		strnfmt(start, sizeof(start), _("%s does not resist "),
 			initial_pronoun);
 	}
 
@@ -1396,7 +1420,7 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 		rf_off(current_flags, RF_IM_NETHER);
 	}
 
-	lore_append_clause(tb, current_flags, COLOUR_L_UMBER, start, "o", "");
+	lore_append_clause(tb, current_flags, COLOUR_L_UMBER, start, _("or"), "");
 	if (!rf_is_empty(current_flags)) {
 		prev = true;
 	}
@@ -1405,11 +1429,11 @@ void lore_append_abilities(textblock *tb, const struct monster_race *race,
 	create_mon_flag_mask(current_flags, RFT_PROT, RFT_MAX);
 	rf_inter(current_flags, known_flags);
 	if (prev) {
-		my_strcpy(start, ", y no puede ser ", sizeof(start));
+		my_strcpy(start, _(", and cannot be "), sizeof(start));
 	} else {
-		strnfmt(start, sizeof(start), "%s no puede ser ", initial_pronoun);
+		strnfmt(start, sizeof(start), _("%s cannot be "), initial_pronoun);
 	}
-	lore_append_clause(tb, current_flags, COLOUR_L_UMBER, start, "o", "");
+	lore_append_clause(tb, current_flags, COLOUR_L_UMBER, start, _("or"), "");
 	if (!rf_is_empty(current_flags)) {
 		prev = true;
 	}
@@ -1443,10 +1467,10 @@ void lore_append_awareness(textblock *tb, const struct monster_race *race,
 	{
 		const char *aware = lore_describe_awareness(race->sleep);
 		long dist_mt_x10 = 10L * race->hearing * 3048 / 1000;
-		textblock_append(tb, "%s %s los intrusos, y puede notarlos desde ",
+		textblock_append(tb, _("%s %s intruders, and can notice them from "),
 						 lore_pronoun_nominative(msex, true), aware);
 		textblock_append_c(tb, COLOUR_L_BLUE, "%ld.%ld", dist_mt_x10 / 10, dist_mt_x10 % 10);
-		textblock_append(tb, " metros.  ");
+		textblock_append(tb, _(" meters away.  "));
 	}
 }
 
@@ -1473,10 +1497,10 @@ void lore_append_friends(textblock *tb, const struct monster_race *race,
 
 	/* Describe friends */
 	if (race->friends || race->friends_base) {
-		textblock_append(tb, "%s puede aparecer con otros monstruos",
+		textblock_append(tb, _("%s may appear with other monsters"),
 						 lore_pronoun_nominative(msex, true));
 		if (rf_has(known_flags, RF_GROUP_AI))
-			textblock_append(tb, " y caza en manada");
+			textblock_append(tb, _(" and hunts in packs"));
 		textblock_append(tb, ".  ");
 	}
 }
@@ -1524,8 +1548,8 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 	create_mon_spell_mask(test_flags, RST_BREATH, RST_NONE);
 	rsf_diff(current_flags, test_flags);
 	if (!rsf_is_empty(current_flags)) {
-		textblock_append(tb, "%s puede2 ", initial_pronoun);
-		lore_append_spell_clause(tb, current_flags, know_hp, race, "o", "");
+		textblock_append(tb, _("%s can "), initial_pronoun);
+		lore_append_spell_clause(tb, current_flags, know_hp, race, _("or"), "");
 		innate = true;
 	}
 
@@ -1534,12 +1558,12 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 	rsf_inter(current_flags, lore->spell_flags);
 	if (!rsf_is_empty(current_flags)) {
 		if (innate) {
-			textblock_append(tb, ", y puede ");
+			textblock_append(tb, _(", and can "));
 		} else {
-			textblock_append(tb, "%s puede ", initial_pronoun);
+			textblock_append(tb, _("%s can "), initial_pronoun);
 		}
-		textblock_append_c(tb, COLOUR_L_RED, "exhalar ");
-		lore_append_spell_clause(tb, current_flags, know_hp, race, "o", "");
+		textblock_append_c(tb, COLOUR_L_RED, _("breathe "));
+		lore_append_spell_clause(tb, current_flags, know_hp, race, _("or"), "");
 		breath = true;
 	}
 
@@ -1549,15 +1573,15 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 			/* Describe the spell frequency */
 			textblock_append(tb, "; ");
 			textblock_append_c(tb, COLOUR_L_GREEN, "1");
-			textblock_append(tb, " vez cada ");
+			textblock_append(tb, _(" time in "));
 			textblock_append_c(tb, COLOUR_L_GREEN, "%d",
 							   100 / race->freq_innate);
 		} else if (lore->cast_innate) {
 			/* Guess at the frequency */
 			int approx_frequency = MAX(((race->freq_innate + 9) / 10) * 10, 1);
-			textblock_append(tb, "; aproximadamente ");
+			textblock_append(tb, _("; about "));
 			textblock_append_c(tb, COLOUR_L_GREEN, "1");
-			textblock_append(tb, " vez cada ");
+			textblock_append(tb, _(" time in "));
 			textblock_append_c(tb, COLOUR_L_GREEN, "%d",
 							   100 / approx_frequency);
 		}
@@ -1571,18 +1595,18 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 	rsf_diff(current_flags, test_flags);
 	if (!rsf_is_empty(current_flags)) {
 		/* Introducción */
-		textblock_append(tb, "%s puede ", initial_pronoun);
+		textblock_append(tb, _("%s is able to "), initial_pronoun);
 
 		/* Verb Phrase */
-		textblock_append_c(tb, COLOUR_L_RED, "lanzar hechizos");
+		textblock_append_c(tb, COLOUR_L_RED, _("cast spells"));
 
 		/* Adverbio */
 		if (rf_has(known_flags, RF_SMART))
-			textblock_append(tb, " inteligentemente");
+			textblock_append(tb, _(" intelligently"));
 
 		/* Lista */
-		textblock_append(tb, " que ");
-		lore_append_spell_clause(tb, current_flags, know_hp, race, "o", "");
+		textblock_append(tb, _(" which "));
+		lore_append_spell_clause(tb, current_flags, know_hp, race, _("or"), "");
 
 		/* End the sentence about innate/other spells */
 		if (race->freq_spell) {
@@ -1590,16 +1614,16 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 				/* Describe the spell frequency */
 				textblock_append(tb, "; ");
 				textblock_append_c(tb, COLOUR_L_GREEN, "1");
-				textblock_append(tb, " vez cada ");
+				textblock_append(tb, _(" time in "));
 				textblock_append_c(tb, COLOUR_L_GREEN, "%d",
 								   100 / race->freq_spell);
 			} else if (lore->cast_spell) {
 				/* Guess at the frequency */
 				int approx_frequency = MAX(((race->freq_spell + 9) / 10) * 10,
 										   1);
-				textblock_append(tb, "; aproximadamente ");
+				textblock_append(tb, _("; about "));
 				textblock_append_c(tb, COLOUR_L_GREEN, "1");
-				textblock_append(tb, " vez cada ");
+				textblock_append(tb, _(" time in "));
 				textblock_append_c(tb, COLOUR_L_GREEN, "%d",
 								   100 / approx_frequency);
 			}
@@ -1637,8 +1661,8 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 
 	/* Notice lack of attacks */
 	if (rf_has(known_flags, RF_NEVER_BLOW)) {
-		textblock_append(tb, "%s no tiene ataques físicos.  ",
-						 lore_pronoun_nominative(msex, true));
+		textblock_append(tb, _("%s has no physical attacks.  "),
+						 _("The creature"));
 		return;
 	}
 
@@ -1657,7 +1681,7 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 
 	/* Describe the lack of knowledge */
 	if (known_attacks == 0) {
-		textblock_append_c(tb, COLOUR_ORANGE, "No sabes nada acerca de su ataque.  "
+		textblock_append_c(tb, COLOUR_ORANGE, _("You know nothing about its attack.  ")
 						 );
 		return;
 	}
@@ -1679,22 +1703,35 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 
 		/* Introduce the attack description */
 		if (described_count == 0)
-			textblock_append(tb, "%s puede ",
-							 lore_pronoun_nominative(msex, true));
+			textblock_append(tb, _("%s is able to "),
+							 _("The creature"));
 		else if (described_count < known_attacks - 1)
 			textblock_append(tb, ", ");
 		else
-			textblock_append(tb, ", y ");
+			textblock_append(tb, _(", and "));
 
-		/* Describe the method */
-		textblock_append(tb, "%s", race->blow[i].method->desc);
-
-		/* Describe the effect (if any) */
+		/* Describe the method and effect (if any).  English reads
+		 * "hit to attack"; Spanish reads "atacar con golpes", so the
+		 * effect (verb) and method (noun) swap places. */
 		if (effect_str && strlen(effect_str) > 0) {
 			int index = blow_index(race->blow[i].effect->name);
-			/* Describe the attack type */
-			textblock_append(tb, " para ");
-			textblock_append_c(tb, blow_color(player, index), "%s", effect_str);
+			bool en = (strcmp(lang_current, "en") == 0);
+
+			if (en) {
+				textblock_append(tb, "%s", race->blow[i].method->desc);
+				textblock_append(tb, " to ");
+				textblock_append_c(tb, blow_color(player, index), "%s", effect_str);
+			} else {
+				/* A few methods are conjugated verb phrases rather than
+				 * nouns ("se arrastra sobre ti"), so they read as a
+				 * condition ("si") instead of an instrument ("con"). */
+				bool verb_phrase = streq(race->blow[i].method->name, "CRAWL")
+					|| streq(race->blow[i].method->name, "DROOL");
+
+				textblock_append_c(tb, blow_color(player, index), "%s", effect_str);
+				textblock_append(tb, verb_phrase ? " si " : " con ");
+				textblock_append(tb, "%s", race->blow[i].method->desc);
+			}
 
 			textblock_append(tb, " (");
 			/* Describe damage (if known) */
@@ -1720,17 +1757,19 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 			textblock_append(tb, "%%)");
 
 			total_centidamage += (percent * randcalc(dice, 0, AVERAGE));
+		} else {
+			textblock_append(tb, "%s", race->blow[i].method->desc);
 		}
 
 		described_count++;
 	}
 
-	textblock_append(tb, ", con un promedio de");
+	textblock_append(tb, _(", averaging"));
 	if (known_attacks < total_attacks) {
-		textblock_append_c(tb, COLOUR_ORANGE, " al menos");
+		textblock_append_c(tb, COLOUR_ORANGE, _(" at least"));
 	}
 	textblock_append_c(tb, COLOUR_L_GREEN, " %d", total_centidamage/100);
-	textblock_append(tb, " de daño en cada uno de %ss turnos.",
+	textblock_append(tb, _(" damage on each of %s turns."),
 					 lore_pronoun_possessive(msex, false));
 }
 

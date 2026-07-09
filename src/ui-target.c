@@ -20,6 +20,7 @@
 #include "cave.h"
 #include "game-input.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-desc.h"
 #include "mon-lore.h"
 #include "mon-predicate.h"
@@ -184,36 +185,36 @@ static void target_display_help(bool monster, bool object, bool free,
 
 	/* Display help */
 	text_out_c(COLOUR_L_GREEN, "<dir>");
-	text_out(" y ");
-	text_out_c(COLOUR_L_GREEN, "<clic>");
-	text_out(" miran alrededor. '");
+	text_out(_(" and "));
+	text_out_c(COLOUR_L_GREEN, _("<click>"));
+	text_out(_(" look around. '"));
 	if (allow_pathfinding) {
 		text_out_c(COLOUR_L_GREEN, "g");
-		text_out("' se mueve a la selección. '");
+		text_out(_("' moves to the selection. '"));
 	}
 	text_out_c(COLOUR_L_GREEN, "p");
-	text_out("' selecciona al jugador. '");
+	text_out(_("' selects the player. '"));
 	text_out_c(COLOUR_L_GREEN, "q");
-	text_out("' sale. '");
+	text_out(_("' exits. '"));
 	text_out_c(COLOUR_L_GREEN, "r");
-	text_out("' muestra detalles. '");
+	text_out(_("' shows details. '"));
 
 	if (free) {
 		text_out_c(COLOUR_L_GREEN, "m");
-		text_out("' restringe a lugares interesantes.");
+		text_out(_("' restricts to interesting places."));
 	} else {
 		text_out_c(COLOUR_L_GREEN, "+");
-		text_out("' y '");
+		text_out(_("' and '"));
 		text_out_c(COLOUR_L_GREEN, "-");
-		text_out("' recorren lugares. '");
+		text_out(_("' cycles through places. '"));
 		text_out_c(COLOUR_L_GREEN, "o");
-		text_out("' permite selección libre.");
+		text_out(_("' allows free selection."));
 	}
-	
+
 	if (monster || free) {
-		text_out(" '");
+		text_out(_(" '"));
 		text_out_c(COLOUR_L_GREEN, "t");
-		text_out("' apunta a la selección.");
+		text_out(_("' targets the selection."));
 	}
 
 	if (object) {
@@ -230,18 +231,18 @@ static void target_display_help(bool monster, bool object, bool free,
 			label[0] = key;
 			label[1] = '\0';
 		}
-		text_out(" '");
+		text_out(_(" '"));
 		text_out_c(COLOUR_L_GREEN, "%s", label);
-		text_out("' ignora la selección.");
+		text_out(_("' ignores the selection."));
 	}
 
-	text_out(" '");
+	text_out(_(" '"));
 	text_out_c(COLOUR_L_GREEN, ">");
-	text_out("', '");
+	text_out(_("', '"));
 	text_out_c(COLOUR_L_GREEN, "<");
-	text_out("', y '");
+	text_out(_("', and '"));
 	text_out_c(COLOUR_L_GREEN, "x");
-	text_out("' seleccionan las escaleras más cercanas o área inexplorada.");
+	text_out(_("' select the nearest stairs or unexplored area."));
 
 	/* Reset */
 	text_out_indent = 0;
@@ -446,19 +447,19 @@ static bool aux_reinit(struct chunk *c, struct player *p,
 
 	if (square(c, auxst->grid)->mon < 0) {
 		/* Looking at the player's grid */
-		auxst->phrase1 = "Estás ";
-		auxst->phrase2 = "en ";
+		auxst->phrase1 = _("You are ");
+		auxst->phrase2 = _("at ");
 	} else {
 		/* Default */
 		if (square_isseen(c, auxst->grid)) {
-			auxst->phrase1 = "Ves ";
+			auxst->phrase1 = _("You see ");
 		} else {
 			mon = square_monster(c, auxst->grid);
 			if (mon && monster_is_obvious(mon)) {
 				/* Monster is visible because of detection or telepathy */
-				auxst->phrase1 = "Sientes ";
+				auxst->phrase1 = _("You sense ");
 			} else {
-				auxst->phrase1 = "Recuerdas ";
+				auxst->phrase1 = _("You recall ");
 			}
 		}
 		auxst->phrase2 = "";
@@ -473,7 +474,7 @@ static bool aux_reinit(struct chunk *c, struct player *p,
 static bool aux_hallucinate(struct chunk *c, struct player *p,
 		struct target_aux_state *auxst)
 {
-	const char *name_strange = "algo extraño";
+	const char *name_strange = _("something strange");
 	char out_val[TARGET_OUT_VAL_SIZE];
 
 	if (!p->timed[TMD_IMAGE]) return false;
@@ -482,7 +483,7 @@ static bool aux_hallucinate(struct chunk *c, struct player *p,
 	/* Display a message */
 	if (p->wizard) {
 		strnfmt(out_val, sizeof(out_val),
-			"%s%s%s, %s (%d:%d, ruido=%d, olor=%d).",
+			_("%s%s%s, %s (%d:%d, noise=%d, scent=%d)."),
 			auxst->phrase1,
 			auxst->phrase2,
 			name_strange,
@@ -492,7 +493,7 @@ static bool aux_hallucinate(struct chunk *c, struct player *p,
 			(int)c->noise.grids[auxst->grid.y][auxst->grid.x],
 			(int)c->scent.grids[auxst->grid.y][auxst->grid.x]);
 	} else {
-		strnfmt(out_val, sizeof(out_val), "%s%s%s, %s.",
+		strnfmt(out_val, sizeof(out_val), _("%s%s%s, %s."),
 			auxst->phrase1,
 			auxst->phrase2,
 			name_strange,
@@ -558,7 +559,7 @@ static bool aux_monster(struct chunk *c, struct player *p,
 			/* Describe, and prompt for recall */
 			if (p->wizard) {
 				strnfmt(out_val, sizeof(out_val),
-					"%s%s%s (%s), %s (%d:%d, ruido=%d, olor=%d).",
+					_("%s%s%s (%s), %s (%d:%d, noise=%d, scent=%d)."),
 					auxst->phrase1,
 					auxst->phrase2,
 					m_name,
@@ -570,7 +571,7 @@ static bool aux_monster(struct chunk *c, struct player *p,
 					(int)c->scent.grids[auxst->grid.y][auxst->grid.x]);
 			} else {
 				strnfmt(out_val, sizeof(out_val),
-					"%s%s%s (%s), %s.",
+					_("%s%s%s (%s), %s."),
 					auxst->phrase1,
 					auxst->phrase2,
 					m_name,
@@ -626,15 +627,15 @@ static bool aux_monster(struct chunk *c, struct player *p,
 
 		/* Take account of gender */
 		if (rf_has(mon->race->flags, RF_FEMALE)) {
-			lphrase1 = "Ella está ";
+			lphrase1 = _("She is ");
 		} else if (rf_has(mon->race->flags, RF_MALE)) {
-			lphrase1 = "Él está ";
+			lphrase1 = _("He is ");
 		} else {
-			lphrase1 = "Está ";
+			lphrase1 = _("It is ");
 		}
 
 		/* Use a verb */
-		lphrase2 = "llevando ";
+		lphrase2 = _("carrying ");
 
 		/* Scan all objects being carried */
 		for (obj = mon->held_obj; obj; obj = obj->next) {
@@ -645,7 +646,7 @@ static bool aux_monster(struct chunk *c, struct player *p,
 				ODESC_PREFIX | ODESC_FULL, p);
 
 			strnfmt(out_val, sizeof(out_val),
-				"%s%s%s, %s (%d:%d, ruido=%d, olor=%d).",
+				_("%s%s%s, %s (%d:%d, noise=%d, scent=%d)."),
 				lphrase1,
 				lphrase2,
 				o_name,
@@ -680,7 +681,7 @@ static bool aux_monster(struct chunk *c, struct player *p,
 			}
 
 			/* Change the intro */
-			lphrase2 = "también llevando ";
+			lphrase2 = _("also carrying ");
 		}
 
 		/* Double break */
@@ -709,14 +710,14 @@ static bool aux_trap(struct chunk *c, struct player *p,
 	auxst->boring = false;
 
 	/* Pick proper indefinite article */
-	lphrase3 = (is_a_vowel(trap->kind->desc[0])) ? "una " : "un ";
+	lphrase3 = (is_a_vowel(trap->kind->desc[0])) ? _("an ") : _("a ");
 
 	/* Interact */
 	while (1) {
 		/* Describe, and prompt for recall */
 		if (p->wizard) {
 			strnfmt(out_val, sizeof(out_val),
-				"%s%s%s%s, %s (%d:%d, ruido=%d, olor=%d).",
+				_("%s%s%s%s, %s (%d:%d, noise=%d, scent=%d)."),
 				auxst->phrase1,
 				auxst->phrase2,
 				lphrase3,
@@ -727,7 +728,7 @@ static bool aux_trap(struct chunk *c, struct player *p,
 				(int)c->noise.grids[auxst->grid.y][auxst->grid.x],
 				(int)c->scent.grids[auxst->grid.y][auxst->grid.x]);
 		} else {
-			strnfmt(out_val, sizeof(out_val), "%s%s%s%s, %s.",
+			strnfmt(out_val, sizeof(out_val), _("%s%s%s%s, %s."),
 				auxst->phrase1,
 				auxst->phrase2,
 				lphrase3,
@@ -789,7 +790,7 @@ static bool aux_object(struct chunk *c, struct player *p,
 			/* Describe the pile */
 			if (p->wizard) {
 				strnfmt(out_val, sizeof(out_val),
-					"%s%sun montón de %d objetos, %s (%d:%d, ruido=%d, olor=%d).",
+					_("%s%sa pile of %d objects, %s (%d:%d, noise=%d, scent=%d)."),
 					auxst->phrase1,
 					auxst->phrase2,
 					floor_num,
@@ -800,7 +801,7 @@ static bool aux_object(struct chunk *c, struct player *p,
 					(int)c->scent.grids[auxst->grid.y][auxst->grid.x]);
 			} else {
 				strnfmt(out_val, sizeof(out_val),
-					"%s%sun montón de %d objetos, %s.",
+					_("%s%sa pile of %d objects, %s."),
 					auxst->phrase1,
 					auxst->phrase2,
 					floor_num,
@@ -1023,9 +1024,9 @@ static ui_event target_set_interactive_aux(int y, int x, int mode)
 void textui_target(void)
 {
 	if (target_set_interactive(TARGET_KILL, -1, -1, true))
-		msg("Objetivo Seleccionado.");
+		msg(_("Target Selected."));
 	else
-		msg("Apuntado Cancelado.");
+		msg(_("Target Aborted."));
 }
 
 /**
@@ -1299,7 +1300,7 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 	help_prompt_loc = hgt - 1;
 	
 	/* Display the help prompt */
-	prt("Presiona '?' para ayuda.", help_prompt_loc, 0);
+	prt(_("Press '?' for help."), help_prompt_loc, 0);
 
 	/* Prepare the target set */
 	struct point_set *targets = target_get_monsters(mode, NULL, true);
@@ -1568,7 +1569,7 @@ bool target_set_interactive(int mode, int x, int y, bool allow_pathfinding)
 			Term_clear();
 			handle_stuff(player);
 			if (!help)
-				prt("Presiona '?' para ayuda.", help_prompt_loc, 0);
+				prt(_("Press '?' for help."), help_prompt_loc, 0);
 
 		} else {
 			/* Try to extract a direction from the key press */

@@ -21,6 +21,7 @@
 #include "effect-handler.h"
 #include "game-input.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-summon.h"
 #include "obj-gear.h"
 #include "player-history.h"
@@ -113,7 +114,7 @@ const char *effect_desc(const struct effect *effect)
 	if (!effect_valid(effect))
 		return NULL;
 
-	return effects[effect->index].desc;
+	return _(effects[effect->index].desc);
 }
 
 effect_index effect_lookup(const char *name)

@@ -32,6 +32,7 @@
 #include "game-event.h"
 #include "option.h"
 #include "init.h"
+#include "lang.h"
 #include "player.h"
 
 typedef struct _message_t
@@ -375,6 +376,39 @@ void sound(int type)
 }
 
 /**
+ * Spanish-only: contract "a el" -> "al" and "de el" -> "del" in an
+ * already-formatted message, matching standard Spanish grammar.  Message
+ * templates insert the preposition ("a", "de") and monster_desc() supplies
+ * the article ("el"/"la") separately, so the combination needs to be fixed
+ * up after formatting rather than in any single template.
+ */
+static void es_contract_prepositions(char *buf)
+{
+	static const struct { const char *from; const char *to; } pairs[] = {
+		{ "a el ", "al " },
+		{ "A el ", "Al " },
+		{ "de el ", "del " },
+		{ "De el ", "Del " },
+	};
+	size_t i;
+
+	if (!streq(lang_current, "es")) return;
+
+	for (i = 0; i < N_ELEMENTS(pairs); i++) {
+		char *p = buf;
+		size_t from_len = strlen(pairs[i].from);
+		size_t to_len = strlen(pairs[i].to);
+
+		while ((p = strstr(p, pairs[i].from)) != NULL) {
+			memmove(p + to_len, p + from_len,
+				strlen(p + from_len) + 1);
+			memcpy(p, pairs[i].to, to_len);
+			p += to_len;
+		}
+	}
+}
+
+/**
  * Ring the system bell.
  */
 void bell(void)
@@ -407,6 +441,8 @@ void msg(const char *fmt, ...)
 	/* End the Varargs Stuff */
 	va_end(vp);
 
+	es_contract_prepositions(buf);
+
 	/* Fail if messages not loaded */
 	if (!messages) return;
 
@@ -432,6 +468,8 @@ void msgt(unsigned int type, const char *fmt, ...)
 	va_start(vp, fmt);
 	vstrnfmt(buf, sizeof(buf), fmt, vp);
 	va_end(vp);
+
+	es_contract_prepositions(buf);
 
 	/* Fail if messages not loaded */
 	if (!messages) return;

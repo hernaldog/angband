@@ -22,6 +22,7 @@
 #include "game-input.h"
 #include "grafmode.h"
 #include "init.h"
+#include "lang.h"
 #include "obj-desc.h"
 #include "obj-make.h"
 #include "obj-pile.h"
@@ -158,9 +159,9 @@ static void wiz_create_item_subdisplay(struct menu *m, int oid, bool cursor,
 
 		object_base_name(name, sizeof(name), current_tval, true);
 		if (choose_artifact) {
-			strnfmt(buf, sizeof(buf), "Todos los artefactos: %s", name);
+			strnfmt(buf, sizeof(buf), _("All artifacts: %s"), name);
 		} else {
-			strnfmt(buf, sizeof(buf), "Todos: %s", name);
+			strnfmt(buf, sizeof(buf), _("All: %s"), name);
 		}
 	} else {
 		if (choose_artifact) {
@@ -223,9 +224,9 @@ static void wiz_create_item_display(struct menu *m, int oid, bool cursor,
 
 	if (oid == WIZ_CREATE_ALL_MENU_ITEM) {
 		if (choose_artifact) {
-			my_strcpy(buf, "Todos los artefactos", sizeof(buf));
+			my_strcpy(buf, _("All artifacts"), sizeof(buf));
 		} else {
-			my_strcpy(buf, "Todos los objetos", sizeof(buf));
+			my_strcpy(buf, _("All objects"), sizeof(buf));
 		}
 	} else {
 		object_base_name(buf, sizeof(buf), oid, true);
@@ -296,9 +297,9 @@ static bool wiz_create_item_action(struct menu *m, const ui_event *e, int oid)
 
 	object_base_name(buf, sizeof(buf), oid, true);
 	if (choose_artifact) {
-		strnfmt(title, sizeof(title), "¿Qué artefacto: %s? ", buf);
+		strnfmt(title, sizeof(title), _("Which artifact: %s? "), buf);
 	} else {
-		strnfmt(title, sizeof(title), "¿Qué tipo de %s?", buf);
+		strnfmt(title, sizeof(title), _("Which kind of %s?"), buf);
 	}
 	menu->title = title;
 
@@ -335,7 +336,7 @@ void wiz_create_item(bool art)
 	choose_artifact = art;
 
 	menu->selections = all_letters;
-	menu->title = art ? "¿Qué tipo de artefacto?" : "¿Qué tipo de objeto?";
+	menu->title = art ? _("Which kind of artifact?") : _("Which kind of object?");
 
 	/* Make a list of all tvals for the filter */
 	for (i = 0, n = 0; i < TV_MAX; i++) {

@@ -1,0 +1,571 @@
+# File: player_timed.txt
+
+# Used in conjunction with list-player-timed.h
+# Timed player properties
+
+# Descriptions, messages and message types can be edited without bad effects.
+# Changing fail may have unpredictable results.
+# Changing the name or adding whole new entries will severely disrupt the game.
+# It should only be done when list-player-timed.h (and other code) is also being
+# changed, and the game recompiled.
+# Changing a resist line will have to match to one of the hard-coded elements
+# from list-elements.h; currently, those resist lines are used in player
+# resistance calculations, to filter out unnecessary messages when timed
+# effects lapse and to affect selection of randart activations.
+# Changing a brand or slay line will have to match to an entry in brand.txt or
+# slay.txt, respectively; besides the effect on combat, those lines also
+# affect selection of randart activations.
+# Changing a flag-synonym line will have to match to an entry, of type flag, in
+# object_property.txt; those lines are currently used in player calculations,
+# to filter out unnecessary messages when timed effects lapse and to affect
+# selection of randart activations.
+
+# Fields:
+# name - the effect name; the name must match the first argument to one of the
+#        TMD() macros in list-player-timed.h
+# desc - the effect description
+# grade - specify a grade for this effect; most effects only have two grades:
+#         off (implicit for all effects, maximum of 0, no transition messages)
+#         and on (the one grade specified for the effect in this file)
+#         param one: color used on the status line for this effect when in this
+#             grade; may be a one letter color code or the full color name
+#             (case insensitive)
+#         param two: is the maximum for this grade; to work properly must be
+#             greater than zero, less than 32768, and greater than the maximum
+#             for any previous grades specified for this effect
+#         param three: is the name of the grade and will be shown in the status
+#             line; use a one character long name for the grade to suppress
+#             showing the timed effect in the status line when in that grade
+#         param four: is the message to display when the effect enters this
+#             grade from a lower grade; no message will be displayed if the
+#             message is one character long
+#         param five (optional): is the message to display when the effect
+#             enters this grade from a higher grade; no message will be
+#             displayed if this parameter is omitted
+# on-end - the message on ending the effect
+# on-increase - the message on the effect increasing
+# on-decrease - the message on the effect decreasing
+# msgt - the message type to use for the change of grade, on-increase, and
+#        on-decrease messages for this effect; the type must either match
+#        (case-insensitive) the first argument to one of the MSG() macros in
+#        list-message.h or be an unsigned integer less than MSG_MAX which is
+#        the index of the message type to use within list-message.h; on-end
+#        messages always use the RECOVER message type; for the textui user
+#        interface, the message type affects the message color (configured
+#        globally by lib/customize/message.prf; also configurable by
+#        preferences in the user's files) and the sound played when the
+#        message is displayed (configured globally by lib/customize/sound.prf;
+#        also configurable by preferences in the user's files)
+# fail - determines what makes the effect fail; may be specified more than
+#        once - the effect will fail if any of the conditions are met
+#        param one:
+#          1 - object flag
+#          2 - resist
+#          3 - vulnerability
+#          4 - player flag
+#          5 - presence of timed effect
+#        param two:
+#          the actual flag that causes the failure; for an object flag, the
+#          flag must match the first argument to one of the OF() macros in
+#          list-object-flags.h; for a player flag, the flag must match the
+#          first argument to one of the PF() macros in list-player-flags.h; for
+#          a resist or vulnerability, the flag must match the argument to one
+#          of the ELEM() macros in list-elements.h; for a timed effect, the
+#          flag must match the argument to one of the TMD() macros in
+#          list-player-timed.h
+# on-begin-effect - (optional) specifies an effect to be invoked when the
+#                   timed effect starts; can be used more than once - the
+#                   additional effects will be executed in the order in which
+#                   they appear
+#                   param one: name of the effect (argument to one of the
+#                       EFFECT() macros in list-effects.h)
+#                   param two: name of the subtype of the effect; can be
+#                       omitted
+#                   param three: radius of the effect; can be omitted and
+#                       must be omitted if the subtype is omitted
+#                   param four: the "other" parameter for the effect; can be
+#                       omitted and must be omitted if the subtype or radius is
+#                       omitted
+# on-end-effect - (optional) specifies an effect to be invoked when the timed
+#                 effect lapses; can be used more than once - the additional
+#                 effects will be executed in the order in which they appear
+#                 param one: name of the effect (argument to one of the
+#                     EFFECT() macros in list-effects.h)
+#                 param two: name of the subtype of the effect; can be omitted
+#                 param three: radius of the effect; can be omitted and must
+#                     be omitted if the subtype is omitted
+#                 param four: the "other" parameter for the effect; can be
+#                     omitted and must be omitted if the subtype or radius is
+#                     omitted
+# effect-yx - (optional) specifies the y and x parameters of the most recently
+#             set effect (i.e. from a prior on-begin-effect or on-end-effect
+#             directive)
+#             param one: is the value of the y parameter for the effect
+#             param two: is the value of the x parameter for the effect
+# effect-dice - (optional) specifies the dice string for the most recently
+#               set effect (i.e. from a prior on-begin-effect or on-end-effect
+#               directive)
+# effect-expr - (optional) defines an expression for the dice string of the
+#               most recently set effect (i.e. from a prior on-begin-effect
+#               or on-end-effect directive); requires that the dice string has
+#               been set for the effect with an effect-dice directive
+#               param one: is the name of the variable to substitute with the
+#                   value of the expression; variable names must be all
+#                   capital letters and a reference to a variable in a dice
+#                   string starts with a $; if the dice string does not contain
+#                   a reference to the given variable, parsing of the game's
+#                   data files will stop with an error
+#               param two: set the name of the base value to modify with the
+#                   operations in the third parameter; the name can be one of
+#                   those listed below; if it does not match any in the list,
+#                   the base value will be zero
+#                     PLAYER_LEVEL - the player's level
+#                     DUNGEON_LEVEL - the dungeon's level
+#                     MAX_SIGHT - the maximum sight range, in grids
+#                     WEAPON_DAMAGE - a random roll for the base damage (only
+#                         the weapon's dice and damage modifiers are included;
+#                         no damage modifiers from the player or equipment
+#                         other than the weapon are used) of the player's
+#                         equipped weapon; if the player has no equipped
+#                         weapon, the value of this is zero
+#                     PLAYER_HP - the player's current number of hit points
+#                     MONSTER_PERCENT_HP_GONE - ((maximum hit points for the
+#                         player's target monster - current hit points for the
+#                         player's target monster) * 100) / maximum hit points
+#                         for the player's target monster or 0 if the player
+#                         doesn't currently have a targeted monster
+#               param three: sets the operations to perform on the base value to
+#                   get the value substituted into the dice expression; for
+#                   instance, "* 2 / 3" would multiply the base value by 2 then
+#                   divide that result by three, discarding any remainder;
+#                   operators that are allowed are '+' (addition),
+#                   '-' (subtraction), '*' (multiplication), '/' (integer
+#                   division; discards remainder), and 'n' or 'N' (either negate
+#                   the result from before the operator); integer constants
+#                   in the operations must be between -32768 and 32767;
+#                   operators and integer constants in the operations should be
+#                   separated by single spaces
+# effect-msg - (optional) appends to the message associated with the most
+#              recently set effect (i.e. from a prior on-begin-effect or
+#              on-end-effect directive); how that message is used depends on
+#              the effect - typically it may be printed during the effect or
+#              is used as a death message
+# resist - (optional) when this timed property is active, the recipient gains
+#          a temporary resistance to the named element
+# brand - (optional) when this timed property is active, the recipient gains
+#         the given brand (by its code in brand.txt) on equipped weapons; when
+#         there's no brand line, the timed property does not induce a brand
+# slay - (optional) when this timed property is active, the recipient gains
+#        the given slay (by its code in slay.txt) on equipped weapons; when
+#        there's no slay line, the timed property does not induce a slay
+# flag-synonym - (optional) indicate that this timed property is (largely)
+#                synonymous to the object property of type flag in
+#                object_property.txt with the code given by the first parameter;
+#                if the second parameter is not zero, this timed property is an
+#                exact synonym, except for duration; if the second parameter is
+#                zero, the timed property has other effects that are not
+#                implied by the named object property
+# lower-bound - (optional) overrides the default lower bound of zero for the
+#               timed effect; the lower bound must be non-negative, less
+#               than 32768, and less than or equal to the maximum for any of
+#               the timed effect's grades; if the lower bound is greater than
+#               zero, the timed effect is always active (so a message set by
+#               on-end or an effect by on-begin-effect or on-end-effect will
+#               not be used)
+# flags - (optional) specifies one or more flags for the timed effect; can
+#         appear more than once with all the flags specified accumulating;
+#         more than one flag can be specified each time it is used - the names
+#         of the flags must be separated by spaces or '|'; the flag names or
+#         that are understood are:
+#         NONSTACKING - any attempt to increase the timed effect while it is
+#             already active will not increase the duration; this is a stronger
+#             restriction than having the timed effect fail because of the
+#             timed effect itself, primarily because NONSTACKING also affects
+#             cases, like TIMED_INC_NO_RES effects, where the failure check is
+#             bypassed; NONSTACKING is also handled differently than failing
+#             for the timed effect itself in terms of lore checks (if a timed
+#             effect is NONSTACKING, lore for a monster won't show that the
+#             monster's attack inflicting that status is resisted solely
+#             because the character is already subject to the timed effect)
+
+name:FAST
+desc:prisa
+grade:G:10000:Prisa:¡Sientes que te mueves más rápido!
+on-end:Sientes que vuelves a velocidad normal.
+msgt:SPEED
+
+name:SLOW
+desc:lentitud
+grade:U:10000:Lento:¡Sientes que te mueves más lento!
+on-end:Recuperas tu velocidad normal.
+msgt:SLOW
+fail:1:FREE_ACT
+
+name:BLIND
+desc:ceguera
+grade:o:10000:Ciego:Estás ciego.
+on-end:Parpadeas y tus ojos se aclaran.
+msgt:BLIND
+fail:1:PROT_BLIND
+
+name:PARALYZED
+desc:parálisis
+grade:r:10000:¡Paralizado!:¡Estás paralizado!
+on-end:Puedes moverte de nuevo.
+msgt:PARALYZED
+fail:1:FREE_ACT
+flags:NONSTACKING
+
+name:CONFUSED
+desc:confusión
+grade:o:10000:Confundido:¡Estás confundido!
+on-end:Ya no estás confundido.
+on-increase:¡Estás más confundido aún!
+on-decrease:Te sientes un poco menos confundido.
+msgt:CONFUSED
+fail:1:PROT_CONF
+
+name:AFRAID
+desc:miedo
+grade:o:10000:Asustado:¡Estás aterrorizado!
+on-end:Ahora te sientes más audaz.
+on-increase:¡Tienes más miedo!
+msgt:AFRAID
+fail:1:PROT_FEAR
+flag-synonym:AFRAID:1
+
+name:IMAGE
+desc:alucinación
+grade:o:10000:Alucin:¡Te sientes drogado!
+on-end:Puedes ver con claridad de nuevo.
+on-increase:¡Te sientes más drogado!
+msgt:DRUGGED
+fail:2:CHAOS
+
+name:POISONED
+desc:envenenamiento
+grade:o:10000:Envenenado:¡Estás envenenado!
+on-end:Ya no estás envenenado.
+on-increase:¡Estás más envenenado!
+on-decrease:Estás menos envenenado.
+msgt:POISONED
+fail:2:POIS
+fail:5:OPP_POIS
+
+name:CUT
+desc:heridas
+grade:y:10:Rozadura:Has recibido un rasguño.
+grade:y:25:Corte Leve:Te han hecho un corte leve.
+grade:o:50:Mal Corte:Te han hecho un mal corte.
+grade:o:100:Corte Desagradable:Te han hecho un corte desagradable.
+grade:r:200:Corte Grave:Te han hecho un corte grave.
+grade:r:1000:Cuchillada Profunda:Te han hecho una cuchillada profunda.
+grade:R:10000:Herida Mortal:Te han hecho una herida mortal.
+on-end:Ya no estás sangrando.
+msgt:CUT
+fail:4:ROCK
+
+name:STUN
+desc:aturdimiento
+grade:o:50:Aturdido:Has sido aturdido.
+grade:o:150:Aturdimiento Fuerte:Has sido fuertemente aturdido.
+grade:r:10000:Inconsciente:Has quedado inconsciente.
+on-end:Ya no estás aturdido.
+msgt:STUN
+fail:1:PROT_STUN
+
+# Nota: los grados de comida están en porcentajes aquí, y se traducen al analizar
+name:FOOD
+desc:alimentación
+grade:R:1:Starving: :¡Te estás muriendo de hambre!!
+grade:r:4:Faint:Todavía te sientes débil.:¡Te estás desmayando de hambre!
+grade:o:8:Weak:Todavía estás débil.:¡Te estás debilitando por el hambre!
+grade:y:15:Hungry:Todavía tienes hambre.:Empiezas a tener hambre.
+grade:G:90:Fed:Ya no tienes hambre.:Ya no estás saciado.
+grade:g:100:Full:¡Estás saciado!:
+msgt:HUNGRY
+lower-bound:1
+
+name:PROTEVIL
+desc:protección contra el mal
+grade:G:10000:ProtMal:¡Te sientes a salvo del mal!
+on-end:Ya no te sientes a salvo del mal.
+on-increase:¡Te sientes aún más a salvo del mal!
+msgt:PROT_EVIL
+
+name:INVULN
+desc:invulnerabilidad
+grade:G:10000:Invuln:¡Te sientes invulnerable!
+on-end:Te sientes vulnerable de nuevo.
+msgt:INVULN
+
+name:HERO
+desc:heroísmo
+grade:G:10000:Héroe:¡Te sientes como un héroe!
+on-end:Ya no te sientes heroico.
+on-increase:¡Te sientes más como un héroe!
+msgt:HERO
+flag-synonym:PROT_FEAR:0
+
+name:SHERO
+desc:furia berserker
+grade:G:10000:Berserker:¡Te sientes como una máquina de matar!
+on-end:Ya no te sientes berserker.
+on-increase:¡Te sientes aún más berserker!
+msgt:BERSERK
+flag-synonym:PROT_FEAR:0
+
+name:SHIELD
+desc:escudo místico
+grade:G:10000:Escudo:¡Un escudo místico se forma alrededor de tu cuerpo!
+on-end:Tu escudo místico se desmorona.
+on-increase:El escudo místico se fortalece.
+msgt:SHIELD
+
+name:BLESSED
+desc:tu AC y bonus para-golpear
+grade:G:10000:Bendito:¡Te sientes justo!
+on-end:La plegaria ha expirado.
+on-increase:¡Te sientes más justo!
+msgt:BLESSED
+
+name:SINVIS
+desc:ver invisible
+grade:G:10000:VerInvis:¡Tus ojos se sienten muy sensibles!
+on-end:Tus ojos ya no se sienten tan sensibles.
+on-increase:¡Tus ojos se sienten más sensibles!
+msgt:SEE_INVIS
+flag-synonym:SEE_INVIS:1
+
+name:SINFRA
+desc:infravisión mejorada
+grade:G:10000:Infra:¡Tus ojos empiezan a hormiguear!
+on-end:Tus ojos dejan de hormiguear.
+on-increase:El hormigueo en tus ojos se intensifica.
+msgt:INFRARED
+
+name:OPP_ACID
+desc:resistencia al ácido
+grade:s:10000:RAcid:¡Te sientes resistente al ácido!
+on-end:Ya no eres resistente al ácido.
+on-increase:¡Te sientes más resistente al ácido!
+msgt:RES_ACID
+fail:3:ACID
+resist:ACID
+
+name:OPP_ELEC
+desc:resistencia a la electricidad
+grade:b:10000:RElec:¡Te sientes resistente a la electricidad!
+on-end:Ya no eres resistente a la electricidad.
+on-increase:¡Te sientes más resistente a la electricidad!
+msgt:RES_ELEC
+fail:3:ELEC
+resist:ELEC
+
+name:OPP_FIRE
+desc:resistencia al fuego
+grade:r:10000:RFuego:¡Te sientes resistente al fuego!
+on-end:Ya no eres resistente al fuego.
+on-increase:¡Te sientes más resistente al fuego!
+msgt:RES_FIRE
+fail:3:FIRE
+resist:FIRE
+
+name:OPP_COLD
+desc:resistencia al frío
+grade:w:10000:RFrío:¡Te sientes resistente al frío!
+on-end:Ya no eres resistente al frío.
+on-increase:¡Te sientes más resistente al frío!
+msgt:RES_COLD
+fail:3:COLD
+resist:COLD
+
+name:OPP_POIS
+desc:resistencia al veneno
+grade:g:10000:RVeneno:¡Te sientes resistente al veneno!
+on-end:Ya no eres resistente al veneno.
+on-increase:¡Te sientes más resistente al veneno!
+msgt:RES_POIS
+fail:3:POIS
+resist:POIS
+
+name:OPP_CONF
+desc:resistencia a la confusión
+grade:v:10000:RConf:¡Te sientes resistente a la confusión!
+on-end:Ya no eres resistente a la confusión.
+on-increase:¡Te sientes más resistente a la confusión!
+flag-synonym:PROT_CONF:1
+
+name:AMNESIA
+desc:amnesia
+grade:o:10000:Amnésico:Sientes que tus recuerdos se desvanecen.
+on-end:Tus recuerdos vuelven a ti.
+msgt:GENERIC
+
+name:TELEPATHY
+desc:telepatía
+grade:B:10000:ESP:Tu mente se expande.
+on-end:Tus horizontes vuelven a ser limitados.
+on-increase:Tu mente se expande aún más.
+msgt:GENERIC
+flag-synonym:TELEPATHY:1
+
+name:STONESKIN
+desc:piel de piedra
+grade:G:10000:Piedra:Tu piel se convierte en piedra.
+on-end:Un tono carnoso regresa a tu piel.
+msgt:GENERIC
+
+name:TERROR
+desc:terror
+grade:r:10000:Terror:¡Sientes la necesidad de huir y rápido!
+on-end:El impulso de huir se disipa.
+msgt:AFRAID
+flag-synonym:AFRAID:0
+
+name:SPRINT
+desc:esprintar
+grade:G:10000:Espínt:Empiezas a esprintar.
+on-end:De repente dejas de esprintar.
+msgt:SPEED
+on-end-effect:TIMED_INC_NO_RES:SLOW
+effect-dice:100
+
+name:BOLD
+desc:osadía
+grade:G:10000:Osado:Te sientes osado.
+on-end:Ya no te sientes osado.
+on-increase:¡Te sientes aún más osado!
+msgt:BOLD
+flag-synonym:PROT_FEAR:1
+
+name:SCRAMBLE
+desc:mezclado
+grade:v:10000:Mezclado:Tu cuerpo empieza a desordenarse...
+on-end:Tu cuerpo reafirma su verdadera naturaleza.
+on-increase:¡Estás más desordenado!
+msgt:SCRAMBLE
+fail:2:NEXUS
+on-begin-effect:SCRAMBLE_STATS
+on-end-effect:UNSCRAMBLE_STATS
+
+name:TRAPSAFE
+desc:seguridad contra trampas
+grade:G:10000:SegTram:Te sientes a salvo de las trampas.
+on-end:Te sientes vulnerable a las trampas de nuevo.
+on-increase:¡Te sientes aún más a salvo de las trampas!
+flag-synonym:TRAP_IMMUNE:1
+
+name:FASTCAST
+desc:canalización de maná
+grade:i:10000:LanzRáp:Sientes que tu mente se acelera.
+on-end:Sientes que tu mente se ralentiza de nuevo.
+
+name:ATT_ACID
+desc:marca temporal de ácido
+grade:s:10000:AtqÁcido:¡Tu {kind} empieza{start_s} a gotear ácido!
+on-end:El ácido desaparece de tu {kind}.
+brand:ACID_3
+
+name:ATT_ELEC
+desc:marca temporal de relámpago
+grade:b:10000:AtqElec:¡Las chispas se acumulan alrededor de tu {kind}!
+on-end:Las chispas se desvanecen de tu {kind}.
+brand:ELEC_3
+
+name:ATT_FIRE
+desc:marca temporal de fuego
+grade:r:10000:AtqFuego:¡Las llamas rodean tu {kind}!
+on-end:Las llamas en tu {kind} se calman.
+brand:FIRE_3
+
+name:ATT_COLD
+desc:marca temporal de frío
+grade:w:10000:AtqFrío:¡Tu {kind} {is} está cubierto de escarcha!
+on-end:La escarcha se evapora de tu {kind}.
+brand:COLD_3
+
+name:ATT_POIS
+desc:marca temporal de veneno
+grade:g:10000:AtqVeno:¡Tu {kind} gotea{n} veneno!
+on-end:El veneno desaparece de tu {kind}.
+brand:POIS_3
+
+name:ATT_CONF
+desc:confusión temporal de monstruos
+grade:U:10000:AtqConf:¡Tus manos empiezan a brillar!
+on-end:El brillo se desvanece de tus manos.
+
+name:ATT_EVIL
+desc:azote temporal del mal
+grade:w:10000:AtqMal:¡Tu {kind} {está} imbuido de fuerza divina!
+on-end:La fuerza divina se desvanece de tu {kind}.
+slay:EVIL_2
+
+name:ATT_DEMON
+desc:azote temporal de demonios
+grade:R:10000:AtqDemon:¡Tu {kind} se convierte{n} en una plaga para los demonios!
+on-end:Tu {kind} vuelve{n} a la normalidad.
+slay:DEMON_5
+
+name:ATT_VAMP
+desc:drenaje temporal de puntos de golpe
+grade:p:10000:AtqVamp:¡Puedes drenar vida de tus víctimas!
+on-end:Tu poder de drenaje de vida desaparece.
+
+name:HEAL
+desc:curación por turnos mediante aumento del metabolismo
+grade:G:10000:Curar:¡Tu metabolismo se acelera!
+on-end:Tu metabolismo vuelve a la normalidad.
+
+name:COMMAND
+desc:comandar un monstruo
+grade:P:10000:Cmd:Te concentras en tu objetivo.
+on-end:Recuperas el control de tu propio cuerpo.
+
+name:ATT_RUN
+desc:escape al atacar
+grade:m:10000:GolpeHuir:¡Te tensas listo para escapar!
+on-end:Te relajas de nuevo.
+
+name:COVERTRACKS
+desc:no dejar rastro de olor, reducir visibilidad
+grade:T:10000:SinRastro:Empiezas a cubrir tus huellas.
+on-end:Dejas de cubrir tus huellas.
+
+name:POWERSHOT
+desc:disparo perforante
+grade:i:10000:TiroPot:¡Te preparas para disparar con potencia!
+on-end:Tu poder de disparo vuelve a la normalidad.
+
+name:TAUNT
+desc:provocar
+grade:i:10000:Provoca:¡Empiezas a agravar a tus enemigos!
+on-end:Dejas de agravar a tus enemigos.
+
+name:BLOODLUST
+desc:deseo de matar
+grade:y:10:SedSangre:¡Un velo rojo desciende sobre tus ojos!
+grade:I:18:SedSangre:¡Tu sed de sangre aumenta!
+grade:o:26:SedSangre:¡Tu sed de sangre aumenta!
+grade:r:34:SedSangre:¡Tu sed de sangre aumenta!
+grade:R:45:SedSangre:¡Tu sed de sangre es insaciable!
+grade:P:50:SedSangre:¡Tu sed de sangre es insaciable!
+on-end:El velo se despeja.
+
+name:BLACKBREATH
+desc:aliento negro
+grade:D:10:AlNegro:El Aliento Negro te sobrecoge.
+on-end:La Sombra Negra se levanta.
+
+name:STEALTH
+desc:sigilo
+grade:D:10000:Sigilo:¡Te sientes silencioso!
+on-end:Te sientes menos sigiloso.
+
+name:FREE_ACT
+desc:acción libre
+grade:G:10000:ActLibre:¡Tus miembros se llenan de energía!
+on-end:Tus miembros vuelven a la normalidad.
+on-increase:¡Tus miembros se sienten más enérgicos!
+flag-synonym:FREE_ACT:1

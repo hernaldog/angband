@@ -45,6 +45,7 @@
 #include "player-util.h"
 #include "project.h"
 #include "target.h"
+#include "lang.h"
 
 /**
  * ------------------------------------------------------------------------
@@ -704,11 +705,11 @@ static bool blow_after_effects(struct loc grid, int dmg, int splash,
 static const struct hit_types melee_hit_types[] = {
 	{ MSG_MISS, NULL },
 	{ MSG_HIT, NULL },
-	{ MSG_HIT_GOOD, "¡Fue un buen golpe!" },
-	{ MSG_HIT_GREAT, "¡Fue un gran golpe!" },
-	{ MSG_HIT_SUPERB, "¡Fue un golpe soberbio!" },
-	{ MSG_HIT_HI_GREAT, "¡Fue un *GRAN* golpe!" },
-	{ MSG_HIT_HI_SUPERB, "¡Fue un *SOBERBIO* golpe!" },
+	{ MSG_HIT_GOOD, "It was a good hit!" },
+	{ MSG_HIT_GREAT, "It was a great hit!" },
+	{ MSG_HIT_SUPERB, "It was a superb hit!" },
+	{ MSG_HIT_HI_GREAT, "It was a *GREAT* hit!" },
+	{ MSG_HIT_HI_SUPERB, "It was a *SUPERB* hit!" },
 };
 
 /**
@@ -737,7 +738,7 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 	int j, b, s, weight, dmg;
 
 	/* Default to punching */
-	my_strcpy(verb, "Golpeas", sizeof(verb));
+	my_strcpy(verb, _("You punch"), sizeof(verb));
 
 	/* Extract monster name (or "it") */
 	monster_desc(m_name, sizeof(m_name), mon, MDESC_TARG);
@@ -751,7 +752,7 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 	/* Handle player fear (only for invisible monsters) */
 	if (player_of_has(p, OF_AFRAID)) {
 		equip_learn_flag(p, OF_AFRAID);
-		msgt(MSG_AFRAID, "¡Tienes demasiado miedo para atacar a %s!", m_name);
+		msgt(MSG_AFRAID, _("You are too afraid to attack %s!"), m_name);
 		return false;
 	}
 
@@ -764,11 +765,28 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 
 	/* If a miss, skip this hit */
 	if (!success) {
-		msgt(MSG_MISS, "Fallas a %s.", m_name);
+		const char *miss_name = m_name;
+
+		/* Spanish "miss" message reads better without the article */
+		if (streq(lang_current, "es")) {
+			static const char *arts[] = { "el ", "la ", "un ", "una " };
+			size_t ai;
+
+			for (ai = 0; ai < N_ELEMENTS(arts); ai++) {
+				size_t alen = strlen(arts[ai]);
+
+				if (my_strnicmp(miss_name, arts[ai], (int) alen) == 0) {
+					miss_name += alen;
+					break;
+				}
+			}
+		}
+
+		msgt(MSG_MISS, _("You miss %s."), miss_name);
 
 		/* Small chance of bloodlust side-effects */
 		if (p->timed[TMD_BLOODLUST] && one_in_(50)) {
-			msg("Te sientes extraño...");
+			msg(_("You feel strange..."));
 			player_over_exert(p, PY_EXERT_SCRAMBLE, 20, 20);
 		}
 
@@ -778,7 +796,7 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 	if (obj) {
 		/* Handle normal weapon */
 		weight = object_weight_one(obj);
-		my_strcpy(verb, "Aciertas", sizeof(verb));
+		my_strcpy(verb, _("You hit"), sizeof(verb));
 	} else {
 		weight = 0;
 	}
@@ -841,7 +859,7 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 	if (dmg <= 0) {
 		dmg = 0;
 		msg_type = MSG_MISS;
-		my_strcpy(verb, "No logras herir", sizeof(verb));
+		my_strcpy(verb, _("You fail to wound"), sizeof(verb));
 	}
 
 	for (i = 0; i < N_ELEMENTS(melee_hit_types); i++) {
@@ -854,12 +872,12 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 			dmg_text = format(" (%d)", dmg);
 
 		if (melee_hit_types[i].text)
-			msgt(msg_type, "%s a1 %s%s. %s", verb, m_name, dmg_text,
-					melee_hit_types[i].text);
-		else 
+			msgt(msg_type, _("%s %s%s. %s"), verb, m_name, dmg_text,
+					_(melee_hit_types[i].text));
+		else
 			{
 			//Aca se imprime Aciertas a mushrom...
-			msgt(msg_type, "%s a %s%s.", verb, m_name, dmg_text);
+			msgt(msg_type, _("%s %s%s."), verb, m_name, dmg_text);
 			}
 		
 	}
@@ -873,7 +891,7 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 
 	/* Small chance of bloodlust side-effects */
 	if (p->timed[TMD_BLOODLUST] && one_in_(50)) {
-		msg("¡Sientes que algo cede!");
+		msg(_("You feel something give way!"));
 		player_over_exert(p, PY_EXERT_CON, 20, 0);
 	}
 
@@ -901,7 +919,8 @@ bool py_attack_real(struct player *p, struct loc grid, bool *fear)
 static bool attempt_shield_bash(struct player *p, struct monster *mon, bool *fear)
 {
 	struct object *weapon = slot_object(p, slot_by_name(p, "weapon"));
-	struct object *shield = slot_object(p, slot_by_name(p, "brazo"));
+	struct object *shield = slot_object(p, slot_by_name(p,
+		(strcmp(lang_current, "en") == 0) ? "arm" : "brazo"));
 	int nblows = p->state.num_blows / 100;
 	int bash_quality, bash_dam, energy_lost;
 
@@ -947,14 +966,14 @@ static bool attempt_shield_bash(struct player *p, struct monster *mon, bool *fea
 	bash_dam = MIN(bash_dam, 125);
 
 	if (OPT(p, show_damage)) {
-		msgt(MSG_HIT, "¡Consigues dar un golpe con el escudo! (%d)", bash_dam);
+		msgt(MSG_HIT, _("You succeed in shield bashing your enemy! (%d)"), bash_dam);
 	} else {
-		msgt(MSG_HIT, "¡Consigues dar un golpe con el escudo!");
+		msgt(MSG_HIT, _("You succeed in shield bashing your enemy!"));
 	}
 
 	/* Encourage the player to keep wearing that heavy shield. */
 	if (randint1(bash_dam) > 30 + randint1(bash_dam / 2)) {
-		msgt(MSG_HIT_HI_SUPERB, "¡ZAS!");
+		msgt(MSG_HIT_HI_SUPERB, _("WHAM!"));
 	}
 
 	/* Damage, check for fear and death. */
@@ -974,7 +993,7 @@ static bool attempt_shield_bash(struct player *p, struct monster *mon, bool *fea
 	if (35 + adj_dex_th[p->state.stat_ind[STAT_DEX]] < randint1(60)) {
 		energy_lost = randint1(50) + 25;
 		/* Lose 26-75% of a turn due to stumbling after shield bash. */
-		msgt(MSG_GENERIC, "¡Tropiezas!");
+		msgt(MSG_GENERIC, _("You stumble!"));
 		p->upkeep->energy_use += energy_lost * z_info->move_energy / 100;
 	}
 
@@ -1037,9 +1056,9 @@ void py_attack(struct player *p, struct loc grid)
 static const struct hit_types ranged_hit_types[] = {
 	{ MSG_MISS, NULL },
 	{ MSG_SHOOT_HIT, NULL },
-	{ MSG_HIT_GOOD, "¡Fue un buen golpe!" },
-	{ MSG_HIT_GREAT, "¡Fue un gran golpe!" },
-	{ MSG_HIT_SUPERB, "¡Fue un golpe soberbio!" }
+	{ MSG_HIT_GOOD, "It was a good hit!" },
+	{ MSG_HIT_GREAT, "It was a great hit!" },
+	{ MSG_HIT_SUPERB, "It was a superb hit!" }
 };
 
 /**
@@ -1078,7 +1097,7 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 		if (taim > range) {
 			char msg[80];
 			strnfmt(msg, sizeof(msg),
-					"Objetivo fuera de alcance por %d casillas. ¿Disparar de todas formas? ",
+					_("Target out of range by %d squares. Fire anyway? "),
 				taim - range);
 			if (!get_check(msg)) return;
 		}
@@ -1162,12 +1181,12 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 				if (dmg <= 0) {
 					dmg = 0;
 					msg_type = MSG_MISS;
-					my_strcpy(hit_verb, "no logra herir", sizeof(hit_verb));
+					my_strcpy(hit_verb, _("fails to wound"), sizeof(hit_verb));
 				}
 
 				if (!visible) {
 					/* Invisible monster */
-					msgt(MSG_SHOOT_HIT, "El %s encuentra un blanco.", o_name);
+					msgt(MSG_SHOOT_HIT, _("The %s finds a mark."), o_name);
 				} else {
 					for (j = 0; j < num_types; j++) {
 						char m_name[80];
@@ -1184,10 +1203,10 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 						monster_desc(m_name, sizeof(m_name), mon, MDESC_OBJE);
 
 						if (hit_types[j].text) {
-							msgt(msg_type, "Tu %s %s a %s%s. %s", o_name, 
-								 hit_verb, m_name, dmg_text, hit_types[j].text);
+							msgt(msg_type, _("Your %s %s %s%s. %s"), o_name,
+								 hit_verb, m_name, dmg_text, _(hit_types[j].text));
 						} else {
-							msgt(msg_type, "Tu %s %s a %s%s.", o_name, hit_verb,
+							msgt(msg_type, _("Your %s %s %s%s."), o_name, hit_verb,
 								 m_name, dmg_text);
 						}
 					}
@@ -1201,9 +1220,9 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 
 				/* Hit the monster, check for death */
 				if (mon_take_hit(mon, p, dmg, &fear, "")) {
-  				    //fix traduc se cambia es destruido: muere por Destruiste a, o Elimninaste a 
-					msgt(kill_soundfx, "%s a %s.",
-						was_destroyed ? "Destruiste" : "Eliminaste",
+  				    //fix traduc se cambia es destruido: muere por Destruiste a, o Elimninaste a
+					msgt(kill_soundfx, _("%s %s."),
+						was_destroyed ? _("You have destroyed") : _("You have slain"),
 						kill_name);
 				} else {
 					message_pain(mon, dmg);
@@ -1252,7 +1271,7 @@ struct attack_result make_ranged_shot(struct player *p,
 	struct monster *mon = square_monster(cave, grid);
 	int b = 0, s = 0;
 
-	my_strcpy(hit_verb, "golpea", 20);
+	my_strcpy(hit_verb, _("hits"), 20);
 
 	/* Did we hit it */
 	if (!test_hit(chance_of_missile_hit(p, ammo, bow, mon), mon->race->ac))
@@ -1290,7 +1309,7 @@ struct attack_result make_ranged_throw(struct player *p,
 	struct monster *mon = square_monster(cave, grid);
 	int b = 0, s = 0;
 
-	my_strcpy(hit_verb, "golpea", 20);
+	my_strcpy(hit_verb, _("hits"), 20);
 
 	/* If we missed then we're done */
 	if (!test_hit(chance_of_missile_hit(p, obj, NULL, mon), mon->race->ac))
@@ -1338,8 +1357,8 @@ void do_cmd_fire(struct command *cmd) {
 
 	/* Get arguments */
 	if (cmd_get_item(cmd, "item", &obj,
-			/* Mensaje */ "¿Disparar qué munición?",
-			/* Error  */ "No tienes munición adecuada para disparar.",
+			/* Mensaje */ _("Fire which ammunition?"),
+			/* Error  */ _("You have no suitable ammunition to fire."),
 			/* Filtro */ obj_can_fire,
 			/* Elección */ USE_INVEN | USE_QUIVER | USE_FLOOR | QUIVER_TAGS)
 		!= CMD_OK)
@@ -1347,19 +1366,19 @@ void do_cmd_fire(struct command *cmd) {
 
 	/* Require a usable launcher */
 	if (!bow || !player->state.ammo_tval) {
-		msg("No tienes nada con qué disparar.");
+		msg(_("You have nothing to fire with."));
 		return;
 	}
 
 	/* Check the item being fired is usable by the player. */
 	if (!item_is_available(obj)) {
-		msg("Ese objeto no está a tu alcance.");
+		msg(_("That item is not within your reach."));
 		return;
 	}
 
 	/* Check the ammo can be used with the launcher */
 	if (obj->tval != player->state.ammo_tval) {
-		msg("Esa munición no puede ser disparada por tu arma actual.");
+		msg(_("That ammunition cannot be fired by your current weapon."));
 		return;
 	}
 
@@ -1399,8 +1418,8 @@ void do_cmd_throw(struct command *cmd) {
 	if (player->upkeep->command_wrk == USE_EQUIP)
 		player->upkeep->command_wrk = USE_INVEN;
 	if (cmd_get_item(cmd, "item", &obj,
-			/* Mensaje */ "¿Qué objeto lanzar?",
-			/* Error  */ "No tienes nada que lanzar.",
+			/* Mensaje */ _("Throw which item?"),
+			/* Error  */ _("You have nothing to throw."),
 			/* Filter */ obj_can_throw,
 			/* Choice */ USE_EQUIP | USE_QUIVER | USE_INVEN | USE_FLOOR | SHOW_THROWING)
 		!= CMD_OK)
@@ -1433,7 +1452,7 @@ void do_cmd_fire_at_nearest(void) {
 
 	/* Require a usable launcher */
 	if (!bow || !player->state.ammo_tval) {
-		msg("No tienes nada con qué disparar.");
+		msg(_("You have nothing to fire with."));
 		return;
 	}
 
@@ -1449,7 +1468,7 @@ void do_cmd_fire_at_nearest(void) {
 
 	/* Require usable ammo */
 	if (!ammo) {
-		msg("No tienes munición en el carcaj para disparar.");
+		msg(_("You have no ammunition in the quiver to fire."));
 		return;
 	}
 

@@ -30,6 +30,7 @@
 #include "ui-menu.h"
 #include "ui-output.h"
 #include "ui-spell.h"
+#include "lang.h"
 
 
 /**
@@ -79,10 +80,10 @@ static void spell_menu_display(struct menu *m, int oid, bool cursor,
 	if (!spell) return;
 
 	if (spell->slevel >= 99) {
-		illegible = "(ilegible)";
+		illegible = _("(illegible)");
 		attr = COLOUR_L_DARK;
 	} else if (player->spell_flags[spell_index] & PY_SPELL_FORGOTTEN) {
-		comment = " olvidado";
+		comment = _(" forgotten");
 		attr = COLOUR_YELLOW;
 	} else if (player->spell_flags[spell_index] & PY_SPELL_LEARNED) {
 		if (player->spell_flags[spell_index] & PY_SPELL_WORKED) {
@@ -91,14 +92,14 @@ static void spell_menu_display(struct menu *m, int oid, bool cursor,
 			comment = help;
 			attr = COLOUR_WHITE;
 		} else {
-			comment = " no probado";
+			comment = _(" untried");
 			attr = COLOUR_L_GREEN;
 		}
 	} else if (spell->slevel <= player->lev) {
-		comment = " desconocido";
+		comment = _(" unknown");
 		attr = COLOUR_L_BLUE;
 	} else {
-		comment = " difícil";
+		comment = _(" difficult");
 		attr = COLOUR_RED;
 	}
 
@@ -175,7 +176,7 @@ static void spell_menu_browser(int oid, void *data, const region *loc)
 			dice_t *shared_dice = NULL;
 			int i = 0;
 
-			text_out("  Inflige un promedio de");
+			text_out(_("  Inflicts an average of"));
 			for (struct effect *e = spell->effect; e != NULL; e = effect_next(e)) {
 				if (e->index == EF_SET_VALUE) {
 					shared_dice = e->dice;
@@ -187,7 +188,7 @@ static void spell_menu_browser(int oid, void *data, const region *loc)
 						text_out(",");
 					}
 					if (num_damaging > 1 && i == num_damaging - 1) {
-						text_out(" y");
+						text_out(_(" and"));
 					}
 					text_out_c(COLOUR_L_GREEN, " %d", effect_avg_damage(e, shared_dice));
 					const char *projection = effect_projection(e);
@@ -197,7 +198,7 @@ static void spell_menu_browser(int oid, void *data, const region *loc)
 					i++;
 				}
 			}
-			text_out(" de daño.");
+			text_out(_(" damage."));
 		}
 		text_out("\n\n");
 
@@ -246,7 +247,7 @@ static struct menu *spell_menu_new(const struct object *obj,
 	menu_setpriv(m, d->n_spells, d);
 
 	/* Set flags */
-	m->header = "Nombre                           Nv Maná Fallo Info";
+	m->header = _("Name                             Lv Mana Fail Info");
 	m->flags = MN_CASELESS_TAGS | MN_KEYMAP_ESC;
 	m->selections = all_letters_nohjkl;
 	m->browse_hook = spell_menu_browser;
@@ -282,7 +283,7 @@ static int spell_menu_select(struct menu *m, const char *noun, const char *verb)
 	region_erase_bordered(&m->active);
 
 	/* Format, capitalise and display */
-	strnfmt(buf, sizeof buf, "¿Qué %s %s? ('?' para ver descripción)",
+	strnfmt(buf, sizeof buf, _("Which %s to %s? ('?' to see description)"),
 			noun, verb);
 	my_strcap(buf);
 	prt(buf, 0, 0);
@@ -303,7 +304,7 @@ static void spell_menu_browse(struct menu *m, const char *noun)
 	screen_save();
 
 	region_erase_bordered(&m->active);
-	prt(format("Examinando %s. ('?' para ver descripción)", noun), 0, 0);
+	prt(format(_("Browsing %s. ('?' to see description)"), noun), 0, 0);
 
 	d->browse = true;
 	menu_select(m, 0, true);
@@ -324,7 +325,7 @@ void textui_book_browse(const struct object *obj)
 		spell_menu_browse(m, noun);
 		spell_menu_destroy(m);
 	} else {
-		msg("No puedes examinar eso.");
+		msg(_("You cannot browse that."));
 	}
 }
 
@@ -335,8 +336,8 @@ void textui_spell_browse(void)
 {
 	struct object *obj;
 
-	if (!get_item(&obj, "¿Qué libro examinar? ",
-				  "No tienes libros que puedas leer.",
+	if (!get_item(&obj, _("Browse which book? "),
+				  _("You have no books that you can read."),
 				  CMD_BROWSE_SPELL, obj_can_browse,
 				  (USE_INVEN | USE_FLOOR | IS_HARMLESS)))
 		return;
@@ -385,7 +386,7 @@ int textui_get_spell(struct player *p, const char *verb,
 	struct object *book;
 
 	/* Create prompt */
-	strnfmt(prompt, sizeof prompt, "¿Qué libro %s?", verb);
+	strnfmt(prompt, sizeof prompt, _("Which book to %s?"), verb);
 	my_strcap(prompt);
 
 	if (!get_item(&book, prompt, book_error,

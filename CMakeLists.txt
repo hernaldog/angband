@@ -196,6 +196,7 @@ add_library(OurCoreLib OBJECT
         src/grafmode.c
         src/guid.c
         src/init.c
+        src/lang.c
         src/load.c
         src/message.c
         src/mon-attack.c

@@ -54,3 +54,23 @@ const char *copyright =
 	"   investigación y sin ánimo de lucro, siempre que este copyright y la\n"
 	"   declaración se incluyan en todas esas copias. Pueden aplicarse otros\n"
 	"   copyrights.\n";
+
+/**
+ * English rendering of copyright, used in English mode since copyright
+ * above is a compile-time initializer and cannot be routed through _().
+ * See do_cmd_version() in ui-command.c for the selection logic.
+ */
+const char *copyright_en =
+	"Copyright (c) 1987-2026 Angband contributors.\n"
+	"\n"
+	"This work is free software; you can redistribute it and/or modify it\n"
+	"under the terms of either:\n"
+	"\n"
+	"a) the GNU General Public License as published by the Free Software\n"
+	"   Foundation, version 2, or\n"
+	"\n"
+	"b) the Angband licence:\n"
+	"   This software may be copied and distributed for educational, research,\n"
+	"   and not for profit purposes provided that this copyright and the\n"
+	"   statement are included in all such copies. Other copyrights may\n"
+	"   apply.\n";

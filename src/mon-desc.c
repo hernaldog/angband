@@ -18,8 +18,67 @@
 
 #include "angband.h"
 #include "game-input.h"
+#include "lang.h"
 #include "mon-desc.h"
 #include "mon-predicate.h"
+
+/**
+ * Heuristic for the Spanish grammatical gender of a monster's race name,
+ * used to choose between "el " and "la ".  Monster names are typically
+ * "noun word [word...]" (e.g. "serpiente blanca grande" or "hormiga
+ * soldado"), and the leading noun's own ending is usually the most
+ * reliable signal ("-a" feminine, "-o" masculine).  Only when that ending
+ * is ambiguous (e.g. "serpiente") do we fall back to checking whether the
+ * next word is an adjective that agrees in gender ("-o"/"-a"); that
+ * fallback must come second, since the second word is sometimes another
+ * noun in apposition (e.g. "soldado" in "hormiga soldado") rather than an
+ * agreeing adjective.  This is not perfect - Spanish has irregular nouns -
+ * but covers the common cases in the bestiary.
+ */
+static bool monster_name_is_feminine_es(const char *name)
+{
+	/* Nouns ending in "-a" that are nonetheless masculine */
+	static const char *masc_exceptions[] = { "fantasma" };
+	const char *space = strchr(name, ' ');
+	size_t noun_len = space ? (size_t) (space - name) : strlen(name);
+	size_t i;
+	char noun_last;
+
+	for (i = 0; i < N_ELEMENTS(masc_exceptions); i++) {
+		if (strlen(masc_exceptions[i]) == noun_len
+				&& my_strnicmp(name, masc_exceptions[i],
+					(int) noun_len) == 0) {
+			return false;
+		}
+	}
+
+	/* The noun's own ending, when it is distinctly "-a" or "-o" */
+	noun_last = (noun_len > 0) ?
+		(char) tolower((unsigned char) name[noun_len - 1]) : '\0';
+	if (noun_last == 'a') return true;
+	if (noun_last == 'o') return false;
+
+	/* Ambiguous noun ending: check the next word for gender agreement,
+	 * when it is distinctly "-o" or "-a" (many words, like "verde" or
+	 * "salvaje", don't change with gender and are not useful here). */
+	if (space) {
+		const char *adj = space + 1;
+		const char *adj_space = strchr(adj, ' ');
+		size_t adj_len = adj_space ?
+			(size_t) (adj_space - adj) : strlen(adj);
+
+		if (adj_len > 0) {
+			char last = (char) tolower((unsigned char)
+				adj[adj_len - 1]);
+
+			if (last == 'a') return true;
+			if (last == 'o') return false;
+		}
+	}
+
+	/* Default */
+	return false;
+}
 
 /**
  * Perform simple English pluralization on a monster name.
@@ -119,7 +178,7 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 
 	/* First, try using pronouns, or describing hidden monsters */
 	if (!seen || use_pronoun) {
-		const char *choice = "ello";
+		const char *choice = _("it");
 
 		/* an encoding of the monster "sex" */
 		int msex = 0x00;
@@ -136,45 +195,45 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 		/* Brute force: split on the possibilities */
 		switch (msex + (mode & 0x07)) {
 			/* Neuter */
-			case 0x00: choice = "ello"; break;
-			case 0x01: choice = "ello"; break;
-			case 0x02: choice = "su"; break;
-			case 0x03: choice = "sí mismo"; break;
-			case 0x04: choice = "algo"; break;
-			case 0x05: choice = "algo"; break;
-			case 0x06: choice = "de algo"; break;
-			case 0x07: choice = "sí mismo"; break;
+			case 0x00: choice = _("it"); break;
+			case 0x01: choice = _("it"); break;
+			case 0x02: choice = _("its"); break;
+			case 0x03: choice = _("itself"); break;
+			case 0x04: choice = _("something"); break;
+			case 0x05: choice = _("something"); break;
+			case 0x06: choice = _("something's"); break;
+			case 0x07: choice = _("itself"); break;
 
 			/* Male */
-			case 0x10: choice = "él"; break;
-			case 0x11: choice = "él"; break;
-			case 0x12: choice = "su"; break;
-			case 0x13: choice = "sí mismo"; break;
-			case 0x14: choice = "alguien"; break;
-			case 0x15: choice = "alguien"; break;
-			case 0x16: choice = "de alguien"; break;
-			case 0x17: choice = "sí mismo"; break;
+			case 0x10: choice = _("he"); break;
+			case 0x11: choice = _("him"); break;
+			case 0x12: choice = _("his"); break;
+			case 0x13: choice = _("himself"); break;
+			case 0x14: choice = _("someone"); break;
+			case 0x15: choice = _("someone"); break;
+			case 0x16: choice = _("someone's"); break;
+			case 0x17: choice = _("himself"); break;
 
 			/* Female */
-			case 0x20: choice = "ella"; break;
-			case 0x21: choice = "ella"; break;
-			case 0x22: choice = "su"; break;
-			case 0x23: choice = "sí misma"; break;
-			case 0x24: choice = "alguien"; break;
-			case 0x25: choice = "alguien"; break;
-			case 0x26: choice = "de alguien"; break;
-			case 0x27: choice = "sí misma"; break;
+			case 0x20: choice = _("she"); break;
+			case 0x21: choice = _("her"); break;
+			case 0x22: choice = _("her"); break;
+			case 0x23: choice = _("herself"); break;
+			case 0x24: choice = _("someone"); break;
+			case 0x25: choice = _("someone"); break;
+			case 0x26: choice = _("someone's"); break;
+			case 0x27: choice = _("herself"); break;
 		}
 
 		my_strcpy(desc, choice, max);
 	} else if ((mode & MDESC_POSS) && (mode & MDESC_OBJE)) {
 		/* The monster is visible, so use its gender */
 		if (rf_has(mon->race->flags, RF_FEMALE))
-			my_strcpy(desc, "sí misma", max);
+			my_strcpy(desc, _("herself"), max);
 		else if (rf_has(mon->race->flags, RF_MALE))
-			my_strcpy(desc, "sí mismo", max);
+			my_strcpy(desc, _("himself"), max);
 		else
-			my_strcpy(desc, "sí mismo", max);
+			my_strcpy(desc, _("itself"), max);
 	} else {
 		const char *comma_pos;
 
@@ -196,15 +255,8 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 				my_strcpy(desc, mon->race->name, max);
 			}
 		} else {
-			if (mode & MDESC_IND_VIS) {
-				/* XXX Check plurality for "some" */
-				/* Indefinite monsters need an indefinite article */
-				my_strcpy(desc, is_a_vowel(mon->race->name[0]) ? "an " : "a ", max);
-			} else {
-				/* Los monstruos definidos necesitan un artículo definido */
-				//my_strcpy(desc, "el ", max); //fix traduc. Se le saca "el " a "el mushrom xxxxx", ahora solo se usa mushrom
-				my_strcpy(desc, "", max);
-			}
+			bool es = streq(lang_current, "es");
+			char name_part[200];
 
 			/*
 			 * As with uniques, strip off phrase if a possessive
@@ -213,13 +265,41 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 			if ((mode & MDESC_POSS)
 					&& rf_has(mon->race->flags, RF_NAME_COMMA)
 					&& (comma_pos = strchr(mon->race->name, ','))
-					&& comma_pos - mon->race->name < 1024) {
-				my_strcat(desc, format("%.*s",
+					&& comma_pos - mon->race->name < (long)sizeof(name_part)) {
+				strnfmt(name_part, sizeof(name_part), "%.*s",
 					(int) (comma_pos - mon->race->name),
-					mon->race->name), max);
+					mon->race->name);
 			} else {
-				my_strcat(desc, mon->race->name, max);
+				my_strcpy(name_part, mon->race->name, sizeof(name_part));
 			}
+
+			/* Spanish species names are capitalised, like a label */
+			if (es && name_part[0]) {
+				name_part[0] = toupper((unsigned char) name_part[0]);
+			}
+
+			if (mode & MDESC_IND_VIS) {
+				/* XXX Check plurality for "some" */
+				/* Indefinite monsters need an indefinite article */
+				if (es) {
+					bool feminine =
+						monster_name_is_feminine_es(mon->race->name);
+					my_strcpy(desc, feminine ? "una " : "un ", max);
+				} else {
+					my_strcpy(desc,
+						is_a_vowel(mon->race->name[0]) ? "an " : "a ",
+						max);
+				}
+			} else if (es) {
+				/* Definite monsters use a gender-matched article */
+				bool feminine =
+					monster_name_is_feminine_es(mon->race->name);
+				my_strcpy(desc, feminine ? "la " : "el ", max);
+			} else {
+				my_strcpy(desc, "", max);
+			}
+
+			my_strcat(desc, name_part, max);
 		}
 
 		if ((mode & MDESC_COMMA)
@@ -235,7 +315,7 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 
 		/* Mention "offscreen" monsters */
 		if (!panel_contains(mon->grid.y, mon->grid.x)) {
-			my_strcat(desc, " (fuera de pantalla)", max);
+			my_strcat(desc, _(" (offscreen)"), max);
 		}
 	}
 

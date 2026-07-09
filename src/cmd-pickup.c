@@ -24,6 +24,7 @@
 #include "game-input.h"
 #include "generate.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-lore.h"
 #include "mon-timed.h"
 #include "mon-util.h"
@@ -91,18 +92,27 @@ static void player_pickup_gold(struct player *p)
 	/* Pick up the gold, if present */
 	if (total_gold) {
 		char buf[100];
+		bool en = (strcmp(lang_current, "en") == 0);
 
-		/* Build a message */
-		(void)strnfmt(buf, sizeof(buf),
-			"Has encontrado %ld piezas de oro en ", (long)total_gold);
+		if (en) {
+			/* Build a message */
+			(void)strnfmt(buf, sizeof(buf),
+				_("You have found %ld gold pieces worth of "), (long)total_gold);
 
-		/* One treasure type.. */
-		if (at_most_one)
-			my_strcat(buf, name, sizeof(buf));
-		/* ... or more */
-		else
-			my_strcat(buf, "tesoros", sizeof(buf));
-		my_strcat(buf, ".", sizeof(buf));
+			/* One treasure type.. */
+			if (at_most_one)
+				my_strcat(buf, name, sizeof(buf));
+			/* ... or more */
+			else
+				my_strcat(buf, _("treasures"), sizeof(buf));
+			my_strcat(buf, ".", sizeof(buf));
+		} else {
+			/* Spanish reads better as "found copper coins worth 115
+			 * gold" than a literal "gold pieces worth of copper". */
+			(void)strnfmt(buf, sizeof(buf),
+				_("You have found %s coins worth %ld gold."),
+				at_most_one ? name : _("treasures"), (long)total_gold);
+		}
 
 		/* Determine which sound to play */
 		if      (total_gold < 200) sound_msg = MSG_MONEY1;
@@ -240,7 +250,7 @@ static void player_pickup_aux(struct player *p, struct object *obj,
 
 	/* Confirm at least some of the object can be picked up */
 	if (max == 0)
-		quit_fmt("Recogida fallida de %s", obj->kind->name);
+		quit_fmt(_("Failed pickup of %s"), obj->kind->name);
 
 	/* Set ignore status */
 	p->upkeep->notice |= PN_IGNORE;
@@ -366,8 +376,8 @@ static uint8_t player_pickup_item(struct player *p, struct object *obj, bool men
 		struct object *obj_local = NULL;
 
 		/* Get an object or exit. */
-		q = "¿Qué objeto recoger?";  //fix traduc
-		s = "No ves nada ahí.";
+		q = _("Get which item?");
+		s = _("You see nothing there.");
 		if (!get_item(&obj_local, q, s, CMD_PICKUP, inven_carry_okay, USE_FLOOR)) {
 			mem_free(floor_list);
 			return (objs_picked_up);

@@ -21,6 +21,7 @@
 #include "effects-info.h"
 #include "effects.h"
 #include "init.h"
+#include "lang.h"
 #include "message.h"
 #include "mon-summon.h"
 #include "obj-info.h"
@@ -82,14 +83,14 @@ static void append_damage(char *buffer, size_t buffer_size, random_value value,
 	int dev_skill_boost)
 {
 	if (dev_skill_boost != 0) {
-		my_strcat(buffer, format(", que tu habilidad con dispositivos aumenta en un %d%%",
+		my_strcat(buffer, format(_(", which your device skill increases by %d%%"),
 			dev_skill_boost), buffer_size);
 	}
 
 	if (randcalc_varies(value) || dev_skill_boost > 0) {
 		// Ten times the average damage, for 1 digit of precision
 		int dam = (100 + dev_skill_boost) * randcalc(value, 0, AVERAGE) / 10;
-		my_strcat(buffer, format(" para un promedio de %d.%d de daño", dam / 10,
+		my_strcat(buffer, format(_(" for an average of %d.%d damage"), dam / 10,
 			dam % 10), buffer_size);
 	}
 }
@@ -233,7 +234,7 @@ static textblock *create_nested_effect_description(const struct effect *e,
 			}
 			if (ivalid == nvalid - 1) {
 				my_strcat(breaths,
-					(nvalid > 2) ? ", o " : " o ",
+					(nvalid > 2) ? _(", or ") : _(" or "),
 					sizeof(breaths));
 			} else {
 				my_strcat(breaths, ", ", sizeof(breaths));
@@ -303,7 +304,7 @@ static textblock *create_nested_effect_description(const struct effect *e,
 				if (ivalid > 0) {
 					textblock_append(res,
 						(ivalid == nvalid - 1) ?
-						" o " : ", ");
+						_(" or ") : ", ");
 				}
 				textblock_append_textblock(res, tb);
 				textblock_free(tb);
@@ -368,14 +369,14 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 			const struct effect *nexte;
 			textblock *tbe = create_nested_effect_description(
 				e->next, roll, (nadded == 0) ? prefix : NULL,
-				(e->index == EF_RANDOM) ? "aleatoriamente " : NULL,
+				(e->index == EF_RANDOM) ? _("randomly ") : NULL,
 				dev_skill_boost, &nexte);
 
 			e = (only_first) ? NULL : nexte;
 			if (tbe) {
 				if (tb) {
 					textblock_append(tb,
-						e ? ", " : " y ");
+						e ? ", " : _(" and "));
 					textblock_append_textblock(tb, tbe);
 					textblock_free(tbe);
 				} else {
@@ -406,7 +407,7 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 
 				if (value.m_bonus) {
 					strnfmt(min_string, sizeof(min_string),
-						" (o %d%%, lo que sea mayor)",
+						_(" (or %d%%, whichever is greater)"),
 						value.m_bonus);
 				} else {
 					strnfmt(min_string, sizeof(min_string),
@@ -424,8 +425,8 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 		case EFINFO_FOOD:
 			{
 				const char *fed = e->subtype ?
-					(e->subtype == 1 ? "usa suficiente valor alimenticio" : 
-					 "te deja nutrido") : "te alimenta";
+					(e->subtype == 1 ? _("uses enough food value") :
+					 _("leaves you nourished")) : _("feeds you");
 				char turn_dice_string[20];
 
 				format_dice_string(&value, z_info->food_value,
@@ -477,13 +478,13 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 
 				if (value.m_bonus) {
 					strnfmt(dist, sizeof(dist),
-						"una distancia dependiente del nivel");
+						_("a level-dependent distance"));
 				} else {
 					strnfmt(dist, sizeof(dist),
-						"%d casillas", value.base);
+						_("%d grids"), value.base);
 				}
 				strnfmt(desc, sizeof(desc), edesc,
-					(e->subtype) ? "un monstruo" : "a ti",
+					(e->subtype) ? _("a monster") : _("you"),
 					dist);
 			}
 			break;
@@ -555,7 +556,7 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 
 		default:
 			strnfmt(desc, sizeof(desc), "%s", "");
-			msg("Se pasó una descripción de efecto incorrecta a effect_info(). Por favor, informa de este error.");
+			msg(_("An incorrect effect description was passed to effect_info(). Please report this bug."));
 			break;
 		}
 
@@ -566,7 +567,7 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 				if (e) {
 					textblock_append(tb, ", ");
 				} else {
-					textblock_append(tb, " y ");
+					textblock_append(tb, _(" and "));
 				}
 			} else {
 				tb = textblock_new();
@@ -601,7 +602,7 @@ size_t effect_get_menu_name(char *buf, size_t max, const struct effect *e)
 		return 0;
 	}
 
-	fmt = base_descs[e->index].menu_name;
+	fmt = _(base_descs[e->index].menu_name);
 	switch (base_descs[e->index].efinfo_flag) {
 	case EFINFO_DICE:
 	case EFINFO_HEAL:
@@ -619,35 +620,35 @@ size_t effect_get_menu_name(char *buf, size_t max, const struct effect *e)
 
 			switch (e->subtype) {
 			case 0: /* INC_BY */
-				actstr = "alimentar";
-				actarg = "a ti mismo";
+				actstr = _("feed");
+				actarg = _("yourself");
 				break;
 			case 1: /* DEC_BY */
-				actstr = "aumentar";
-				actarg = "hambre";
+				actstr = _("increase");
+				actarg = _("hunger");
 				break;
 			case 2: /* SET_TO */
 				avg = (e->dice) ?
 					dice_evaluate(e->dice, 1, AVERAGE, NULL) : 0;
-				actstr = "convertirte en";
+				actstr = _("become");
 				if (avg > PY_FOOD_FULL) {
-					actarg = "hinchado";
+					actarg = _("bloated");
 				} else if (avg > PY_FOOD_HUNGRY) {
-					actarg = "satisfecho";
+					actarg = _("satisfied");
 				} else {
-					actarg = "hambriento";
+					actarg = _("hungry");
 				}
 				break;
 			case 3: /* INC_TO */
 				avg = (e->dice) ?
 					dice_evaluate(e->dice, 1, AVERAGE, NULL): 0;
-				actstr = "dejarte";
+				actstr = _("leave");
 				if (avg > PY_FOOD_FULL) {
-					actarg = "hinchado";
+					actarg = _("bloated");
 				} else if (avg > PY_FOOD_HUNGRY) {
-					actarg = "nutrido";
+					actarg = _("nourished");
 				} else {
-					actarg = "hambriento";
+					actarg = _("hungry");
 				}
 				break;
 			default:
@@ -696,12 +697,12 @@ size_t effect_get_menu_name(char *buf, size_t max, const struct effect *e)
 					&value);
 			}
 			if (value.m_bonus) {
-				strnfmt(dist, sizeof(dist), "cierta distancia");
+				strnfmt(dist, sizeof(dist), _("some distance"));
 			} else {
-				strnfmt(dist, sizeof(dist), "%d casillas", avg);
+				strnfmt(dist, sizeof(dist), _("%d grids"), avg);
 			}
 			len = strnfmt(buf, max, fmt,
-				(e->subtype) ? "a otro" : "a ti", dist);
+				(e->subtype) ? _("other") : _("you"), dist);
 		}
 		break;
 
@@ -719,7 +720,7 @@ size_t effect_get_menu_name(char *buf, size_t max, const struct effect *e)
 
 	default:
 		len = strnfmt(buf, max, "%s", "");
-		msg("Se pasó una descripción de efecto incorrecta a effect_get_menu_name(). Por favor, informa de este error.");
+		msg(_("An incorrect effect description was passed to effect_get_menu_name(). Please report this bug."));
 		break;
 	}
 

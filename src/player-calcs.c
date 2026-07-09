@@ -24,6 +24,7 @@
 #include "game-input.h"
 #include "game-world.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-msg.h"
 #include "mon-util.h"
 #include "obj-curse.h"
@@ -1175,7 +1176,7 @@ void calc_inventory(struct player *p)
 	if (character_dungeon) {
 		for (i = 0; i < z_info->quiver_size; i++) {
 			if (old_quiver[i] && p->upkeep->quiver[i] != old_quiver[i]) {
-				msg("Reorganizas tu carcaj.");
+				msg(_("You reorder your quiver."));
 				break;
 			}
 		}
@@ -1226,7 +1227,7 @@ void calc_inventory(struct player *p)
 		for (i = 0; i < z_info->pack_size; i++) {
 			if (old_pack[i] && p->upkeep->inven[i] != old_pack[i]
 					 && !object_is_equipped(p->body, old_pack[i])) {
-				msg("Reorganizas tu mochila.");
+				msg(_("You reorder your pack."));
 				break;
 			}
 		}
@@ -1333,7 +1334,7 @@ static void calc_spells(struct player *p)
 			p->spell_flags[j] &= ~PY_SPELL_LEARNED;
 
 			/* Message */
-			msg("Has olvidado %s de %s.", spell->realm->spell_noun,
+			msg(_("You have forgotten the %s of %s."), spell->realm->spell_noun,
 				spell->name);
 
 			/* One more can be learned */
@@ -1364,7 +1365,7 @@ static void calc_spells(struct player *p)
 			p->spell_flags[j] &= ~PY_SPELL_LEARNED;
 
 			/* Message */
-			msg("Has olvidado %s de %s.", spell->realm->spell_noun,
+			msg(_("You have forgotten the %s of %s."), spell->realm->spell_noun,
 				spell->name);
 
 			/* One more can be learned */
@@ -1398,7 +1399,7 @@ static void calc_spells(struct player *p)
 			p->spell_flags[j] |= PY_SPELL_LEARNED;
 
 			/* Message */
-			msg("Has recordado %s de %s.", spell->realm->spell_noun,
+			msg(_("You have remembered the %s of %s."), spell->realm->spell_noun,
 				spell->name);
 
 			/* One less can be learned */
@@ -1463,9 +1464,9 @@ static void calc_spells(struct player *p)
 			}
 			/* Message */
 			if (p->upkeep->new_spells == 1) {
-				msg("Puedes aprender un nuevo %s.", buf);
+				msg(_("You can learn a new %s."), buf);
 			} else {
-				msg("Puedes aprender %d %s más.", p->upkeep->new_spells, buf);
+				msg(_("You can learn %d more %s."), p->upkeep->new_spells, buf);
 			}
 		}
 
@@ -2418,31 +2419,31 @@ static void update_bonuses(struct player *p)
 		if (p->state.heavy_shoot != state.heavy_shoot) {
 			/* Message */
 			if (state.heavy_shoot)
-				msg("Tienes problemas para usar un arco tan pesado.");
+				msg(_("You have trouble wielding such a heavy bow."));
 			else if (equipped_item_by_slot_name(p, "shooting"))
-				msg("No tienes problemas para usar tu arco.");
+				msg(_("You have no trouble wielding your bow."));
 			else
-				msg("Te sientes aliviado al dejar tu arco pesado.");
+				msg(_("You feel relieved to put down your heavy bow."));
 		}
 
 		/* Take note when "heavy weapon" changes */
 		if (p->state.heavy_wield != state.heavy_wield) {
 			/* Message */
 			if (state.heavy_wield)
-				msg("Tienes problemas para empuñar un arma tan pesada.");
+				msg(_("You have trouble wielding such a heavy weapon."));
 			else if (equipped_item_by_slot_name(p, "weapon"))
-				msg("No tienes problemas para empuñar tu arma.");
+				msg(_("You have no trouble wielding your weapon."));
 			else
-				msg("Te sientes aliviado al dejar tu arma pesada.");	
+				msg(_("You feel relieved to put down your heavy weapon."));
 		}
 
 		/* Take note when "illegal weapon" changes */
 		if (p->state.bless_wield != state.bless_wield) {
 			/* Message */
 			if (state.bless_wield) {
-				msg("Te sientes en sintonía con tu arma.");
+				msg(_("You feel attuned to your weapon."));
 			} else if (equipped_item_by_slot_name(p, "weapon")) {
-				msg("Te sientes menos en sintonía con tu arma.");
+				msg(_("You feel less attuned to your weapon."));
 			}
 		}
 
@@ -2450,9 +2451,9 @@ static void update_bonuses(struct player *p)
 		if (p->state.cumber_armor != state.cumber_armor) {
 			/* Message */
 			if (state.cumber_armor)
-				msg("El peso de tu armadura reduce tus PM máximos.");
+				msg(_("The weight of your armor encumbers your spell casting."));
 			else
-				msg("Tus PM máximos ya no se ven reducidos por el peso de la armadura.");
+				msg(_("Your armor no longer encumbers your spell casting."));
 		}
 	}
 

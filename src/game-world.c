@@ -22,6 +22,7 @@
 #include "game-world.h"
 #include "generate.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-make.h"
 #include "mon-move.h"
 #include "mon-util.h"
@@ -181,12 +182,12 @@ static void recharged_notice(const struct object *obj, bool all)
 
 	/* Notify the player */
 	if (obj->number > 1) {
-		if (all) msg("Tus %s se han recargado.", o_name);
-		else msg("Uno de tus %s se ha recargado.", o_name);
+		if (all) msg(_("Your %s have recharged."), o_name);
+		else msg(_("One of your %s has recharged."), o_name);
 	} else if (obj->artifact)
-		msg("El %s se ha recargado.", o_name);
+		msg(_("The %s has recharged."), o_name);
 	else
-		msg("Tu %s se ha recargado.", o_name);
+		msg(_("Your %s has recharged."), o_name);
 }
 
 
@@ -556,10 +557,10 @@ void process_world(struct chunk *c)
 
 			if (dawn) {
 				/* Day breaks */
-				msg("El sol ha salido.");
+				msg(_("The sun has risen."));
 			} else {
 				/* Night falls */
-				msg("El sol se ha puesto.");
+				msg(_("The sun has set."));
 			}
 
 			/* Illuminate */
@@ -588,7 +589,7 @@ void process_world(struct chunk *c)
 	/* Take damage from poison */
 	if (player->timed[TMD_POISONED]) {
 		take_hit(player, player_apply_damage_reduction(player, 1),
-			"veneno");
+			_("poison"));
 		if (player->is_dead) {
 			return;
 		}
@@ -610,7 +611,7 @@ void process_world(struct chunk *c)
 
 		/* Take damage */
 		take_hit(player, player_apply_damage_reduction(player, i),
-			"una herida fatal");
+			_("a fatal wound"));
 		if (player->is_dead) {
 			return;
 		}
@@ -635,17 +636,17 @@ void process_world(struct chunk *c)
 	/* Effects of Black Breath */
 	if (player->timed[TMD_BLACKBREATH]) {
 		if (one_in_(2)) {
-			msg("El Aliento Negro te enferma.");
+			msg(_("The Black Breath sickens you."));
 			player_stat_dec(player, STAT_CON, false);
 		}
 		if (one_in_(2)) {
-			msg("El Aliento Negro agota tu fuerza.");
+			msg(_("The Black Breath saps your strength."));
 			player_stat_dec(player, STAT_STR, false);
 		}
 		if (one_in_(2)) {
 			/* Life draining */
 			int drain = 100 + (player->exp / 100) * z_info->life_drain_percent;
-			msg("El Aliento Negro disminuye tu fuerza vital.");
+			msg(_("The Black Breath dims your life force."));
 			player_exp_lose(player, drain, false);
 		}
 	}
@@ -696,7 +697,7 @@ void process_world(struct chunk *c)
 		/* Faint occasionally */
 		if (!player->timed[TMD_PARALYZED] && one_in_(10)) {
 			/* Message */
-			msg("Te desmayas por falta de comida.");
+			msg(_("You faint from lack of food."));
 			disturb(player);
 
 			/* Faint (bypass free action) */
@@ -709,7 +710,7 @@ void process_world(struct chunk *c)
 
 		/* Take damage */
 		take_hit(player, player_apply_damage_reduction(player, i),
-			"inanición");
+			_("starvation"));
 		if (player->is_dead) {
 			return;
 		}
@@ -796,10 +797,10 @@ void process_world(struct chunk *c)
 
 			/* Determine the level */
 			if (player->depth) {
-				msgt(MSG_TPLEVEL, "¡Sientes que te tiran hacia arriba!");
+				msgt(MSG_TPLEVEL, _("You feel yourself yanked upwards!"));
 				dungeon_change_level(player, 0);
 			} else {
-				msgt(MSG_TPLEVEL, "¡Sientes que te tiran hacia abajo!");
+				msgt(MSG_TPLEVEL, _("You feel yourself yanked downwards!"));
 				player_set_recall_depth(player);
 				dungeon_change_level(player, player->recall_depth);
 			}
@@ -821,11 +822,11 @@ void process_world(struct chunk *c)
 
 			/* Determine the level */
 			if (target_depth > player->depth) {
-				msgt(MSG_TPLEVEL, "¡El suelo se abre bajo tus pies!");
+				msgt(MSG_TPLEVEL, _("The floor opens beneath your feet!"));
 				dungeon_change_level(player, target_depth);
 			} else {
 				/* Otherwise do something disastrous */
-				msgt(MSG_TPLEVEL, "¡Eres lanzado hacia atrás por una explosión!");
+				msgt(MSG_TPLEVEL, _("You are thrown back by an explosion!"));
 				effect_simple(EF_DESTRUCTION, source_none(), "0", 0, 5, 0, 0, 0, NULL);
 			}
 		}

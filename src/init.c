@@ -35,6 +35,7 @@
 #include "generate.h"
 #include "hint.h"
 #include "init.h"
+#include "lang.h"
 #include "message.h"
 #include "mon-init.h"
 #include "mon-list.h"
@@ -1321,14 +1322,14 @@ static errr run_parse_player_prop(struct parser *p) {
 /* fix traduc Artículo correcto (al/a la/a los/a las) para cada elemento, en el mismo
  * orden que list-elements.h, usado en la frase "Tienes resistencia ...". */
 static const char *element_resist_phrase(int index) {
-	static const char *phrases[] = {
-		"al ácido", "al relámpago", "al fuego", "al frío", "al veneno",
-		"a la luz", "a la oscuridad", "al sonido", "a los fragmentos",
-		"al nexo", "al inframundo", "al caos", "al desencantamiento",
-		"al agua", "al hielo", "a la gravedad", "a la inercia",
-		"a la fuerza", "al tiempo", "al plasma", "a los meteoros",
-		"a los proyectiles mágicos", "al maná", "al poder sagrado",
-		"a las flechas"
+	const char *phrases[] = {
+		_("to acid"), _("to lightning"), _("to fire"), _("to cold"), _("to poison"),
+		_("to light"), _("to dark"), _("to sound"), _("to shards"),
+		_("to nexus"), _("to nether"), _("to chaos"), _("to disenchantment"),
+		_("to water"), _("to ice"), _("to gravity"), _("to inertia"),
+		_("to force"), _("to time"), _("to plasma"), _("to meteors"),
+		_("to magic missiles"), _("to mana"), _("to holy power"),
+		_("to arrows")
 	};
 	if (index >= 0 && index < (int) N_ELEMENTS(phrases)) {
 		return phrases[index];

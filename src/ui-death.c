@@ -20,6 +20,7 @@
 #include "cmds.h"
 #include "game-input.h"
 #include "init.h"
+#include "lang.h"
 #include "obj-desc.h"
 #include "obj-info.h"
 #include "savefile.h"
@@ -66,7 +67,7 @@ static void display_exit_screen(void)
 	char buf[1024];
 	int line = 0;
 	time_t death_time = (time_t)0;
-	bool retired = streq(player->died_from, "Retirada");
+	bool retired = streq(player->died_from, "Retiring");
 
 	Term_clear();
 	(void)time(&death_time);
@@ -86,30 +87,45 @@ static void display_exit_screen(void)
 	line = 7;
 
 	put_str_centred(line++, 8, 8+31, "%s", player->full_name);
-	put_str_centred(line++, 8, 8+31, "el");
+	put_str_centred(line++, 8, 8+31, _("the"));
 	if (player->total_winner)
-		put_str_centred(line++, 8, 8+31, "Magnífico");
+		put_str_centred(line++, 8, 8+31, _("Magnificent"));
 	else
 		put_str_centred(line++, 8, 8+31, "%s", player->class->title[(player->lev - 1) / 5]);
 
 	line++;
 
 	put_str_centred(line++, 8, 8+31, "%s", player->class->name);
-	put_str_centred(line++, 8, 8+31, "Nivel: %d", (int)player->lev);
+	put_str_centred(line++, 8, 8+31, _("Level: %d"), (int)player->lev);
 	put_str_centred(line++, 8, 8+31, "Exp: %d", (int)player->exp);
 	put_str_centred(line++, 8, 8+31, "AU: %d", (int)player->au);
 	if (retired) {
-		put_str_centred(line++, 8, 8+31, "Retirado en el Nivel %d",
+		put_str_centred(line++, 8, 8+31, _("Retired on Level %d"),
 			player->depth);
 	} else {
-		put_str_centred(line++, 8, 8+31, "Matado en el Nivel %d",
+		put_str_centred(line++, 8, 8+31, _("Killed on Level %d"),
 			player->depth);
-		put_str_centred(line++, 8, 8+31, "por %s.", player->died_from);
+		put_str_centred(line++, 8, 8+31, _("by %s."), player->died_from);
 	}
 
 	line++;
 
-	put_str_centred(line, 8, 8+31, "el %-.24s", ctime(&death_time));
+	if (streq(lang_current, "es")) {
+		static const char *meses[12] = {
+			"Ene", "Feb", "Mar", "Abr", "May", "Jun",
+			"Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
+		};
+		struct tm *tm_info = localtime(&death_time);
+		char datebuf[40];
+
+		strnfmt(datebuf, sizeof(datebuf), "%02d:%02d:%02d %02d %s %d",
+			tm_info->tm_hour, tm_info->tm_min, tm_info->tm_sec,
+			tm_info->tm_mday, meses[tm_info->tm_mon],
+			tm_info->tm_year + 1900);
+		put_str_centred(line, 8, 8+31, "%s", datebuf);
+	} else {
+		put_str_centred(line, 8, 8+31, _("on %-.24s"), ctime(&death_time));
+	}
 }
 
 
@@ -149,7 +165,7 @@ static void display_winner(void)
 		file_close(fp);
 	}
 
-	put_str_centred(i, 0, wid, "¡Todos alaben al Poderoso Campeón!");
+	put_str_centred(i, 0, wid, _("All Hail the Mighty Champion!"));
 
 	event_signal(EVENT_INPUT_FLUSH);
 	pause_line(Term);
@@ -178,9 +194,9 @@ static void death_file(const char *title, int row)
 
 		/* Check result */
 		if (success)
-			msg("Volcado de personaje exitoso.");
+			msg(_("Character dump successful."));
 		else
-			msg("¡Volcado de personaje falló!");
+			msg(_("Character dump failed!"));
 
 		/* Flush messages */
 		event_signal(EVENT_MESSAGE_FLUSH);
@@ -200,7 +216,7 @@ static void death_info(const char *title, int row)
 	display_player(0);
 
 	/* Prompt for inventory */
-	prt("Pulsa cualquier tecla para ver más información: ", 0, 0);
+	prt(_("Press any key to see more information: "), 0, 0);
 
 	/* Allow abort at this point */
 	(void)anykey();
@@ -212,7 +228,7 @@ static void death_info(const char *title, int row)
 	if (player->upkeep->equip_cnt) {
 		Term_clear();
 		show_equip(OLIST_WEIGHT | OLIST_SEMPTY | OLIST_DEATH, NULL);
-		prt("Estás usando: -más-", 0, 0);
+		prt(_("You are wielding: -more-"), 0, 0);
 		(void)anykey();
 	}
 
@@ -220,7 +236,7 @@ static void death_info(const char *title, int row)
 	if (player->upkeep->inven_cnt) {
 		Term_clear();
 		show_inven(OLIST_WEIGHT | OLIST_DEATH, NULL);
-		prt("Llevas: -más-", 0, 0);
+		prt(_("You are carrying: -more-"), 0, 0);
 		(void)anykey();
 	}
 
@@ -228,7 +244,7 @@ static void death_info(const char *title, int row)
 	if (player->upkeep->quiver_cnt) {
 		Term_clear();
 		show_quiver(OLIST_WEIGHT | OLIST_DEATH, NULL);
-		prt("Tu carcaj contiene: -más-", 0, 0);
+		prt(_("Your quiver contains: -more-"), 0, 0);
 		(void)anykey();
 	}
 
@@ -267,7 +283,7 @@ static void death_info(const char *title, int row)
 			}
 
 			/* Caption */
-			prt(format("Tu hogar contiene (página %d): -más-", page), 0, 0);
+			prt(format(_("Your home contains (page %d): -more-"), page), 0, 0);
 
 			/* Wait for it */
 			(void)anykey();
@@ -306,8 +322,8 @@ static void death_examine(const char *title, int row)
 	const char *q, *s;
 
 	/* Get an item */
-	q = "¿Qué objeto examinar? ";
-	s = "No tienes nada que examinar.";
+	q = _("Examine which item? ");
+	s = _("You have nothing to examine.");
 
 	while (get_item(&obj, q, s, 0, NULL, (USE_INVEN | USE_QUIVER | USE_EQUIP | IS_HARMLESS))) {
 		char header[120];
@@ -346,7 +362,7 @@ static void death_spoilers(const char *title, int row)
  */
 static void death_new_game(const char *title, int row)
 {
-    play_again = get_check("¿Empezar una nueva partida? ");
+    play_again = get_check(_("Start a new game? "));
 }
 
 /**
@@ -366,6 +382,11 @@ static menu_action death_actions[] =
 	{ 0, 'q', "Salir",          NULL            },
 };
 
+static const char *death_actions_en[N_ELEMENTS(death_actions)] = {
+	"Information", "Messages", "File dump", "Scores",
+	"Check items", "History", "Spoilers", "New Game", "Quit"
+};
+
 
 
 /**
@@ -376,6 +397,12 @@ void death_screen(void)
 	struct menu *death_menu;
 	bool done = false;
 	const region area = { 51, 2, 0, N_ELEMENTS(death_actions) };
+	size_t i;
+
+	if (strcmp(lang_current,"en") == 0) {
+		for (i = 0; i < N_ELEMENTS(death_actions); i++)
+			death_actions[i].name = death_actions_en[i];
+	}
 
 	/* Winner */
 	if (player->total_winner)
@@ -408,7 +435,7 @@ void death_screen(void)
 		}
 		else if (e.type == EVT_SELECT)
 		{
-			done = get_check("¿Quieres salir? ");
+			done = get_check(_("Do you want to quit? "));
 		}
 	}
 

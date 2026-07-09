@@ -23,6 +23,7 @@
 #include "effects-info.h"
 #include "game-world.h"
 #include "init.h"
+#include "lang.h"
 #include "monster.h"
 #include "mon-util.h"
 #include "obj-curse.h"
@@ -123,10 +124,10 @@ static bool describe_curses(textblock *tb, const struct object *obj,
 		return false;
 	for (i = 1; i < z_info->curse_max; i++) {
 		if (c[i].power) {
-			textblock_append(tb, "Hace que ");
+			textblock_append(tb, _("Causes "));
 			textblock_append_c(tb, COLOUR_L_RED, "%s", curses[i].desc);
 			if (c[i].power == 100) {
-				textblock_append(tb, "; esta maldición no se puede eliminar");
+				textblock_append(tb, _("; this curse cannot be removed"));
 			}
 			textblock_append(tb, ".\n");
 		}
@@ -178,7 +179,7 @@ static bool describe_stats(textblock *tb, const struct object *obj,
 			textblock_append_c(tb, attr, "%+i %s.\n", val, desc);
 		} else if (known_effect)
 			/* Ego type or jewellery description */
-			textblock_append(tb, "Afecta a tu %s\n", desc);
+			textblock_append(tb, _("Affects your %s\n"), desc);
 	}
 
 	return true;
@@ -203,7 +204,7 @@ static bool describe_elements(textblock *tb,
 		list[i] = (el_info[i].res_level == 3);
 	count = element_info_collect(list, i_descs);
 	if (count) {
-		textblock_append(tb, "Otorga inmunidad a ");
+		textblock_append(tb, _("Grants immunity to "));
 		info_out_list(tb, i_descs, count);
 		prev = true;
 	}
@@ -213,7 +214,7 @@ static bool describe_elements(textblock *tb,
 		list[i] = (el_info[i].res_level == 1);
 	count = element_info_collect(list, r_descs);
 	if (count) {
-		textblock_append(tb, "Otorga resistencia a ");
+		textblock_append(tb, _("Grants resistance to "));
 		info_out_list(tb, r_descs, count);
 		prev = true;
 	}
@@ -223,7 +224,7 @@ static bool describe_elements(textblock *tb,
 		list[i] = (el_info[i].res_level == -1);
 	count = element_info_collect(list, v_descs);
 	if (count) {
-		textblock_append(tb, "Te hace vulnerable a ");
+		textblock_append(tb, _("Makes you vulnerable to "));
 		info_out_list(tb, v_descs, count);
 		prev = true;
 	}
@@ -252,7 +253,7 @@ static bool describe_protects(textblock *tb, const bitflag flags[OF_SIZE])
 	if (!count)
 		return false;
 
-	textblock_append(tb, "Otorga protección contra ");
+	textblock_append(tb, _("Grants protection from "));
 	info_out_list(tb, p_descs, count);
 
 	return  true;
@@ -274,7 +275,7 @@ static bool describe_ignores(textblock *tb, const struct element_info el_info[])
 	if (!count)
 		return false;
 
-	textblock_append(tb, "No puede ser dañado por ");
+	textblock_append(tb, _("Cannot be damaged by "));
 	info_out_list(tb, descs, count);
 
 	return true;
@@ -296,7 +297,7 @@ static bool describe_hates(textblock *tb, const struct element_info el_info[])
 	if (!count)
 		return false;
 
-	textblock_append(tb, "Puede ser destruido por ");
+	textblock_append(tb, _("Can be destroyed by "));
 	info_out_list(tb, descs, count);
 
 	return true;
@@ -320,7 +321,7 @@ static bool describe_sustains(textblock *tb, const bitflag flags[OF_SIZE])
 	if (!count)
 		return false;
 
-	textblock_append(tb, "Sustenta ");
+	textblock_append(tb, _("Sustains "));
 	info_out_list(tb, descs, count);
 
 	return true;
@@ -363,9 +364,9 @@ static bool describe_slays(textblock *tb, const struct object *obj)
 	if (!s) return false;
 
 	if (tval_is_weapon(obj) || tval_is_fuel(obj))
-		textblock_append(tb, "Aniquila a ");
+		textblock_append(tb, _("Slays "));
 	else
-		textblock_append(tb, "Hace que tus ataques cuerpo a cuerpo aniquilen a ");
+		textblock_append(tb, _("Makes your melee attacks slay "));
 
 	for (i = 1; i < z_info->slay_max; i++) {
 		if (s[i]) {
@@ -379,7 +380,7 @@ static bool describe_slays(textblock *tb, const struct object *obj)
 
 		textblock_append(tb, "%s", slays[i].name);
 		if (slays[i].multiplier > 3)
-			textblock_append(tb, " (poderosamente)");
+			textblock_append(tb, _(" (powerfully)"));
 		if (count > 1)
 			textblock_append(tb, ", ");
 		else
@@ -401,9 +402,9 @@ static bool describe_brands(textblock *tb, const struct object *obj)
 	if (!b) return false;
 
 	if (tval_is_weapon(obj) || tval_is_fuel(obj))
-		textblock_append(tb, "Marca tus golpes con ");
+		textblock_append(tb, _("Brands your blows with "));
 	else
-		textblock_append(tb, "Hace que tus ataques cuerpo a cuerpo se marquen con ");
+		textblock_append(tb, _("Makes your melee attacks brand with "));
 
 	for (i = 1; i < z_info->brand_max; i++) {
 		if (b[i]) {
@@ -416,7 +417,7 @@ static bool describe_brands(textblock *tb, const struct object *obj)
 		if (!b[i]) continue;
 
 		if (brands[i].multiplier < 3)
-			textblock_append(tb, "débil ");
+			textblock_append(tb, _("weak "));
 		textblock_append(tb, "%s", brands[i].name);
 		if (count > 1)
 			textblock_append(tb, ", ");
@@ -967,7 +968,7 @@ static bool describe_blows(textblock *tb, const struct object *obj)
 	textblock_append_c(tb, COLOUR_L_GREEN, "%d.%d ",
 			blow_info[0].centiblows / 100, 
 			(blow_info[0].centiblows / 10) % 10);
-	textblock_append(tb, "golpe%s/ronda.\n",
+	textblock_append(tb, _("blow%s/round.\n"),
 			(blow_info[0].centiblows > 100) ? "s" : "");
 
 	/* Then list combinations that give more blows / speed boost */
@@ -975,14 +976,14 @@ static bool describe_blows(textblock *tb, const struct object *obj)
 		struct blow_info entry = blow_info[i];
 
 		if (entry.centiblows % 10 == 0) {
-			textblock_append(tb, 
-				"Con +%d FUE y +%d DES obtendrías %d.%d golpes\n",
-				entry.str_plus, entry.dex_plus, 
+			textblock_append(tb,
+				_("With +%d STR and +%d DEX you would get %d.%d blows\n"),
+				entry.str_plus, entry.dex_plus,
 				(entry.centiblows / 100),
 				(entry.centiblows / 10) % 10);
 		} else {
-			textblock_append(tb, 
-				"Con +%d FUE y +%d DES atacarías un poco más rápido\n",
+			textblock_append(tb,
+				_("With +%d STR and +%d DEX you would attack a bit faster\n"),
 				entry.str_plus, entry.dex_plus);
 		}
 	}
@@ -1533,12 +1534,12 @@ static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 
 	/* Mention slays and brands from other items */
 	if (nonweap_slay)
-		textblock_append(tb, "Esta arma puede beneficiarse de una o más marcas o ataques especiales fuera del arma.\n");
+		textblock_append(tb, _("This weapon may benefit from one or more off-weapon brands or slays.\n"));
 
 	if (throw) {
-		textblock_append(tb, "Daño medio al arrojar: ");
+		textblock_append(tb, _("Average damage when thrown: "));
 	} else {
-		textblock_append(tb, "Daño medio/ronda: ");
+		textblock_append(tb, _("Average damage/round: "));
 	}
 
 	if (has_brands_or_slays) {
@@ -1622,16 +1623,16 @@ static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 			if (groupn > 0) {
 				if (dam != lastdam) {
 					if (groupn > 2) {
-						textblock_append(tb, " y");
+						textblock_append(tb, _(" and"));
 					} else if (groupn == 2) {
-						textblock_append(tb, " y");
+						textblock_append(tb, _(" and"));
 					}
 				} else if (groupn > 1) {
 					textblock_append(tb, ",");
 				}
 				if (last_is_brand) {
 					textblock_append(tb,
-						" criaturas no resistentes a");
+						_(" creatures not resistant to"));
 				}
 				textblock_append(tb, " %s", lastnm);
 			}
@@ -1641,10 +1642,10 @@ static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 				}
 				if (dam % 10) {
 					textblock_append_c(tb, COLOUR_L_GREEN,
-						"%d.%d contra", dam / 10, dam % 10);
+						_("%d.%d against"), dam / 10, dam % 10);
 				} else {
 					textblock_append_c(tb, COLOUR_L_GREEN,
-						"%d contra", dam / 10);
+						_("%d against"), dam / 10);
 				}
 				groupn = 1;
 				lastdam = dam;
@@ -1657,13 +1658,13 @@ static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 		}
 		if (groupn > 0) {
 			if (groupn > 2) {
-				textblock_append(tb, " y");
+				textblock_append(tb, _(" and"));
 			} else if (groupn == 2) {
-				textblock_append(tb, " y");
+				textblock_append(tb, _(" and"));
 			}
 			if (last_is_brand) {
 				textblock_append(tb,
-					" criaturas no resistentes a");
+					_(" creatures not resistant to"));
 			}
 			textblock_append(tb, " %s", lastnm);
 		}
@@ -1671,7 +1672,7 @@ static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 		if (nsort == 0) {
 			has_brands_or_slays = false;
 		} else {
-			textblock_append(tb, (nsort == 1) ? " y " : ", y ");
+			textblock_append(tb, (nsort == 1) ? _(" and ") : _(", and "));
 		}
 		mem_free(sortind);
 	}
@@ -1684,7 +1685,7 @@ static bool describe_damage(textblock *tb, const struct object *obj, bool throw)
 	else
 		textblock_append_c(tb, COLOUR_L_GREEN, "%d", normal_damage / 10);
 
-	if (has_brands_or_slays) textblock_append(tb, " contra otros");
+	if (has_brands_or_slays) textblock_append(tb, _(" against others"));
 	textblock_append(tb, ".\n");
 
 	mem_free(brand_damage);
@@ -1764,23 +1765,23 @@ static bool describe_combat(textblock *tb, const struct object *obj)
 
 	if (!weapon && !ammo && !rock) {
 		if (thrown_effect) {
-			textblock_append(tb, "Puede ser arrojado a criaturas con efecto dañino.\n");
+			textblock_append(tb, _("Can be thrown at creatures for a damaging effect.\n"));
 			return true;
 		} else
 			return false;
 	}
 
-	textblock_append_c(tb, COLOUR_L_WHITE, "Información de combate:\n");
+	textblock_append_c(tb, COLOUR_L_WHITE, _("Combat info:\n"));
 
 	if (heavy)
-		textblock_append_c(tb, COLOUR_L_RED, "Eres demasiado débil para usar esta arma.\n");
+		textblock_append_c(tb, COLOUR_L_RED, _("You are too weak to use this weapon.\n"));
 
 	describe_blows(tb, obj);
 
 	if (ammo) {
-		textblock_append(tb, "Al disparar, alcanza objetivos hasta ");
+		textblock_append(tb, _("When fired, hits targets up to "));
 		textblock_append_c(tb, COLOUR_L_GREEN, "%d", range);
-		textblock_append(tb, " pies de distancia.\n");
+		textblock_append(tb, _(" feet away.\n"));
 	}
 
 	if (weapon || ammo) {
@@ -1792,7 +1793,7 @@ static bool describe_combat(textblock *tb, const struct object *obj)
 
 	if (ammo) {
 		textblock_append_c(tb, COLOUR_L_GREEN, "%d%%", break_chance);
-		textblock_append(tb, " de probabilidad de romperse al contacto.\n");
+		textblock_append(tb, _(" chance of breaking upon contact.\n"));
 	}
 
 	/* Something has been said */
@@ -1860,8 +1861,8 @@ static bool describe_digger(textblock *tb, const struct object *obj)
 	int i;
 	int deciturns[DIGGING_MAX];
 	struct object *obj1 = (struct object *) obj;
-	static const char *names[4] = { "escombros", "vetas de magma", "vetas de cuarzo",
-									"granito" };
+	const char *names[4] = { _("rubble"), _("magma veins"), _("quartz veins"),
+									_("granite") };
 
 	/* Get useful info or print nothing */
 	if (!obj_known_digging(obj1, deciturns)) return false;
@@ -1869,21 +1870,21 @@ static bool describe_digger(textblock *tb, const struct object *obj)
 	for (i = DIGGING_RUBBLE; i < DIGGING_DOORS; i++) {
 		if (i == 0 && deciturns[0] > 0) {
 			if (tval_is_melee_weapon(obj))
-				textblock_append(tb, "Limpia ");
+				textblock_append(tb, _("Clears "));
 			else
-				textblock_append(tb, "Con este objeto, tu arma actual limpia ");
+				textblock_append(tb, _("With this item, your current weapon clears "));
 		}
 
 		if (i == 3 || (i != 0 && deciturns[i] == 0))
-			textblock_append(tb, "y ");
+			textblock_append(tb, _("and "));
 
 		if (deciturns[i] == 0) {
-			textblock_append_c(tb, COLOUR_L_RED, "no afecta a ");
+			textblock_append_c(tb, COLOUR_L_RED, _("does not affect "));
 			textblock_append(tb, "%s.\n", names[i]);
 			break;
 		}
 
-		textblock_append(tb, "%s en ", names[i]);
+		textblock_append(tb, _("%s in "), names[i]);
 
 		if (deciturns[i] == 10) {
 			textblock_append_c(tb, COLOUR_L_GREEN, "1 ");
@@ -1895,7 +1896,7 @@ static bool describe_digger(textblock *tb, const struct object *obj)
 							   COLOUR_RED, "%d ", (deciturns[i]+5)/10);
 		}
 
-		textblock_append(tb, "turno%s%s", deciturns[i] == 10 ? "" : "s",
+		textblock_append(tb, _("turn%s%s"), deciturns[i] == 10 ? "" : "s",
 				(i == 3) ? ".\n" : ", ");
 	}
 
@@ -1964,18 +1965,18 @@ static bool describe_light(textblock *tb, const struct object *obj,
 		return false;
 
 	if (tval_is_light(obj)) {
-		textblock_append(tb, "Luz de intensidad ");
+		textblock_append(tb, _("Light of intensity "));
 		textblock_append_c(tb, COLOUR_L_GREEN, "%d", intensity);
 		textblock_append(tb, ".");
 
 		if (!obj->artifact && !uses_fuel)
-			textblock_append(tb, "  No requiere combustible.");
+			textblock_append(tb, _("  Requires no fuel."));
 
 		if (!terse) {
 			if (refuel_turns)
-				textblock_append(tb, "  Recarga otras linternas hasta %d turnos de combustible.", refuel_turns);
+				textblock_append(tb, _("  Refuels other lanterns up to %d turns of fuel."), refuel_turns);
 			else
-				textblock_append(tb, "  No se puede recargar.");
+				textblock_append(tb, _("  Cannot be refueled."));
 		}
 		textblock_append(tb, "\n");
 	}
@@ -1992,7 +1993,7 @@ static bool describe_book(textblock *tb, const struct object *obj,
 {
 	if (!obj_can_browse(obj)) return false;
 
-	textblock_append(tb, "\nPuedes leer este libro.\n");
+	textblock_append(tb, _("\nYou can read this book.\n"));
 
 	return true;
 }
@@ -2077,15 +2078,15 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 	/* Effect not known, mouth platitudes */
 	if (!effect && object_effect(obj)) {
 		if (tval_is_edible(obj)) {
-			textblock_append(tb, "Puede ser comido.\n");
+			textblock_append(tb, _("It can be eaten.\n"));
 		} else if (tval_is_potion(obj)) {
-			textblock_append(tb, "Puede ser bebido.\n");
+			textblock_append(tb, _("It can be drunk.\n"));
 		} else if (tval_is_scroll(obj)) {
-			textblock_append(tb, "Puede ser leído.\n");
+			textblock_append(tb, _("It can be read.\n"));
 		} else if (aimed) {
-			textblock_append(tb, "Puede ser dirigido.\n");
+			textblock_append(tb, _("It can be aimed.\n"));
 		} else {
-			textblock_append(tb, "Puede ser activado.\n");
+			textblock_append(tb, _("It can be activated.\n"));
 		}
 
 		return true;
@@ -2093,7 +2094,7 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 
 	/* Activations get a special message */
 	if (obj->activation && obj->activation->desc) {
-		textblock_append(tb, "Cuando se activa, ");
+		textblock_append(tb, _("When activated, "));
 		textblock_append(tb, "%s", obj->activation->desc);
 	} else {
 		int level = obj->artifact ?
@@ -2104,17 +2105,17 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 		textblock *tbe;
 
 		if (obj->activation)
-			prefix = "Cuando se activa, ";
+			prefix = _("When activated, ");
 		else if (aimed)
-			prefix = "Al apuntar, ";
+			prefix = _("When aimed, ");
 		else if (tval_is_edible(obj))
-			prefix = "Al comer, ";
+			prefix = _("When eaten, ");
 		else if (tval_is_potion(obj))
-			prefix = "Al beber, ";
+			prefix = _("When drunk, ");
 		else if (tval_is_scroll(obj))
-			prefix = "Cuando se lee, ";
+			prefix = _("When read, ");
 		else
-			prefix = "Cuando se activa, ";
+			prefix = _("When activated, ");
 
 		tbe = effect_describe(effect, prefix, boost, false);
 		if (! tbe) {
@@ -2131,7 +2132,7 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 		int multiplier = turn_energy(player->state.speed);
 		if (!subjective) multiplier = 10;
 
-		textblock_append(tb, "Tarda ");
+		textblock_append(tb, _("Takes "));
 
 		/* Correct for player speed */
 		min_time = (min_time * multiplier) / 10;
@@ -2140,19 +2141,19 @@ static bool describe_effect(textblock *tb, const struct object *obj,
 		textblock_append_c(tb, COLOUR_L_GREEN, "%d", min_time);
 
 		if (min_time != max_time) {
-			textblock_append(tb, " a ");
+			textblock_append(tb, _(" to "));
 			textblock_append_c(tb, COLOUR_L_GREEN, "%d", max_time);
 		}
 
-		textblock_append(tb, " turnos en recargarse");
+		textblock_append(tb, _(" turns to recharge"));
 		if (subjective && player->state.speed != 110)
-			textblock_append(tb, " a tu velocidad actual");
+			textblock_append(tb, _(" at your current speed"));
 
 		textblock_append(tb, ".\n");
 	}
 
 	if (failure_chance > 0) {
-		textblock_append(tb, "La probabilidad de éxito es del %d.%d%%\n",
+		textblock_append(tb, _("The success chance is %d.%d%%\n"),
 			(1000 - failure_chance) / 10, (1000 - failure_chance) % 10);
 	}
 
@@ -2184,10 +2185,10 @@ static bool describe_origin(textblock *tb, const struct object *obj, bool terse)
 
 	/* Name the place of origin */
 	if (obj->origin_depth)
-		strnfmt(loot_spot, sizeof(loot_spot), "a %d pies (nivel %d)",
+		strnfmt(loot_spot, sizeof(loot_spot), _("at %d feet (level %d)"),
 		        obj->origin_depth * 50, obj->origin_depth);
 	else
-		my_strcpy(loot_spot, "en la ciudad", sizeof(loot_spot));
+		my_strcpy(loot_spot, _("in town"), sizeof(loot_spot));
 
 	/* Name the monster of origin */
 	if (obj->origin_race) {
@@ -2199,9 +2200,9 @@ static bool describe_origin(textblock *tb, const struct object *obj, bool terse)
 			comma = true;
 		}
 	} else {
-		dropper = "monstruo perdido en la historia";
+		dropper = _("a monster lost to history");
 	}
-	article = is_a_vowel(dropper[0]) ? "un " : "un ";
+	article = is_a_vowel(dropper[0]) ? _("a ") : _("a ");
 	if (unique)
 		my_strcpy(name, dropper, sizeof(name));
 	else {
@@ -2216,11 +2217,11 @@ static bool describe_origin(textblock *tb, const struct object *obj, bool terse)
 	switch (origins[origin].args)
 	{
 		case -1: return false;
-		case 0: textblock_append(tb, "%s", origins[origin].desc); break;
-		case 1: textblock_append(tb, origins[origin].desc, loot_spot);
+		case 0: textblock_append(tb, "%s", _(origins[origin].desc)); break;
+		case 1: textblock_append(tb, _(origins[origin].desc), loot_spot);
 				break;
 		case 2:
-			textblock_append(tb, origins[origin].desc, name, loot_spot);
+			textblock_append(tb, _(origins[origin].desc), name, loot_spot);
 			break;
 	}
 
@@ -2272,21 +2273,21 @@ static bool describe_ego(textblock *tb, const struct ego_item *ego)
 
 	if (kf_has(ego->kind_flags, KF_RAND_HI_RES)) {
 		something = true;
-		textblock_append(tb, "Proporciona una resistencia superior aleatoria.  ");
+		textblock_append(tb, _("Provides a random high resistance.  "));
 	} else if (kf_has(ego->kind_flags, KF_RAND_SUSTAIN)) {
 		something = true;
-		textblock_append(tb, "Proporciona una sustentación aleatoria.  ");
+		textblock_append(tb, _("Provides a random sustain.  "));
 	} else if (kf_has(ego->kind_flags, KF_RAND_POWER)) {
 		something = true;
-		textblock_append(tb, "Proporciona una habilidad aleatoria.  ");
+		textblock_append(tb, _("Provides a random power.  "));
 	} else if (kf_has(ego->kind_flags, KF_RAND_RES_POWER)) {
 		something = true;
-		textblock_append(tb, "Proporciona una habilidad aleatoria o resistencia base.  ");
+		textblock_append(tb, _("Provides a random power or basic resistance.  "));
 	}
 	if (of_has(ego->flags, OF_NO_FUEL)
 			&& of_has(ego->flags_off, OF_TAKES_FUEL)) {
 		something = true;
-		textblock_append(tb, "Arde eternamente sin combustible.  ");
+		textblock_append(tb, _("Burns without using fuel.  "));
 	}
 
 	return something;
@@ -2315,7 +2316,7 @@ static textblock *object_info_out(const struct object *obj, int mode)
 
 	/* Unaware objects get simple descriptions */
 	if (obj->kind != obj->known->kind) {
-		textblock_append(tb, "\n\nNo sabes qué es esto.\n");
+		textblock_append(tb, _("\n\nYou do not know what this is.\n"));
 		return tb;
 	}
 
@@ -2329,7 +2330,7 @@ static textblock *object_info_out(const struct object *obj, int mode)
 	if (!terse) describe_flavor_text(tb, obj, ego);
 
 	if (!object_fully_known(obj) &&	(obj->known->notice & OBJ_NOTICE_ASSESSED) && !tval_is_useable(obj)) {
-		textblock_append(tb, "Desconoces todo el potencial de este objeto.\n");
+		textblock_append(tb, _("You do not know the full extent of this object's powers.\n"));
 		something = true;
 	}
 
@@ -2366,7 +2367,7 @@ static textblock *object_info_out(const struct object *obj, int mode)
 
 	/* Don't append anything in terse (for chararacter dump) */
 	if (!something && !terse)
-		textblock_append(tb, "\n\nEste objeto no parece poseer ninguna habilidad especial.");
+		textblock_append(tb, _("\n\nThis object does not appear to possess any special abilities."));
 
 	return tb;
 }
@@ -2407,12 +2408,12 @@ textblock *object_info_ego(struct ego_item *ego)
 	if (!kind) {
 		result = textblock_new();
 		if (ego->poss_items) {
-			textblock_append(result, "Error: el array de tipos de "
-				"objetos ya no contiene el primer tipo "
-				"que puede tener este ego.");
+			textblock_append(result, _("Error: the array of object "
+				"types no longer contains the first type "
+				"that can have this ego."));
 		} else {
 			textblock_append(result,
-				"Este ego no aparece en ningún objeto.");
+				_("This ego does not appear on any object."));
 		}
 		return result;
 	}

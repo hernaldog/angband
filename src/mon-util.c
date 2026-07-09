@@ -21,6 +21,7 @@
 #include "effects.h"
 #include "game-world.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-desc.h"
 #include "mon-list.h"
 #include "mon-lore.h"
@@ -727,7 +728,7 @@ void become_aware(struct chunk *c, struct monster *mon)
 
 			/* Print a message */
 			if (square_isseen(c, obj->grid))
-				msg("¡El %s era realmente un monstruo!", o_name);
+				msg(_("The %s was really a monster!"), o_name);
 
 			/* Clear the mimicry */
 			obj->mimicking_m_idx = 0;
@@ -1056,13 +1057,13 @@ static void player_kill_monster(struct monster *mon, struct player *p,
 
 		if (!monster_is_visible(mon))
 			/* Death by physical attack -- invisible monster */
-			msgt(soundfx, "Has matado algo."); //fix traduc
+			msgt(soundfx, _("You have killed %s."), m_name);
 		else if (monster_is_destroyed(mon))
 			/* Death by Physical attack -- non-living monster */
-			msgt(soundfx, "Has destruido a %s.", m_name);
+			msgt(soundfx, _("You have destroyed %s."), m_name);
 		else
 			/* Death by Physical attack -- living monster */
-			msgt(soundfx, "Has derrotado a %s.", m_name);
+			msgt(soundfx, _("You have slain %s."), m_name);
 	}
 
 	/* Player level */
@@ -1097,7 +1098,7 @@ static void player_kill_monster(struct monster *mon, struct player *p,
 					 MDESC_DIED_FROM);
 
 		/* Log the slaying of a unique */
-		strnfmt(buf, sizeof(buf), "Mató a %s", unique_name);
+		strnfmt(buf, sizeof(buf), _("Slew %s"), unique_name);
 		history_add(p, buf, HIST_SLAY_UNIQUE);
 	}
 
@@ -1318,7 +1319,7 @@ void kill_arena_monster(struct monster *mon)
 	assert(old_mon);
 	update_mon(old_mon, cave, true);
 	old_mon->hp = -1;
-	player_kill_monster(old_mon, player, " ¡ha sido derrotado!");
+	player_kill_monster(old_mon, player, _(" has been defeated!"));
 }
 
 /**
@@ -1511,19 +1512,19 @@ void steal_monster_item(struct monster *mon, int midx)
 
 			object_see(player, obj);
 			if (tval_is_money(obj)) {
-				(void)strnfmt(o_name, sizeof(o_name), "tesoro");
+				(void)strnfmt(o_name, sizeof(o_name), _("treasure"));
 			} else {
 				object_desc(o_name, sizeof(o_name), obj,
 					ODESC_PREFIX | ODESC_FULL, player);
 			}
-			msg("Fallas al intentar robar %s a %s.", o_name, m_name);
+			msg(_("You fail to steal %s from %s."), o_name, m_name);
 			/* Monster wakes, may notice */
 			monster_wake(mon, true, 50);
 		} else {
 			/* Bungled it */
 			monster_wake(mon, true, 100);
 			monster_desc(m_name, sizeof(m_name), mon, MDESC_STANDARD);
-			msg("¡%s grita enfurecido!", m_name);
+			msg(_("%s screams in rage!"), m_name);
 			effect_simple(EF_WAKE, source_monster(mon->midx), "", 0, 0, 0, 0, 0,
 						  NULL);
 		}
@@ -1531,7 +1532,7 @@ void steal_monster_item(struct monster *mon, int midx)
 		/* Player hit and run */
 		if (player->timed[TMD_ATT_RUN]) {
 			const char *near = "20";
-			msg("¡Te desvaneces entre las sombras!");
+			msg(_("You vanish into the shadows!"));
 			effect_simple(EF_TELEPORT, source_player(), near, 0, 0, 0, 0, 0,
 						  NULL);
 			(void) player_clear_timed(player, TMD_ATT_RUN, false,
@@ -1547,10 +1548,10 @@ void steal_monster_item(struct monster *mon, int midx)
 		/* Try to steal */
 		if (!obj || react_to_slay(obj, thief)) {
 			/* Fail to steal */
-			msg("%s intenta robarle algo a %s, pero falla.", t_name,
+			msg(_("%s tries to steal something from %s, but fails."), t_name,
 				m_name);
 		} else {
-			msg("¡%s le roba algo a %s!", t_name, m_name);
+			msg(_("%s steals something from %s!"), t_name, m_name);
 
 			/* Steal and carry */
 			obj->held_m_idx = 0;
@@ -1655,7 +1656,7 @@ bool monster_change_shape(struct monster *mon)
 	if (monster_is_obvious(mon)) {
 		char m_name[80];
 		monster_desc(m_name, sizeof(m_name), mon, MDESC_STANDARD);
-		msgt(MSG_GENERIC, "%s %s", m_name, "¡se transforma y cambia de forma!");
+		msgt(MSG_GENERIC, "%s %s", m_name, _("transforms and changes shape!"));
 		if (player->upkeep->health_who == mon)
 			player->upkeep->redraw |= (PR_HEALTH);
 
@@ -1689,7 +1690,7 @@ bool monster_revert_shape(struct monster *mon)
 		if (monster_is_obvious(mon)) {
 			char m_name[80];
 			monster_desc(m_name, sizeof(m_name), mon, MDESC_STANDARD);
-			msgt(MSG_GENERIC, "%s %s", m_name, "¡se transforma y cambia de forma!");
+			msgt(MSG_GENERIC, "%s %s", m_name, _("transforms and changes shape!"));
 			if (player->upkeep->health_who == mon)
 				player->upkeep->redraw |= (PR_HEALTH);
 

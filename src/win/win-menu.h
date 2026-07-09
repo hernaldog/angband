@@ -91,6 +91,9 @@
 #define IDM_OPTIONS_SAVER           430
 #define IDM_OPTIONS_SCREENSHOT      441
 
+#define IDM_OPTIONS_LANG_EN         460
+#define IDM_OPTIONS_LANG_ES         461
+
 #define IDM_OPTIONS_TILE_1x1        447
 #define IDM_OPTIONS_TILE_2x1        448
 #define IDM_OPTIONS_TILE_4x2        449

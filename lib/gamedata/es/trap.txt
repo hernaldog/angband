@@ -1,0 +1,584 @@
+# File: trap.txt
+
+# This file contains rune and trap definitions
+
+### Understanding trap.txt ###
+
+# name: name: short description
+# graphics: ASCII char used to represent the feature: color symbol
+# appear: rarity: minimum depth: maximum number on level
+# visibility: player trap visibility value
+# desc: description
+
+# flags: trap flags
+#    These include:
+#    - DOWN: after running effects, drops the player down a dungeon level
+#    - ONEITME: after running effects, trap disappears
+#    - MAGICAL: uses the magic disarm skill - other traps use physical disarm
+#    - VISIBLE: trap will not be hidden when generated
+#    - FLOOR: * can be set on the floor
+#    - TRAP: * is a trap
+#    - DELAY: activates as the player leaves its square rather than entering
+#
+#    Flags marked '*' must be set for a trap to be generated as part of
+#    normal dungeon generation.
+#
+#    See list-trap-flags.h for a full list.
+
+# msg: activation message
+#    This is shown to the user when the trap is triggered.
+
+# save: object flags that provide a saving throw
+# msg-good: save message
+# msg-bad: fail to save message
+#    There are two ways to give the player a chance of avoiding the trap:
+#
+#    1. If the 'save' line is provided, then if player has the flags
+#       specified on the 'save' line, the trap is avoided, and/or
+#    2. If the 'msg-bad' line is provided, then a roll is made against the
+#       player's AC, which if successful avoids the trap.
+#
+#    If the trap is avoided, the 'msg-good' line is printed instead.  If it
+#    isn't, 'msg-bad' is printed.
+
+# effect: trap effect : ? subtype : ? radius : ? extra parameter
+# dice: dice string for effect
+# expr: dice expression for effect
+#    If there is no saving throw, or it fails, then these effects are
+#    triggered.
+
+# msg-xtra: extra effect message
+# effect-xtra: extra effect : ? subtype : ? radius : ? extra parameter
+# dice-xtra: dice string for extra effect
+# expr-xtra: dice expression for extra effect
+#    If there is no saving throw, or it fails, then these effects are
+#    also triggered 50% of the time.  If they are triggered, the 'msg-xtra'
+#    line is printed, if present.
+
+name:sin trampa:sin trampa
+graphics: :w
+
+name:glyph of warding:glyph of warding
+graphics:;:y
+appear:0:0:0
+flags:GLYPH | VISIBLE | FLOOR
+desc:Una runa mágica que los monstruos no pueden pasar sin dificultad.
+
+name:decoy:decoy
+graphics:;:G
+appear:0:0:0
+flags:GLYPH | VISIBLE | FLOOR
+desc:Un señuelo mágico que suena y se ve como el jugador.
+
+name:door lock:door lock
+graphics: :w
+appear:0:0:0
+flags:LOCK | INVISIBLE
+desc:Un dispositivo que hace que una puerta cerrada sea más difícil de abrir.
+
+name:web:web
+graphics:%:y
+appear:0:0:0
+flags:WEB | VISIBLE
+desc:Un enredo de pegajosas telarañas.
+
+## Player traps ##
+
+# trap door
+
+name:trampilla:trampilla
+graphics:^:w
+appear:1:2:0
+visibility:2d10M50
+flags:TRAP | FLOOR | DOWN
+effect:DAMAGE
+dice:2d8
+save:FEATHER
+desc:Parece suelo, pero si pisas sin cuidado caerás a través.
+msg:¡Caes a través de una trampilla!
+msg-good:Flotas suavemente hacia el siguiente nivel.
+
+# open pit
+
+name:pozo:pozo
+graphics:^:s
+appear:1:2:0
+visibility:90
+flags:TRAP | FLOOR | PIT
+effect:DAMAGE
+dice:2d6
+save:FEATHER
+desc:Un hoyo cavado para atrapar a los desprevenidos.
+msg:¡Caes en un pozo!
+msg-good:Flotas suavemente hasta el fondo del pozo.
+
+# spiked pit
+
+name:pozo:pozo con púas
+graphics:^:s
+appear:1:2:0
+visibility:80
+flags:TRAP | FLOOR | PIT
+effect:DAMAGE
+dice:2d6
+effect-xtra:DAMAGE
+dice-xtra:2d6
+effect-xtra:TIMED_INC:CUT
+dice-xtra:4d6
+save:FEATHER
+desc:Un hoyo cavado para atrapar a los desprevenidos, con púas.
+msg:¡Caes en un pozo con púas!
+msg-good:Flotas suavemente hasta el fondo del pozo, evitando hábilmente las púas.
+msg-xtra:¡Te ensartan!
+
+# poison pit
+
+name:pozo:pozo venenoso
+graphics:^:s
+appear:1:2:0
+visibility:70
+flags:TRAP | FLOOR | PIT
+effect:DAMAGE
+dice:2d6
+effect-xtra:TIMED_INC:CUT
+dice-xtra:4d6
+effect-xtra:TIMED_INC:POISONED
+dice-xtra:8d6
+save:FEATHER
+desc:Un hoyo cavado para atrapar a los desprevenidos, con púas envenenadas.
+msg:¡Caes en un pozo con púas!
+msg-good:Flotas suavemente hasta el fondo del pozo, evitando hábilmente las púas.
+msg-xtra:¡Te ensartan con púas venenosas!
+
+### 14
+
+# rune -- summon (OoD) monster
+
+name:runa extraña:runa de invocar enemigo
+graphics:^:B
+appear:1:3:0
+visibility:0
+flags:TRAP | FLOOR | ONETIME | MAGICAL
+effect:SUMMON:MONSTER:0:5
+dice:1
+desc:Una runa mágica que llama a un monstruo para atacarte.
+msg:¡Aparece un nuevo enemigo de la nada!
+
+# rune -- summon monsters
+
+name:runa extraña:runa de invocación
+graphics:^:B
+appear:2:3:0
+visibility:0
+flags:TRAP | FLOOR | ONETIME | MAGICAL
+effect:SUMMON:ANY
+dice:2+1d3
+desc:Una runa mágica que invoca monstruos para atacarte.
+msg:¡Estás envuelto en una nube de humo!
+
+# rune -- summon undead
+
+name:runa extraña:runa de nigromancia
+graphics:^:B
+appear:1:20:0
+visibility:0
+flags:TRAP | FLOOR | ONETIME | MAGICAL
+effect:SUMMON:UNDEAD
+dice:1d3M2
+desc:Una runa mágica que llama a los no muertos para atacarte.
+msg:Una sensación de pavor te invade...
+
+# rune -- summon dragons
+
+name:runa extraña:runa del canto de dragón
+graphics:^:B
+appear:1:20:0
+visibility:0
+flags:TRAP | FLOOR | ONETIME | MAGICAL
+effect:SUMMON:DRAGON
+dice:1d3
+desc:Una runa mágica que llama a dragones para atacarte.
+msg:¡Escuchas el llamado de un dragón!
+
+# rune -- summon demons
+
+name:runa extraña:boca del infierno
+graphics:^:B
+appear:1:20:0
+visibility:0
+flags:TRAP | FLOOR | ONETIME | MAGICAL
+effect:SUMMON:DEMON
+dice:1+1d3
+desc:Una runa mágica que llama a demonios para atacarte.
+msg:¡Aparecen demonios!
+
+### 20
+
+# rune -- teleport
+
+name:runa extraña:runa de teletransporte
+graphics:^:o
+appear:1:1:0
+visibility:30+d30
+flags:TRAP | FLOOR | MAGICAL
+effect:TELEPORT
+dice:M80
+desc:Una runa mágica que te teletransporta a una ubicación aleatoria.
+msg:¡Has activado una trampa de teletransporte!
+
+# spot -- fire
+
+name:mancha descolorida:trampa de fuego
+graphics:^:u
+appear:1:2:0
+visibility:20
+flags:TRAP | FLOOR | MAGICAL
+effect:SPOT:FIRE:0
+dice:4d$S
+expr:S:DUNGEON_LEVEL:/ 2
+desc:Una extraña mancha de color en el suelo - cuidado con su ataque de fuego.
+msg:¡Estás envuelto en llamas!
+
+# spot -- acid
+
+name:mancha descolorida:trampa de ácido
+graphics:^:u
+appear:1:2:0
+visibility:0
+flags:TRAP | FLOOR | MAGICAL
+effect:SPOT:ACID:0
+dice:4d$S
+expr:S:DUNGEON_LEVEL:/ 2
+desc:Una extraña mancha de color en el suelo - cuidado con su ataque ácido.
+msg:¡Te salpican con ácido!
+
+# dart -- slow
+
+name:trampa de dardos:dardo ralentizador
+graphics:^:r
+appear:1:2:0
+visibility:M50
+flags:TRAP | FLOOR | SAVE_ARMOR
+effect:DAMAGE
+dice:1d4
+effect:TIMED_INC_NO_RES:SLOW
+dice:20+1d20
+desc:Una trampa que dispara dardos ralentizadores.
+msg-good:Un pequeño dardo apenas te roza.
+msg-bad:¡Un pequeño dardo te golpea!
+
+# dart -- lose str
+
+name:trampa de dardos:dardo de pérdida de fuerza
+graphics:^:r
+appear:2:6:0
+visibility:30
+flags:TRAP | FLOOR | SAVE_ARMOR
+effect:DAMAGE
+dice:1d4
+effect:DRAIN_STAT:STR
+desc:Una trampa que dispara dardos dañinos.
+msg-good:Un pequeño dardo apenas te roza.
+msg-bad:¡Un pequeño dardo te golpea!
+
+# dart -- lose dex
+
+name:trampa de dardos:dardo de pérdida de destreza
+graphics:^:r
+appear:2:6:0
+visibility:30
+flags:TRAP | FLOOR | SAVE_ARMOR
+effect:DAMAGE
+dice:1d4
+effect:DRAIN_STAT:DEX
+desc:Una trampa que dispara dardos dañinos.
+msg-good:Un pequeño dardo apenas te roza.
+msg-bad:¡Un pequeño dardo te golpea!
+
+# dart -- lose con
+
+name:trampa de dardos:dardo de pérdida de constitución
+graphics:^:r
+appear:2:6:0
+visibility:30
+flags:TRAP | FLOOR | SAVE_ARMOR
+effect:DAMAGE
+dice:1d4
+effect:DRAIN_STAT:CON
+desc:Una trampa que dispara dardos dañinos.
+msg-good:Un pequeño dardo apenas te roza.
+msg-bad:¡Un pequeño dardo te golpea!
+
+# gas -- blind
+
+name:trampa de gas:trampa de gas cegador
+graphics:^:g
+appear:1:2:0
+visibility:20+d5
+flags:TRAP | FLOOR
+effect:TIMED_INC:BLIND
+dice:25+1d50
+desc:Una trampa que libera gas para cegarte.
+msg:¡Estás rodeado por un gas negro!
+
+# gas -- confuse
+
+name:trampa de gas:trampa de gas confusor
+graphics:^:g
+appear:1:1:0
+visibility:20+d5
+flags:TRAP | FLOOR
+effect:TIMED_INC:CONFUSED
+dice:10+1d20
+desc:Una trampa que libera gas para confundirte.
+msg:¡Estás rodeado por un gas de colores centelleantes!
+
+# gas -- poison
+
+name:trampa de gas:trampa de gas venenoso
+graphics:^:g
+appear:1:2:0
+visibility:20+d5
+flags:TRAP | FLOOR
+effect:TIMED_INC:POISONED
+dice:10+1d20
+desc:Una trampa que libera gas para envenenarte.
+msg:¡Estás rodeado por un gas verde pungente!
+
+# gas -- sleep
+
+name:trampa de gas:trampa de gas somnífero
+graphics:^:g
+appear:1:2:0
+visibility:20+d5
+flags:TRAP | FLOOR
+effect:TIMED_INC:PARALYZED
+dice:5+1d10
+desc:Una trampa que libera gas para dormirte.
+msg:¡Estás rodeado por una extraña niebla blanca!
+
+# alarm -- aggravation
+
+name:alarma:trampa de provocación
+graphics:^:R
+appear:1:5:0
+visibility:M50
+flags:TRAP | FLOOR | MAGICAL
+effect:WAKE
+effect:PROJECT_LOS:MON_SPEED
+dice:25
+desc:Una trampa que despierta a los monstruos cercanos y los impulsa hacia ti.
+msg:¡Un silbido agudo resuena por la mazmorra!
+
+# alarm -- siren
+
+name:alarma:sirena
+graphics:^:R
+appear:1:1:0
+visibility:60+d10
+flags:TRAP | FLOOR | MAGICAL
+effect:WAKE
+desc:Una trampa que despierta a los monstruos cercanos.
+msg:¡Suena una trompeta!
+
+# explosion -- mine
+
+name:explosión:trampa de mina
+graphics:^:M
+appear:1:15:0
+visibility:10+d5
+flags:TRAP | FLOOR | ONETIME
+effect:SPOT:SHARD:2
+dice:$B
+expr:B:DUNGEON_LEVEL:* 2
+desc:Una trampa que hace explotar el suelo.
+msg:¡El suelo explota a tu alrededor!
+
+# explosion -- blast
+
+name:explosión:trampa de explosión
+graphics:^:M
+appear:2:25:0
+visibility:0
+flags:TRAP | FLOOR | ONETIME
+effect:SPOT:LIGHT:1
+dice:2d6
+effect:SPOT:SOUND:2
+dice:$B
+expr:B:DUNGEON_LEVEL:/ 2
+effect:SPOT:FIRE:2
+dice:$B
+expr:B:DUNGEON_LEVEL:+ 0
+effect:SPOT:FORCE:2
+dice:$B
+expr:B:DUNGEON_LEVEL:+ 0
+desc:Una trampa que crea una explosión.
+msg:¡El aire parece incendiarse!
+
+# mental assault -- mind blast
+
+name:trampa de asalto mental:trampa de golpe mental
+graphics:^:G
+appear:1:20:0
+visibility:30+d10
+flags:TRAP | FLOOR | MAGICAL | SAVE_THROW
+effect:DAMAGE
+dice:8d$S
+expr:S:DUNGEON_LEVEL:/ 10
+effect:TIMED_INC:CONFUSED
+dice:3+1d4
+desc:Una trampa que golpea tus sentidos.
+msg:Sientes presión en tu mente.
+msg-good:Sacas la cabeza y vuelves a la normalidad.
+msg-bad:¡Tu mente es golpeada por energía psiónica!
+
+# mental assault -- brain smash
+
+name:trampa de asalto mental:trampa de destrucción cerebral
+graphics:^:G
+appear:2:40:0
+visibility:30+d10
+flags:TRAP | FLOOR | MAGICAL | SAVE_THROW
+effect:DAMAGE
+dice:10d$S
+expr:S:DUNGEON_LEVEL:/ 5
+effect:TIMED_INC:SLOW
+dice:3+1d4
+effect:TIMED_INC:CONFUSED
+dice:3+1d4
+effect:TIMED_INC:PARALYZED
+dice:3+1d4
+effect:TIMED_INC:BLIND
+dice:7+1d8
+desc:Una trampa que golpea tus sentidos.
+msg:Sientes presión en tu mente.
+msg-good:Sacas la cabeza y vuelves a la normalidad.
+msg-bad:¡Tu mente es golpeada por energía psiónica!
+
+# dungeon alter -- rock fall
+
+name:mecanismo antiguo:trampa de caída de rocas
+graphics:^:U
+appear:1:4:0
+visibility:40+d5
+flags:TRAP | FLOOR | ONETIME
+effect:DAMAGE
+dice:$Dd5
+expr:D:DUNGEON_LEVEL:/ 10 + 1
+effect:TIMED_INC_NO_RES:STUN
+dice:2d20
+effect:RUBBLE
+desc:Una trampa que deja caer una roca sobre ti.
+msg:¡Una roca cae sobre tu cabeza!
+
+# dungeon alter -- earthquake
+
+name:mecanismo antiguo:trampa de terremoto
+graphics:^:U
+appear:1:30:0
+visibility:30+d5
+flags:TRAP | FLOOR
+effect:DAMAGE
+dice:$Dd5
+expr:D:DUNGEON_LEVEL:/ 10 + 1
+effect:EARTHQUAKE:NONE:5
+desc:Una trampa que causa un terremoto.
+msg:El suelo tiembla.
+
+name:mecanismo antiguo:trampa de bloque caído
+graphics:^:U
+appear:1:4:0
+visibility:40+d5
+flags:TRAP | FLOOR | ONETIME | DELAY
+effect:GRANITE
+desc:Una placa de presión que deja caer un bloque de piedra detrás de ti.
+msg:¡Una sección del techo se derrumba detrás de ti!
+
+# dungeon alter - stone to mud
+# XXX this currently prints loads of annoying messages
+
+name:mecanismo antiguo:trampa de explosión de área
+graphics:^:U
+appear:2:40:0
+visibility:20+d5
+flags:TRAP | FLOOR | ONETIME
+effect:BALL:KILL_WALL:2
+dice:20
+effect:BALL:FORCE:2
+dice:$B
+expr:B:DUNGEON_LEVEL:+ 0
+effect:RUBBLE
+desc:Una trampa que despeja el área circundante.
+msg:¡La trampa explota, despejando el área con una explosión!
+
+# blinding flash
+
+name:trampa:trampa de destello cegador
+graphics:^:light yellow
+appear:1:5:0
+visibility:30+d5
+flags:TRAP | FLOOR | MAGICAL | ONETIME
+effect:BALL:LIGHT:4
+dice:$Dd8
+expr:D:DUNGEON_LEVEL:/ 10 + 2
+desc:Una trampa que crea una bola de luz.
+msg:¡Una luz brillante desciende sobre ti!
+
+# blinding trap
+
+name:trampa:trampa cegadora
+graphics:^:light slate
+appear:1:5:0
+visibility:20+d5
+flags:TRAP | FLOOR | MAGICAL | ONETIME
+effect:BALL:DARK:4
+dice:$Dd8
+expr:D:DUNGEON_LEVEL:/ 10 + 2
+effect:DRAIN_LIGHT
+dice:100+1d100
+desc:Una trampa que te envuelve en oscuridad.
+msg:Todo comienza a desvanecerse...
+
+# mana drain
+
+name:trampa:trampa de drenaje de maná
+graphics:^:light purple
+appear:1:5:0
+visibility:50+d10
+flags:TRAP | FLOOR | MAGICAL
+effect:DRAIN_MANA
+dice:1d$D
+expr:D:DUNGEON_LEVEL:/ 2 + 1
+msg:Sientes cómo tus energías se desvanecen.
+desc:Una trampa que drena tu maná.
+
+# whirling knives
+# XXX ideally this would have an effect that wasn't cured in one turn
+#   - maybe make CSW only heal 100 points of cuts?
+
+name:trampa:trampa de cuchillos
+graphics:^:yellow
+appear:1:20:0
+visibility:20+d5
+flags:TRAP | FLOOR
+effect:TIMED_INC:CUT
+dice:150
+effect:DAMAGE
+dice:$D
+expr:D:DUNGEON_LEVEL:/ 2
+msg:¡Cuchillas giran a tu alrededor, cortando tu piel!
+desc:Una trampa diseñada para desangrarte hasta la muerte.
+
+# petrifier
+
+name:trampa:trampa petrificante
+graphics:^:blue
+appear:1:5:0
+visibility:20+d5
+flags:TRAP | FLOOR | MAGICAL
+effect:TIMED_INC:STONESKIN
+dice:20+1d20
+effect:TIMED_INC:STUN
+dice:20+1d20
+msg:¡Sientes cómo te conviertes en piedra!
+desc:Una trampa que te aturde y te da piel de piedra.

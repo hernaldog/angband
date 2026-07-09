@@ -30,6 +30,7 @@
 #include "obj-util.h"
 #include "player-calcs.h"
 #include "player-util.h"
+#include "lang.h"
 
 static const struct slot_info {
 	int index;
@@ -302,33 +303,30 @@ const char *equip_mention(struct player *p, int slot)
 {
 	int type = p->body.slots[slot].type;
 
-	/* Heavy */
 	if ((type == EQUIP_WEAPON && p->state.heavy_wield) ||
 			(type == EQUIP_WEAPON && p->state.heavy_shoot))
-		return slot_table[type].heavy_describe;
+		return _(slot_table[type].heavy_describe);
 	else if (slot_table[type].name_in_desc)
-		return format(slot_table[type].mention, p->body.slots[slot].name);
+		return format(_(slot_table[type].mention), p->body.slots[slot].name);
 	else
-		return slot_table[type].mention;
+		return _(slot_table[type].mention);
 }
 
 
 /*
  * Return a string describing how a given item is being worn.
- * Currently, only used for items in the equipment, not inventory.
  */
 const char *equip_describe(struct player *p, int slot)
 {
 	int type = p->body.slots[slot].type;
 
-	/* Heavy */
 	if ((type == EQUIP_WEAPON && p->state.heavy_wield) ||
 			(type == EQUIP_WEAPON && p->state.heavy_shoot))
-		return slot_table[type].heavy_describe;
+		return _(slot_table[type].heavy_describe);
 	else if (slot_table[type].name_in_desc)
-		return format(slot_table[type].describe, p->body.slots[slot].name);
+		return format(_(slot_table[type].describe), p->body.slots[slot].name);
 	else
-		return slot_table[type].describe;
+		return _(slot_table[type].describe);
 }
 
 /**
@@ -416,9 +414,9 @@ bool minus_ac(struct player *p)
 
 		/* Object resists */
 		if (obj->el_info[ELEM_ACID].flags & EL_INFO_IGNORE) {
-			msg("¡Tu %s no resulta afectado!", o_name);
+			msg(_("Your %s is unaffected!"), o_name);
 		} else {
-			msg("¡Tu %s está dañado!", o_name);
+			msg(_("Your %s is damaged!"), o_name);
 
 			/* Damage the item */
 			obj->to_a--;
@@ -621,12 +619,12 @@ struct object *gear_object_for_use(struct player *p, struct object *obj,
 	/* Print a message if desired */
 	if (message) {
 		if (artifact) {
-			msg("Ya no tienes %s (%c).", name, label);
+			msg(_("You no longer have %s (%c)."), name, label);
 		} else if (first_remainder) {
 			label = gear_to_label(p, first_remainder);
-			msg("Tienes %s (1er %c).", name, label);
+			msg(_("You have %s (1st %c)."), name, label);
 		} else {
-			msg("Tienes %s (%c).", name, label);
+			msg(_("You have %s (%c)."), name, label);
 		}
 	}
 
@@ -794,7 +792,7 @@ void inven_item_charges(struct object *obj)
 {
 	/* Require staff/wand */
 	if (tval_can_have_charges(obj) && object_flavor_is_aware(obj)) {
-		msg("Te quedan %d carga%s.",
+		msg(_("You have %d charge%s remaining."),
 				obj->pval,
 				PLURAL(obj->pval));
 	}
@@ -880,7 +878,7 @@ void inven_carry(struct player *p, struct object *obj, bool absorb,
 		if (!object_flavor_is_aware(obj)) {
 			if (player_has(p, PF_KNOW_MUSHROOM) && tval_is_mushroom(obj)) {
 				object_flavor_aware(p, obj);
-				msg("¡Setas para desayunar!");
+				msg(_("Mushrooms for breakfast!"));
 			} else if (player_has(p, PF_KNOW_ZAPPER) && tval_is_zapper(obj))
 				object_flavor_aware(p, obj);
 		}
@@ -924,10 +922,10 @@ void inven_carry(struct player *p, struct object *obj, bool absorb,
 			my_strcpy(o_name_final, o_name, sizeof(o_name_final));
 
 		if (total > first->number) {
-			msg("Recogiste %s (1er %c).", o_name_final, label);
+			msg(_("You picked up %s (1st %c)."), o_name_final, label);
 		} else {
 			assert(first == obj);
-			msg("Recogiste %s (%c).", o_name_final, label);
+			msg(_("You picked up %s (%c)."), o_name_final, label);
 		}
 	}
 
@@ -995,13 +993,13 @@ void inven_wield(struct object *obj, int slot)
 
 	/* Where is the item now */
 	if (tval_is_melee_weapon(wielded))
-		fmt = "Estás empuñando %s (%c).";
+		fmt = _("You are wielding %s (%c).");
 	else if (wielded->tval == TV_BOW)
-		fmt = "Estás disparando con %s (%c).";
+		fmt = _("You are shooting with %s (%c).");
 	else if (tval_is_light(wielded))
-		fmt = "Tu fuente de luz es %s (%c).";
+		fmt = _("Your light source is %s (%c).");
 	else
-		fmt = "Te equipas %s (%c).";
+		fmt = _("You are wearing %s (%c).");
 
 	/* Describe the result */
 	object_desc(o_name, sizeof(o_name), wielded,
@@ -1013,7 +1011,7 @@ void inven_wield(struct object *obj, int slot)
 	/* Sticky flag geats a special mention */
 	if (of_has(wielded->flags, OF_STICKY)) {
 		/* Warn the player */
-		msgt(MSG_CURSED, "¡Vaya! ¡Se siente mortalmente frío!");
+		msgt(MSG_CURSED, _("Oddly, it feels deathly cold!"));
 	}
 
 	/* See if we have to overflow the pack */
@@ -1056,13 +1054,13 @@ void inven_takeoff(struct object *obj)
 
 	/* Describe removal by slot */
 	if (slot_type_is(player, slot, EQUIP_WEAPON))
-		act = "Estabas empuñando";
+		act = _("You were wielding");
 	else if (slot_type_is(player, slot, EQUIP_BOW))
-		act = "Estabas sosteniendo";
+		act = _("You were holding");
 	else if (slot_type_is(player, slot, EQUIP_LIGHT))
-		act = "Estabas sosteniendo";
+		act = _("You were holding");
 	else
-		act = "Te desequipaste";
+		act = _("You were wearing");
 
 	/* De-equip the object */
 	player->body.slots[slot].obj = NULL;
@@ -1133,13 +1131,13 @@ void inven_drop(struct object *obj, int amt)
 	else
 		my_strcpy(name_final, name, sizeof(name_final));
 
-	msg("Soltaste %s (%c).", name_final, label);
+	msg(_("You dropped %s (%c)."), name_final, label);
 
 	/* Describe what's left */
 	if (dropped->artifact) {
 		object_desc(name, sizeof(name), dropped,
 			ODESC_FULL | ODESC_SINGULAR, player);
-		msg("Ya no tienes %s (%c).", name, label);
+		msg(_("You no longer have %s (%c)."), name, label);
 	} else {
 		struct object *first;
 		struct object *desc_target;
@@ -1170,21 +1168,18 @@ void inven_drop(struct object *obj, int amt)
 			ODESC_FULL | ODESC_ALTNUM | (total << 16), player);
 
 		if (total == 0) {
-			/* Fix traduc No quedó ninguno */
-			msg("Ya no te quedan %s (%c).", name, label);
+			msg(_("You have no more %s (%c)."), name, label);
 		} else if (total == 1) {
-			/* Quedó exactamente uno */
-			msg("Te queda 1 %s (%c).", name, label);
+			msg(_("You have 1 %s (%c) left."), name, label);
 		} else {
-			/* Quedaron varios */
 			if (!first) {
-				msg("Te quedan %d %s (%c).", total, name, label);
+				msg(_("You have %d %s (%c) left."), total, name, label);
 			} else {
 				label = gear_to_label(player, first);
 				if (total > first->number) {
-					msg("Te quedan %d %s (1er %c).", total, name, label);
+					msg(_("You have %d %s (1st %c) left."), total, name, label);
 				} else {
-					msg("Te quedan %d %s (%c).", total, name, label);
+					msg(_("You have %d %s (%c) left."), total, name, label);
 				}
 			}
 		}
@@ -1337,7 +1332,7 @@ void combine_pack(struct player *p)
 
 	/* Message */
 	if (display_message) {
-		msg("Combinaste algunos objetos en tu mochila.");
+		msg(_("You combine some items in your pack."));
 
 		/*
 		 * Stop "repeat last command" from working if a stack was
@@ -1378,7 +1373,7 @@ void pack_overflow(struct object *obj)
 	disturb(player);
 
 	/* Warning */
-	msg("¡Tu mochila se desborda!");
+	msg(_("Your pack overflows!"));
 
 	/* Get the last proper item */
 	for (i = 1; i <= z_info->pack_size; i++)
@@ -1398,14 +1393,14 @@ void pack_overflow(struct object *obj)
 		player);
 
 	/* Message */
-	msg("Soltaste %s.", o_name);
+	msg(_("You dropped %s."), o_name);
 
 	/* Excise the object and drop it (carefully) near the player */
 	gear_excise_object(player, obj);
 	drop_near(cave, &obj, 0, player->grid, false, true);
 
 	/* Describe */
-	msg("Ya no tienes %s.", o_name);
+	msg(_("You no longer have %s."), o_name);
 
 	/* Notice, update, redraw */
 	if (player->upkeep->notice) notice_stuff(player);

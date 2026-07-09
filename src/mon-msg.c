@@ -17,6 +17,7 @@
  */
 
 #include "angband.h"
+#include "lang.h"
 #include "mon-desc.h"
 #include "mon-msg.h"
 #include "mon-predicate.h"
@@ -327,7 +328,7 @@ static void get_subject(char *buf, size_t buflen,
 		if (count == 1) {
 			my_strcpy(buf, "It", buflen);
 		} else {
-			strnfmt(buf, buflen, "%d monstruos", count);
+			strnfmt(buf, buflen, _("%d monsters"), count);
 		}
 	} else {
 		/* Uniques, multiple monsters, or just one */
@@ -351,7 +352,7 @@ static void get_subject(char *buf, size_t buflen,
 	}
 
 	if (offscreen)
-		my_strcat(buf, " (fuera de vista)", buflen); //fix traduc
+		my_strcat(buf, _(" (offscreen)"), buflen);
 
 	/* Add a separator */
 	my_strcat(buf, " ", buflen);
@@ -389,7 +390,7 @@ static void get_message_text(char *buf, size_t buflen,
 	bool do_feminine = rf_has(race->flags, RF_FEMALE);
 
 	/* Find the appropriate message */
-	const char *source = msg_repository[msg_code].msg;
+	const char *source = _(msg_repository[msg_code].msg);
 	switch (msg_code) {
 		case MON_MSG_95: source = race->base->pain->messages[0]; break;
 		case MON_MSG_75: source = race->base->pain->messages[1]; break;
@@ -509,18 +510,22 @@ static void show_message(struct monster_race_message *msg)
 			msg->race,
 			msg->count > 1);
 
+	/* Spanish opens exclamations with an inverted mark before the subject */
+	const char *excl = (streq(lang_current, "es") && body[0]
+			&& body[strlen(body) - 1] == '!') ? "¡" : "";
+
 	/* Show the message */
 	if (msg->flags & MON_MSG_FLAG_DAMAGE) {
 		if (msg->count <= 1) {
-			msgt(msg_type, "%s%s (%d)", subject, body, msg->damage);
+			msgt(msg_type, "%s%s%s (%d)", excl, subject, body, msg->damage);
 		} else {
-			msgt(msg_type, "%s%s (average %d)", subject, body,
+			msgt(msg_type, "%s%s%s (average %d)", excl, subject, body,
 				msg->damage / msg->count
 				+ (msg->damage % msg->count
 				>= (msg->count + 1) / 2 ? 1 : 0));
 		}
 	} else {
-		msgt(msg_type, "%s%s", subject, body);
+		msgt(msg_type, "%s%s%s", excl, subject, body);
 	}
 }
 

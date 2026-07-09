@@ -283,7 +283,7 @@ static const struct stat_data stat_message[] =
 	{ST_ENDGAME_RODS, " Endgame     "},//speed, healing
 	{ST_STAVES, "\n ***STAVES***    \n All:        "},
 	{ST_SPEED_STAVES, " Speed       "},
-	{ST_DESTRUCTION_STAVES, " Destrucción "},
+	{ST_DESTRUCTION_STAVES, " Destruction "},
 	{ST_KILL_STAVES, " Kill        "},//dispel evil, power, holiness
 	{ST_ENDGAME_STAVES, " Endgame     "},//healing, magi, banishment
 	{ST_WANDS, "\n ***WANDS***     \n All:        "},

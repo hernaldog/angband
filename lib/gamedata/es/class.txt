@@ -1,0 +1,1738 @@
+# File: class.txt
+
+
+# This file is used to initialize the "player class" information for Angband.
+
+# Do not modify this file unless you know exactly what you are doing,
+# unless you wish to risk possible system crashes and broken savefiles.
+
+# === Understanding class.txt ===
+
+# Format:
+# name:class number:class name
+# stats:str:int:wis:dex:con
+# skill-disarm-phys:base:increment
+# skill-disarm-magic:base:increment
+# skill-device:base:increment
+# skill-save:base:increment
+# skill-stealth:base:increment
+# skill-search:base:increment
+# skill-melee:base:increment
+# skill-shoot:base:increment
+# skill-throw:base:increment
+# skill-dig:base:increment
+# hitdie:increment
+# exp:percent
+# max-attacks:count
+# min-weight:weight in tenths of pounds
+# strength-multiplier:multiplicative factor
+# title:title
+# equip:tval:sval:min:max:eopts
+# obj-flags:object property flags
+# player-flags:player property flags
+# magic:spell_first:spell_weight:num_books
+# book:tval:quality:name:spells:realm
+# book-graphics:symbol:color
+# book-properties:cost:commonness:min to max
+# spell:name:level:mana:fail:exp
+# effect:effect:subtype (if needed):radius (if needed):parameter (if needed)
+# effect-yx:yrange:xrange
+# dice:dice string
+# expr:dice expression
+# effect-msg:message
+# desc: description
+
+
+# 'name' indicates the beginning of an entry. The serial number must
+# increase for each new class.
+
+# 'stats' is for the stat modifiers - strength, intelligence, wisdom,
+# dexterity, constitution.
+
+# 'skill-<skill name>' is for skills - physical and magical disarming,
+# magic devices, saving throws, stealth, to hit (normal), to hit (bows),
+# to hit (throwing), digging.  The base entry is what gets added to the
+# character's skills at birth, the increments are added to the base skill
+# every ten levels.
+
+# 'hitdie' sets the class's contribution to the maximum hitpoints gained per
+# level
+
+# 'exp' sets the class's additive contribution, in percent, to the experience
+# point penalty.  The current classes don't set this and get the default of
+# no experience point penalty.
+
+# 'max-attacks' sets the maximum possible number of blows per round.
+
+# 'min-weight' is the minimum, in tenths of pounds, imposed on a weapon's weight
+# when computing the number of blows per round.
+
+# 'strength-multiplier' is the multiplier for strength's contribution to the
+# number of blows per round; a bigger value grants more blows.
+
+# 'equip' is for starting equipment - tval of the item, sval of the item,
+# minimum amount, maximum amount, names of birth options separated by spaces
+# or | (or none for no exclusion rules) which will exclude the item if set
+# (or, if the name of the option is preceded by NOT-, will exclude the item if
+# not set).
+
+# 'obj-flags' is for object properties (from object_property.txt) that the
+# class has.
+
+# 'player-flags' is for player properties (from player_property.txt) that the
+# class has.
+
+# 'title' is for class titles.
+
+# 'magic' is for general magic info - level of the first spell, weight that
+# hurts spells, number of books used.
+
+# 'book' defines one of these books - object base, whether a town or a dungeon
+# book, name, number of spells, book realm.  A book needs to be defined for
+# each class which uses it, as otherwise it is not recognised as one of that
+# class's books.
+
+# 'book-graphics' is for symbol and color as used in object.txt.
+# 'book-graphics:' lines refer to the previous book line, and need not be
+# included if a book of the same name has been defined earlier.
+
+# 'book-properties' is for object properties of a book - cost, commonness,
+# and minimum and maximum depths of occurrence.
+# 'book-properties:' lines refer to the previous book line, and need not be
+# included if a book of the same name has been defined earlier.
+
+# 'spell' defines an individual spell - name, level, mana required,
+# fail-rate, experience for first casting.    'spell:' lines always refer to
+# spells in the previous 'book:' line.  The lines below are all used in
+# reference to the previous 'spell:' line.
+
+# 'effect' defines the spell effect (as listed in src/list-effects.h),
+# and optionally parameters for effect subtype, effect radius and
+# an extra parameter for various things
+
+# 'effect-yx' sets the y (i.e. vertical) range and x (i.e. horizontal) range
+# about the effect's centre.  Only some effects (often detections) use those
+# ranges.
+
+# 'dice' provides a random value to be used by an effect (for damage,
+# healing, etc).  As well as the normal random value fields described above,
+# it can contain expressions like $B, which refer forward to an 'expr' line.
+
+# 'expr' provides an expression for use in effect dice.  It consists of a
+# code letter (eg B) for the expression, a base function to use (for example
+# PLAYER_LEVEL), and a sequence of operations to perform on that base.
+
+# 'effect-msg' provides a message which can be used in whatever way the effect
+# needs, typically to print during the effect, or as a death message.
+
+# 'desc' is for description. As many desc: lines may be used as are needed
+# to describe the spell. Note that lines will need spaces at their
+# ends or the beginning of the next line to prevent words from running
+# together.
+
+
+
+############### WARRIOR ###############
+name:Guerrero
+stats:3:-2:-2:2:2
+skill-disarm-phys:25:15
+skill-disarm-magic:20:10
+skill-device:18:7
+skill-save:18:10
+skill-stealth:0:0
+skill-search:10:12
+skill-melee:70:45
+skill-shoot:55:45
+skill-throw:55:45
+skill-dig:0:0
+hitdie:9
+max-attacks:6
+min-weight:30
+strength-multiplier:5
+equip:food:Ración de Comida:1:3:none
+equip:light:Antorcha de Madera:1:3:none
+equip:potion:Fuerza Berserker:1:1:none
+equip:sword:Daga:1:1:none
+equip:soft armour:Armadura de Cuero Blando:1:1:none
+equip:scroll:Palabra de Retorno:1:1:birth_no_recall
+player-flags:BRAVERY_30 | NO_MANA | SHIELD_BASH
+title:Novato
+title:Soldado
+title:Espadachín
+title:Esgrimista
+title:Veterano
+title:Guardián
+title:Comando
+title:Campeón
+title:Héroe
+title:Señor
+
+
+############### MAGE ###############
+name:Mago
+stats:-3:3:0:0:-2
+skill-disarm-phys:30:10
+skill-disarm-magic:35:12
+skill-device:36:13
+skill-save:30:9
+skill-stealth:2:0
+skill-search:10:12
+skill-melee:35:15
+skill-shoot:20:15
+skill-throw:20:15
+skill-dig:0:0
+hitdie:0
+max-attacks:4
+min-weight:40
+strength-multiplier:2
+equip:food:Ración de Comida:1:3:none
+equip:light:Antorcha de Madera:1:3:none
+equip:sword:Estoque:1:1:none
+equip:scroll:Palabra de Retorno:1:1:birth_no_recall
+player-flags:ZERO_FAIL | BEAM | CHOOSE_SPELLS
+title:Novicio
+title:Aprendiz
+title:Tramposo
+title:Ilusionista
+title:Atrapahechizos
+title:Evocador
+title:Conjurador
+title:Brujo
+title:Hechicero
+title:Archimago
+
+magic:1:300:5
+
+book:magic book:town:[Primeros Conjuros]:7:arcana
+book-graphics:?:R
+book-properties:25:40:1 to 100
+equip:magic book:[Primeros Conjuros]:1:1:none
+
+spell:Proyectil Mágico:1:1:22:4
+effect:BOLT_OR_BEAM:MISSILE:0:-10
+dice:$Dd4
+expr:D:PLAYER_LEVEL:- 1 / 5 + 3
+desc:Lanza un proyectil mágico que siempre alcanza su objetivo y hace
+desc: daño irresistible.
+desc:  A veces se dispara un rayo en su lugar que daña a cada monstruo
+desc: en su trayectoria.
+desc:  La probabilidad de obtener un rayo aumenta con tu nivel de personaje.
+
+spell:Iluminar Habitación:1:2:26:4
+effect:LIGHT_AREA
+effect:SPHERE:LIGHT_WEAK:2
+dice:1
+desc:Ilumina todas las casillas dentro de 2 casillas del jugador, y daña
+desc: a todos los monstruos sensibles a la luz en el área de efecto.
+desc:  Si estás en una habitación, toda la habitación se iluminará también.
+
+spell:Detec Trampas Puertas Escale:1:1:20:2
+effect:DETECT_TRAPS
+effect-yx:22:40
+effect:DETECT_DOORS
+effect-yx:22:40
+effect:DETECT_STAIRS
+effect-yx:22:40
+desc:Detecta todas las trampas, puertas y escaleras en el área inmediata.
+
+spell:Puerta de Fase:2:2:22:4
+effect:TELEPORT
+dice:10
+desc:Te teletransporta aleatoriamente hasta 10 casillas de distancia.
+
+spell:Arco eléctrico:2:2:34:4
+effect:SHORT_BEAM:ELEC:0:1
+dice:$Dd6
+expr:D:PLAYER_LEVEL:- 1 / 5 + 3
+desc:Crea una descarga eléctrica que daña a los monstruos y destruye
+desc: objetos vulnerables en su trayectoria. La longitud del efecto aumenta
+desc: con el nivel del jugador.
+
+spell:Detectar Monstruos:3:2:24:4
+effect:DETECT_VISIBLE_MONSTERS
+effect-yx:22:40
+desc:Detecta todos los monstruos no invisibles en el área inmediata,
+desc: por un solo turno.
+
+spell:Bola de Fuego:6:5:33:5
+effect:BALL:FIRE:2
+dice:$B
+expr:B:PLAYER_LEVEL:* 2
+desc:Dispara una bola de fuego de radio 2.
+
+book:magic book:town:[Ataques y Conocimientos]:6:arcana
+book-graphics:?:R
+book-properties:400:40:10 to 100
+
+spell:Recarga:5:5:28:6
+effect:RECHARGE
+dice:$B
+expr:B:PLAYER_LEVEL:/ 8 + 6
+desc:Añade cargas a una pila de varitas o bastones.
+desc:  La probabilidad de éxito y el número de cargas obtenidas aumentan con tu
+desc: nivel y disminuyen con el nivel de la varita o bastón y el número de cargas.
+desc:  Un intento fallido de recargar destruye una varita o bastón de la pila.
+
+spell:Identificar Runa:8:7:25:8
+effect:IDENTIFY
+desc:Revela una runa desconocida en un objeto.
+
+spell:Detección de Tesoros:10:3:60:5
+effect:DETECT_ORE
+effect-yx:22:40
+effect:SENSE_GOLD
+effect-yx:22:40
+effect:SENSE_OBJECTS
+effect-yx:22:40
+desc:Detecta oro y percibe objetos en el área inmediata.
+
+spell:Rayo de Escarcha:13:5:40:6
+effect:BOLT_OR_BEAM:COLD
+dice:$Dd8
+expr:D:PLAYER_LEVEL:- 5 / 3 + 6
+desc:Dispara un rayo de escarcha que siempre alcanza su objetivo.
+desc:  A veces se dispara un rayo en su lugar que daña a cada monstruo
+desc: en su trayectoria.
+desc:  La probabilidad de obtener un rayo aumenta con tu nivel de personaje.
+
+spell:Revelar Monstruos:15:6:40:8
+effect:DETECT_INVISIBLE_MONSTERS
+effect-yx:22:40
+effect:DETECT_VISIBLE_MONSTERS
+effect-yx:22:40
+desc:Detecta todos los monstruos en el área inmediata, por un solo turno.
+
+spell:Rocío de Ácido:20:5:30:12
+effect:ARC:ACID:10:60
+dice:$Dd8
+expr:D:PLAYER_LEVEL:/ 2
+desc:Expulsa ácido en un cono de 60 grados, golpeando a todos los monstruos hasta 10 casillas.
+
+book:magic book:town:[Defensas Mágicas]:6:arcana
+book-graphics:?:R
+book-properties:1600:20:30 to 100
+
+spell:Desactivar Trampas y Destruir Puertas:5:5:30:6
+effect:TOUCH:KILL_DOOR
+effect:TOUCH:KILL_TRAP
+desc:Desactiva trampas y destruye puertas en un radio de 1 casilla a tu alrededor.
+
+spell:Teletransportarse:7:6:35:5
+effect:TELEPORT
+dice:M$M
+expr:M:PLAYER_LEVEL:* 9 / 5
+desc:Te teletransporta aleatoriamente dentro del nivel actual.
+
+spell:Teletransportar a Otro:15:10:30:12
+effect:BOLT_STATUS:AWAY_ALL
+dice:$B
+expr:B:PLAYER_LEVEL:* 3
+desc:Produce un rayo que teletransporta al primer monstruo en su trayectoria.
+desc:  La distancia de teletransporte aumenta con el nivel del jugador.
+
+spell:Resistencia:20:20:65:20
+effect:SET_VALUE
+dice:20+d20
+effect:TIMED_INC:OPP_ACID
+effect:TIMED_INC:OPP_ELEC
+effect:TIMED_INC:OPP_COLD
+effect:TIMED_INC:OPP_FIRE
+effect:CLEAR_VALUE
+desc:Te otorga resistencia al ácido, frío, fuego y relámpago durante 20+1d20 turnos.
+
+spell:Extraer Energía Mágica:22:2:30:12
+effect:TAP_DEVICE
+desc:Convierte la energía de una varita o bastón en maná; tocarla aturde al jugador brevemente.
+
+spell:Canalizar Maná:25:10:50:20
+effect:TIMED_INC:FASTCAST
+dice:5+1d5
+desc:Aumenta la velocidad de lanzamiento de hechizos en un 33% durante 5+1d5 turnos.
+
+book:magic book:dungeon:[Control Arcano]:6:arcana
+book-graphics:?:r
+book-properties:30000:15:40 to 100
+
+spell:Creación de Puertas:13:9:40:12
+effect:TOUCH:MAKE_DOOR
+desc:Se crea una puerta en cada espacio de suelo vacío directamente
+desc: adyacente a ti. Estas puertas están cerradas, pero no con cerradura.
+
+spell:Rayo de Maná:25:8:60:30
+effect:BOLT_OR_BEAM:MISSILE
+dice:$Dd8
+expr:D:PLAYER_LEVEL:- 10
+desc:Lanza un proyectil mágico que siempre alcanza su objetivo y hace
+desc: daño irresistible.
+desc:  A veces se dispara un rayo en su lugar que daña a cada monstruo
+desc: en su trayectoria.
+desc:  La probabilidad de obtener un rayo aumenta con tu nivel de personaje.
+
+spell:Teletransporte de Nivel:28:17:65:20
+effect:TELEPORT_LEVEL
+desc:Te teletransporta 1 nivel arriba o 1 nivel abajo (elegido al azar).
+desc:  Este hechizo puede no tener efecto cuando la opción de descenso forzado está activada.
+
+spell:Detección:30:10:70:30
+effect:DETECT_TRAPS
+effect-yx:22:40
+effect:DETECT_DOORS
+effect-yx:22:40
+effect:DETECT_STAIRS
+effect-yx:22:40
+effect:DETECT_ORE
+effect-yx:22:40
+effect:SENSE_GOLD
+effect-yx:22:40
+effect:SENSE_OBJECTS
+effect-yx:22:40
+effect:DETECT_INVISIBLE_MONSTERS
+effect-yx:22:40
+effect:DETECT_VISIBLE_MONSTERS
+effect-yx:22:40
+desc:Detecta todas las trampas, puertas, escaleras, tesoros, objetos y monstruos en el
+desc: área inmediata.
+
+spell:Portal Dimensional:35:30:80:40
+effect:TELEPORT_TO
+desc:Te teletransporta a (o cerca de) una casilla de tu elección.
+
+spell:Empujar Lejos:40:12:90:40
+effect:SHORT_BEAM:FORCE:1:10
+dice:$Dd8
+expr:D:PLAYER_LEVEL:+ 0
+desc:Dispara un rayo de fuerza de corto alcance.
+
+book:magic book:dungeon:[Tomo de Poder del Mago]:5:arcana
+book-graphics:?:r
+book-properties:50000:10:60 to 100
+
+spell:Onda de Choque:20:5:40:16
+effect:BALL:SOUND:2
+dice:$B
+expr:B:PLAYER_LEVEL:* 2
+desc:Dispara una bola de sonido de radio 2.
+desc:  Además de hacer daño por sonido, también tiene probabilidad de aturdir
+desc: a cada monstruo en el área de efecto.
+
+spell:Explosión:30:10:50:20
+effect:BALL:SHARD:2
+dice:$B
+expr:B:PLAYER_LEVEL:* 2
+effect:BALL:FORCE:2
+dice:$B
+expr:B:PLAYER_LEVEL:/ 5
+desc:Dispara una bola de fragmentos de radio 2 y arroja todo lo que está en el área de
+desc: efecto.
+
+spell:Destierro:35:45:95:25
+effect:BANISH
+desc:Elimina del nivel todos los monstruos representados por un símbolo elegido.
+desc:  Los únicos no se ven afectados.
+desc:  Recibes 1d4 puntos de daño por cada monstruo eliminado.
+
+spell:Destierro Masivo:40:75:90:100
+effect:MASS_BANISH
+desc:Elimina todos los monstruos dentro de 20 casillas de ti.
+desc:  Los únicos no se ven afectados.
+desc:  Recibes 1d3 puntos de daño por cada monstruo eliminado.
+
+spell:Tormenta de Maná:45:16:85:200
+effect:BALL:MANA:3
+dice:$B
+expr:B:PLAYER_LEVEL:* 2 + 300
+desc:Dispara una bola de maná de radio 3 que hace daño irresistible
+desc: a cada monstruo en su área de efecto.
+
+
+############### DRUID ###############
+name:Druida
+stats:-2:0:3:-2:0
+skill-disarm-phys:30:10
+skill-disarm-magic:30:10
+skill-device:24:10
+skill-save:30:10
+skill-stealth:3:0
+skill-search:12:12
+skill-melee:45:20
+skill-shoot:40:30
+skill-throw:40:30
+skill-dig:0:0
+hitdie:2
+max-attacks:4
+min-weight:35
+strength-multiplier:3
+equip:food:Ración de Comida:1:3:none
+equip:hafted:Látigo:1:1:none
+equip:light:Antorcha de Madera:1:3:none
+equip:scroll:Palabra de Retorno:1:1:birth_no_recall
+player-flags:ZERO_FAIL | CHOOSE_SPELLS | CHARM
+title:Errante
+title:Amansador
+title:Alimentador
+title:Jardinero
+title:Forestal
+title:Creador
+title:Guardián de la Tierra
+title:Jinete del Viento
+title:Empuñador de Tormentas
+title:Alto Místico
+
+magic:1:350:5
+
+book:nature book:town:[Amuletos Menores]:6:de naturaleza
+book-graphics:?:y
+book-properties:25:40:1 to 100
+equip:nature book:[Amuletos Menores]:1:1:none
+
+spell:Detectar Vida:1:1:23:2
+effect:DETECT_LIVING_MONSTERS
+effect-yx:22:40
+desc:Detecta todos los monstruos vivos en el área inmediata, por un solo turno.
+
+spell:Forma de Zorro:1:2:20:10
+effect:SHAPECHANGE:zorro
+desc:Te transforma en la forma de un zorro, rápido y sigiloso.
+desc:  Mientras estás transformado no puedes usar objetos.
+
+spell:Saciar Hambre:2:2:25:2
+effect:NOURISH:INC_TO
+dice:50
+desc:Te deja mágicamente confortablemente alimentado (pero no saciado).
+
+spell:Nube Pestilente:3:2:27:4
+effect:BALL:POIS:2
+dice:$B
+expr:B:PLAYER_LEVEL:/ 2 + 10
+desc:Dispara una bola de veneno de radio 2.
+
+spell:Confundir Monstruo:5:3:30:5
+effect:BOLT_AWARE:MON_CONF
+dice:5+d$S
+expr:S:PLAYER_LEVEL:- 5
+desc:Confunde a un solo monstruo; más efectivo contra animales.
+
+spell:Ralentizar Monstruo:6:4:30:5
+effect:BOLT_STATUS:MON_SLOW
+dice:5+d$S
+expr:S:PLAYER_LEVEL:- 5
+desc:Ralentiza a un monstruo; más efectivo contra animales.
+
+book:nature book:town:[Dones de la Naturaleza]:6:de naturaleza
+book-graphics:?:y
+book-properties:400:40:10 to 100
+
+spell:Curar Veneno:4:4:30:4
+effect:CURE:POISONED
+desc:Neutraliza el veneno.
+
+spell:Resistir Veneno:7:6:32:5
+effect:TIMED_INC:OPP_POIS
+dice:20+d20
+desc:Te otorga resistencia al veneno durante 20+1d20 turnos.
+
+spell:Piedra a Lodo:8:3:25:5
+effect:LINE:KILL_WALL
+dice:20+1d30
+desc:Produce un rayo que destruye la primera sección de pared que golpea,
+desc: a menos que sea una pared permanente. Cada monstruo atrapado en el rayo que
+desc: sea susceptible a removedor de roca recibe 20+1d30 puntos de daño.
+
+spell:Percibir Entorno:9:4:35:6
+effect:MAP_AREA
+dice:$Dd$S
+expr:D:PLAYER_LEVEL:/ 30 + 1 * 22
+expr:S:PLAYER_LEVEL:/ 30 + 1 * 44
+desc:Traza el mapa del área cercana.
+
+spell:Golpe de Relámpago:12:6:35:8
+effect:STRIKE:ELEC:0
+dice:$Dd4
+expr:D:PLAYER_LEVEL:/ 4
+effect:STRIKE:SOUND:3
+dice:$B
+expr:B:PLAYER_LEVEL:+ 5
+desc:Golpea a un objetivo desde arriba con un rayo, seguido de un trueno.
+desc:  Si se apunta una dirección o el objetivo no es una casilla transitable en la
+desc: línea de visión, el jugador será el objetivo.
+
+spell:Levantamiento de Tierra:14:5:40:12
+effect:SHORT_BEAM:SHARD:4:5
+dice:$Dd6
+expr:D:PLAYER_LEVEL:/ 3 + 2
+desc:Hace que fragmentos exploten en una línea desde la tierra, golpeando objetos y
+desc: monstruos. La longitud de la línea aumenta con el nivel del jugador.
+
+book:nature book:dungeon:[Dominio de las Criaturas]:5:de naturaleza
+book-graphics:?:o
+book-properties:10000:20:30 to 100
+
+spell:Trance:20:10:45:15
+effect:TOUCH_AWARE:MON_HOLD
+dice:3+d$D
+expr:D:PLAYER_LEVEL:/ 7
+desc:Inmoviliza a cada monstruo adyacente y no resistente durante un número
+desc: de turnos dependiente del nivel; los animales quedan hechizados por más tiempo.
+
+spell:Sueño en Masa:25:15:50:15
+effect:PROJECT_LOS:SLEEP_ALL
+dice:$B
+expr:B:PLAYER_LEVEL:* 10 + 500
+desc:Intenta dormir a cada monstruo dentro de la línea de visión.
+desc:  Los monstruos que resisten el sueño no se ven afectados.
+
+spell:Convertirse en Hombre-Pukel:30:20:75:50
+effect:SHAPECHANGE:Pukel-man
+desc:Te da la forma de una estatua de los Drúedain, lento pero difícil de herir.
+
+spell:Vuelo de Águila:35:20:80:80
+effect:SHAPECHANGE:eagle
+desc:Te da la forma de una de las grandes águilas de Manwë.
+
+spell:Forma de Oso:40:20:85:100
+effect:SHAPECHANGE:bear
+desc:Te permite tomar la forma de un gran oso de las montañas, apartando
+desc: a tus enemigos con tus poderosas garras.
+
+book:nature book:dungeon:[Arte de la Naturaleza]:5:de naturaleza
+book-graphics:?:o
+book-properties:30000:15:40 to 100
+
+spell:Temblor:20:20:60:16
+effect:EARTHQUAKE:TARGETED:4
+desc:Causa un terremoto dirigido de radio 4.
+desc:  Los terremotos pueden herir al jugador, dañar monstruos y destruir objetos
+desc: en algunas casillas del área de efecto.
+desc:  Los artefactos no serán destruidos por este hechizo.
+desc:  Este hechizo no tiene efecto cuando se usa en la ciudad.
+
+spell:Acelerarse:25:12:65:15
+effect:TIMED_INC:FAST:0:5
+dice:$B+d20
+expr:B:PLAYER_LEVEL:+ 0
+desc:Te apresura (+10 a velocidad) durante una duración dependiente del nivel.
+
+spell:Revitalizar:35:70:90:90
+effect:RESTORE_STAT:STR
+effect:RESTORE_STAT:INT
+effect:RESTORE_STAT:WIS
+effect:RESTORE_STAT:DEX
+effect:RESTORE_STAT:CON
+effect:RESTORE_EXP
+desc:Restaura todas las estadísticas y puntos de experiencia al máximo.
+
+spell:Regeneración Rápida:37:20:90:100
+effect:TIMED_INC:HEAL
+dice:5+1d3
+desc:Acelera la digestión para aumentar la regeneración de puntos de vida durante
+desc: los siguientes 5+1d3 turnos (o hasta tener hambre).
+
+spell:Curación con Hierbas:40:20:90:100
+effect:CURE:CUT
+effect:CURE:POISONED
+effect:CURE:STUN
+effect:CURE:BLACKBREATH
+effect:NOURISH:INC_TO
+dice:80
+desc:Cura todos los cortes, veneno, aturdimiento y aliento negro, y te deja
+desc: bien alimentado.
+
+book:nature book:dungeon:[Fuerzas Salvajes]:5:de naturaleza
+book-graphics:?:o
+book-properties:50000:10:60 to 100
+
+spell:Lluvia de Meteoros:30:14:85:20
+effect:SWARM:METEOR:1
+dice:$B+m$M
+expr:B:PLAYER_LEVEL:/ 2 + 30
+expr:M:PLAYER_LEVEL:/ 20 + 2
+desc:Dispara un enjambre de 3 o 4 meteoros.
+desc:  Los meteoros viajarán hasta golpear una pared, un monstruo,
+desc: o alcanzar la ubicación objetivo.
+desc:  Los meteoros explotarán como una bola de radio 1 que hace daño irresistible
+desc: a cada monstruo en su área de efecto.
+desc:  Si esto mata al monstruo que bloqueó el camino hacia la ubicación
+desc: objetivo, el siguiente meteoro puede continuar para encontrar otro objetivo.
+
+spell:Grieta:35:20:60:25
+effect:BEAM:GRAVITY
+dice:40+$Dd7
+expr:D:PLAYER_LEVEL:+ 0
+desc:Dispara un rayo de gravedad que daña a cada monstruo en su trayectoria
+desc: y tiene probabilidad de teletransportarlo.
+
+spell:Tormenta de Hielo:37:25:75:24
+effect:PROJECT_LOS:ICE
+dice:3d$S
+expr:S:PLAYER_LEVEL:* 3
+desc:Golpea a cada monstruo en la línea de visión con láminas de hielo desde arriba.
+
+spell:Erupción Volcánica:40:30:75:50
+effect:SPHERE:FIRE:5:5
+dice:$B+d$S
+expr:B:PLAYER_LEVEL:* 3 / 2
+expr:S:PLAYER_LEVEL:* 3
+effect:EARTHQUAKE:NONE:5
+desc:Crea una bola de fuego de radio 5, seguida de un terremoto de radio 5,
+desc: alrededor del jugador.
+
+spell:Río de Relámpagos:43:35:75:100
+effect:ARC:PLASMA:0:20
+dice:$Dd8
+expr:D:PLAYER_LEVEL:+ 10
+desc:Escupe plasma en un cono largo y estrecho desde el jugador.
+
+
+############### PRIEST ###############
+name:Sacerdote
+stats:-1:-3:3:-1:1
+skill-disarm-phys:25:12
+skill-disarm-magic:25:12
+skill-device:30:10
+skill-save:32:12
+skill-stealth:2:0
+skill-search:10:14
+skill-melee:45:20
+skill-shoot:35:20
+skill-throw:35:20
+skill-dig:0:0
+hitdie:2
+max-attacks:4
+min-weight:35
+strength-multiplier:3
+equip:food:Ración de Comida:1:3:none
+equip:light:Antorcha de Madera:1:3:none
+equip:hafted:Maza:1:1:none
+equip:potion:Curar Heridas Graves:2:2:none
+equip:scroll:Palabra de Retorno:1:1:birth_no_recall
+player-flags:BLESS_WEAPON | ZERO_FAIL
+title:Creyente
+title:Acólito
+title:Devoto
+title:Experto
+title:Evangelista
+title:Sacerdote
+title:Venerable
+title:Profeta
+title:Patriarca
+title:Sumo Sacerdote
+
+magic:1:350:5
+
+book:prayer book:town:[Manual del Novicio]:6:divina
+book-graphics:?:G
+book-properties:25:40:1 to 100
+equip:prayer book:[Manual del Novicio]:1:1:none
+
+spell:Llamar a la Luz:1:1:10:2
+effect:LIGHT_AREA
+effect:SPHERE:LIGHT_WEAK:1:10
+dice:2d$S
+expr:S:PLAYER_LEVEL:/ 2
+desc:Ilumina todas las casillas en un área dependiente del nivel, y daña
+desc: a todos los monstruos sensibles a la luz en el área de efecto.
+desc:  Si estás en una habitación, toda la habitación se iluminará también.
+
+spell:Detección del Mal:1:1:10:4
+effect:DETECT_EVIL
+effect-yx:22:40
+desc:Detecta todos los monstruos malvados en el área inmediata,
+desc: por un solo turno.
+
+spell:Curación Menor:1:2:15:4
+effect:HEAL_HP
+dice:$B+m$M
+expr:B:PLAYER_LEVEL:+ 10
+expr:M:PLAYER_LEVEL:/ 4
+effect:TIMED_DEC:CUT
+dice:20
+effect:TIMED_DEC:STUN
+dice:20
+desc:Restaura una cantidad o porcentaje de puntos de vida dependiente del nivel, y
+desc: cura 20 puntos de cortes y de aturdimiento.
+
+spell:Bendición:1:2:20:4
+effect:TIMED_INC:BLESSED
+dice:$B+d$S
+expr:B:PLAYER_LEVEL:+ 10
+expr:S:PLAYER_LEVEL:+ 10
+desc:Te bendice, dando una bonificación de +5 a CA y +10 a golpear, durante un
+desc: número de turnos dependiente del nivel.
+
+spell:Sentir lo Invisible:3:4:25:4
+effect:TIMED_INC:SINVIS
+dice:24+d24
+desc:Te permite ver monstruos invisibles durante 24+1d24 turnos.
+
+spell:Heroísmo:5:2:30:5
+effect:HEAL_HP
+dice:10
+effect:CURE:AFRAID
+effect:TIMED_INC:HERO
+dice:$B+d$S
+expr:B:PLAYER_LEVEL:- 19
+expr:S:PLAYER_LEVEL:- 19
+desc:Cura 10 puntos de daño, elimina el miedo y, a partir del nivel 20,
+desc: te otorga heroísmo (resistencia al miedo y una bonificación de +12 a golpear)
+desc: durante una duración dependiente del nivel.
+
+book:prayer book:town:[Poder Purificador]:6:divina
+book-graphics:?:G
+book-properties:100:40:5 to 100
+
+spell:Esfera de Drenaje:7:7:40:4
+effect:BALL:HOLY_ORB:2:30
+dice:$B+3d6
+expr:B:PLAYER_LEVEL:* 3 / 2
+desc:Dispara una bola de radio 2 o radio 3 que hace daño irresistible
+desc: a cada monstruo en su área de efecto.
+desc:  Los monstruos malvados reciben el doble de daño.
+desc:  El área de efecto más grande se alcanza en el nivel 30.
+
+spell:Lanza de Luz:7:6:30:5
+effect:LINE:LIGHT_WEAK
+dice:6d8
+desc:Dispara un rayo que ilumina cada casilla y daña a cada
+desc: monstruo sensible a la luz en su trayectoria.
+
+spell:Dispersar No Muerto:10:14:55:6
+effect:PROJECT_LOS_AWARE:DISP_UNDEAD
+dice:d$S
+expr:S:PLAYER_LEVEL:* 5
+desc:Inflige daño irresistible a cada monstruo no muerto dentro de la línea de visión.
+
+spell:Disipar el Mal:12:20:70:10
+effect:PROJECT_LOS_AWARE:DISP_EVIL
+dice:d$S
+expr:S:PLAYER_LEVEL:* 5
+desc:Inflige daño irresistible a cada monstruo malvado dentro de la línea de visión.
+
+spell:Protección contra el Mal:14:8:42:5
+effect:TIMED_INC:PROTEVIL
+dice:$B+d25
+expr:B:PLAYER_LEVEL:* 3
+desc:Te protege del mal durante una duración dependiente del nivel:
+desc: todos los ataques cuerpo a cuerpo de monstruos malvados tienen probabilidad de ser repelidos,
+desc: a menos que el nivel del monstruo sea superior a tu nivel de personaje.
+
+spell:Eliminar Maldición:16:6:38:8
+effect:REMOVE_CURSE
+dice:$B+d$S
+expr:B:PLAYER_LEVEL:+ 0
+expr:S:PLAYER_LEVEL:+ 0
+desc:Intenta eliminar una maldición de un objeto, más efectivo a niveles
+desc: de personaje más altos.
+
+book:prayer book:dungeon:[Sanación y Santuario]:6:divina
+book-graphics:?:g
+book-properties:10000:20:30 to 100
+
+spell:Portal:10:4:30:8
+effect:TELEPORT
+dice:$B
+expr:B:PLAYER_LEVEL:/ 2 + 30
+desc:Te teletransporta aleatoriamente una corta distancia.
+
+spell:Recuerdo:20:30:90:50
+effect:RESTORE_EXP
+desc:Restaura los puntos de experiencia al máximo si están por debajo del máximo.
+
+spell:Palabra de Retorno:25:30:75:10
+effect:RECALL
+desc:Te teletransporta desde la mazmorra a la ciudad o desde la ciudad al
+desc: nivel más profundo que hayas visitado en la mazmorra.
+desc:  El efecto de retorno no es inmediato; se retrasa 14+1d20 turnos.
+desc:  Durante ese retraso, la oración puede cancelarse invocando la oración
+desc: de retorno de nuevo.
+desc:  Esta oración no tiene efecto cuando la opción de restringir el uso de
+desc: escaleras y retorno está activada, a menos que Morgoth esté muerto.
+
+spell:Curación:30:50:80:100
+effect:HEAL_HP
+dice:2000
+effect:CURE:CUT
+effect:CURE:POISONED
+effect:CURE:STUN
+effect:CURE:AMNESIA
+desc:Restaura 2000 puntos de daño y cura todo aturdimiento, cortes, veneno
+desc: y amnesia.
+
+spell:Restauración:35:70:90:130
+effect:RESTORE_STAT:STR
+effect:RESTORE_STAT:INT
+effect:RESTORE_STAT:WIS
+effect:RESTORE_STAT:DEX
+effect:RESTORE_STAT:CON
+desc:Restaura al máximo todas las estadísticas que estén por debajo del máximo.
+
+spell:Clarividencia:37:50:80:150
+effect:LIGHT_LEVEL
+desc:Ilumina, traza el mapa y percibe todos los objetos en el nivel actual
+desc: completo de la mazmorra.
+
+book:prayer book:dungeon:[Bendiciones de Batalla]:5:divina
+book-graphics:?:g
+book-properties:30000:15:40 to 100
+
+spell:Encantar Arma:35:50:80:230
+effect:ENCHANT:TOBOTH
+dice:1d4
+desc:Intenta mejorar la bonificación para golpear y la bonificación de daño de un arma.
+
+spell:Encantar Armadura:37:60:85:250
+effect:ENCHANT:TOAC
+dice:1+1d3
+desc:Intenta mejorar la bonificación de clase de armadura de una pieza de armadura.
+
+spell:Castigar al Mal:25:20:70:40
+effect:TIMED_INC:ATT_EVIL:0:5
+dice:20+d20
+desc:Hace que tus ataques cuerpo a cuerpo maten criaturas malvadas temporalmente.
+
+spell:Glifo de Protección:20:40:90:35
+effect:GLYPH:WARDING
+desc:Inscribe un glifo de protección debajo de ti.
+desc:  Los monstruos invocados no pueden aparecer en el glifo.
+desc:  Si un monstruo intenta moverse sobre el glifo o atacarte cuerpo a cuerpo mientras
+desc: estás sobre el glifo, primero debe tener éxito en romper el glifo.
+desc:  Los monstruos de nivel más alto tienen más probabilidades de romper el glifo.
+desc:  El glifo permanecerá donde está, hasta que un monstruo tenga éxito en
+desc: romperlo, o hasta que abandones el nivel.
+
+spell:Azote de Demonios:42:40:80:300
+effect:TIMED_INC:ATT_DEMON:0:5
+dice:20+d20
+desc:Hace que tus ataques cuerpo a cuerpo maten demonios poderosamente temporalmente.
+
+book:prayer book:dungeon:[Ira de los Valar]:5:divina
+book-graphics:?:g
+book-properties:50000:10:60 to 100
+
+spell:Expulsar al Mal:25:25:80:250
+effect:PROJECT_LOS_AWARE:AWAY_EVIL
+dice:100
+desc:Teletransporta a cada monstruo malvado dentro de la línea de visión.
+
+spell:Palabra de Destrucción:35:35:80:115
+effect:DESTRUCTION:LIGHT:15
+desc:Destruye todo en un círculo de radio 15 a tu alrededor.
+desc:  Todos los monstruos, objetos y características del terreno en el área de
+desc: efecto son destruidos, excepto escaleras y paredes permanentes.
+desc:  También quedarás cegado durante 10+1d10 turnos, a menos que
+desc: tengas resistencia a la ceguera o la luz.
+desc:  Esta oración no tiene efecto cuando se usa en la ciudad.
+
+spell:Palabra Sagrada:39:32:95:20
+effect:PROJECT_LOS_AWARE:DISP_EVIL
+dice:d$S
+expr:S:PLAYER_LEVEL:* 4
+effect:HEAL_HP
+dice:1000
+effect:CURE:AFRAID
+effect:CURE:POISONED
+effect:CURE:STUN
+effect:CURE:CUT
+desc:Inflige daño irresistible a cada monstruo malvado dentro de la línea de visión,
+desc: restaura 1000 puntos de daño, cura todo aturdimiento, cura todo daño de corte,
+desc: neutraliza el veneno y elimina el miedo.
+
+spell:Lanza de Oromë:40:10:75:130
+effect:BEAM:HOLY_ORB
+dice:$Dd8
+expr:D:PLAYER_LEVEL:/ 2
+desc:Dispara un rayo de magia sagrada que hace daño extra a las criaturas malvadas.
+
+spell:Luz de Manwë:42:40:85:200
+effect:BALL:LIGHT:4
+dice:$B
+expr:B:PLAYER_LEVEL:* 5
+effect:PROJECT_LOS:LIGHT_WEAK
+dice:100
+desc:Lanza una bola de luz fuerte de radio 4, y luego baña toda el área
+desc: en luz haciendo 100 de daño a cada criatura sensible a la luz.
+
+
+############### NECROMANCER ###############
+name:Nigromante
+stats:-3:3:0:0:-2
+skill-disarm-phys:30:10
+skill-disarm-magic:35:12
+skill-device:36:13
+skill-save:30:9
+skill-stealth:2:0
+skill-search:10:12
+skill-melee:35:25
+skill-shoot:20:15
+skill-throw:20:15
+skill-dig:0:0
+hitdie:2
+max-attacks:4
+min-weight:35
+strength-multiplier:3
+equip:food:Ración de Comida:1:3:none
+equip:sword:Daga de Parada:1:1:none
+equip:scroll:Palabra de Retorno:1:1:birth_no_recall
+player-flags:ZERO_FAIL | CHOOSE_SPELLS | UNLIGHT | EVIL
+title:Acólito
+title:Maldiciente
+title:Estudiante Oscuro
+title:Iniciado
+title:Amo de Esclavos
+title:Invocador
+title:Controlador
+title:Comandante
+title:Maestro Oscuro
+title:Señor de la Noche
+
+magic:1:300:5
+
+book:shadow book:town:[Hacia las Sombras]:5:de sombra
+book-graphics:?:P
+book-properties:25:40:1 to 100
+equip:shadow book:[Hacia las Sombras]:1:1:none
+
+spell:Rayo de Inframundo:1:1:22:2
+effect:BOLT:NETHER
+dice:$Dd4
+expr:D:PLAYER_LEVEL:/ 4 + 3
+desc:Dispara un rayo de magia negra.
+
+spell:Sentir lo Invisible:2:4:25:3
+effect:TIMED_INC:SINVIS
+dice:24+d24
+desc:Te permite ver monstruos invisibles durante 24+1d24 turnos.
+
+spell:Crear Oscuridad:3:3:10:4
+effect:DARKEN_AREA
+effect:SPHERE:DARK_WEAK:1:10
+dice:1
+desc:Oscurece todas las casillas en un área dependiente del nivel. Si estás en una habitación,
+desc: toda la habitación también se oscurecerá.
+
+spell:Forma de Murciélago:3:4:20:10
+effect:SHAPECHANGE:bat
+desc:Te transforma en la forma de un murciélago, débil pero con excelentes sentidos.
+desc:  Mientras estás transformado no puedes usar objetos.
+
+spell:Leer Mentes:4:4:10:6
+effect:DETECT_SOUL
+effect-yx:22:40
+effect:READ_MINDS
+dice:$Dd$S
+expr:D:PLAYER_LEVEL:/ 10
+expr:S:PLAYER_LEVEL:/ 10 + 1
+desc:Detecta todos los monstruos que tienen un espíritu en el área inmediata,
+desc: y luego traza un mapa en una región a su alrededor, aumentando de tamaño con
+desc: el nivel de personaje.
+
+book:shadow book:town:[Rituales Oscuros]:5:de sombra
+book-graphics:?:P
+book-properties:400:40:10 to 100
+
+spell:Drenar No-Vida:7:0:50:3
+effect:TAP_UNLIFE
+dice:$Dd6
+expr:D:PLAYER_LEVEL:/ 4 + 2
+desc:Apunta al monstruo no muerto más cercano y lo daña para ganar maná del jugador.
+
+spell:Aplastar:10:6:40:5
+effect:PROJECT_LOS:MON_CRUSH
+dice:$B
+expr:B:PLAYER_LEVEL:* 4
+effect:DAMAGE
+dice:d$S
+expr:S:PLAYER_LEVEL:* 2
+desc:Mata instantáneamente a cualquier monstruo en la línea de visión con menos de cuatro veces el
+desc: nivel del jugador en puntos de vida, también hiriendo al jugador. Otros monstruos no
+desc: resultan dañados.
+
+spell:Dormir a Malvados:12:5:50:5
+effect:PROJECT_LOS:SLEEP_EVIL
+dice:$B
+expr:B:PLAYER_LEVEL:* 10 + 500
+desc:Intenta dormir a cada monstruo malvado dentro de la línea de visión.
+desc:  Los monstruos que resisten la confusión no se ven afectados.
+
+spell:Cambio de Sombra:15:10:50:10
+effect:TELEPORT
+dice:30
+effect:DAMAGE
+dice:2d5
+effect-msg:cambio de sombra
+desc:Desplaza tu espíritu una corta distancia, hiriendo tu cuerpo al ser
+desc: arrastrado.
+
+spell:Desencantar:16:12:50:15
+effect:BOLT:DISEN
+dice:2d$S
+expr:S:PLAYER_LEVEL:* 2 + 10
+desc:Lanza un rayo que hiere, y hace que los monstruos lanzadores de hechizos tengan menos éxito
+desc: al lanzar hechizos.
+
+book:shadow book:town:[Miedo y Tormento]:5:de sombra
+book-graphics:?:P
+book-properties:1600:20:30 to 100
+
+spell:Atemorizar:17:4:40:12
+effect:BOLT_AWARE:TURN_ALL
+dice:$B
+expr:B:PLAYER_LEVEL:+ 0
+desc:Intenta asustar a un solo monstruo durante una duración dependiente del nivel.
+desc:  Los monstruos que resisten el miedo no se ven afectados.
+
+spell:Golpe Vampírico:20:5:50:10
+effect:JUMP_AND_BITE
+dice:$B
+expr:B:PLAYER_LEVEL:* 2
+desc:Te teletransporta al monstruo vivo más cercano y drena un número
+desc: de puntos de vida dependiente del nivel, curando y alimentando al jugador.
+
+spell:Disipar la Vida:22:20:50:10
+effect:PROJECT_LOS_AWARE:MON_DRAIN
+dice:d$S
+expr:S:PLAYER_LEVEL:* 3
+desc:Inflige daño irresistible a cada monstruo vivo dentro de la línea de visión.
+
+spell:Lanza Oscura:25:10:60:12
+effect:LINE:DARK
+dice:2d$S
+expr:S:PLAYER_LEVEL:* 2
+desc:Dispara un rayo de oscuridad.
+
+spell:Forma de Huargo:28:20:60:80
+effect:SHAPECHANGE:warg
+desc:Te transforma en la forma de un huargo, y te otorga fuerza berserker
+desc: temporal, a costa de algunos puntos de vida.
+
+
+book:shadow book:dungeon:[Poderes Mortales]:6:de sombra
+book-graphics:?:p
+book-properties:30000:15:40 to 100
+
+spell:Desterrar Espíritus:25:25:80:25
+effect:PROJECT_LOS_AWARE:AWAY_SPIRIT
+dice:100
+desc:Teletransporta a cada monstruo con un espíritu dentro de la línea de visión.
+
+spell:Aniquilar:30:20:75:25
+effect:BOLT:MON_DRAIN
+dice:$B
+expr:B:PLAYER_LEVEL:* 4
+desc:Inflige daño igual a cuatro veces el nivel del jugador a un solo monstruo que
+desc: no sea no muerto, elemental, gólem o vórtice.
+
+spell:Golpe de Grond:35:35:80:115
+effect:DESTRUCTION:DARK:15
+desc:Destruye todo en un círculo de radio 15 a tu alrededor.
+desc:  Todos los monstruos, objetos y características del terreno en el área de
+desc: efecto son destruidos, excepto escaleras y paredes permanentes.
+desc:  También quedarás cegado durante 10+1d10 turnos, a menos que
+desc: tengas resistencia a la ceguera o la oscuridad.
+desc:  Este ritual no tiene efecto cuando se usa en la ciudad.
+
+spell:Liberar el Caos:38:15:90:100
+effect:RANDOM
+dice:3
+effect:BEAM:CHAOS
+dice:8d$S
+expr:S:PLAYER_LEVEL:+ 0
+effect:ARC:CHAOS:0:10
+dice:8d$S
+expr:S:PLAYER_LEVEL:+ 0
+effect:BALL:CHAOS:3
+dice:8d$S
+expr:S:PLAYER_LEVEL:+ 0
+effect:WAKE
+effect:PROJECT_LOS:TURN_ALL
+dice:$B
+expr:B:PLAYER_LEVEL:+ 0
+desc:Dispara un rayo, arco o bola de caos en la dirección elegida, despierta todo
+desc: en el área, e intenta asustar a todo en la línea de visión.
+
+spell:Vapores de Mordor:40:50:80:150
+effect:DARKEN_LEVEL
+dice:1
+desc:Oscurece, traza el mapa y detecta todos los objetos en el nivel actual
+desc: completo de la mazmorra.
+
+spell:Tormenta de Oscuridad:43:16:80:200
+effect:BALL:DARK:4
+dice:4d$S
+expr:S:PLAYER_LEVEL:* 2
+desc:Invoca una bola de oscuridad de radio 4.
+
+
+book:shadow book:dungeon:[Corrupción del Espíritu]:5:de sombra
+book-graphics:?:p
+book-properties:50000:10:60 to 100
+
+spell:Sacrificio de Poder:27:0:20:20
+effect:DAMAGE
+dice:50
+effect-msg:sacrificio propio
+effect:RESTORE_MANA
+dice:50
+desc:Intercambia 50 puntos de vida por 50 de maná.
+
+spell:Zona Antimágica:32:16:60:110
+effect:SPOT:DISEN:4
+dice:$B
+expr:B:PLAYER_LEVEL:* 3
+desc:Produce una zona de desencantamiento que afecta al jugador y a los monstruos
+desc: dentro de radio 4.
+
+spell:Forma de Vampiro:37:20:60:140
+effect:SHAPECHANGE:vampire
+effect:JUMP_AND_BITE
+dice:$B
+expr:B:PLAYER_LEVEL:+ 0
+desc:Te permite asumir la forma de un vampiro a costa de la mitad de tus
+desc: puntos de vida actuales, luego te teletransporta al monstruo vivo más cercano
+desc: y drena un número de puntos de vida dependiente del nivel, curándote y alimentándote.
+desc:  Cuando te transformas por primera vez, podrás temporalmente
+desc: quitar puntos de vida a los monstruos vivos con tu ataque de mordisco.
+
+spell:Maldecir:40:50:60:180
+effect:DAMAGE
+dice:100
+effect-msg:realizando una maldición
+effect:CURSE
+dice:$Dd$S
+expr:D:PLAYER_LEVEL:/ 12 + 1
+expr:S:MONSTER_PERCENT_HP_GONE:+ 50
+desc:Inflige daño directo a un solo monstruo, más cuanto más dañado esté el monstruo
+desc: ya, a costa de 100 puntos de vida.
+
+spell:Dominar:45:40:60:250
+effect:COMMAND
+dice:5+1d10
+desc:Te permite tomar el control de un monstruo y moverlo en lugar de a ti mismo.
+desc:  Las acciones posibles son mover, quedarse quieto, 's'oltar, 'm'agia o 'l'iberar.
+
+############### PALADIN ###############
+name:Paladín
+stats:1:-3:1:-1:2
+skill-disarm-phys:20:15
+skill-disarm-magic:20:10
+skill-device:24:10
+skill-save:25:11
+skill-stealth:0:0
+skill-search:10:12
+skill-melee:65:40
+skill-shoot:50:30
+skill-throw:50:30
+skill-dig:0:0
+hitdie:6
+max-attacks:5
+min-weight:30
+strength-multiplier:5
+equip:food:Ración de Comida:1:3:none
+equip:light:Antorcha de Madera:1:3:none
+equip:sword:Daga de Parada:1:1:none
+equip:scroll:Protección contra el Mal:1:1:none
+equip:scroll:Palabra de Retorno:1:1:birth_no_recall
+equip:prayer book:[Manual del Novicio]:1:1:none
+player-flags:BLESS_WEAPON | SHIELD_BASH
+title:Galante
+title:Guardián
+title:Protector
+title:Defensor
+title:Custodio
+title:Caballero
+title:Guardián
+title:Chevalier
+title:Paladín
+title:Señor Paladín
+
+magic:1:400:3
+
+book:prayer book:town:[Manual del Novicio]:6:divina
+
+spell:Bendición:1:2:20:4
+effect:TIMED_INC:BLESSED
+dice:$B+d$S
+expr:B:PLAYER_LEVEL:+ 10
+expr:S:PLAYER_LEVEL:+ 10
+desc:Te bendice, dando una bonificación de +5 a CA y +10 a golpear, durante un
+desc: número de turnos dependiente del nivel.
+
+spell:Detección del Mal:3:2:10:4
+effect:DETECT_EVIL
+effect-yx:22:40
+desc:Detecta todos los monstruos malvados en el área inmediata,
+desc: por un solo turno.
+
+spell:Llamar a la Luz:5:3:10:2
+effect:LIGHT_AREA
+effect:SPHERE:LIGHT_WEAK:1:10
+dice:2d$S
+expr:S:PLAYER_LEVEL:/ 2
+desc:Ilumina todas las casillas en un área dependiente del nivel, y daña
+desc: a todos los monstruos sensibles a la luz en el área de efecto.
+desc:  Si estás en una habitación, toda la habitación se iluminará también.
+
+spell:Curación Menor:7:3:15:4
+effect:HEAL_HP
+dice:$B+m$M
+expr:B:PLAYER_LEVEL:+ 10
+expr:M:PLAYER_LEVEL:/ 4
+effect:TIMED_DEC:CUT
+dice:20
+effect:TIMED_DEC:STUN
+dice:20
+desc:Restaura una cantidad o porcentaje de puntos de vida dependiente del nivel, y
+desc: cura 20 puntos de cortes y de aturdimiento.
+
+spell:Sentir lo Invisible:8:4:25:4
+effect:TIMED_INC:SINVIS
+dice:24+d24
+desc:Te permite ver monstruos invisibles durante 24+1d24 turnos.
+
+spell:Heroísmo:12:5:30:5
+effect:HEAL_HP
+dice:10
+effect:CURE:AFRAID
+effect:TIMED_INC:HERO
+dice:$B+d$S
+expr:B:PLAYER_LEVEL:- 14
+expr:S:PLAYER_LEVEL:- 14
+desc:Cura 10 puntos de daño, elimina el miedo y, a partir del nivel 15,
+desc: te otorga heroísmo (resistencia al miedo y una bonificación de +12 a golpear)
+desc: durante una duración dependiente del nivel.
+
+book:prayer book:dungeon:[Sanación y Santuario]:5:divina
+
+spell:Protección contra el Mal:15:8:42:5
+effect:TIMED_INC:PROTEVIL
+dice:$B+d25
+expr:B:PLAYER_LEVEL:* 3
+desc:Te protege del mal durante una duración dependiente del nivel:
+desc: todos los ataques cuerpo a cuerpo de monstruos malvados tienen probabilidad de ser repelidos,
+desc: a menos que el nivel del monstruo sea superior a tu nivel de personaje.
+
+spell:Eliminar Maldición:20:12:38:8
+effect:REMOVE_CURSE
+dice:$B+d$S
+expr:B:PLAYER_LEVEL:+ 0
+expr:S:PLAYER_LEVEL:+ 0
+desc:Intenta eliminar una maldición de un objeto, más efectivo a niveles
+desc: de personaje más altos.
+
+spell:Palabra de Retorno:25:30:75:10
+effect:RECALL
+desc:Te teletransporta desde la mazmorra a la ciudad o desde la ciudad al
+desc: nivel más profundo que hayas visitado en la mazmorra.
+desc:  El efecto de retorno no es inmediato; se retrasa 14+1d20 turnos.
+desc:  Durante ese retraso, la oración puede cancelarse invocando la oración
+desc: de retorno de nuevo.
+desc:  Esta oración no tiene efecto cuando la opción de restringir el uso de
+desc: escaleras y retorno está activada, a menos que Morgoth esté muerto.
+
+spell:Curación:30:50:80:100
+effect:HEAL_HP
+dice:2000
+effect:CURE:CUT
+effect:CURE:POISONED
+effect:CURE:STUN
+effect:CURE:AMNESIA
+desc:Restaura 2000 puntos de daño y cura todo aturdimiento, cortes, veneno
+desc: y amnesia.
+
+spell:Clarividencia:37:50:80:150
+effect:LIGHT_LEVEL
+desc:Ilumina, traza el mapa y percibe todos los objetos en el nivel actual
+desc: completo de la mazmorra.
+
+book:prayer book:dungeon:[Bendiciones de Batalla]:5:divina
+
+spell:Castigar al Mal:25:20:70:40
+effect:TIMED_INC:ATT_EVIL:0:5
+dice:20+d20
+desc:Hace que tus ataques cuerpo a cuerpo maten criaturas malvadas temporalmente.
+
+spell:Azote de Demonios:30:40:80:150
+effect:TIMED_INC:ATT_DEMON:0:5
+dice:20+d20
+desc:Hace que tus ataques cuerpo a cuerpo maten demonios poderosamente temporalmente.
+
+spell:Encantar Arma:35:50:80:230
+effect:ENCHANT:TOBOTH
+dice:1d4
+desc:Intenta mejorar la bonificación para golpear y la bonificación de daño de un arma.
+
+spell:Encantar Armadura:37:60:85:250
+effect:ENCHANT:TOAC
+dice:1+1d3
+desc:Intenta mejorar la bonificación de clase de armadura de una pieza de armadura.
+
+spell:Combate Singular:40:50:30:300
+effect:SINGLE_COMBAT
+desc:Te encierra a ti y al monstruo objetivo en una celda de piedra de la que solo el
+desc: vencedor puede salir.
+
+
+############### ROGUE ###############
+name:Pícaro
+stats:0:1:-3:3:-1
+skill-disarm-phys:45:20
+skill-disarm-magic:45:20
+skill-device:32:10
+skill-save:28:10
+skill-stealth:3:1
+skill-search:20:16
+skill-melee:35:45
+skill-shoot:66:30
+skill-throw:72:45
+skill-dig:0:0
+hitdie:4
+max-attacks:5
+min-weight:20
+strength-multiplier:4
+equip:food:Ración de Comida:1:3:none
+equip:light:Antorcha de Madera:1:3:none
+equip:sword:Daga:1:1:none
+equip:soft armour:Armadura de Cuero Blando:1:1:none
+equip:scroll:Palabra de Retorno:1:1:birth_no_recall
+equip:magic book:[Primeros Conjuros]:1:1:none
+player-flags:CHOOSE_SPELLS | STEAL
+title:Vagabundo
+title:Carterista
+title:Bribón
+title:Ladronzuelo
+title:Burglés
+title:Ratero
+title:Estafador
+title:Pícaro
+title:Ladrón
+title:Maestro Ladrón
+
+magic:5:350:2
+
+book:magic book:town:[Primeros Conjuros]:7:arcana
+
+spell:Detectar Monstruos:5:1:50:4
+effect:DETECT_VISIBLE_MONSTERS
+effect-yx:22:40
+desc:Detecta todos los monstruos no invisibles en el área inmediata,
+desc: por un solo turno.
+
+spell:Puerta de Fase:7:2:55:4
+effect:TELEPORT
+dice:10
+desc:Te teletransporta aleatoriamente hasta 10 casillas de distancia.
+
+spell:Detección de Objetos:10:3:60:5
+effect:DETECT_ORE
+effect-yx:22:40
+effect:DETECT_GOLD
+effect-yx:22:40
+effect:DETECT_OBJECTS
+effect-yx:22:40
+desc:Detecta todos los objetos en el área inmediata.
+
+spell:Detectar Escaleras:12:3:50:5
+effect:DETECT_STAIRS
+effect-yx:44:60
+desc:Detecta todas las escaleras en un área amplia.
+
+spell:Recarga:20:10:50:6
+effect:RECHARGE
+dice:$B
+expr:B:PLAYER_LEVEL:/ 10 + 4
+desc:Añade cargas a una pila de varitas o bastones.
+desc:  La probabilidad de éxito y el número de cargas obtenidas aumentan con tu
+desc: nivel y disminuyen con el nivel de la varita o bastón y el número de cargas.
+desc:  Un intento fallido de recargar destruye una varita o bastón de la pila.
+
+spell:Revelar Monstruos:25:3:40:8
+effect:DETECT_INVISIBLE_MONSTERS
+effect-yx:22:40
+effect:DETECT_VISIBLE_MONSTERS
+effect-yx:22:40
+desc:Detecta todos los monstruos en el área inmediata, por un solo turno.
+
+book:magic book:dungeon:[Control Arcano]:4:arcana
+
+spell:Teletransportarse:17:6:35:5
+effect:TELEPORT
+dice:M$M
+expr:M:PLAYER_LEVEL:* 9 / 5
+desc:Te teletransporta aleatoriamente dentro del nivel actual.
+
+spell:Golpear y Huir:23:20:40:20
+effect:TIMED_INC:ATT_RUN
+dice:10
+desc:Te prepara para teletransportarte una corta distancia después de robarle a un monstruo.
+
+spell:Teletransportar a Otro:30:10:30:50
+effect:BOLT_STATUS:AWAY_ALL
+dice:$B
+expr:B:PLAYER_LEVEL:* 3
+desc:Produce un rayo que teletransporta al primer monstruo en su trayectoria.
+desc:  La distancia de teletransporte aumenta con el nivel del jugador.
+
+spell:Teletransporte de Nivel:35:17:65:80
+effect:TELEPORT_LEVEL
+desc:Te teletransporta 1 nivel arriba o 1 nivel abajo (elegido al azar).
+desc:  Este hechizo puede no tener efecto cuando la opción de descenso forzado está activada.
+
+
+############### RANGER ###############
+name:Explorador
+stats:0:0:2:1:-1
+skill-disarm-phys:40:15
+skill-disarm-magic:30:10
+skill-device:28:10
+skill-save:32:10
+skill-stealth:3:0
+skill-search:15:15
+skill-melee:60:40
+skill-shoot:72:45
+skill-throw:66:30
+skill-dig:0:0
+hitdie:5
+max-attacks:5
+min-weight:35
+strength-multiplier:4
+equip:food:Ración de Comida:1:3:none
+equip:light:Antorcha de Madera:1:3:none
+equip:sword:Daga de Parada:1:1:none
+equip:bow:Arco Corto:1:1:none
+equip:arrow:Flecha:15:20:none
+equip:scroll:Palabra de Retorno:1:1:birth_no_recall
+equip:nature book:[Amuletos Menores]:1:1:none
+player-flags:FAST_SHOT | CHOOSE_SPELLS
+title:Corredor
+title:Andarín
+title:Explorador
+title:Corcel
+title:Rastreador
+title:Guía
+title:Explorador
+title:Buscacaminos
+title:Montaraz
+title:Señor Montaraz
+
+magic:3:400:2
+
+book:nature book:town:[Amuletos Menores]:6:de naturaleza
+
+spell:Saciar Hambre:3:1:25:2
+effect:NOURISH:INC_TO
+dice:50
+desc:Te deja mágicamente confortablemente alimentado (pero no saciado).
+
+spell:Detectar Vida:5:2:23:2
+effect:DETECT_LIVING_MONSTERS
+effect-yx:22:40
+desc:Detecta todos los monstruos vivos en el área inmediata, por un solo turno.
+
+spell:Curación con Hierbas:9:6:30:4
+effect:CURE:CUT
+effect:CURE:POISONED
+effect:CURE:STUN
+effect:CURE:BLACKBREATH
+desc:Cura todos los cortes, veneno, aturdimiento y aliento negro.
+
+spell:Resistir Veneno:12:10:32:5
+effect:TIMED_INC:OPP_POIS
+dice:20+d20
+desc:Te otorga resistencia al veneno durante 20+1d20 turnos.
+
+spell:Piedra a Lodo:15:5:25:5
+effect:LINE:KILL_WALL
+dice:20+1d30
+desc:Produce un rayo que destruye la primera sección de pared que golpea,
+desc: a menos que sea una pared permanente. Cada monstruo atrapado en el rayo que
+desc: sea susceptible a removedor de roca recibe 20+1d30 puntos de daño.
+
+spell:Percibir Entorno:20:8:35:8
+effect:MAP_AREA
+dice:$Dd$S
+expr:D:PLAYER_LEVEL:/ 30 + 1 * 22
+expr:S:PLAYER_LEVEL:/ 30 + 1 * 44
+desc:Traza el mapa del área cercana.
+
+
+book:nature book:dungeon:[Arte de la Naturaleza]:5:de naturaleza
+
+spell:Cubrir Huellas:20:20:40:40
+effect:TIMED_INC:COVERTRACKS:0:5
+dice:$B+d20
+expr:B:PLAYER_LEVEL:* 2
+desc:Evita que dejes un olor para que los monstruos te sigan durante una
+desc: duración dependiente del nivel.
+
+spell:Crear Flechas:22:20:40:40
+effect:CREATE_ARROWS
+desc:Permite al jugador convertir un bastón en una pila de flechas, con calidad
+desc: dependiendo del nivel del bastón y del nivel del jugador.
+
+spell:Acelerarse:25:12:65:15
+effect:TIMED_INC:FAST:0:5
+dice:$B+d20
+expr:B:PLAYER_LEVEL:+ 0
+desc:Te apresura (+10 a velocidad) durante una duración dependiente del nivel.
+
+spell:Señuelo:30:30:40:60
+effect:GLYPH:DECOY
+desc:Deja un señuelo mágico que se ve y suena como el jugador.
+
+spell:Encantar Munición:40:60:95:120
+effect:BRAND_AMMO
+desc:Marca una pila de munición con fuego, frío o veneno
+desc: (seleccionado al azar) y al mismo tiempo intenta mejorar
+desc: la bonificación para golpear y la bonificación de daño de la misma munición.
+desc:  El hechizo no tiene efecto si la munición ya está marcada, tiene un
+desc: daño aumentado, está rota o maldita.
+
+
+############### BLACKGUARD ###############
+name:Rufián
+stats:2:0:-3:0:2
+skill-disarm-phys:20:15
+skill-disarm-magic:20:10
+skill-device:24:10
+skill-save:18:10
+skill-stealth:-1:-1
+skill-search:8:10
+skill-melee:65:40
+skill-shoot:35:15
+skill-throw:40:30
+skill-dig:0:0
+hitdie:8
+max-attacks:5
+min-weight:100
+strength-multiplier:5
+equip:shadow book:[Hacia las Sombras]:1:1:none
+equip:food:Ración de Comida:1:3:none
+equip:light:Antorcha de Madera:1:3:none
+equip:sword:Talwar:1:1:none
+equip:shield:Escudo de Cuero:1:1:none
+equip:scroll:Palabra de Retorno:1:1:birth_no_recall
+equip:potion:Curar Heridas Leves:1:1:none
+obj-flags:IMPAIR_HP
+player-flags:CHOOSE_SPELLS | SHIELD_BASH | COMBAT_REGEN
+title:Rata
+title:Matón
+title:Gamberro
+title:Granuja
+title:Bribón
+title:Saqueador
+title:Torturador
+title:Mercenario
+title:Destructor
+title:Tirano
+
+magic:1:600:3
+
+book:shadow book:town:[Hacia las Sombras]:6:de sombra
+
+spell:Buscar Batalla:1:1:15:2
+effect:DETECT_FEARFUL_MONSTERS
+effect-yx:22:40
+desc:Detecta todos los monstruos susceptibles al miedo en el área inmediata,
+desc: por un solo turno.
+
+spell:Fuerza Berserker:3:2:20:4
+effect:CURE:AFRAID
+effect:TIMED_INC:SHERO:0:5
+dice:$B+d$S
+expr:B:PLAYER_LEVEL:+ 5
+expr:S:PLAYER_LEVEL:+ 5
+desc:Elimina el miedo y te otorga fuerza berserker (resistencia al miedo,
+desc: +75 habilidad cuerpo a cuerpo, -10 a CA, y evita la curación
+desc: con el tiempo) durante una duración dependiente del nivel.
+
+spell:Ataque Torbellino:5:4:25:6
+effect:SWEEP
+dice:$S
+expr:S:PLAYER_LEVEL:+ 10 / 15
+desc:Inflige un número de golpes cuerpo a cuerpo dependiente del nivel a cada enemigo adyacente.
+desc:  En el nivel 5 haces un golpe y ganas un golpe adicional cada 15
+desc: niveles (2 a 20, 3 a 35 y 4 a 50).
+
+spell:Destrozar Piedra:7:3:20:8
+effect:SHORT_BEAM:KILL_WALL:1
+dice:20+1d30
+desc:Destruye una sección adyacente de pared o escombro, a menos que sea una pared
+desc: permanente. Inflige 20+1d30 de daño a monstruos vulnerables a removedor de roca.
+
+spell:Saltar a la Batalla:10:5:30:10
+effect:MOVE_ATTACK
+dice:$B
+expr:B:PLAYER_LEVEL:+ 5 / 15
+desc:Corres hasta 4 espacios hacia el enemigo objetivo, luego realizas un
+desc: golpe cuerpo a cuerpo. Obtienes un golpe adicional en los niveles 25 y 40. Si te
+desc: moviste, el número de golpes se reduce en un 25% por cada espacio, luego se redondea.
+
+spell:Propósito Sombrío:13:8:30:12
+effect:SET_VALUE
+dice:12+d12
+effect:TIMED_INC:OPP_CONF
+effect:TIMED_INC:FREE_ACT
+effect:CLEAR_VALUE
+desc:Tu mente se vuelve demasiado concentrada para ser ralentizada, paralizada o confundida
+desc: durante 12+d12 turnos.
+
+book:shadow book:town:[Miedo y Tormento]:5:de sombra
+
+spell:Mutilar Enemigo:15:6:35:14
+effect:MELEE_BLOWS:MON_STUN:6
+dice:$S
+expr:S:PLAYER_LEVEL:/ 15
+desc:Intenta un número de golpes cuerpo a cuerpo dependiente del nivel contra el enemigo
+desc: objetivo. Obtienes 1 golpe por cada 15 niveles. Si alguno de estos golpes
+desc: daña al enemigo, será aturdido durante 6 turnos.
+
+spell:Aullido de los Condenados:18:8:30:16
+effect:PROJECT_LOS:TURN_ALL
+dice:$B
+expr:B:PLAYER_LEVEL:+ 0
+desc:Intenta asustar a cada monstruo en la línea de visión durante una duración dependiente
+desc: del nivel del jugador y la profundidad del monstruo. Los monstruos que resisten el miedo no se ven
+desc: afectados.
+
+spell:Burla Implacable:24:10:32:20
+effect:TIMED_INC:TAUNT
+dice:12+d12
+desc:Hace que cualquier monstruo que pueda moverse esté más inclinado a correr hacia ti, y menos
+desc: propenso a usar un ataque a distancia (incluyendo hechizos y habilidades innatas).
+
+spell:Veneno:28:18:35:30
+effect:TIMED_INC:ATT_POIS:0:5
+dice:18+d18
+desc:Cubre todas tus armas cuerpo a cuerpo con veneno durante 18+d18 turnos.
+
+spell:Forma de Hombre Lobo:32:30:40:100
+effect:SHAPECHANGE:werewolf
+desc:¡Con un grito desgarrador te conviertes en un hombre lobo!
+desc:  En esta forma te mueves, atacas y curas más rápido.
+
+book:shadow book:dungeon:[Poderes Mortales]:4:de sombra
+
+spell:Sed de Sangre:30:25:37:80
+effect:TIMED_INC:BLOODLUST:0:-1
+dice:10
+desc:Te da un poderoso deseo de matar, aumentando cada vez que lo satisfaces.
+desc:  Te otorga daño cuerpo a cuerpo extra y golpes extra, pero viene
+desc: con peligrosos efectos secundarios.
+
+spell:Tregua Profana:34:45:60:120
+effect:RESTORE_STAT:STR
+effect:RESTORE_STAT:INT
+effect:RESTORE_STAT:CON
+effect:RESTORE_EXP
+effect:DAMAGE
+dice:66
+desc:Restaura FUE, INT, CON y experiencia a costa de 66 PV.
+
+spell:Golpe Contundente:38:16:50:150
+effect:MELEE_BLOWS:FORCE:200
+dice:1
+desc:Intenta un golpe cuerpo a cuerpo que inflige daño de fuerza adicional cuando golpea,
+desc: empujando al objetivo hacia atrás con probabilidad de aturdirlo.
+
+spell:Terremoto:44:39:55:175
+effect:EARTHQUAKE:NONE:13
+desc:Causa un terremoto de radio 13 centrado en el jugador.

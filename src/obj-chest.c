@@ -21,6 +21,7 @@
 #include "cave.h"
 #include "effects.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-lore.h"
 #include "obj-chest.h"
 #include "obj-ignore.h"
@@ -300,13 +301,13 @@ const char *chest_trap_name(const struct object *obj)
 
 	/* Non-zero value means there either were or are still traps */
 	if (trap_value < 0) {
-		return (trap_value == -1) ? "abierto" : "desarmado";
+		return (trap_value == -1) ? _("open") : _("disarmed");
 	} else if (trap_value > 0) {
 		struct chest_trap *trap = chest_traps, *found = NULL;
 		while (trap) {
 			if (trap_value & trap->pval) {
 				if (found) {
-					return "múltiples trampas";
+					return _("multiple traps");
 				}
 				found = trap;
 			}
@@ -317,7 +318,7 @@ const char *chest_trap_name(const struct object *obj)
 		}
 	}
 
-	return "vacío";
+	return _("empty");
 }
 
 /**
@@ -700,24 +701,24 @@ bool do_cmd_disarm_chest(struct object *obj)
 
 	/* Must find the trap first. */
 	if (!obj->known->pval || ignore_item_ok(player, obj)) {
-		msg("No veo ninguna trampa.");
+		msg(_("I see no trap."));
 	} else if (!is_trapped_chest(obj)) {
 		/* Already disarmed/unlocked or no traps */
-		msg("El cofre no tiene trampas.");
+		msg(_("The chest has no traps."));
 	} else if (randint0(100) < diff) {
 		/* Success (get a lot of experience) */
-		msgt(MSG_DISARM, "Has desarmado el cofre.");
+		msgt(MSG_DISARM, _("You have disarmed the chest."));
 		player_exp_gain(player, obj->pval);
 		obj->pval = (0 - obj->pval);
 	} else if (randint0(100) < diff) {
 		/* Failure -- Keep trying */
 		more = true;
 		event_signal(EVENT_INPUT_FLUSH);
-		msg("No pudiste desarmar el cofre.");
+		msg(_("You failed to disarm the chest."));
 	} else {
 		/* Failure -- Set off the trap */
 		if (!player_is_trapsafe(player)) {
-			msg("¡Activaste una trampa!");
+			msg(_("You set off a trap!"));
 			chest_trap(obj);
 		} else if (player_of_has(player, OF_TRAP_IMMUNE)) {
 			/* Learn trap immunity. */

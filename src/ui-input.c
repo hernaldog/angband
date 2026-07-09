@@ -48,6 +48,7 @@
 #include "ui-spell.h"
 #include "ui-store.h"
 #include "ui-target.h"
+#include "lang.h"
 
 static bool inkey_xtra;
 uint32_t inkey_scan;		/* See the "inkey()" function */
@@ -387,7 +388,7 @@ static void msg_flush(int x)
 	uint8_t a = COLOUR_L_BLUE;
 
 	/* Pause for response */
-	Term_putstr(x, 0, -1, a, "-más-");
+	Term_putstr(x, 0, -1, a, _("-more-"));
 
 	if ((!OPT(player, auto_more)) && !keymap_auto_more)
 		anykey();
@@ -1110,10 +1111,10 @@ static int handle_name_mouse(char *buf, size_t buflen, size_t *curs,
 	m = menu_dynamic_new();
 
 	m->selections = labels;
-	menu_dynamic_add_label(m, "Aceptar", 'a', ACT_CTX_NAME_ACCEPT, labels);
-	menu_dynamic_add_label(m, "Establecer nombre aleatorio", 'r',
+	menu_dynamic_add_label(m, _("Accept"), 'a', ACT_CTX_NAME_ACCEPT, labels);
+	menu_dynamic_add_label(m, _("Set to random name"), 'r',
 		ACT_CTX_NAME_RANDOM, labels);
-	menu_dynamic_add_label(m, "Borrar nombre", 'c', ACT_CTX_NAME_CLEAR,
+	menu_dynamic_add_label(m, _("Clear name"), 'c', ACT_CTX_NAME_CLEAR,
 		labels);
 
 	screen_save();
@@ -1165,7 +1166,7 @@ bool get_character_name(char *buf, size_t buflen)
 	event_signal(EVENT_MESSAGE_FLUSH);
 
 	/* Display prompt */
-	prt("Introduce un nombre para tu personaje (* aleatorio): ", 0, 0);
+	prt(_("Enter a name for your character (* for a random name): "), 0, 0);
 
 	/* Save the player name */
 	my_strcpy(buf, player->full_name, buflen);
@@ -1230,7 +1231,7 @@ static int textui_get_quantity(const char *prompt, int max)
 		/* Build a prompt if needed */
 		if (!prompt) {
 			/* Build a prompt */
-			strnfmt(tmp, sizeof(tmp), "Cantidad (0-%d, *=todo): ", max);
+			strnfmt(tmp, sizeof(tmp), _("Quantity (0-%d, *=all): "), max);
 
 			/* Use that prompt */
 			prompt = tmp;
@@ -1277,7 +1278,9 @@ static bool textui_get_check(const char *prompt)
 	 * Build a "useful" prompt; do this first so prompts built by
 	 * format() won't run afoul of event_signal()'s side effects.
 	 */
-	strnfmt(buf, 78, "%.70s[s/n] ", prompt);
+	bool is_en = (strcmp(lang_current,"en") == 0);
+
+	strnfmt(buf, 78, "%.70s[%s] ", prompt, _("y/n"));
 
 	/* Paranoia */
 	event_signal(EVENT_MESSAGE_FLUSH);
@@ -1294,8 +1297,13 @@ static bool textui_get_check(const char *prompt)
 		if ((ke.mouse.button != 1) && (ke.mouse.y != 0))
 			return (false);
 	} else {
-		if ((ke.key.code != 'S') && (ke.key.code != 's'))
-			return (false);
+		if (is_en) {
+			if ((ke.key.code != 'Y') && (ke.key.code != 'y'))
+				return (false);
+		} else {
+			if ((ke.key.code != 'S') && (ke.key.code != 's'))
+				return (false);
+		}
 	}
 
 	/* Success */
@@ -1356,7 +1364,7 @@ static bool get_file_text(const char *suggested_name, char *path, size_t len)
 	
 	if (!arg_force_name) {
 			
-			if (!get_string("Nombre de archivo: ", buf, sizeof buf)) return false;
+			if (!get_string(_("File name: "), buf, sizeof buf)) return false;
 
 			/* Make sure it's actually a filename */
 			if (buf[0] == '\0' || buf[0] == ' ') return false;
@@ -1369,7 +1377,7 @@ static bool get_file_text(const char *suggested_name, char *path, size_t len)
 		time(&ltime);
 		today = localtime(&ltime);
 
-		prt("Nombre de archivo: ", 0,0);
+		prt(_("File name: "), 0,0);
 
 		/* Overwrite the ".txt" that was added */
 		assert(strlen(buf) >= 4);
@@ -1377,7 +1385,7 @@ static bool get_file_text(const char *suggested_name, char *path, size_t len)
 		strftime(buf + old_len, sizeof(buf) - len, "-%Y-%m-%d-%H-%M.txt", today);
 
 		/* Prompt the user to confirm or cancel the file dump */
-		if (!get_check(format("¿Confirmar escritura en %s? ", buf))) return false;
+		if (!get_check(format(_("Confirm writing to %s? "), buf))) return false;
 
 
 	}
@@ -1386,11 +1394,11 @@ static bool get_file_text(const char *suggested_name, char *path, size_t len)
 	path_build(path, len, ANGBAND_DIR_USER, buf);
 
 	/* Check if it already exists */
-	if (file_exists(path) && !get_check("¿Reemplazar archivo existente? "))
+	if (file_exists(path) && !get_check(_("Replace existing file? ")))
 		return false;
 
 	/* Tell the user where it's saved to. */
-	prt(format("Guardando como %s.", path), 0, 0);
+	prt(format(_("Saving as %s."), path), 0, 0);
 	anykey();
 	prt("", 0, 0);
 
@@ -1467,7 +1475,7 @@ bool get_com_ex(const char *prompt, ui_event *command)
 void pause_line(struct term *tm)
 {
 	prt("", tm->hgt - 1, 0);
-	put_str("[Pulsa cualquier tecla para continuar]", tm->hgt - 1, (tm->wid - 27) / 2);
+	put_str(_("[Press any key to continue]"), tm->hgt - 1, (tm->wid - 27) / 2);
 	(void)anykey();
 	prt("", tm->hgt - 1, 0);
 }
@@ -1524,7 +1532,7 @@ static bool textui_get_rep_dir(int *dp, bool allow_5)
 		if (ke.type == EVT_NONE ||
 				(ke.type == EVT_KBRD
 				&& !target_dir_allow(ke.key, allow_5, true))) {
-			prt("¿Dirección o <clic> (Escape para cancelar)? ", 0, 0);
+			prt(_("Direction or <click> (Escape to cancel)? "), 0, 0);
 			ke = inkey_ex();
 		}
 
@@ -1637,9 +1645,9 @@ static bool textui_get_aim_dir(int *dp)
 
 		/* Choose a prompt */
 		if (!target_okay())
-			p = "¿Dirección ('*' o <clic> para objetivo, \"'\" para el más cercano, Escape para cancelar)? ";
+			p = _("Direction ('*' or <click> to target, \"'\" for closest, Escape to cancel)? ");
 		else
-			p = "¿Dirección ('5' para objetivo, '*' o <clic> para re-objetivar, Escape para cancelar)? ";
+			p = _("Direction ('5' for target, '*' or <click> to re-target, Escape to cancel)? ");
 
 		/* Get a command (or Cancel) */
 		if (!get_com_ex(p, &ke)) break;
@@ -1756,7 +1764,7 @@ static int textui_get_count(void)
 	while (1) {
 		struct keypress ke;
 
-		prt(format("Repetir: %d", count), 0, 0);
+		prt(format(_("Repeat: %d"), count), 0, 0);
 
 		ke = inkey();
 		if (ke.code == ESCAPE)
@@ -1848,7 +1856,7 @@ ui_event textui_get_command(int *count)
 
 					int c = textui_get_count();
 
-					if (c == -1 || !get_com_ex("Comando: ", &ke))
+					if (c == -1 || !get_com_ex(_("Command: "), &ke))
 						continue;
 					else
 						*count = c;
@@ -1857,14 +1865,14 @@ ui_event textui_get_command(int *count)
 
 				case '\\': {
 					/* Allow keymaps to be bypassed */
-					(void)get_com_ex("Comando: ", &ke);
+					(void)get_com_ex(_("Command: "), &ke);
 					keymap_ok = false;
 					break;
 				}
 
 				case '^': {
 					/* Allow "control chars" to be entered */
-					if (!get_com_ex("Control: ", &ke)
+					if (!get_com_ex(_("Control: "), &ke)
 							|| ke.type != EVT_KBRD) {
 						continue;
 					}
@@ -1939,7 +1947,7 @@ bool key_confirm_command(unsigned char c)
 		n = check_for_inscrip(obj, "^*") +
 				check_for_inscrip(obj, verify_inscrip);
 		while (n--) {
-			if (!get_check("¿Estás seguro? "))
+			if (!get_check(_("Are you sure? ")))
 				return false;
 		}
 	}

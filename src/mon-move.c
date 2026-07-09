@@ -26,6 +26,7 @@
 #include "cave.h"
 #include "game-world.h"
 #include "init.h"
+#include "lang.h"
 #include "monster.h"
 #include "mon-attack.h"
 #include "mon-desc.h"
@@ -1265,7 +1266,7 @@ static bool monster_turn_can_move(struct monster *mon, const char *m_name,
 			if (will_bash) {
 				square_smash_door(cave, new);
 
-				msg("¡Escuchas una puerta abrirse de golpe!");
+				msg(_("You hear a door burst open!"));
 				disturb(player);
 
 				if (confused) {
@@ -1305,7 +1306,7 @@ static bool monster_turn_attack_glyph(struct monster *mon, struct loc new)
 
 		/* Describe observable breakage */
 		if (square_isseen(cave, new)) {
-			msg("¡La runa de protección está rota!");
+			msg(_("The rune of protection is broken!"));
 		}
 
 		/* Break the rune */

@@ -24,5 +24,6 @@
 extern const char *buildid;
 extern const char *buildver;
 extern const char *copyright;
+extern const char *copyright_en;
 
 #endif /* BUILDID */

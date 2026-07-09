@@ -18,6 +18,7 @@
  */
 
 #include "angband.h"
+#include "lang.h"
 #include "buildid.h"
 #include "cave.h"
 #include "cmd-core.h"
@@ -98,7 +99,7 @@ static game_event_type statusline_events[] =
  */
 const char *stat_names[STAT_MAX] =
 {
-	"FUE: ", "INT: ", "SAB: ", "DES: ", "CON: "
+	"STR: ", "INT: ", "WIS: ", "DEX: ", "CON: "
 };
 
 /**
@@ -106,7 +107,7 @@ const char *stat_names[STAT_MAX] =
  */
 const char *stat_names_reduced[STAT_MAX] =
 {
-	"Fue: ", "Int: ", "Sab: ", "Des: ", "Con: "
+	"Str: ", "Int: ", "Wis: ", "Dex: ", "Con: "
 };
 
 /**
@@ -156,11 +157,11 @@ static void prt_stat(int stat, int row, int col)
 
 	/* Injured or healthy stat */
 	if (player->stat_cur[stat] < player->stat_max[stat]) {
-		put_str(stat_names_reduced[stat], row, col);
+		put_str(_(stat_names_reduced[stat]), row, col);
 		cnv_stat(player->state.stat_use[stat], tmp, sizeof(tmp));
 		c_put_str(COLOUR_YELLOW, tmp, row, col + 6);
 	} else {
-		put_str(stat_names[stat], row, col);
+		put_str(_(stat_names[stat]), row, col);
 		cnv_stat(player->state.stat_use[stat], tmp, sizeof(tmp));
 		c_put_str(COLOUR_L_GREEN, tmp, row, col + 6);
 	}
@@ -176,9 +177,9 @@ static int fmt_title(char buf[], int max, bool short_mode)
 
 	/* Wizard, winner or neither */
 	if (player->wizard) {
-		my_strcpy(buf, "[=-MAGO-=]", max);
+		my_strcpy(buf, _("[=-WIZARD-=]"), max);
 	} else if (player->total_winner || (player->lev > PY_MAX_LEVEL)) {
-		my_strcpy(buf, "***GANADOR***", max);
+		my_strcpy(buf, _("***WINNER***"), max);
 	} else if (player_is_shapechanged(player)) {		
 		my_strcpy(buf, player->shape->name, max);
 		my_strcap(buf);		
@@ -211,10 +212,10 @@ static void prt_level(int row, int col)
 	strnfmt(tmp, sizeof(tmp), "%6d", player->lev);
 
 	if (player->lev >= player->max_lev) {
-		put_str("NIVEL ", row, col);
+		put_str(_("LEVEL "), row, col);
 		c_put_str(COLOUR_L_GREEN, tmp, row, col + 6);
 	} else {
-		put_str("Nivel ", row, col);
+		put_str(_("Level "), row, col);
 		c_put_str(COLOUR_YELLOW, tmp, row, col + 6);
 	}
 }
@@ -241,10 +242,10 @@ static void prt_exp(int row, int col)
 
 
 	if (player->exp >= player->max_exp) {
-		put_str((lev50 ? "EXP" : "SIG"), row, col);
+		put_str(lev50 ? "EXP" : _("NXT"), row, col);
 		c_put_str(COLOUR_L_GREEN, out_val, row, col + 4);
 	} else {
-		put_str((lev50 ? "Exp" : "Sig"), row, col);
+		put_str(lev50 ? "Exp" : _("Nxt"), row, col);
 		c_put_str(COLOUR_YELLOW, out_val, row, col + 4);
 	}
 }
@@ -348,7 +349,7 @@ static void prt_sp(int row, int col)
 		return;
 	}
 
-	put_str("PM ", row, col);
+	put_str(_("SP "), row, col);
 
 	strnfmt(max_sp, sizeof(max_sp), "%4d", player->msp);
 	strnfmt(cur_sp, sizeof(cur_sp), "%4d", player->csp);
@@ -483,10 +484,10 @@ static int prt_speed_aux(char buf[], int max, uint8_t *attr)
 	/* 110 is normal speed, and requires no display */
 	if (i > 110) {
 		*attr = COLOUR_L_GREEN;
-		type = "Rápido";
+		type = _("Fast");
 	} else if (i < 110) {
 		*attr = COLOUR_L_UMBER;
-		type = "Lento";
+		type = _("Slow");
 	}
 
 	if (type && !OPT(player, effective_speed))
@@ -519,7 +520,7 @@ static void prt_speed(int row, int col)
 static int fmt_depth(char buf[], int max)
 {
 	if (!player->depth)
-		my_strcpy(buf, "Ciudad", max);
+		my_strcpy(buf, _("Town"), max);
 	else
 		strnfmt(buf, max, "%d' (N%d)",
 		        player->depth * 50, player->depth);
@@ -607,13 +608,13 @@ static int prt_stat_short(int stat, int row, int col)
 
 	/* Injured or healthy stat */
 	if (player->stat_cur[stat] < player->stat_max[stat]) {
-		put_str(format("%c:", stat_names_reduced[stat][0]), row, col);		
+		put_str(format("%c:", _(stat_names_reduced[stat])[0]), row, col);
 		cnv_stat(player->state.stat_use[stat], tmp, sizeof(tmp));
 		/* Trim whitespace */
 		strskip(tmp,' ', 0);
 		c_put_str(COLOUR_YELLOW, tmp, row, col + 2);
 	} else {
-		put_str(format("%c:", stat_names[stat][0]), row, col);
+		put_str(format("%c:", _(stat_names[stat])[0]), row, col);
 		cnv_stat(player->state.stat_use[stat], tmp, sizeof(tmp));
 		/* Trim whitespace */
 		strskip(tmp,' ', 0);
@@ -925,8 +926,10 @@ struct state_info
 static size_t prt_recall(int row, int col)
 {
 	if (player->word_recall) {
-		c_put_str(COLOUR_WHITE, "Retorno", row, col);
-		return sizeof "Retorno";
+		const char *s = _("Recall");
+
+		c_put_str(COLOUR_WHITE, s, row, col);
+		return strlen(s) + 1;
 	}
 
 	return 0;
@@ -939,8 +942,10 @@ static size_t prt_recall(int row, int col)
 static size_t prt_descent(int row, int col)
 {
 	if (player->deep_descent) {
-		c_put_str(COLOUR_WHITE, "Descenso", row, col);
-		return sizeof "Descenso";
+		const char *s = _("Deep Descent");
+
+		c_put_str(COLOUR_WHITE, s, row, col);
+		return strlen(s) + 1;
 	}
 
 	return 0;
@@ -967,7 +972,7 @@ static size_t prt_state(int row, int col)
 		int n = player_resting_count(player);
 
 		/* Start with "Rest" */
-		my_strcpy(text, "Desc      ", sizeof(text));
+		my_strcpy(text, _("Rest      "), sizeof(text));
 
 		/* Display according to length or intent of rest */
 		if (n >= 1000) {
@@ -1005,9 +1010,9 @@ static size_t prt_state(int row, int col)
 		int nrepeats = cmd_get_nrepeats();
 
 		if (nrepeats > 999)
-			strnfmt(text, sizeof(text), "Rep. %3d00", nrepeats / 100);
+			strnfmt(text, sizeof(text), _("Rep. %3d00"), nrepeats / 100);
 		else
-			strnfmt(text, sizeof(text), "Repetir %3d", nrepeats);
+			strnfmt(text, sizeof(text), _("Repeat %3d"), nrepeats);
 	}
 
 	/* Display the info (or blanks) */
@@ -1131,9 +1136,9 @@ static size_t prt_light(int row, int col)
 	int light = square_light(cave, player->grid);
 
 	if (light > 0) {
-		c_put_str(COLOUR_YELLOW, format("Luz %d ", light), row, col);
+		c_put_str(COLOUR_YELLOW, format("%s %d ", _("Light"), light), row, col);
 	} else {
-		c_put_str(COLOUR_PURPLE, format("Luz %d ", light), row, col);
+		c_put_str(COLOUR_PURPLE, format("%s %d ", _("Light"), light), row, col);
 	}
 
 	return 8 + (ABS(light) > 9 ? 1 : 0) + (light < 0 ? 1 : 0);
@@ -1210,9 +1215,9 @@ static size_t prt_dtrap(int row, int col)
 	if (square_isdtrap(cave, player->grid)) {
 		/* The player is on the border */
 		if (square_dtrap_edge(cave, player->grid))
-			c_put_str(COLOUR_YELLOW, "DTrampa ", row, col);
+			c_put_str(COLOUR_YELLOW, _("DTrap "), row, col);
 		else
-			c_put_str(COLOUR_L_GREEN, "DTrampa ", row, col);
+			c_put_str(COLOUR_L_GREEN, _("DTrap "), row, col);
 
 		return 6;
 	}
@@ -1236,7 +1241,7 @@ static size_t prt_study(int row, int col)
 			attr = COLOUR_L_DARK;
 
 		/* Print study message */
-		text = format("Estudio (%d)", player->upkeep->new_spells);
+		text = format(_("Study (%d)"), player->upkeep->new_spells);
 		c_put_str(attr, text, row, col);
 		return strlen(text) + 1;
 	}
@@ -1280,7 +1285,7 @@ static size_t prt_tmd(int row, int col)
 static size_t prt_unignore(int row, int col)
 {
 	if (player->unignoring) {
-		const char *str = "No Ignorado";
+		const char *str = _("Not Ignored");
 		put_str(str, row, col);
 		return strlen(str) + 1;
 	}
@@ -2136,23 +2141,23 @@ static void flush_subwindow(game_event_type type, game_event_data *data,
  */
 const char *window_flag_desc[32] =
 {
-	"Mostrar inv/equip",
-	"Mostrar equip/inv",
-	"Mostrar jugador (básico)",
-	"Mostrar jugador (extra)",
-	"Mostrar jugador (compacto)",
-	"Mostrar vista de mapa",
-	"Mostrar mensajes",
-	"Mostrar vista general",
-	"Mostrar recuerdo de monstruo",
-	"Mostrar recuerdo de objeto",
-	"Mostrar lista de monstruos",
-	"Mostrar estado",
-	"Mostrar lista de objetos",
-	"Mostrar jugador (barra superior)",
+	"Display inven/equip",
+	"Display equip/inven",
+	"Display player (basic)",
+	"Display player (extra)",
+	"Display player (compact)",
+	"Display map view",
+	"Display messages",
+	"Display overhead view",
+	"Display monster recall",
+	"Display object recall",
+	"Display monster list",
+	"Display status",
+	"Display item list",
+	"Display player (top bar)",
 #ifdef ALLOW_BORG
-	"Mostrar mensajes de borg",
-	"Mostrar estado de borg",
+	"Display borg messages",
+	"Display borg status",
 #else
 	NULL,
 	NULL,
@@ -2392,9 +2397,9 @@ void subwindows_set_flags(uint32_t *new_flags, size_t n_subwindows)
 static void init_angband_aux(const char *why)
 {
 	quit_fmt("%s\n\n%s", why,
-	         "El directorio 'lib' probablemente falta o está dañado.\n"
-	         "Quizás el archivo no se extrajo correctamente.\n"
-	         "Consulta el archivo 'readme.txt' para más información.");
+	         _("The 'lib' directory is probably missing or damaged.\n"
+	         "Maybe the file was not extracted correctly.\n"
+	         "See the file 'readme.txt' for more information."));
 }
 
 /*
@@ -2435,7 +2440,7 @@ static void show_splashscreen(game_event_type type, game_event_data *data,
 		char why[1024];
 
 		/* Crash and burn */
-		strnfmt(why, sizeof(why), "¡No se puede acceder al archivo '%s'!", buf);
+		strnfmt(why, sizeof(why), _("Cannot access the file '%s'!"), buf);
 		init_angband_aux(why);
 	}
 
@@ -2567,7 +2572,7 @@ static void new_level_display_update(game_event_type type,
  * ------------------------------------------------------------------------ */
 static void cheat_death(game_event_type type, game_event_data *data, void *user)
 {
-	msg("Invitas al modo mago y burlas a la muerte.");
+	msg(_("You invoke wizard mode and cheat death."));
 	event_signal(EVENT_MESSAGE_FLUSH);
 
 	wiz_cheat_death();
@@ -2586,7 +2591,7 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 	int floor_num = 0;
 	bool blind = ((player->timed[TMD_BLIND]) || (no_light(player)));
 
-	const char *p = "Ves"; //fix traduc ves por Ves ya que no hay un Tu ves
+	const char *p = _("You see");
 	bool can_pickup = false;
 	int i;
 
@@ -2610,9 +2615,9 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		char o_name[80];
 
 		if (!can_pickup)
-			p = "no tienes espacio para";
+			p = _("You have no room for");
 		else if (blind)
-			p = "Sientes";
+			p = _("You feel");
 
 		/* Describe the object.  Less detail if blind. */
 		/* fix traduc: object_desc ya antepone el número o "un par de" */
@@ -2627,19 +2632,19 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		/* Message */
 		event_signal(EVENT_MESSAGE_FLUSH);
 
-		msg("%s %s.", p, o_name); ///Fix traduc Ves X objeto
+		msg("%s %s.", p, o_name);
 	} else {
 		ui_event e;
 
 		if (!can_pickup)
-			p = "No tienes espacio para los siguientes objetos";
+			p = _("You have no room for the following objects");
 		else if (blind)
-			p = "Sientes algo en el suelo";
+			p = _("You feel something on the floor");
 
 		/* Display objects on the floor */
 		screen_save();
 		show_floor(floor_list, floor_num, OLIST_WEIGHT, NULL);
-		prt(format("Aquí se ve: "), 0, 0);  //fix traduc
+		prt(format(_("You see: ")), 0, 0);
 
 		/* Wait for it.  Use key as next command. */
 		e = inkey_ex();
@@ -2711,7 +2716,7 @@ static void ui_leave_init(game_event_type type, game_event_data *data,
 	event_remove_handler(EVENT_INITSTATUS, splashscreen_note, NULL);
 
 	/* Flash a message */
-	prt("Espera por favor...", 0, 0);
+	prt(_("Please wait..."), 0, 0);
 
 	/* Flush the message */
 	Term_fresh();

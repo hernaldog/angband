@@ -21,6 +21,7 @@
 #include "cmd-core.h"
 #include "cmds.h"
 #include "game-input.h"
+#include "lang.h"
 #include "mon-desc.h"
 #include "mon-lore.h"
 #include "mon-util.h"
@@ -98,25 +99,25 @@ static int context_menu_player_2(int mx, int my)
 	labels = string_make(lower_case);
 	m->selections = labels;
 
-	menu_dynamic_add_label(m, "Conocimiento", '~', MENU_VALUE_KNOWLEDGE, labels);
-	menu_dynamic_add_label(m, "Mostrar Mapa", 'M', MENU_VALUE_MAP, labels);
-	menu_dynamic_add_label(m, "^Mostrar Mensajes", 'P', MENU_VALUE_MESSAGES,
+	menu_dynamic_add_label(m, _("Knowledge"), '~', MENU_VALUE_KNOWLEDGE, labels);
+	menu_dynamic_add_label(m, _("Show Map"), 'M', MENU_VALUE_MAP, labels);
+	menu_dynamic_add_label(m, _("^Show Messages"), 'P', MENU_VALUE_MESSAGES,
 						   labels);
-	menu_dynamic_add_label(m, "Mostrar Lista de Monstruos", '[', MENU_VALUE_MONSTERS,
+	menu_dynamic_add_label(m, _("Show Monster List"), '[', MENU_VALUE_MONSTERS,
 						   labels);
-	menu_dynamic_add_label(m, "Mostrar Lista de Objetos", ']', MENU_VALUE_OBJECTS,
+	menu_dynamic_add_label(m, _("Show Object List"), ']', MENU_VALUE_OBJECTS,
 						   labels);
 
 	/* Ignore toggle has different keys, but we don't have a way to look them
 	 * up (see ui-game.c). */
 	cmdkey = (mode == KEYMAP_MODE_ORIG) ? 'K' : 'O';
-	menu_dynamic_add_label(m, "Alternar Ignorado", cmdkey,
+	menu_dynamic_add_label(m, _("Toggle Ignore"), cmdkey,
 						   MENU_VALUE_TOGGLE_IGNORED, labels);
 
-	ADD_LABEL("Ignorar un objeto", CMD_IGNORE, MN_ROW_VALID);
+	ADD_LABEL(_("Ignore an Item"), CMD_IGNORE, MN_ROW_VALID);
 
-	menu_dynamic_add_label(m, "Opciones", '=', MENU_VALUE_OPTIONS, labels);
-	menu_dynamic_add_label(m, "Comandos", '?', MENU_VALUE_HELP, labels);
+	menu_dynamic_add_label(m, _("Options"), '=', MENU_VALUE_OPTIONS, labels);
+	menu_dynamic_add_label(m, _("Commands"), '?', MENU_VALUE_HELP, labels);
 
 	/* No flush needed */
 	msg_flag = false;
@@ -125,7 +126,7 @@ static int context_menu_player_2(int mx, int my)
 	menu_dynamic_calc_location(m, mx, my);
 	region_erase_bordered(&m->boundary);
 
-	prt("(Enter para seleccionar, ESC) Comando:", 0, 0);
+	prt(_("(Enter to select, ESC) Command:"), 0, 0);
 	selected = menu_dynamic_select(m);
 
 	menu_dynamic_free(m);
@@ -226,11 +227,11 @@ static void context_menu_player_display_floor(void)
 	screen_save();
 
 	/* Prompt for a command */
-	prt(format("(Inventario) Carga %d.%d lb (%d.%d lb %s). Objeto para comando: ",
+	prt(format(_("(Inventory) Weight %d.%d lb (%d.%d lb %s). Item for command: "),
 			   player->upkeep->total_weight / 10,
 			   player->upkeep->total_weight % 10,
 			   abs(diff) / 10, abs(diff) % 10,
-			   (diff < 0 ? "sobrecargado" : "restante")), 0, 0);
+			   (diff < 0 ? _("overweight") : _("remaining"))), 0, 0);
 
 
 	/* Get an item to use a context command on */
@@ -264,35 +265,35 @@ int context_menu_player(int mx, int my)
 	labels = string_make(lower_case);
 	m->selections = labels;
 
-	ADD_LABEL("Usar", CMD_USE, MN_ROW_VALID);
+	ADD_LABEL(_("Use"), CMD_USE, MN_ROW_VALID);
 
 	/* if player can cast, add casting option */
 	if (player_can_cast(player, false)) {
-		ADD_LABEL("Lanzar", CMD_CAST, MN_ROW_VALID);
+		ADD_LABEL(_("Cast"), CMD_CAST, MN_ROW_VALID);
 	}
 
 	/* if player is on stairs or autoexplore commands are enabled,
 		add option to use them */
 	if (square_isupstairs(cave, player->grid) || autoexplore) {
-		ADD_LABEL("Subir", CMD_GO_UP, MN_ROW_VALID);
+		ADD_LABEL(_("Go Up"), CMD_GO_UP, MN_ROW_VALID);
 	}
 	if (square_isdownstairs(cave, player->grid) || autoexplore) {
-		ADD_LABEL("Bajar", CMD_GO_DOWN, MN_ROW_VALID);
+		ADD_LABEL(_("Go Down"), CMD_GO_DOWN, MN_ROW_VALID);
 	}
 	if (autoexplore) {
-		ADD_LABEL("Explorar", CMD_EXPLORE, MN_ROW_VALID);
+		ADD_LABEL(_("Explore"), CMD_EXPLORE, MN_ROW_VALID);
 	}
 
 	/* Looking has different keys, but we don't have a way to look them up
 	 * (see ui-game.c). */
 	cmdkey = (mode == KEYMAP_MODE_ORIG) ? 'l' : 'x';
-	menu_dynamic_add_label(m, "Mirar", cmdkey, MENU_VALUE_LOOK, labels);
+	menu_dynamic_add_label(m, _("Look"), cmdkey, MENU_VALUE_LOOK, labels);
 
 	/* 'R' is used for resting in both keymaps. */
-	menu_dynamic_add_label(m, "Descansar", 'R', MENU_VALUE_REST, labels);
+	menu_dynamic_add_label(m, _("Rest"), 'R', MENU_VALUE_REST, labels);
 
 	/* 'i' is used for inventory in both keymaps. */
-	menu_dynamic_add_label(m, "Inventario", 'i', MENU_VALUE_INVENTORY, labels);
+	menu_dynamic_add_label(m, _("Inventory"), 'i', MENU_VALUE_INVENTORY, labels);
 
 	/* if object under player add pickup option */
 	obj = square_object(cave, player->grid);
@@ -300,20 +301,20 @@ int context_menu_player(int mx, int my)
 			menu_row_validity_t valid;
 
 			/* 'f' isn't in rogue keymap, so we can use it here. */
-  			menu_dynamic_add_label(m, "Suelo", 'f', MENU_VALUE_FLOOR, labels);
+  			menu_dynamic_add_label(m, _("Floor"), 'f', MENU_VALUE_FLOOR, labels);
 			valid = (inven_carry_okay(obj)) ? MN_ROW_VALID : MN_ROW_INVALID;
-			ADD_LABEL("Recoger", CMD_PICKUP, valid);
+			ADD_LABEL(_("Pick Up"), CMD_PICKUP, valid);
 	}
 
 	/* 'C' is used for the character sheet in both keymaps. */
-	menu_dynamic_add_label(m, "Personaje", 'C', MENU_VALUE_CHARACTER, labels);
+	menu_dynamic_add_label(m, _("Character"), 'C', MENU_VALUE_CHARACTER, labels);
 
 	if (!OPT(player, center_player)) {
-		menu_dynamic_add_label(m, "^Centrar Mapa", 'L', MENU_VALUE_CENTER_MAP,
+		menu_dynamic_add_label(m, _("^Center Map"), 'L', MENU_VALUE_CENTER_MAP,
 							   labels);
 	}
 
-	menu_dynamic_add_label(m, "Otro", ' ', MENU_VALUE_OTHER, labels);
+	menu_dynamic_add_label(m, _("Other"), ' ', MENU_VALUE_OTHER, labels);
 
 	/* No flush needed */
 	msg_flag = false;
@@ -322,7 +323,7 @@ int context_menu_player(int mx, int my)
 	menu_dynamic_calc_location(m, mx, my);
 	region_erase_bordered(&m->boundary);
 
-	prt("(Enter para seleccionar, ESC) Comando:", 0, 0);
+	prt(_("(Enter to select, ESC) Command:"), 0, 0);
 	selected = menu_dynamic_select(m);
 
 	menu_dynamic_free(m);
@@ -397,7 +398,7 @@ int context_menu_player(int mx, int my)
 
 		case MENU_VALUE_LOOK:
 			if (target_set_interactive(TARGET_LOOK, player->grid.x, player->grid.y, true))
-				msg("Objetivo Seleccionado.");
+				msg(_("Target Selected."));
 			break;
 
 		case MENU_VALUE_CHARACTER:
@@ -445,71 +446,71 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 	/* Looking has different keys, but we don't have a way to look them up
 	 * (see ui-game.c). */
 	cmdkey = (mode == KEYMAP_MODE_ORIG) ? 'l' : 'x';
-	menu_dynamic_add_label(m, "Mirar", cmdkey, MENU_VALUE_LOOK, labels);
+	menu_dynamic_add_label(m, _("Look"), cmdkey, MENU_VALUE_LOOK, labels);
 
 	if (square(c, grid)->mon)
 		/* '/' is used for recall in both keymaps. */
-		menu_dynamic_add_label(m, "Recordar Info", '/', MENU_VALUE_RECALL,
+		menu_dynamic_add_label(m, _("Recall Info"), '/', MENU_VALUE_RECALL,
 							   labels);
 
-	ADD_LABEL("Usar Objeto En", CMD_USE, MN_ROW_VALID);
+	ADD_LABEL(_("Use Item On"), CMD_USE, MN_ROW_VALID);
 
 	if (player_can_cast(player, false))
-		ADD_LABEL("Lanzar Sobre", CMD_CAST, MN_ROW_VALID);
+		ADD_LABEL(_("Cast On"), CMD_CAST, MN_ROW_VALID);
 
 	if (adjacent) {
 		struct object *obj = chest_check(player, grid, CHEST_ANY);
-		ADD_LABEL((square(c, grid)->mon) ? "Atacar" : "Alterar", CMD_ALTER,
+		ADD_LABEL((square(c, grid)->mon) ? _("Attack") : _("Alter"), CMD_ALTER,
 				  MN_ROW_VALID);
 
 		if (obj && !ignore_item_ok(player, obj)) {
 			if (obj->known->pval) {
 				if (is_locked_chest(obj)) {
-					ADD_LABEL("Desarmar Cofre", CMD_DISARM, MN_ROW_VALID);
-					ADD_LABEL("Abrir Cofre", CMD_OPEN, MN_ROW_VALID);
+					ADD_LABEL(_("Disarm Chest"), CMD_DISARM, MN_ROW_VALID);
+					ADD_LABEL(_("Open Chest"), CMD_OPEN, MN_ROW_VALID);
 				} else {
-					ADD_LABEL("Abrir Cofre Desarmado", CMD_OPEN, MN_ROW_VALID);
+					ADD_LABEL(_("Open Disarmed Chest"), CMD_OPEN, MN_ROW_VALID);
 				}
 			} else {
-				ADD_LABEL("Abrir Cofre", CMD_OPEN, MN_ROW_VALID);
+				ADD_LABEL(_("Open Chest"), CMD_OPEN, MN_ROW_VALID);
 			}
 		}
 
 		if ((square(c, grid)->mon > 0) && player_has(player, PF_STEAL)) {
-			ADD_LABEL("Robar", CMD_STEAL, MN_ROW_VALID);
+			ADD_LABEL(_("Steal"), CMD_STEAL, MN_ROW_VALID);
 		}
 
 		if (square_isdisarmabletrap(c, grid)) {
-			ADD_LABEL("Desarmar", CMD_DISARM, MN_ROW_VALID);
-			ADD_LABEL("Saltar Sobre", CMD_JUMP, MN_ROW_VALID);
+			ADD_LABEL(_("Disarm"), CMD_DISARM, MN_ROW_VALID);
+			ADD_LABEL(_("Jump Onto"), CMD_JUMP, MN_ROW_VALID);
 		}
 
 		if (square_isopendoor(c, grid)) {
-			ADD_LABEL("Cerrar", CMD_CLOSE, MN_ROW_VALID);
+			ADD_LABEL(_("Close"), CMD_CLOSE, MN_ROW_VALID);
 		}
 		else if (square_iscloseddoor(c, grid)) {
-			ADD_LABEL("Abrir", CMD_OPEN, MN_ROW_VALID);
-			ADD_LABEL("Cerrar con Llave", CMD_DISARM, MN_ROW_VALID);
+			ADD_LABEL(_("Open"), CMD_OPEN, MN_ROW_VALID);
+			ADD_LABEL(_("Lock"), CMD_DISARM, MN_ROW_VALID);
 		}
 		else if (square_isdiggable(c, grid)) {
-			ADD_LABEL("Excavar", CMD_TUNNEL, MN_ROW_VALID);
+			ADD_LABEL(_("Tunnel"), CMD_TUNNEL, MN_ROW_VALID);
 		}
 
-		ADD_LABEL("Caminar Hacia", CMD_WALK, MN_ROW_VALID);
+		ADD_LABEL(_("Walk To"), CMD_WALK, MN_ROW_VALID);
 	} else {
 		/* ',' is used for ignore in rogue keymap, so we'll just swap letters */
 		cmdkey = (mode == KEYMAP_MODE_ORIG) ? ',' : '.';
-		menu_dynamic_add_label(m, "Encontrar Ruta Hasta", cmdkey, CMD_PATHFIND, labels);
+		menu_dynamic_add_label(m, _("Find Path To"), cmdkey, CMD_PATHFIND, labels);
 
-		ADD_LABEL("Caminar Hacia", CMD_WALK, MN_ROW_VALID);
-		ADD_LABEL("Correr Hacia", CMD_RUN, MN_ROW_VALID);
+		ADD_LABEL(_("Walk To"), CMD_WALK, MN_ROW_VALID);
+		ADD_LABEL(_("Run To"), CMD_RUN, MN_ROW_VALID);
 	}
 
 	if (player_can_fire(player, false)) {
-		ADD_LABEL("Disparar Sobre", CMD_FIRE, MN_ROW_VALID);
+		ADD_LABEL(_("Fire At"), CMD_FIRE, MN_ROW_VALID);
 	}
 
-	ADD_LABEL("Lanzar A", CMD_THROW, MN_ROW_VALID);
+	ADD_LABEL(_("Throw At"), CMD_THROW, MN_ROW_VALID);
 
 	/* No flush needed */
 	msg_flag = false;
@@ -519,7 +520,7 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 	region_erase_bordered(&m->boundary);
 
 	if (player->timed[TMD_IMAGE]) {
-		prt("(Enter para seleccionar comando, ESC para cancelar) Ves algo extraño:", 0, 0);
+		prt(_("(Enter to select command, ESC to cancel) You see something strange:"), 0, 0);
 	} else if (square(c, grid)->mon) {
 		char m_name[80];
 		struct monster *mon = square_monster(c, grid);
@@ -527,7 +528,7 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 		/* Get the monster name ("a kobold") */
 		monster_desc(m_name, sizeof(m_name), mon, MDESC_IND_VIS);
 
-		prt(format("(Enter para seleccionar comando, ESC para cancelar) Ves %s:",
+		prt(format(_("(Enter to select command, ESC to cancel) You see %s:"),
 				   m_name), 0, 0);
 	} else if (square_obj && !ignore_item_ok(player, square_obj)) {
 		char o_name[80];
@@ -536,20 +537,20 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 		/* Obtain an object description */
 		object_desc(o_name, sizeof(o_name), square_obj, ODESC_FULL, player);
 		//fix traduc
-		if (square_obj->number > 1) {			
+		if (square_obj->number > 1) {
         strnfmt(o_name_final, sizeof(o_name_final), "%d %s", square_obj->number, o_name);
-        } else {        	
+        } else {
         	my_strcpy(o_name_final, o_name, sizeof(o_name_final));
         }
 
-		//fix traduc		
-		prt(format("(Enter para seleccionar comando, ESC para cancelar) Ves %s:", o_name_final), 0, 0);
+		//fix traduc
+		prt(format(_("(Enter to select command, ESC to cancel) You see %s:"), o_name_final), 0, 0);
 	} else {
 		/* Feature (apply mimic) */
 		const char *name = square_apparent_name(player->cave, grid);
 		const char *prefix = square_apparent_look_prefix(player->cave, grid);
 
-		prt(format("(Enter para seleccionar comando, ESC para cancelar) Ves %s%s:", prefix, name), 0, 0);
+		prt(format(_("(Enter to select command, ESC to cancel) You see %s%s:"), prefix, name), 0, 0);
 	}
 
 	selected = menu_dynamic_select(m);
@@ -606,7 +607,7 @@ int context_menu_cave(struct chunk *c, int y, int x, int adjacent, int mx,
 		case MENU_VALUE_LOOK:
 			/* Look at the spot */
 			if (target_set_interactive(TARGET_LOOK, x, y, true)) {
-				msg("Objetivo Seleccionado.");
+				msg(_("Target Selected."));
 			}
 			break;
 
@@ -691,97 +692,97 @@ int context_menu_object(struct object *obj)
 	m->selections = labels;
 
 	/* 'I' is used for inspect in both keymaps. */
-	menu_dynamic_add_label(m, "Inspeccionar", 'I', MENU_VALUE_INSPECT, labels);
+	menu_dynamic_add_label(m, _("Inspect"), 'I', MENU_VALUE_INSPECT, labels);
 
 	if (obj_can_browse(obj)) {
 		if (obj_can_cast_from(obj) && player_can_cast(player, false))
-			ADD_LABEL("Lanzar", CMD_CAST, MN_ROW_VALID);
+			ADD_LABEL(_("Cast"), CMD_CAST, MN_ROW_VALID);
 
 		if (obj_can_study(obj) && player_can_study(player, false))
-			ADD_LABEL("Estudiar", CMD_STUDY, MN_ROW_VALID);
+			ADD_LABEL(_("Study"), CMD_STUDY, MN_ROW_VALID);
 
 		if (player_can_read(player, false))
-			ADD_LABEL("Examinar", CMD_BROWSE_SPELL, MN_ROW_VALID);
+			ADD_LABEL(_("Browse"), CMD_BROWSE_SPELL, MN_ROW_VALID);
 	} else if (obj_is_useable(obj)) {
 		if (tval_is_wand(obj)) {
 			menu_row_validity_t valid = (obj_has_charges(obj)) ?
 				MN_ROW_VALID : MN_ROW_INVALID;
-			ADD_LABEL("Apuntar", CMD_USE_WAND, valid);
+			ADD_LABEL(_("Aim"), CMD_USE_WAND, valid);
 		} else if (tval_is_rod(obj)) {
 			menu_row_validity_t valid = (obj_can_zap(obj)) ?
 				MN_ROW_VALID : MN_ROW_INVALID;
-			ADD_LABEL("Activar", CMD_USE_ROD, valid);
+			ADD_LABEL(_("Zap Rod"), CMD_USE_ROD, valid);
 		} else if (tval_is_staff(obj)) {
 			menu_row_validity_t valid = (obj_has_charges(obj)) ?
 				MN_ROW_VALID : MN_ROW_INVALID;
-			ADD_LABEL("Usar", CMD_USE_STAFF, valid);
+			ADD_LABEL(_("Use"), CMD_USE_STAFF, valid);
 		} else if (tval_is_scroll(obj)) {
 			menu_row_validity_t valid = (player_can_read(player, false)) ?
 				MN_ROW_VALID : MN_ROW_INVALID;
-			ADD_LABEL("Leer", CMD_READ_SCROLL, valid);
+			ADD_LABEL(_("Read"), CMD_READ_SCROLL, valid);
 		} else if (tval_is_potion(obj)) {
-			ADD_LABEL("Beber", CMD_QUAFF, MN_ROW_VALID);
+			ADD_LABEL(_("Quaff"), CMD_QUAFF, MN_ROW_VALID);
 		} else if (tval_is_edible(obj)) {
-			ADD_LABEL("Comer", CMD_EAT, MN_ROW_VALID);
+			ADD_LABEL(_("Eat"), CMD_EAT, MN_ROW_VALID);
 		} else if (obj_is_activatable(obj)) {
 			menu_row_validity_t valid = (object_is_equipped(player->body, obj)
 										 && obj_can_activate(obj)) ?
 				MN_ROW_VALID : MN_ROW_INVALID;
-			ADD_LABEL("Activar", CMD_ACTIVATE, valid);
+			ADD_LABEL(_("Activate"), CMD_ACTIVATE, valid);
 		} else if (obj_can_fire(obj)) {
-			ADD_LABEL("Disparar", CMD_FIRE, MN_ROW_VALID);
+			ADD_LABEL(_("Fire"), CMD_FIRE, MN_ROW_VALID);
 		} else {
-			ADD_LABEL("Usar", CMD_USE, MN_ROW_VALID);
+			ADD_LABEL(_("Use"), CMD_USE, MN_ROW_VALID);
 		}
 	}
 
 	if (obj_can_refill(obj))
-		ADD_LABEL("Recargar", CMD_REFILL, MN_ROW_VALID);
+		ADD_LABEL(_("Refuel"), CMD_REFILL, MN_ROW_VALID);
 
 	if (object_is_equipped(player->body, obj) && obj_can_takeoff(obj)) {
-		ADD_LABEL("Quitar", CMD_TAKEOFF, MN_ROW_VALID);
+		ADD_LABEL(_("Take Off"), CMD_TAKEOFF, MN_ROW_VALID);
 	} else if (!object_is_equipped(player->body, obj) && obj_can_wear(obj)) {
-		ADD_LABEL("Equipar", CMD_WIELD, MN_ROW_VALID);
+		ADD_LABEL(_("Wear"), CMD_WIELD, MN_ROW_VALID);
 	}
 
 	if (object_is_carried(player, obj)) {
 		if (!square_isshop(cave, player->grid)) {
-			ADD_LABEL("Soltar", CMD_DROP, MN_ROW_VALID);
+			ADD_LABEL(_("Drop"), CMD_DROP, MN_ROW_VALID);
 
 			if (obj->number > 1) {
 				/* 'D' is used for ignore in rogue keymap, so swap letters. */
 				cmdkey = (mode == KEYMAP_MODE_ORIG) ? 'D' : 'A';
-				menu_dynamic_add_label(m, "Soltar Todo", cmdkey,
+				menu_dynamic_add_label(m, _("Drop All"), cmdkey,
 									   MENU_VALUE_DROP_ALL, labels);
 			}
 		} else if (square(cave, player->grid)->feat == FEAT_HOME) {
-			ADD_LABEL("Soltar", CMD_DROP, MN_ROW_VALID);
+			ADD_LABEL(_("Drop"), CMD_DROP, MN_ROW_VALID);
 
 			if (obj->number > 1) {
 				/* 'D' is used for ignore in rogue keymap, so swap letters. */
 				cmdkey = (mode == KEYMAP_MODE_ORIG) ? 'D' : 'A';
-				menu_dynamic_add_label(m, "Soltar Todo", cmdkey,
+				menu_dynamic_add_label(m, _("Drop All"), cmdkey,
 									   MENU_VALUE_DROP_ALL, labels);
 			}
 		} else if (store_will_buy_tester(obj)) {
-			ADD_LABEL("Vender", CMD_DROP, MN_ROW_VALID);
+			ADD_LABEL(_("Sell"), CMD_DROP, MN_ROW_VALID);
 		}
 	} else {
 		menu_row_validity_t valid = (inven_carry_okay(obj)) ?
 			MN_ROW_VALID : MN_ROW_INVALID;
-		ADD_LABEL("Recoger", CMD_PICKUP, valid);
+		ADD_LABEL(_("Pick Up"), CMD_PICKUP, valid);
 	}
 
 	if (obj_can_throw(obj)) {
-		ADD_LABEL("Lanzar", CMD_THROW, MN_ROW_VALID);
+		ADD_LABEL(_("Throw"), CMD_THROW, MN_ROW_VALID);
 	}
 
-	ADD_LABEL("Inscribir", CMD_INSCRIBE, MN_ROW_VALID);
+	ADD_LABEL(_("Inscribe"), CMD_INSCRIBE, MN_ROW_VALID);
 
 	if (obj_has_inscrip(obj))
-		ADD_LABEL("Desinscribir", CMD_UNINSCRIBE, MN_ROW_VALID);
+		ADD_LABEL(_("Uninscribe"), CMD_UNINSCRIBE, MN_ROW_VALID);
 
-	ADD_LABEL( (object_is_ignored(obj) ? "Dejar de Ignorar" : "Ignorar"), CMD_IGNORE,
+	ADD_LABEL( (object_is_ignored(obj) ? _("Unignore") : _("Ignore")), CMD_IGNORE,
 			   MN_ROW_VALID);
 
 	/* work out display region */
@@ -808,7 +809,7 @@ int context_menu_object(struct object *obj)
 	menu_layout(m, &r);
 	region_erase_bordered(&r);
 
-	prt(format("(Enter para seleccionar, ESC) Comando para %s:", header), 0, 0);
+	prt(format(_("(Enter to select, ESC) Command for %s:"), header), 0, 0);
 	selected = menu_dynamic_select(m);
 
 	menu_dynamic_free(m);
@@ -956,7 +957,7 @@ static int show_command_list(struct cmd_info cmd_list[], int size, int mx,
 	screen_save();
 	region_erase_bordered(&m->boundary);
 
-	prt("(Enter para seleccionar, ESC) Comando:", 0, 0);
+	prt(_("(Enter to select, ESC) Command:"), 0, 0);
 	selected = menu_dynamic_select(m);
 	menu_dynamic_free(m);
 
@@ -981,19 +982,19 @@ int context_menu_command(int mx, int my)
 	}
 
 	m->selections = lower_case;
-	menu_dynamic_add(m, "Objeto", 1);
-	menu_dynamic_add(m, "Acción", 2);
-	menu_dynamic_add(m, "Gestión de Objetos", 3);
-	menu_dynamic_add(m, "Información", 4);
-	menu_dynamic_add(m, "Utilidades", 5);
-	menu_dynamic_add(m, "Miscelánea", 6);
+	menu_dynamic_add(m, _("Item"), 1);
+	menu_dynamic_add(m, _("Action"), 2);
+	menu_dynamic_add(m, _("Object Management"), 3);
+	menu_dynamic_add(m, _("Information"), 4);
+	menu_dynamic_add(m, _("Utilities"), 5);
+	menu_dynamic_add(m, _("Miscellaneous"), 6);
 
 	menu_dynamic_calc_location(m, mx, my);
 
 	screen_save();
 	region_erase_bordered(&m->boundary);
 
-	prt("(Enter para seleccionar, ESC) Comando:", 0, 0);
+	prt(_("(Enter to select, ESC) Command:"), 0, 0);
 	selected = menu_dynamic_select(m);
 	menu_dynamic_free(m);
 
@@ -1082,7 +1083,7 @@ void textui_process_click(ui_event e)
 			} else if (e.mouse.mods & KC_MOD_ALT) {
 				/* alt-click - look */
 				if (target_set_interactive(TARGET_LOOK, x, y, true)) {
-					msg("Objetivo Seleccionado.");
+					msg(_("Target Selected."));
 				}
 			} else {
 				/* Pathfind does not work well on trap detection borders,

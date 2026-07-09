@@ -4,109 +4,109 @@
 
 ANGBAND MENU
 {
-	POPUP "&Archivo"
+	POPUP "&File"
 	{
-		MENUITEM "&Nuevo\tCtrl+N", IDM_FILE_NEW
-		MENUITEM "&Abrir...\tCtrl+O", IDM_FILE_OPEN
+		MENUITEM "&New\tCtrl+N", IDM_FILE_NEW
+		MENUITEM "&Open...\tCtrl+O", IDM_FILE_OPEN
 		MENUITEM SEPARATOR
-		MENUITEM "&Guardar\tCtrl+S", IDM_FILE_SAVE
+		MENUITEM "&Save\tCtrl+S", IDM_FILE_SAVE
 		MENUITEM SEPARATOR
-		MENUITEM "S&alir\tCtrl+X", IDM_FILE_EXIT
+		MENUITEM "E&xit\tCtrl+X", IDM_FILE_EXIT
 	}
 
-	POPUP "&Ventana"
+	POPUP "&Window"
 	{
-		POPUP "&Visibilidad"
+		POPUP "&Visibility"
 		{
-			MENUITEM "Ventana Term-0", IDM_WINDOW_VIS_0
-			MENUITEM "Ventana Term-1", IDM_WINDOW_VIS_1
-			MENUITEM "Ventana Term-2", IDM_WINDOW_VIS_2
-			MENUITEM "Ventana Term-3", IDM_WINDOW_VIS_3
-			MENUITEM "Ventana Term-4", IDM_WINDOW_VIS_4
-			MENUITEM "Ventana Term-5", IDM_WINDOW_VIS_5
-			MENUITEM "Ventana Term-6", IDM_WINDOW_VIS_6
-			MENUITEM "Ventana Term-7", IDM_WINDOW_VIS_7
+			MENUITEM "Term-0 window", IDM_WINDOW_VIS_0
+			MENUITEM "Term-1 window", IDM_WINDOW_VIS_1
+			MENUITEM "Term-2 window", IDM_WINDOW_VIS_2
+			MENUITEM "Term-3 window", IDM_WINDOW_VIS_3
+			MENUITEM "Term-4 window", IDM_WINDOW_VIS_4
+			MENUITEM "Term-5 window", IDM_WINDOW_VIS_5
+			MENUITEM "Term-6 window", IDM_WINDOW_VIS_6
+			MENUITEM "Term-7 window", IDM_WINDOW_VIS_7
 		}
 
-		POPUP "&Fuente"
+		POPUP "&Font"
 		{
-			MENUITEM "Ventana Term-0", IDM_WINDOW_FONT_0
-			MENUITEM "Ventana Term-1", IDM_WINDOW_FONT_1
-			MENUITEM "Ventana Term-2", IDM_WINDOW_FONT_2
-			MENUITEM "Ventana Term-3", IDM_WINDOW_FONT_3
-			MENUITEM "Ventana Term-4", IDM_WINDOW_FONT_4
-			MENUITEM "Ventana Term-5", IDM_WINDOW_FONT_5
-			MENUITEM "Ventana Term-6", IDM_WINDOW_FONT_6
-			MENUITEM "Ventana Term-7", IDM_WINDOW_FONT_7
-		}
-
-		MENUITEM SEPARATOR
-
-		POPUP "Pantalla alternativa"
-		{
-			MENUITEM "Ventana Term-0", IDM_WINDOW_BIZ_0
-			MENUITEM "Ventana Term-1", IDM_WINDOW_BIZ_1
-			MENUITEM "Ventana Term-2", IDM_WINDOW_BIZ_2
-			MENUITEM "Ventana Term-3", IDM_WINDOW_BIZ_3
-			MENUITEM "Ventana Term-4", IDM_WINDOW_BIZ_4
-			MENUITEM "Ventana Term-5", IDM_WINDOW_BIZ_5
-			MENUITEM "Ventana Term-6", IDM_WINDOW_BIZ_6
-			MENUITEM "Ventana Term-7", IDM_WINDOW_BIZ_7
-		}
-
-		POPUP "Aumentar ancho de celda"
-		{
-			MENUITEM "Ventana Term-0", IDM_WINDOW_I_WID_0
-			MENUITEM "Ventana Term-1", IDM_WINDOW_I_WID_1
-			MENUITEM "Ventana Term-2", IDM_WINDOW_I_WID_2
-			MENUITEM "Ventana Term-3", IDM_WINDOW_I_WID_3
-			MENUITEM "Ventana Term-4", IDM_WINDOW_I_WID_4
-			MENUITEM "Ventana Term-5", IDM_WINDOW_I_WID_5
-			MENUITEM "Ventana Term-6", IDM_WINDOW_I_WID_6
-			MENUITEM "Ventana Term-7", IDM_WINDOW_I_WID_7
-		}
-
-		POPUP "Reducir ancho de celda"
-		{
-			MENUITEM "Ventana Term-0", IDM_WINDOW_D_WID_0
-			MENUITEM "Ventana Term-1", IDM_WINDOW_D_WID_1
-			MENUITEM "Ventana Term-2", IDM_WINDOW_D_WID_2
-			MENUITEM "Ventana Term-3", IDM_WINDOW_D_WID_3
-			MENUITEM "Ventana Term-4", IDM_WINDOW_D_WID_4
-			MENUITEM "Ventana Term-5", IDM_WINDOW_D_WID_5
-			MENUITEM "Ventana Term-6", IDM_WINDOW_D_WID_6
-			MENUITEM "Ventana Term-7", IDM_WINDOW_D_WID_7
-		}
-
-		POPUP "Aumentar alto de celda"
-		{
-			MENUITEM "Ventana Term-0", IDM_WINDOW_I_HGT_0
-			MENUITEM "Ventana Term-1", IDM_WINDOW_I_HGT_1
-			MENUITEM "Ventana Term-2", IDM_WINDOW_I_HGT_2
-			MENUITEM "Ventana Term-3", IDM_WINDOW_I_HGT_3
-			MENUITEM "Ventana Term-4", IDM_WINDOW_I_HGT_4
-			MENUITEM "Ventana Term-5", IDM_WINDOW_I_HGT_5
-			MENUITEM "Ventana Term-6", IDM_WINDOW_I_HGT_6
-			MENUITEM "Ventana Term-7", IDM_WINDOW_I_HGT_7
-		}
-
-		POPUP "Reducir alto de celda"
-		{
-			MENUITEM "Ventana Term-0", IDM_WINDOW_D_HGT_0
-			MENUITEM "Ventana Term-1", IDM_WINDOW_D_HGT_1
-			MENUITEM "Ventana Term-2", IDM_WINDOW_D_HGT_2
-			MENUITEM "Ventana Term-3", IDM_WINDOW_D_HGT_3
-			MENUITEM "Ventana Term-4", IDM_WINDOW_D_HGT_4
-			MENUITEM "Ventana Term-5", IDM_WINDOW_D_HGT_5
-			MENUITEM "Ventana Term-6", IDM_WINDOW_D_HGT_6
-			MENUITEM "Ventana Term-7", IDM_WINDOW_D_HGT_7
+			MENUITEM "Term-0 window", IDM_WINDOW_FONT_0
+			MENUITEM "Term-1 window", IDM_WINDOW_FONT_1
+			MENUITEM "Term-2 window", IDM_WINDOW_FONT_2
+			MENUITEM "Term-3 window", IDM_WINDOW_FONT_3
+			MENUITEM "Term-4 window", IDM_WINDOW_FONT_4
+			MENUITEM "Term-5 window", IDM_WINDOW_FONT_5
+			MENUITEM "Term-6 window", IDM_WINDOW_FONT_6
+			MENUITEM "Term-7 window", IDM_WINDOW_FONT_7
 		}
 
 		MENUITEM SEPARATOR
 
-		POPUP "Tamaño de celda fuente Term 0"
+		POPUP "Bizarre Display"
 		{
-			MENUITEM "Fuente",  IDM_TILE_FONT
+			MENUITEM "Term-0 window", IDM_WINDOW_BIZ_0
+			MENUITEM "Term-1 window", IDM_WINDOW_BIZ_1
+			MENUITEM "Term-2 window", IDM_WINDOW_BIZ_2
+			MENUITEM "Term-3 window", IDM_WINDOW_BIZ_3
+			MENUITEM "Term-4 window", IDM_WINDOW_BIZ_4
+			MENUITEM "Term-5 window", IDM_WINDOW_BIZ_5
+			MENUITEM "Term-6 window", IDM_WINDOW_BIZ_6
+			MENUITEM "Term-7 window", IDM_WINDOW_BIZ_7
+		}
+
+		POPUP "Increase Tile Width"
+		{
+			MENUITEM "Term-0 window", IDM_WINDOW_I_WID_0
+			MENUITEM "Term-1 window", IDM_WINDOW_I_WID_1
+			MENUITEM "Term-2 window", IDM_WINDOW_I_WID_2
+			MENUITEM "Term-3 window", IDM_WINDOW_I_WID_3
+			MENUITEM "Term-4 window", IDM_WINDOW_I_WID_4
+			MENUITEM "Term-5 window", IDM_WINDOW_I_WID_5
+			MENUITEM "Term-6 window", IDM_WINDOW_I_WID_6
+			MENUITEM "Term-7 window", IDM_WINDOW_I_WID_7
+		}
+
+		POPUP "Decrease Tile Width"
+		{
+			MENUITEM "Term-0 window", IDM_WINDOW_D_WID_0
+			MENUITEM "Term-1 window", IDM_WINDOW_D_WID_1
+			MENUITEM "Term-2 window", IDM_WINDOW_D_WID_2
+			MENUITEM "Term-3 window", IDM_WINDOW_D_WID_3
+			MENUITEM "Term-4 window", IDM_WINDOW_D_WID_4
+			MENUITEM "Term-5 window", IDM_WINDOW_D_WID_5
+			MENUITEM "Term-6 window", IDM_WINDOW_D_WID_6
+			MENUITEM "Term-7 window", IDM_WINDOW_D_WID_7
+		}
+
+		POPUP "Increase Tile Height"
+		{
+			MENUITEM "Term-0 window", IDM_WINDOW_I_HGT_0
+			MENUITEM "Term-1 window", IDM_WINDOW_I_HGT_1
+			MENUITEM "Term-2 window", IDM_WINDOW_I_HGT_2
+			MENUITEM "Term-3 window", IDM_WINDOW_I_HGT_3
+			MENUITEM "Term-4 window", IDM_WINDOW_I_HGT_4
+			MENUITEM "Term-5 window", IDM_WINDOW_I_HGT_5
+			MENUITEM "Term-6 window", IDM_WINDOW_I_HGT_6
+			MENUITEM "Term-7 window", IDM_WINDOW_I_HGT_7
+		}
+
+		POPUP "Decrease Tile Height"
+		{
+			MENUITEM "Term-0 window", IDM_WINDOW_D_HGT_0
+			MENUITEM "Term-1 window", IDM_WINDOW_D_HGT_1
+			MENUITEM "Term-2 window", IDM_WINDOW_D_HGT_2
+			MENUITEM "Term-3 window", IDM_WINDOW_D_HGT_3
+			MENUITEM "Term-4 window", IDM_WINDOW_D_HGT_4
+			MENUITEM "Term-5 window", IDM_WINDOW_D_HGT_5
+			MENUITEM "Term-6 window", IDM_WINDOW_D_HGT_6
+			MENUITEM "Term-7 window", IDM_WINDOW_D_HGT_7
+		}
+
+		MENUITEM SEPARATOR
+
+		POPUP "Term 0 Font Tile Size"
+		{
+			MENUITEM "Font",    IDM_TILE_FONT
 			MENUITEM "8 x 16",  IDM_TILE_08X16
 			MENUITEM "8 x 8",   IDM_TILE_08X08
 			MENUITEM "16 x 16", IDM_TILE_16X16
@@ -116,19 +116,19 @@ ANGBAND MENU
 			MENUITEM "16 x 25", IDM_TILE_16X25
 		}
 		MENUITEM SEPARATOR
-		MENUITEM "Opciones de ventana",    IDM_WINDOW_OPT
-		MENUITEM "Restablecer diseño",     IDM_WINDOW_RESET
+		MENUITEM "Term Options",    IDM_WINDOW_OPT
+		MENUITEM "Reset Layout",    IDM_WINDOW_RESET
 	}
 
-	POPUP "&Opciones"
+	POPUP "&Options"
 	{
-		POPUP "&Gráficos"
+		POPUP "&Graphics"
 		{
-			MENUITEM "&Ninguno", IDM_OPTIONS_GRAPHICS_NONE
+			MENUITEM "&None", IDM_OPTIONS_GRAPHICS_NONE
 			MENUITEM SEPARATOR
-			MENUITEM "Gráficos &mejorados", IDM_OPTIONS_GRAPHICS_NICE
+			MENUITEM "Enable nice &graphics", IDM_OPTIONS_GRAPHICS_NICE
 			MENUITEM SEPARATOR
-			POPUP "&Multiplicador de celda"
+			POPUP "&Tile Multiplier"
 			{
 				MENUITEM "&1x1", IDM_OPTIONS_TILE_1x1
 				MENUITEM "&2x1", IDM_OPTIONS_TILE_2x1
@@ -147,14 +147,20 @@ ANGBAND MENU
 		}
 
 		MENUITEM SEPARATOR
-		MENUITEM "Prioridad baja", IDM_OPTIONS_LOW_PRIORITY
-		MENUITEM "Activar salvapantallas", IDM_OPTIONS_SAVER
-		MENUITEM "Ca&ptura de pantalla", IDM_OPTIONS_SCREENSHOT
+		POPUP "Language"
+		{
+			MENUITEM "English", IDM_OPTIONS_LANG_EN
+			MENUITEM "Spanish", IDM_OPTIONS_LANG_ES
+		}
+		MENUITEM SEPARATOR
+		MENUITEM "Low Priority", IDM_OPTIONS_LOW_PRIORITY
+		MENUITEM "Activate Screensaver", IDM_OPTIONS_SAVER
+		MENUITEM "&Screenshot", IDM_OPTIONS_SCREENSHOT
 	}
 
-	POPUP "A&yuda"
+	POPUP "&Help"
 	{
-		MENUITEM "&Contenidos", IDM_HELP_GENERAL
+		MENUITEM "&Contents", IDM_HELP_GENERAL
 	}
 }
 

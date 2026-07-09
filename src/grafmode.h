@@ -50,6 +50,7 @@ typedef struct _graphics_mode {
 	uint16_t cell_width;
 	uint16_t cell_height;
 	char path[256];
+	char prf_path[256]; /* path for PRF files; may differ from path by language */
 	char pref[32];
 	char file[32];
 	char menuname[32];

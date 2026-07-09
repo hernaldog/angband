@@ -22,6 +22,7 @@
 #include "game-event.h"
 #include "game-world.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-lore.h"
 #include "monster.h"
 #include "obj-curse.h"
@@ -1239,7 +1240,7 @@ void do_cmd_accept_character(struct command *cmd)
 
 	/* Clear old messages, add new starting message */
 	history_clear(player);
-	history_add(player, "Comenzó la misión de destruir a Morgoth.", HIST_PLAYER_BIRTH);
+	history_add(player, _("Began the quest to destroy Morgoth."), HIST_PLAYER_BIRTH);
 
 	/* Note player birth in the message recall */
 	message_add(" ", MSG_GENERIC);

@@ -25,6 +25,7 @@
 #include "generate.h"
 #include "grafmode.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-lore.h"
 #include "mon-make.h"
 #include "obj-knowledge.h"
@@ -133,6 +134,26 @@ struct cmd_info cmd_item[] =
 	{ "Usar un objeto", { 'U', 'X' }, CMD_USE, NULL, NULL, 0, NULL, NULL, NULL, 0 }
 };
 
+static const char *cmd_item_en[N_ELEMENTS(cmd_item)] =
+{
+	"Inscribe an item",
+	"Uninscribe an item",
+	"Wear/wield an item",
+	"Take off an item",
+	"Examine an item",
+	"Drop an item",
+	"Fire your missile weapon",
+	"Use a staff",
+	"Aim a wand",
+	"Zap a rod",
+	"Activate an object",
+	"Eat something",
+	"Quaff a potion",
+	"Read a scroll",
+	"Refuel your light source",
+	"Use an item"
+};
+
 /**
  * General actions
  */
@@ -153,6 +174,23 @@ struct cmd_info cmd_action[] =
 	{ "Caminar hacia una trampa", { 'W', '-' }, CMD_JUMP, NULL, NULL, 0, NULL, NULL, NULL, 0 },
 };
 
+static const char *cmd_action_en[N_ELEMENTS(cmd_action)] =
+{
+	"Disarm a trap or chest",
+	"Rest for a while",
+	"Look around",
+	"Target monster or location",
+	"Target the closest monster",
+	"Dig a tunnel",
+	"Go up stairs",
+	"Go down stairs",
+	"Open a door or chest",
+	"Close a door",
+	"Fire at the closest target",
+	"Throw an item",
+	"Walk into a trap"
+};
+
 /**
  * Item management commands
  */
@@ -163,6 +201,15 @@ struct cmd_info cmd_item_manage[] =
 	{ "Mostrar lista de carcaj", { '|' }, CMD_NULL, do_cmd_quiver, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Recoger objetos", { 'g' }, CMD_PICKUP, NULL, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Ignorar un objeto", { 'k', KTRL('D') }, CMD_IGNORE, textui_cmd_ignore, NULL, 0, NULL, NULL, NULL, 0 },
+};
+
+static const char *cmd_item_manage_en[N_ELEMENTS(cmd_item_manage)] =
+{
+	"Show equipment list",
+	"Show inventory list",
+	"Show quiver list",
+	"Pick up objects",
+	"Ignore an item"
 };
 
 /**
@@ -188,6 +235,26 @@ struct cmd_info cmd_info[] =
 	{ "Mostrar mensajes anteriores", { KTRL('P') }, CMD_NULL, do_cmd_messages, NULL, 0, NULL, NULL, NULL, 0 }
 };
 
+static const char *cmd_info_en[N_ELEMENTS(cmd_info)] =
+{
+	"Browse a book",
+	"Study new spells",
+	"View abilities",
+	"Cast a spell",
+	"Full dungeon map",
+	"Toggle ignoring of items",
+	"Display visible item list",
+	"Display visible monster list",
+	"Locate player on map",
+	"Help",
+	"Identify symbol",
+	"Character description",
+	"Check knowledge",
+	"Repeat level feeling",
+	"Show previous message",
+	"Show previous messages"
+};
+
 /**
  * Utility/assorted commands
  */
@@ -203,6 +270,16 @@ struct cmd_info cmd_util[] =
 	{ "Guardar \"captura de pantalla\"", { ')' }, CMD_NULL, do_cmd_save_screen, NULL, 0, NULL, NULL, NULL, 0 }
 };
 
+static const char *cmd_util_en[N_ELEMENTS(cmd_util)] =
+{
+	"Interact with options",
+	"Save without quitting",
+	"Save and quit",
+	"Delete character and quit",
+	"Redraw the screen",
+	"Save a \"screen dump\""
+};
+
 /**
  * Commands that shouldn't be shown to the user
  */
@@ -213,7 +290,7 @@ struct cmd_info cmd_hidden[] =
 	{ "Cargar una línea de preferencias", { '"' }, CMD_NULL, do_cmd_pref, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Alternar ventanas", { KTRL('E') }, CMD_NULL, toggle_inven_equip, NULL, 0, NULL, NULL, NULL, 0 }, /* XXX */
 	{ "Alterar una casilla", { '+' }, CMD_ALTER, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Robar de un monstruo", { 's' }, CMD_STEAL, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Robar a un monstruo", { 's' }, CMD_STEAL, NULL, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Caminar", { ';' }, CMD_WALK, NULL, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Empezar a correr", { '.', ',' }, CMD_RUN, NULL, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Empezar a explorar", { 'p' }, CMD_EXPLORE, NULL, NULL, 0, NULL, NULL, NULL, 0 },
@@ -227,6 +304,32 @@ struct cmd_info cmd_hidden[] =
 	{ "Comandos Borg", { KTRL('Z') }, CMD_NULL, do_cmd_try_borg, NULL, 0, NULL, NULL, NULL, 0 },
 #endif
 };
+
+static const char *cmd_hidden_en[N_ELEMENTS(cmd_hidden)] =
+{
+	"Take notes",
+	"Version information",
+	"Load a preference line",
+	"Toggle windows",
+	"Alter a grid",
+	"Steal from a monster",
+	"Walk",
+	"Start running",
+	"Start exploring",
+	"Stay still",
+	"Center map",
+	"Toggle wizard mode",
+	"Repeat previous command",
+	"Toggle autopickup",
+	"Debug mode commands",
+#ifdef ALLOW_BORG
+	"Borg commands",
+#endif
+};
+
+/* English text for the nested prompt/error of the "debug mode commands" entry */
+static const char *cmd_hidden_debug_prompt_en = "Debug Command: ";
+static const char *cmd_hidden_debug_error_en = "That is not a valid debug command.";
 
 /**
  * Debug mode command categories; placeholders for the Enter menu system
@@ -244,6 +347,19 @@ struct cmd_info cmd_debug[] =
 	{ "Miscelánea", { '\0' }, CMD_NULL, NULL, NULL, 0, NULL, NULL, "DbgMisc", -1 },
 };
 
+static const char *cmd_debug_en[N_ELEMENTS(cmd_debug)] =
+{
+	"Objects",
+	"Player",
+	"Teleport",
+	"Effects",
+	"Summon",
+	"Files",
+	"Statistics",
+	"Query",
+	"Miscellaneous"
+};
+
 struct cmd_info cmd_debug_obj[] =
 {
 	{ "Crear un objeto", { 'c' }, CMD_NULL, wiz_create_nonartifact, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
@@ -252,6 +368,16 @@ struct cmd_info cmd_debug_obj[] =
 	{ "Adquirir bueno", { 'g' }, CMD_NULL, wiz_acquire_good, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 	{ "Adquirir excelente", { 'v' }, CMD_NULL, wiz_acquire_great, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 	{ "Jugar con objeto", { 'o' }, CMD_WIZ_PLAY_ITEM, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+};
+
+static const char *cmd_debug_obj_en[N_ELEMENTS(cmd_debug_obj)] =
+{
+	"Create an object",
+	"Create an artifact",
+	"Create all of tval",
+	"Acquire good",
+	"Acquire great",
+	"Play with object"
 };
 
 struct cmd_info cmd_debug_player[] =
@@ -266,12 +392,32 @@ struct cmd_info cmd_debug_player[] =
 	{ "Borrar recuerdo de monstruo", { 'W' }, CMD_WIZ_WIPE_RECALL, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
+static const char *cmd_debug_player_en[N_ELEMENTS(cmd_debug_player)] =
+{
+	"Cure all",
+	"Make powerful",
+	"Increase experience",
+	"Rerate hit points",
+	"Edit player",
+	"Learn object kinds",
+	"Recall monster",
+	"Wipe monster recall"
+};
+
 struct cmd_info cmd_debug_tele[] =
 {
 	{ "A ubicación", { 'b' }, CMD_WIZ_TELEPORT_TO, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 	{ "Aleatorio cercano", { 'p' }, CMD_NULL, wiz_phase_door, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 	{ "Aleatorio lejano", { 't' }, CMD_NULL, wiz_teleport, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 	{ "Saltar a un nivel", { 'j' }, CMD_WIZ_JUMP_LEVEL, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+};
+
+static const char *cmd_debug_tele_en[N_ELEMENTS(cmd_debug_tele)] =
+{
+	"To location",
+	"Random nearby",
+	"Random far",
+	"Jump to a level"
 };
 
 struct cmd_info cmd_debug_effects[] =
@@ -284,16 +430,38 @@ struct cmd_info cmd_debug_effects[] =
 	{ "Demostración de gráficos", { 'G' }, CMD_NULL, wiz_proj_demo, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
+static const char *cmd_debug_effects_en[N_ELEMENTS(cmd_debug_effects)] =
+{
+	"Detect everything nearby",
+	"Detect all monsters",
+	"Map local area",
+	"Hit everything in LOS",
+	"Perform an effect",
+	"Graphics demo"
+};
+
 struct cmd_info cmd_debug_summon[] =
 {
 	{ "Invocar específico", { 'n' }, CMD_WIZ_SUMMON_NAMED, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 	{ "Invocar aleatorio", { 's' }, CMD_WIZ_SUMMON_RANDOM, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
+static const char *cmd_debug_summon_en[N_ELEMENTS(cmd_debug_summon)] =
+{
+	"Summon specific",
+	"Summon random"
+};
+
 struct cmd_info cmd_debug_files[] =
 {
 	{ "Crear spoilers", { '"' }, CMD_NULL, do_cmd_spoilers, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 	{ "Escribir mapa", { 'M' }, CMD_WIZ_DUMP_LEVEL_MAP, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+};
+
+static const char *cmd_debug_files_en[N_ELEMENTS(cmd_debug_files)] =
+{
+	"Create spoilers",
+	"Write map"
 };
 
 struct cmd_info cmd_debug_stats[] =
@@ -304,12 +472,28 @@ struct cmd_info cmd_debug_stats[] =
 	{ "Tecla alterna Obj/mon", { 'f' }, CMD_WIZ_COLLECT_OBJ_MON_STATS, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 };
 
+static const char *cmd_debug_stats_en[N_ELEMENTS(cmd_debug_stats)] =
+{
+	"Objects and monsters",
+	"Pits",
+	"Disconnected levels",
+	"Alt key Obj/mon"
+};
+
 struct cmd_info cmd_debug_query[] =
 {
 	{ "Característica", { 'F' }, CMD_WIZ_QUERY_FEATURE, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 	{ "Bandera de casilla", { 'q' }, CMD_WIZ_QUERY_SQUARE_FLAG, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 	{ "Ruido y olor", { '_' }, CMD_WIZ_PEEK_NOISE_SCENT, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 	{ "Registro de pulsaciones", { 'L' }, CMD_WIZ_DISPLAY_KEYLOG, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+};
+
+static const char *cmd_debug_query_en[N_ELEMENTS(cmd_debug_query)] =
+{
+	"Feature",
+	"Square flag",
+	"Noise and scent",
+	"Keypress log"
 };
 
 struct cmd_info cmd_debug_misc[] =
@@ -319,6 +503,15 @@ struct cmd_info cmd_debug_misc[] =
 	{ "Expulsar monstruos cercanos", { 'z' }, CMD_WIZ_BANISH, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 	{ "Empujar objetos de la casilla", { '>' }, CMD_WIZ_PUSH_OBJECT, NULL, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
 	{ "Salir sin guardar", { 'X' }, CMD_NULL, wiz_confirm_quit_no_save, player_can_debug_prereq, 0, NULL, NULL, NULL, 0 },
+};
+
+static const char *cmd_debug_misc_en[N_ELEMENTS(cmd_debug_misc)] =
+{
+	"Wizard light level",
+	"Create a trap",
+	"Banish nearby monsters",
+	"Push objects off the square",
+	"Quit without saving"
 };
 
 /**
@@ -352,6 +545,22 @@ struct command_list cmds_all[] =
 	{ NULL,              NULL,            0, 0, false }
 };
 
+/*
+ * English text for the top-level (menu_level == 0) entries of cmds_all;
+ * these are the only "name" fields actually displayed to the player (the
+ * "DbgXxx" entries are internal identifiers, and "Depuracion" at
+ * menu_level == 1 is never displayed via this field).
+ */
+static const char *cmds_all_top_en[] =
+{
+	"Items",
+	"Actions",
+	"Manage items",
+	"Information",
+	"Utilities",
+	"Hidden"
+};
+
 
 
 /*** Exported functions ***/
@@ -371,9 +580,67 @@ static struct cmd_info ***nested_lists = NULL;
 /**
  * Initialise the command list.
  */
+/**
+ * Swap the desc (and, where relevant, nested_prompt/nested_error/name)
+ * fields of the command list tables over to their English equivalents,
+ * mirroring the pattern used elsewhere (e.g. ui-death.c's death_actions).
+ */
+static void cmd_lists_swap_to_english(void)
+{
+	size_t i;
+
+	for (i = 0; i < N_ELEMENTS(cmd_item); i++)
+		cmd_item[i].desc = cmd_item_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_action); i++)
+		cmd_action[i].desc = cmd_action_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_item_manage); i++)
+		cmd_item_manage[i].desc = cmd_item_manage_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_info); i++)
+		cmd_info[i].desc = cmd_info_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_util); i++)
+		cmd_util[i].desc = cmd_util_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_hidden); i++)
+		cmd_hidden[i].desc = cmd_hidden_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_debug); i++)
+		cmd_debug[i].desc = cmd_debug_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_debug_obj); i++)
+		cmd_debug_obj[i].desc = cmd_debug_obj_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_debug_player); i++)
+		cmd_debug_player[i].desc = cmd_debug_player_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_debug_tele); i++)
+		cmd_debug_tele[i].desc = cmd_debug_tele_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_debug_effects); i++)
+		cmd_debug_effects[i].desc = cmd_debug_effects_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_debug_summon); i++)
+		cmd_debug_summon[i].desc = cmd_debug_summon_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_debug_files); i++)
+		cmd_debug_files[i].desc = cmd_debug_files_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_debug_stats); i++)
+		cmd_debug_stats[i].desc = cmd_debug_stats_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_debug_query); i++)
+		cmd_debug_query[i].desc = cmd_debug_query_en[i];
+	for (i = 0; i < N_ELEMENTS(cmd_debug_misc); i++)
+		cmd_debug_misc[i].desc = cmd_debug_misc_en[i];
+
+	/* The "debug mode commands" entry also has a prompt and error text. */
+	for (i = 0; i < N_ELEMENTS(cmd_hidden); i++) {
+		if (cmd_hidden[i].nested_prompt) {
+			cmd_hidden[i].nested_prompt = cmd_hidden_debug_prompt_en;
+			cmd_hidden[i].nested_error = cmd_hidden_debug_error_en;
+		}
+	}
+
+	/* Top-level (menu_level == 0) command-list category names. */
+	for (i = 0; i < N_ELEMENTS(cmds_all_top_en); i++)
+		cmds_all[i].name = cmds_all_top_en[i];
+}
+
 void cmd_init(void)
 {
 	size_t i, j;
+
+	if (strcmp(lang_current, "en") == 0)
+		cmd_lists_swap_to_english();
 
 	memset(converted_list, 0, sizeof(converted_list));
 
@@ -563,7 +830,7 @@ void textui_process_command(void)
 
 						cmd = nested_lists[cmd->nested_keymap - 1][(unsigned char) nestkey];
 						if (!cmd) {
-							msg("%s", em ? em : "Ese no es un comando anidado válido.");
+							msg("%s", em ? em : _("That is not a valid nested command."));
 						}
 					} else {
 						cmd = NULL;
@@ -642,7 +909,7 @@ void check_for_player_interrupt(game_event_type type, game_event_data *data,
 			/* Flush and disturb */
 			event_signal(EVENT_INPUT_FLUSH);
 			disturb(player);
-			msg("Cancelado.");
+			msg(_("Cancelled."));
 		}
 	}
 }
@@ -699,7 +966,7 @@ static bool start_game(bool new_game)
 		newer = file_newer(panicfile, loadpath);
 		safe_setuid_drop();
 		if (newer) {
-			if (get_check("Existe un guardado de pánico. ¿Usarlo? ")) {
+			if (get_check(_("A panic save exists. Use it? "))) {
 				loadpath = panicfile;
 			}
 		} else {
@@ -797,10 +1064,10 @@ static void select_savefile(bool retry, bool *new_game)
 			names = mem_realloc(names, allocated * sizeof(*names));
 		}
 		if (details->desc) {
-			entries[count] = string_make(format("Usar %s: %s",
+			entries[count] = string_make(format(_("Use %s: %s"),
 				details->fnam + details->foff, details->desc));
 		} else {
-			entries[count] = string_make(format("Usar %s",
+			entries[count] = string_make(format(_("Use %s"),
 				details->fnam + details->foff));
 		}
 		names[count] = string_make(details->fnam);
@@ -850,7 +1117,7 @@ static void select_savefile(bool retry, bool *new_game)
 			--count;
 			allow_new_game = false;
 		} else {
-			entries[0] = string_make("Nueva partida");
+			entries[0] = string_make(_("New game"));
 		}
 		failed = false;
 	} else {
@@ -860,7 +1127,7 @@ static void select_savefile(bool retry, bool *new_game)
 	if (failed) {
 		cleanup_savefile_selection_strings(names, count);
 		cleanup_savefile_selection_strings(entries, count);
-		quit("No se puede abrir el directorio de archivos guardados");
+		quit(_("Can't open the savefile directory"));
 	}
 
 	m = menu_new(MN_SKIN_SCROLL, menu_find_iter(MN_ITER_STRINGS));
@@ -870,10 +1137,10 @@ static void select_savefile(bool retry, bool *new_game)
 	m->flags |= MN_DBL_TAP;
 
 	screen_save();
-	prt("Selecciona el guardado a usar (teclas de movimiento y enter o ratón) o salir",
+	prt(_("Select the save to use (movement keys and enter or mouse) or exit"),
 		0, 0);
-	prt("(escape o segundo botón del ratón).", 1, 0);
-	prt((retry) ? "El archivo guardado seleccionado anteriormente no era utilizable." : "",
+	prt(_("(escape or second mouse button)."), 1, 0);
+	prt((retry) ? _("The previously selected save file was not usable.") : "",
 		2, 0);
 	selection = menu_select(m, 0, false);
 	screen_load();
@@ -911,7 +1178,7 @@ void play_game(enum game_mode_type mode)
 		case GAME_LOAD:
 		case GAME_NEW:
 			if (!start_game(mode == GAME_NEW)) {
-				quit("Archivo guardado corrupto");
+				quit(_("Corrupt savefile"));
 			}
 			break;
 
@@ -930,7 +1197,7 @@ void play_game(enum game_mode_type mode)
 			break;
 
 		default:
-			quit("Modo de juego inválido en play_game()");
+			quit(_("Invalid game mode in play_game()"));
 			break;
 		}
 
@@ -1038,23 +1305,23 @@ bool save_game_checked(void)
 	handle_stuff(player);
 
 	/* Message */
-	prt("Guardando partida...", 0, 0);
+	prt(_("Saving game..."), 0, 0);
 
 	/* Refresh */
 	Term_fresh();
 
 	/* The player is not dead */
-	my_strcpy(player->died_from, "(guardado)", sizeof(player->died_from));
+	my_strcpy(player->died_from, _("(saved)"), sizeof(player->died_from));
 
 	/* Forbid suspend */
 	signals_ignore_tstp();
 
 	/* Save the player */
 	if (savefile_save(savefile)) {
-		prt("Guardando partida... listo.", 0, 0);
+		prt(_("Saving game... done."), 0, 0);
 		result = true;
 	} else {
-		prt("¡Guardando partida... falló!", 0, 0);
+		prt(_("Saving game... failed!"), 0, 0);
 		result = false;
 	}
 
@@ -1066,15 +1333,15 @@ bool save_game_checked(void)
 
 	/* Save the window prefs */
 	path_build(path, sizeof(path), ANGBAND_DIR_USER, "window.prf");
-	if (!prefs_save(path, option_dump, "Volcar configuración de ventanas"))
-		prt("Fallo al guardar preferencias de subventana", 0, 0);
+	if (!prefs_save(path, option_dump, _("Dump window settings")))
+		prt(_("Failed to save subwindow preferences"), 0, 0);
 
 	/* Refresh */
 	Term_fresh();
 
 	/* Save monster memory to user directory */
 	if (!lore_save("lore.txt")) {
-		msg("¡fallo al guardar lore!");
+		msg(_("lore save failed!"));
 		event_signal(EVENT_MESSAGE_FLUSH);
 	}
 
@@ -1082,7 +1349,7 @@ bool save_game_checked(void)
 	Term_fresh();
 
 	/* Note that the player is not dead */
-	my_strcpy(player->died_from, "(vivo y coleando)", sizeof(player->died_from));
+	my_strcpy(player->died_from, _("(alive and kicking)"), sizeof(player->died_from));
 
 	return result;
 }
@@ -1134,9 +1401,9 @@ void close_game(bool prompt_failed_save)
 		/* Save dead player */
 		while (prompting && !savefile_save(savefile)) {
 			if (!prompt_failed_save
-					|| !get_check("Fallo al guardar. ¿Reintentar? ")) {
+					|| !get_check(_("Save failed. Retry? "))) {
 				prompting = false;
-				msg("¡fallo al guardar la muerte!");
+				msg(_("death save failed!"));
 				event_signal(EVENT_MESSAGE_FLUSH);
 			}
 		}
@@ -1144,7 +1411,7 @@ void close_game(bool prompt_failed_save)
 		/* Save the game */
 		while (prompting && !save_game_checked()) {
 			if (!prompt_failed_save
-					|| !get_check("Fallo al guardar. ¿Reintentar? ")) {
+					|| !get_check(_("Save failed. Retry? "))) {
 				prompting = false;
 			}
 		}
@@ -1152,7 +1419,7 @@ void close_game(bool prompt_failed_save)
 		if (Term->mapped_flag) {
 			struct keypress ch;
 
-			prt("Pulsa Return (o Escape).", 0, 40);
+			prt(_("Press Return (or Escape)."), 0, 40);
 			ch = inkey();
 			if (ch.code != ESCAPE)
 				predict_score(false);

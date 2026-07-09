@@ -17,6 +17,7 @@
  */
 #include "angband.h"
 #include "init.h"
+#include "lang.h"
 #include "option.h"
 #include "z-util.h"
 
@@ -87,7 +88,7 @@ const char *option_name(int opt)
 const char *option_desc(int opt)
 {
 	if (opt >= OPT_MAX) return NULL;
-	return options[opt].description;
+	return _(options[opt].description);
 }
 
 /**
@@ -194,7 +195,7 @@ bool options_save_custom(struct player_options *opts, int page)
 		for (opt = 0; opt < OPT_MAX; opt++) {
 			if (options[opt].type == page) {
 				if (!file_putf(f, "# %s\n",
-						 options[opt].description)) {
+						 _(options[opt].description))) {
 					success = false;
 				}
 				if (!file_putf(f, "option:%s:%s\n",
