@@ -19,6 +19,7 @@
 #include "angband.h"
 #include "cave.h"
 #include "game-world.h"
+#include "lang.h"
 #include "generate.h"
 #include "obj-ignore.h"
 #include "obj-pile.h"
@@ -319,7 +320,7 @@ static void project_feature_handler_FIRE(project_feature_handler_context_t *cont
 
 	/* Removes webs */
 	if (square_iswebbed(cave, context->grid)) {
-		struct trap_kind *web = lookup_trap("web");
+		struct trap_kind *web = lookup_trap(_("web"));
 
 		assert(web);
 		square_remove_all_traps_of_type(cave, context->grid, web->tidx);

@@ -1288,7 +1288,7 @@ void do_cmd_walk(struct command *cmd)
 	/* If we're in a web, deal with that */
 	if (square_iswebbed(cave, player->grid)) {
 		/* Clear the web, finish turn */
-		struct trap_kind *web = lookup_trap("web");
+		struct trap_kind *web = lookup_trap(_("web"));
 
 		msg(_("You clear the web."));
 		assert(web);
@@ -1329,7 +1329,7 @@ void do_cmd_jump(struct command *cmd)
 	/* If we're in a web, deal with that */
 	if (square_iswebbed(cave, player->grid)) {
 		/* Clear the web, finish turn */
-		struct trap_kind *web = lookup_trap("web");
+		struct trap_kind *web = lookup_trap(_("web"));
 
 		msg(_("You clear the web."));
 		assert(web);
@@ -1369,7 +1369,7 @@ void do_cmd_run(struct command *cmd)
 	/* If we're in a web, deal with that */
 	if (square_iswebbed(cave, player->grid)) {
 		/* Clear the web, finish turn */
-		struct trap_kind *web = lookup_trap("web");
+		struct trap_kind *web = lookup_trap(_("web"));
 
 		msg(_("You clear the web."));
 		assert(web);

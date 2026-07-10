@@ -22,6 +22,7 @@
 #include "game-world.h"
 #include "generate.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-group.h"
 #include "mon-lore.h"
 #include "mon-make.h"
@@ -1488,7 +1489,7 @@ static int rd_traps_aux(struct chunk *c)
 			square_set_trap(c, grid, trap);
 
 			/* Set decoy if appropriate */
-			if ((trap->kind == lookup_trap("decoy")) &&
+			if ((trap->kind == lookup_trap(_("decoy"))) &&
 			    (c == cave)) {
 				c->decoy = grid;
 			}

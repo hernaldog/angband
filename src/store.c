@@ -1468,7 +1468,7 @@ struct owner *store_ownerbyidx(struct store *s, unsigned int idx) {
 			return o;
 	}
 
-	quit_fmt("Llamada incorrecta a store_ownerbyidx: idx es %d\n", idx);
+	quit_fmt(_("Bad call to store_ownerbyidx: idx is %d\n"), idx);
 	return 0; /* Needed to avoid Windows compiler warning */
 }
 

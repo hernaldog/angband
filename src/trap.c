@@ -20,6 +20,7 @@
 #include "cave.h"
 #include "effects.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-attack.h"
 #include "mon-util.h"
 #include "obj-knowledge.h"
@@ -650,7 +651,7 @@ bool square_set_trap_timeout(struct chunk *c, struct loc grid, bool domsg,
 
 		/* Message if requested */
 		if (domsg) {
-			msg("Has desactivado %s.",
+			msg(_("You have disabled the %s."),
 				current_trap->kind->name);
 		}
 
@@ -705,7 +706,7 @@ int square_trap_timeout(struct chunk *c, struct loc grid, int t_idx)
  */
 void square_set_door_lock(struct chunk *c, struct loc grid, int power)
 {
-	struct trap_kind *lock = lookup_trap("door lock");
+	struct trap_kind *lock = lookup_trap(_("door lock"));
 	struct trap *trap;
 
 	/* Verify it's a closed door */
@@ -730,7 +731,7 @@ void square_set_door_lock(struct chunk *c, struct loc grid, int power)
  */
 int square_door_power(struct chunk *c, struct loc grid)
 {
-	struct trap_kind *lock = lookup_trap("door lock");
+	struct trap_kind *lock = lookup_trap(_("door lock"));
 	struct trap *trap;
 
 	/* Verify it's a closed door */

@@ -5959,7 +5959,7 @@ friends:100:2d7:Same
 desc:Pequeñas chispas de llamas que bailan a tu alrededor, azotando látigos y
 desc: maldiciendo horriblemente.
 
-name: nigromante
+name:nigromante
 base:person
 color:P
 speed:110

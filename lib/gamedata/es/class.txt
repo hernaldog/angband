@@ -586,11 +586,11 @@ effect:SHAPECHANGE:Pukel-man
 desc:Te da la forma de una estatua de los Drúedain, lento pero difícil de herir.
 
 spell:Vuelo de Águila:35:20:80:80
-effect:SHAPECHANGE:eagle
+effect:SHAPECHANGE:águila
 desc:Te da la forma de una de las grandes águilas de Manwë.
 
 spell:Forma de Oso:40:20:85:100
-effect:SHAPECHANGE:bear
+effect:SHAPECHANGE:oso
 desc:Te permite tomar la forma de un gran oso de las montañas, apartando
 desc: a tus enemigos con tus poderosas garras.
 
@@ -1010,7 +1010,7 @@ desc:Oscurece todas las casillas en un área dependiente del nivel. Si estás en
 desc: toda la habitación también se oscurecerá.
 
 spell:Forma de Murciélago:3:4:20:10
-effect:SHAPECHANGE:bat
+effect:SHAPECHANGE:murciélago
 desc:Te transforma en la forma de un murciélago, débil pero con excelentes sentidos.
 desc:  Mientras estás transformado no puedes usar objetos.
 
@@ -1100,7 +1100,7 @@ expr:S:PLAYER_LEVEL:* 2
 desc:Dispara un rayo de oscuridad.
 
 spell:Forma de Huargo:28:20:60:80
-effect:SHAPECHANGE:warg
+effect:SHAPECHANGE:huargo
 desc:Te transforma en la forma de un huargo, y te otorga fuerza berserker
 desc: temporal, a costa de algunos puntos de vida.
 
@@ -1182,7 +1182,7 @@ desc:Produce una zona de desencantamiento que afecta al jugador y a los monstruo
 desc: dentro de radio 4.
 
 spell:Forma de Vampiro:37:20:60:140
-effect:SHAPECHANGE:vampire
+effect:SHAPECHANGE:vampiro
 effect:JUMP_AND_BITE
 dice:$B
 expr:B:PLAYER_LEVEL:+ 0
@@ -1705,7 +1705,7 @@ dice:18+d18
 desc:Cubre todas tus armas cuerpo a cuerpo con veneno durante 18+d18 turnos.
 
 spell:Forma de Hombre Lobo:32:30:40:100
-effect:SHAPECHANGE:werewolf
+effect:SHAPECHANGE:hombre lobo
 desc:¡Con un grito desgarrador te conviertes en un hombre lobo!
 desc:  En esta forma te mueves, atacas y curas más rápido.
 

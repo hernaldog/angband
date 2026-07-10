@@ -5241,8 +5241,12 @@ LRESULT FAR PASCAL AngbandSaverProc(HWND hWnd, UINT uMsg,
 static void hack_plog(const char *str)
 {
 	/* Give a warning */
-	if (str)
-		MessageBox(NULL, str, _("Warning"), MB_ICONEXCLAMATION | MB_OK);
+	if (str) {
+		wchar_t wmsg[1024], wtitle[128];
+		MultiByteToWideChar(CP_UTF8, 0, str, -1, wmsg, 1024);
+		MultiByteToWideChar(CP_UTF8, 0, _("Warning"), -1, wtitle, 128);
+		MessageBoxW(NULL, wmsg, wtitle, MB_ICONEXCLAMATION | MB_OK);
+	}
 }
 
 
@@ -5252,9 +5256,13 @@ static void hack_plog(const char *str)
 static void hack_quit(const char *str)
 {
 	/* Give a warning */
-	if (str)
-		MessageBox(NULL, str, "Error",
+	if (str) {
+		wchar_t wmsg[1024], wtitle[128];
+		MultiByteToWideChar(CP_UTF8, 0, str, -1, wmsg, 1024);
+		MultiByteToWideChar(CP_UTF8, 0, _("Error"), -1, wtitle, 128);
+		MessageBoxW(NULL, wmsg, wtitle,
 				   MB_ICONEXCLAMATION | MB_OK | MB_ICONSTOP);
+	}
 
 	/* Unregister the classes */
 	UnregisterClass(AppName, hInstance);

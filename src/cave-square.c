@@ -751,19 +751,19 @@ bool square_isnoscent(struct chunk *c, struct loc grid) {
 
 bool square_iswarded(struct chunk *c, struct loc grid)
 {
-	struct trap_kind *rune = lookup_trap("glyph of warding");
+	struct trap_kind *rune = lookup_trap(_("glyph of warding"));
 	return square_trap_specific(c, grid, rune->tidx);
 }
 
 bool square_isdecoyed(struct chunk *c, struct loc grid)
 {
-	struct trap_kind *glyph = lookup_trap("decoy");
+	struct trap_kind *glyph = lookup_trap(_("decoy"));
 	return square_trap_specific(c, grid, glyph->tidx);
 }
 
 bool square_iswebbed(struct chunk *c, struct loc grid)
 {
-	struct trap_kind *web = lookup_trap("web");
+	struct trap_kind *web = lookup_trap(_("web"));
 	return square_trap_specific(c, grid, web->tidx);
 }
 
@@ -1313,11 +1313,11 @@ void square_add_glyph(struct chunk *c, struct loc grid, int type)
 	struct trap_kind *glyph = NULL;
 	switch (type) {
 		case GLYPH_WARDING: {
-			glyph = lookup_trap("glyph of warding");
+			glyph = lookup_trap(_("glyph of warding"));
 			break;
 		}
 		case GLYPH_DECOY: {
-			glyph = lookup_trap("decoy");
+			glyph = lookup_trap(_("decoy"));
 			c->decoy = grid;
 			break;
 		}
@@ -1331,7 +1331,7 @@ void square_add_glyph(struct chunk *c, struct loc grid, int type)
 
 void square_add_web(struct chunk *c, struct loc grid)
 {
-	struct trap_kind *web = lookup_trap("web");
+	struct trap_kind *web = lookup_trap(_("web"));
 	place_trap(c, grid, web->tidx, 0);
 }
 
@@ -1351,7 +1351,7 @@ void square_add_door(struct chunk *c, struct loc grid, bool closed) {
 
 void square_open_door(struct chunk *c, struct loc grid)
 {
-	struct trap_kind *lock = lookup_trap("door lock");
+	struct trap_kind *lock = lookup_trap(_("door lock"));
 
 	assert(square_iscloseddoor(c, grid) || square_issecretdoor(c, grid));
 	assert(lock);
@@ -1367,7 +1367,7 @@ void square_close_door(struct chunk *c, struct loc grid)
 
 void square_smash_door(struct chunk *c, struct loc grid)
 {
-	struct trap_kind *lock = lookup_trap("door lock");
+	struct trap_kind *lock = lookup_trap(_("door lock"));
 
 	assert(square_isdoor(c, grid));
 	assert(lock);
@@ -1381,7 +1381,7 @@ void square_unlock_door(struct chunk *c, struct loc grid) {
 }
 
 void square_destroy_door(struct chunk *c, struct loc grid) {
-	struct trap_kind *lock = lookup_trap("door lock");
+	struct trap_kind *lock = lookup_trap(_("door lock"));
 
 	assert(square_isdoor(c, grid));
 	assert(lock);
@@ -1402,7 +1402,7 @@ void square_disable_trap(struct chunk *c, struct loc grid)
 
 void square_destroy_decoy(struct chunk *c, struct loc grid)
 {
-	struct trap_kind *decoy_kind = lookup_trap("decoy");
+	struct trap_kind *decoy_kind = lookup_trap(_("decoy"));
 
 	assert(decoy_kind);
 	square_remove_all_traps_of_type(c, grid, decoy_kind->tidx);

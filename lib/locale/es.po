@@ -5614,7 +5614,7 @@ msgid "Which item to take? (ESC to cancel, Enter to select)"
 msgstr "¿Qué objeto coger? (ESC para cancelar, Intro para seleccionar)"
 
 msgid " (You cannot use it!)"
-msgstr " (¡No puedes usarlo!)"
+msgstr " (¡No usable!)"
 
 msgid "breathe "
 msgstr "aliento de "
@@ -5902,7 +5902,7 @@ msgid "Nothing was stolen from you."
 msgstr "No te robaron nada."
 
 msgid "[ESC, any other key to accept]"
-msgstr "[ESC, cualquier otra tecla para aceptar]"
+msgstr "[ESC, otra tecla=Aceptar]"
 
 msgid "Cannot initialize vaults"
 msgstr "No se pueden inicializar las bóvedas"
@@ -6667,5 +6667,104 @@ msgstr "retenida"
 
 msgid "slowed"
 msgstr "ralentizada"
+
+msgid "Arrgghh!"
+msgstr "¡Aaaargh!"
+
+msgid "You bastard!"
+msgstr "¡Maldito seas!"
+
+msgid "You hear someone sobbing..."
+msgstr "Escuchas a alguien sollozando..."
+
+msgid "The shopkeeper howls in agony!"
+msgstr "¡El tendero aúlla de agonía!"
+
+msgid "The shopkeeper wails in anguish!"
+msgstr "¡El tendero se lamenta angustiado!"
+
+msgid "The shopkeeper beats his head against the counter."
+msgstr "El tendero golpea su cabeza contra el mostrador."
+
+msgid "Damn!"
+msgstr "¡Maldición!"
+
+msgid "What a shame!"
+msgstr "¡Qué lástima!"
+
+msgid "The shopkeeper curses at you."
+msgstr "El tendero te maldice."
+
+msgid "The shopkeeper glares at you."
+msgstr "El tendero te mira con furia."
+
+msgid "Okay."
+msgstr "Vale."
+
+msgid "Fine."
+msgstr "Bien."
+
+msgid "Accepted!"
+msgstr "¡Aceptado!"
+
+msgid "Agreed!"
+msgstr "¡De acuerdo!"
+
+msgid "Done!"
+msgstr "¡Hecho!"
+
+msgid "Taken!"
+msgstr "¡Trato hecho!"
+
+msgid "Cool!"
+msgstr "¡Genial!"
+
+msgid "You've made my day!"
+msgstr "¡Me has alegrado el día!"
+
+msgid "The shopkeeper chuckles."
+msgstr "El tendero se ríe entre dientes."
+
+msgid "The shopkeeper snickers."
+msgstr "El tendero suelta una risita."
+
+msgid "The shopkeeper laughs loudly."
+msgstr "El tendero suelta una carcajada."
+
+msgid "Yipee!"
+msgstr "¡Yupi!"
+
+msgid "I think I'll retire!"
+msgstr "¡Creo que me voy a retirar!"
+
+msgid "The shopkeeper jumps for joy."
+msgstr "El tendero salta de alegría."
+
+msgid "The shopkeeper smiles happily."
+msgstr "El tendero sonríe feliz."
+
+msgid "Wow. I'm going to name my new villa in your honour."
+msgstr "Vaya. Voy a ponerle tu nombre a mi nueva mansión."
+
+msgid "Bad call to store_ownerbyidx: idx is %d\n"
+msgstr "Llamada incorrecta a store_ownerbyidx: idx es %d\n"
+
+msgid "glyph of warding"
+msgstr "glifo de guarda"
+
+msgid "decoy"
+msgstr "señuelo"
+
+msgid "web"
+msgstr "telaraña"
+
+msgid "door lock"
+msgstr "cerradura de puerta"
+
+msgid "You have disabled the %s."
+msgstr "Has desactivado %s."
+
+msgid "Error"
+msgstr "Error"
 
 

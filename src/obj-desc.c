@@ -198,17 +198,24 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
  */
 static size_t obj_desc_name_prefix(char *buf, size_t max, size_t end,
 		const struct object *obj, const char *basename,
-		const char *modstr, bool terse, uint16_t number)
+		const char *modstr, bool terse, uint16_t number, bool store)
 {
 	if (strcmp(lang_current, "es") == 0) {
-		/* Spanish: no articles, just number; boots counted as pairs */
+		/* Spanish: no articles, just number; boots/gloves counted as pairs */
+		bool paired = obj->tval == TV_BOOTS || obj->tval == TV_GLOVES;
+
 		if (obj->artifact || number == 0) return end;
 		if (number == 1) {
-			if (obj->tval == TV_BOOTS)
+			if (store && paired)
+				strnfcat(buf, max, &end, "Par de ");
+			else if (obj->tval == TV_BOOTS)
 				strnfcat(buf, max, &end, "un par de ");
 			return end;
 		}
-		strnfcat(buf, max, &end, "%d ", number);
+		if (store && paired)
+			strnfcat(buf, max, &end, "%d Par de ", number);
+		else
+			strnfcat(buf, max, &end, "%d ", number);
 	} else {
 		/* English: a/an article, "no more", numbered stacks */
 		if (number == 0) {
@@ -336,7 +343,7 @@ static size_t obj_desc_name(char *buf, size_t max, size_t end,
 
 	/* Quantity prefix */
 	if (prefix)
-		end = obj_desc_name_prefix(buf, max, end, obj, basename, modstr, terse, number);
+		end = obj_desc_name_prefix(buf, max, end, obj, basename, modstr, terse, number, store);
 
 	/* Fix traduc: Nombre base — usar plural explícito solo si existe en object.txt */
 	if (plural && obj->kind->name_plural) {

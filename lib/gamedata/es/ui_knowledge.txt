@@ -39,138 +39,138 @@
 # included  because of a monster base and will be sorted by level and then
 # by name.
 
-monster-category:Uniques
+monster-category:Únicos
 mcat-include-flag:UNIQUE
 
 monster-category:Ainur
 mcat-include-base:ainu
 
-monster-category:Ants
+monster-category:Hormigas
 mcat-include-base:ant
 
-monster-category:Bats
+monster-category:Murciélagos
 mcat-include-base:bat
 
-monster-category:Birds
+monster-category:Aves
 mcat-include-base:bird
 
-monster-category:Canines
+monster-category:Cánidos
 mcat-include-base:canine
 
-monster-category:Centipede
+monster-category:Ciempiés
 mcat-include-base:ciempiés
 
-monster-category:Demons
+monster-category:Demonios
 mcat-include-base:minor demon
 mcat-include-base:major demon
 
-monster-category:Dragons
+monster-category:Dragones
 mcat-include-base:dragon
 mcat-include-base:ancient dragon
 
-monster-category:Elementals/Vortices
+monster-category:Elementales/Vórtices
 mcat-include-base:vortex
 mcat-include-base:elemental
 
-monster-category:Eyes/Beholders
+monster-category:Ojos/Contempladores
 mcat-include-base:eye
 
-monster-category:Felines
+monster-category:Felinos
 mcat-include-base:feline
 
-monster-category:Ghosts
+monster-category:Fantasmas
 mcat-include-base:ghost
 
-monster-category:Giants/Ogres
+monster-category:Gigantes/Ogros
 mcat-include-base:ogre
 mcat-include-base:giant
 
-monster-category:Golems
+monster-category:Gólems
 mcat-include-base:golem
 
-monster-category:Harpies/Hybrids
+monster-category:Arpías/Híbridos
 mcat-include-base:hybrid
 
-monster-category:Hominids (Elves, Dwarves)
+monster-category:Homínidos (Elfos, Enanos)
 mcat-include-base:humanoid
 
-monster-category:Hydras
+monster-category:Hidras
 mcat-include-base:hydra
 
-monster-category:Icky Things
+monster-category:Cosas Viscosas
 mcat-include-base:icky thing
 
-monster-category:Insects
+monster-category:Insectos
 mcat-include-base:dragon fly
 mcat-include-base:insect
 
-monster-category:Jellies
+monster-category:Gelatinas
 mcat-include-base:jelly
 
-monster-category:Killer Beetles
+monster-category:Escarabajos Asesinos
 mcat-include-base:escarabajo asesino
 
 monster-category:Kobolds
 mcat-include-base:kobold
 
-monster-category:Lichs
+monster-category:Liches
 mcat-include-base:lich
 
-monster-category:Men
+monster-category:Hombres
 mcat-include-base:townsfolk
 mcat-include-base:person
 
-monster-category:Mimics
+monster-category:Mímicos
 mcat-include-base:lurker
 mcat-include-base:creeping coins
 mcat-include-base:mimic
 
-monster-category:Molds
+monster-category:Mohos
 mcat-include-base:mold
 
-monster-category:Mushroom Patches
+monster-category:Parches de Setas
 mcat-include-base:mushroom
 
 monster-category:Nagas
 mcat-include-base:naga
 
-monster-category:Orcs
+monster-category:Orcos
 mcat-include-base:orc
 
-monster-category:Quadrupeds
+monster-category:Cuadrúpedos
 mcat-include-base:quadruped
 
 monster-category:Quylthulgs
 mcat-include-base:quylthulg
 
-monster-category:Reptiles/Amphibians
+monster-category:Reptiles/Anfibios
 mcat-include-base:reptile
 
-monster-category:Rodents
+monster-category:Roedores
 mcat-include-base:rodent
 
-monster-category:Scorpions/Spiders
+monster-category:Escorpiones/Arañas
 mcat-include-base:araña
 
-monster-category:Skeletons/Drujs
+monster-category:Esqueletos/Drujs
 mcat-include-base:skeleton
 
-monster-category:Snakes
+monster-category:Serpientes
 mcat-include-base:snake
 
-monster-category:Trees/Ents
+monster-category:Árboles/Ents
 mcat-include-base:tree
 
 monster-category:Trolls
 mcat-include-base:troll
 
-monster-category:Vampires
+monster-category:Vampiros
 mcat-include-base:vampire
 
-monster-category:Wights/Wraiths
+monster-category:Wights/Espectros
 mcat-include-base:wraith
 
-monster-category:Worms/Worm Masses
+monster-category:Gusanos/Masas de Gusanos
 mcat-include-base:worm
 
 monster-category:Xorns/Xarens
@@ -182,8 +182,8 @@ mcat-include-base:yeek
 monster-category:Yeti
 mcat-include-base:yeti
 
-monster-category:Zephyr Hounds
+monster-category:Sabuesos del Céfiro
 mcat-include-base:zephyr hound
 
-monster-category:Zombies
+monster-category:Zombis
 mcat-include-base:zombie

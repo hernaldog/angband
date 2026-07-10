@@ -58,25 +58,25 @@
 name:sin trampa:sin trampa
 graphics: :w
 
-name:glyph of warding:glyph of warding
+name:glifo de guarda:glifo de guarda
 graphics:;:y
 appear:0:0:0
 flags:GLYPH | VISIBLE | FLOOR
 desc:Una runa mágica que los monstruos no pueden pasar sin dificultad.
 
-name:decoy:decoy
+name:señuelo:señuelo
 graphics:;:G
 appear:0:0:0
 flags:GLYPH | VISIBLE | FLOOR
 desc:Un señuelo mágico que suena y se ve como el jugador.
 
-name:door lock:door lock
+name:cerradura de puerta:cerradura de puerta
 graphics: :w
 appear:0:0:0
 flags:LOCK | INVISIBLE
 desc:Un dispositivo que hace que una puerta cerrada sea más difícil de abrir.
 
-name:web:web
+name:telaraña:telaraña
 graphics:%:y
 appear:0:0:0
 flags:WEB | VISIBLE
