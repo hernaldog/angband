@@ -218,7 +218,7 @@ flags:NONSTACKING
 
 name:CONFUSED
 desc:confusión
-grade:o:10000:Confundido:¡Estás confundido!
+grade:o:10000:Confusión:¡Estás confundido!
 on-end:Ya no estás confundido.
 on-increase:¡Estás más confundido aún!
 on-decrease:Te sientes un poco menos confundido.

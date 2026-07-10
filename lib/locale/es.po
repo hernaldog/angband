@@ -4768,7 +4768,7 @@ msgid " a"
 msgstr " un"
 
 msgid "You are too confused to read!"
-msgstr "¡Estás demasiado confuso para leer!"
+msgstr "¡Estás demasiado confundido para leer!"
 
 msgid "I see no down staircase here."
 msgstr "No veo ninguna escalera hacia abajo aquí."
@@ -5089,7 +5089,7 @@ msgid "You dig in %s %s."
 msgstr "Cavas en %s %s."
 
 msgid "You can't explore while confused."
-msgstr "No puedes explorar mientras estás confuso."
+msgstr "No puedes explorar mientras estás confundido."
 
 msgid "You have destroyed"
 msgstr "Has destruido"
@@ -5416,7 +5416,7 @@ msgid "Add %d power for AC per unit weight, now %d\n"
 msgstr "Añadir %d de poder por CA por unidad de peso, ahora %d\n"
 
 msgid "You are too confused."
-msgstr "Estás demasiado confuso."
+msgstr "Estás demasiado confundido."
 
 msgid "Trap not found."
 msgstr "Trampa no encontrada."
@@ -5599,7 +5599,7 @@ msgid "Add %d power for multiple slays, total is %d\n"
 msgstr "Añadir %d de poder por múltiples muertes, total es %d\n"
 
 msgid "You are too confused!"
-msgstr "¡Estás demasiado confuso!"
+msgstr "¡Estás demasiado confundido!"
 
 msgid "%s shrouds %s surroundings in darkness.  "
 msgstr "%s envuelve %s alrededores en oscuridad.  "
@@ -5632,7 +5632,7 @@ msgid "%d monsters"
 msgstr "%d monstruos"
 
 msgid "You are confused."
-msgstr "Estás confuso."
+msgstr "Estás confundido."
 
 msgid "Add %d power for extra blows, total is %d\n"
 msgstr "Añadir %d de poder por golpes extra, total es %d\n"
@@ -6298,7 +6298,7 @@ msgid "Really take off %s? "
 msgstr "¿Realmente quitarte %s? "
 
 msgid ", confused"
-msgstr ", confuso"
+msgstr ", confundido"
 
 msgid "Which monster to summon? "
 msgstr "¿Qué monstruo generar? "

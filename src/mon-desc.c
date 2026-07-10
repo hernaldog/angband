@@ -35,6 +35,30 @@
  * agreeing adjective.  This is not perfect - Spanish has irregular nouns -
  * but covers the common cases in the bestiary.
  */
+/**
+ * Some monster names are loanwords that never take Spanish gender
+ * agreement in their accompanying adjectives (e.g. "naga negro", "naga
+ * rojo", never "naga negra"/"naga roja"), so neither "el"/"un" nor
+ * "la"/"una" reads correctly for them. Definite and indefinite
+ * descriptions of these monsters drop the article entirely.
+ */
+static bool monster_name_is_ungendered_es(const char *name)
+{
+	static const char *ungendered[] = { "naga" };
+	const char *space = strchr(name, ' ');
+	size_t noun_len = space ? (size_t) (space - name) : strlen(name);
+	size_t i;
+
+	for (i = 0; i < N_ELEMENTS(ungendered); i++) {
+		if (strlen(ungendered[i]) == noun_len
+				&& my_strnicmp(name, ungendered[i],
+					(int) noun_len) == 0) {
+			return true;
+		}
+	}
+	return false;
+}
+
 static bool monster_name_is_feminine_es(const char *name)
 {
 	/* Nouns ending in "-a" that are nonetheless masculine */
@@ -281,7 +305,9 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 			if (mode & MDESC_IND_VIS) {
 				/* XXX Check plurality for "some" */
 				/* Indefinite monsters need an indefinite article */
-				if (es) {
+				if (es && monster_name_is_ungendered_es(mon->race->name)) {
+					my_strcpy(desc, "", max);
+				} else if (es) {
 					bool feminine =
 						monster_name_is_feminine_es(mon->race->name);
 					my_strcpy(desc, feminine ? "una " : "un ", max);
@@ -290,6 +316,8 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 						is_a_vowel(mon->race->name[0]) ? "an " : "a ",
 						max);
 				}
+			} else if (es && monster_name_is_ungendered_es(mon->race->name)) {
+				my_strcpy(desc, "", max);
 			} else if (es) {
 				/* Definite monsters use a gender-matched article */
 				bool feminine =
