@@ -16,4 +16,4 @@ vein of games like NetHack and Rogue. If you need help in-game, press `?`.
 
 Enjoy!
 
--- The Angband Dev Teamtest
+-- The Angband Dev Team
