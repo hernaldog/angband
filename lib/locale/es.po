@@ -4624,7 +4624,7 @@ msgid "hits"
 msgstr "golpea"
 
 msgid "You enter a maze of down staircases."
-msgstr "Entras en un laberinto de escaleras hacia abajo."
+msgstr "Entras en un laberinto de escaleras descendientes."
 
 msgid "The object %s."
 msgstr "El objeto %s."
@@ -4645,7 +4645,7 @@ msgid "Price"
 msgstr "Precio"
 
 msgid "You have no wands to aim."
-msgstr "No tienes varitas que apuntar."
+msgstr "No tienes varitas que puedas usar."
 
 msgid "Updating stores..."
 msgstr "Actualizando tiendas..."
@@ -4882,7 +4882,7 @@ msgid "Number of simulations: "
 msgstr "Número de simulaciones: "
 
 msgid "You enter a maze of up staircases."
-msgstr "Entras en un laberinto de escaleras hacia arriba."
+msgstr "Entras en un laberinto de escaleras ascendentes."
 
 msgid "You failed to lock the door."
 msgstr "No conseguiste cerrar la puerta con llave."
@@ -5152,7 +5152,7 @@ msgid "Eat which food? "
 msgstr "¿Qué comida comer? "
 
 msgid "You have no rods to zap."
-msgstr "No tienes varas para usar."
+msgstr "No tienes varas que puedas agitar."
 
 msgid "You feel sicklier!"
 msgstr "¡Te sientes más enfermizo!"
@@ -5326,7 +5326,7 @@ msgid "You have learned the rune of %s."
 msgstr "Has aprendido la runa de %s."
 
 msgid "(Enter select, ESC) Command for %s:"
-msgstr "(Intro seleccionar, ESC) Comando para %s:"
+msgstr "(Enter para seleccionar, ESC) Comando para %s:"
 
 msgid "Effect not found."
 msgstr "Efecto no encontrado."
@@ -5611,7 +5611,7 @@ msgid "Add %d for non-weapon to_dam, total %d\n"
 msgstr "Añadir %d por to_dam sin arma, total %d\n"
 
 msgid "Which item to take? (ESC to cancel, Enter to select)"
-msgstr "¿Qué objeto coger? (ESC para cancelar, Intro para seleccionar)"
+msgstr "¿Qué objeto coger? (ESC para cancelar, Enter para seleccionar)"
 
 msgid " (You cannot use it!)"
 msgstr " (¡No usable!)"
@@ -5662,7 +5662,7 @@ msgid "treasure%s"
 msgstr "tesoro%s"
 
 msgid "Inscribe with what? "
-msgstr "¿Con qué inscribir? "
+msgstr "¿Cómo inscribir? "
 
 msgid "Calculating curse power for %s...\n"
 msgstr "Calculando el poder de la maldición para %s...\n"
@@ -5725,7 +5725,7 @@ msgid "Direction ('5' for target, '*' or <click> to re-target, Escape to cancel)
 msgstr "¿Dirección ('5' para objetivo, '*' o <clic> para reapuntar, Escape para cancelar)? "
 
 msgid "Which item to buy? (ESC to cancel, Enter to select)"
-msgstr "¿Qué objeto comprar? (ESC para cancelar, Intro para seleccionar)"
+msgstr "¿Qué objeto comprar? (ESC para cancelar, Enter para seleccionar)"
 
 msgid "treasures"
 msgstr "tesoros"
@@ -5824,7 +5824,7 @@ msgid "Initializing arrays... (dungeon profiles)"
 msgstr "Inicializando matrices... (perfiles de mazmorra)"
 
 msgid "Which item to examine? (ESC to cancel, Enter to select)"
-msgstr "¿Qué objeto examinar? (ESC para cancelar, Intro para seleccionar)"
+msgstr "¿Qué objeto examinar? (ESC para cancelar, Enter para seleccionar)"
 
 msgid "You feel stronger!"
 msgstr "¡Te sientes más fuerte!"
@@ -6280,7 +6280,7 @@ msgid "No target monster selected!"
 msgstr "¡Ningún monstruo objetivo seleccionado!"
 
 msgid "(Enter select, ESC) Command:"
-msgstr "(Intro seleccionar, ESC) Comando:"
+msgstr "(Enter seleccionar, ESC) Comando:"
 
 msgid "Which object to create (0-%d)? "
 msgstr "¿Qué objeto crear (0-%d)? "
@@ -6398,7 +6398,7 @@ msgid "fall[s|] asleep!"
 msgstr "se duerme[|n]!"
 
 msgid "wake[s|] up."
-msgstr "despierta[|n]."
+msgstr "se despierta[|n]."
 
 msgid "cringe[s|] at the light!"
 msgstr "se encoge[|n] ante la luz!"

@@ -153,31 +153,31 @@ static bool borg_message_contains(
  * !FIX !TODO: Make this more robust to changes in level feeling messages.
  */
 static const char *prefix_feeling_danger[] = {
-    "Aún no estás seguro sobre este lugar",
-    "Presagios de muerte acechan este lugar", 
-    "Este lugar se ve mortal",
-    "Este lugar parece terriblemente peligroso", 
-    "Te sientes ansioso en este lugar",
-    "Te sientes nervioso en este lugar", 
-    "Este lugar no parece demasiado arriesgado",
-    "Este lugar parece razonablemente seguro", 
-    "Este parece un lugar tranquilo y resguardado",
-    "Este parece un lugar silencioso y pacífico", 
+    "Aún no estás seguro de qué esperar en este sitio.",
+    "Presagios de muerte acechan en las sombras.", 
+    "El lugar emana un aura mortífera.",
+    "El ambiente se siente terriblemente peligroso.", 
+    "Una profunda ansiedad te oprime el pecho.",
+    "Sientes una ligera inquietud en el cuerpo.", 
+    "El entorno no parece demasiado arriesgado.",
+    "El lugar parece razonablemente seguro.", 
+    "Este parece un rincón tranquilo y resguardado.",
+    "El silencio de este lugar te transmite paz.",
     NULL
 };
 
 static const char *suffix_feeling_stuff[] = { 
     "Parece un nivel como cualquier otro.",
-    "¡percibes un objeto de poder maravilloso!", 
-    "hay tesoros soberbios aquí.",
-    "hay excelentes tesoros aquí.",
-    "hay muy buenos tesoros aquí.", 
-    "hay buenos tesoros aquí.",
-    "puede haber algo que valga la pena aquí.",
-    "no parece haber nada interesante por aquí.",
-    "no hay muchos tesoros aquí.", 
-    "solo hay fragmentos de basura aquí.",
-    "por aquí no hay telarañas.", 
+    "¡Percibes la presencia de un objeto de poder maravilloso!", 
+    "Grandiosos tesoros aguardan en este lugar.",
+    "Albergas la certeza de que hay excelentes tesoros.",
+    "Presientes que hay muy buenos tesoros ocultos.", 
+    "Hay buenos tesoros repartidos por la zona.",
+    "Puede que haya algo que valga la pena.",
+    "No parece haber nada interesante a la vista.",
+    "No abundan los tesoros por estos lares.", 
+    "Solo encontrarás fragmentos de basura.",
+    "Ni siquiera se ven telarañas por aquí.",
     NULL };
 
 /*
