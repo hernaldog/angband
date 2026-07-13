@@ -19,6 +19,7 @@
 
 #include "angband.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-lore.h"
 #include "mon-predicate.h"
 #include "obj-desc.h"
@@ -389,7 +390,9 @@ void improve_attack_modifier(struct player *p, struct object *obj,
 				best_mult = mult;
 				*brand_used = i;
 				my_strcpy(verb, b->verb, 20);
-				if (range)
+				/* The English "-s" suffix trick to get the 3rd-person
+				 * form doesn't work for Spanish verb conjugations. */
+				if (range && !streq(lang_current, "es"))
 					my_strcat(verb, "s", 20);
 			}
 		}

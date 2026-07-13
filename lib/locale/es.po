@@ -880,7 +880,7 @@ msgid "Recall Info"
 msgstr "Recordar Info"
 
 msgid "Use Item On"
-msgstr "Usar Objeto En"
+msgstr "Usar Objeto"
 
 msgid "Cast On"
 msgstr "Lanzar Sobre"
@@ -934,7 +934,7 @@ msgid "Fire At"
 msgstr "Disparar Sobre"
 
 msgid "Throw At"
-msgstr "Lanzar A"
+msgstr "Lanzar"
 
 msgid "(Enter to select command, ESC to cancel) You see something strange:"
 msgstr "(Enter para seleccionar comando, ESC para cancelar) Ves algo extraño:"
@@ -4439,6 +4439,15 @@ msgstr "Añadir %d de poder por matar y marcar, total es %d\n"
 
 msgid "You have removed the rubble %s."
 msgstr "Has retirado los escombros %s."
+
+msgid "with your hands"
+msgstr "con las manos"
+
+msgid "with your weapon"
+msgstr "con tu arma"
+
+msgid "with your swap digger"
+msgstr "con tu pico"
 
 msgid " or "
 msgstr " o "

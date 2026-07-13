@@ -26,7 +26,7 @@
 
 code:ACID_3
 name:ácido
-verb:dissolve
+verb:Disuelves
 multiplier:3
 o-multiplier:25
 power:161
@@ -34,7 +34,7 @@ resist-flag:IM_ACID
 
 code:ELEC_3
 name:relámpago
-verb:shock
+verb:Electrocutas
 multiplier:3
 o-multiplier:25
 power:116
@@ -42,7 +42,7 @@ resist-flag:IM_ELEC
 
 code:FIRE_3
 name:fuego
-verb:burn
+verb:Quemas a
 multiplier:3
 o-multiplier:25
 power:113
@@ -51,7 +51,7 @@ vuln-flag:HURT_FIRE
 
 code:COLD_3
 name:frío
-verb:freeze
+verb:Congelas
 multiplier:3
 o-multiplier:25
 power:119
@@ -60,7 +60,7 @@ vuln-flag:HURT_COLD
 
 code:POIS_3
 name:veneno
-verb:poison
+verb:Envenenas
 multiplier:3
 o-multiplier:25
 power:122
@@ -68,7 +68,7 @@ resist-flag:IM_POIS
 
 code:ACID_2
 name:ácido
-verb:corrode
+verb:Corroes
 multiplier:2
 o-multiplier:15
 power:130
@@ -76,7 +76,7 @@ resist-flag:IM_ACID
 
 code:ELEC_2
 name:relámpago
-verb:zap
+verb:Chispeas
 multiplier:2
 o-multiplier:15
 power:108
@@ -84,7 +84,7 @@ resist-flag:IM_ELEC
 
 code:FIRE_2
 name:fuego
-verb:singe
+verb:Chamuscas
 multiplier:2
 o-multiplier:15
 power:107
@@ -93,7 +93,7 @@ vuln-flag:HURT_FIRE
 
 code:COLD_2
 name:frío
-verb:chill
+verb:Enfrías
 multiplier:2
 o-multiplier:15
 power:109
@@ -102,7 +102,7 @@ vuln-flag:HURT_COLD
 
 code:POIS_2
 name:veneno
-verb:sicken
+verb:Enfermas
 multiplier:2
 o-multiplier:15
 power:111

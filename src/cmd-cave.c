@@ -539,7 +539,8 @@ static bool do_cmd_tunnel_aux(struct loc grid)
 	struct player_state local_state;
 	struct player_state *used_state = &player->state;
 	int oldn = 1, dig_idx;
-	const char *with_clause = current_weapon == NULL ? "con las manos" : "con tu arma";
+	const char *with_clause = current_weapon == NULL ?
+		_("with your hands") : _("with your weapon");
 
 	/* Verify legality */
 	if (!do_cmd_tunnel_test(player, grid)) return (false);
@@ -549,7 +550,7 @@ static bool do_cmd_tunnel_aux(struct loc grid)
 	if (best_digger != current_weapon &&
 			(!current_weapon || obj_can_takeoff(current_weapon))) {
 		digger_swapped = true;
-		with_clause = "con tu pico de intercambio";
+		with_clause = _("with your swap digger");
 		/* Use only one without the overhead of gear_obj_for_use(). */
 		if (best_digger) {
 			oldn = best_digger->number;
