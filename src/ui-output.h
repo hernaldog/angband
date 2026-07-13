@@ -72,6 +72,8 @@ bool region_inside(const region *loc, const ui_event *key);
  * ------------------------------------------------------------------------ */
 
 struct keypress textui_textblock_show(textblock *tb, region orig_area, const char *header);
+struct keypress textui_textblock_show_footer(textblock *tb, region orig_area,
+	const char *header, const char *footer);
 void textui_textblock_place(textblock *tb, region orig_area, const char *header);
 
 /**

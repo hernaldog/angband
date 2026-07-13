@@ -155,6 +155,16 @@ void textui_textblock_place(textblock *tb, region orig_area, const char *header)
  */
 struct keypress textui_textblock_show(textblock *tb, region orig_area, const char *header)
 {
+	return textui_textblock_show_footer(tb, orig_area, header, NULL);
+}
+
+/**
+ * Show a textblock interactively, overriding the default
+ * "(Press any key to continue.)" footer when the single-page case applies.
+ */
+struct keypress textui_textblock_show_footer(textblock *tb, region orig_area,
+	const char *header, const char *footer)
+{
 	/* xxx on resize this should be recalculated */
 	region area = region_calculate(orig_area);
 
@@ -217,7 +227,8 @@ struct keypress textui_textblock_show(textblock *tb, region orig_area, const cha
 
 		Term_erase(area.col, area.row + n_lines, area.width);
 		Term_erase(area.col, area.row + n_lines + 1, area.width);
-		c_put_str(COLOUR_L_BLUE, _("(Press any key to continue.)"),
+		c_put_str(COLOUR_L_BLUE,
+				footer != NULL ? footer : _("(Press any key to continue.)"),
 				area.row + n_lines + 1, area.col);
 		ch = inkey();
 	}

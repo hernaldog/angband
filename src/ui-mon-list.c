@@ -446,7 +446,7 @@ void monster_list_show_interactive(int height, int width)
 			my_strcpy(buf, _("Press 'x' to ENABLE 'sort by exp'"), sizeof(buf));
 		}
 
-		ch = textui_textblock_show(tb, r, buf);
+		ch = textui_textblock_show_footer(tb, r, buf, _("(Any key to continue)"));
 
 		// Toggle sort
 		sort_exp = !sort_exp;

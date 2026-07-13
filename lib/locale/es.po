@@ -3988,10 +3988,13 @@ msgstr "(Arriba/Abajo o ESCAPE para salir.)"
 # --- ui-mon-list.c (follow-up) ---
 
 msgid "Press 'x' to DISABLE 'sort by exp'"
-msgstr "Presiona 'x' para DESACTIVAR 'ordenar por exp'"
+msgstr "Presiona 'x' para no ord por exp"
 
 msgid "Press 'x' to ENABLE 'sort by exp'"
-msgstr "Presiona 'x' para ACTIVAR 'ordenar por exp'"
+msgstr "Presiona 'x' para ord por exp"
+
+msgid "(Any key to continue)"
+msgstr "(Cualquier tecla continuar)"
 
 # --- mon-lore.c: lore_append_movement / lore_append_toughness / lore_append_exp ---
 
@@ -4984,7 +4987,7 @@ msgid "That was an invalid selection.  Use one of fobuztcdhmqgpra ."
 msgstr "Esa fue una selección inválida.  Usa una de fobuztcdhmqgpra ."
 
 msgid "You do not have enough gold for this item."
-msgstr "No tienes suficiente oro para este objeto."
+msgstr "No tienes suficiente oro."
 
 msgid "Change the quantity of which item? "
 msgstr "¿La cantidad de qué objeto cambiar? "
