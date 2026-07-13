@@ -3036,7 +3036,7 @@ msgid "You see"
 msgstr "Ves"
 
 msgid "You have no room for"
-msgstr "no tienes espacio para"
+msgstr "No tienes espacio para"
 
 msgid "You feel"
 msgstr "Sientes"
