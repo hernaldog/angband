@@ -2137,10 +2137,10 @@ msgid "You sense no stairs."
 msgstr "No sientes escaleras."
 
 msgid "You sense the presence of buried treasure!"
-msgstr "¡Sientes la presencia de tesoro enterrado!"
+msgstr "¡Sientes la presencia de tesoros!"
 
 msgid "You sense no buried treasure."
-msgstr "No sientes tesoro enterrado."
+msgstr "Ya no sientes los tesoros enterrados."
 
 msgid "You sense the presence of gold!"
 msgstr "¡Sientes la presencia de oro!"
