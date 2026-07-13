@@ -1,3 +1,5 @@
+[English](CONTRIBUTING.md) | [Español](CONTRIBUTING.es.md)
+
 # Contributing to Angband
 
 This document is a guide to contributing to Angband.  It is largely a compilation of previous advice from various authors, updated as needed.
