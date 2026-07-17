@@ -331,7 +331,7 @@ bool borg_flow_recover(int dist)
     borg_flow_spread(dist, false, true, false, -1, false);
 
     /* Attempt to Commit the flow */
-    if (!borg_flow_commit("Casilla de Recuperación", GOAL_RECOVER))
+    if (!borg_flow_commit("Recover Grid", GOAL_RECOVER))
         return false;
 
     /* Take one step */
@@ -526,7 +526,7 @@ bool borg_flow_spastic(bool bored)
         ag        = &borg_grids[borg.c.y][borg.c.x];
 
         /* Take note */
-        borg_note(format("# Búsqueda errática en (%d,%d)...valor:%d", borg.c.x,
+        borg_note(format("# Erratic search at (%d,%d)...val:%d", borg.c.x,
             borg.c.y, ag->xtra));
 
         /* Count searching */
@@ -752,7 +752,7 @@ bool borg_flow_spastic(bool bored)
     borg_flow_spread(250, true, false, false, -1, false);
 
     /* Attempt to Commit the flow */
-    if (!borg_flow_commit("errático", GOAL_XTRA))
+    if (!borg_flow_commit("erratic", GOAL_XTRA))
         return false;
 
     /* Take one step */
@@ -861,7 +861,7 @@ bool borg_flow_light(int why)
     borg_flow_spread(250, true, false, false, -1, false);
 
     /* Attempt to Commit the flow */
-    if (!borg_flow_commit("un área iluminada", why))
+    if (!borg_flow_commit("lit area", why))
         return false;
 
     /* Take one step */
@@ -957,7 +957,7 @@ bool borg_flow_vault(int nearness)
     borg_flow_spread(250, true, false, false, -1, false);
 
     /* Attempt to Commit the flow */
-    if (!borg_flow_commit("excavación de bóveda", GOAL_VAULT))
+    if (!borg_flow_commit("vault dig", GOAL_VAULT))
         return false;
 
     /* Take one step */
@@ -980,7 +980,7 @@ bool borg_twitchy(void)
     struct loc l;
 
     /* This is a bad thing */
-    borg_note("# ¡Nervioso!");
+    borg_note("# Nervous!");
 
     /* try to phase out of it */
     if (borg_allow_teleport()) {

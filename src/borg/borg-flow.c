@@ -838,7 +838,7 @@ static bool borg_play_step(int y2, int x2)
                     borg_spell(ORB_OF_DRAINING);
 
                     /* Message */
-                    borg_note("# Usando Orbe sobre un objeto para comprobar si está maldito.");
+                    borg_note("# Using Orb on object to check for curse.");
 
                     /* use the old target */
                     borg_keypress('5');
@@ -870,7 +870,7 @@ static bool borg_play_step(int y2, int x2)
 
         /*** Handle other takes ***/
         /* Message */
-        borg_note(format("# Caminando sobre y eliminando un '%s' en (%d,%d)",
+        borg_note(format("# Walking over and deleting a '%s' at (%d,%d)",
             take->kind->name, take->y, take->x));
 
         /* Delete the item from the list */
@@ -885,7 +885,7 @@ static bool borg_play_step(int y2, int x2)
     /* Glyph of Warding */
     if (ag->glyph) {
         /* Message */
-        borg_note(format("# Caminando sobre un glifo de protección."));
+        borg_note(format("# Walking over a glyph of warding."));
 
         /* Walk onto it */
         borg_keypress(I2D(dir));
@@ -900,7 +900,7 @@ static bool borg_play_step(int y2, int x2)
 
         /* allow "destroy doors" activation */
         if (borg_activate_item(act_disable_traps)) {
-            borg_note("# Activación para Desactivar Trampas, Destruir Puertas");
+            borg_note("# Activation for Disarm Traps, Destroy Doors");
             ag->trap = 0;
             /* since this just disables the trap and doesn't remove it, */
             /* don't rest next to it */
@@ -1050,7 +1050,7 @@ static bool borg_play_step(int y2, int x2)
         /* Switch to a digger if we have one is automatic */
 
         /* Dig */
-        borg_note("# Excavando a través de pared/etc");
+        borg_note("# Digging through wall/etc");
         borg_keypress('T');
         borg_keypress(I2D(dir));
 

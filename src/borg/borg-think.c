@@ -179,7 +179,7 @@ bool borg_think(void)
     /* save now */
     if (borg_save && borg_save_game()) {
         /* Log */
-        borg_note("# ¡Guardado automático!");
+        borg_note("# Auto Save!");
 
         borg_save = false;
 

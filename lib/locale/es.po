@@ -6779,4 +6779,1485 @@ msgstr "Has desactivado %s."
 msgid "Error"
 msgstr "Error"
 
+msgid "plain gold ring"
+msgstr "anillo de oro liso"
 
+msgid "You die."
+msgstr "Moriste."
+
+msgid "You failed "
+msgstr "Fallaste "
+
+msgid "You hit a teleport"
+msgstr "Golpeaste una teletransportación"
+
+msgid "An arrow "
+msgstr "Una flecha "
+
+msgid "A small dart "
+msgstr "Un pequeño dardo "
+
+msgid "The cave "
+msgstr "La cueva "
+
+msgid "You are too afraid to attack "
+msgstr "Tienes demasiado miedo para atacar "
+
+msgid "You feel your memories fade."
+msgstr "Sientes que tus recuerdos se desvanecen."
+
+msgid "Your memories come flooding back."
+msgstr "Tus recuerdos regresan a raudales."
+
+msgid "You have been knocked out."
+msgstr "Has sido noqueado."
+
+msgid "You are paralyzed"
+msgstr "Estás paralizado"
+
+msgid "You feel drugged!"
+msgstr "¡Te sientes drogado!"
+
+msgid "The draining fails."
+msgstr "El drenaje falla."
+
+msgid "You can see clearly again."
+msgstr "Puedes ver claramente de nuevo."
+
+msgid "You hit "
+msgstr "Golpeas a "
+
+msgid "You bite "
+msgstr "Muerdes a "
+
+msgid "You draw power from"
+msgstr "Extraes poder de"
+
+msgid "No Available Target."
+msgstr "No hay objetivo disponible."
+
+msgid "Not enough room next to "
+msgstr "No hay suficiente espacio junto a "
+
+msgid "You miss "
+msgstr "Fallas a "
+
+msgid "Your "
+msgstr "Tu "
+
+msgid " is unaffected!"
+msgstr " no es afectado!"
+
+msgid " misses you."
+msgstr " te falla."
+
+msgid " is repelled."
+msgstr " es repelido."
+
+msgid "Something "
+msgstr "Algo "
+
+msgid "You "
+msgstr "Tú "
+
+msgid "Something"
+msgstr "Algo"
+
+msgid " falls asleep!"
+msgstr " se queda dormido!"
+
+msgid " looks confused."
+msgstr " parece confundido."
+
+msgid " looks more confused."
+msgstr " parece más confundido."
+
+msgid " wakes up."
+msgstr " se despierta."
+
+msgid " flees in terror!"
+msgstr " huye aterrorizado!"
+
+msgid " recovers his courage."
+msgstr " recobra su valentía."
+
+msgid " recovers her courage."
+msgstr " recobra su valentía."
+
+msgid " recovers its courage."
+msgstr " recobra su valentía."
+
+msgid "You tunnel into the granite wall."
+msgstr "Excavas en la pared de granito."
+
+msgid "You tunnel into the quartz vein."
+msgstr "Excavas en la veta de cuarzo."
+
+msgid "You tunnel into the magma vein."
+msgstr "Excavas en la veta de magma."
+
+msgid "You chip away futilely "
+msgstr "Picas inútilmente "
+
+msgid "The air about you becomes "
+msgstr "El aire a tu alrededor se vuelve "
+
+msgid "The air around you starts "
+msgstr "El aire a tu alrededor comienza "
+
+msgid "You feel yourself yanked "
+msgstr "Sientes que eres jalado "
+
+msgid "A tension leaves "
+msgstr "Una tensión abandona "
+
+msgid "The air around you stops "
+msgstr "El aire a tu alrededor se detiene "
+
+msgid "Oops! It feels deathly cold!"
+msgstr "¡Vaya! ¡Se siente mortalmente frío!"
+
+msgid "You feel safe from evil!"
+msgstr "¡Te sientes a salvo del mal!"
+
+msgid "You no longer feel safe from evil."
+msgstr "Ya no te sientes a salvo del mal."
+
+msgid "You feel yourself moving faster!"
+msgstr "¡Sientes que te mueves más rápido!"
+
+msgid "You feel yourself slow down."
+msgstr "Sientes que te vuelves más lento."
+
+msgid "You feel righteous"
+msgstr "Te sientes virtuoso"
+
+msgid "The prayer has expired."
+msgstr "La oración ha expirado."
+
+msgid "You feel your mind accelerate."
+msgstr "Sientes que tu mente se acelera."
+
+msgid "You feel your mind slow again."
+msgstr "Sientes que tu mente se ralentiza de nuevo."
+
+msgid "You feel like a hero!"
+msgstr "¡Te sientes como un héroe!"
+
+msgid "You no longer feel heroic."
+msgstr "Ya no te sientes heroico."
+
+msgid "You feel like a killing machine!"
+msgstr "¡Te sientes como una máquina de matar!"
+
+msgid "You no longer feel berserk."
+msgstr "Ya no te sientes en berserker."
+
+msgid "Your eyes feel very sensitive!"
+msgstr "¡Tus ojos se sienten muy sensibles!"
+
+msgid "Your eyes no longer feel so sensitive."
+msgstr "Tus ojos ya no se sienten tan sensibles."
+
+msgid "There is a wall "
+msgstr "Hay una pared "
+
+msgid "There is a closed door blocking your way."
+msgstr "Hay una puerta cerrada bloqueando tu camino."
+
+msgid "You spin around."
+msgstr "Giras sobre ti mismo."
+
+msgid "No known path to "
+msgstr "No hay camino conocido hacia "
+
+msgid "Something is here."
+msgstr "Hay algo aquí."
+
+msgid "You see nothing there "
+msgstr "No ves nada allí "
+
+msgid "Illegal "
+msgstr "Ilegal "
+
+msgid "Identifying The Phial"
+msgstr "Identificando El Fial"
+
+msgid "You feel resistant to acid!"
+msgstr "¡Te sientes resistente al ácido!"
+
+msgid "You are no longer resistant to acid."
+msgstr "Ya no eres resistente al ácido."
+
+msgid "You feel resistant to electricity!"
+msgstr "¡Te sientes resistente a la electricidad!"
+
+msgid "You are no longer resistant to electricity."
+msgstr "Ya no eres resistente a la electricidad."
+
+msgid "You feel resistant to fire!"
+msgstr "¡Te sientes resistente al fuego!"
+
+msgid "You are no longer resistant to fire."
+msgstr "Ya no eres resistente al fuego."
+
+msgid "You feel resistant to cold!"
+msgstr "¡Te sientes resistente al frío!"
+
+msgid "You are no longer resistant to cold."
+msgstr "Ya no eres resistente al frío."
+
+msgid "You feel resistant to poison!"
+msgstr "¡Te sientes resistente al veneno!"
+
+msgid "You are no longer resistant to poison."
+msgstr "Ya no eres resistente al veneno."
+
+msgid "A mystic shield forms around your body!"
+msgstr "¡Un escudo místico se forma alrededor de tu cuerpo!"
+
+msgid "Your skin turns to stone."
+msgstr "Tu piel se convierte en piedra."
+
+msgid "Your mystic shield crumbles away."
+msgstr "Tu escudo místico se desmorona."
+
+msgid "A fleshy shade returns to your skin."
+msgstr "Un tono carnoso vuelve a tu piel."
+
+msgid "You inscribe a mystic symbol on the ground!"
+msgstr "¡Inscribes un símbolo místico en el suelo!"
+
+msgid "The object resists the spell"
+msgstr "El objeto resiste el hechizo"
+
+msgid "There is no clear floor"
+msgstr "No hay suelo despejado"
+
+msgid "You have removed the "
+msgstr "Has eliminado los "
+
+msgid "The enchantment failed"
+msgstr "El encantamiento falló"
+
+msgid "There is a searing blast of light!"
+msgstr "¡Hay un cegador destello de luz!"
+
+msgid "commands you to return."
+msgstr "te ordena regresar."
+
+msgid "teleports you away."
+msgstr "te teletransporta."
+
+msgid "gestures at your feet."
+msgstr "gesticula a tus pies."
+
+# --- borg arrays: prefix_kill ---
+
+msgid "You have killed "
+msgstr "Has matado a "
+
+msgid "You have slain "
+msgstr "Has derrotado a "
+
+msgid "You have destroyed "
+msgstr "Has destruido a "
+
+msgid "You eliminated "
+msgstr "Eliminaste a "
+
+msgid "You destroyed "
+msgstr "Destruiste a "
+
+# --- borg arrays: suffix_died (gender variants use (f) keys) ---
+
+msgid " die."
+msgstr " muere."
+
+msgid " dies."
+msgstr " muere."
+
+msgid " is destroyed."
+msgstr " es destruido."
+
+msgid " are destroyed."
+msgstr " son destruidos."
+
+msgid " is destroyed. (f)"
+msgstr " es destruida."
+
+msgid " are destroyed. (f)"
+msgstr " son destruidas."
+
+msgid " is destroyed!"
+msgstr " es destruido!"
+
+msgid " are destroyed!"
+msgstr " son destruidos!"
+
+msgid " is destroyed! (f)"
+msgstr " es destruida!"
+
+msgid " are destroyed! (f)"
+msgstr " son destruidas!"
+
+msgid " shrivel away in the light!"
+msgstr " se marchitan en la luz!"
+
+msgid " shrivels away in the light!"
+msgstr " se marchita en la luz!"
+
+msgid " dissolve!"
+msgstr " se disuelven!"
+
+msgid " dissolves!"
+msgstr " se disuelve!"
+
+msgid " scream of agony!"
+msgstr " gritan de agonía!"
+
+msgid " screams of agony!"
+msgstr " grita de agonía!"
+
+msgid " disintegrate!"
+msgstr " se desintegran!"
+
+msgid " disintegrates!"
+msgstr " se desintegra!"
+
+msgid " freeze and shatter!"
+msgstr " se congela y se hace pedazos!"
+
+msgid " freezes and shatters!"
+msgstr " se congela y se hace pedazos!"
+
+msgid " is drained dry!"
+msgstr " es drenado por completo!"
+
+msgid " is drained dry! (f)"
+msgstr " es drenada por completo!"
+
+# --- borg arrays: suffix_blink ---
+
+msgid " disappears!"
+msgstr " desaparece!"
+
+msgid " intones strange words."
+msgstr " entona extrañas palabras."
+
+msgid " teleports away."
+msgstr " se teletransporta."
+
+msgid " blinks."
+msgstr " parpadea."
+
+msgid " makes a soft 'pop'."
+msgstr " hace un suave 'pop'."
+
+# --- borg arrays: prefix_feeling_danger ---
+
+msgid "You are still uncertain about this place"
+msgstr "Aún no estás seguro de qué esperar en este sitio."
+
+msgid "Omens of death haunt this place"
+msgstr "Presagios de muerte acechan en las sombras."
+
+msgid "This place seems murderous"
+msgstr "El lugar emana un aura mortífera."
+
+msgid "This place seems terribly dangerous"
+msgstr "El ambiente se siente terriblemente peligroso."
+
+msgid "You feel anxious about this place"
+msgstr "Una profunda ansiedad te oprime el pecho."
+
+msgid "You feel nervous about this place"
+msgstr "Sientes una ligera inquietud en el cuerpo."
+
+msgid "This place does not seem too risky"
+msgstr "El entorno no parece demasiado arriesgado."
+
+msgid "This place seems reasonably safe"
+msgstr "El lugar parece razonablemente seguro."
+
+msgid "This seems a tame, sheltered place"
+msgstr "Este parece un rincón tranquilo y resguardado."
+
+msgid "This seems a quiet, peaceful place"
+msgstr "El silencio de este lugar te transmite paz."
+
+# --- borg arrays: suffix_feeling_stuff ---
+
+msgid "Looks like any other level."
+msgstr "Parece un nivel como cualquier otro."
+
+msgid "you sense an item of wondrous power!"
+msgstr "¡Percibes la presencia de un objeto de poder maravilloso!"
+
+msgid "there are superb treasures here."
+msgstr "Grandiosos tesoros aguardan en este lugar."
+
+msgid "there are excellent treasures here."
+msgstr "Albergas la certeza de que hay excelentes tesoros."
+
+msgid "there are very good treasures here."
+msgstr "Presientes que hay muy buenos tesoros ocultos."
+
+msgid "there are good treasures here."
+msgstr "Hay buenos tesoros repartidos por la zona."
+
+msgid "there may be something worthwhile here."
+msgstr "Puede que haya algo que valga la pena."
+
+msgid "there may not be much interesting here."
+msgstr "No parece haber nada interesante a la vista."
+
+msgid "there aren't many treasures here."
+msgstr "No abundan los tesoros por estos lares."
+
+msgid "there are only scraps of junk here."
+msgstr "Solo encontrarás fragmentos de basura."
+
+msgid "there is naught but cobwebs here."
+msgstr "Ni siquiera se ven telarañas por aquí."
+
+# --- borg item/class/monster names ---
+
+msgid "Apple"
+msgstr "Manzana"
+
+msgid "Ration of Food"
+msgstr "Ración de Comida"
+
+msgid "Slime Mold"
+msgstr "Moho Baboso"
+
+msgid "Draught of the Ents"
+msgstr "Trago de los Ents"
+
+msgid "Pint of Fine Wine"
+msgstr "Sorbo de Vino Fino"
+
+msgid "Sip of Miruvor"
+msgstr "Sorbo de Miruvor"
+
+msgid "Piece of Elvish Waybread"
+msgstr "Trozo de Pan Élfico"
+
+msgid "Honey-cake"
+msgstr "Pastel de Miel"
+
+msgid "Slice of Meat"
+msgstr "Trozo de Carne"
+
+msgid "Handful of Dried Fruits"
+msgstr "Puñado de Fruta Seca"
+
+msgid "Second Sight"
+msgstr "Segunda Vista"
+
+msgid "Fast Recovery"
+msgstr "Recuperación Rápida"
+
+msgid "Vigor"
+msgstr "Vigor"
+
+msgid "Clear Mind"
+msgstr "Mente Clara"
+
+msgid "Emergency"
+msgstr "Emergencia"
+
+msgid "Terror"
+msgstr "Terror"
+
+msgid "Stoneskin"
+msgstr "Piel de Piedra"
+
+msgid "Debility"
+msgstr "Debilidad"
+
+msgid "Sprinting"
+msgstr "Velocidad"
+
+msgid "Purging"
+msgstr "Purga"
+
+msgid "Lantern"
+msgstr "Linterna"
+
+msgid "Wooden Torch"
+msgstr "Antorcha de Madera"
+
+msgid "Flask of oil"
+msgstr "Frasco de Aceite"
+
+msgid "Cure Critical Wounds"
+msgstr "Curar Heridas Críticas"
+
+msgid "Cure Serious Wounds"
+msgstr "Curar Heridas Graves"
+
+msgid "Cure Light Wounds"
+msgstr "Curar Heridas Leves"
+
+msgid "Healing"
+msgstr "Sanación"
+
+msgid "*Healing*"
+msgstr "*Sanación*"
+
+msgid "Life"
+msgstr "Vida"
+
+msgid "Restore Mana"
+msgstr "Restaurar Maná"
+
+msgid "Neutralize Poison"
+msgstr "Neutralizar Veneno"
+
+msgid "Resist Heat"
+msgstr "Resistir Calor"
+
+msgid "Resist Cold"
+msgstr "Resistir Frío"
+
+msgid "Resist Poison"
+msgstr "Resistir Veneno"
+
+msgid "Strength"
+msgstr "Fuerza"
+
+msgid "Intelligence"
+msgstr "Inteligencia"
+
+msgid "Wisdom"
+msgstr "Sabiduría"
+
+msgid "Dexterity"
+msgstr "Destreza"
+
+msgid "Constitution"
+msgstr "Constitución"
+
+msgid "Augmentation"
+msgstr "Aumento"
+
+msgid "Brawn"
+msgstr "Fuerza Física"
+
+msgid "Intellect"
+msgstr "Intelecto"
+
+msgid "Contemplation"
+msgstr "Contemplación"
+
+msgid "Nimbleness"
+msgstr "Agilidad"
+
+msgid "Toughness"
+msgstr "Robustez"
+
+msgid "Restore Life Levels"
+msgstr "Restaurar Niveles de Vida"
+
+msgid "Berserk Strength"
+msgstr "Fuerza Berserker"
+
+msgid "Sleep"
+msgstr "Sueño"
+
+msgid "Slowness"
+msgstr "Lentitud"
+
+msgid "Poison"
+msgstr "Veneno"
+
+msgid "Blindness"
+msgstr "Ceguera"
+
+msgid "Confusion"
+msgstr "Confusión"
+
+msgid "Heroism"
+msgstr "Heroísmo"
+
+msgid "Boldness"
+msgstr "Audacia"
+
+msgid "True Seeing"
+msgstr "Visión Verdadera"
+
+msgid "Enlightenment"
+msgstr "Iluminación"
+
+msgid "Slime Mold Juice"
+msgstr "Jugo de Moho Baboso"
+
+msgid "Experience"
+msgstr "Experiencia"
+
+msgid "Identify Rune"
+msgstr "Identificar Runa"
+
+msgid "Phase Door"
+msgstr "Puerta de Fase"
+
+msgid "Teleportation"
+msgstr "Teletransportación"
+
+msgid "Word of Recall"
+msgstr "Palabra de Retorno"
+
+msgid "Enchant Armour"
+msgstr "Encantar Armadura"
+
+msgid "Enchant Weapon To-Hit"
+msgstr "Encantamiento de Golpe Certero"
+
+msgid "Enchant Weapon To-Dam"
+msgstr "Encantar Arma para Daño"
+
+msgid "*Enchant Armour*"
+msgstr "*Encantar Armadura*"
+
+msgid "*Enchant Weapon*"
+msgstr "*Encantar Arma*"
+
+msgid "Protection from Evil"
+msgstr "Protección contra el Mal"
+
+msgid "Rune of Protection"
+msgstr "Runa de Protección"
+
+msgid "Teleport Level"
+msgstr "Teletransporte de Nivel"
+
+msgid "Recharging"
+msgstr "Recarga"
+
+msgid "Banishment"
+msgstr "Destierro"
+
+msgid "Mass Banishment"
+msgstr "Destierro Masivo"
+
+msgid "Blessing"
+msgstr "Bendición"
+
+msgid "Holy Chant"
+msgstr "Canto Sagrado"
+
+msgid "Holy Prayer"
+msgstr "Oración Sagrada"
+
+msgid "Detect Invisible"
+msgstr "Detección de lo Invisible"
+
+msgid "Remove Hunger"
+msgstr "Saciar Hambre"
+
+msgid "Magic Mapping"
+msgstr "Mapeo Mágico"
+
+msgid "Acquirement"
+msgstr "Adquisición"
+
+msgid "*Acquirement*"
+msgstr "*Adquisición*"
+
+msgid "Remove Curse"
+msgstr "Eliminar Maldición"
+
+msgid "*Remove Curse*"
+msgstr "*Eliminar Maldición*"
+
+msgid "Monster Confusion"
+msgstr "Confundir Monstruo"
+
+msgid "Door Destruction"
+msgstr "Destrucción de Puertas"
+
+msgid "Dispel Undead"
+msgstr "Dispersar No Muerto"
+
+msgid "Flames"
+msgstr "Llamas"
+
+msgid "Ice"
+msgstr "Hielo"
+
+msgid "Acid"
+msgstr "Ácido"
+
+msgid "Digging"
+msgstr "Excavación"
+
+msgid "Damage"
+msgstr "Daño"
+
+msgid "the Dog"
+msgstr "el Perro"
+
+msgid "Detection"
+msgstr "Detección"
+
+msgid "Illumination"
+msgstr "Iluminación"
+
+msgid "Fire Bolts"
+msgstr "Rayos de Fuego"
+
+msgid "Lightning Bolts"
+msgstr "Rayos de Relámpago"
+
+msgid "Frost Bolts"
+msgstr "Rayos de Escarcha"
+
+msgid "Acid Bolts"
+msgstr "Rayos de Ácido"
+
+msgid "Drain Life"
+msgstr "Drenar Vida"
+
+msgid "Fire Balls"
+msgstr "Bolas de Fuego"
+
+msgid "Lightning Balls"
+msgstr "Bolas Relámpago"
+
+msgid "Cold Balls"
+msgstr "Bolas de Frío"
+
+msgid "Acid Balls"
+msgstr "Bolas de Ácido"
+
+msgid "Teleport Other"
+msgstr "Teletransportar Otro"
+
+msgid "Slow Monster"
+msgstr "Ralentizar Monstruo"
+
+msgid "Hold Monster"
+msgstr "Retener Monstruo"
+
+msgid "Robe"
+msgstr "Túnica"
+
+msgid "Cloak"
+msgstr "Capa"
+
+msgid "Set of Leather Gloves"
+msgstr "Guantes de Cuero"
+
+msgid "Iron Crown"
+msgstr "Corona de Hierro"
+
+msgid "White Dragon Scale Mail"
+msgstr "Malla de Escamas de Dragón Blanco"
+
+msgid "Red Dragon Scale Mail"
+msgstr "Malla de Escamas de Dragón Rojo"
+
+msgid "Blue Dragon Scale Mail"
+msgstr "Malla de Escamas de Dragón Azul"
+
+msgid "Black Dragon Scale Mail"
+msgstr "Malla de Escamas de Dragón Negro"
+
+msgid "Green Dragon Scale Mail"
+msgstr "Malla de Escamas de Dragón Verde"
+
+msgid "Gold Dragon Scale Mail"
+msgstr "Malla de Escamas de Dragón Dorado"
+
+msgid "Shining Dragon Scale Mail"
+msgstr "Malla de Escamas de Dragón Brillante"
+
+msgid "Multi-Hued Dragon Scale Mail"
+msgstr "Malla de Escamas de Dragón Multicolor"
+
+msgid "Chaos Dragon Scale Mail"
+msgstr "Malla de Escamas de Dragón del Caos"
+
+msgid "Law Dragon Scale Mail"
+msgstr "Malla de Escamas de Dragón de la Ley"
+
+msgid "Balance Dragon Scale Mail"
+msgstr "Malla de Escamas de Dragón del Equilibrio"
+
+msgid "Power Dragon Scale Mail"
+msgstr "Malla de Escamas de Dragón de Poder"
+
+msgid "Dagger"
+msgstr "Daga"
+
+msgid "Short Bow"
+msgstr "Arco Corto"
+
+msgid "Long Bow"
+msgstr "Arco Largo"
+
+msgid "Light Crossbow"
+msgstr "Ballesta Ligera"
+
+msgid "Heavy Crossbow"
+msgstr "Ballesta Pesada"
+
+msgid "Sling"
+msgstr "Honda"
+
+msgid "Seeker Arrow"
+msgstr "Flecha Buscadora"
+
+msgid "Seeker Bolt"
+msgstr "Virote Buscador"
+
+msgid "Mithril Arrow"
+msgstr "Flecha de Mitril"
+
+msgid "Mithril Bolt"
+msgstr "Virote de Mitril"
+
+msgid "the Magi"
+msgstr "del Mago"
+
+msgid "Annihilation"
+msgstr "Aniquilación"
+
+msgid "Stone to Mud"
+msgstr "Piedra a Lodo"
+
+msgid "Stinking Cloud"
+msgstr "Nube Apestosa"
+
+msgid "Scare Monster"
+msgstr "Asustar Monstruo"
+
+msgid "Slow Monsters"
+msgstr "Ralentizar Monstruos"
+
+msgid "Sleep Monsters"
+msgstr "Dormir Monstruos"
+
+msgid "Wonder"
+msgstr "Maravilla"
+
+msgid "Curing"
+msgstr "Curación"
+
+msgid "Confuse Monster"
+msgstr "Confundir Monstruo"
+
+msgid "Magic Missile"
+msgstr "Proyectil Mágico"
+
+msgid "Dispel Evil"
+msgstr "Dispersar Mal"
+
+msgid "Detect Evil"
+msgstr "Detectar Mal"
+
+msgid "Holiness"
+msgstr "Santidad"
+
+msgid "Lightning"
+msgstr "Relámpago"
+
+msgid "Mapping"
+msgstr "Mapeo"
+
+msgid "Power"
+msgstr "Poder"
+
+msgid "Dragon's Flame"
+msgstr "Llama de Dragón"
+
+msgid "Dragon's Frost"
+msgstr "Escarcha de Dragón"
+
+msgid "*Destruction*"
+msgstr "*Destrucción*"
+
+msgid "cross-eyed"
+msgstr "estrábico"
+
+msgid "small kobold"
+msgstr "kobold pequeño"
+
+msgid "acolyte"
+msgstr "acólito"
+
+msgid "apprentice"
+msgstr "aprendiz"
+
+msgid "giant white mouse"
+msgstr "ratón blanco gigante"
+
+msgid "cave spider"
+msgstr "araña de cueva"
+
+msgid "radiation eye"
+msgstr "ojo de radiación"
+
+msgid "Morgoth, Lord of Darkness"
+msgstr "Morgoth, Señor de la Oscuridad"
+
+msgid "Warrior"
+msgstr "Guerrero"
+
+msgid "Mage"
+msgstr "Mago"
+
+msgid "Druid"
+msgstr "Druida"
+
+msgid "Priest"
+msgstr "Sacerdote"
+
+msgid "Necromancer"
+msgstr "Nigromante"
+
+msgid "Paladin"
+msgstr "Paladín"
+
+msgid "Rogue"
+msgstr "Pícaro"
+
+msgid "Ranger"
+msgstr "Explorador"
+
+msgid "Blackguard"
+msgstr "Rufián"
+
+msgid "borg configuration structures are not correct.  aborting. "
+msgstr "las estructuras de configuración del borg no son correctas.  abortando. "
+
+msgid "*****WARNING***** You do not have a valid BORG.TXT file!"
+msgstr "*****AVISO***** ¡No tienes un archivo BORG.TXT correcto!"
+
+msgid "writing borg.txt in the \\user\\ subdirectory with default values"
+msgstr "escribiendo borg.txt en el subdirectorio \\user\\ con valores predeterminados"
+
+msgid "*****WARNING***** could not write the default BORG.TXT file!"
+msgstr "*****AVISO***** ¡no se pudo escribir el archivo BORG.TXT por defecto!"
+
+msgid "** formulas deactivated ** "
+msgstr "** fórmulas desactivadas ** "
+
+
+msgid "Light Room"
+msgstr "Iluminar Habitación"
+
+msgid "Find Traps, Doors & Stairs"
+msgstr "Detec Trampas Puertas Escale"
+
+msgid "Electric Arc"
+msgstr "Arco eléctrico"
+
+msgid "Treasure Detection"
+msgstr "Detección de Tesoros"
+
+msgid "Frost Bolt"
+msgstr "Rayo de Escarcha"
+
+msgid "Acid Spray"
+msgstr "Rocío de Ácido"
+
+msgid "Disable Traps, Destroy Doors"
+msgstr "Desactivar Trampas y Destruir Puertas"
+
+msgid "Tap Magical Energy"
+msgstr "Extraer Energía Mágica"
+
+msgid "Mana Channel"
+msgstr "Canalizar Maná"
+
+msgid "Door Creation"
+msgstr "Creación de Puertas"
+
+msgid "Mana Bolt"
+msgstr "Rayo de Maná"
+
+msgid "Dimension Door"
+msgstr "Portal Dimensional"
+
+msgid "Thrust Away"
+msgstr "Empujar Lejos"
+
+msgid "Shock Wave"
+msgstr "Onda de Choque"
+
+msgid "Mana Storm"
+msgstr "Tormenta de Maná"
+
+msgid "Fox Form"
+msgstr "Forma de Zorro"
+
+msgid "Cure Poison"
+msgstr "Curar Veneno"
+
+msgid "Sense Surroundings"
+msgstr "Percibir Entorno"
+
+msgid "Lightning Strike"
+msgstr "Golpe de Relámpago"
+
+msgid "Earth Rising"
+msgstr "Levantamiento de Tierra"
+
+msgid "Mass Sleep"
+msgstr "Sueño en Masa"
+
+msgid "Become Pukel-man"
+msgstr "Convertirse en Hombre-Pukel"
+
+msgid "Eagle's Flight"
+msgstr "Vuelo de Águila"
+
+msgid "Bear Form"
+msgstr "Forma de Oso"
+
+msgid "Revitalize"
+msgstr "Revitalizar"
+
+msgid "Rapid Regeneration"
+msgstr "Regeneración Rápida"
+
+msgid "Herbal Curing"
+msgstr "Curación con Hierbas"
+
+msgid "Meteor Swarm"
+msgstr "Lluvia de Meteoros"
+
+msgid "Ice Storm"
+msgstr "Tormenta de Hielo"
+
+msgid "Volcanic Eruption"
+msgstr "Erupción Volcánica"
+
+msgid "River of Lightning"
+msgstr "Río de Relámpagos"
+
+msgid "Sense Invisible"
+msgstr "Sentir lo Invisible"
+
+msgid "Orb of Draining"
+msgstr "Esfera de Drenaje"
+
+msgid "Spear of Light"
+msgstr "Lanza de Luz"
+
+msgid "Smite Evil"
+msgstr "Castigar al Mal"
+
+msgid "Glyph of Warding"
+msgstr "Glifo de Protección"
+
+msgid "Demon Bane"
+msgstr "Azote de Demonios"
+
+msgid "Banish Evil"
+msgstr "Expulsar al Mal"
+
+msgid "Word of Destruction"
+msgstr "Palabra de Destrucción"
+
+msgid "Holy Word"
+msgstr "Palabra Sagrada"
+
+msgid "Spear of Orome"
+msgstr "Lanza de Orome"
+
+msgid "Light of Manwe"
+msgstr "Luz de Manwe"
+
+msgid "Nether Bolt"
+msgstr "Rayo de Inframundo"
+
+msgid "Create Darkness"
+msgstr "Crear Oscuridad"
+
+msgid "Bat Form"
+msgstr "Forma de Murciélago"
+
+msgid "Read Minds"
+msgstr "Leer Mentes"
+
+msgid "Tap Unlife"
+msgstr "Drenar No-Vida"
+
+msgid "Sleep Evil"
+msgstr "Dormir a Malvados"
+
+msgid "Shadow Shift"
+msgstr "Cambio de Sombra"
+
+msgid "Disenchant"
+msgstr "Desencantar"
+
+msgid "Frighten"
+msgstr "Atemorizar"
+
+msgid "Vampire Strike"
+msgstr "Golpe Vampírico"
+
+msgid "Dispel Life"
+msgstr "Disipar la Vida"
+
+msgid "Dark Spear"
+msgstr "Lanza Oscura"
+
+msgid "Warg Form"
+msgstr "Forma de Huargo"
+
+msgid "Banish Spirits"
+msgstr "Desterrar Espíritus"
+
+msgid "Grond's Blow"
+msgstr "Golpe de Grond"
+
+msgid "Unleash Chaos"
+msgstr "Liberar el Caos"
+
+msgid "Fume of Mordor"
+msgstr "Vapores de Mordor"
+
+msgid "Storm of Darkness"
+msgstr "Tormenta de Oscuridad"
+
+msgid "Power Sacrifice"
+msgstr "Sacrificio de Poder"
+
+msgid "Zone of Unmagic"
+msgstr "Zona Antimágica"
+
+msgid "Vampire Form"
+msgstr "Forma de Vampiro"
+
+msgid "Object Detection"
+msgstr "Detección de Objetos"
+
+msgid "Detect Stairs"
+msgstr "Detectar Escaleras"
+
+msgid "Hit and Run"
+msgstr "Golpear y Huir"
+
+msgid "Cover Tracks"
+msgstr "Cubrir Huellas"
+
+msgid "Create Arrows"
+msgstr "Crear Flechas"
+
+msgid "Decoy"
+msgstr "Señuelo"
+
+msgid "Brand Ammunition"
+msgstr "Encantar Munición"
+
+msgid "Seek Battle"
+msgstr "Buscar Batalla"
+
+msgid "Whirlwind Attack"
+msgstr "Ataque Torbellino"
+
+msgid "Shatter Stone"
+msgstr "Destrozar Piedra"
+
+msgid "Leap into Battle"
+msgstr "Saltar a la Batalla"
+
+msgid "Grim Purpose"
+msgstr "Propósito Sombrío"
+
+msgid "Maim Foe"
+msgstr "Mutilar Enemigo"
+
+msgid "Howl of the Damned"
+msgstr "Aullido de los Condenados"
+
+msgid "Relentless Taunting"
+msgstr "Burla Implacable"
+
+msgid "Werewolf Form"
+msgstr "Forma de Hombre Lobo"
+
+msgid "Bloodlust"
+msgstr "Sed de Sangre"
+
+msgid "Unholy Reprieve"
+msgstr "Tregua Profana"
+
+msgid "Forceful Blow"
+msgstr "Golpe Contundente"
+
+msgid "Single Combat"
+msgstr "Combate Singular"
+
+msgid "Sauron, the Sorcerer"
+msgstr "Sauron, el Hechicero"
+
+msgid "The Tarrasque"
+msgstr "El Tarrasque"
+
+msgid "Command 'v' Version mark."
+msgstr "Comando 'v' Marca de versión."
+
+msgid "Command 'y' Last 75 steps."
+msgstr "Comando 'y' Últimos 75 pasos."
+
+msgid "Command 'h' Borg_Has function."
+msgstr "Comando 'h' función Borg_Has."
+
+msgid "Command 'l' create instant log file."
+msgstr "Comando 'l' crea archivo de registro instantáneo."
+
+msgid "Command 'm' money accumulation."
+msgstr "Comando 'm' acumulación de dinero."
+
+msgid "Command '@' Borg line of sight."
+msgstr "Comando '@' Línea de visión del Borg."
+
+msgid "Command 'q' Auto stop by level."
+msgstr "Comando 'q' Detención automática por nivel."
+
+msgid "Command '1' changes maximum depth."
+msgstr "Comando '1' cambia profundidad máxima."
+
+msgid "Command 's' activates search mode."
+msgstr "Comando 's' activa modo de búsqueda."
+
+msgid "Command '2' level preparation info."
+msgstr "Comando '2' info de preparación de nivel."
+
+msgid "How many times to advance? "
+msgstr "¿Cuántas veces avanzar? "
+
+msgid "Enter the new maximum depth: "
+msgstr "Introduce la nueva profundidad máxima: "
+
+msgid "Enter the new auto-stop depth: "
+msgstr "Introduce el nuevo nivel de auto-detención: "
+
+msgid "Enter the new auto-stop character level: "
+msgstr "Introduce el nuevo nivel de personaje de auto-detención: "
+
+msgid "(%d,%d of %d,%d) Dodge value %d."
+msgstr "(%d,%d de %d,%d) Valor de evasión %d."
+
+msgid "Borg has projection to these places."
+msgstr "El Borg tiene proyección hacia estos lugares."
+
+msgid "Borg has projection in darkness to these places."
+msgstr "El Borg tiene proyección en oscuridad hacia estos lugares."
+
+msgid "Borg has line of sight to these places."
+msgstr "El Borg tiene línea de visión hacia estos lugares."
+
+msgid "Accumulating money up to %d, need %d more."
+msgstr "Acumulando dinero hasta %d, necesito %d más."
+
+msgid "Max level: %d  Prepared for: %d  Reason: %s"
+msgstr "Nivel máximo: %d  Preparado para: %d  Razón: %s"
+
+msgid "You are ready for the great battle!!"
+msgstr "¡¡Estás listo para la gran batalla!!"
+
+msgid "You are NOT ready for the great battle!!"
+msgstr "¡¡NO estás listo para la gran batalla!!"
+
+msgid "No readiness check performed."
+msgstr "No se realizó la comprobación de preparación."
+
+msgid "Dynamic Borg Has: "
+msgstr "Borg Has Dinámico: "
+
+msgid "Borg Version: %s"
+msgstr "Versión del Borg: %s"
+
+msgid "Which object?"
+msgstr "¿Qué objeto?"
+
+msgid "That is not a valid Borg command."
+msgstr "Ese no es un comando válido Borg."
+
+
+# --- borg.c help screen and messages ---
+
+msgid "Command 'a' shows dodges."
+msgstr "Comando 'a' muestra evasiones."
+
+msgid "Command 'u' updates Borg."
+msgstr "Comando 'u' actualiza al Borg."
+
+msgid "Command 'c' toggles trick flags."
+msgstr "Comando 'c' alterna indicadores de trucos."
+
+msgid "Command 'C' Threat list."
+msgstr "Comando 'C' Lista de amenazas."
+
+msgid "Command 'w' My spare weapon."
+msgstr "Comando 'w' Mi arma de repuesto."
+
+msgid "Command 'd' Dumps spell info."
+msgstr "Comando 'd' Vuelca info de hechizos."
+
+msgid "Command 'x' advances Borg one step."
+msgstr "Comando 'x' avanza un paso al Borg."
+
+msgid "Command 'f' toggles flags."
+msgstr "Comando 'f' alterna indicadores."
+
+msgid "Command 'g' shows grid feature."
+msgstr "Comando 'g' muestra el rasgo de la casilla."
+
+msgid "Command '?' Borg command list."
+msgstr "Comando '?' Lista de comandos Borg."
+
+msgid "Command 'i' shows grid info."
+msgstr "Comando 'i' muestra info de la casilla."
+
+msgid "Command '!' Time."
+msgstr "Comando '!' Tiempo."
+
+msgid "Command 'k' shows monster info."
+msgstr "Comando 'k' muestra info del monstruo."
+
+msgid "Command '#' shows danger grid."
+msgstr "Comando '#' muestra casilla de peligro."
+
+msgid "Command '%' shows target flow."
+msgstr "Comando '%' muestra flujo de objetivo."
+
+msgid "Command '$' Reload Borg.txt."
+msgstr "Comando '$' Recarga Borg.txt."
+
+msgid "Command 'o' Object flags."
+msgstr "Comando 'o' Indicadores de objeto."
+
+msgid "Command 'p' Borg power."
+msgstr "Comando 'p' Poder del Borg."
+
+msgid "Command '^' Flow path."
+msgstr "Comando '^' Ruta de flujo."
+
+msgid "Command '_' Regional fear info."
+msgstr "Comando '_' Info de miedo regional."
+
+msgid "Command 'r' Restock stores."
+msgstr "Comando 'r' Reabastecer tiendas."
+
+msgid "Command ';' Show glyphs."
+msgstr "Comando ';' Mostrar glifos."
+
+msgid "Command 'R' Reincarnate Borg."
+msgstr "Comando 'R' Reaparecer al Borg."
+
+msgid "Command 't' shows object info."
+msgstr "Comando 't' muestra info de objetos."
+
+msgid "Command '3' Grid feature."
+msgstr "Comando '3' Rasgo de la casilla."
+
+msgid "Commands: "
+msgstr "Comandos: "
+
+msgid "Borg Command: "
+msgstr "Comando Borg: "
+
+msgid "Borg Command: Toggle flag: (b/c/k/l/s/v) "
+msgstr "Comando Borg: Alternar indicador: (b/c/k/l/s/v) "
+
+msgid "Borg Command: Toggle Tricks: (d)"
+msgstr "Comando Borg: Alternar Trucos: (d)"
+
+msgid "Borg Command: Show grids: "
+msgstr "Comando Borg: Mostrar casillas: "
+
+msgid "Borg Command: Show bow (Y/y): "
+msgstr "Comando Borg: Mostrar arco (Y/y): "
+
+msgid "Dynamic Borg Has: (a)ny/(i)nventory/(w)earing/a(r)tifact/(s)kill "
+msgstr "Borg Has Dinámico: (a)cualquiera/(i)nventario/(w)equipado/a(r)tefacto/(s)habilidad "
+
+msgid "Stop when Morgoth dies? (y or n)? "
+msgstr "¿Detener cuando muera Morgoth? (y o n)? "
+
+msgid "Are you sure you want to reincarnate this borg? (y or n)? "
+msgstr "¿Seguro que quieres reaparecer a este borg? (y o n)? "
+
+msgid "Are you sure you want to restock the stores? (y or n)? "
+msgstr "¿Seguro que quieres reabastecer las tiendas? (y o n)? "
+
+msgid "Examine spell books. Press any key for the next book."
+msgstr "Examinar libros de hechizos. Pulsa cualquier tecla para el siguiente libro."
+
+msgid "Borg threat dump complete. Check the log."
+msgstr "Volcado de amenazas del Borg completo. Revisa el registro."
+
+msgid "Borg match string: "
+msgstr "Cadena de coincidencia del Borg: "
+
+msgid "Borg match string deactivated."
+msgstr "Cadena de coincidencia del Borg desactivada."
+
+msgid "Borg info for grid (%d, %d) is MARK"
+msgstr "Info del Borg para casilla (%d, %d) es MARK"
+
+msgid "Borg info for grid (%d, %d) is GLOW"
+msgstr "Info del Borg para casilla (%d, %d) es GLOW"
+
+msgid "Borg info for grid (%d, %d) is DARK"
+msgstr "Info del Borg para casilla (%d, %d) es DARK"
+
+msgid "Borg info for grid (%d, %d) is OKAY"
+msgstr "Info del Borg para casilla (%d, %d) es OKAY"
+
+msgid "Borg info for grid (%d, %d) is LITE"
+msgstr "Info del Borg para casilla (%d, %d) es LITE"
+
+msgid "Borg info for grid (%d, %d) is VIEW"
+msgstr "Info del Borg para casilla (%d, %d) es VIEW"
+
+msgid "Borg info for grid (%d, %d) is TEMP"
+msgstr "Info del Borg para casilla (%d, %d) es TEMP"
+
+msgid "Borg info for grid (%d, %d) is XTRA"
+msgstr "Info del Borg para casilla (%d, %d) es XTRA"
+
+msgid "System info for grid (%d, %d) is %d"
+msgstr "Info del sistema para casilla (%d, %d) es %d"
+
+msgid "Borg -- borg_stop_on_bell is now %d."
+msgstr "Borg -- borg_stop_on_bell ahora es %d."
+
+msgid "Borg -- borg_self_scum is now %d."
+msgstr "Borg -- borg_self_scum ahora es %d."
+
+msgid "Borg -- borg_stop_king is now %d."
+msgstr "Borg -- borg_stop_king ahora es %d."
+
+msgid "Borg -- borg_lunal_mode is now %d."
+msgstr "Borg -- borg_lunal_mode ahora es %d."
+
+msgid "Borg -- borg_autosave is now %d."
+msgstr "Borg -- borg_autosave ahora es %d."
+
+msgid "Borg -- borg_verbose is now %d."
+msgstr "Borg -- borg_verbose ahora es %d."
+
+msgid "Borg -- borg_cheat_death is now %d."
+msgstr "Borg -- borg_cheat_death ahora es %d."
+
+msgid "(-%d) Recorded step %d,%d"
+msgstr "(-%d) Paso registrado %d,%d"
+
+msgid "Enter new money target amount (0 to disable):"
+msgstr "Introduce la nueva cantidad objetivo de dinero (0 para desactivar):"
+
+msgid "How many times to advance? "
+msgstr "¿Cuántas veces avanzar? "
+
+msgid "Quantity: "
+msgstr "Cantidad: "

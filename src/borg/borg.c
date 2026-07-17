@@ -57,6 +57,7 @@
 #include "borg-trait.h"
 #include "borg-update.h"
 #include "borg-util.h"
+#include "../lang.h"
 
 bool borg_cheat_death;
 
@@ -250,7 +251,7 @@ static struct keypress internal_borg_inkey(int flush_first)
     /* Deactivate */
     if (!borg_active) {
         /* Message */
-        borg_note("# Quitando gancho de pulsaciones de tecla");
+        borg_note("# Removing keypress hook");
 
         /* Remove hook */
         inkey_hack = NULL;
@@ -282,7 +283,7 @@ static struct keypress internal_borg_inkey(int flush_first)
         /* Only flush if needed */
         if (borg_inkey(false) != 0) {
             /* Message */
-            borg_note("# Vaciando el búfer de pulsaciones de tecla");
+            borg_note("# Flushing keypress buffer");
 
             /* Flush keys */
             borg_flush();
@@ -307,7 +308,7 @@ static struct keypress internal_borg_inkey(int flush_first)
 #if 0
     /* just used for debugging.  Not so useful in general */
     if (borg_cfg[BORG_VERBOSE])
-        borg_note(format("mensaje recibido '%s'", buf));
+        borg_note(format("message received '%s'", buf));
 #endif 
     /* Trim whitespace */
     buf = borg_trim(buf);
@@ -373,7 +374,7 @@ static struct keypress internal_borg_inkey(int flush_first)
         && (suffix(buf, " -more-"))) {
 
         if (borg_cfg[BORG_VERBOSE])
-            borg_note("# mensaje con -más-");
+            borg_note("# message with -more-");
 
         /* Get the message */
         if (0 == borg_what_text(0, 0, x - 7, &t_a, buffer)) {
@@ -382,7 +383,7 @@ static struct keypress internal_borg_inkey(int flush_first)
         }
         /* Clear the message */
         if (borg_cfg[BORG_VERBOSE])
-            borg_note("limpiando -más-");
+            borg_note("clearing -more-");
         key.code = ' ';
         return key;
     }
@@ -391,7 +392,7 @@ static struct keypress internal_borg_inkey(int flush_first)
     /* about cheating death comes up.  */
     if (!character_dungeon) {
         if (borg_cfg[BORG_VERBOSE])
-            borg_note("# A mitad de reencarnación, todavía sin mapa");
+            borg_note("# Mid reincarnation, still no map");
         /* do nothing */
         key.code = KC_ENTER;
 
@@ -409,7 +410,7 @@ static struct keypress internal_borg_inkey(int flush_first)
     /* And the game wants a command */
     if (borg_prompt && inkey_flag) {
         if (borg_cfg[BORG_VERBOSE])
-            borg_note("# analizando mensaje normal");
+            borg_note("# analyzing normal message");
         /* Get the message(s) */
         buf = buffer;
         if (0
@@ -456,14 +457,14 @@ static struct keypress internal_borg_inkey(int flush_first)
         && ch_evt.key.code != 10) {
         /* Oops */
         if (ch_evt.key.code >= 32 && ch_evt.key.code <= 126) {
-            borg_note(format("# Pulsación de tecla del usuario <%lu><%c>",
+            borg_note(format("# User keypress <%lu><%c>",
                 (unsigned long)ch_evt.key.code, (char)ch_evt.key.code));
         } else {
-            borg_note(format("# Pulsación de tecla del usuario <%lu>",
+            borg_note(format("# User keypress <%lu>",
                 (unsigned long)ch_evt.key.code));
         }
-        borg_note(format("# El tipo de tecla fue <%d><%c>", ch_evt.type, ch_evt.type));
-        borg_oops("abort de usuario");
+        borg_note(format("# The key type was <%d><%c>", ch_evt.type, ch_evt.type));
+        borg_oops("user abort");
 
         key.code = ESCAPE;
         return key;
@@ -549,7 +550,7 @@ void do_cmd_borg(void)
         if (auto_start_borg == false)
 #endif
         {
-            if (!get_com("Comando Borg: ", &cmd))
+            if (!get_com(_("Borg Command: "), &cmd))
                 return;
         }
 
@@ -582,45 +583,45 @@ void do_cmd_borg(void)
         Term_clear();
 
         i++;
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'a' muestra evasiones.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando 'u' actualiza al Borg.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'c' alterna indicadores de trucos.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando 'v' Marca de versión.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'C' Lista de amenazas.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando 'w' Mi arma de repuesto.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'd' Vuelca info de hechizos.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando 'x' avanza un paso al Borg.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'f' alterna indicadores.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando 'y' Últimos 75 pasos.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'g' muestra el rasgo de la casilla.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando 'z' activa al Borg.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'h' función Borg_Has.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '?' Lista de comandos Borg.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'i' muestra info de la casilla.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '!' Tiempo.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'k' muestra info del monstruo.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '#' muestra casilla de peligro.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'l' crea archivo de registro instantáneo.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '%' muestra flujo de objetivo.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'm' acumulación de dinero.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '$' Recarga Borg.txt.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'o' Indicadores de objeto.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '@' Línea de visión del Borg.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'p' Poder del Borg.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '^' Ruta de flujo.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'q' Detención automática por nivel.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '_' Info de miedo regional.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'r' Reabastecer tiendas.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando ';' Mostrar glifos.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 'R' Reaparecer al Borg.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '1' cambia profundidad máxima.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 's' activa modo de búsqueda.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '2' info de preparación de nivel.");
-        Term_putstr(2, i, -1, COLOUR_WHITE, "Comando 't' muestra info de objetos.");
-        Term_putstr(42, i++, -1, COLOUR_WHITE, "Comando '3' Rasgo de la casilla.");
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'a' shows dodges."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command 'u' updates Borg."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'c' toggles trick flags."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command 'v' Version mark."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'C' Threat list."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command 'w' My spare weapon."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'd' Dumps spell info."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command 'x' advances Borg one step."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'f' toggles flags."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command 'y' Last 75 steps."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'g' shows grid feature."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command 'z' activates Borg."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'h' Borg_Has function."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command '?' List of Borg commands."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'i' shows grid info."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command '!' Time."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'k' shows monster info."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command '#' shows danger grid."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'l' create instant log file."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command '%' shows target flow."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'm' money accumulation."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command '$' Reloads Borg.txt."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'o' Object flags."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command '@' Borg line of sight."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'p' Borg power."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command '^' Flow path."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'q' Auto stop by level."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command '_' Regional fear info."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'r' Restock stores."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command ';' Show glyphs."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 'R' Reincarnate Borg."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command '1' changes maximum depth."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 's' activates search mode."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command '2' level preparation info."));
+        Term_putstr(2, i, -1, COLOUR_WHITE, _("Command 't' shows object info."));
+        Term_putstr(42, i++, -1, COLOUR_WHITE, _("Command '3' Grid feature."));
 
         /* Prompt for key */
-        msg("Comandos: ");
+        msg(_("Commands: "));
         inkey();
 
         /* Restore the screen */
@@ -674,12 +675,12 @@ void do_cmd_borg(void)
         borg_step = 0;
 
         if (player->opts.lazymove_delay != 0) {
-            borg_note("# Desactivando controles de movimiento perezoso");
+            borg_note("# Disabling lazy movement controls");
             player->opts.lazymove_delay = 0;
         }
 
         /* Message */
-        borg_note("# Instalando gancho de pulsaciones de tecla");
+        borg_note("# Installing keypress hook");
 
         /* If the clock overflowed, fix that  */
         if (borg_t > 9000)
@@ -709,7 +710,7 @@ void do_cmd_borg(void)
         borg_notice(true);
 
         /* Message */
-        borg_note("# Instalando gancho de pulsaciones de tecla");
+        borg_note("# Installing keypress hook");
 
         /* Activate the key stealer */
         inkey_hack = borg_inkey_hack;
@@ -732,15 +733,15 @@ void do_cmd_borg(void)
         borg_cancel = false;
 
         /* Step N times */
-        borg_step = get_quantity("¿Cuántas veces avanzar? ", 1000);
+        borg_step = get_quantity(_("How many times to advance? "), 1000);
         if (borg_step < 1)
             borg_step = 1;
 
         borg_notice(true);
 
         /* Message */
-        borg_note("# Instalando gancho de pulsaciones de tecla");
-        borg_note(format("# Avanzando al Borg %d veces", borg_step));
+        borg_note("# Installing keypress hook");
+        borg_note(format("# Advancing Borg %d times", borg_step));
 
         /* If the clock overflowed, fix that  */
         if (borg_t > 9000)
@@ -756,7 +757,7 @@ void do_cmd_borg(void)
     case 'f':
     case 'F': {
         /* Get a "Borg command", or abort */
-        if (!get_com("Comando Borg: Alternar indicador: (b/c/k/l/s/v) ", &cmd))
+        if (!get_com(_("Borg Command: Toggle flag: (b/c/k/l/s/v) "), &cmd))
             return;
 
         switch (cmd) {
@@ -764,7 +765,7 @@ void do_cmd_borg(void)
         case 'b':
         case 'B': {
             borg_cfg[BORG_STOP_ON_BELL] = !borg_cfg[BORG_STOP_ON_BELL];
-            msg("Borg -- borg_stop_on_bell ahora es %d.",
+            msg(_("Borg -- borg_stop_on_bell is now %d."),
                 borg_cfg[BORG_STOP_ON_BELL]);
             break;
         }
@@ -773,7 +774,7 @@ void do_cmd_borg(void)
         case 'c':
         case 'C': {
             borg_cfg[BORG_SELF_SCUM] = !borg_cfg[BORG_SELF_SCUM];
-            msg("Borg -- borg_self_scum ahora es %d.", borg_cfg[BORG_SELF_SCUM]);
+            msg(_("Borg -- borg_self_scum is now %d."), borg_cfg[BORG_SELF_SCUM]);
             break;
         }
 
@@ -781,7 +782,7 @@ void do_cmd_borg(void)
         case 'k':
         case 'K': {
             borg_cfg[BORG_STOP_KING] = !borg_cfg[BORG_STOP_KING];
-            msg("Borg -- borg_stop_king ahora es %d.", borg_cfg[BORG_STOP_KING]);
+            msg(_("Borg -- borg_stop_king is now %d."), borg_cfg[BORG_STOP_KING]);
             break;
         }
 
@@ -789,7 +790,7 @@ void do_cmd_borg(void)
         case 'l':
         case 'L': {
             borg_cfg[BORG_LUNAL_MODE] = !borg_cfg[BORG_LUNAL_MODE];
-            msg("Borg -- borg_lunal_mode ahora es %d.",
+            msg(_("Borg -- borg_lunal_mode is now %d."),
                 borg_cfg[BORG_LUNAL_MODE]);
             break;
         }
@@ -798,7 +799,7 @@ void do_cmd_borg(void)
         case 's':
         case 'S': {
             borg_cfg[BORG_AUTOSAVE] = !borg_cfg[BORG_AUTOSAVE];
-            msg("Borg -- borg_autosave ahora es %d.", borg_cfg[BORG_AUTOSAVE]);
+            msg(_("Borg -- borg_autosave is now %d."), borg_cfg[BORG_AUTOSAVE]);
             break;
         }
 
@@ -807,7 +808,7 @@ void do_cmd_borg(void)
         case 'V':
         {
             borg_cfg[BORG_VERBOSE] = !borg_cfg[BORG_VERBOSE];
-            msg("Borg -- borg_verbose ahora es %d.", borg_cfg[BORG_VERBOSE]);
+            msg(_("Borg -- borg_verbose is now %d."), borg_cfg[BORG_VERBOSE]);
             break;
         }
         }
@@ -817,14 +818,14 @@ void do_cmd_borg(void)
     /* Command: toggle "cheat" flags */
     case 'c': {
         /* Get a "Borg command", or abort */
-        if (!get_com("Comando Borg: Alternar Trucos: (d)", &cmd))
+        if (!get_com(_("Borg Command: Toggle Tricks: (d)"), &cmd))
             return;
 
         switch (cmd) {
         case 'd':
         case 'D': {
             borg_cheat_death = !borg_cheat_death;
-            msg("Borg -- borg_cheat_death ahora es %d.", borg_cheat_death);
+            msg(_("Borg -- borg_cheat_death is now %d."), borg_cheat_death);
             break;
         }
         }
@@ -836,16 +837,16 @@ void do_cmd_borg(void)
         int i;
 
         /* Log Header */
-        borg_note("Recuento de amenazas del Borg");
+        borg_note("Borg threat count");
 
         /* Find the numerous nasty in order of nastiness */
         for (i = 0; i < borg_nasties_num; i++) {
-            borg_note(format("Amenaza: [%c] Cuenta: %d, limitado: %d",
+            borg_note(format("Threat: [%c] Count: %d, limited: %d",
                 borg_nasties[i], borg_nasties_count[i], borg_nasties_limit[i]));
         }
 
         /* Done */
-        msg("Volcado de amenazas del Borg completo. Revisa el registro.");
+        msg(_("Borg threat dump complete. Check the log."));
         break;
     }
 
@@ -853,12 +854,12 @@ void do_cmd_borg(void)
     case 's':
     case 'S': {
         /* Get the new search string (or cancel the matching) */
-        if (!get_string("Cadena de coincidencia del Borg: ", borg_match, 70)) {
+        if (!get_string(_("Borg match string: "), borg_match, 70)) {
             /* Cancel it */
             my_strcpy(borg_match, "", sizeof(borg_match));
 
             /* Message */
-            msg("Cadena de coincidencia del Borg desactivada.");
+            msg(_("Borg match string deactivated."));
         }
         break;
     }
@@ -872,7 +873,7 @@ void do_cmd_borg(void)
         bool     glyph = false;
 
         /* Get a "Borg command", or abort */
-        if (!get_com("Comando Borg: Mostrar casillas: ", &cmd))
+        if (!get_com(_("Borg Command: Show grids: "), &cmd))
             return;
 
         /* Extract a flag */
@@ -994,7 +995,7 @@ void do_cmd_borg(void)
         }
 
         /* Get keypress */
-        msg("Pulsa cualquier tecla.");
+        msg(_("Press any key."));
         event_signal(EVENT_MESSAGE_FLUSH);
 
         /* Redraw map */
@@ -1019,7 +1020,7 @@ void do_cmd_borg(void)
 
         uint8_t feat = square(cave, borg.c)->feat;
 
-        borg_note(format("El rasgo del Borg para casilla (%d, %d) es %d, el rasgo del juego es %d",
+        borg_note(format("Borg feature for grid (%d, %d) is %d, game feature is %d",
             y, x, mask, feat));
         prt_map();
         break;
@@ -1032,7 +1033,7 @@ void do_cmd_borg(void)
         uint16_t mask;
 
         /* Get a "Borg command", or abort */
-        if (!get_com("Comando Borg: Mostrar casillas: ", &cmd))
+        if (!get_com(_("Borg Command: Show grids: "), &cmd))
             return;
 
         /* Extract a flag */
@@ -1117,7 +1118,7 @@ void do_cmd_borg(void)
         }
 
         /* Get keypress */
-        msg("Pulsa cualquier tecla.");
+        msg(_("Press any key."));
         event_signal(EVENT_MESSAGE_FLUSH);
 
         /* Redraw map */
@@ -1137,25 +1138,25 @@ void do_cmd_borg(void)
         x = l.x;
 
         if (borg_grids[y][x].info & BORG_MARK)
-            msg("Info del Borg para casilla (%d, %d) es MARK", y, x);
+            msg(_("Borg info for grid (%d, %d) is MARK"), y, x);
         if (borg_grids[y][x].info & BORG_GLOW)
-            msg("Info del Borg para casilla (%d, %d) es GLOW", y, x);
+            msg(_("Borg info for grid (%d, %d) is GLOW"), y, x);
         if (borg_grids[y][x].info & BORG_DARK)
-            msg("Info del Borg para casilla (%d, %d) es DARK", y, x);
+            msg(_("Borg info for grid (%d, %d) is DARK"), y, x);
         if (borg_grids[y][x].info & BORG_OKAY)
-            msg("Info del Borg para casilla (%d, %d) es OKAY", y, x);
+            msg(_("Borg info for grid (%d, %d) is OKAY"), y, x);
         if (borg_grids[y][x].info & BORG_LIGHT)
-            msg("Info del Borg para casilla (%d, %d) es LITE", y, x);
+            msg(_("Borg info for grid (%d, %d) is LITE"), y, x);
         if (borg_grids[y][x].info & BORG_VIEW)
-            msg("Info del Borg para casilla (%d, %d) es VIEW", y, x);
+            msg(_("Borg info for grid (%d, %d) is VIEW"), y, x);
         if (borg_grids[y][x].info & BORG_TEMP)
-            msg("Info del Borg para casilla (%d, %d) es TEMP", y, x);
+            msg(_("Borg info for grid (%d, %d) is TEMP"), y, x);
         if (borg_grids[y][x].info & BORG_XTRA)
-            msg("Info del Borg para casilla (%d, %d) es XTRA", y, x);
+            msg(_("Borg info for grid (%d, %d) is XTRA"), y, x);
 
         for (i = 0; i < SQUARE_MAX; i++)
             if (sqinfo_has(square(cave, l)->info, i))
-                msg(format("Info del sistema para casilla (%d, %d) es %d", y, x, i));
+                msg(format(_("System info for grid (%d, %d) is %d"), y, x, i));
         prt_map();
         break;
     }
@@ -1193,7 +1194,7 @@ void do_cmd_borg(void)
         }
 
         /* Get keypress */
-        msg("(%d,%d de %d,%d) Valor de evasión %d.", borg.c.y, borg.c.x,
+        msg(_("(%d,%d of %d,%d) Dodge value %d."), borg.c.y, borg.c.x,
             Term->offset_y / borg_panel_hgt(),
             Term->offset_x / borg_panel_wid(), avoidance);
         event_signal(EVENT_MESSAGE_FLUSH);
@@ -1214,7 +1215,7 @@ void do_cmd_borg(void)
             /* Display */
             print_rel('*', a, track_step.y[track_step.num - i],
                 track_step.x[track_step.num - i]);
-            msg("(-%d) Paso registrado %d,%d", i, track_step.y[track_step.num - i],
+            msg(_("(-%d) Recorded step %d,%d"), i, track_step.y[track_step.num - i],
                 track_step.x[track_step.num - i]);
             event_signal(EVENT_MESSAGE_FLUSH);
             print_rel('*', COLOUR_ORANGE, track_step.y[track_step.num - i],
@@ -1248,7 +1249,7 @@ void do_cmd_borg(void)
         }
 
         /* Get keypress */
-        msg("Hay %d monstruos conocidos.", n);
+        msg(_("There are %d known monsters."), n);
         event_signal(EVENT_MESSAGE_FLUSH);
 
         /* Redraw map */
@@ -1279,7 +1280,7 @@ void do_cmd_borg(void)
         }
 
         /* Get keypress */
-        msg("Hay %d objetos conocidos.", n);
+        msg(_("There are %d known objects."), n);
         event_signal(EVENT_MESSAGE_FLUSH);
 
         /* Redraw map */
@@ -1317,7 +1318,7 @@ void do_cmd_borg(void)
             borg_inc_motion(&n_y, &n_x, borg.c.y, borg.c.x, y, x);
         }
 
-        msg("Ruta de objetivo del Borg");
+        msg(_("Borg target flow"));
         event_signal(EVENT_MESSAGE_FLUSH);
 
         /* Determine "path" */
@@ -1327,10 +1328,10 @@ void do_cmd_borg(void)
         y   = l.y;
 
         /* Get a "Borg command", or abort */
-        if (!get_com("Comando Borg: Mostrar arco (Y/y): ", &cmd))
+        if (!get_com(_("Borg Command: Show bow (Y/y): "), &cmd))
             return;
 
-        msg("Ruta de objetivo real");
+        msg(_("Real target flow"));
         event_signal(EVENT_MESSAGE_FLUSH);
 
         if (cmd != 'Y' && cmd != 'y')
@@ -1413,7 +1414,7 @@ void do_cmd_borg(void)
             }
         }
         print_rel('*', COLOUR_YELLOW, borg_flow_y[0], borg_flow_x[0]);
-        msg("Ruta de flujo probable");
+        msg(_("Probable flow path"));
         event_signal(EVENT_MESSAGE_FLUSH);
 
         /* Redraw map */
@@ -1429,10 +1430,10 @@ void do_cmd_borg(void)
         target_get(&l);
 
         /* Turns */
-        n = get_quantity("Cantidad: ", 10);
+        n = get_quantity(_("Quantity: "), 10);
 
         /* Danger of grid */
-        msg("Peligro(%d,%d,%d) es %d", l.x, l.y, n,
+        msg(_("Danger(%d,%d,%d) is %d"), l.x, l.y, n,
             borg_danger(l.y, l.x, n, true, false));
         break;
     }
@@ -1469,7 +1470,7 @@ void do_cmd_borg(void)
         }
 
         /* Get keypress */
-        msg("(%d,%d de %d,%d) Miedo regional.", borg.c.y, borg.c.x,
+        msg(_("(%d,%d of %d,%d) Regional fear."), borg.c.y, borg.c.x,
             Term->offset_y / borg_panel_hgt(),
             Term->offset_x / borg_panel_wid());
         event_signal(EVENT_MESSAGE_FLUSH);
@@ -1519,7 +1520,7 @@ void do_cmd_borg(void)
         }
 
         /* Get keypress */
-        msg("(%d,%d de %d,%d) Miedo a monstruos.", borg.c.y, borg.c.x,
+        msg(_("(%d,%d of %d,%d) Monster fear."), borg.c.y, borg.c.x,
             Term->offset_y / borg_panel_hgt(),
             Term->offset_x / borg_panel_wid());
         event_signal(EVENT_MESSAGE_FLUSH);
@@ -1558,8 +1559,8 @@ void do_cmd_borg(void)
         borg_notice_home(NULL, false);
 
         /* Report it */
-        msg("Poder actual del Borg %ld", p);
-        msg("Poder actual del hogar %ld", borg_power_home());
+        msg(_("Current Borg power %ld"), p);
+        msg(_("Current home power %ld"), borg_power_home());
 
         break;
     }
@@ -1567,11 +1568,11 @@ void do_cmd_borg(void)
     /* Command: Show time */
     case '!': {
         int32_t time = borg_t - borg_began;
-        msg("tiempo: (%d) ", time);
+        msg(_("time: (%d) "), time);
         time = (borg_time_town + (borg_t - borg_began));
-        msg("; desde el pueblo (%d)", time);
-        msg("; en este panel (%d)", borg.time_this_panel);
-        msg("; necesita invisibilidad (%d)", borg.need_see_invis);
+        msg(_("; since town (%d)"), time);
+        msg(_("; on this panel (%d)"), borg.time_this_panel);
+        msg(_("; need see invis (%d)"), borg.need_see_invis);
         break;
     }
 
@@ -1594,7 +1595,7 @@ void do_cmd_borg(void)
         }
 
         /* Get keypress */
-        msg("El Borg tiene proyección hacia estos lugares.");
+        msg(_("Borg has projection to these places."));
         event_signal(EVENT_MESSAGE_FLUSH);
 
         /* Scan map */
@@ -1613,7 +1614,7 @@ void do_cmd_borg(void)
                 print_rel('*', a, y, x);
             }
         }
-        msg("El Borg tiene proyección en oscuridad hacia estos lugares.");
+        msg(_("Borg has projection in darkness to these places."));
         event_signal(EVENT_MESSAGE_FLUSH);
 
         /* Scan map */
@@ -1629,7 +1630,7 @@ void do_cmd_borg(void)
                 print_rel('*', a, y, x);
             }
         }
-        msg("El Borg tiene línea de visión hacia estos lugares.");
+        msg(_("Borg has line of sight to these places."));
         event_signal(EVENT_MESSAGE_FLUSH);
         /* Redraw map */
         prt_map();
@@ -1640,7 +1641,7 @@ void do_cmd_borg(void)
         int new_borg_skill;
         /* Get the new max depth */
         new_borg_skill
-            = get_quantity("Introduce la nueva profundidad máxima: ", z_info->max_depth - 1);
+            = get_quantity(_("Enter the new maximum depth: "), z_info->max_depth - 1);
 
         /* Allow user abort */
         if (new_borg_skill >= 0) {
@@ -1657,9 +1658,9 @@ void do_cmd_borg(void)
 
         /* Get the new max depth */
         new_borg_stop_dlevel = get_quantity(
-            "Introduce el nuevo nivel de auto-detención: ", z_info->max_depth - 1);
-        new_borg_stop_clevel = get_quantity("Introduce el nuevo nivel de personaje de auto-detención: ", 51);
-        get_com("¿Detener cuando muera Morgoth? (y o n)? ", &cmd);
+            _("Enter the new auto-stop depth: "), z_info->max_depth - 1);
+        new_borg_stop_clevel = get_quantity(_("Enter the new auto-stop character level: "), 51);
+        get_com(_("Stop when Morgoth dies? (y or n)? "), &cmd);
 
         borg_cfg[BORG_STOP_DLEVEL] = new_borg_stop_dlevel;
         borg_cfg[BORG_STOP_CLEVEL] = new_borg_stop_clevel;
@@ -1675,13 +1676,13 @@ void do_cmd_borg(void)
         int new_borg_money_scum_amount = 0;
 
         /* report current status */
-        msg("Acumulando dinero hasta %d, necesito %d más.",
+        msg(_("Accumulating money up to %d, need %d more."),
             borg_cfg[BORG_MONEY_SCUM_AMOUNT],
             borg_cfg[BORG_MONEY_SCUM_AMOUNT] - borg.trait[BI_GOLD]);
 
         /* Get the new amount */
         new_borg_money_scum_amount = get_quantity(
-            "Introduce la nueva cantidad de dinero objetivo (0 para desactivar):",
+            _("Enter new money target amount (0 to disable):"),
             INT_MAX);
 
         borg_cfg[BORG_MONEY_SCUM_AMOUNT] = new_borg_money_scum_amount;
@@ -1712,16 +1713,16 @@ void do_cmd_borg(void)
             if ((char *)NULL != borg_prepared(i))
                 break;
         }
-        msg("Nivel máximo: %d  Preparado para: %d  Razón: %s",
+        msg(_("Max level: %d  Prepared for: %d  Reason: %s"),
             borg.trait[BI_MAXDEPTH], i - 1, borg_prepared(i));
         if (!borg.trait[BI_CDEPTH]) {
-            msg("No se puede comprobar la gran batalla desde el pueblo.");
+            msg(_("Cannot check the great battle from town."));
         } else if (borg.ready_morgoth == 1) {
-            msg("¡¡Estás listo para la gran batalla!!");
+            msg(_("You are ready for the great battle!!"));
         } else if (borg.ready_morgoth == 0) {
-            msg("¡¡NO estás listo para la gran batalla!!");
+            msg(_("You are NOT ready for the great battle!!"));
         } else if (borg.ready_morgoth == -1) {
-            msg("No se realizó la comprobación de preparación.");
+            msg(_("No readiness check performed."));
         }
 
         break;
@@ -1731,7 +1732,7 @@ void do_cmd_borg(void)
 
         int i;
         for (i = 0; i < STAT_MAX; i++) {
-            borg_note(format("estadística # %s, es: actual %d, usado %d",
+            borg_note(format("stat # %s, is: current %d, used %d",
                 prefix_pref[BI_STR + i],
                 borg.trait[BI_CSTR + i],
                 borg.trait[BI_STR + i]));
@@ -1770,16 +1771,16 @@ void do_cmd_borg(void)
         /* note the swap items */
         if (weapon_swap) {
             item = &borg_items[weapon_swap - 1];
-            msg("Arma de repuesto:  %s, valor= %d", item->desc, weapon_swap_value);
+            msg(_("Spare weapon: %s, value=%d"), item->desc, weapon_swap_value);
         } else {
-            msg("Arma de repuesto:  NINGUNA");
+            msg(_("Spare weapon: NONE"));
         }
 
         if (armour_swap) {
             item = &borg_items[armour_swap - 1];
-            msg("Armadura de repuesto:  %s, valor= %d", item->desc, armour_swap_value);
+            msg(_("Spare armour: %s, value=%d"), item->desc, armour_swap_value);
         } else {
-            msg("Armadura de repuesto:  NINGUNA");
+            msg(_("Spare armour: NONE"));
         }
         break;
     }
@@ -1799,7 +1800,7 @@ void do_cmd_borg(void)
                 Term_clear();
 
                 ii = 2;
-                Term_putstr(1, ii, -1, COLOUR_WHITE, "[ Hechizos ].");
+                Term_putstr(1, ii, -1, COLOUR_WHITE, _("[ Spells ]."));
                 borg_magic *as          = &borg_magics[i];
                 int         failpercent = 0;
 
@@ -1810,11 +1811,10 @@ void do_cmd_borg(void)
                     failpercent = (borg_spell_fail_rate(as->spell_enum));
 
                     Term_putstr(1, ii++, -1, COLOUR_WHITE,
-                        format("%s, %s, intentado %ld veces, tasa de fallo:%d",
+                        format(_("%s, %s, attempted %ld times, failure rate:%d"),
                             as->name, legal, (long int)as->times, failpercent));
                 }
-                get_com(
-                    "Examinar libros de hechizos. Pulsa cualquier tecla para el siguiente libro.", &cmd);
+                get_com(_("Examine spell books. Press any key for the next book."), &cmd);
             } /* dumps */
         } /* spells */
 
@@ -1831,8 +1831,8 @@ void do_cmd_borg(void)
         int item, to;
 
         /* Get a "Borg command", or abort */
-        if (!get_com("Borg Has Dinámico: "
-                     "((a)cualquiera/(i)nventario/(w)equipado/a(r)tefacto/(s)habilidad) ",
+        if (!get_com(_("Dynamic Borg Has: "
+                     "(a)ny/(i)nventory/(w)earing/a(r)tifact/(s)kill "),
                 &cmd))
             return;
 
@@ -1882,32 +1882,32 @@ void do_cmd_borg(void)
             case 'a':
             case 'A':
                 if (borg.has[item]) {
-                    borg_note(format("Tipo-Objeto:%03d nombre=%s valor= %d.", item,
+                    borg_note(format("Item-Type:%03d name=%s value=%d.", item,
                         k_info[item].name, borg.has[item]));
                 }
                 break;
             case 'i':
             case 'I':
                 if (borg_items[item].iqty) {
-                    borg_note(format("Objeto-Inv:%03d desc= %s cant %d.", item,
+                    borg_note(format("Item-Inv:%03d desc=%s qty %d.", item,
                         borg_items[item].desc, borg_items[item].iqty));
                 }
                 break;
             case 'w':
             case 'W':
                 if (borg_items[item].iqty) {
-                    borg_note(format("Objeto-Puesto:%03d desc= %s cant %d.", item,
+                    borg_note(format("Item-Slot:%03d desc=%s qty %d.", item,
                         borg_items[item].desc, borg_items[item].iqty));
                 }
                 break;
             case 'r':
             case 'R':
                 if (borg_items[item].iqty && borg_items[item].art_idx)
-                    borg_note(format("Objeto-Artef:%03d nombre= %s.", item,
+                    borg_note(format("Item-Art:%03d name=%s.", item,
                         a_info[borg_items[item].art_idx].name));
                 break;
             default: {
-                borg_note(format("rasgo %d (%s) valor= %d.", item,
+                borg_note(format("trait %d (%s) value=%d.", item,
                     prefix_pref[item], borg.trait[item]));
                 break;
             }
@@ -1915,7 +1915,7 @@ void do_cmd_borg(void)
         }
 
         /* note the completion. */
-        msg("Volcado de Borg_has[] completo. Revisa el registro.");
+        msg(_("Borg_has[] dump complete. Check the log."));
         break;
     }
 
@@ -1929,7 +1929,7 @@ void do_cmd_borg(void)
     /* Version of the game */
     case 'v':
     case 'V': {
-        msg("Versión del Borg: %s", borg_engine_date);
+        msg(_("Borg Version: %s"), borg_engine_date);
         break;
     }
     /* Command: Display all known info on item */
@@ -1941,7 +1941,7 @@ void do_cmd_borg(void)
 
         /* use this item */
         // XXX replace this with an item selector
-        n = get_quantity("¿Qué objeto?", z_info->pack_size);
+        n = get_quantity(_("Which object?"), z_info->pack_size);
 
         /* Cheat the "equip" screen */
         borg_cheat_equip();
@@ -1966,7 +1966,7 @@ void do_cmd_borg(void)
         borg_display_item(item2, n);
 
         /* pause for study */
-        msg("El Borg cree: ");
+        msg(_("Borg thinks: "));
         event_signal(EVENT_MESSAGE_FLUSH);
 
         /* Restore the screen */
@@ -1978,7 +1978,7 @@ void do_cmd_borg(void)
     /* Command: Resurrect Borg */
     case 'R': {
         /* Confirm it */
-        get_com("¿Seguro que quieres reaparecer a este borg? (y o n)? ", &cmd);
+        get_com(_("Are you sure you want to reincarnate this borg? (y or n)? "), &cmd);
 
         if (cmd == 'y' || cmd == 'Y') {
             reincarnate_borg();
@@ -1989,14 +1989,13 @@ void do_cmd_borg(void)
     /* Command: Restock the Stores */
     case 'r': {
         /* Confirm it */
-        get_com(
-            "¿Seguro que quieres reabastecer las tiendas? (y o n)? ", &cmd);
+        get_com(_("Are you sure you want to restock the stores? (y or n)? "), &cmd);
 
         if (cmd == 'y' || cmd == 'Y') {
             /* Message */
-            msg("Actualizando tiendas... actualmente no permitido");
+            msg(_("Updating stores... currently not permitted"));
 #if false
-            msg("Actualizando tiendas...");
+            msg("Updating stores...");
             // need to change base code to make store_maint accessible .. trying not to change that too much right now.  
             // this functionality seems a bit bogus anyway !FIX !TODO
                             /* Maintain each shop (except home) */
@@ -2022,7 +2021,7 @@ void do_cmd_borg(void)
             /* Display */
             print_rel(
                 '*', a, track_glyph.y[glyph_check], track_glyph.x[glyph_check]);
-            msg("El Borg tiene Glifo (%d) registrado.", glyph_check);
+            msg(_("Borg has glyph (%d) recorded."), glyph_check);
             event_signal(EVENT_MESSAGE_FLUSH);
         }
 
@@ -2031,7 +2030,7 @@ void do_cmd_borg(void)
     /* Oops */
     default: {
         /* Message */
-        msg("Ese no es un comando válido Borg.");
+        msg(_("That is not a valid Borg command."));
         break;
     }
     }

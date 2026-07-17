@@ -24,6 +24,7 @@
 #include "../effects.h"
 #include "../player-spell.h"
 #include "../ui-menu.h"
+#include "../lang.h"
 
 #include "borg-cave.h"
 #include "borg-cave-view.h"
@@ -43,191 +44,191 @@ static borg_spell_rating *borg_spell_ratings;
 // I also gave low ratings to spells that are new since the borg doesn't know when to use them yet.
 static borg_spell_rating borg_spell_ratings_MAGE[] =
 {
-    { "Proyectil Mágico", 95, MAGIC_MISSILE },
-    { "Iluminar Habitación", 65, LIGHT_ROOM },
-    { "Detec Trampas Puertas Escale", 85, FIND_TRAPS_DOORS_STAIRS },
-    { "Puerta de Fase", 95, PHASE_DOOR },
-    { "Arco eléctrico", 85, ELECTRIC_ARC },
-    { "Detectar Monstruos", 85, DETECT_MONSTERS },
-    { "Bola de Fuego", 75, FIRE_BALL },
-    { "Recarga", 65, RECHARGING },
-    { "Identificar Runa", 95, IDENTIFY_RUNE },
-    { "Detección de Tesoros", 5, TREASURE_DETECTION }, /* borg never uses this */
-    { "Rayo de Escarcha", 75, FROST_BOLT },
-    { "Revelar Monstruos", 85, REVEAL_MONSTERS },
-    { "Rocío de Ácido", 75, ACID_SPRAY },
-    { "Desactivar Trampas y Destruir Puertas", 95, DISABLE_TRAPS_DESTROY_DOORS },
-    { "Teletransportarse", 95, TELEPORT_SELF },
-    { "Teletransportar a Otro", 75, TELEPORT_OTHER },
-    { "Resistencia", 90, RESISTANCE },
-    { "Extraer Energía Mágica", 5, TAP_MAGICAL_ENERGY }, /* need to figure out when to cast this one */
-    { "Canalizar Maná", 95, MANA_CHANNEL },
-    { "Creación de Puertas", 65, DOOR_CREATION },
-    { "Rayo de Maná", 95, MANA_BOLT },
-    { "Teletransporte de Nivel", 65, TELEPORT_LEVEL },
-    { "Detección", 95, DETECTION },
-    { "Portal Dimensional", 95, DIMENSION_DOOR },
-    { "Empujar Lejos", 55, THRUST_AWAY },
-    { "Onda de Choque", 85, SHOCK_WAVE },
-    { "Explosión", 85, EXPLOSION },
-    { "Destierro", 75, BANISHMENT },
-    { "Destierro Masivo", 65, MASS_BANISHMENT },
-    { "Tormenta de Maná", 75, MANA_STORM }
+    { "Magic Missile", 95, MAGIC_MISSILE },
+    { "Light Room", 65, LIGHT_ROOM },
+    { "Find Traps, Doors & Stairs", 85, FIND_TRAPS_DOORS_STAIRS },
+    { "Phase Door", 95, PHASE_DOOR },
+    { "Electric Arc", 85, ELECTRIC_ARC },
+    { "Detect Monsters", 85, DETECT_MONSTERS },
+    { "Fire Ball", 75, FIRE_BALL },
+    { "Recharging", 65, RECHARGING },
+    { "Identify Rune", 95, IDENTIFY_RUNE },
+    { "Treasure Detection", 5, TREASURE_DETECTION },
+    { "Frost Bolt", 75, FROST_BOLT },
+    { "Reveal Monsters", 85, REVEAL_MONSTERS },
+    { "Acid Spray", 75, ACID_SPRAY },
+    { "Disable Traps, Destroy Doors", 95, DISABLE_TRAPS_DESTROY_DOORS },
+    { "Teleport Self", 95, TELEPORT_SELF },
+    { "Teleport Other", 75, TELEPORT_OTHER },
+    { "Resistance", 90, RESISTANCE },
+    { "Tap Magical Energy", 5, TAP_MAGICAL_ENERGY },
+    { "Mana Channel", 95, MANA_CHANNEL },
+    { "Door Creation", 65, DOOR_CREATION },
+    { "Mana Bolt", 95, MANA_BOLT },
+    { "Teleport Level", 65, TELEPORT_LEVEL },
+    { "Detection", 95, DETECTION },
+    { "Dimension Door", 95, DIMENSION_DOOR },
+    { "Thrust Away", 55, THRUST_AWAY },
+    { "Shock Wave", 85, SHOCK_WAVE },
+    { "Explosion", 85, EXPLOSION },
+    { "Banishment", 75, BANISHMENT },
+    { "Mass Banishment", 65, MASS_BANISHMENT },
+    { "Mana Storm", 75, MANA_STORM }
 };
 static borg_spell_rating borg_spell_ratings_DRUID[] =
 {
-    { "Detectar Vida", 95,  DETECT_LIFE },
-    { "Forma de Zorro", 5, FOX_FORM }, // !FIX !TODO need to know when to cast any of the shapechanges
-    { "Saciar Hambre", 85, REMOVE_HUNGER },
-    { "Nube Pestilente", 95, STINKING_CLOUD },
-    { "Confundir Monstruo", 55, CONFUSE_MONSTER },
-    { "Ralentizar Monstruo", 65, SLOW_MONSTER },
-    { "Curar Veneno", 55, CURE_POISON },
-    { "Resistir Veneno", 60, RESIST_POISON },
-    { "Piedra a Lodo", 80, TURN_STONE_TO_MUD },
-    { "Percibir Entorno", 80, SENSE_SURROUNDINGS },
-    { "Golpe de Relámpago", 85, LIGHTNING_STRIKE },
-    { "Levantamiento de Tierra", 70, EARTH_RISING },
+    { "Detect Life", 95,  DETECT_LIFE },
+    { "Fox Form", 5, FOX_FORM },
+    { "Remove Hunger", 85, REMOVE_HUNGER },
+    { "Stinking Cloud", 95, STINKING_CLOUD },
+    { "Confuse Monster", 55, CONFUSE_MONSTER },
+    { "Slow Monster", 65, SLOW_MONSTER },
+    { "Cure Poison", 55, CURE_POISON },
+    { "Resist Poison", 60, RESIST_POISON },
+    { "Turn Stone to Mud", 80, TURN_STONE_TO_MUD },
+    { "Sense Surroundings", 80, SENSE_SURROUNDINGS },
+    { "Lightning Strike", 85, LIGHTNING_STRIKE },
+    { "Earth Rising", 70, EARTH_RISING },
     { "Trance", 55, TRANCE },
-    { "Sueño en Masa", 80, MASS_SLEEP },
-    { "Convertirse en Hombre-Pukel", 5, BECOME_PUKEL_MAN }, // !FIX !TODO shapechange
-    { "Vuelo de Águila", 5, EAGLES_FLIGHT }, // !FIX !TODO shapechange
-    { "Forma de Oso", 5, BEAR_FORM }, // !FIX !TODO shapechange
-    { "Temblor", 80, TREMOR },
-    { "Acelerarse", 90, HASTE_SELF },
-    { "Revitalizar", 95, REVITALIZE },
-    { "Regeneración Rápida", 55, RAPID_REGENERATION },
-    { "Curación con Hierbas", 90, HERBAL_CURING },
-    { "Lluvia de Meteoros", 90, METEOR_SWARM },
-    { "Grieta", 90, RIFT },
-    { "Tormenta de Hielo", 85, ICE_STORM },
-    { "Erupción Volcánica", 60, VOLCANIC_ERUPTION },
-    { "Río de Relámpagos", 90, RIVER_OF_LIGHTNING }
+    { "Mass Sleep", 80, MASS_SLEEP },
+    { "Become Pukel-man", 5, BECOME_PUKEL_MAN },
+    { "Eagle's Flight", 5, EAGLES_FLIGHT },
+    { "Bear Form", 5, BEAR_FORM },
+    { "Tremor", 80, TREMOR },
+    { "Haste Self", 90, HASTE_SELF },
+    { "Revitalize", 95, REVITALIZE },
+    { "Rapid Regeneration", 55, RAPID_REGENERATION },
+    { "Herbal Curing", 90, HERBAL_CURING },
+    { "Meteor Swarm", 90, METEOR_SWARM },
+    { "Rift", 90, RIFT },
+    { "Ice Storm", 85, ICE_STORM },
+    { "Volcanic Eruption", 60, VOLCANIC_ERUPTION },
+    { "River of Lightning", 90, RIVER_OF_LIGHTNING }
 };
 
 static borg_spell_rating borg_spell_ratings_PRIEST[] =
 {
-    { "Llamar a la Luz", 65, CALL_LIGHT },
-    { "Detección del Mal", 85, DETECT_EVIL },
-    { "Curación Menor", 65, MINOR_HEALING },
-    { "Bendición", 85, BLESS },
-    { "Sentir lo Invisible", 75, SENSE_INVISIBLE },
-    { "Heroísmo", 75, HEROISM },
-    { "Esfera de Drenaje", 95, ORB_OF_DRAINING },
-    { "Lanza de Luz", 75, SPEAR_OF_LIGHT },
-    { "Dispersar No Muerto", 65, DISPEL_UNDEAD },
-    { "Disipar el Mal", 65, DISPEL_EVIL },
-    { "Protección contra el Mal", 85, PROTECTION_FROM_EVIL },
-    { "Eliminar Maldición", 85, REMOVE_CURSE },
+    { "Call Light", 65, CALL_LIGHT },
+    { "Detect Evil", 85, DETECT_EVIL },
+    { "Minor Healing", 65, MINOR_HEALING },
+    { "Bless", 85, BLESS },
+    { "Sense Invisible", 75, SENSE_INVISIBLE },
+    { "Heroism", 75, HEROISM },
+    { "Orb of Draining", 95, ORB_OF_DRAINING },
+    { "Spear of Light", 75, SPEAR_OF_LIGHT },
+    { "Dispel Undead", 65, DISPEL_UNDEAD },
+    { "Dispel Evil", 65, DISPEL_EVIL },
+    { "Protection from Evil", 85, PROTECTION_FROM_EVIL },
+    { "Remove Curse", 85, REMOVE_CURSE },
     { "Portal", 85, PORTAL },
-    { "Recuerdo", 75, REMEMBRANCE },
-    { "Palabra de Retorno", 95, WORD_OF_RECALL },
-    { "Curación", 95, HEALING },
-    { "Restauración", 75, RESTORATION },
-    { "Clarividencia", 85, CLAIRVOYANCE },
-    { "Encantar Arma", 75, ENCHANT_WEAPON },
-    { "Encantar Armadura", 75, ENCHANT_ARMOUR },
-    { "Castigar al Mal", 75, SMITE_EVIL },
-    { "Glifo de Protección", 95, GLYPH_OF_WARDING },
-    { "Azote de Demonios", 85, DEMON_BANE },
-    { "Expulsar al Mal", 85, BANISH_EVIL },
-    { "Palabra de Destrucción", 75, WORD_OF_DESTRUCTION },
-    { "Palabra Sagrada", 85, HOLY_WORD },
-    { "Lanza de Orom\xC3\xab", 85, SPEAR_OF_OROME }, /* "Lanza de Orom(e + diaresis)" */
-    { "Luz de Manw\xC3\xab", 85, LIGHT_OF_MANWE } /* "Luz de Manw(e + diaresis)"*/
+    { "Remembrance", 75, REMEMBRANCE },
+    { "Word of Recall", 95, WORD_OF_RECALL },
+    { "Healing", 95, HEALING },
+    { "Restoration", 75, RESTORATION },
+    { "Clairvoyance", 85, CLAIRVOYANCE },
+    { "Enchant Weapon", 75, ENCHANT_WEAPON },
+    { "Enchant Armour", 75, ENCHANT_ARMOUR },
+    { "Smite Evil", 75, SMITE_EVIL },
+    { "Glyph of Warding", 95, GLYPH_OF_WARDING },
+    { "Demon Bane", 85, DEMON_BANE },
+    { "Banish Evil", 85, BANISH_EVIL },
+    { "Word of Destruction", 75, WORD_OF_DESTRUCTION },
+    { "Holy Word", 85, HOLY_WORD },
+    { "Spear of Orom\xC3\xab", 85, SPEAR_OF_OROME }, /* "Spear of Orom(e + diaresis)" */
+    { "Light of Manw\xC3\xab", 85, LIGHT_OF_MANWE } /* "Light of Manw(e + diaresis)"*/
 };
 static borg_spell_rating borg_spell_ratings_NECROMANCER[] =
 {
-    { "Rayo de Inframundo", 95, NETHER_BOLT },
-    { "Sentir lo Invisible", 85, SENSE_INVISIBLE },
-    { "Crear Oscuridad", 5, CREATE_DARKNESS }, 
-    { "Forma de Murciélago", 5, BAT_FORM }, // !FIX !TODO shapechange
-    { "Leer Mentes", 85, READ_MINDS },
-    { "Drenar No-Vida", 85, TAP_UNLIFE },
-    { "Aplastar", 95, CRUSH },
-    { "Dormir a Malvados", 85, SLEEP_EVIL },
-    { "Cambio de Sombra", 95, SHADOW_SHIFT },
-    { "Desencantar", 25, DISENCHANT },
-    { "Atemorizar", 85, FRIGHTEN },
-    { "Golpe Vampírico", 75, VAMPIRE_STRIKE },
-    { "Disipar la Vida", 65, DISPEL_LIFE },
-    { "Lanza Oscura", 65, DARK_SPEAR },
-    { "Forma de Huargo", 5, WARG_FORM }, // !FIX !TODO shapechange
-    { "Desterrar Espíritus", 65, BANISH_SPIRITS },
-    { "Aniquilar", 95, ANNIHILATE },
-    { "Golpe de Grond", 85, GRONDS_BLOW },
-    { "Liberar el Caos", 85, UNLEASH_CHAOS },
-    { "Vapores de Mordor", 75, FUME_OF_MORDOR },
-    { "Tormenta de Oscuridad", 65, STORM_OF_DARKNESS },
-    { "Sacrificio de Poder", 5, POWER_SACRIFICE },  /* not sure if this is borg happy. */
-    { "Zona Antimágica", 5, ZONE_OF_UNMAGIC },  // !FIX !TODO defense?  not sure how to code. 
-    { "Forma de Vampiro", 5, VAMPIRE_FORM }, // !FIX !TODO shapechange
-    { "Maldecir", 65, CURSE },
-    { "Dominar", 5, COMMAND } // !FIX !TODO defense?  not sure how to code. 
+    { "Nether Bolt", 95, NETHER_BOLT },
+    { "Sense Invisible", 85, SENSE_INVISIBLE },
+    { "Create Darkness", 5, CREATE_DARKNESS }, 
+    { "Bat Form", 5, BAT_FORM }, // !FIX !TODO shapechange
+    { "Read Minds", 85, READ_MINDS },
+    { "Tap Unlife", 85, TAP_UNLIFE },
+    { "Crush", 95, CRUSH },
+    { "Sleep Evil", 85, SLEEP_EVIL },
+    { "Shadow Shift", 95, SHADOW_SHIFT },
+    { "Disenchant", 25, DISENCHANT },
+    { "Frighten", 85, FRIGHTEN },
+    { "Vampire Strike", 75, VAMPIRE_STRIKE },
+    { "Dispel Life", 65, DISPEL_LIFE },
+    { "Dark Spear", 65, DARK_SPEAR },
+    { "Warg Form", 5, WARG_FORM }, // !FIX !TODO shapechange
+    { "Banish Spirits", 65, BANISH_SPIRITS },
+    { "Annihilate", 95, ANNIHILATE },
+    { "Grond's Blow", 85, GRONDS_BLOW },
+    { "Unleash Chaos", 85, UNLEASH_CHAOS },
+    { "Fume of Mordor", 75, FUME_OF_MORDOR },
+    { "Storm of Darkness", 65, STORM_OF_DARKNESS },
+    { "Power Sacrifice", 5, POWER_SACRIFICE },  /* not sure if this is borg happy. */
+    { "Zone of Unmagic", 5, ZONE_OF_UNMAGIC },  // !FIX !TODO defense?  not sure how to code. 
+    { "Vampire Form", 5, VAMPIRE_FORM }, // !FIX !TODO shapechange
+    { "Curse", 65, CURSE },
+    { "Command", 5, COMMAND } // !FIX !TODO defense?  not sure how to code. 
 };
 static borg_spell_rating borg_spell_ratings_PALADIN[] =
 {
-    { "Bendición", 95, BLESS },
-    { "Detección del Mal", 85, DETECT_EVIL },
-    { "Llamar a la Luz", 85, CALL_LIGHT },
-    { "Curación Menor", 95, MINOR_HEALING },
-    { "Sentir lo Invisible", 65, SENSE_INVISIBLE },
-    { "Heroísmo", 85, HEROISM },
-    { "Protección contra el Mal", 85, PROTECTION_FROM_EVIL },
-    { "Eliminar Maldición", 65, REMOVE_CURSE },
-    { "Palabra de Retorno", 95, WORD_OF_RECALL },
-    { "Curación", 95, HEALING },
-    { "Clarividencia", 85, CLAIRVOYANCE },
-    { "Castigar al Mal", 55, SMITE_EVIL },
-    { "Azote de Demonios", 55, DEMON_BANE },
-    { "Encantar Arma", 75, ENCHANT_WEAPON },
-    { "Encantar Armadura", 85, ENCHANT_ARMOUR },
-    { "Combate Singular", 95, SINGLE_COMBAT } // !FIX !TODO defense?  not sure how to code.
+    { "Bless", 95, BLESS },
+    { "Detect Evil", 85, DETECT_EVIL },
+    { "Call Light", 85, CALL_LIGHT },
+    { "Minor Healing", 95, MINOR_HEALING },
+    { "Sense Invisible", 65, SENSE_INVISIBLE },
+    { "Heroism", 85, HEROISM },
+    { "Protection from Evil", 85, PROTECTION_FROM_EVIL },
+    { "Remove Curse", 65, REMOVE_CURSE },
+    { "Word of Recall", 95, WORD_OF_RECALL },
+    { "Healing", 95, HEALING },
+    { "Clairvoyance", 85, CLAIRVOYANCE },
+    { "Smite Evil", 55, SMITE_EVIL },
+    { "Demon Bane", 55, DEMON_BANE },
+    { "Enchant Weapon", 75, ENCHANT_WEAPON },
+    { "Enchant Armour", 85, ENCHANT_ARMOUR },
+    { "Single Combat", 95, SINGLE_COMBAT } // !FIX !TODO defense?  not sure how to code.
 };
 static borg_spell_rating borg_spell_ratings_ROGUE[] =
 {
-    { "Detectar Monstruos", 85, DETECT_MONSTERS },
-    { "Puerta de Fase", 95, PHASE_DOOR },
-    { "Detección de Objetos", 55, OBJECT_DETECTION },
-    { "Detectar Escaleras", 55, DETECT_STAIRS },
-    { "Recarga", 85, RECHARGING },
-    { "Revelar Monstruos", 85, REVEAL_MONSTERS },
-    { "Teletransportarse", 95, TELEPORT_SELF },
-    { "Golpear y Huir", 15, HIT_AND_RUN }, // !FIX !TODO not sure how to code this
-    { "Teletransportar a Otro", 85, TELEPORT_OTHER },
-    { "Teletransporte de Nivel", 75, TELEPORT_LEVEL }
+    { "Detect Monsters", 85, DETECT_MONSTERS },
+    { "Phase Door", 95, PHASE_DOOR },
+    { "Object Detection", 55, OBJECT_DETECTION },
+    { "Detect Stairs", 55, DETECT_STAIRS },
+    { "Recharging", 85, RECHARGING },
+    { "Reveal Monsters", 85, REVEAL_MONSTERS },
+    { "Teleport Self", 95, TELEPORT_SELF },
+    { "Hit and Run", 15, HIT_AND_RUN }, // !FIX !TODO not sure how to code this
+    { "Teleport Other", 85, TELEPORT_OTHER },
+    { "Teleport Level", 75, TELEPORT_LEVEL }
 };
 static borg_spell_rating borg_spell_ratings_RANGER[] =
 {
-    { "Saciar Hambre", 95, REMOVE_HUNGER },
-    { "Detectar Vida", 85, DETECT_LIFE },
-    { "Curación con Hierbas", 95, HERBAL_CURING },
-    { "Resistir Veneno", 85, RESIST_POISON },
-    { "Piedra a Lodo", 85, TURN_STONE_TO_MUD },
-    { "Percibir Entorno", 75, SENSE_SURROUNDINGS },
-    { "Cubrir Huellas", 25, COVER_TRACKS }, // !FIX !TODO prep?
-    { "Crear Flechas", 85, CREATE_ARROWS }, // !FIX !TODO 
-    { "Acelerarse", 95, HASTE_SELF },
-    { "Señuelo", 5, DECOY }, // !FIX !TODO not sure what to do with this
-    { "Encantar Munición", 95, BRAND_AMMUNITION }
+    { "Remove Hunger", 95, REMOVE_HUNGER },
+    { "Detect Life", 85, DETECT_LIFE },
+    { "Herbal Curing", 95, HERBAL_CURING },
+    { "Resist Poison", 85, RESIST_POISON },
+    { "Turn Stone to Mud", 85, TURN_STONE_TO_MUD },
+    { "Sense Surroundings", 75, SENSE_SURROUNDINGS },
+    { "Cover Tracks", 25, COVER_TRACKS }, // !FIX !TODO prep?
+    { "Create Arrows", 85, CREATE_ARROWS }, // !FIX !TODO 
+    { "Haste Self", 95, HASTE_SELF },
+    { "Decoy", 5, DECOY }, // !FIX !TODO not sure what to do with this
+    { "Brand Ammunition", 95, BRAND_AMMUNITION }
 };
 static borg_spell_rating borg_spell_ratings_BLACKGUARD[] =
 {
-    { "Buscar Batalla", 55, SEEK_BATTLE },
-    { "Fuerza Berserker", 95, BERSERK_STRENGTH },
-    { "Ataque Torbellino", 85, WHIRLWIND_ATTACK },
-    { "Destrozar Piedra", 95, SHATTER_STONE },
-    { "Saltar a la Batalla", 65, LEAP_INTO_BATTLE },
-    { "Propósito Sombrío", 65, GRIM_PURPOSE },
-    { "Mutilar Enemigo", 75, MAIM_FOE },
-    { "Aullido de los Condenados", 55, HOWL_OF_THE_DAMNED },
-    { "Burla Implacable", 5, RELENTLESS_TAUNTING }, /* seems to dangerous for borg right now */
-    { "Veneno", 55, VENOM },
-    { "Forma de Hombre Lobo", 5, WEREWOLF_FORM }, // !FIX !TODO shapechange
-    { "Sed de Sangre", 5, BLOODLUST }, /* seems to dangerous for borg right now */
-    { "Tregua Profana", 95, UNHOLY_REPRIEVE },
-    { "Golpe Contundente", 5, FORCEFUL_BLOW }, // !FIX !TODO need to code this 
-    { "Terremoto", 95, QUAKE }
+    { "Seek Battle", 55, SEEK_BATTLE },
+    { "Berserk Strength", 95, BERSERK_STRENGTH },
+    { "Whirlwind Attack", 85, WHIRLWIND_ATTACK },
+    { "Shatter Stone", 95, SHATTER_STONE },
+    { "Leap into Battle", 65, LEAP_INTO_BATTLE },
+    { "Grim Purpose", 65, GRIM_PURPOSE },
+    { "Maim Foe", 75, MAIM_FOE },
+    { "Howl of the Damned", 55, HOWL_OF_THE_DAMNED },
+    { "Relentless Taunting", 5, RELENTLESS_TAUNTING }, /* seems to dangerous for borg right now */
+    { "Venom", 55, VENOM },
+    { "Werewolf Form", 5, WEREWOLF_FORM }, // !FIX !TODO shapechange
+    { "Bloodlust", 5, BLOODLUST }, /* seems to dangerous for borg right now */
+    { "Unholy Reprieve", 95, UNHOLY_REPRIEVE },
+    { "Forceful Blow", 5, FORCEFUL_BLOW }, // !FIX !TODO need to code this 
+    { "Quake", 95, QUAKE }
 };
 
 /*
@@ -744,15 +745,15 @@ static void borg_init_spell(borg_magic *spells, int spell_num)
 {
     borg_magic               *spell  = &spells[spell_num];
     const struct class_spell *cspell = spell_by_index(player, spell_num);
-    if (strcmp(cspell->name, borg_spell_ratings[spell_num].name)) {
+    if (strcmp(cspell->name, _(borg_spell_ratings[spell_num].name))) {
         borg_note(format("**STARTUP FAILURE** spell definition mismatch. "
                          "<%s> not the same as <%s>",
-            cspell->name, borg_spell_ratings[spell_num].name));
+            cspell->name, _(borg_spell_ratings[spell_num].name)));
         borg_init_failure = true;
         return;
     }
     spell->rating       = borg_spell_ratings[spell_num].rating;
-    spell->name         = borg_spell_ratings[spell_num].name;
+    spell->name         = _(borg_spell_ratings[spell_num].name);
     spell->spell_enum   = borg_spell_ratings[spell_num].spell_enum;
     spell->level        = cspell->slevel;
     spell->book_offset  = borg_get_book_offset(cspell->sidx);

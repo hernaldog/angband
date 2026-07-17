@@ -21,6 +21,7 @@
 
 #ifdef ALLOW_BORG
 
+#include "../lang.h"
 #include "../mon-msg.h"
 #include "../ui-term.h"
 
@@ -54,7 +55,7 @@ static char **suffix_pain;
 /*
  * Status message search string
  */
-char borg_match[128] = "anillo de oro liso";
+char borg_match[128];
 
 /*
  * Methods of killing a monster (order not important).
@@ -62,11 +63,11 @@ char borg_match[128] = "anillo de oro liso";
  * See "mon_take_hit()" for details.
  */
 static const char *prefix_kill[]
-    = { "Has matado a ",
-        "Has derrotado a ",
-        "Has destruido a ",
-        "Eliminaste a ",
-        "Destruiste a ",
+    = { "You have killed ",
+        "You have slain ",
+        "You have destroyed ",
+        "You eliminated ",
+        "You destroyed ",
         NULL };
 
 /*
@@ -76,35 +77,36 @@ static const char *prefix_kill[]
  * !FIX this should use MON_MSG* 
  */
 static const char *suffix_died[] = { 
-    " muere.",
-    " muere.",
-    " es destruido.",
-    " son destruidos.",
-    " es destruida.",
-    " son destruidas.",
-    " es destruido!",
-    " son destruidos!",
-    " es destruida!",
-    " se marchitan en la luz!",
-    " se marchita en la luz!",
-    " se disuelven!",
-    " se disuelve!",
-    " gritan de agonía!",
-    " grita de agonía!",
-    " se desintegran!",
-    " se desintegra!",
-    " se congela y se hace pedazos!",
-    " se congela y se hace pedazos!",
-    " es drenado por completo!",
-    " es drenada por completo!",
+    " die.",
+    " dies.",
+    " is destroyed.",
+    " are destroyed.",
+    " is destroyed. (f)",
+    " are destroyed. (f)",
+    " is destroyed!",
+    " are destroyed!",
+    " is destroyed! (f)",
+    " are destroyed! (f)",
+    " shrivel away in the light!",
+    " shrivels away in the light!",
+    " dissolve!",
+    " dissolves!",
+    " scream of agony!",
+    " screams of agony!",
+    " disintegrate!",
+    " disintegrates!",
+    " freeze and shatter!",
+    " freezes and shatters!",
+    " is drained dry!",
+    " is drained dry! (f)",
     NULL };
 
 static const char *suffix_blink[] = { 
-    " desaparece!", /* de teleportar a otro */
-    " entona extrañas palabras.", /* de hechizo de polimorfismo */
-    " se teletransporta.", /* RF6_TPORT */
-    " parpadea.", /* RF6_BLINK */
-    " hace un suave 'pop'.", 
+    " disappears!",
+    " intones strange words.",
+    " teleports away.",
+    " blinks.",
+    " makes a soft 'pop'.", 
     NULL };
 
 /* a message can have up to three parts broken up by variables */
@@ -153,31 +155,31 @@ static bool borg_message_contains(
  * !FIX !TODO: Make this more robust to changes in level feeling messages.
  */
 static const char *prefix_feeling_danger[] = {
-    "Aún no estás seguro de qué esperar en este sitio.",
-    "Presagios de muerte acechan en las sombras.", 
-    "El lugar emana un aura mortífera.",
-    "El ambiente se siente terriblemente peligroso.", 
-    "Una profunda ansiedad te oprime el pecho.",
-    "Sientes una ligera inquietud en el cuerpo.", 
-    "El entorno no parece demasiado arriesgado.",
-    "El lugar parece razonablemente seguro.", 
-    "Este parece un rincón tranquilo y resguardado.",
-    "El silencio de este lugar te transmite paz.",
+    "You are still uncertain about this place",
+    "Omens of death haunt this place", 
+    "This place seems murderous",
+    "This place seems terribly dangerous", 
+    "You feel anxious about this place",
+    "You feel nervous about this place", 
+    "This place does not seem too risky",
+    "This place seems reasonably safe", 
+    "This seems a tame, sheltered place",
+    "This seems a quiet, peaceful place", 
     NULL
 };
 
 static const char *suffix_feeling_stuff[] = { 
-    "Parece un nivel como cualquier otro.",
-    "¡Percibes la presencia de un objeto de poder maravilloso!", 
-    "Grandiosos tesoros aguardan en este lugar.",
-    "Albergas la certeza de que hay excelentes tesoros.",
-    "Presientes que hay muy buenos tesoros ocultos.", 
-    "Hay buenos tesoros repartidos por la zona.",
-    "Puede que haya algo que valga la pena.",
-    "No parece haber nada interesante a la vista.",
-    "No abundan los tesoros por estos lares.", 
-    "Solo encontrarás fragmentos de basura.",
-    "Ni siquiera se ven telarañas por aquí.",
+    "Looks like any other level.",
+    "you sense an item of wondrous power!", 
+    "there are superb treasures here.",
+    "there are excellent treasures here.",
+    "there are very good treasures here.", 
+    "there are good treasures here.",
+    "there may be something worthwhile here.",
+    "there may not be much interesting here.",
+    "there aren't many treasures here.", 
+    "there are only scraps of junk here.",
+    "there is naught but cobwebs here.", 
     NULL };
 
 /*
@@ -232,10 +234,10 @@ static void borg_parse_aux(char *msg, int len)
 
     /* Log (if needed) */
     if (borg_cfg[BORG_VERBOSE])
-        borg_note(format("# Analizar Msg <%s>", msg));
+        borg_note(format("# Parse Msg bite <%s>", msg));
 
     /* Notice death */
-    if (prefix(msg, "Moriste.")) {
+    if (prefix(msg, _("You die."))) {
         /* Abort (unless cheating) */
         if (!(player->wizard || OPT(player, cheat_live) || borg_cheat_death)) {
             /* Abort */
@@ -252,9 +254,9 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Notice "failure" */
-    if (prefix(msg, "Fallaste ")) {
+    if (prefix(msg, _("You failed "))) {
         /* Store the keypress */
-        borg_note("# Fallo normal.");
+        borg_note("# Normal failure.");
 
         /* Set the failure flag */
         borg_failure = true;
@@ -286,25 +288,26 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Ignore teleport trap */
-    if (prefix(msg, "Golpeaste una teletransportación"))
+    if (prefix(msg, _("You hit a teleport")))
         return;
 
     /* Ignore arrow traps */
-    if (prefix(msg, "Una flecha "))
+    if (prefix(msg, _("An arrow ")))
         return;
 
     /* Ignore dart traps */
-    if (prefix(msg, "Un pequeño dardo "))
+    if (prefix(msg, _("A small dart ")))
         return;
 
-    if (prefix(msg, "La cueva ")) {
+    if (prefix(msg, _("The cave "))) {
         borg_react(msg, "QUAKE:Somebody");
         borg_needs_new_sea = true;
         return;
     }
 
-    if (prefix(msg, "Tienes demasiado miedo para atacar ")) {
-        tmp = strlen("Tienes demasiado miedo para atacar ");
+    if (prefix(msg, _("You are too afraid to attack "))) {
+        const char *match = _("You are too afraid to attack ");
+        tmp = strlen(match);
         strnfmt(who, 1 + len - (tmp + 1), "%s", msg + tmp);
         strnfmt(buf, 256, "AFRAID:%s", who);
         borg_react(msg, buf);
@@ -312,76 +315,79 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* amnesia attacks, re-id wands, staves, equipment. */
-    if (prefix(msg, "Sientes que tus recuerdos se desvanecen.")) {
+    if (prefix(msg, _("You feel your memories fade."))) {
         /* Set the borg flag */
         borg.trait[BI_ISFORGET] = true;
     }
-    if (streq(msg, "Tus recuerdos regresan a raudales.")) {
+    if (streq(msg, _("Your memories come flooding back."))) {
         borg.trait[BI_ISFORGET] = false;
     }
 
-    if (streq(msg, "Has sido noqueado.")) {
-        borg_note("Ignorando mensajes mientras está KO'd");
+    if (streq(msg, _("You have been knocked out."))) {
+        borg_note("Ignoring Messages While KO'd");
         borg_dont_react = true;
     }
-    if (streq(msg, "Estás paralizado")) {
-        borg_note("Ignorando mensajes mientras está Paralizado");
+    if (streq(msg, _("You are paralyzed"))) {
+        borg_note("Ignoring Messages While Paralyzed");
         borg_dont_react = true;
     }
 
     /* Hallucination -- Open */
-    if (streq(msg, "¡Te sientes drogado!")) {
-        borg_note("# Alucinando. Control especial de varitas.");
+    if (streq(msg, _("You feel drugged!"))) {
+        borg_note("# Hallucinating.  Special control of wanks.");
         borg.trait[BI_ISIMAGE] = true;
     }
 
-    if (streq(msg, "El drenaje falla.")) {
+    if (streq(msg, _("The draining fails."))) {
         borg_react(msg, "MISS_BY:something");
         return;
     }
 
     /* Hallucination -- Close */
-    if (streq(msg, "Puedes ver claramente de nuevo.")) {
-        borg_note("# Alucinación terminada. Control normal de varitas.");
+    if (streq(msg, _("You can see clearly again."))) {
+        borg_note("# Hallucination ended.  Normal control of wanks.");
         borg.trait[BI_ISIMAGE] = false;
     }
 
     /* Hit somebody */
-    if (prefix(msg, "Golpeas a ")) {
-        tmp = strlen("Golpeas a ");
+    if (prefix(msg, _("You hit "))) {
+        const char *match = _("You hit ");
+        tmp = strlen(match);
         strnfmt(who, 1 + len - (tmp + 1), "%s", msg + tmp);
         strnfmt(buf, 256, "HIT:%s", who);
         borg_react(msg, buf);
         return;
     }
-    if (prefix(msg, "Muerdes a ")) {
-        tmp = strlen("Muerdes a ");
+    if (prefix(msg, _("You bite "))) {
+        const char *match = _("You bite ");
+        tmp = strlen(match);
         strnfmt(who, 1 + len - (tmp + 1), "%s", msg + tmp);
         strnfmt(buf, 256, "HIT:%s", who);
         borg_react(msg, buf);
         target_closest = 1;
         return;
     }
-    if (prefix(msg, "Extraes poder de")) {
+    if (prefix(msg, _("You draw power from"))) {
         target_closest = 1;
         return;
     }
-    if (prefix(msg, "No hay objetivo disponible.")) {
+    if (prefix(msg, _("No Available Target."))) {
         target_closest = -12;
         return;
     }
-    if (prefix(msg, "Este hechizo debe apuntar a un monstruo.")) {
+    if (prefix(msg, _("This spell must target a monster."))) {
         target_closest = -12;
         return;
     }
-    if (prefix(msg, "No hay suficiente espacio junto a ")) {
+    if (prefix(msg, _("Not enough room next to "))) {
         target_closest = -12;
         return;
     }
 
     /* Miss somebody */
-    if (prefix(msg, "Fallas a ")) {
-        tmp = strlen("Fallas a ");
+    if (prefix(msg, _("You miss "))) {
+        const char *match = _("You miss ");
+        tmp = strlen(match);
         strnfmt(who, 1 + len - (tmp + 1), "%s", msg + tmp);
         strnfmt(buf, 256, "MISS:%s", who);
         borg_react(msg, buf);
@@ -389,8 +395,9 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Miss somebody (because of fear) */
-    if (prefix(msg, "Tienes demasiado miedo para atacar ")) {
-        tmp = strlen("Tienes demasiado miedo para atacar ");
+    if (prefix(msg, _("You are too afraid to attack "))) {
+        const char *match = _("You are too afraid to attack ");
+        tmp = strlen(match);
         strnfmt(who, 1 + len - (tmp + 1), "%s", msg + tmp);
         strnfmt(buf, 256, "MISS:%s", who);
         borg_react(msg, buf);
@@ -403,8 +410,8 @@ static void borg_parse_aux(char *msg, int len)
      * assume it is talking about a monster which in turn will
      * yield to the Player Ghost being created.
      */
-    if (prefix(msg, "Tu ")) {
-        if (suffix(msg, " no es afectado!")) {
+    if (prefix(msg, _("Your "))) {
+        if (suffix(msg, _(" is unaffected!"))) {
             /* Your equipment ignored the attack.
              * Ignore the message
              */
@@ -425,9 +432,9 @@ static void borg_parse_aux(char *msg, int len)
 
         /* "You have killed it." (etc) */
         for (i = 0; prefix_kill[i]; i++) {
-            /* "You have killed it." (etc) */
-            if (prefix(msg, prefix_kill[i])) {
-                tmp = strlen(prefix_kill[i]);
+            const char *match = _(prefix_kill[i]);
+            if (prefix(msg, match)) {
+                tmp = strlen(match);
                 strnfmt(who, 1 + len - (tmp + 1), "%s", msg + tmp);
                 strnfmt(buf, 256, "KILL:%s", who);
                 borg_react(msg, buf);
@@ -437,9 +444,9 @@ static void borg_parse_aux(char *msg, int len)
 
         /* "It dies." (etc) */
         for (i = 0; suffix_died[i]; i++) {
-            /* "It dies." (etc) */
-            if (suffix(msg, suffix_died[i])) {
-                tmp = strlen(suffix_died[i]);
+            const char *match = _(suffix_died[i]);
+            if (suffix(msg, match)) {
+                tmp = strlen(match);
                 strnfmt(who, 1 + len - tmp, "%s", msg);
                 strnfmt(buf, 256, "DIED:%s", who);
                 borg_react(msg, buf);
@@ -449,9 +456,9 @@ static void borg_parse_aux(char *msg, int len)
 
         /* "It blinks or telports." (etc) */
         for (i = 0; suffix_blink[i]; i++) {
-            /* "It teleports." (etc) */
-            if (suffix(msg, suffix_blink[i])) {
-                tmp = strlen(suffix_blink[i]);
+            const char *match = _(suffix_blink[i]);
+            if (suffix(msg, match)) {
+                tmp = strlen(match);
                 strnfmt(who, 1 + len - tmp, "%s", msg);
                 strnfmt(buf, 256, "BLINK:%s", who);
                 borg_react(msg, buf);
@@ -460,22 +467,28 @@ static void borg_parse_aux(char *msg, int len)
         }
 
         /* "It misses you." */
-        if (suffix(msg, " te falla.")) {
-            tmp = strlen(" te falla.");
-            strnfmt(who, 1 + len - tmp, "%s", msg);
-            strnfmt(buf, 256, "MISS_BY:%s", who);
-            borg_react(msg, buf);
-            return;
+        {
+            const char *match = _(" misses you.");
+            if (suffix(msg, match)) {
+                tmp = strlen(match);
+                strnfmt(who, 1 + len - tmp, "%s", msg);
+                strnfmt(buf, 256, "MISS_BY:%s", who);
+                borg_react(msg, buf);
+                return;
+            }
         }
 
         /* "It is repelled.." */
         /* treat as a miss */
-        if (suffix(msg, " es repelido.")) {
-            tmp = strlen(" es repelido.");
-            strnfmt(who, 1 + len - tmp, "%s", msg);
-            strnfmt(buf, 256, "MISS_BY:%s", who);
-            borg_react(msg, buf);
-            return;
+        {
+            const char *match = _(" is repelled.");
+            if (suffix(msg, match)) {
+                tmp = strlen(match);
+                strnfmt(who, 1 + len - tmp, "%s", msg);
+                strnfmt(buf, 256, "MISS_BY:%s", who);
+                borg_react(msg, buf);
+                return;
+            }
         }
 
         /* "It hits you." (etc) */
@@ -517,11 +530,11 @@ static void borg_parse_aux(char *msg, int len)
 
         for (i = 0; spell_invis_msgs.messages[i].message_p1; i++) {
             /* get rid of the messages that aren't for invisible spells */
-            if (!prefix(msg, "Algo ") && !prefix(msg, "Tú "))
+            if (!prefix(msg, _("Something ")) && !prefix(msg, _("You ")))
                 break;
             if (borg_message_contains(msg, &spell_invis_msgs.messages[i])) {
                 strnfmt(buf, 256, "SPELL_%03d:%s", spell_invis_msgs.index[i],
-                    "Algo");
+                    _("Something"));
                 borg_react(msg, buf);
                 return;
             }
@@ -540,89 +553,104 @@ static void borg_parse_aux(char *msg, int len)
         }
 
         /* State -- Asleep */
-        if (suffix(msg, " se queda dormido!")) {
-            tmp = strlen(" se queda dormido!");
-            strnfmt(who, 1 + len - tmp, "%s", msg);
-            strnfmt(buf, 256, "STATE_SLEEP:%s", who);
-            borg_react(msg, buf);
-            return;
+        {
+            const char *match = _(" falls asleep!");
+            if (suffix(msg, match)) {
+                tmp = strlen(match);
+                strnfmt(who, 1 + len - tmp, "%s", msg);
+                strnfmt(buf, 256, "STATE_SLEEP:%s", who);
+                borg_react(msg, buf);
+                return;
+            }
         }
 
         /* State -- confused */
-        if (suffix(msg, " parece confundido.") ||
-                suffix(msg, " parece confundida.")) {
-            tmp = suffix(msg, " parece confundido.") ?
-                strlen(" parece confundido.") :
-                strlen(" parece confundida.");
-            strnfmt(who, 1 + len - tmp, "%s", msg);
-            strnfmt(buf, 256, "STATE_CONFUSED:%s", who);
-            borg_react(msg, buf);
-            return;
+        {
+            const char *match = _(" looks confused.");
+            if (suffix(msg, match)) {
+                tmp = strlen(match);
+                strnfmt(who, 1 + len - tmp, "%s", msg);
+                strnfmt(buf, 256, "STATE_CONFUSED:%s", who);
+                borg_react(msg, buf);
+                return;
+            }
         }
 
         /* State -- confused */
-        if (suffix(msg, " parece más confundido.") ||
-                suffix(msg, " parece más confundida.")) {
-            tmp = suffix(msg, " parece más confundido.") ?
-                strlen(" parece más confundido.") :
-                strlen(" parece más confundida.");
-            strnfmt(who, 1 + len - tmp, "%s", msg);
-            strnfmt(buf, 256, "STATE_CONFUSED:%s", who);
-            borg_react(msg, buf);
-            return;
+        {
+            const char *match = _(" looks more confused.");
+            if (suffix(msg, match)) {
+                tmp = strlen(match);
+                strnfmt(who, 1 + len - tmp, "%s", msg);
+                strnfmt(buf, 256, "STATE_CONFUSED:%s", who);
+                borg_react(msg, buf);
+                return;
+            }
         }
 
         /* State -- Not Asleep */
-        if (suffix(msg, " se despierta.")) {
-            tmp = strlen(" se despierta.");
-            strnfmt(who, 1 + len - tmp, "%s", msg);
-            strnfmt(buf, 256, "STATE_AWAKE:%s", who);
-            borg_react(msg, buf);
-            return;
+        {
+            const char *match = _(" wakes up.");
+            if (suffix(msg, match)) {
+                tmp = strlen(match);
+                strnfmt(who, 1 + len - tmp, "%s", msg);
+                strnfmt(buf, 256, "STATE_AWAKE:%s", who);
+                borg_react(msg, buf);
+                return;
+            }
         }
 
         /* State -- Afraid */
-        if (suffix(msg, " huye aterrorizado!") ||
-                suffix(msg, " huye aterrorizada!")) {
-            tmp = suffix(msg, " huye aterrorizado!") ?
-                strlen(" huye aterrorizado!") :
-                strlen(" huye aterrorizada!");
-            strnfmt(who, 1 + len - tmp, "%s", msg);
-            strnfmt(buf, 256, "STATE__FEAR:%s", who);
-            borg_react(msg, buf);
-            return;
+        {
+            const char *match = _(" flees in terror!");
+            if (suffix(msg, match)) {
+                tmp = strlen(match);
+                strnfmt(who, 1 + len - tmp, "%s", msg);
+                strnfmt(buf, 256, "STATE__FEAR:%s", who);
+                borg_react(msg, buf);
+                return;
+            }
         }
 
         /* State -- Not Afraid */
-        if (suffix(msg, " recobra su valentía.")) {
-            tmp = strlen(" recobra su valentía.");
-            strnfmt(who, 1 + len - tmp, "%s", msg);
-            strnfmt(buf, 256, "STATE__BOLD:%s", who);
-            borg_react(msg, buf);
-            return;
+        {
+            const char *match = _(" recovers his courage.");
+            if (suffix(msg, match)) {
+                tmp = strlen(match);
+                strnfmt(who, 1 + len - tmp, "%s", msg);
+                strnfmt(buf, 256, "STATE__BOLD:%s", who);
+                borg_react(msg, buf);
+                return;
+            }
         }
 
         /* State -- Not Afraid */
-        if (suffix(msg, " recobra su valentía.")) {
-            tmp = strlen(" recobra su valentía.");
-            strnfmt(who, 1 + len - tmp, "%s", msg);
-            strnfmt(buf, 256, "STATE__BOLD:%s", who);
-            borg_react(msg, buf);
-            return;
+        {
+            const char *match = _(" recovers her courage.");
+            if (suffix(msg, match)) {
+                tmp = strlen(match);
+                strnfmt(who, 1 + len - tmp, "%s", msg);
+                strnfmt(buf, 256, "STATE__BOLD:%s", who);
+                borg_react(msg, buf);
+                return;
+            }
         }
 
         /* State -- Not Afraid */
-        if (suffix(msg, " recobra su valentía.")) {
-            tmp = strlen(" recobra su valentía.");
-            strnfmt(who, 1 + len - tmp, "%s", msg);
-            strnfmt(buf, 256, "STATE__BOLD:%s", who);
-            borg_react(msg, buf);
-            return;
+        {
+            const char *match = _(" recovers its courage.");
+            if (suffix(msg, match)) {
+                tmp = strlen(match);
+                strnfmt(who, 1 + len - tmp, "%s", msg);
+                strnfmt(buf, 256, "STATE__BOLD:%s", who);
+                borg_react(msg, buf);
+                return;
+            }
         }
     }
 
     /* Feature XXX XXX XXX */
-    if (streq(msg, "La puerta parece estar rota.")) {
+    if (streq(msg, _("The door appears to be broken."))) {
         /* Only process open doors */
         if (ag->feat == FEAT_OPEN) {
             /* Mark as broken */
@@ -635,7 +663,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Feature XXX XXX XXX */
-    if (streq(msg, "Esto parece ser roca permanente.")) {
+    if (streq(msg, _("This seems to be permanent rock."))) {
         /* Only process walls */
         if ((ag->feat >= FEAT_GRANITE) && (ag->feat <= FEAT_PERM)) {
             /* Mark the wall as permanent */
@@ -649,7 +677,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Feature XXX XXX XXX */
-    if (streq(msg, "Excavas en la pared de granito.")) {
+    if (streq(msg, _("You tunnel into the granite wall."))) {
         /* reseting my panel clock */
         borg.time_this_panel = 1;
 
@@ -666,7 +694,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Feature XXX XXX XXX */
-    if (streq(msg, "Excavas en la veta de cuarzo.")) {
+    if (streq(msg, _("You tunnel into the quartz vein."))) {
         /* Process magma veins with treasure */
         if (ag->feat == FEAT_MAGMA_K) {
             /* Mark the vein */
@@ -689,7 +717,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Feature XXX XXX XXX */
-    if (streq(msg, "Excavas en la veta de magma.")) {
+    if (streq(msg, _("You tunnel into the magma vein."))) {
         /* Process quartz veins with treasure */
         if (ag->feat == FEAT_QUARTZ_K) {
             /* Mark the vein */
@@ -712,7 +740,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* check for trying to dig when you can't */
-    if (prefix(msg, "Picas inútilmente ")) {
+    if (prefix(msg, _("You chip away futilely "))) {
         /* get rid of the goal monster we were chasing */
         if (borg.goal.type == GOAL_KILL && ag->kill)
             borg_delete_kill(ag->kill);
@@ -721,7 +749,7 @@ static void borg_parse_aux(char *msg, int len)
 
 
     /* Word of Recall -- Ignition */
-    if (prefix(msg, "El aire a tu alrededor se vuelve ")) {
+    if (prefix(msg, _("The air about you becomes "))) {
         /* Initiate recall */
         /* Guess how long it will take to lift off */
         /* Guess. game turns x 1000 ( 15+rand(20))*/
@@ -730,7 +758,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Deep Descent -- Ignition */
-    if (prefix(msg, "El aire a tu alrededor comienza ")) {
+    if (prefix(msg, _("The air around you starts "))) {
         /* Initiate descent */
         /* Guess how long it will take to lift off */
         /* Guess. game turns x 1000 ( 3+rand(4))*/
@@ -739,7 +767,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Word of Recall -- Lift off */
-    if (prefix(msg, "Sientes que eres jalado ")) {
+    if (prefix(msg, _("You feel yourself yanked "))) {
         /* Flush our key-buffer */
         /* this is done in case the borg had been aiming a */
         /* shot before recall hit */
@@ -751,7 +779,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Deep Descent  -- Lift off */
-    if (prefix(msg, "¡El suelo se abre bajo tus pies!")) {
+    if (prefix(msg, _("The floor opens beneath you!"))) {
         /* Flush our key-buffer */
         /* this is done in case the borg had been aiming a */
         /* shot before descent hit */
@@ -763,21 +791,21 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Word of Recall -- Cancelled */
-    if (prefix(msg, "Una tensión abandona ")) {
+    if (prefix(msg, _("A tension leaves "))) {
         /* Oops */
         borg.goal.recalling = 0;
         return;
     }
 
     /* Deep Descent -- Cancelled (only happens on death) */
-    if (prefix(msg, "El aire a tu alrededor se detiene ")) {
+    if (prefix(msg, _("The air around you stops "))) {
         /* Oops */
         borg.goal.descending = 0;
         return;
     }
 
     /* Wearing Cursed Item */
-    if (prefix(msg, "¡Vaya! ¡Se siente mortalmente frío!")) {
+    if (prefix(msg, _("Oops! It feels deathly cold!"))) {
         /* this should only happen with STICKY items, The Crown of Morgoth or
          * The One Ring */
         /* !FIX !TODO handle crown eventually */
@@ -785,75 +813,75 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* protect from evil */
-    if (prefix(msg, "¡Te sientes a salvo del mal!")) {
+    if (prefix(msg, _("You feel safe from evil!"))) {
         borg.temp.prot_from_evil = true;
         return;
     }
-    if (prefix(msg, "Ya no te sientes a salvo del mal.")) {
+    if (prefix(msg, _("You no longer feel safe from evil."))) {
         borg.temp.prot_from_evil = false;
         return;
     }
     /* haste self */
-    if (prefix(msg, "¡Sientes que te mueves más rápido!")) {
+    if (prefix(msg, _("You feel yourself moving faster!"))) {
         borg.temp.fast = true;
         return;
     }
-    if (prefix(msg, "Sientes que te vuelves más lento.")) {
+    if (prefix(msg, _("You feel yourself slow down."))) {
         borg.temp.fast = false;
         return;
     }
     /* Bless */
-    if (prefix(msg, "Te sientes virtuoso")) {
+    if (prefix(msg, _("You feel righteous"))) {
         borg.temp.bless = true;
         return;
     }
-    if (prefix(msg, "La oración ha expirado.")) {
+    if (prefix(msg, _("The prayer has expired."))) {
         borg.temp.bless = false;
         return;
     }
 
     /* fastcast */
-    if (prefix(msg, "Sientes que tu mente se acelera.")) {
+    if (prefix(msg, _("You feel your mind accelerate."))) {
         borg.temp.fastcast = true;
         return;
     }
-    if (prefix(msg, "Sientes que tu mente se ralentiza de nuevo.")) {
+    if (prefix(msg, _("You feel your mind slow again."))) {
         borg.temp.fastcast = false;
         return;
     }
 
     /* hero */
-    if (prefix(msg, "¡Te sientes como un héroe!")) {
+    if (prefix(msg, _("You feel like a hero!"))) {
         borg.temp.hero = true;
         return;
     }
-    if (prefix(msg, "Ya no te sientes heroico.")) {
+    if (prefix(msg, _("You no longer feel heroic."))) {
         borg.temp.hero = false;
         return;
     }
 
     /* berserk */
-    if (prefix(msg, "¡Te sientes como una máquina de matar!")) {
+    if (prefix(msg, _("You feel like a killing machine!"))) {
         borg.temp.berserk = true;
         return;
     }
-    if (prefix(msg, "Ya no te sientes en berserker.")) {
+    if (prefix(msg, _("You no longer feel berserk."))) {
         borg.temp.berserk = false;
         return;
     }
 
     /* Sense Invisible */
-    if (prefix(msg, "¡Tus ojos se sienten muy sensibles!")) {
+    if (prefix(msg, _("Your eyes feel very sensitive!"))) {
         borg.see_inv = 30000;
         return;
     }
-    if (prefix(msg, "Tus ojos ya no se sienten tan sensibles.")) {
+    if (prefix(msg, _("Your eyes no longer feel so sensitive."))) {
         borg.see_inv = 0;
         return;
     }
 
     /* check for wall blocking but not when confused*/
-    if ((prefix(msg, "Hay una pared ") && (!borg.trait[BI_ISCONFUSED]))) {
+    if ((prefix(msg, _("There is a wall ")) && (!borg.trait[BI_ISCONFUSED]))) {
         my_need_redraw = true;
         my_need_alter  = true;
         borg.goal.type = 0;
@@ -861,7 +889,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* check for closed door but not when confused*/
-    if ((prefix(msg, "Hay una puerta cerrada bloqueando tu camino.")
+    if ((prefix(msg, _("There is a closed door blocking your way."))
             && (!borg.trait[BI_ISCONFUSED] && !borg.trait[BI_ISIMAGE]))) {
         my_need_redraw = true;
         my_need_alter  = true;
@@ -870,7 +898,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* check for mis-alter command.  Sometime induced by never_move guys*/
-    if (prefix(msg, "Giras sobre ti mismo.") && !borg.trait[BI_ISCONFUSED]) {
+    if (prefix(msg, _("You spin around.")) && !borg.trait[BI_ISCONFUSED]) {
         /* Examine all the monsters */
         for (i = 1; i < borg_kills_nxt; i++) {
 
@@ -904,8 +932,8 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Check for the missing staircase */
-    if (prefix(msg, "No hay camino conocido hacia ") || 
-        prefix(msg, "Hay algo aquí.")) {
+    if (prefix(msg, _("No known path to ")) || 
+        prefix(msg, _("Something is here."))) {
         /* make sure the aligned dungeon is on */
 
         /* make sure the borg does not think he's on one */
@@ -918,7 +946,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Feature XXX XXX XXX */
-    if (prefix(msg, "No ves nada allí ")) {
+    if (prefix(msg, _("You see nothing there "))) {
         ag->feat    = FEAT_BROKEN;
 
         my_no_alter = true;
@@ -928,7 +956,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Hack to protect against clock overflows and errors */
-    if (prefix(msg, "Ilegal ")) {
+    if (prefix(msg, _("Illegal "))) {
         /* Oops */
         borg_respawning = 7;
         borg_keypress(ESCAPE);
@@ -938,7 +966,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Hack to protect against clock overflows and errors */
-    if (prefix(msg, "No tienes nada que identificar")) {
+    if (prefix(msg, _("You have nothing to identify"))) {
         /* Oops */
         borg_keypress(ESCAPE);
         borg_keypress(ESCAPE);
@@ -969,7 +997,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Hack to protect against clock overflows and errors */
-    if (prefix(msg, "Identificando El Fial")) {
+    if (prefix(msg, _("Identifying The Phial"))) {
 
         /* ID item (equipment) */
         borg_item *item = &borg_items[INVEN_LIGHT];
@@ -982,66 +1010,66 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* resist acid */
-    if (prefix(msg, "¡Te sientes resistente al ácido!")) {
+    if (prefix(msg, _("You feel resistant to acid!"))) {
         borg.temp.res_acid = true;
         return;
     }
-    if (prefix(msg, "Ya no eres resistente al ácido.")) {
+    if (prefix(msg, _("You are no longer resistant to acid."))) {
         borg.temp.res_acid = false;
         return;
     }
     /* resist electricity */
-    if (prefix(msg, "¡Te sientes resistente a la electricidad!")) {
+    if (prefix(msg, _("You feel resistant to electricity!"))) {
         borg.temp.res_elec = true;
         return;
     }
-    if (prefix(msg, "Ya no eres resistente a la electricidad.")) {
+    if (prefix(msg, _("You are no longer resistant to electricity."))) {
         borg.temp.res_elec = false;
         return;
     }
     /* resist fire */
-    if (prefix(msg, "¡Te sientes resistente al fuego!")) {
+    if (prefix(msg, _("You feel resistant to fire!"))) {
         borg.temp.res_fire = true;
         return;
     }
-    if (prefix(msg, "Ya no eres resistente al fuego.")) {
+    if (prefix(msg, _("You are no longer resistant to fire."))) {
         borg.temp.res_fire = false;
         return;
     }
     /* resist cold */
-    if (prefix(msg, "¡Te sientes resistente al frío!")) {
+    if (prefix(msg, _("You feel resistant to cold!"))) {
         borg.temp.res_cold = true;
         return;
     }
-    if (prefix(msg, "Ya no eres resistente al frío.")) {
+    if (prefix(msg, _("You are no longer resistant to cold."))) {
         borg.temp.res_cold = false;
         return;
     }
     /* resist poison */
-    if (prefix(msg, "¡Te sientes resistente al veneno!")) {
+    if (prefix(msg, _("You feel resistant to poison!"))) {
         borg.temp.res_pois = true;
         return;
     }
-    if (prefix(msg, "Ya no eres resistente al veneno.")) {
+    if (prefix(msg, _("You are no longer resistant to poison."))) {
         borg.temp.res_pois = false;
         return;
     }
 
     /* Shield */
-    if (prefix(msg, "¡Un escudo místico se forma alrededor de tu cuerpo!")
-        || prefix(msg, "Tu piel se convierte en piedra.")) {
+    if (prefix(msg, _("A mystic shield forms around your body!"))
+        || prefix(msg, _("Your skin turns to stone."))) {
         borg.temp.shield = true;
         return;
     }
-    if (prefix(msg, "Tu escudo místico se desmorona.")
-        || prefix(msg, "Un tono carnoso vuelve a tu piel.")) {
+    if (prefix(msg, _("Your mystic shield crumbles away."))
+        || prefix(msg, _("A fleshy shade returns to your skin."))) {
         borg.temp.shield = false;
         return;
     }
 
     /* Glyph of Warding (the spell no longer gives a report)*/
     /* Sadly  Rune of Protection has no message */
-    if (prefix(msg, "¡Inscribes un símbolo místico en el suelo!")) {
+    if (prefix(msg, _("You inscribe a mystic symbol on the ground!"))) {
         /* Check for an existing glyph */
         for (i = 0; i < track_glyph.num; i++) {
             /* Stop if we already new about this glyph */
@@ -1052,7 +1080,7 @@ static void borg_parse_aux(char *msg, int len)
 
         /* Track the newly discovered glyph */
         if ((i == track_glyph.num) && (i < track_glyph.size)) {
-            borg_note("# Registrando la creación de un glifo.");
+            borg_note("# Noting the creation of a glyph.");
             track_glyph.x[i] = borg.c.x;
             track_glyph.y[i] = borg.c.y;
             track_glyph.num++;
@@ -1060,7 +1088,7 @@ static void borg_parse_aux(char *msg, int len)
 
         return;
     }
-    if (prefix(msg, "¡La runa de protección está rota!")) {
+    if (prefix(msg, _("The rune of protection is broken!"))) {
         /* we won't know which is broken so erase them all and
          * allow the borg to scan the screen and rebuild the array.
          * He won't see the one under him though.  So a special check
@@ -1085,8 +1113,8 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
     /* failed glyph spell message */
-    if (prefix(msg, "El objeto resiste el hechizo")
-        || prefix(msg, "No hay suelo despejado")) {
+    if (prefix(msg, _("The object resists the spell"))
+        || prefix(msg, _("There is no clear floor"))) {
 
         /* Forget the newly created-though-failed  glyph */
         track_glyph.x[track_glyph.num] = 0;
@@ -1094,7 +1122,7 @@ static void borg_parse_aux(char *msg, int len)
         track_glyph.num--;
 
         /* note it */
-        borg_note("# Eliminando el Glifo bajo mí, reemplazando con puerta rota.");
+        borg_note("# Removing the Glyph under me, placing with broken door.");
 
         /* mark that we are not on a clear spot.  The borg ignores
          * broken doors and this will keep him from casting it again.
@@ -1104,7 +1132,7 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Removed rubble.  Important when out of lite */
-    if (prefix(msg, "Has eliminado los ")) {
+    if (prefix(msg, _("You have removed the "))) {
         int x, y;
         /* remove rubbles from array */
         for (y = borg.c.y - 1; y < borg.c.y + 1; y++) {
@@ -1123,14 +1151,14 @@ static void borg_parse_aux(char *msg, int len)
         return;
     }
 
-    if (prefix(msg, "El encantamiento falló")) {
+    if (prefix(msg, _("The enchantment failed"))) {
         /* reset our panel clock for this */
         borg.time_this_panel = 1;
         return;
     }
 
     /* need to kill monsters when WoD is used */
-    if (prefix(msg, "¡Hay un cegador destello de luz!")) {
+    if (prefix(msg, _("There is a searing blast of light!"))) {
         /* Examine all the monsters */
         for (i = 1; i < borg_kills_nxt; i++) {
             borg_kill *kill = &borg_kills[i];
@@ -1164,26 +1192,26 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     /* Be aware and concerned of busted doors */
-    if (prefix(msg, "¡Escuchas una puerta abrirse de golpe!")) {
+    if (prefix(msg, _("You hear a door burst open!"))) {
         /* on level 1 and 2 be concerned.  Could be Grip or Fang */
         if (borg.trait[BI_CDEPTH] <= 3 && borg.trait[BI_CLEVEL] <= 5)
             scaryguy_on_level = true;
     }
 
     /* Some spells move the borg from his grid */
-    if (prefix(msg, "te ordena regresar.")
-        || prefix(msg, "te teletransporta.")
-        || prefix(msg, "gesticula a tus pies.")) {
+    if (prefix(msg, _("commands you to return."))
+        || prefix(msg, _("teleports you away."))
+        || prefix(msg, _("gestures at your feet."))) {
         /* If in Lunal mode better shut that off, he is not on the stairs
          * anymore */
         borg.lunal_mode = false;
-        borg_note("# Desconectando el modo Lunal debido a hechizo de monstruo.");
+        borg_note("# Disconnecting Lunal Mode due to monster spell.");
     }
 
     /* Feelings about the level */
     for (i = 0; prefix_feeling_danger[i]; i++) {
-        /* "You feel..." (etc) */
-        if (prefix(msg, prefix_feeling_danger[i])) {
+        const char *match = _(prefix_feeling_danger[i]);
+        if (prefix(msg, match)) {
             strnfmt(buf, 256, "FEELING_DANGER:%d", i);
             borg_react(msg, buf);
             return;
@@ -1191,8 +1219,8 @@ static void borg_parse_aux(char *msg, int len)
     }
 
     for (i = 0; suffix_feeling_stuff[i]; i++) {
-        /* "You feel..." (etc) */
-        if (suffix(msg, suffix_feeling_stuff[i])) {
+        const char *match = _(suffix_feeling_stuff[i]);
+        if (suffix(msg, match)) {
             strnfmt(buf, 256, "FEELING_STUFF:%d", i);
             borg_react(msg, buf);
             return;
@@ -1214,7 +1242,7 @@ void borg_parse(char *msg)
 
     /* Note the long message */
     if (borg_cfg[BORG_VERBOSE] && msg)
-        borg_note(format("# Analizando msg <%s>", msg));
+        borg_note(format("# Parsing msg <%s>", msg));
 
     /* Flush messages */
     if (len && (!msg || (msg[0] != ' '))) {
@@ -1630,6 +1658,8 @@ static void borg_init_hit_by_messages(void)
 /* init all messages used by the borg */
 void borg_init_messages(void)
 {
+    strnfmt(borg_match, sizeof(borg_match), "%s", _("plain gold ring"));
+
     borg_init_spell_messages();
     borg_init_pain_messages();
     borg_init_hit_by_messages();

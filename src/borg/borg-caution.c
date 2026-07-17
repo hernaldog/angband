@@ -144,13 +144,13 @@ static bool borg_heal(int danger)
     if (borg.trait[BI_ISCONFUSED]) {
         if ((pct_down >= 80) && danger - heal_heal < borg.trait[BI_CURHP]
             && borg_quaff_potion(sv_potion_healing)) {
-            borg_note("# Arreglando Confusión. Nivel 1");
+            borg_note("# Fixing Confusion. Level 1");
             return true;
         }
         if ((pct_down >= 85) && danger >= borg.trait[BI_CURHP] * 2
             && (borg_quaff_potion(sv_potion_star_healing)
                 || borg_quaff_potion(sv_potion_life))) {
-            borg_note("# Arreglando Confusión. Nivel 1.a");
+            borg_note("# Fixing Confusion. Level 1.a");
             return true;
         }
         if (danger < borg.trait[BI_CURHP] + csw_heal
@@ -161,7 +161,7 @@ static bool borg_heal(int danger)
                 || borg_use_staff_fail(sv_staff_healing)
                 || borg_activate_item(act_cure_confusion)
                 || borg_use_staff_fail(sv_staff_curing))) {
-            borg_note("# Arreglando Confusión. Nivel 2");
+            borg_note("# Fixing Confusion. Level 2");
             return true;
         }
 
@@ -175,7 +175,7 @@ static bool borg_heal(int danger)
                 && (danger < (avoidance + ccw_heal) * 15 / 10)
                 && (borg_quaff_crit(true)
                     || borg_quaff_potion(sv_potion_healing))) {
-                borg_note("# Arreglando Confusión. Nivel 3");
+                borg_note("# Fixing Confusion. Level 3");
                 return true;
             }
             /* However, if I am in really big trouble and there is no way
@@ -183,7 +183,7 @@ static bool borg_heal(int danger)
              * survive another round, take my chances on the staff.
              */
             else if (danger > avoidance * 2) {
-                borg_note("# Demasiado peligroso para arreglar Confusión. Nivel 4");
+                borg_note("# Too dangerous to fix Confusion. Level 4");
                 return false;
             }
 
@@ -194,7 +194,7 @@ static bool borg_heal(int danger)
             if ((borg_quaff_crit(true)
                     || borg_quaff_potion(sv_potion_cure_serious)
                     || borg_quaff_potion(sv_potion_healing))) {
-                borg_note("# Arreglando Confusión. Nivel 5");
+                borg_note("# Fixing Confusion. Level 5");
                 return true;
             }
         }
@@ -223,7 +223,7 @@ static bool borg_heal(int danger)
                 || borg_use_staff_fail(sv_staff_healing)
                 || borg_use_staff_fail(sv_staff_curing)
                 || borg_quaff_potion(sv_potion_healing)) {
-                borg_note("# Arreglando Ceguera.");
+                borg_note("# Fixing Blindness.");
                 return true;
             }
         }
@@ -234,7 +234,7 @@ static bool borg_heal(int danger)
         && ((hp_down >= 400)
             || (danger > borg.trait[BI_CURHP] * 5 && hp_down > 100))
         && borg_quaff_potion(sv_potion_star_healing)) {
-        borg_note("# Arreglando Confusión/Ceguera.");
+        borg_note("# Fixing Confusion/Blindness.");
         return true;
     }
 
@@ -263,7 +263,7 @@ static bool borg_heal(int danger)
                 borg_spell_fail(HEALING, 15)
                 || borg_quaff_potion(sv_potion_life)
                 || borg_zap_rod(sv_rod_healing))) {
-            borg_note("# Curando en Combate de Misión.");
+            borg_note("# Heal in Mission Combat.");
             return true;
         }
     }
@@ -274,7 +274,7 @@ static bool borg_heal(int danger)
         && (randint0(100) < 50)) {
         if (borg_use_staff_fail(sv_staff_the_magi)
             || borg_activate_item(act_staff_magi)) {
-            borg_note("# Usar Bastón del Mago");
+            borg_note("# Use Staff of the Magi");
             return true;
         }
     }
@@ -291,7 +291,7 @@ static bool borg_heal(int danger)
                 || borg_quaff_potion(sv_potion_restore_mana)
                 || borg_activate_item(act_restore_mana)
                 || borg_activate_item(act_staff_magi)) {
-                borg_note("# Maná Restaurado");
+                borg_note("# Mana Restored");
                 return true;
             }
         }
@@ -310,7 +310,7 @@ static bool borg_heal(int danger)
         && borg.trait[BI_CURHP] > 650
         && (borg_eat(TV_MUSHROOM, sv_mush_restoring)
             || borg_activate_item(act_restore_all))) {
-        borg_note("# Intentando arreglar estadísticas en combate.");
+        borg_note("# Trying to fix stats in combat.");
         return true;
     }
 
@@ -357,7 +357,7 @@ static bool borg_heal(int danger)
         (borg_spell_fail(MINOR_HEALING, allow_fail)
             || borg_quaff_potion(sv_potion_cure_light)
             || borg_activate_item(act_cure_light))) {
-        borg_note("# Curación Nivel 1.");
+            borg_note("# Healing Level 1.");
         return true;
     }
     /* Cure Serious Wounds (4d10) */
@@ -366,7 +366,7 @@ static bool borg_heal(int danger)
         && (csw_heal > danger / 3) && /* No rope-a-doping */
         (borg_quaff_potion(sv_potion_cure_serious)
             || borg_activate_item(act_cure_serious))) {
-        borg_note("# Curación Nivel 2.");
+        borg_note("# Healing Level 2.");
         return true;
     }
 
@@ -375,7 +375,7 @@ static bool borg_heal(int danger)
         && ((danger) < borg.trait[BI_CURHP] + ccw_heal)
         && (ccw_heal > danger / 3) && /* No rope-a-doping */
         (borg_activate_item(act_cure_critical) || borg_quaff_crit(false))) {
-        borg_note("# Curación Nivel 3.");
+        borg_note("# Healing Level 3.");
         return true;
     }
 
@@ -383,7 +383,7 @@ static bool borg_heal(int danger)
     if (danger >= borg.trait[BI_CURHP] && danger < borg.trait[BI_MAXHP]
         && borg.trait[BI_CURHP] < 50 && danger < ccw_heal
         && borg_quaff_crit(true)) {
-        borg_note("# Curación Nivel 5.");
+        borg_note("# Healing Level 5.");
         return true;
     }
 
@@ -391,7 +391,7 @@ static bool borg_heal(int danger)
      * a few HP before resting */
     if (borg.trait[BI_CDEPTH] >= 80 && danger < 50 && pct_down >= 20
         && borg_quaff_potion(sv_potion_cure_critical)) {
-        borg_note("# Curación Nivel 5B.");
+        borg_note("# Healing Level 5B.");
         return true;
     }
 
@@ -407,7 +407,7 @@ static bool borg_heal(int danger)
             || borg_activate_item(act_heal3)
             || borg_use_staff_fail(sv_staff_healing)
             || borg_spell_fail(HEALING, allow_fail))) {
-        borg_note("# Curación Nivel 6.");
+        borg_note("# Healing Level 6.");
         return true;
     }
 
@@ -434,7 +434,7 @@ static bool borg_heal(int danger)
                 && borg_zap_rod(sv_rod_healing))
             || borg_zap_rod(sv_rod_healing)
             || borg_quaff_potion(sv_potion_healing))) {
-        borg_note("# Curación Nivel 7.");
+        borg_note("# Healing Level 7.");
         return true;
     }
 
@@ -454,7 +454,7 @@ static bool borg_heal(int danger)
             || borg_activate_item(act_cure_nonorlybig)
             || borg_activate_item(act_heal1) || borg_activate_item(act_heal2)
             || borg_activate_item(act_heal3))) {
-        borg_note("# Curación Nivel 8.");
+        borg_note("# Healing Level 8.");
         return true;
     }
 
@@ -479,7 +479,7 @@ static bool borg_heal(int danger)
                 && (borg_quaff_potion(sv_potion_star_healing)
                     || borg_quaff_potion(sv_potion_healing)
                     || borg_quaff_potion(sv_potion_life))))) {
-        borg_note("# Curación Nivel 9.");
+        borg_note("# Healing Level 9.");
         return true;
     }
 
@@ -493,7 +493,7 @@ static bool borg_heal(int danger)
         && (borg_quaff_potion(sv_potion_healing)
             || borg_quaff_potion(sv_potion_star_healing)
             || borg_quaff_potion(sv_potion_life))) {
-        borg_note("# Curación Nivel 10.");
+        borg_note("# Healing Level 10.");
         return true;
     }
 
@@ -526,7 +526,7 @@ static bool borg_heal(int danger)
             borg_quaff_crit(true) || borg_spell_fail(HEALING, 60)
             || borg_spell_fail(HOLY_WORD, 60)
             || borg_use_staff_fail(sv_staff_healing)) {
-            borg_note("# Curando.");
+            borg_note("# Healing.");
             return true;
         }
 
@@ -534,7 +534,7 @@ static bool borg_heal(int danger)
         if ((borg_spell_legal(CURE_POISON) || borg_spell_legal(HERBAL_CURING))
             && (borg_quaff_potion(sv_potion_restore_mana)
                 || borg_activate_item(act_restore_mana))) {
-            borg_note("# Curando la próxima ronda.");
+            borg_note("# Healing next round.");
             return true;
         }
     }
@@ -554,7 +554,7 @@ static bool borg_heal(int danger)
             /* borg_keypress('y'); */
 
             /* Flee! */
-            borg_note("# ¡Cura de Veneno de Emergencia! ¡Jadeo!....");
+            borg_note("# Emergency Poison Cure! Gasp!....");
 
             return true;
         }
@@ -578,7 +578,7 @@ static bool borg_heal(int danger)
             && (borg_quaff_potion(sv_potion_star_healing)
                 || borg_quaff_potion(sv_potion_life)
                 || borg_quaff_potion(sv_potion_healing))) {
-            borg_note("# Curación. Sección de cura.");
+            borg_note("# Healing. Heal section.");
             return true;
         }
 
@@ -633,7 +633,7 @@ static bool borg_heal(int danger)
             && (borg_quaff_potion(sv_potion_healing)
                 || borg_quaff_potion(sv_potion_star_healing)
                 || borg_quaff_potion(sv_potion_life))) {
-            borg_note("# Curación.  Sangrado.");
+            borg_note("# Healing.  Bleeding.");
             return true;
         }
 
@@ -643,7 +643,7 @@ static bool borg_heal(int danger)
             /* borg_keypress('y'); */
 
             /* Flee! */
-            borg_note("# ¡Parche de Herida de Emergencia! ¡Jadeo!....");
+            borg_note("# Emergency Wound Patch! Gasp!....");
 
             return true;
         }
@@ -834,14 +834,14 @@ bool borg_caution(void)
             if (borg_spell(TELEPORT_LEVEL)
                 || borg_read_scroll(sv_scroll_teleport_level)
                 || borg_activate_item(act_tele_level)) {
-                borg_note("# Subiendo un nivel de mazmorra (No listo para Morgoth)");
+                borg_note("# Going up a dungeon level (Not ready for Morgoth)");
                 return true;
             }
 
             /* Start leaving */
             if (!borg.goal.leaving) {
                 /* Note */
-                borg_note("# Abandonando (No listo para Morgoth ahora)");
+                borg_note("# Abandoning (Not ready for Morgoth now)");
 
                 /* Start leaving */
                 borg.goal.leaving = true;
@@ -865,7 +865,7 @@ bool borg_caution(void)
             /* Start leaving */
             if (!borg.goal.leaving) {
                 /* Note */
-                borg_note("# Abandonando (Demasiados escapes)");
+                borg_note("# Abandoning (Too many escapes)");
 
                 /* Start leaving */
                 borg.goal.leaving = true;
@@ -874,7 +874,7 @@ bool borg_caution(void)
             /* Start fleeing */
             if (!borg.goal.fleeing && borg.escapes > 3) {
                 /* Note */
-                borg_note("# Huyendo (Demasiados escapes)");
+                borg_note("# Fleeing (Too many escapes)");
 
                 /* Start fleeing */
                 borg.goal.fleeing = true;
@@ -885,12 +885,12 @@ bool borg_caution(void)
     /* No hanging around if nasty here. */
     if (scaryguy_on_level) {
         /* Note */
-        borg_note("# Tipo aterrador en el nivel.");
+        borg_note("# Terrifying type on level.");
 
         /* Start leaving */
         if (!borg.goal.leaving) {
             /* Note */
-            borg_note("# Abandonando (Tipo aterrador en el nivel)");
+            borg_note("# Abandoning (Terrifying type on level)");
 
             /* Start leaving */
             borg.goal.leaving = true;
@@ -899,7 +899,7 @@ bool borg_caution(void)
         /* Start fleeing */
         if (!borg.goal.fleeing) {
             /* Note */
-            borg_note("# Huyendo (Tipo aterrador en el nivel)");
+            borg_note("# Fleeing (Terrifying type on level)");
 
             /* Start fleeing */
             borg.goal.fleeing = true;
@@ -913,12 +913,12 @@ bool borg_caution(void)
     /* Make a note if Ignoring monsters (no fighting) */
     if (borg.goal.ignoring) {
         /* Note */
-        borg_note("# Ignorando combate con monstruos.");
+        borg_note("# Ignoring combat with monsters.");
     }
 
     /* Note if ignorig messages */
     if (borg_dont_react) {
-        borg_note("# El Borg está ignorando mensajes.");
+        borg_note("# Borg is ignoring messages.");
     }
 
     /* Look around */
@@ -944,19 +944,19 @@ bool borg_caution(void)
                 player->timed[TMD_OPP_ACID]));
         }
         if (borg.temp.shield) {
-            borg_note("# Protegido por Escudo Místico");
+            borg_note("# Protected by Mystic Shield");
         }
         if (borg.temp.prot_from_evil) {
-            borg_note("# Protegido por PCM");
+            borg_note("# Protected by Protection from Evil");
         }
         if (borg_morgoth_position) {
-            borg_note("# Protegido por Mar de Runas.");
+            borg_note("# Protected by Sea of Runes.");
         }
         if (borg_fighting_unique >= 10) {
-            borg_note("# Combate de Misión.");
+            borg_note("# Mission Combat.");
         }
         if (borg_as_position) {
-            borg_note("# Protegido por corredor anti-invocación.");
+            borg_note("# Protected by anti-summon corridor.");
         }
     }
     /* Comment on glyph */
@@ -967,7 +967,7 @@ bool borg_caution(void)
             if ((track_glyph.y[i] == borg.c.y)
                 && (track_glyph.x[i] == borg.c.x)) {
                 /* if standing on one */
-                borg_note(format("# De pie sobre un Glifo"));
+                borg_note(format("# Standing on a Glyph"));
             }
         }
     }
@@ -979,7 +979,7 @@ bool borg_caution(void)
             if ((track_less.y[i] == borg.c.y)
                 && (track_less.x[i] == borg.c.x)) {
                 /* if standing on one */
-                borg_note(format("# De pie sobre escalera hacia arriba"));
+                borg_note(format("# Standing on upward stairs"));
                 on_upstair = false;
             }
         }
@@ -992,7 +992,7 @@ bool borg_caution(void)
             if ((track_more.y[i] == borg.c.y)
                 && (track_more.x[i] == borg.c.x)) {
                 /* if standing on one */
-                borg_note(format("# De pie sobre escalera hacia abajo"));
+                borg_note(format("# Standing on downward stairs"));
                 on_dnstair = false;
             }
         }
@@ -1034,7 +1034,7 @@ bool borg_caution(void)
     if (borg.goal.recalling && borg_check_rest(borg.c.y, borg.c.x)
         && borg.trait[BI_CDEPTH] && !borg.trait[BI_ISHUNGRY]) {
         /* rest here until lift off */
-        borg_note("# Descansando para el Retorno.");
+        borg_note("# Resting for Return.");
         borg_keypress('R');
         borg_keypress('5');
         borg_keypress('0');
@@ -1091,7 +1091,7 @@ bool borg_caution(void)
             && (borg.trait[BI_CLEVEL] < 50) && !vault_on_level
             && (borg.trait[BI_CDEPTH] < 100 && borg.ready_morgoth == 1)) {
             /* Note */
-            borg_note("# Huyendo (peligro excesivo)");
+            borg_note("# Fleeing (excessive danger)");
 
             /* Start fleeing */
             borg.goal.fleeing = true;
@@ -1103,7 +1103,7 @@ bool borg_caution(void)
         /* Flee now */
         if (!borg.goal.leaving) {
             /* Flee! */
-            borg_note("# Abandonando (peligro potencial)");
+            borg_note("# Abandoning (potential danger)");
 
             /* Start leaving */
             borg.goal.leaving = true;
@@ -1123,15 +1123,15 @@ bool borg_caution(void)
             && !OPT(player, birth_force_descend)) {
             borg.stair_less = true;
             if (scaryguy_on_level)
-                borg_note("# Huyendo y abandonando el nivel. (tipo aterrador)");
+                borg_note("# Fleeing and abandoning level. (terrifying type)");
             if (borg.goal.fleeing_lunal)
-                borg_note("# Huyendo y abandonando el nivel. (huida_lunar)");
+                borg_note("# Fleeing and abandoning level. (moon_flee)");
             if (borg.goal.fleeing_munchkin)
                 borg_note(
                     "# Fleeing and leaving the level. (fleeing munchkin)");
             if (pos_danger > avoidance && borg.trait[BI_CLEVEL] <= 49
                 && borg_grids[borg.c.y][borg.c.x].feat == FEAT_LESS)
-                borg_note("# Abandonando el nivel,  Hay algo de peligro pero estoy en una escalera.");
+                borg_note("# Abandoning level,  Some danger but I'm on stairs.");
         }
 
         if (scaryguy_on_level && !OPT(player, birth_force_descend))
@@ -1174,7 +1174,7 @@ bool borg_caution(void)
         /* Usable stairs */
         if ((ag->feat == FEAT_LESS) || on_upstair) {
             /* Log it */
-            borg_note(format("# Abandonando por escalera hacia arriba."));
+            borg_note(format("# Abandoning via upward stairs."));
 
             /* Take the stairs */
             borg_keypress('<');
@@ -1218,7 +1218,7 @@ bool borg_caution(void)
             /* Start leaving */
             if (!borg.goal.leaving) {
                 /* Flee */
-                borg_note("# Abandonando (necesito combustible)");
+                borg_note("# Abandoning (need fuel)");
 
                 /* Start leaving */
                 borg.goal.leaving = true;
@@ -1245,7 +1245,7 @@ bool borg_caution(void)
             /* Start leaving */
             if (!borg.goal.leaving) {
                 /* Flee */
-                borg_note("# Abandonando (necesito comida)");
+                borg_note("# Abandoning (need food)");
 
                 /* Start leaving */
                 borg.goal.leaving = true;
@@ -1254,7 +1254,7 @@ bool borg_caution(void)
             /* Start fleeing */
             if (!borg.goal.fleeing) {
                 /* Flee */
-                borg_note("# Huyendo (necesito comida)");
+                borg_note("# Fleeing (need food)");
 
                 /* Start fleeing */
                 borg.goal.fleeing = true;
@@ -1267,7 +1267,7 @@ bool borg_caution(void)
         /* Start leaving */
         if (!borg.goal.fleeing) {
             /* Flee */
-            borg_note("# Huyendo (nivel con criadores)");
+            borg_note("# Fleeing (level with breeders)");
 
             /* Start fleeing */
             borg.goal.fleeing = true;
@@ -1342,7 +1342,7 @@ bool borg_caution(void)
             borg_desperate = true;
             if (borg_flow_stair_less(GOAL_FLEE, false)) {
                 /* Note */
-                borg_note("# Desesperado por Escaleras (uno)");
+                borg_note("# Desperate for Stairs (one)");
 
                 borg_desperate = false;
                 return true;
@@ -1355,7 +1355,7 @@ bool borg_caution(void)
             borg_desperate = true;
             if (borg_flow_stair_less(GOAL_FLEE, false)) {
                 /* Note */
-                borg_note("# Desesperado por Escaleras (dos)");
+                borg_note("# Desperate for Stairs (two)");
 
                 borg_desperate = false;
                 return true;
@@ -1394,7 +1394,7 @@ bool borg_caution(void)
                 borg_desperate = true;
                 if (borg_flow_stair_less(GOAL_FLEE, false)) {
                     /* Note */
-                    borg_note("# Desesperado por Escaleras (tres)");
+                    borg_note("# Desperate for Stairs (three)");
 
                     borg_desperate = false;
                     return true;
@@ -1408,7 +1408,7 @@ bool borg_caution(void)
             borg_desperate = true;
             if (borg_flow_stair_more(GOAL_FLEE, false, false)) {
                 /* Note */
-                borg_note("# Desesperado por Escaleras (cuatro)");
+                borg_note("# Desperate for Stairs (four)");
 
                 borg_desperate = false;
                 return true;
@@ -1832,7 +1832,7 @@ bool borg_caution(void)
             borg.goal.g.y = borg.c.y + ddy_ddd[b_i];
 
             /* Note */
-            borg_note(format("# Retrocediendo a %d,%d (%d > %d)", borg.goal.g.x,
+            borg_note(format("# Backing away to %d,%d (%d > %d)", borg.goal.g.x,
                 borg.goal.g.y, pos_danger, g_k));
 
             /* Back away from danger */
@@ -1854,7 +1854,7 @@ bool borg_caution(void)
             && (borg_quaff_potion(sv_potion_healing)
                 || borg_quaff_potion(sv_potion_star_healing)
                 || borg_quaff_potion(sv_potion_life))) {
-            borg_note("# Curación.  Confusión.");
+            borg_note("# Healing.  Confusion.");
             return true;
         }
         if (borg_eat(TV_MUSHROOM, sv_mush_cure_mind)
@@ -1862,7 +1862,7 @@ bool borg_caution(void)
             || borg_quaff_crit(false) || borg_quaff_potion(sv_potion_healing)
             || borg_activate_item(act_cure_confusion)
             || borg_use_staff_fail(sv_staff_healing)) {
-            borg_note("# Curación.  Confusión.");
+            borg_note("# Healing.  Confusion.");
             return true;
         }
     }
@@ -1900,7 +1900,7 @@ bool borg_caution(void)
             /* Start leaving */
             if (!borg.goal.leaving) {
                 /* Flee */
-                borg_note("# Abandonando (pocos puntos de golpe)");
+                borg_note("# Abandoning (few hit points)");
 
                 /* Start leaving */
                 borg.goal.leaving = true;
@@ -1908,7 +1908,7 @@ bool borg_caution(void)
             /* Start fleeing */
             if (!borg.goal.fleeing) {
                 /* Flee */
-                borg_note("# Huyendo (pocos puntos de golpe)");
+                borg_note("# Fleeing (few hit points)");
 
                 /* Start fleeing */
                 borg.goal.fleeing = true;
@@ -1924,7 +1924,7 @@ bool borg_caution(void)
             /* Start leaving */
             if (!borg.goal.leaving) {
                 /* Flee */
-                borg_note("# Abandonando (sangrado/veneno)");
+                borg_note("# Abandoning (bleeding/poison)");
 
                 /* Start leaving */
                 borg.goal.leaving = true;
@@ -1933,7 +1933,7 @@ bool borg_caution(void)
             /* Start fleeing */
             if (!borg.goal.fleeing) {
                 /* Flee */
-                borg_note("# Huyendo (sangrado/veneno)");
+                borg_note("# Fleeing (bleeding/poison)");
 
                 /* Start fleeing */
                 borg.goal.fleeing = true;
@@ -1960,7 +1960,7 @@ bool borg_caution(void)
         (borg_quaff_potion(sv_potion_star_healing)
             || borg_quaff_potion(sv_potion_healing)
             || borg_quaff_potion(sv_potion_life))) {
-        borg_note("# Usando reserva de Curación Fácil.");
+        borg_note("# Using Easy Heal Reserve.");
         return true;
     }
 
@@ -1969,7 +1969,7 @@ bool borg_caution(void)
         && !borg.goal.fleeing_to_town && borg.trait[BI_CDEPTH] >= 1) {
         if (borg_recall()) {
             /* Note */
-            borg_note("# Huyendo del nivel (retorno)");
+            borg_note("# Fleeing the level (return)");
 
             /* Success */
             return true;
@@ -1985,7 +1985,7 @@ bool borg_caution(void)
             && borg.trait[BI_CURSP] < (borg.trait[BI_CURSP] / 4)
             && (borg_quaff_potion(sv_potion_restore_mana)
                 || borg_activate_item(act_restore_mana))) {
-            borg_note("# Ganando tiempo esperando el Retorno.(1)");
+            borg_note("# Gaining time waiting for Return.(1)");
             return true;
         }
 
@@ -1994,7 +1994,7 @@ bool borg_caution(void)
                 || borg_spell_fail(PHASE_DOOR, 30)
                 || borg_spell_fail(PORTAL, 30)
                 || borg_activate_item(act_tele_phase))) {
-            borg_note("# Ganando tiempo esperando el Retorno.(2)");
+            borg_note("# Gaining time waiting for Return.(2)");
             return true;
         }
 
@@ -2002,7 +2002,7 @@ bool borg_caution(void)
             && (borg_quaff_crit(true)
                 || borg_quaff_potion(sv_potion_cure_serious)
                 || borg_quaff_potion(sv_potion_cure_light))) {
-            borg_note("# Ganando tiempo esperando el Retorno.(3)");
+            borg_note("# Gaining time waiting for Return.(3)");
             return true;
         }
 
@@ -2013,7 +2013,7 @@ bool borg_caution(void)
                 || borg_quaff_potion(sv_potion_life) || borg_quaff_crit(true)
                 || borg_quaff_potion(sv_potion_cure_serious)
                 || borg_quaff_potion(sv_potion_cure_light))) {
-            borg_note("# Ganando tiempo esperando el Retorno.(4)");
+            borg_note("# Gaining time waiting for Return.(4)");
             return true;
         }
     }

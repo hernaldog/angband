@@ -24,6 +24,7 @@
 #include "../game-world.h"
 #include "../monster.h"
 #include "../ui-term.h"
+#include "../lang.h"
 
 #include "borg-cave-util.h"
 #include "borg-cave-view.h"
@@ -575,7 +576,7 @@ void borg_follow_kill(int i)
         return;
 
     /* Note */
-    borg_note(format("# Había un monstruo '%s' en (%d,%d)",
+    borg_note(format("# Had a monster '%s' at (%d,%d)",
         borg_race_name(kill->r_idx), oy, ox));
 
     /* Prevent silliness */
@@ -800,7 +801,7 @@ static int borg_new_kill(unsigned int r_idx, int y, int x)
 
     /* Note (r_info[kill->r_idx].name)*/
     borg_note(format(
-        "# Creando un monstruo '%s' en (%d,%d), PV: %d, Tiempo: %d, Índice: %d",
+        "# Creating monster '%s' at (%d,%d), HP: %d, Time: %d, Index: %d",
         borg_race_name(kill->r_idx), kill->pos.y, kill->pos.x, kill->power,
         kill->when, kill->r_idx));
 
@@ -1354,7 +1355,7 @@ int borg_locate_kill(char *who, struct loc c, int r)
     /* Handle trappers and lurkers and mimics */
     if (rf_has(r_ptr->flags, RF_CHAR_CLEAR)) {
         /* Note */
-        borg_note("# Monstruo extraño cerca");
+        borg_note("# Strange monster nearby");
     }
 
     /*** Find a similar object ***/
@@ -1635,7 +1636,7 @@ int borg_locate_kill(char *who, struct loc c, int r)
     /* Note */
     if (borg_cfg[BORG_VERBOSE]) {
         borg_note(format("# No se pudo ubicar al monstruo '%s' cerca de (%d,%d), que "
-            "generó el mensaje (%s).",
+            "triggered the message (%s).",
             borg_race_name(r_idx), c.y, c.x, who));
     }
     /* Oops */
@@ -2033,7 +2034,7 @@ bool borg_flow_kill_aim(bool viewable)
                 borg_flow_spread(5, true, !viewable, false, -1, false);
 
                 /* Attempt to Commit the flow */
-                if (!borg_flow_commit("posición con objetivo", GOAL_KILL))
+                if (!borg_flow_commit("target position", GOAL_KILL))
                     return false;
 
                 /* Take one step */
@@ -2490,7 +2491,7 @@ bool borg_flow_kill_corridor(void)
 
         /* Attempt to Commit the flow */
         if (!borg_flow_commit(
-                "corredor anti-invocación norte tipo 1", GOAL_DIGGING))
+                "anti-summon corridor north type 1", GOAL_DIGGING))
             return false;
 
         /* Take one step */
@@ -2513,7 +2514,7 @@ bool borg_flow_kill_corridor(void)
 
         /* Attempt to Commit the flow */
         if (!borg_flow_commit(
-                "corredor anti-invocación sur tipo 1", GOAL_DIGGING))
+                "anti-summon corridor south type 1", GOAL_DIGGING))
             return false;
 
         /* Take one step */
@@ -2536,7 +2537,7 @@ bool borg_flow_kill_corridor(void)
         borg_flow_spread(5, true, false, true, -1, false);
 
         /* Attempt to Commit the flow */
-        if (!borg_flow_commit("corredor anti-invocación este tipo 1", GOAL_DIGGING))
+        if (!borg_flow_commit("anti-summon corridor east type 1", GOAL_DIGGING))
             return false;
 
         /* Take one step */
@@ -2558,7 +2559,7 @@ bool borg_flow_kill_corridor(void)
         borg_flow_spread(5, true, false, true, -1, false);
 
         /* Attempt to Commit the flow */
-        if (!borg_flow_commit("corredor anti-invocación oeste tipo 1", GOAL_DIGGING))
+        if (!borg_flow_commit("anti-summon corridor west type 1", GOAL_DIGGING))
             return false;
 
         /* Take one step */
@@ -2724,25 +2725,25 @@ void borg_near_monster_type(int dist)
          */
 
         /* run from certain scaries */
-        if (borg.trait[BI_CLEVEL] <= 5 && (strstr(r_ptr->name, "estrábico")))
+        if (borg.trait[BI_CLEVEL] <= 5 && (strstr(r_ptr->name, _("cross-eyed"))))
             scaryguy_on_level = true;
 
         /* Mage and priest are extra fearful */
         if (borg.trait[BI_CLEVEL] <= 6
             && (borg.trait[BI_CLASS] == CLASS_MAGE
                 || borg.trait[BI_CLASS] == CLASS_PRIEST)
-            && (strstr(r_ptr->name, "estrábico")))
+            && (strstr(r_ptr->name, _("cross-eyed"))))
             scaryguy_on_level = true;
 
         /* run from certain dungeon scaries */
         if (borg.trait[BI_CLEVEL] <= 5
             && (strstr(r_ptr->name, "Grip") || strstr(r_ptr->name, "Fang")
-                || strstr(r_ptr->name, "kobold pequeño")))
+                || strstr(r_ptr->name, _("small kobold"))))
             scaryguy_on_level = true;
 
         /* run from certain scaries */
         if (borg.trait[BI_CLEVEL] <= 8
-            && (strstr(r_ptr->name, "acólito") || strstr(r_ptr->name, "aprendiz")
+            && (strstr(r_ptr->name, _("acolyte")) || strstr(r_ptr->name, _("apprentice"))
                 || strstr(r_ptr->name, "carterista")
                 || strstr(r_ptr->name, "soldado")
                 || strstr(r_ptr->name, "kobold")
@@ -2757,17 +2758,17 @@ void borg_near_monster_type(int dist)
 
         if (borg.trait[BI_CLEVEL] <= 15
             && (strstr(r_ptr->name, "Bullr")
-                || ((strstr(r_ptr->name, "ratón blanco gigante")
+                || ((strstr(r_ptr->name, _("giant white mouse"))
                         || strstr(r_ptr->name, "masa de gusanos blancos")
                         || strstr(r_ptr->name, "masa de gusanos verdes"))
                     && breeder_count >= borg.trait[BI_CLEVEL])))
             scaryguy_on_level = true;
 
         if (borg.trait[BI_CLEVEL] <= 20
-            && (strstr(r_ptr->name, "araña de cueva")
+            && (strstr(r_ptr->name, _("cave spider"))
                 || strstr(r_ptr->name, "Pink naga")
                 || strstr(r_ptr->name, "Giant pink frog")
-                || strstr(r_ptr->name, "ojo de radiación")
+                || strstr(r_ptr->name, _("radiation eye"))
                 || (strstr(r_ptr->name, "masa de gusanos amarillos")
                     && breeder_count >= borg.trait[BI_CLEVEL])))
             scaryguy_on_level = true;
@@ -3138,11 +3139,11 @@ static void borg_init_monster_names(void)
         what[size] = i;
 
         /* a few special uniques to look out for */
-        if (streq(r_ptr->name, "Morgoth, Señor de la Oscuridad"))
+        if (streq(r_ptr->name, _("Morgoth, Lord of Darkness")))
             borg_morgoth_id = r_ptr->ridx;
-        if (streq(r_ptr->name, "Sauron, el Hechicero"))
+        if (streq(r_ptr->name, _("Sauron, the Sorcerer")))
             borg_sauron_id = r_ptr->ridx;
-        if (streq(r_ptr->name, "El Tarrasque"))
+        if (streq(r_ptr->name, _("The Tarrasque")))
             borg_tarrasque_id = r_ptr->ridx;
 
         size++;

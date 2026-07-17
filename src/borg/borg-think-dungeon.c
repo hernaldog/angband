@@ -99,7 +99,7 @@ static bool borg_think_dungeon_lunal(void)
 
     /* No Lunal mode if starving or in town */
     if (borg.trait[BI_CDEPTH] == 0 || borg.trait[BI_ISWEAK]) {
-        borg_note("# Abandonando Modo Lunar. (Pueblo o Débil)");
+        borg_note("# Abandoning Lunar Mode. (Town or Weak)");
         borg.lunal_mode = false;
         return false;
     }
@@ -169,7 +169,7 @@ static bool borg_think_dungeon_lunal(void)
             borg.lunal_mode         = false;
             borg.goal.fleeing       = false;
             borg.goal.fleeing_lunal = false;
-            borg_note("# Modo Lunar Automático desactivado normalmente.");
+            borg_note("# Auto Lunar Mode normally deactivated.");
             return false;
         }
     }
@@ -454,7 +454,7 @@ static bool borg_think_dungeon_munchkin(void)
 
     /* Not if starving or in town */
     if (borg.trait[BI_CDEPTH] == 0 || borg.trait[BI_ISWEAK]) {
-        borg_note("# Abandonando Modo Munchkin. (Pueblo o Débil)");
+        borg_note("# Abandoning Munchkin Mode. (Town or Weak)");
         borg.munchkin_mode = false;
         return false;
     }
@@ -1673,7 +1673,7 @@ bool borg_think_dungeon(void)
                 /* if not dangerous, wait here */
                 if (borg_danger(borg.c.y, borg.c.x, 1, true, false) == 0) {
                     /* rest here a moment */
-                    borg_note("# Descansando en escalera para recuperar Maná.");
+                    borg_note("# Resting on stairs to recover Mana.");
                     borg_keypress(',');
                     return true;
                 }
@@ -1696,7 +1696,7 @@ bool borg_think_dungeon(void)
                 /* if not dangerous, wait here */
                 if (borg_danger(borg.c.y, borg.c.x, 1, true, false) == 0) {
                     /* rest here a moment */
-                    borg_note("# Descansando en escalera del pueblo para recuperar Maná.");
+                    borg_note("# Resting on town stairs to recover Mana.");
                     borg_keypress(',');
                     return true;
                 }
@@ -2120,7 +2120,7 @@ bool borg_think_dungeon(void)
         bool done = false;
 
         /* Note */
-        borg_note(format("# Aumentando valentía (1) de %d a %d!", avoidance,
+        borg_note(format("# Increasing bravery (1) from %d to %d!", avoidance,
             borg.trait[BI_CURHP] * 2));
 
         /* Ignore some danger */
@@ -2174,7 +2174,7 @@ bool borg_think_dungeon(void)
         bool done = false;
 
         /* Note */
-        borg_note(format("# Aumentando valentía (2) de %d a %d!", avoidance,
+        borg_note(format("# Increasing bravery (2) from %d to %d!", avoidance,
             borg.trait[BI_MAXHP] * 4));
 
         /* Ignore some danger */
