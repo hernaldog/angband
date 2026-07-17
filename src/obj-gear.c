@@ -1164,8 +1164,10 @@ void inven_drop(struct object *obj, int amt)
 		}
 
 		/* Fix traduc sin ODESC_PREFIX se agrega número manualmente */
-		object_desc(name, sizeof(name), desc_target,
-			ODESC_FULL | ODESC_ALTNUM | (total << 16), player);
+		uint32_t desc_mode = ODESC_FULL;
+		if (total > 1)
+			desc_mode |= ODESC_ALTNUM | (total << 16);
+		object_desc(name, sizeof(name), desc_target, desc_mode, player);
 
 		if (total == 0) {
 			msg(_("You have no more %s (%c)."), name, label);

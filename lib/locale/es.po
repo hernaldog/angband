@@ -3935,7 +3935,7 @@ msgid "You dropped %s (%c)."
 msgstr "Soltaste %s (%c)."
 
 msgid "You have no more %s (%c)."
-msgstr "Ya no te quedan %s (%c)."
+msgstr "Ya no tienes %s (%c)."
 
 msgid "You have 1 %s (%c) left."
 msgstr "Te queda 1 %s (%c)."
