@@ -6034,7 +6034,7 @@ msgid "You feel your life draining away."
 msgstr "Sientes que tu vida se drena."
 
 msgid "Aim which wand? "
-msgstr "¿Qué varita apuntar? "
+msgstr "¿Qué varita usar? "
 
 msgid "%s screams in rage!"
 msgstr "¡%s grita de rabia!"
