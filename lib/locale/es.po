@@ -3926,10 +3926,10 @@ msgid "You have %d charge%s remaining."
 msgstr "Te quedan %d carga%s."
 
 msgid "You picked up %s (1st %c)."
-msgstr "Recogiste %s (1er %c)."
+msgstr "Recoges %s (1er %c)."
 
 msgid "You picked up %s (%c)."
-msgstr "Recogiste %s (%c)."
+msgstr "Recoges %s (%c)."
 
 msgid "You dropped %s (%c)."
 msgstr "Soltaste %s (%c)."

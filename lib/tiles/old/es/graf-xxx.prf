@@ -231,10 +231,10 @@ feat:PASS_RUBBLE:torch:0x81:0xBD
 
 
 # glyph of warding
-trap:glyph of warding:dark:0x84:0xA3
-trap:glyph of warding:lit:0x84:0xA4
-trap:glyph of warding:los:0x84:0xA5
-trap:glyph of warding:torch:0x84:0xA5
+trap:glifo de guarda:dark:0x84:0xA3
+trap:glifo de guarda:lit:0x84:0xA4
+trap:glifo de guarda:los:0x84:0xA5
+trap:glifo de guarda:torch:0x84:0xA5
 
 # trap door
 trap:trampilla:dark:0x84:0xA0

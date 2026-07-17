@@ -102,7 +102,7 @@ feat:PASS_RUBBLE:*:0x80:0x99
 
 
 # glyph of warding
-trap:glyph of warding:*:0x80:0x9A
+trap:glifo de guarda:*:0x80:0x9A
 
 # visible trap -- trap door (3 tiles)
 trap:trampilla:torch:0x81:0x8E
@@ -426,7 +426,7 @@ object:bow:Honda:0x90:0x84
 ##### Missiles #####
 
 object:arrow:Flecha:0x90:0x90
-object:bolt:Perno:0x90:0x91
+object:bolt:Virote:0x90:0x91
 object:shot:Perdigón de Hierro:0x90:0x92
 object:arrow:Flecha de Mithril:0x90:0x93
 object:bolt:Virote de Mithril:0x90:0x94
@@ -1293,7 +1293,7 @@ monster:Joven dragón rojo:0xA3:0x9A
 monster:Trampero:0xB7:0x81
 monster:Bodak:0xB2:0x9B
 monster:Elemental de hielo:0xA4:0x99
-monster: nigromante:0xAE:0x80
+monster:nigromante:0xAE:0x80
 monster:Lorgan, Jefe de los Orientales:0xAD:0x9F
 monster:Demoniólogo:0xAD:0x9E
 monster:Troll momificado:0xB6:0x88

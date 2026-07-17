@@ -4,7 +4,6 @@
 *.bat
 *.exe
 *.ninja
-*.prf
 *.fon
 /src/CMakeFiles
 /src/game/lib/gamedata
