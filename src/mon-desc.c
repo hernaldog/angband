@@ -29,7 +29,8 @@
  * soldado"), and the leading noun's own ending is usually the most
  * reliable signal ("-a" feminine, "-o" masculine).  Only when that ending
  * is ambiguous (e.g. "serpiente") do we fall back to checking whether the
- * next word is an adjective that agrees in gender ("-o"/"-a"); that
+ * next word is an adjective that agrees in gender ("-o"/"-a"), or finally
+ * to the monster race's RF_FEMALE flag; that
  * fallback must come second, since the second word is sometimes another
  * noun in apposition (e.g. "soldado" in "hormiga soldado") rather than an
  * agreeing adjective.  This is not perfect - Spanish has irregular nouns -
@@ -44,7 +45,7 @@
  */
 static bool monster_name_is_ungendered_es(const char *name)
 {
-	static const char *ungendered[] = { "naga" };
+	static const char *ungendered[] = { "naga", "monedas" };
 	const char *space = strchr(name, ' ');
 	size_t noun_len = space ? (size_t) (space - name) : strlen(name);
 	size_t i;
@@ -59,10 +60,13 @@ static bool monster_name_is_ungendered_es(const char *name)
 	return false;
 }
 
-static bool monster_name_is_feminine_es(const char *name)
+static bool monster_name_is_feminine_es(const char *name,
+		const bitflag *flags)
 {
 	/* Nouns ending in "-a" that are nonetheless masculine */
 	static const char *masc_exceptions[] = { "fantasma" };
+	/* Nouns ending in "-e" that are nonetheless feminine */
+	static const char *fem_exceptions[] = { "serpiente" };
 	const char *space = strchr(name, ' ');
 	size_t noun_len = space ? (size_t) (space - name) : strlen(name);
 	size_t i;
@@ -73,6 +77,14 @@ static bool monster_name_is_feminine_es(const char *name)
 				&& my_strnicmp(name, masc_exceptions[i],
 					(int) noun_len) == 0) {
 			return false;
+		}
+	}
+
+	for (i = 0; i < N_ELEMENTS(fem_exceptions); i++) {
+		if (strlen(fem_exceptions[i]) == noun_len
+				&& my_strnicmp(name, fem_exceptions[i],
+					(int) noun_len) == 0) {
+			return true;
 		}
 	}
 
@@ -99,6 +111,10 @@ static bool monster_name_is_feminine_es(const char *name)
 			if (last == 'o') return false;
 		}
 	}
+
+	/* Fallback to race flag when name is ambiguous */
+	if (flags && rf_has(flags, RF_FEMALE))
+		return true;
 
 	/* Default */
 	return false;
@@ -309,7 +325,8 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 					my_strcpy(desc, "", max);
 				} else if (es) {
 					bool feminine =
-						monster_name_is_feminine_es(mon->race->name);
+						monster_name_is_feminine_es(mon->race->name,
+							mon->race->flags);
 					my_strcpy(desc, feminine ? "una " : "un ", max);
 				} else {
 					my_strcpy(desc,
@@ -321,7 +338,8 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 			} else if (es) {
 				/* Definite monsters use a gender-matched article */
 				bool feminine =
-					monster_name_is_feminine_es(mon->race->name);
+					monster_name_is_feminine_es(mon->race->name,
+						mon->race->flags);
 				my_strcpy(desc, feminine ? "la " : "el ", max);
 			} else {
 				my_strcpy(desc, "", max);
