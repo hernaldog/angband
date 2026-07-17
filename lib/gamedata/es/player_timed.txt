@@ -331,7 +331,7 @@ msgt:BLESSED
 
 name:SINVIS
 desc:ver invisible
-grade:G:10000:VerInvis:¡Tus ojos se sienten muy sensibles!
+grade:G:10000:VerInvis:¡Sientes muy sensibles tus ojos!
 on-end:Tus ojos ya no se sienten tan sensibles.
 on-increase:¡Tus ojos se sienten más sensibles!
 msgt:SEE_INVIS
