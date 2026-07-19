@@ -8336,3 +8336,54 @@ msgstr "¡Demasiados (%u) tipos de historial!"
 
 msgid "Savefile corrupted - Couldn't load block %s"
 msgstr "¡Archivo de guardado corrupto - No se pudo cargar el bloque %s!"
+
+msgid "# Flowing toward %s at cost %d"
+msgstr "# Desplazándose hacia %s con coste %d"
+
+msgid "# Closing a door"
+msgstr "# Cerrando una puerta"
+
+msgid "# Noting the closing of a door."
+msgstr "# Registrando el cierre de una puerta."
+
+msgid "# Walking into a '%s' at (%d,%d)"
+msgstr "# Caminando hacia un '%s' en (%d,%d)"
+
+msgid "# Disarming a '%s' at (%d,%d)"
+msgstr "# Desarmando un '%s' en (%d,%d)"
+
+msgid "# Opening a '%s' at (%d,%d)"
+msgstr "# Abriendo un '%s' en (%d,%d)"
+
+msgid "# Orbing an object to check for cursed item."
+msgstr "# Usando Orbe en objeto para verificar maldición."
+
+msgid "# Walking onto and deleting a '%s' at (%d,%d)"
+msgstr "# Caminando sobre y borrando un '%s' en (%d,%d)"
+
+msgid "# Walking onto a glyph of warding."
+msgstr "# Caminando sobre un glifo de protección."
+
+msgid "# Activation to Disable Traps, Destroy Doors"
+msgstr "# Activación para Desactivar Trampas, Destruir Puertas"
+
+msgid "# Disable Traps, Destroy Doors"
+msgstr "# Desactivar Trampas, Destruir Puertas"
+
+msgid "# Disarming a trap"
+msgstr "# Desarmando una trampa"
+
+msgid "# Melting a door"
+msgstr "# Fundiendo una puerta"
+
+msgid "# Opening a door"
+msgstr "# Abriendo una puerta"
+
+msgid "# Melting a wall/etc"
+msgstr "# Fundiendo una pared/etc"
+
+msgid "# Digging through wall/etc"
+msgstr "# Excavando a través de pared/etc"
+
+msgid "# Entering a '%d' shop"
+msgstr "# Entrando en la tienda '%d'"

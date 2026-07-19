@@ -145,7 +145,7 @@ bool show_file(const char *name, const char *what, int line, int mode)
 		strnfmt(caption, sizeof(caption), _("Help file '%s'"), name);
 
 		path_build(path, sizeof(path), ANGBAND_DIR_HELP, name);
-		if (lang_current && lang_current[0]) {
+		if (lang_current[0]) {
 			char lang_help_dir[1024];
 			char lang_path[1024];
 

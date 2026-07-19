@@ -22,6 +22,7 @@
 #ifdef ALLOW_BORG
 
 #include "../ui-input.h"
+#include "../lang.h"
 
 #include "borg-danger.h"
 #include "borg-flow-glyph.h"
@@ -601,7 +602,7 @@ bool borg_flow_commit(const char *who, int why)
 
     /* Message */
     if (who)
-        borg_note(format("# Fluyendo hacia %s con coste %d", who, cost));
+        borg_note(format(_("# Flowing toward %s at cost %d"), who, cost));
 
     /* Obtain the "flow" information */
     memcpy(borg_data_flow, borg_data_cost, sizeof(borg_data));
@@ -675,7 +676,7 @@ static bool borg_play_step(int y2, int x2)
             borg.goal.g.y = y;
 
             /* Close */
-            borg_note("# Cerrando una puerta");
+            borg_note(_("# Closing a door"));
             borg_keypress('c');
             borg_queue_direction(I2D(dir));
 
@@ -689,7 +690,7 @@ static bool borg_play_step(int y2, int x2)
             /* Track the newly closed door */
             if (i == track_door.num && i < track_door.size) {
 
-                borg_note("# Registrando el cierre de una puerta.");
+                borg_note(_("# Noting the closing of a door."));
                 track_door.num++;
                 track_door.x[i] = x;
                 track_door.y[i] = y;
@@ -752,7 +753,7 @@ static bool borg_play_step(int y2, int x2)
             return false;
 
         /* Message */
-        borg_note(format("# Caminando hacia un '%s' en (%d,%d)",
+        borg_note(format(_("# Walking into a '%s' at (%d,%d)"),
             borg_race_name(kill->r_idx), kill->pos.y, kill->pos.x));
 
         /* Walk into it */
@@ -792,7 +793,7 @@ static bool borg_play_step(int y2, int x2)
             if (o_ptr->pval > 1 && o_ptr->known
                 && borg.trait[BI_DEV] - o_ptr->pval
                        >= borg_cfg[BORG_CHEST_FAIL_TOLERANCE]) {
-                borg_note(format("# Desarmando un '%s' en (%d,%d)",
+                borg_note(format(_("# Disarming a '%s' at (%d,%d)"),
                     take->kind->name, take->y, take->x));
 
                 /* Open it */
@@ -803,7 +804,7 @@ static bool borg_play_step(int y2, int x2)
 
             /* No trap, or unknown trap that passed above checks - Open it */
             if (o_ptr->pval < 0 || !o_ptr->known) {
-                borg_note(format("# Abriendo un '%s' en (%d,%d)",
+                borg_note(format(_("# Opening a '%s' at (%d,%d)"),
                     take->kind->name, take->y, take->x));
 
                 /* Open it */
@@ -838,7 +839,7 @@ static bool borg_play_step(int y2, int x2)
                     borg_spell(ORB_OF_DRAINING);
 
                     /* Message */
-                    borg_note("# Using Orb on object to check for curse.");
+                    borg_note(_("# Orbing an object to check for cursed item."));
 
                     /* use the old target */
                     borg_keypress('5');
@@ -870,7 +871,7 @@ static bool borg_play_step(int y2, int x2)
 
         /*** Handle other takes ***/
         /* Message */
-        borg_note(format("# Walking over and deleting a '%s' at (%d,%d)",
+        borg_note(format(_("# Walking onto and deleting a '%s' at (%d,%d)"),
             take->kind->name, take->y, take->x));
 
         /* Delete the item from the list */
@@ -885,7 +886,7 @@ static bool borg_play_step(int y2, int x2)
     /* Glyph of Warding */
     if (ag->glyph) {
         /* Message */
-        borg_note(format("# Walking over a glyph of warding."));
+        borg_note(format(_("# Walking onto a glyph of warding.")));
 
         /* Walk onto it */
         borg_keypress(I2D(dir));
@@ -900,7 +901,7 @@ static bool borg_play_step(int y2, int x2)
 
         /* allow "destroy doors" activation */
         if (borg_activate_item(act_disable_traps)) {
-            borg_note("# Activation for Disarm Traps, Destroy Doors");
+            borg_note(_("# Activation to Disable Traps, Destroy Doors"));
             ag->trap = 0;
             /* since this just disables the trap and doesn't remove it, */
             /* don't rest next to it */
@@ -915,7 +916,7 @@ static bool borg_play_step(int y2, int x2)
         /* don't bother unless we are near full mana */
         if (borg.trait[BI_CURSP] > ((borg.trait[BI_MAXSP] * 4) / 5)) {
             if (borg_spell(DISABLE_TRAPS_DESTROY_DOORS)) {
-                borg_note("# Desactivar Trampas, Destruir Puertas");
+                borg_note(_("# Disable Traps, Destroy Doors"));
                 ag->trap = 0;
                 /* since this just disables the trap and doesn't remove it, */
                 /* don't rest next to it */
@@ -925,7 +926,7 @@ static bool borg_play_step(int y2, int x2)
         }
 
         /* Disarm */
-        borg_note("# Desarmando una trampa");
+        borg_note(_("# Disarming a trap"));
         borg_keypress('D');
         borg_queue_direction(I2D(dir));
 
@@ -966,7 +967,7 @@ static bool borg_play_step(int y2, int x2)
             /* Mega-Hack -- allow "destroy doors" */
             if (borg_spell(DISABLE_TRAPS_DESTROY_DOORS)
                 || borg_activate_item(act_destroy_doors)) {
-                borg_note("# Desactivar Trampas, Destruir Puertas");
+                borg_note(_("# Disable Traps, Destroy Doors"));
                 return true;
             }
 
@@ -974,7 +975,7 @@ static bool borg_play_step(int y2, int x2)
             if (borg_spell(TURN_STONE_TO_MUD) || borg_spell(SHATTER_STONE)
                 || borg_activate_ring(sv_ring_digging)
                 || borg_activate_item(act_stone_to_mud)) {
-                borg_note("# Fundiendo una puerta");
+                borg_note(_("# Melting a door"));
                 borg_keypress(I2D(dir));
 
                 /* Remove this closed door from the list.
@@ -993,7 +994,7 @@ static bool borg_play_step(int y2, int x2)
             borg_keypress('+');
             my_need_alter = false;
         } else {
-            borg_note("# Abriendo una puerta");
+            borg_note(_("# Opening a door"));
             borg_keypress('o');
         }
         borg_queue_direction(I2D(dir));
@@ -1034,7 +1035,7 @@ static bool borg_play_step(int y2, int x2)
         if (borg_spell(TURN_STONE_TO_MUD) || borg_spell(SHATTER_STONE)
             || borg_activate_ring(sv_ring_digging)
             || borg_activate_item(act_stone_to_mud)) {
-            borg_note("# Fundiendo una pared/etc");
+            borg_note(_("# Melting a wall/etc"));
             borg_keypress(I2D(dir));
 
             /* Forget number of mineral veins to force rebuild of vein list */
@@ -1050,7 +1051,7 @@ static bool borg_play_step(int y2, int x2)
         /* Switch to a digger if we have one is automatic */
 
         /* Dig */
-        borg_note("# Digging through wall/etc");
+        borg_note(_("# Digging through wall/etc"));
         borg_keypress('T');
         borg_keypress(I2D(dir));
 
@@ -1064,7 +1065,7 @@ static bool borg_play_step(int y2, int x2)
     /* Shops -- Enter */
     if (feat_is_shop(ag->feat)) {
         /* Message */
-        borg_note(format("# Entrando en la tienda '%d'", ag->store));
+        borg_note(format(_("# Entering a '%d' shop"), ag->store));
 
         /* Enter the shop */
         borg_keypress(I2D(dir));
