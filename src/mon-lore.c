@@ -1038,7 +1038,10 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 		textblock_append(tb, _(" erratically"));
 
 		/* Occasional conjunction */
-		if (race->speed != 110) textblock_append(tb, _(", and"));
+		if (race->speed != 110) {
+			bool en = (strcmp(lang_current, "en") == 0);
+			textblock_append(tb, en ? _(", and") : _(", and is "));
+		}
 	}
 
 	/* Speed */
