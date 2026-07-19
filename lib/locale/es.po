@@ -4360,7 +4360,7 @@ msgid "You have learned the %s of %s."
 msgstr "Has aprendido el %s de %s."
 
 msgid "Your machine may crash, and your savefile may become corrupted!"
-msgstr "¡Tu máquina podría bloquearse, y tu partida guardada podría corromperse!"
+msgstr "¡Tu máquina podría bloquearse y tu partida guardada podría corromperse!"
 
 msgid ", but you have avenged yourself!  "
 msgstr ", ¡pero te has vengado!  "
@@ -4561,7 +4561,7 @@ msgid "The %s was really a monster!"
 msgstr "¡%s era en realidad un monstruo!"
 
 msgid "You are about to use the dangerous, unsupported debug commands!"
-msgstr "¡Estás a punto de usar los peligrosos comandos de depuración no soportados!"
+msgstr "¡Estás a punto de usar peligrosos comandos de depuración (sin soporte)!"
 
 msgid "Are you sure you want to use the borg commands? "
 msgstr "¿Seguro que quieres usar los comandos Borg? "
@@ -5707,7 +5707,7 @@ msgid "Mushrooms for breakfast!"
 msgstr "¡Setas para desayunar!"
 
 msgid "You are about to use the dangerous, unsupported, borg commands!"
-msgstr "¡Estás a punto de usar los peligrosos comandos Borg no soportados!"
+msgstr "¡Estás a punto de usar los peligrosos comandos Borg (sin soporte)!"
 
 msgid "You are not currently at your home."
 msgstr "No estás actualmente en tu casa."
@@ -8261,3 +8261,78 @@ msgstr "¿Cuántas veces avanzar? "
 
 msgid "Quantity: "
 msgstr "Cantidad: "
+
+msgid "Couldn't find artifact %s!"
+msgstr "¡No se pudo encontrar el artefacto %s!"
+
+msgid "Couldn't find ego item %s!"
+msgstr "¡No se pudo encontrar el objeto de ego %s!"
+
+msgid "Monster race %s no longer exists!"
+msgstr "¡La raza de monstruo %s ya no existe!"
+
+msgid "Too many (%u) monster temporary flags!"
+msgstr "¡Demasiadas (%u) banderas temporales de monstruo!"
+
+msgid "Too many (%u) object kinds!"
+msgstr "¡Demasiados (%u) tipos de objeto!"
+
+msgid "Too many (%u) object flags!"
+msgstr "¡Demasiadas (%u) banderas de objeto!"
+
+msgid "Too many (%u) object modifiers allowed!"
+msgstr "¡Demasiados (%u) modificadores de objeto permitidos!"
+
+msgid "Too many (%u) elements allowed!"
+msgstr "¡Demasiados (%u) elementos permitidos!"
+
+msgid "Too many (%u) brands allowed!"
+msgstr "¡Demasiadas (%u) marcas permitidas!"
+
+msgid "Too many (%u) slays allowed!"
+msgstr "¡Demasiados (%u) tipos de matar permitidos!"
+
+msgid "Too many (%u) curses allowed!"
+msgstr "¡Demasiadas (%u) maldiciones permitidas!"
+
+msgid "Too many (%u) quests!"
+msgstr "¡Demasiadas (%u) misiones!"
+
+msgid "Invalid player race (%s)."
+msgstr "Raza de jugador no válida (%s)."
+
+msgid "Invalid player shape (%s)."
+msgstr "Forma de jugador no válida (%s)."
+
+msgid "Invalid player class (%s)."
+msgstr "Clase de jugador no válida (%s)."
+
+msgid "Too many (%u) body parts!"
+msgstr "¡Demasiadas (%u) partes del cuerpo!"
+
+msgid "Invalid player level (%d)."
+msgstr "Nivel de jugador no válido (%d)."
+
+msgid "Too many (%u) artifacts!"
+msgstr "¡Demasiados (%u) artefactos!"
+
+msgid "Too many (%u) hitpoint entries!"
+msgstr "¡Demasiadas (%u) entradas de puntos de golpe!"
+
+msgid "Too many player spells (%d)."
+msgstr "Demasiados hechizos de jugador (%d)."
+
+msgid "Too many (%d) monster entries!"
+msgstr "¡Demasiadas (%d) entradas de monstruo!"
+
+msgid "Cannot read monster %d"
+msgstr "No se puede leer el monstruo %d"
+
+msgid "Cannot place monster %d"
+msgstr "No se puede colocar el monstruo %d"
+
+msgid "Too many (%u) history types!"
+msgstr "¡Demasiados (%u) tipos de historial!"
+
+msgid "Savefile corrupted - Couldn't load block %s"
+msgstr "¡Archivo de guardado corrupto - No se pudo cargar el bloque %s!"

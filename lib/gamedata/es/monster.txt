@@ -1454,7 +1454,7 @@ spell-freq:11
 spells:DRAIN_MANA
 desc:Un ojo incorpóreo, crepitando con energía.
 
-name:chamán kobold
+name:kobold chamán
 base:kobold
 color:r
 speed:110
@@ -2334,7 +2334,7 @@ flags:UNIQUE | MALE | MOVE_BODY
 flags:DROP_1 | DROP_GOOD | ONLY_ITEM
 friends:100:1d10:Kobold pequeño:servant
 friends:100:1d10:Kobold:servant
-friends:100:1d3:Chamán kobold:servant
+friends:100:1d3:Kobold chamán:servant
 friends:100:1d5:Arquero kobold:servant
 friends:100:1d5:Kobold grande:bodyguard
 desc:Fuerte y poderoso, para ser un kobold.
@@ -2605,7 +2605,7 @@ flags:FEMALE | EVIL | ANIMAL
 flags:RAND_25
 desc:Rostro de mujer en el cuerpo de un pájaro negro y vicioso.
 
-name:chamán orco
+name:orco chamán
 base:orc
 color:r
 speed:110
@@ -6488,7 +6488,7 @@ desc:El resultado de experimentos malvados, esta afrenta a la naturaleza nunca
 desc: debería estar viva. Tiene tres cabezas: cabra, dragón y gorgona, todas
 desc: unidas a un cuerpo de león.
 
-name:chamán ogro
+name:ogro chamán
 base:ogre
 color:G
 speed:110
@@ -7295,7 +7295,7 @@ friends:50:2d4:Ogro:servant
 friends:100:2d4:Ogro negro:servant
 friends:100:2d4:Ogro de cueva:servant
 friends:50:1d2:Mago ogro:servant
-friends:50:1d2:Chamán ogro:servant
+friends:50:1d2:Ogro chamán:servant
 desc:Este ogro es el líder de su tribu. Te mira con desdén mientras avanza hacia
 desc: ti, blandiendo una enorme clava y apartando groseramente a sus propios
 desc: seguidores.
@@ -8333,7 +8333,7 @@ friends:100:3d3:Ogro:servant
 friends:100:3d3:Ogro negro:servant
 friends:100:3d3:Ogro de cueva:bodyguard
 friends:80:1d2:Mago ogro:servant
-friends:80:1d2:Chamán ogro:servant
+friends:80:1d2:Ogro chamán:servant
 friends:50:1d2:Jefe ogro:servant
 desc:Un ogro famoso por actos de crueldad excepcional, Lokkak se convirtió
 desc: rápidamente en el líder de una gran banda de ogros violentos.

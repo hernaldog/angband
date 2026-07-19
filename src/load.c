@@ -139,7 +139,7 @@ static struct object *rd_item(void)
 	if (buf[0]) {
 		obj->artifact = lookup_artifact_name(buf);
 		if (!obj->artifact) {
-			note(format("Couldn't find artifact %s!", buf));
+			note(format(_("Couldn't find artifact %s!"), buf));
 			return NULL;
 		}
 	}
@@ -147,7 +147,7 @@ static struct object *rd_item(void)
 	if (buf[0]) {
 		obj->ego = lookup_ego_item(buf, obj->tval, obj->sval);
 		if (!obj->ego) {
-			note(format("Couldn't find ego item %s!", buf));
+			note(format(_("Couldn't find ego item %s!"), buf));
 			return NULL;
 		}
 	}
@@ -271,7 +271,7 @@ static bool rd_monster(struct chunk *c, struct monster *mon)
 	rd_string(race_name, sizeof(race_name));
 	mon->race = lookup_monster(race_name);
 	if (!mon->race) {
-		note(format("Monster race %s no longer exists!", race_name));
+		note(format(_("Monster race %s no longer exists!"), race_name));
 		return false;
 	}
 	rd_string(race_name, sizeof(race_name));
@@ -509,7 +509,7 @@ int rd_monster_memory(void)
 
 	/* Incompatible save files */
 	if (mflag_size > MFLAG_SIZE) {
-	        note(format("Too many (%u) monster temporary flags!", mflag_size));
+	        note(format(_("Too many (%u) monster temporary flags!"), mflag_size));
 		return (-1);
 	}
 
@@ -554,21 +554,21 @@ int rd_object_memory(void)
 	/* Object Memory */
 	rd_u16b(&tmp16u);
 	if (tmp16u > z_info->k_max) {
-		note(format("Too many (%u) object kinds!", tmp16u));
+		note(format(_("Too many (%u) object kinds!"), tmp16u));
 		return (-1);
 	}
 
 	/* Object flags */
 	rd_byte(&of_size);
 	if (of_size > OF_SIZE) {
-	        note(format("Too many (%u) object flags!", of_size));
+	        note(format(_("Too many (%u) object flags!"), of_size));
 		return (-1);
 	}
 
 	/* Object modifiers */
 	rd_byte(&obj_mod_max);
 	if (obj_mod_max > OBJ_MOD_MAX) {
-	        note(format("Too many (%u) object modifiers allowed!",
+	        note(format(_("Too many (%u) object modifiers allowed!"),
 						obj_mod_max));
 		return (-1);
 	}
@@ -576,28 +576,28 @@ int rd_object_memory(void)
 	/* Elements */
 	rd_byte(&elem_max);
 	if (elem_max > ELEM_MAX) {
-	        note(format("Too many (%u) elements allowed!", elem_max));
+	        note(format(_("Too many (%u) elements allowed!"), elem_max));
 		return (-1);
 	}
 
 	/* Brands */
 	rd_byte(&brand_max);
 	if (brand_max > z_info->brand_max) {
-	        note(format("Too many (%u) brands allowed!", brand_max));
+	        note(format(_("Too many (%u) brands allowed!"), brand_max));
 		return (-1);
 	}
 
 	/* Slays */
 	rd_byte(&slay_max);
 	if (slay_max > z_info->slay_max) {
-	        note(format("Too many (%u) slays allowed!", slay_max));
+	        note(format(_("Too many (%u) slays allowed!"), slay_max));
 		return (-1);
 	}
 
 	/* Curses */
 	rd_byte(&curse_max);
 	if (curse_max > z_info->curse_max) {
-	        note(format("Too many (%u) curses allowed!", curse_max));
+	        note(format(_("Too many (%u) curses allowed!"), curse_max));
 		return (-1);
 	}
 
@@ -629,7 +629,7 @@ int rd_quests(void)
 	/* Load the Quests */
 	rd_u16b(&tmp16u);
 	if (tmp16u > z_info->quest_max) {
-		note(format("Too many (%u) quests!", tmp16u));
+		note(format(_("Too many (%u) quests!"), tmp16u));
 		return (-1);
 	}
 
@@ -675,7 +675,7 @@ int rd_player(void)
 
 	/* Verify player race */
 	if (!player->race) {
-		note(format("Invalid player race (%s).", buf));
+		note(format(_("Invalid player race (%s)."), buf));
 		return -1;
 	}
 
@@ -690,7 +690,7 @@ int rd_player(void)
 
 	/* If no player shape recorded, set to normal and hope for the best */
 	if (!player->shape) {
-		note(format("Invalid player shape (%s).", buf));
+		note(format(_("Invalid player shape (%s)."), buf));
 		return -1;
 	}
 
@@ -704,7 +704,7 @@ int rd_player(void)
 	}
 
 	if (!player->class) {
-		note(format("Invalid player class (%s).", buf));
+		note(format(_("Invalid player class (%s)."), buf));
 		return -1;
 	}
 
@@ -742,7 +742,7 @@ int rd_player(void)
 	player->body.name = string_make(buf);
 	rd_u16b(&player->body.count);
 	if (player->body.count > z_info->equip_slots_max) {
-		note(format("Too many (%u) body parts!", player->body.count));
+		note(format(_("Too many (%u) body parts!"), player->body.count));
 		return (-1);
 	}
 
@@ -766,7 +766,7 @@ int rd_player(void)
 
 	/* Verify player level */
 	if ((player->lev < 1) || (player->lev > PY_MAX_LEVEL)) {
-		note(format("Invalid player level (%d).", player->lev));
+		note(format(_("Invalid player level (%d)."), player->lev));
 		return (-1);
 	}
 
@@ -1040,7 +1040,7 @@ int rd_artifacts(void)
 	/* Load the Artifacts */
 	rd_u16b(&tmp16u);
 	if (tmp16u > z_info->a_max) {
-		note(format("Too many (%u) artifacts!", tmp16u));
+		note(format(_("Too many (%u) artifacts!"), tmp16u));
 		return (-1);
 	}
 
@@ -1070,7 +1070,7 @@ int rd_player_hp(void)
 	/* Read the player_hp array */
 	rd_u16b(&tmp16u);
 	if (tmp16u > PY_MAX_LEVEL) {
-		note(format("Too many (%u) hitpoint entries!", tmp16u));
+		note(format(_("Too many (%u) hitpoint entries!"), tmp16u));
 		return (-1);
 	}
 
@@ -1095,7 +1095,7 @@ int rd_player_spells(void)
 	/* Read the number of spells */
 	rd_u16b(&tmp16u);
 	if (tmp16u > player->class->magic.total_spells) {
-		note(format("Too many player spells (%d).", tmp16u));
+		note(format(_("Too many player spells (%d)."), tmp16u));
 		return (-1);
 	}
 
@@ -1436,7 +1436,7 @@ static int rd_monsters_aux(struct chunk *c)
 	/* Read the monster count */
 	rd_u16b(&limit);
 	if (limit > z_info->level_monster_max) {
-		note(format("Too many (%d) monster entries!", limit));
+		note(format(_("Too many (%d) monster entries!"), limit));
 		return (-1);
 	}
 
@@ -1451,13 +1451,13 @@ static int rd_monsters_aux(struct chunk *c)
 
 		/* Read the monster */
 		if (!rd_monster(c, mon)) {
-			note(format("Cannot read monster %d", i));
+			note(format(_("Cannot read monster %d"), i));
 			return (-1);
 		}
 
 		/* Place monster in dungeon */
 		if (place_monster(c, mon->grid, mon, 0) != i) {
-			note(format("Cannot place monster %d", i));
+			note(format(_("Cannot place monster %d"), i));
 			return (-1);
 		}
 	}
@@ -1717,7 +1717,7 @@ int rd_history(void)
 	/* History type flags */
 	rd_byte(&hist_size);
 	if (hist_size > HIST_SIZE) {
-	        note(format("Too many (%u) history types!", hist_size));
+	        note(format(_("Too many (%u) history types!"), hist_size));
 		return (-1);
 	}
 
@@ -1745,7 +1745,7 @@ int rd_history(void)
 		}
 		rd_string(text, sizeof(text));
 		if (name[0] && !art) {
-			note(format("Couldn't find artifact %s!", name));
+			note(format(_("Couldn't find artifact %s!"), name));
 			continue;
 		}
 

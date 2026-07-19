@@ -19,6 +19,7 @@
 #include "angband.h"
 #include "game-world.h"
 #include "init.h"
+#include "lang.h"
 #include "savefile.h"
 #include "save-charoutput.h"
 #include "z-file.h"
@@ -570,7 +571,7 @@ static bool try_load(ang_file *f, const struct blockinfo *local_loaders)
 		}
 
 		if (!load_block(f, &b, loader)) {
-			note(format("Savefile corrupted - Couldn't load block %s", b.name));
+			note(format(_("Savefile corrupted - Couldn't load block %s"), b.name));
 			return false;
 		}
 	}

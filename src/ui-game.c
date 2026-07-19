@@ -292,7 +292,7 @@ struct cmd_info cmd_hidden[] =
 	{ "Alterar una casilla", { '+' }, CMD_ALTER, NULL, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Robar a un monstruo", { 's' }, CMD_STEAL, NULL, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Caminar", { ';' }, CMD_WALK, NULL, NULL, 0, NULL, NULL, NULL, 0 },
-	{ "Empezar a correr", { '.', ',' }, CMD_RUN, NULL, NULL, 0, NULL, NULL, NULL, 0 },
+	{ "Correr", { '.', ',' }, CMD_RUN, NULL, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Empezar a explorar", { 'p' }, CMD_EXPLORE, NULL, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Quedarse quieto", { ',', '.' }, CMD_HOLD, NULL, NULL, 0, NULL, NULL, NULL, 0 },
 	{ "Centrar mapa", { KTRL('L'), '@' }, CMD_NULL, do_cmd_center_map, NULL, 0, NULL, NULL, NULL, 0 },
