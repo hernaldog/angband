@@ -137,17 +137,15 @@ bool show_file(const char *name, const char *what, int line, int mode)
 		fff = file_open(path, MODE_READ, FTYPE_TEXT);
 	}
 
-	/* Look in "help" */
+	/*
+	 * Look in "help/<lang>/" using the current language.
+	 * Each language has its own subdirectory (e.g. en/, es/).
+	 */
 	if (!fff) {
 		strnfmt(caption, sizeof(caption), _("Help file '%s'"), name);
 
-		/*
-		 * Redirect help files to a language-specific subdirectory when
-		 * available, e.g. lib/help/  ->  lib/help/en/  (for English).
-		 * Falls back to the base (Spanish) file if no translation exists.
-		 */
 		path_build(path, sizeof(path), ANGBAND_DIR_HELP, name);
-		if (strcmp(lang_current, "en") == 0) {
+		if (lang_current && lang_current[0]) {
 			char lang_help_dir[1024];
 			char lang_path[1024];
 
