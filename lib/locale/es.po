@@ -8387,3 +8387,345 @@ msgstr "# Excavando a través de pared/etc"
 
 msgid "# Entering a '%d' shop"
 msgstr "# Entrando en la tienda '%d'"
+msgid "#  Redrawing screen."
+msgstr "#  Redrawing screen."
+
+msgid "# Boosting bravery (1) from %d to %d!"
+msgstr "# Boosting bravery (1) from %d to %d!"
+
+msgid "# Boosting bravery (2) from %d to %d!"
+msgstr "# Boosting bravery (2) from %d to %d!"
+
+msgid "# Boosting bravery (3) from %d to %d!"
+msgstr "# Boosting bravery (3) from %d to %d!"
+
+msgid "# Bored but unable to flow to up stairs."
+msgstr "# Bored but unable to flow to up stairs."
+
+msgid "# Borg must crawl to deep dungeon- no recall to 100."
+msgstr "# Borg must crawl to deep dungeon- no recall to 100."
+
+msgid "# Climbing (too deep: %s)"
+msgstr "# Climbing (too deep: %s)"
+
+msgid "# Close enough to Stair."
+msgstr "# Close enough to Stair."
+
+msgid "# Considering Phase (twitchy)"
+msgstr "# Considering Phase (twitchy)"
+
+msgid "# Darkening the region that is lit."
+msgstr "# Darkening the region that is lit."
+
+msgid "# Excavation of vault"
+msgstr "# Excavation of vault"
+
+msgid "# Fleeing (boredom)"
+msgstr "# Fleeing (boredom)"
+
+msgid "# Fleeing (bouncing-borg)"
+msgstr "# Fleeing (bouncing-borg)"
+
+msgid "# Fleeing (finish shopping)"
+msgstr "# Fleeing (finish shopping)"
+
+msgid "# Fleeing (no recall)"
+msgstr "# Fleeing (no recall)"
+
+msgid "# Fleeing and leaving the level (Looking for Up Stair)."
+msgstr "# Fleeing and leaving the level (Looking for Up Stair)."
+
+msgid "# Fleeing and leaving the level. (Looking for any stair)"
+msgstr "# Fleeing and leaving the level. (Looking for any stair)"
+
+msgid "# Fleeing and leaving the level. Brave Thinking."
+msgstr "# Fleeing and leaving the level. Brave Thinking."
+
+msgid "# Fleeing level. Lunal Mode"
+msgstr "# Fleeing level. Lunal Mode"
+
+msgid "# Fleeing level. Munchkin Mode"
+msgstr "# Fleeing level. Munchkin Mode"
+
+msgid "# Fleeing level. Scumming Mode"
+msgstr "# Fleeing level. Scumming Mode"
+
+msgid "# Fleeing via stairs."
+msgstr "# Fleeing via stairs."
+
+msgid "# Flowing to stairs (low Light)."
+msgstr "# Flowing to stairs (low Light)."
+
+msgid "# Going to stairs up. I'm bored."
+msgstr "# Going to stairs up. I'm bored."
+
+msgid "# Going to town (Dropping off Potions)."
+msgstr "# Going to town (Dropping off Potions)."
+
+msgid "# Going to town (Fix Experience)."
+msgstr "# Going to town (Fix Experience)."
+
+msgid "# Going to town (Fix Level)."
+msgstr "# Going to town (Fix Level)."
+
+msgid "# Going to town (I miss my home)."
+msgstr "# Going to town (I miss my home)."
+
+msgid "# Going to town (Sell Stuff)."
+msgstr "# Going to town (Sell Stuff)."
+
+msgid "# Going to town (Sell Stuff, Worshipping Gold)."
+msgstr "# Going to town (Sell Stuff, Worshipping Gold)."
+
+msgid "# Going to town (scumming check)."
+msgstr "# Going to town (scumming check)."
+
+msgid "# Going up a bit (No Deeper than %d)."
+msgstr "# Going up a bit (No Deeper than %d)."
+
+msgid "# Ignoring breeders (no recall)"
+msgstr "# Ignoring breeders (no recall)"
+
+msgid "# Illuminating the region while dark."
+msgstr "# Illuminating the region while dark."
+
+msgid "# Leaving (boredom)"
+msgstr "# Leaving (boredom)"
+
+msgid "# Leaving (bouncing-borg)"
+msgstr "# Leaving (bouncing-borg)"
+
+msgid "# Leaving (finish shopping)"
+msgstr "# Leaving (finish shopping)"
+
+msgid "# Leaving (no recall)"
+msgstr "# Leaving (no recall)"
+
+msgid "# Leaving Lunal Mode. (No Stairs seen)"
+msgstr "# Leaving Lunal Mode. (No Stairs seen)"
+
+msgid "# Leaving Lunal Mode. (Town or Weak)"
+msgstr "# Leaving Lunal Mode. (Town or Weak)"
+
+msgid "# Leaving Munchkin Mode. (No Stairs seen)"
+msgstr "# Leaving Munchkin Mode. (No Stairs seen)"
+
+msgid "# Leaving Scumming Mode. (Town or Weak)"
+msgstr "# Leaving Scumming Mode. (Town or Weak)"
+
+msgid "# Leaving munchkin Mode. (Town or Weak)"
+msgstr "# Leaving munchkin Mode. (Town or Weak)"
+
+msgid "# Looking for stairs. Flee, brave."
+msgstr "# Looking for stairs. Flee, brave."
+
+msgid "# Looking for stairs. Fleeing."
+msgstr "# Looking for stairs. Fleeing."
+
+msgid "# Looking for stairs. Goal_Leaving."
+msgstr "# Looking for stairs. Goal_Leaving."
+
+msgid "# Looking for stairs. Goal_less, Fleeing."
+msgstr "# Looking for stairs. Goal_less, Fleeing."
+
+msgid "# Looking for stairs. Goal_less, brave."
+msgstr "# Looking for stairs. Goal_less, brave."
+
+msgid "# Looking for stairs. Lunal Mode (needing to sell)."
+msgstr "# Looking for stairs. Lunal Mode (needing to sell)."
+
+msgid "# Looking for stairs. Lunal Mode."
+msgstr "# Looking for stairs. Lunal Mode."
+
+msgid "# Looking for stairs. Munchkin Mode (needing to sell)."
+msgstr "# Looking for stairs. Munchkin Mode (needing to sell)."
+
+msgid "# Looking for stairs. Munchkin Mode."
+msgstr "# Looking for stairs. Munchkin Mode."
+
+msgid "# Looking for stairs. Scumming Mode."
+msgstr "# Looking for stairs. Scumming Mode."
+
+msgid "# Looking for stairs. Stair hugging."
+msgstr "# Looking for stairs. Stair hugging."
+
+msgid "# Looking for up stairs.  Going up."
+msgstr "# Looking for up stairs.  Going up."
+
+msgid "# Lunal Mode ended at depth."
+msgstr "# Lunal Mode ended at depth."
+
+msgid "# Lunal Mode ended incorrectly."
+msgstr "# Lunal Mode ended incorrectly."
+
+msgid "# Lunal Mode.  Any Stair. "
+msgstr "# Lunal Mode.  Any Stair. "
+
+msgid "# Lunal Mode.  Power Climb (needing to sell). "
+msgstr "# Lunal Mode.  Power Climb (needing to sell). "
+
+msgid "# Lunal Mode.  Power Climb. "
+msgstr "# Lunal Mode.  Power Climb. "
+
+msgid "# Lunal Mode.  Power Diving. "
+msgstr "# Lunal Mode.  Power Diving. "
+
+msgid "# Lunal Mode: I know of a down stair."
+msgstr "# Lunal Mode: I know of a down stair."
+
+msgid "# Lunal. (need fuel)"
+msgstr "# Lunal. (need fuel)"
+
+msgid "# Munchkin Mode.  Any Stair. "
+msgstr "# Munchkin Mode.  Any Stair. "
+
+msgid "# Munchkin Mode.  Power Climb (needing to sell). "
+msgstr "# Munchkin Mode.  Power Climb (needing to sell). "
+
+msgid "# Munchkin Mode.  Power Climb. "
+msgstr "# Munchkin Mode.  Power Climb. "
+
+msgid "# Munchkin Mode.  Power Diving. "
+msgstr "# Munchkin Mode.  Power Diving. "
+
+msgid "# Munchkin Mode: I know of a down stair."
+msgstr "# Munchkin Mode: I know of a down stair."
+
+msgid "# Munchkin. (need fuel)"
+msgstr "# Munchkin. (need fuel)"
+
+msgid "# Needing to get back on correct depth"
+msgstr "# Needing to get back on correct depth"
+
+msgid "# No Light at all."
+msgstr "# No Light at all."
+
+msgid "# Not deep enough to recall"
+msgstr "# Not deep enough to recall"
+
+msgid "# Not enough recalls to recall"
+msgstr "# Not enough recalls to recall"
+
+msgid "# Nothing to sell in town (leaving)."
+msgstr "# Nothing to sell in town (leaving)."
+
+msgid "# Powerdiving."
+msgstr "# Powerdiving."
+
+msgid "# Pressing 'escape' to catch up and get in sync (%d)."
+msgstr "# Pressing 'escape' to catch up and get in sync (%d)."
+
+msgid "# Recalling (twitchy)"
+msgstr "# Recalling (twitchy)"
+
+msgid "# Recalling into dungeon."
+msgstr "# Recalling into dungeon."
+
+msgid "# Recalling to town (goal rising)"
+msgstr "# Recalling to town (goal rising)"
+
+msgid "# Recalling to town (need to restock)"
+msgstr "# Recalling to town (need to restock)"
+
+msgid "# Recalling to town (no stairs)"
+msgstr "# Recalling to town (no stairs)"
+
+msgid "# Resting on stair to gain Mana."
+msgstr "# Resting on stair to gain Mana."
+
+msgid "# Resting on this Glowing Grid to gain mana."
+msgstr "# Resting on this Glowing Grid to gain mana."
+
+msgid "# Resting on town stair to gain Mana."
+msgstr "# Resting on town stair to gain Mana."
+
+msgid "# Return to Stair (wandered too far.  Leash: %d)"
+msgstr "# Return to Stair (wandered too far.  Leash: %d)"
+
+msgid "# Returning to level 98 to scum for items."
+msgstr "# Returning to level 98 to scum for items."
+
+msgid "# Returning to town (too deep: %s)"
+msgstr "# Returning to town (too deep: %s)"
+
+msgid "# Returning to town to Collect stock."
+msgstr "# Returning to town to Collect stock."
+
+msgid "# Scum. (need fuel)"
+msgstr "# Scum. (need fuel)"
+
+msgid "# Scumming Mode.  Any Stair. "
+msgstr "# Scumming Mode.  Any Stair. "
+
+msgid "# Scumming Mode.  Power Climb. "
+msgstr "# Scumming Mode.  Power Climb. "
+
+msgid "# Scumming Mode.  Power Diving. "
+msgstr "# Scumming Mode.  Power Diving. "
+
+msgid "# Scumming Mode: I know of a down stair."
+msgstr "# Scumming Mode: I know of a down stair."
+
+msgid "# Self Lunal mode disengaged normally."
+msgstr "# Self Lunal mode disengaged normally."
+
+msgid "# Spent too long (%ld) on level, leaving."
+msgstr "# Spent too long (%ld) on level, leaving."
+
+msgid "# Staying on level 1 to rotate shops."
+msgstr "# Staying on level 1 to rotate shops."
+
+msgid "# Taking up Stairs (low Light)."
+msgstr "# Taking up Stairs (low Light)."
+
+msgid "# Teleport (twitchy)"
+msgstr "# Teleport (twitchy)"
+
+msgid "# Testing for stairs ."
+msgstr "# Testing for stairs ."
+
+msgid "# Waiting for Recall..."
+msgstr "# Waiting for Recall..."
+
+msgid "# Waiting for towns people to breed.  I need %d..."
+msgstr "# Waiting for towns people to breed.  I need %d..."
+
+msgid "# Way too scary to recall down there!   %s"
+msgstr "# Way too scary to recall down there!   %s"
+
+msgid "# failed to recall when I wanted to"
+msgstr "# failed to recall when I wanted to"
+
+msgid "# heading down (bored and spastic)."
+msgstr "# heading down (bored and spastic)."
+
+msgid "# heading up (bored and spastic)."
+msgstr "# heading up (bored and spastic)."
+
+msgid "# heading up (bored and unable to dive: %s)"
+msgstr "# heading up (bored and unable to dive: %s)"
+
+msgid "# heading up, not prep for current level: %s)"
+msgstr "# heading up, not prep for current level: %s)"
+
+msgid "# no up stairs found, going down"
+msgstr "# no up stairs found, going down"
+
+msgid "# power dive, head deep."
+msgstr "# power dive, head deep."
+
+msgid "# power dive, playing too shallow."
+msgstr "# power dive, playing too shallow."
+
+msgid "# returning to town to recall back down (too shallow)"
+msgstr "# returning to town to recall back down (too shallow)"
+
+msgid "# returning to town to restock(too deep: %s)"
+msgstr "# returning to town to restock(too deep: %s)"
+
+msgid "Leaving Lunal Mode. (End of Lunal Mode)"
+msgstr "Leaving Lunal Mode. (End of Lunal Mode)"
+
+msgid "Leaving Munchkin Mode. (End of Mode)"
+msgstr "Leaving Munchkin Mode. (End of Mode)"
+
