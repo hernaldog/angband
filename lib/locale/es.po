@@ -9313,7 +9313,7 @@ msgid "makes your skin harder to damage, but conduct electricity"
 msgstr "endurece tu piel, pero conduce la electricidad"
 
 msgid "makes it hard to hit anything"
-msgstr "dificulta acertar a cualquier cosa"
+msgstr "hace se te haga dificil acertar"
 
 # --- ui-curse.c: curse removal menu ---
 

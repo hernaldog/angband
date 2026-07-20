@@ -509,7 +509,7 @@ bool effect_handler_DAMAGE(effect_handler_context_t *context)
 
 		case SRC_CHEST_TRAP: {
 			struct chest_trap *trap = context->origin.which.chest_trap;
-			strnfmt(killer, sizeof(killer), "%s", trap->msg_death);
+			strnfmt(killer, sizeof(killer), "%s", _(trap->msg_death));
 			break;
 		}
 

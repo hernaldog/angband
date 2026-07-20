@@ -20,6 +20,7 @@
 #include "cave.h"
 #include "effects.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-desc.h"
 #include "mon-predicate.h"
 #include "mon-util.h"
@@ -874,7 +875,7 @@ bool project_p(struct source origin, int r, struct loc grid, int dam, int typ,
 			struct chest_trap *trap = origin.which.chest_trap;
 
 			/* Get the trap name */
-			strnfmt(killer, sizeof(killer), "%s", trap->msg_death);
+			strnfmt(killer, sizeof(killer), "%s", _(trap->msg_death));
 
 			break;
 		}

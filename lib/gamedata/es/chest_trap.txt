@@ -27,55 +27,55 @@
 # Current disarming difficulty calculations depend on there being six types
 # of trap; if there are more than six, those calculations will need to change.
 
-name:locked
+name:cerrado
 code:NO_TRAP
 level:1
 
-name:gas trap
+name:trampa de gas
 code:POISON
 level:1
 effect:TIMED_INC:POISONED
 dice:10+d20
-msg:A puff of green gas surrounds you!
+msg:¡Una nube de gas verde te rodea!
 
-name:poison needle
+name:aguja envenenada
 code:LOSE_STR
 level:2
 effect:DAMAGE
 dice:1d4
 effect:DRAIN_STAT:STR
-msg:A small needle has pricked you!
-msg-death:a poison needle
+msg:¡Una pequeña aguja te ha pinchado!
+msg-death:una aguja envenenada
 
-name:poison needle
+name:aguja envenenada
 code:LOSE_CON
 level:3
 effect:DAMAGE
 dice:1d4
 effect:DRAIN_STAT:CON
-msg:A small needle has pricked you!
-msg-death:a poison needle
+msg:¡Una pequeña aguja te ha pinchado!
+msg-death:una aguja envenenada
 
-name:summoning runes
+name:runas de invocación
 code:SUMMON
 level:15
 effect:SUMMON:ANY
 dice:2+1d3
 magic:1
-msg:You are enveloped in a cloud of smoke!
+msg:¡Estás envuelto en una nube de humo!
 
-name:gas trap
+name:trampa de gas
 code:PARALYZE
 level:19
 effect:TIMED_INC:PARALYZED
 dice:10+d20
-msg:A puff of yellow gas surrounds you!
+msg:¡Una nube de gas amarillo te rodea!
 
-name:explosion device
+name:dispositivo explosivo
 code:EXPLODE
 level:25
 effect:DAMAGE
 dice:5d8
 destroy:1
-msg:There is a sudden explosion! Everything inside the chest is destroyed!
-msg-death:an exploding chest
+msg:¡Hay una explosión repentina! ¡Todo dentro del cofre está destruido!
+msg-death:un cofre explosivo

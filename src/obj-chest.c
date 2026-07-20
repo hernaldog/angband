@@ -314,7 +314,7 @@ const char *chest_trap_name(const struct object *obj)
 			trap = trap->next;
 		}
 		if (found) {
-			return found->name;
+			return _(found->name);
 		}
 	}
 
@@ -556,7 +556,7 @@ static void chest_trap(struct object *obj)
 	for (trap = chest_traps; trap; trap = trap->next) {
 		if (trap->pval & traps) {
 			if (trap->msg) {
-				msg(trap->msg);
+				msg(_(trap->msg));
 			}
 			if (trap->effect) {
 				effect_do(trap->effect, source_chest_trap(trap), obj, &ident,

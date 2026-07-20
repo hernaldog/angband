@@ -391,7 +391,7 @@ static size_t obj_desc_chest(const struct object *obj, char *buf, size_t max,
 	if (obj->pval && !obj->known->pval) return end;
 
 	/* Describe the traps */
-	strnfcat(buf, max, &end, " (%s)", chest_trap_name(obj));
+	strnfcat(buf, max, &end, _(" (%s)"), _(chest_trap_name(obj)));
 
 	return end;
 }
