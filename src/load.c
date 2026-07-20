@@ -826,7 +826,7 @@ int rd_player(void)
 
 		/* Discard unused entries */
 		strip_bytes(2 * (num - TMD_MAX));
-		note("Discarded unsupported timed effects");
+		note(_("Discarded unsupported timed effects"));
 	}
 
 	/* Total energy used so far */
@@ -1134,7 +1134,7 @@ static int rd_gear_aux(rd_item_t rd_item_version, struct object **gear)
 
 		/* Read the item */
 		if (!obj) {
-			note("Error reading item");
+			note(_("Error reading item"));
 			return (-1);
 		}
 
@@ -1223,14 +1223,14 @@ static int rd_stores_aux(rd_item_t rd_item_version)
 			/* Read the known item */
 			struct object *obj, *known_obj = (*rd_item_version)();
 			if (!known_obj) {
-				note("Error reading known item");
+				note(_("Error reading known item"));
 				return (-1);
 			}
 
 			/* Read the item */
 			obj = (*rd_item_version)();
 			if (!obj) {
-				note("Error reading item");
+				note(_("Error reading item"));
 				return (-1);
 			}
 			obj->known = known_obj;

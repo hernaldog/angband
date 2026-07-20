@@ -1360,7 +1360,7 @@ flags:IGNORE_ACID
 desc:Se puede disparar con una ballesta.
 
 
-name:Canto~ Rodado
+name:Piedra~ Redonda~
 type:shot
 graphics:{:s
 level:0

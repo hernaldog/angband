@@ -9328,4 +9328,15 @@ msgstr "¿Qué maldición deseas eliminar? (poder del conjuro: %s)"
 msgid "The %s curse is removed!"
 msgstr "¡La maldición de %s ha sido eliminada!"
 
+# --- load.c: savefile loading errors ---
+
+msgid "Discarded unsupported timed effects"
+msgstr "Efectos temporales no soportados descartados"
+
+msgid "Error reading item"
+msgstr "Error al leer el objeto"
+
+msgid "Error reading known item"
+msgstr "Error al leer el objeto conocido"
+
 
