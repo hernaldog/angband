@@ -19,6 +19,7 @@
 
 #include "angband.h"
 #include "init.h"
+#include "lang.h"
 #include "obj-curse.h"
 #include "obj-knowledge.h"
 #include "ui-curse.h"
@@ -44,7 +45,7 @@ static void get_curse_display(struct menu *menu, int oid, bool cursor, int row,
 	int power = choice[oid].power;
 	char *name = curses[choice[oid].index].name;
 
-	strnfmt(buf, sizeof(buf), "  %s (curse strength %d)", name, power);
+	strnfmt(buf, sizeof(buf), _("  %s (curse strength %d)"), _(name), power);
 	c_put_str(attr, buf, row, col);
 }
 
@@ -76,7 +77,7 @@ static void curse_menu_browser(int oid, void *data, const region *loc)
 	text_out_pad = 1;
 
 	Term_gotoxy(loc->col, loc->row + loc->page_rows);
-	my_strcpy(buf, curses[choice[oid].index].desc, sizeof(buf));
+	my_strcpy(buf, _(curses[choice[oid].index].desc), sizeof(buf));
 	my_strcap(buf);
 	text_out(" %s.\n", buf);
 
@@ -119,7 +120,7 @@ static int curse_menu(struct object *obj, char *dice_string)
 	/* Set up the menu */
 	menu_setpriv(m, count, available);
 	my_strcpy(header,
-			  format(" Remove which curse (spell strength %s)?", dice_string),
+			  format(_(" Remove which curse (spell strength %s)?"), dice_string),
 			  sizeof(header));
 	m->header = header;
 	m->selections = all_letters_nohjkl;

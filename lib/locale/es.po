@@ -4252,7 +4252,7 @@ msgid "Enter the ego item: "
 msgstr "Introduce el objeto ego: "
 
 msgid "The object gives the player a magical bonus to %s."
-msgstr "El objeto da al jugador un bono mágico a %s."
+msgstr "Aumenta la %s de forma mágica."
 
 msgid "You have slain this foe.  "
 msgstr "Has matado a este enemigo.  "
@@ -4312,10 +4312,10 @@ msgid "treasure"
 msgstr "tesoro"
 
 msgid "The object gives the player the property of %s."
-msgstr "El objeto da al jugador la propiedad de %s."
+msgstr "Permite al jugador %s."
 
 msgid "The object affects the player's resistance to %s."
-msgstr "El objeto afecta a la resistencia del jugador a %s."
+msgstr "Mejora tu resistencia a efectos de %s."
 
 msgid "Note: "
 msgstr "Nota: "
@@ -4381,7 +4381,7 @@ msgid "There is no known path to a down staircase."
 msgstr "No hay un camino conocido hacia una escalera hacia abajo."
 
 msgid "The object magically increases the player's armor class"
-msgstr "El objeto aumenta mágicamente la clase de armadura del jugador"
+msgstr "Aumenta mágicamente la clase de armadura del jugador"
 
 msgid "to lightning"
 msgstr "al rayo"
@@ -4729,7 +4729,7 @@ msgid "Exit"
 msgstr "Salir"
 
 msgid "The object magically increases the player's chance to hit"
-msgstr "El objeto aumenta mágicamente la probabilidad de golpear del jugador"
+msgstr "Aumenta mágicamente la probabilidad de golpe del jugador"
 
 msgid " purchases"
 msgstr " compras"
@@ -4744,7 +4744,7 @@ msgid "You have activated %s!"
 msgstr "¡Has activado %s!"
 
 msgid "The object magically increases the player's damage"
-msgstr "El objeto aumenta mágicamente el daño del jugador"
+msgstr "Aumenta mágicamente el daño del jugador"
 
 msgid "Return to normal and %s (s/n) or just (v) return? "
 msgstr "¿Volver a la normalidad y %s (s/n) o solo (v) volver? "
@@ -9151,5 +9151,181 @@ msgstr "# Demasiados monstruos"
 
 msgid "# Tracking monster '%s' at (%d,%d) from (%d,%d)"
 msgstr "# Rastreando un monstruo '%s' en (%d,%d) desde (%d,%d)"
+
+# --- obj-knowledge.c: curse names (used in rune_name) ---
+
+msgid "air swing"
+msgstr "golpe al aire"
+
+msgid "annoyance"
+msgstr "molestia"
+
+msgid "anti-teleportation"
+msgstr "anti-teletransporte"
+
+msgid "burning up"
+msgstr "quemazón"
+
+msgid "chilled to the bone"
+msgstr "helado hasta los huesos"
+
+msgid "clumsiness"
+msgstr "torpeza"
+
+msgid "cowardice"
+msgstr "cobardía"
+
+msgid "demon summon"
+msgstr "invocación de demonios"
+
+msgid "dragon summon"
+msgstr "invocación de dragones"
+
+msgid "dullness"
+msgstr "embotamiento"
+
+msgid "enveloping"
+msgstr "envolvente"
+
+msgid "hallucination"
+msgstr "alucinación"
+
+msgid "impair hitpoint recovery"
+msgstr "dificultar la recuperación de puntos de golpe"
+
+msgid "impair mana recovery"
+msgstr "dificultar la recuperación de maná"
+
+msgid "irritation"
+msgstr "irritación"
+
+msgid "paralysis"
+msgstr "parálisis"
+
+msgid "sickliness"
+msgstr "enfermedad"
+
+msgid "siren"
+msgstr "sirena"
+
+msgid "slowness"
+msgstr "lentitud"
+
+msgid "steelskin"
+msgstr "piel de acero"
+
+msgid "stone"
+msgstr "piedra"
+
+msgid "teleportation"
+msgstr "teletransporte"
+
+msgid "treacherous weapon"
+msgstr "arma traicionera"
+
+msgid "undead summon"
+msgstr "invocación de no muertos"
+
+msgid "vulnerability"
+msgstr "vulnerabilidad"
+
+msgid "weakness"
+msgstr "debilidad"
+
+# --- obj-knowledge.c: curse descriptions (used in rune_desc) ---
+
+msgid "attracts opponents and weakens the defences"
+msgstr "atrae oponentes y debilita las defensas"
+
+msgid "randomly makes you teleport"
+msgstr "te hace teletransportarte aleatoriamente"
+
+msgid "makes you mentally slow"
+msgstr "te vuelve mentalmente lento"
+
+msgid "makes you frail"
+msgstr "te vuelve frágil"
+
+msgid "protects you at the expense of free movement"
+msgstr "te protege a costa del movimiento libre"
+
+msgid "annoys monsters and makes it hard for you to hit them"
+msgstr "molesta a los monstruos y dificulta que les aciertes"
+
+msgid "weakens your grasp"
+msgstr "debilita tu agarre"
+
+msgid "gives you butterfingers"
+msgstr "te vuelve manos de mantequilla"
+
+msgid "drags at your feet"
+msgstr "lastra tus pies"
+
+msgid "wakes up and annoys nearby monsters, and delays your escape"
+msgstr "despierta y molesta a los monstruos cercanos, y retrasa tu huida"
+
+msgid "poisons you from time to time"
+msgstr "te envenena de vez en cuando"
+
+msgid "occasionally makes a loud noise"
+msgstr "ocasionalmente hace un ruido fuerte"
+
+msgid "makes you hallucinate sometimes"
+msgstr "a veces te hace alucinar"
+
+msgid "paralyses you every now and then"
+msgstr "te paraliza de vez en cuando"
+
+msgid "sometimes summons a dragon"
+msgstr "a veces invoca un dragón"
+
+msgid "occasionally summons a demon"
+msgstr "ocasionalmente invoca un demonio"
+
+msgid "occasionally summons an undead"
+msgstr "ocasionalmente invoca un no muerto"
+
+msgid "makes you slow to recover mana"
+msgstr "hace que recuperes maná lentamente"
+
+msgid "makes you slow to recover hitpoints"
+msgstr "hace que recuperes puntos de golpe lentamente"
+
+msgid "makes you too scared to fight"
+msgstr "hace que tengas demasiado miedo para luchar"
+
+msgid "periodically turns your skin to stone"
+msgstr "convierte periódicamente tu piel en piedra"
+
+msgid "prevents you from teleporting"
+msgstr "te impide teletransportarte"
+
+msgid "makes your weapon attack you"
+msgstr "hace que tu arma te ataque"
+
+msgid "makes you vulnerable to fire attacks, but resistant to cold"
+msgstr "te vuelve vulnerable al fuego, pero resistente al frío"
+
+msgid "makes you vulnerable to cold attacks, but resistant to fire"
+msgstr "te vuelve vulnerable al frío, pero resistente al fuego"
+
+msgid "makes your skin harder to damage, but conduct electricity"
+msgstr "endurece tu piel, pero conduce la electricidad"
+
+msgid "makes it hard to hit anything"
+msgstr "dificulta acertar a cualquier cosa"
+
+# --- ui-curse.c: curse removal menu ---
+
+msgid "  %s (curse strength %d)"
+msgstr " %s (poder de la maldición: %d)"
+
+msgid " Remove which curse (spell strength %s)?"
+msgstr "¿Qué maldición deseas eliminar? (poder del conjuro: %s)"
+
+# --- obj-curse.c: curse removal message ---
+
+msgid "The %s curse is removed!"
+msgstr "¡La maldición de %s ha sido eliminada!"
 
 

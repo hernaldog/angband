@@ -125,7 +125,7 @@ static bool describe_curses(textblock *tb, const struct object *obj,
 	for (i = 1; i < z_info->curse_max; i++) {
 		if (c[i].power) {
 			textblock_append(tb, _("Causes "));
-			textblock_append_c(tb, COLOUR_L_RED, "%s", curses[i].desc);
+			textblock_append_c(tb, COLOUR_L_RED, "%s", _(curses[i].desc));
 			if (c[i].power == 100) {
 				textblock_append(tb, _("; this curse cannot be removed"));
 			}

@@ -22,6 +22,7 @@
 #include "obj-gear.h"
 #include "obj-knowledge.h"
 #include "obj-pile.h"
+#include "lang.h"
 #include "obj-util.h"
 #include "player-timed.h"
 #include "player-util.h"
@@ -228,7 +229,7 @@ bool remove_object_curse(struct object *obj, int pick, bool message)
 		/* Remove the curses array if that was the last curse. */
 		check_object_curses(obj);
 		if (message) {
-			msg("The %s curse is removed!", curses[pick].name);
+			msg(_("The %s curse is removed!"), _(curses[pick].name));
 		}
 	} else {
 		result = false;

@@ -324,15 +324,15 @@ const char *rune_name(size_t i)
 	struct rune *r = &rune_list[i];
 
 	if (r->variety == RUNE_VAR_BRAND)
-		return format(_("brand of %s"), r->name);
+		return format(_("brand of %s"), _(r->name));
 	else if (r->variety == RUNE_VAR_SLAY)
-		return format(_("slay %s"), r->name);
+		return format(_("slay %s"), _(r->name));
 	else if (r->variety == RUNE_VAR_CURSE)
-		return format(_("curse of %s"), r->name);
+		return format(_("curse of %s"), _(r->name));
 	else if (r->variety == RUNE_VAR_RESIST)
-		return format(_("resist %s"), r->name);
+		return format(_("resist %s"), _(r->name));
 	else
-		return format("%s", r->name);
+		return format("%s", _(r->name));
 
 	return NULL;
 }
@@ -358,35 +358,35 @@ const char *rune_desc(size_t i)
 		/* Mod runes */
 		case RUNE_VAR_MOD: {
 			return format(_("The object gives the player a magical bonus to %s."),
-						  r->name);
+						  _(r->name));
 			break;
 		}
 		/* Element runes */
 		case RUNE_VAR_RESIST: {
 			return format(_("The object affects the player's resistance to %s."),
-						  r->name);
+						  _(r->name));
 			break;
 		}
 		/* Brand runes */
 		case RUNE_VAR_BRAND: {
 			return format(_("The object brands the player's attacks with %s."),
-						  r->name);
+						  _(r->name));
 			break;
 		}
 		/* Slay runes */
 		case RUNE_VAR_SLAY: {
-			return format(_("The object makes the player's attacks against %s more powerful."), r->name);
+			return format(_("The object makes the player's attacks against %s more powerful."), _(r->name));
 			break;
 		}
 		/* Curse runes */
 		case RUNE_VAR_CURSE: {
-			return format(_("The object %s."), curses[r->index].desc);
+			return format(_("The object %s."), _(curses[r->index].desc));
 			break;
 		}
 		/* Flag runes */
 		case RUNE_VAR_FLAG: {
 			return format(_("The object gives the player the property of %s."),
-						  r->name);
+						  _(r->name));
 			break;
 		}
 		default: {
