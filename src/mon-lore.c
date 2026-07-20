@@ -1041,12 +1041,15 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 		if (race->speed != 110) {
 			bool en = (strcmp(lang_current, "en") == 0);
 			textblock_append(tb, en ? _(", and") : _(", and is "));
+			if (en) textblock_append(tb, " ");
+		} else {
+			textblock_append(tb, " ");
 		}
+	} else {
+		textblock_append(tb, " ");
 	}
 
 	/* Speed */
-	textblock_append(tb, " ");
-
 	if (OPT(player, effective_speed))
 		lore_multiplier_speed(tb, race);
 	else

@@ -418,7 +418,7 @@ void borg_delete_kill(int i)
         return;
 
     /* Note */
-    borg_note(format("# Olvidando un monstruo '%s' en (%d,%d)",
+    borg_note(format(_("# Forgetting monster '%s' at (%d,%d)"),
         borg_race_name(kill->r_idx), kill->pos.y, kill->pos.x));
     /* Clear goals if I am flowing to this monster.*/
     if (borg.goal.type == GOAL_KILL && borg_flow_y[0] == kill->pos.y
@@ -455,7 +455,7 @@ void borg_sleep_kill(int i)
         return;
 
     /* Note */
-    borg_note(format("# Anotando que el monstruo '%s' duerme en (%d,%d)",
+    borg_note(format(_("# Noting that monster '%s' sleeps at (%d,%d)"),
         borg_race_name(kill->r_idx), kill->pos.y, kill->pos.x));
 
     /* note sleep */
@@ -576,7 +576,7 @@ void borg_follow_kill(int i)
         return;
 
     /* Note */
-    borg_note(format("# Had a monster '%s' at (%d,%d)",
+    borg_note(format(_("# Had a monster '%s' at (%d,%d)"),
         borg_race_name(kill->r_idx), oy, ox));
 
     /* Prevent silliness */
@@ -710,7 +710,7 @@ void borg_follow_kill(int i)
     borg_grids[kill->pos.y][kill->pos.x].kill = i;
 
     /* Note */
-    borg_note(format("# Siguiendo a un monstruo '%s' hacia (%d,%d) desde (%d,%d)",
+    borg_note(format(_("# Following monster '%s' toward (%d,%d) from (%d,%d)"),
         borg_race_name(kill->r_idx), kill->pos.y, kill->pos.x, oy, ox));
 
     /* Recalculate danger */
@@ -751,7 +751,7 @@ static int borg_new_kill(unsigned int r_idx, int y, int x)
     /* Steal an old monster */
     if (n < 0) {
         /* Note */
-        borg_note("# Demasiados monstruos");
+        borg_note(_("# Too many monsters"));
 
         /* Pick a random monster */
         n = randint1(borg_kills_nxt - 1) + 1;
@@ -800,8 +800,8 @@ static int borg_new_kill(unsigned int r_idx, int y, int x)
     borg_update_kill_old(n);
 
     /* Note (r_info[kill->r_idx].name)*/
-    borg_note(format(
-        "# Creating monster '%s' at (%d,%d), HP: %d, Time: %d, Index: %d",
+    borg_note(format(_(
+        "# Creating monster '%s' at (%d,%d), HP: %d, Time: %d, Index: %d"),
         borg_race_name(kill->r_idx), kill->pos.y, kill->pos.x, kill->power,
         kill->when, kill->r_idx));
 
@@ -835,7 +835,7 @@ static int borg_new_kill(unsigned int r_idx, int y, int x)
         borg_fear_region[y1][x2] = 0;
         borg_fear_region[y2][x1] = 0;
         borg_fear_region[y2][x2] = 0;
-        borg_note(format("# Eliminando Miedo Regional (%d,%d) por un %s a la vista",
+        borg_note(format(_("# Removing Regional Fear (%d,%d) for a %s in sight"),
             y, x, borg_race_name(kill->r_idx)));
     }
 
@@ -1042,11 +1042,11 @@ bool observe_kill_move(int y, int x, int d, uint8_t a, wchar_t c, bool flag)
                     continue;
 
                 /* Note */
-                borg_note(format("# Monstruo parpadeante '%s' en (%d,%d)",
+                borg_note(format(_("# Flickering monster '%s' at (%d,%d)"),
                     (r_info[r_idx].name), y, x));
 
                 /* Note */
-                borg_note(format("# Convirtiendo un monstruo '%s' en (%d,%d)",
+                borg_note(format(_("# Converting monster '%s' at (%d,%d)"),
                     borg_race_name(kill->r_idx), kill->pos.y, kill->pos.x));
 
                 /* Change the race */
@@ -1082,7 +1082,7 @@ bool observe_kill_move(int y, int x, int d, uint8_t a, wchar_t c, bool flag)
 
             /* Note */
             borg_note(
-                format("# Rastreando un monstruo '%s' en (%d,%d) desde (%d,%d)",
+                format(_("# Tracking monster '%s' at (%d,%d) from (%d,%d)"),
                     borg_race_name(kill->r_idx), kill->pos.y, kill->pos.x, oy, ox));
 
             /* Recalculate danger */
@@ -1194,14 +1194,14 @@ static unsigned int borg_guess_race_name(char *who)
         who               = partial;
 
         /* Message */
-        borg_note(format("# Manejando monstruo fuera de pantalla (%s)", who));
+        borg_note(format(_("# Handling offscreen monster (%s)"), who));
     }
 
     /* Assume player ghost */
     if (!prefix(who, "El ") && !prefix(who, "el ") && !prefix(who, "La ")
         && !prefix(who, "la ")) {
         /* Message */
-        borg_note(format("# Asumiendo fantasma de jugador (%s) (a)", who));
+        borg_note(format(_("# Assuming player ghost (%s) (a)"), who));
 
         /* Oops */
         return (z_info->r_max - 1);
@@ -1262,7 +1262,7 @@ static unsigned int borg_guess_race_name(char *who)
         return ((unsigned int)b_i);
 
     /* No match found */
-    borg_note(format("# Asumiendo fantasma de jugador (%s)(b)", who));
+    borg_note(format(_("# Assuming player ghost (%s)(b)"), who));
 
     /* Oops */
     return (z_info->r_max - 1);
@@ -1309,7 +1309,7 @@ int borg_locate_kill(char *who, struct loc c, int r)
     /* Handle invisible monsters */
     if (my_strnicmp(who, "Algo", 4) == 0) {
         /* Note */
-        borg_note("# Monstruo invisible cerca.");
+        borg_note(_("# Invisible monster nearby."));
         /* if I can, cast detect inviso--time stamp it
          * We stamp it now if we can, or later if we just did the spell
          * That way we dont loop casting the spell.
@@ -1327,7 +1327,7 @@ int borg_locate_kill(char *who, struct loc c, int r)
     /* Handle offsreen monsters */
     if (suffix(who, " (offscreen)")) {
         /* Note */
-        borg_note("# Monstruo fuera de pantalla cerca");
+        borg_note(_("# Offscreen monster nearby"));
 
         /* Shift the panel */
         borg.need_shift_panel = true;
@@ -1344,7 +1344,7 @@ int borg_locate_kill(char *who, struct loc c, int r)
 
     /* Note */
     if (borg_cfg[BORG_VERBOSE]) {
-        borg_note(format("# Hay un monstruo '%s' a %d casillas de %d,%d",
+        borg_note(format(_("# There's a monster '%s' at %d squares from %d,%d"),
             borg_race_name(r_idx), r, c.y, c.x));
     }
 
@@ -1355,7 +1355,7 @@ int borg_locate_kill(char *who, struct loc c, int r)
     /* Handle trappers and lurkers and mimics */
     if (rf_has(r_ptr->flags, RF_CHAR_CLEAR)) {
         /* Note */
-        borg_note("# Strange monster nearby");
+        borg_note(_("# Strange monster nearby"));
     }
 
     /*** Find a similar object ***/
@@ -1411,7 +1411,7 @@ int borg_locate_kill(char *who, struct loc c, int r)
         take = &borg_takes[b_i];
 
         /* Note */
-        borg_note(format("# Convirtiendo un objeto '%s' en (%d,%d)",
+        borg_note(format(_("# Converting object '%s' at (%d,%d)"),
             (take->kind->name), take->y, take->x));
 
         /* Save location */
@@ -1500,7 +1500,7 @@ int borg_locate_kill(char *who, struct loc c, int r)
         kill = &borg_kills[b_i];
 
         /* Note */
-        borg_note(format("# Convirtiendo un monstruo '%s' en (%d,%d)",
+        borg_note(format(_("# Converting monster '%s' at (%d,%d)"),
             borg_race_name(kill->r_idx), kill->pos.y, kill->pos.x));
 
         /* Change the race */
@@ -1619,8 +1619,8 @@ int borg_locate_kill(char *who, struct loc c, int r)
 
         /* Note */
         if (borg_cfg[BORG_VERBOSE])
-            borg_note(format(
-                "# Coincide un monstruo '%s' en (%d,%d) para el mensaje analizado.",
+            borg_note(format(_(
+                "# Matching monster '%s' at (%d,%d) for the analyzed message."),
                 borg_race_name(kill->r_idx), kill->pos.y, kill->pos.x));
 
         /* Known identity */
@@ -1635,8 +1635,8 @@ int borg_locate_kill(char *who, struct loc c, int r)
 
     /* Note */
     if (borg_cfg[BORG_VERBOSE]) {
-        borg_note(format("# No se pudo ubicar al monstruo '%s' cerca de (%d,%d), que "
-            "triggered the message (%s).",
+        borg_note(format(_("# Could not locate monster '%s' near (%d,%d), which "
+            "triggered the message (%s)."),
             borg_race_name(r_idx), c.y, c.x, who));
     }
     /* Oops */
@@ -3092,10 +3092,10 @@ bool borg_shoot_scoot_safe(int emergency, int turns, int b_p)
     /* Too much danger */
     /* in an emergency try with extra danger allowed */
     if (n > emergency) {
-        borg_note(format("# Sin Disparar y Escapar. casillas peligrosas: %d/100", n));
+        borg_note(format(_("# No Shoot and Escape. dangerous squares: %d/100"), n));
         return false;
     } else
-        borg_note(format("# Seguro para Disparar y Escapar. casillas peligrosas: %d/100", n));
+        borg_note(format(_("# Safe to Shoot and Escape. dangerous squares: %d/100"), n));
 
     /* Okay */
     return true;

@@ -4029,7 +4029,7 @@ msgid " a bit"
 msgstr " un poco"
 
 msgid " erratically"
-msgstr " erráticamente"
+msgstr " errático"
 
 msgid ", and"
 msgstr " y"
@@ -4627,13 +4627,13 @@ msgid "normal speed"
 msgstr "velocidad normal"
 
 msgid "slow"
-msgstr "lenta"
+msgstr "lento"
 
 msgid "very slow"
-msgstr "muy lenta"
+msgstr "muy lento"
 
 msgid "incredibly slow"
-msgstr "increíblemente lenta"
+msgstr "increíblemente lento"
 
 msgid "hits"
 msgstr "golpea"
@@ -8773,5 +8773,383 @@ msgstr "# Descansando para ganar PV/maná munchkin. (peligro %d)..."
 
 msgid "# Resting to cure problem. (danger %d)..."
 msgstr "# Descansando para curar problema. (peligro %d)..."
+
+# --- borg-caution.c ---
+
+msgid "# Fixing Confusion. Level 1"
+msgstr "# Arreglando Confusión. Nivel 1"
+
+msgid "# Fixing Confusion. Level 1.a"
+msgstr "# Arreglando Confusión. Nivel 1.a"
+
+msgid "# Fixing Confusion. Level 2"
+msgstr "# Arreglando Confusión. Nivel 2"
+
+msgid "# Fixing Confusion. Level 3"
+msgstr "# Arreglando Confusión. Nivel 3"
+
+msgid "# Too dangerous to fix Confusion. Level 4"
+msgstr "# Demasiado peligroso para arreglar Confusión. Nivel 4"
+
+msgid "# Fixing Confusion. Level 5"
+msgstr "# Arreglando Confusión. Nivel 5"
+
+msgid "# Fixing Blindness."
+msgstr "# Arreglando Ceguera."
+
+msgid "# Fixing Confusion/Blindness."
+msgstr "# Arreglando Confusión/Ceguera."
+
+msgid "# Heal in Mission Combat."
+msgstr "# Curar en Combate de Misión."
+
+msgid "# Use Staff of the Magi"
+msgstr "# Usar Bastón del Magi"
+
+msgid "# Mana Restored"
+msgstr "# Maná Restaurado"
+
+msgid "# Trying to fix stats in combat."
+msgstr "# Intentando arreglar estadísticas en combate."
+
+msgid "# Healing Level 1."
+msgstr "# Curación Nivel 1."
+
+msgid "# Healing Level 2."
+msgstr "# Curación Nivel 2."
+
+msgid "# Healing Level 3."
+msgstr "# Curación Nivel 3."
+
+msgid "# Healing Level 5."
+msgstr "# Curación Nivel 5."
+
+msgid "# Healing Level 5B."
+msgstr "# Curación Nivel 5B."
+
+msgid "# Healing Level 6."
+msgstr "# Curación Nivel 6."
+
+msgid "# Healing Level 7."
+msgstr "# Curación Nivel 7."
+
+msgid "# Healing Level 8."
+msgstr "# Curación Nivel 8."
+
+msgid "# Healing Level 9."
+msgstr "# Curación Nivel 9."
+
+msgid "# Healing Level 10."
+msgstr "# Curación Nivel 10."
+
+msgid "# Healing."
+msgstr "# Curando."
+
+msgid "# Healing next round."
+msgstr "# Curando siguiente ronda."
+
+msgid "# Emergency Poison Cure! Gasp!...."
+msgstr "# ¡Cura de Veneno de Emergencia! Gasp!...."
+
+msgid "# Healing. Heal section."
+msgstr "# Curando. Sección curar."
+
+msgid "# Healing.  Bleeding."
+msgstr "# Curando. Sangrando."
+
+msgid "# Emergency Wound Patch! Gasp!...."
+msgstr "# ¡Parche de Herida de Emergencia! Gasp!...."
+
+msgid "# Going up a dungeon level (Not ready for Morgoth)"
+msgstr "# Subiendo un nivel de mazmorra (No listo para Morgoth)"
+
+msgid "# Abandoning (Not ready for Morgoth now)"
+msgstr "# Abandonando (No listo para Morgoth ahora)"
+
+msgid "# Abandoning (Too many escapes)"
+msgstr "# Abandonando (Demasiadas huidas)"
+
+msgid "# Fleeing (Too many escapes)"
+msgstr "# Huyendo (Demasiadas huidas)"
+
+msgid "# Terrifying type on level."
+msgstr "# Tipo aterrador en el nivel."
+
+msgid "# Abandoning (Terrifying type on level)"
+msgstr "# Abandonando (Tipo aterrador en el nivel)"
+
+msgid "# Fleeing (Terrifying type on level)"
+msgstr "# Huyendo (Tipo aterrador en el nivel)"
+
+msgid "# Ignoring combat with monsters."
+msgstr "# Ignorando combate con monstruos."
+
+msgid "# Borg is ignoring messages."
+msgstr "# Borg está ignorando mensajes."
+
+msgid "# Loc:%d,%d Dep:%d Lev:%d HP:%d/%d SP:%d/%d Danger:p=%d"
+msgstr "# Loc:%d,%d Prof:%d Niv:%d PV:%d/%d GM:%d/%d Peligro:p=%d"
+
+msgid "# Protected by Resistance (borg turns:%d; game turns:%d)"
+msgstr "# Protegido por Resistencia (turnos borg:%d; turnos juego:%d)"
+
+msgid "# Protected by Mystic Shield"
+msgstr "# Protegido por Escudo Místico"
+
+msgid "# Protected by Protection from Evil"
+msgstr "# Protegido por Protección contra el Mal"
+
+msgid "# Protected by Sea of Runes."
+msgstr "# Protegido por Mar de Runas."
+
+msgid "# Mission Combat."
+msgstr "# Combate de Misión."
+
+msgid "# Protected by anti-summon corridor."
+msgstr "# Protegido por corredor anti-invocación."
+
+msgid "# Standing on a Glyph"
+msgstr "# Parado sobre un Glifo"
+
+msgid "# Standing on upward stairs"
+msgstr "# Parado en escaleras arriba"
+
+msgid "# Standing on downward stairs"
+msgstr "# Parado en escaleras abajo"
+
+msgid "# Resting for Return."
+msgstr "# Descansando para Regreso."
+
+msgid "# Leaving (restock) %s"
+msgstr "# Saliendo (reabastecer) %s"
+
+msgid "# Fleeing (restock) %s"
+msgstr "# Huyendo (reabastecer) %s"
+
+msgid "# Fleeing (excessive danger)"
+msgstr "# Huyendo (peligro excesivo)"
+
+msgid "# Abandoning (potential danger)"
+msgstr "# Abandonando (peligro potencial)"
+
+msgid "# Fleeing and abandoning level. (terrifying type)"
+msgstr "# Huyendo y abandonando nivel. (tipo aterrador)"
+
+msgid "# Fleeing and abandoning level. (moon_flee)"
+msgstr "# Huyendo y abandonando nivel. (moon_flee)"
+
+msgid "# Fleeing and leaving the level. (fleeing munchkin)"
+msgstr "# Huyendo y saliendo del nivel. (huyendo munchkin)"
+
+msgid "# Abandoning level,  Some danger but I'm on stairs."
+msgstr "# Abandonando nivel, algo de peligro pero estoy en escaleras."
+
+msgid "# Abandoning via upward stairs."
+msgstr "# Abandonando por escaleras arriba."
+
+msgid "# Abandoning (need fuel)"
+msgstr "# Abandonando (necesita combustible)"
+
+msgid "# Abandoning (need food)"
+msgstr "# Abandonando (necesita comida)"
+
+msgid "# Fleeing (need food)"
+msgstr "# Huyendo (necesita comida)"
+
+msgid "# Fleeing (level with breeders)"
+msgstr "# Huyendo (nivel con criadores)"
+
+msgid "# Desperate for Stairs (one)"
+msgstr "# Desesperado por Escaleras (uno)"
+
+msgid "# Desperate for Stairs (two)"
+msgstr "# Desesperado por Escaleras (dos)"
+
+msgid "# Desperate for Stairs (three)"
+msgstr "# Desesperado por Escaleras (tres)"
+
+msgid "# Desperate for Stairs (four)"
+msgstr "# Desesperado por Escaleras (cuatro)"
+
+msgid "# Retreating to %d,%d (distance %d) via %d,%d (%d > %d)"
+msgstr "# Retirándose a %d,%d (distancia %d) vía %d,%d (%d > %d)"
+
+msgid "# Backing away to %d,%d (%d > %d)"
+msgstr "# Retrocediendo a %d,%d (%d > %d)"
+
+msgid "# Healing.  Confusion."
+msgstr "# Curando. Confusión."
+
+msgid "# Abandoning (few hit points)"
+msgstr "# Abandonando (pocos puntos de vida)"
+
+msgid "# Fleeing (few hit points)"
+msgstr "# Huyendo (pocos puntos de vida)"
+
+msgid "# Abandoning (bleeding/poison)"
+msgstr "# Abandonando (sangrando/envenenado)"
+
+msgid "# Fleeing (bleeding/poison)"
+msgstr "# Huyendo (sangrando/envenenado)"
+
+msgid "# Using Easy Heal Reserve."
+msgstr "# Usando Reserva de Curación Fácil."
+
+msgid "# Fleeing the level (return)"
+msgstr "# Huyendo del nivel (regreso)"
+
+msgid "# Gaining time waiting for Return.(1)"
+msgstr "# Ganando tiempo esperando Regreso.(1)"
+
+msgid "# Gaining time waiting for Return.(2)"
+msgstr "# Ganando tiempo esperando Regreso.(2)"
+
+msgid "# Gaining time waiting for Return.(3)"
+msgstr "# Ganando tiempo esperando Regreso.(3)"
+
+msgid "# Gaining time waiting for Return.(4)"
+msgstr "# Ganando tiempo esperando Regreso.(4)"
+
+# --- borg.c ---
+
+msgid "# Removing keypress hook"
+msgstr "# Eliminando hook de teclas"
+
+msgid "# Flushing keypress buffer"
+msgstr "# Vaciando búfer de teclas"
+
+msgid "# message with -more-"
+msgstr "# mensaje con -more-"
+
+msgid "# Mid reincarnation, still no map"
+msgstr "# A mitad de reencarnación, aún sin mapa"
+
+msgid "# analyzing normal message"
+msgstr "# analizando mensaje normal"
+
+msgid "# Disabling lazy movement controls"
+msgstr "# Desactivando controles de movimiento lento"
+
+msgid "# Installing keypress hook"
+msgstr "# Instalando hook de teclas"
+
+msgid "# Advancing Borg %d times"
+msgstr "# Avanzando Borg %d veces"
+
+msgid "message received '%s'"
+msgstr "mensaje recibido '%s'"
+
+msgid "clearing -more-"
+msgstr "limpiando -more-"
+
+msgid "# User keypress <%lu><%c>"
+msgstr "# Tecla pulsada por usuario <%lu><%c>"
+
+msgid "# User keypress <%lu>"
+msgstr "# Tecla pulsada por usuario <%lu>"
+
+msgid "# The key type was <%d><%c>"
+msgstr "# El tipo de tecla fue <%d><%c>"
+
+msgid "** startup failure borg cannot run ** "
+msgstr "** error de inicio borg no puede ejecutarse ** "
+
+msgid "Borg threat count"
+msgstr "Recuento de amenazas Borg"
+
+msgid "Threat: [%c] Count: %d, limited: %d"
+msgstr "Amenaza: [%c] Recuento: %d, limitado: %d"
+
+msgid "Borg feature for grid (%d, %d) is %d, game feature is %d"
+msgstr "Característica Borg para casilla (%d, %d) es %d, característica de juego es %d"
+
+msgid "stat # %s, is: current %d, used %d"
+msgstr "stat # %s, es: actual %d, usado %d"
+
+msgid "(%d) %d, %d (act:%d)"
+msgstr "(%d) %d, %d (act:%d)"
+
+msgid "Item-Type:%03d name=%s value=%d."
+msgstr "Item-Tipo:%03d nombre=%s valor=%d."
+
+msgid "Item-Inv:%03d desc=%s qty %d."
+msgstr "Item-Inv:%03d desc=%s cant %d."
+
+msgid "Item-Slot:%03d desc=%s qty %d."
+msgstr "Item-Slot:%03d desc=%s cant %d."
+
+msgid "Item-Art:%03d name=%s."
+msgstr "Item-Art:%03d nombre=%s."
+
+msgid "trait %d (%s) value=%d."
+msgstr "rasgo %d (%s) valor=%d."
+
+# --- borg-flow-kill.c: monster/flow/combat diagnostic messages ---
+
+msgid "# Assuming player ghost (%s) (a)"
+msgstr "# Asumiendo fantasma de jugador (%s) (a)"
+
+msgid "# Assuming player ghost (%s)(b)"
+msgstr "# Asumiendo fantasma de jugador (%s)(b)"
+
+msgid "# Converting monster '%s' at (%d,%d)"
+msgstr "# Convirtiendo un monstruo '%s' en (%d,%d)"
+
+msgid "# Converting object '%s' at (%d,%d)"
+msgstr "# Convirtiendo un objeto '%s' en (%d,%d)"
+
+msgid "# Could not locate monster '%s' near (%d,%d), which triggered the message (%s)."
+msgstr "# No se pudo ubicar al monstruo '%s' cerca de (%d,%d), que triggered el mensaje (%s)."
+
+msgid "# Creating monster '%s' at (%d,%d), HP: %d, Time: %d, Index: %d"
+msgstr "# Creando monstruo '%s' en (%d,%d), HP: %d, Tiempo: %d, Índice: %d"
+
+msgid "# Flickering monster '%s' at (%d,%d)"
+msgstr "# Monstruo parpadeante '%s' en (%d,%d)"
+
+msgid "# Following monster '%s' toward (%d,%d) from (%d,%d)"
+msgstr "# Siguiendo a un monstruo '%s' hacia (%d,%d) desde (%d,%d)"
+
+msgid "# Forgetting monster '%s' at (%d,%d)"
+msgstr "# Olvidando un monstruo '%s' en (%d,%d)"
+
+msgid "# Had a monster '%s' at (%d,%d)"
+msgstr "# Tenía un monstruo '%s' en (%d,%d)"
+
+msgid "# Handling offscreen monster (%s)"
+msgstr "# Manejando monstruo fuera de pantalla (%s)"
+
+msgid "# Invisible monster nearby."
+msgstr "# Monstruo invisible cerca."
+
+msgid "# Matching monster '%s' at (%d,%d) for the analyzed message."
+msgstr "# Coincide un monstruo '%s' en (%d,%d) para el mensaje analizado."
+
+msgid "# No Shoot and Escape. dangerous squares: %d/100"
+msgstr "# Sin Disparar y Escapar. casillas peligrosas: %d/100"
+
+msgid "# Noting that monster '%s' sleeps at (%d,%d)"
+msgstr "# Anotando que el monstruo '%s' duerme en (%d,%d)"
+
+msgid "# Offscreen monster nearby"
+msgstr "# Monstruo fuera de pantalla cerca"
+
+msgid "# Removing Regional Fear (%d,%d) for a %s in sight"
+msgstr "# Eliminando Miedo Regional (%d,%d) por un %s a la vista"
+
+msgid "# Safe to Shoot and Escape. dangerous squares: %d/100"
+msgstr "# Seguro para Disparar y Escapar. casillas peligrosas: %d/100"
+
+msgid "# Strange monster nearby"
+msgstr "# Monstruo extraño cerca"
+
+msgid "# There's a monster '%s' at %d squares from %d,%d"
+msgstr "# Hay un monstruo '%s' a %d casillas de %d,%d"
+
+msgid "# Too many monsters"
+msgstr "# Demasiados monstruos"
+
+msgid "# Tracking monster '%s' at (%d,%d) from (%d,%d)"
+msgstr "# Rastreando un monstruo '%s' en (%d,%d) desde (%d,%d)"
 
 

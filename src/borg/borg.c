@@ -251,7 +251,7 @@ static struct keypress internal_borg_inkey(int flush_first)
     /* Deactivate */
     if (!borg_active) {
         /* Message */
-        borg_note("# Removing keypress hook");
+        borg_note(_("# Removing keypress hook"));
 
         /* Remove hook */
         inkey_hack = NULL;
@@ -283,7 +283,7 @@ static struct keypress internal_borg_inkey(int flush_first)
         /* Only flush if needed */
         if (borg_inkey(false) != 0) {
             /* Message */
-            borg_note("# Flushing keypress buffer");
+            borg_note(_("# Flushing keypress buffer"));
 
             /* Flush keys */
             borg_flush();
@@ -308,7 +308,7 @@ static struct keypress internal_borg_inkey(int flush_first)
 #if 0
     /* just used for debugging.  Not so useful in general */
     if (borg_cfg[BORG_VERBOSE])
-        borg_note(format("message received '%s'", buf));
+        borg_note(format(_("message received '%s'"), buf));
 #endif 
     /* Trim whitespace */
     buf = borg_trim(buf);
@@ -374,7 +374,7 @@ static struct keypress internal_borg_inkey(int flush_first)
         && (suffix(buf, " -more-"))) {
 
         if (borg_cfg[BORG_VERBOSE])
-            borg_note("# message with -more-");
+            borg_note(_("# message with -more-"));
 
         /* Get the message */
         if (0 == borg_what_text(0, 0, x - 7, &t_a, buffer)) {
@@ -383,7 +383,7 @@ static struct keypress internal_borg_inkey(int flush_first)
         }
         /* Clear the message */
         if (borg_cfg[BORG_VERBOSE])
-            borg_note("clearing -more-");
+            borg_note(_("clearing -more-"));
         key.code = ' ';
         return key;
     }
@@ -392,7 +392,7 @@ static struct keypress internal_borg_inkey(int flush_first)
     /* about cheating death comes up.  */
     if (!character_dungeon) {
         if (borg_cfg[BORG_VERBOSE])
-            borg_note("# Mid reincarnation, still no map");
+            borg_note(_("# Mid reincarnation, still no map"));
         /* do nothing */
         key.code = KC_ENTER;
 
@@ -410,7 +410,7 @@ static struct keypress internal_borg_inkey(int flush_first)
     /* And the game wants a command */
     if (borg_prompt && inkey_flag) {
         if (borg_cfg[BORG_VERBOSE])
-            borg_note("# analyzing normal message");
+            borg_note(_("# analyzing normal message"));
         /* Get the message(s) */
         buf = buffer;
         if (0
@@ -457,13 +457,13 @@ static struct keypress internal_borg_inkey(int flush_first)
         && ch_evt.key.code != 10) {
         /* Oops */
         if (ch_evt.key.code >= 32 && ch_evt.key.code <= 126) {
-            borg_note(format("# User keypress <%lu><%c>",
+            borg_note(format(_("# User keypress <%lu><%c>"),
                 (unsigned long)ch_evt.key.code, (char)ch_evt.key.code));
         } else {
-            borg_note(format("# User keypress <%lu>",
+            borg_note(format(_("# User keypress <%lu>"),
                 (unsigned long)ch_evt.key.code));
         }
-        borg_note(format("# The key type was <%d><%c>", ch_evt.type, ch_evt.type));
+        borg_note(format(_("# The key type was <%d><%c>"), ch_evt.type, ch_evt.type));
         borg_oops("user abort");
 
         key.code = ESCAPE;
@@ -644,7 +644,7 @@ void do_cmd_borg(void)
         if (borg_init_failure) {
             borg_initialized = false;
             borg_free();
-            borg_note("** startup failure borg cannot run ** ");
+            borg_note(_("** startup failure borg cannot run ** "));
             Term_fresh();
             return;
         }
@@ -675,12 +675,12 @@ void do_cmd_borg(void)
         borg_step = 0;
 
         if (player->opts.lazymove_delay != 0) {
-            borg_note("# Disabling lazy movement controls");
+            borg_note(_("# Disabling lazy movement controls"));
             player->opts.lazymove_delay = 0;
         }
 
         /* Message */
-        borg_note("# Installing keypress hook");
+        borg_note(_("# Installing keypress hook"));
 
         /* If the clock overflowed, fix that  */
         if (borg_t > 9000)
@@ -710,7 +710,7 @@ void do_cmd_borg(void)
         borg_notice(true);
 
         /* Message */
-        borg_note("# Installing keypress hook");
+        borg_note(_("# Installing keypress hook"));
 
         /* Activate the key stealer */
         inkey_hack = borg_inkey_hack;
@@ -740,8 +740,8 @@ void do_cmd_borg(void)
         borg_notice(true);
 
         /* Message */
-        borg_note("# Installing keypress hook");
-        borg_note(format("# Advancing Borg %d times", borg_step));
+        borg_note(_("# Installing keypress hook"));
+        borg_note(format(_("# Advancing Borg %d times"), borg_step));
 
         /* If the clock overflowed, fix that  */
         if (borg_t > 9000)
@@ -837,11 +837,11 @@ void do_cmd_borg(void)
         int i;
 
         /* Log Header */
-        borg_note("Borg threat count");
+        borg_note(_("Borg threat count"));
 
         /* Find the numerous nasty in order of nastiness */
         for (i = 0; i < borg_nasties_num; i++) {
-            borg_note(format("Threat: [%c] Count: %d, limited: %d",
+            borg_note(format(_("Threat: [%c] Count: %d, limited: %d"),
                 borg_nasties[i], borg_nasties_count[i], borg_nasties_limit[i]));
         }
 
@@ -1020,7 +1020,7 @@ void do_cmd_borg(void)
 
         uint8_t feat = square(cave, borg.c)->feat;
 
-        borg_note(format("Borg feature for grid (%d, %d) is %d, game feature is %d",
+        borg_note(format(_("Borg feature for grid (%d, %d) is %d, game feature is %d"),
             y, x, mask, feat));
         prt_map();
         break;
@@ -1732,7 +1732,7 @@ void do_cmd_borg(void)
 
         int i;
         for (i = 0; i < STAT_MAX; i++) {
-            borg_note(format("stat # %s, is: current %d, used %d",
+            borg_note(format(_("stat # %s, is: current %d, used %d"),
                 prefix_pref[BI_STR + i],
                 borg.trait[BI_CSTR + i],
                 borg.trait[BI_STR + i]));
@@ -1743,7 +1743,7 @@ void do_cmd_borg(void)
         int i;
         for (i = 0; i < z_info->a_max; i++) {
             a_ptr = &a_info[i];
-            borg_note(format("(%d) %d, %d (act:%d)", i, a_ptr->name, a_ptr->text, a_ptr->activation));
+            borg_note(format(_("(%d) %d, %d (act:%d)"), i, a_ptr->name, a_ptr->text, a_ptr->activation));
         }
 #endif
         break;
@@ -1882,32 +1882,32 @@ void do_cmd_borg(void)
             case 'a':
             case 'A':
                 if (borg.has[item]) {
-                    borg_note(format("Item-Type:%03d name=%s value=%d.", item,
+                    borg_note(format(_("Item-Type:%03d name=%s value=%d."), item,
                         k_info[item].name, borg.has[item]));
                 }
                 break;
             case 'i':
             case 'I':
                 if (borg_items[item].iqty) {
-                    borg_note(format("Item-Inv:%03d desc=%s qty %d.", item,
+                    borg_note(format(_("Item-Inv:%03d desc=%s qty %d."), item,
                         borg_items[item].desc, borg_items[item].iqty));
                 }
                 break;
             case 'w':
             case 'W':
                 if (borg_items[item].iqty) {
-                    borg_note(format("Item-Slot:%03d desc=%s qty %d.", item,
+                    borg_note(format(_("Item-Slot:%03d desc=%s qty %d."), item,
                         borg_items[item].desc, borg_items[item].iqty));
                 }
                 break;
             case 'r':
             case 'R':
                 if (borg_items[item].iqty && borg_items[item].art_idx)
-                    borg_note(format("Item-Art:%03d name=%s.", item,
+                    borg_note(format(_("Item-Art:%03d name=%s."), item,
                         a_info[borg_items[item].art_idx].name));
                 break;
             default: {
-                borg_note(format("trait %d (%s) value=%d.", item,
+                borg_note(format(_("trait %d (%s) value=%d."), item,
                     prefix_pref[item], borg.trait[item]));
                 break;
             }
