@@ -4252,7 +4252,7 @@ msgid "Enter the ego item: "
 msgstr "Introduce el objeto ego: "
 
 msgid "The object gives the player a magical bonus to %s."
-msgstr "Aumenta la %s de forma mágica."
+msgstr "Aumenta tu %s de forma mágica."
 
 msgid "You have slain this foe.  "
 msgstr "Has matado a este enemigo.  "
