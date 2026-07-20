@@ -8733,3 +8733,45 @@ msgstr "Saliendo de Modo Lunal. (Fin de Modo Lunal)"
 msgid "Leaving Munchkin Mode. (End of Mode)"
 msgstr "Saliendo de Modo Munchkin. (Fin de Modo)"
 
+# --- borg-recover.c ---
+
+msgid "# Need to refuel but cant!"
+msgstr "# ¡Necesito combustible pero no puedo!"
+
+msgid "# Cure Stun - danger %d"
+msgstr "# Curar Aturdimiento - peligro %d"
+
+msgid "# Cure Heavy Stun - danger %d"
+msgstr "# Curar Aturdimiento Fuerte - peligro %d"
+
+msgid "# Cure Cuts - danger %d"
+msgstr "# Curar Cortes - peligro %d"
+
+msgid "# Cure poison - danger %d"
+msgstr "# Curar Veneno - peligro %d"
+
+msgid "# Cure fear - danger %d"
+msgstr "# Curar Miedo - peligro %d"
+
+msgid "# heal damage (recovering)"
+msgstr "# curar daño (recuperando)"
+
+msgid "# Resting to recharge a rod..."
+msgstr "# Descansando para recargar una vara..."
+
+msgid "# Resting to recover HP/SP..."
+msgstr "# Descansando para recuperar PV/GM..."
+
+msgid "# Lighted the darkened room instead of resting."
+msgstr "# Iluminé la habitación oscura en vez de descansar."
+
+msgid "# Resting to gain Mana. (danger %d)..."
+msgstr "# Descansando para ganar Maná. (peligro %d)..."
+
+msgid "# Resting to gain munchkin HP/mana. (danger %d)..."
+msgstr "# Descansando para ganar PV/maná munchkin. (peligro %d)..."
+
+msgid "# Resting to cure problem. (danger %d)..."
+msgstr "# Descansando para curar problema. (peligro %d)..."
+
+

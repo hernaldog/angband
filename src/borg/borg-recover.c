@@ -21,6 +21,7 @@
 
 #ifdef ALLOW_BORG
 
+#include "../lang.h"
 #include "../ui-event.h"
 
 #include "borg-danger.h"
@@ -67,7 +68,7 @@ bool borg_recover(void)
     if (need == BORG_MET_NEED)
         return true;
     else if (need == BORG_UNMET_NEED)
-        borg_note(format("# Need to refuel but cant!"));
+        borg_note(format(_("# Need to refuel but cant!")));
 
     /*** Do not recover when in danger ***/
 
@@ -106,7 +107,7 @@ bool borg_recover(void)
 
         {
             /* Take note */
-            borg_note(format("# Cure Stun - danger %d", p));
+            borg_note(format(_("# Cure Stun - danger %d"), p));
 
             return true;
         }
@@ -124,7 +125,7 @@ bool borg_recover(void)
             || borg_spell(HEALING) || borg_spell(HERBAL_CURING)
             || borg_spell(HOLY_WORD)) {
             /* Take note */
-            borg_note(format("# Cure Heavy Stun - danger %d", p));
+            borg_note(format(_("# Cure Heavy Stun - danger %d"), p));
 
             return true;
         }
@@ -136,7 +137,7 @@ bool borg_recover(void)
             || borg_spell(HEALING) || borg_spell(HERBAL_CURING)
             || borg_spell(HOLY_WORD)) {
             /* Take note */
-            borg_note(format("# Cure Cuts - danger %d", p));
+            borg_note(format(_("# Cure Cuts - danger %d"), p));
 
             return true;
         }
@@ -148,7 +149,7 @@ bool borg_recover(void)
             || borg_activate_item(act_rem_fear_pois)
             || borg_spell(HERBAL_CURING) || borg_spell(CURE_POISON)) {
             /* Take note */
-            borg_note(format("# Cure poison - danger %d", p));
+            borg_note(format(_("# Cure poison - danger %d"), p));
 
             return true;
         }
@@ -160,7 +161,7 @@ bool borg_recover(void)
             || borg_activate_item(act_rem_fear_pois) || borg_spell(HEROISM)
             || borg_spell(BERSERK_STRENGTH) || borg_spell(HOLY_WORD)) {
             /* Take note */
-            borg_note(format("# Cure fear - danger %d", p));
+            borg_note(format(_("# Cure fear - danger %d"), p));
 
             return true;
         }
@@ -188,7 +189,7 @@ bool borg_recover(void)
             || borg_spell(HOLY_WORD) || borg_spell(MINOR_HEALING)
             || borg_spell(HEROISM)) {
             /* Take note */
-            borg_note(format("# heal damage (recovering)"));
+            borg_note(format(_("# heal damage (recovering)")));
 
             return true;
         }
@@ -331,7 +332,7 @@ bool borg_recover(void)
                 && borg_check_rest(borg.c.y, borg.c.x)
                 && !borg_spell_okay(RECHARGING)) {
                 /* Take note */
-                borg_note("# Resting to recharge a rod...");
+                borg_note(_("# Resting to recharge a rod..."));
 
                 /* Reset the Bouncing-borg Timer */
                 borg.time_this_panel = 0;
@@ -372,7 +373,7 @@ bool borg_recover(void)
             /* check for then call lite in dark room before resting */
             if (!borg_check_light_only()) {
                 /* Take note */
-                borg_note(format("# Resting to recover HP/SP..."));
+                borg_note(format(_("# Resting to recover HP/SP...")));
 
                 /* Rest until done */
                 borg_keypress('R');
@@ -390,7 +391,7 @@ bool borg_recover(void)
             } else {
                 /* Must have been a dark room */
                 borg_note(
-                    format("# Lighted the darkened room instead of resting."));
+                    format(_("# Lighted the darkened room instead of resting.")));
                 return true;
             }
         }
@@ -405,7 +406,7 @@ bool borg_recover(void)
             && !borg.trait[BI_ISHUNGRY] && !borg.trait[BI_ISPOISONED]
             && borg.trait[BI_FOOD] > 2 && !borg.munchkin_mode) {
             /* Take note */
-            borg_note(format("# Resting to gain Mana. (danger %d)...", p));
+            borg_note(format(_("# Resting to gain Mana. (danger %d)..."), p));
 
             /* Rest until done */
             borg_keypress('R');
@@ -432,7 +433,7 @@ bool borg_recover(void)
                 || borg_grids[borg.c.y][borg.c.x].feat == FEAT_LESS)) {
             /* Take note */
             borg_note(format(
-                "# Resting to gain munchkin HP/mana. (danger %d)...", p));
+                _("# Resting to gain munchkin HP/mana. (danger %d)..."), p));
 
             /* Rest until done */
             borg_keypress('R');
@@ -450,7 +451,7 @@ bool borg_recover(void)
     /* Hack to heal blindness if in munchkin mode */
     if (borg.trait[BI_ISBLIND] && borg.munchkin_mode == true) {
         /* Take note */
-        borg_note("# Resting to cure problem. (danger %d)...");
+        borg_note(_("# Resting to cure problem. (danger %d)..."));
 
         /* Rest until done */
         borg_keypress('R');
