@@ -823,7 +823,7 @@ msgid "Commands"
 msgstr "Comandos"
 
 msgid "(Enter to select, ESC) Command:"
-msgstr "(Enter para seleccionar, ESC) Comando:"
+msgstr "(Enter seleccionar, ESC) Comando:"
 
 msgid "(Inventory) Weight %d.%d lb (%d.%d lb %s). Item for command: "
 msgstr "(Inventario) Carga %d.%d lb (%d.%d lb %s). Objeto para comando: "
@@ -937,13 +937,13 @@ msgid "Throw At"
 msgstr "Lanzar"
 
 msgid "(Enter to select command, ESC to cancel) You see something strange:"
-msgstr "(Enter para seleccionar comando, ESC para cancelar) Ves algo extraño:"
+msgstr "(Enter seleccionar comando, ESC cancelar) Ves algo extraño:"
 
 msgid "(Enter to select command, ESC to cancel) You see %s:"
-msgstr "(Enter para seleccionar comando, ESC para cancelar) Ves %s:"
+msgstr "(Enter seleccionar comando, ESC cancelar) Ves %s:"
 
 msgid "(Enter to select command, ESC to cancel) You see %s%s:"
-msgstr "(Enter para seleccionar comando, ESC para cancelar) Ves %s%s:"
+msgstr "(Enter seleccionar comando, ESC cancelar) Ves %s%s:"
 
 msgid "Inspect"
 msgstr "Inspeccionar"
@@ -1009,7 +1009,7 @@ msgid "Ignore"
 msgstr "Ignorar"
 
 msgid "(Enter to select, ESC) Command for %s:"
-msgstr "(Enter para seleccionar, ESC) Comandos para %s:"
+msgstr "(Enter seleccionar, ESC) Comandos para %s:"
 
 msgid "Item"
 msgstr "Objeto"
@@ -3820,7 +3820,7 @@ msgid "All %s %s"
 msgstr "Todos los %s %s"
 
 msgid "(Enter to select, ESC) Ignore:"
-msgstr "(Enter para seleccionar, ESC) Ignorar:"
+msgstr "(Enter seleccionar, ESC) Ignorar:"
 
 # --- ui-player.c (group O) ---
 
@@ -5341,7 +5341,7 @@ msgid "You have learned the rune of %s."
 msgstr "Has aprendido la runa de %s."
 
 msgid "(Enter select, ESC) Command for %s:"
-msgstr "(Enter para seleccionar, ESC) Comandos para %s:"
+msgstr "(Enter seleccionar, ESC) Comandos para %s:"
 
 msgid "Effect not found."
 msgstr "Efecto no encontrado."
@@ -5626,7 +5626,7 @@ msgid "Add %d for non-weapon to_dam, total %d\n"
 msgstr "Añadir %d por to_dam sin arma, total %d\n"
 
 msgid "Which item to take? (ESC to cancel, Enter to select)"
-msgstr "¿Qué objeto coger? (ESC para cancelar, Enter para seleccionar)"
+msgstr "¿Qué objeto coger? (ESC cancelar, Enter seleccionar)"
 
 msgid " (You cannot use it!)"
 msgstr " (¡No usable!)"
@@ -5740,7 +5740,7 @@ msgid "Direction ('5' for target, '*' or <click> to re-target, Escape to cancel)
 msgstr "¿Dirección ('5' para objetivo, '*' o <clic> para reapuntar, Escape para cancelar)? "
 
 msgid "Which item to buy? (ESC to cancel, Enter to select)"
-msgstr "¿Qué objeto comprar? (ESC para cancelar, Enter para seleccionar)"
+msgstr "¿Qué objeto comprar? (ESC cancelar, Enter seleccionar)"
 
 msgid "treasures"
 msgstr "tesoros"
@@ -5839,7 +5839,7 @@ msgid "Initializing arrays... (dungeon profiles)"
 msgstr "Inicializando matrices... (perfiles de mazmorra)"
 
 msgid "Which item to examine? (ESC to cancel, Enter to select)"
-msgstr "¿Qué objeto examinar? (ESC para cancelar, Enter para seleccionar)"
+msgstr "¿Qué objeto examinar? (ESC cancelar, Enter seleccionar)"
 
 msgid "You feel stronger!"
 msgstr "¡Te sientes más fuerte!"
@@ -5941,7 +5941,7 @@ msgid "%s regenerates quickly.  "
 msgstr "%s se regenera rápidamente.  "
 
 msgid "You have found something while digging %s!"
-msgstr "¡Has encontrado algo mientras cavabas %s!"
+msgstr "¡Has encontrado algo mientras cavas %s!"
 
 msgid "Your purse feels lighter."
 msgstr "Tu bolsa se siente más ligera."
