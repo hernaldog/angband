@@ -1009,7 +1009,7 @@ msgid "Ignore"
 msgstr "Ignorar"
 
 msgid "(Enter to select, ESC) Command for %s:"
-msgstr "(Enter para seleccionar, ESC) Comando para %s:"
+msgstr "(Enter para seleccionar, ESC) Comandos para %s:"
 
 msgid "Item"
 msgstr "Objeto"
@@ -1307,13 +1307,13 @@ msgid "set %s"
 msgstr "infligir %s"
 
 msgid "extends %s for %s turns"
-msgstr "extiende %s durante %s turnos"
+msgstr "otorga %s durante %s turnos"
 
 msgid "extend %s"
 msgstr "extender %s"
 
 msgid "extends %s for %s turns (unresistable)"
-msgstr "extiende %s durante %s turnos (irresistible)"
+msgstr "otorga %s durante %s turnos (irresistible)"
 
 msgid "increases the monster's %s by %s turns"
 msgstr "aumenta el %s del monstruo en %s turnos"
@@ -4100,7 +4100,7 @@ msgid "Bought from a store"
 msgstr "Comprado en una tienda"
 
 msgid "An inheritance from your family"
-msgstr "Una herencia de tu familia"
+msgstr "Es una herencia de tu familia"
 
 msgid "Created by debug option"
 msgstr "Creado por opción de depuración"
@@ -5341,7 +5341,7 @@ msgid "You have learned the rune of %s."
 msgstr "Has aprendido la runa de %s."
 
 msgid "(Enter select, ESC) Command for %s:"
-msgstr "(Enter para seleccionar, ESC) Comando para %s:"
+msgstr "(Enter para seleccionar, ESC) Comandos para %s:"
 
 msgid "Effect not found."
 msgstr "Efecto no encontrado."

@@ -76,13 +76,18 @@ static const struct origin_type {
  *
  * ... output a list like "intelligence, fish, lens, prime, number.\n".
  */
-static void info_out_list(textblock *tb, const char *list[], size_t count)
+static void info_out_list(textblock *tb, const char *list[], size_t count,
+	const char *sep)
 {
 	size_t i;
 
 	for (i = 0; i < count; i++) {
 		textblock_append(tb, "%s", list[i]);
-		if (i != (count - 1)) textblock_append(tb, ", ");
+		if (count > 2 && i < count - 2) {
+			textblock_append(tb, ", ");
+		} else if (i == count - 2) {
+			textblock_append(tb, "%s", sep);
+		}
 	}
 
 	textblock_append(tb, ".\n");
@@ -205,7 +210,7 @@ static bool describe_elements(textblock *tb,
 	count = element_info_collect(list, i_descs);
 	if (count) {
 		textblock_append(tb, _("Grants immunity to "));
-		info_out_list(tb, i_descs, count);
+		info_out_list(tb, i_descs, count, _(" and "));
 		prev = true;
 	}
 
@@ -215,7 +220,7 @@ static bool describe_elements(textblock *tb,
 	count = element_info_collect(list, r_descs);
 	if (count) {
 		textblock_append(tb, _("Grants resistance to "));
-		info_out_list(tb, r_descs, count);
+		info_out_list(tb, r_descs, count, _(" and "));
 		prev = true;
 	}
 
@@ -225,7 +230,7 @@ static bool describe_elements(textblock *tb,
 	count = element_info_collect(list, v_descs);
 	if (count) {
 		textblock_append(tb, _("Makes you vulnerable to "));
-		info_out_list(tb, v_descs, count);
+		info_out_list(tb, v_descs, count, _(" or "));
 		prev = true;
 	}
 
@@ -254,7 +259,7 @@ static bool describe_protects(textblock *tb, const bitflag flags[OF_SIZE])
 		return false;
 
 	textblock_append(tb, _("Grants protection from "));
-	info_out_list(tb, p_descs, count);
+	info_out_list(tb, p_descs, count, _(" and "));
 
 	return  true;
 }
@@ -276,7 +281,7 @@ static bool describe_ignores(textblock *tb, const struct element_info el_info[])
 		return false;
 
 	textblock_append(tb, _("Cannot be damaged by "));
-	info_out_list(tb, descs, count);
+	info_out_list(tb, descs, count, _(" or "));
 
 	return true;
 }
@@ -298,7 +303,7 @@ static bool describe_hates(textblock *tb, const struct element_info el_info[])
 		return false;
 
 	textblock_append(tb, _("Can be destroyed by "));
-	info_out_list(tb, descs, count);
+	info_out_list(tb, descs, count, _(" or "));
 
 	return true;
 }
@@ -322,7 +327,7 @@ static bool describe_sustains(textblock *tb, const bitflag flags[OF_SIZE])
 		return false;
 
 	textblock_append(tb, _("Sustains "));
-	info_out_list(tb, descs, count);
+	info_out_list(tb, descs, count, _(" and "));
 
 	return true;
 }
