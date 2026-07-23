@@ -1080,7 +1080,7 @@ msgid "weak "
 msgstr "débil "
 
 msgid "blow%s/round.\n"
-msgstr "golpe%s/ronda.\n"
+msgstr "golpe%s por turno.\n"
 
 msgid "With +%d STR and +%d DEX you would get %d.%d blows\n"
 msgstr "Con +%d FUE y +%d DES obtendrías %d.%d golpes\n"
@@ -1095,7 +1095,7 @@ msgid "Average damage when thrown: "
 msgstr "Daño medio al arrojar: "
 
 msgid "Average damage/round: "
-msgstr "Daño medio/ronda: "
+msgstr "Daño promedio por turno: "
 
 msgid " and"
 msgstr " y"
