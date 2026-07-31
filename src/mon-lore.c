@@ -759,6 +759,25 @@ static const char *lore_gender_phrase(monster_sex_t sex, const char *male,
 }
 
 /**
+ * Return the translation of a monster race type adjective (RFT_RACE_A),
+ * agreeing in grammatical gender with the noun it describes in Spanish
+ * ("orco", "trol", "gigante", "dragón" and "demonio" are masculine;
+ * "criatura" is feminine).  In English the plain description is returned
+ * unchanged.
+ */
+static const char *lore_race_adjective(int flag, bool masculine)
+{
+	if (masculine && strcmp(lang_current, "es") == 0) {
+		switch (flag) {
+			case RF_EVIL: return _("evil (masculine)");
+			case RF_UNDEAD: return _("undead (masculine)");
+			default: break;
+		}
+	}
+	return _(describe_race_flag(flag));
+}
+
+/**
  * Append a clause containing a list of descriptions of monster flags from
  * list-mon-race-flags.h to a textblock.
  *
@@ -971,12 +990,19 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 
 	assert(tb && race && lore);
 
-	textblock_append(tb, _("This"));
-
 	/* Get noun */
 	create_mon_flag_mask(flags, RFT_RACE_N, RFT_MAX);
 	rf_inter(flags, race->flags);
 	f = rf_next(flags, FLAG_START);
+
+	/* Spanish needs the noun's grammatical gender for the demonstrative
+	 * "This" and for the race adjectives.  The RFT_RACE_N nouns ("orco",
+	 * "trol", "gigante", "dragón", "demonio") are all masculine; the
+	 * fallback noun "creature" ("criatura") is feminine. */
+	if (en || !f)
+		textblock_append(tb, _("This"));
+	else
+		textblock_append(tb, _("This (masculine)"));
 
 	/* Get adjectives */
 	create_mon_flag_mask(aflags, RFT_RACE_A, RFT_MAX);
@@ -1000,7 +1026,8 @@ void lore_append_movement(textblock *tb, const struct monster_race *race,
 
 	if (!en) {
 		for (f2 = rf_next(aflags, FLAG_START); f2; f2 = rf_next(aflags, f2 + 1)) {
-			textblock_append_c(tb, COLOUR_L_BLUE, " %s", _(describe_race_flag(f2)));
+			textblock_append_c(tb, COLOUR_L_BLUE, " %s",
+							   lore_race_adjective(f2, f != 0));
 		}
 	}
 

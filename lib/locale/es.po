@@ -4001,6 +4001,9 @@ msgstr "(Cualquier tecla continuar)"
 msgid "This"
 msgstr "Esta"
 
+msgid "This (masculine)"
+msgstr "Este"
+
 msgid " creature"
 msgstr " criatura"
 
@@ -6623,8 +6626,14 @@ msgstr "natural"
 msgid "evil"
 msgstr "maligna"
 
+msgid "evil (masculine)"
+msgstr "maligno"
+
 msgid "undead"
 msgstr "no-muerta"
+
+msgid "undead (masculine)"
+msgstr "no-muerto"
 
 msgid "nonliving"
 msgstr "sin vida"
