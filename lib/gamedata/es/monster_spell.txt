@@ -934,7 +934,7 @@ lore-color-base:Orange
 lore-color-resist:Light Green
 message-vis:{name} intenta hacerte mover lentamente.
 message-invis:Algo murmura.
-message-save:Combates una sensación de lentitud.
+message-save:Logras vencer una sensación de lentitud.
 
 name:HOLD
 hit:100

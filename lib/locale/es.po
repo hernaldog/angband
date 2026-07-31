@@ -4396,7 +4396,7 @@ msgid "treasure"
 msgstr "tesoro"
 
 msgid "The object gives the player the property of %s."
-msgstr "Permite al jugador %s."
+msgstr "Tienes el conocimiento de %s."
 
 msgid "The object affects the player's resistance to %s."
 msgstr "Mejora tu resistencia a efectos de %s."

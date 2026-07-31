@@ -324,9 +324,9 @@ msgt:SHIELD
 
 name:BLESSED
 desc:tu AC y bonus para-golpear
-grade:G:10000:Bendito:¡Te sientes justo!
+grade:G:10000:Bendito:¡Te sientes lleno de virtud!
 on-end:La plegaria ha expirado.
-on-increase:¡Te sientes más justo!
+on-increase:¡Te sientes aún más virtuoso!
 msgt:BLESSED
 
 name:SINVIS
