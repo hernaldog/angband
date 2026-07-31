@@ -945,7 +945,7 @@ lore-color-base:Light Red
 lore-color-resist:Light Green
 message-vis:{name} intenta detenerte.
 message-invis:Escuchas que alguien murmura algo.
-message-save:Combates una sensación de torpor.
+message-save:Vences la sensación de letargo.
 
 name:HASTE
 hit:100
