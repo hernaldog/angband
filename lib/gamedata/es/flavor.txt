@@ -338,8 +338,8 @@ flavor:192:Umber:apestosa|apestosas|
 kind:potion:!
 
 flavor:193:White:transparente|transparentes|
-flavor:194:Light Umber:marrón claro|marrones claros|
-flavor:195:Green:verde asqueroso|verdes asquerosos|
+flavor:194:Light Umber:marrón clara|marrones claras|
+flavor:195:Green:verde asquerosa|verdes asquerosas|
 flavor:196:Light Blue:azur|azures|
 flavor:197:Blue:azul|azules|
 flavor:198:Light Blue:celeste|celestes|
@@ -353,48 +353,48 @@ flavor:205:Light Umber:moteada en cobre|moteadas en cobre|
 flavor:206:Red:carmesí|carmesíes|
 flavor:207:Light Blue:cian|cianes|
 flavor:208:Blue:ultramar|ultramares|
-flavor:209:Green:verde oscuro|verdes oscuros|
-flavor:210:Red:rojo oscuro|rojos oscuros|
-flavor:211:Light Yellow:amarillo claro|amarillos claros|
+flavor:209:Green:verde oscura|verdes oscuras|
+flavor:210:Red:roja oscura|rojas oscuras|
+flavor:211:Light Yellow:amarilla clara|amarillas claras|
 flavor:212:Green:verde|verdes|
 flavor:213:Mud:barrosa|barrosas|
 flavor:214:Slate:gris|grises|
 flavor:215:Slate:vespertina|vespertinas|
 flavor:216:Light Slate:nebulosa|nebulosas|
 flavor:217:Violet:añil|añiles|
-flavor:218:Light Blue:azul claro|azules claros|
-flavor:219:Light Green:verde claro|verdes claros|
+flavor:218:Light Blue:azul clara|azules claras|
+flavor:219:Light Green:verde clara|verdes claras|
 flavor:220:Magenta-Pink:magenta|magentas|
-flavor:221:Deep Light Blue:azul metálico|azules metálicos|
-flavor:222:Red:rojo metálico|rojos metálicos|
-flavor:223:Green:verde metálico|verdes metálicos|
-flavor:224:Violet:púrpura metálico|púrpuras metálicos|
+flavor:221:Deep Light Blue:azul metálica|azules metálicas|
+flavor:222:Red:roja metálica|rojas metálicas|
+flavor:223:Green:verde metálica|verdes metálicas|
+flavor:224:Violet:púrpura metálica|púrpuras metálicas|
 flavor:225:Light Slate:niebla|nieblas|
 flavor:226:Orange:naranja|naranjas|
 flavor:227:Orange:moteada en naranja|moteadas en naranja|
 flavor:228:Magenta-Pink:rosa|rosas|
-flavor:229:Light Teal:verde azulado claro|verdes azulados claros|
-flavor:230:Light Violet:violeta claro|violetas claros|
+flavor:229:Light Teal:verde azulada clara|verdes azuladas claras|
+flavor:230:Light Violet:violeta clara|violetas claras|
 flavor:231:Purple:púrpura|púrpuras|
 flavor:232:Purple:moteada en púrpura|moteadas en púrpura|
 flavor:233:Red:roja|rojas|
-flavor:234:Teal:verde azulado|verdes azulados|
-flavor:235:Mustard:amarillo mostaza|amarillos mostaza|
+flavor:234:Teal:verde azulada|verdes azuladas|
+flavor:235:Mustard:amarilla mostaza|amarillas mostaza|
 flavor:236:Light Dark:ahumada|ahumadas|
 flavor:237:Orange:mandarina|mandarinas|
 flavor:238:Violet:violeta|violetas|
 flavor:239:Red:vermil|vermiles|
 flavor:240:White:blanca|blancas|
 flavor:241:Yellow:amarilla|amarillas|
-flavor:242:Light Purple:púrpura claro|púrpuras claros|
+flavor:242:Light Purple:púrpura clara|púrpuras claras|
 flavor:243:Light Red:picante|picantes|
 flavor:244:Light Purple:lavanda|lavandas|
-flavor:245:Light Red:rosa viscoso|rosas viscosos|
-flavor:246:Yellow:amarillo aceitoso|amarillos aceitosos|
-flavor:247:Green:verde pegajoso|verdes pegajosos|
+flavor:245:Light Red:rosa viscosa|rosas viscosas|
+flavor:246:Yellow:amarilla aceitosa|amarillas aceitosas|
+flavor:247:Green:verde pegajosa|verdes pegajosas|
 flavor:248:Violet:brillante|brillantes|
-flavor:249:Red:carmesí coagulado|carmesíes coagulados|
-flavor:250:Light Pink:rosa claro|rosas claros|
+flavor:249:Red:carmesí coagulada|carmesíes coaguladas|
+flavor:250:Light Pink:rosa clara|rosas claras|
 flavor:251:Yellow:oro|oros|
 
 # Swirling

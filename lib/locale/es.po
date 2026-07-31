@@ -193,7 +193,7 @@ msgstr "&Contenidos"
 # --- cmd-obj.c / obj-desc.c / player-attack.c / player-util.c / ui-spell.c ---
 
 msgid "You see %s."
-msgstr "Ves1 %s."
+msgstr "Ves %s."
 
 msgid "You have %s (1st %c)."
 msgstr "Tienes %s (1er %c)."
