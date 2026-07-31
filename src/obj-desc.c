@@ -51,7 +51,8 @@ void object_kind_name(char *buf, size_t max, const struct object_kind *kind,
 {
 	/* If not aware, the plain flavour (e.g. Copper) will do. */
 	if (!easy_know && !kind->aware && kind->flavor)
-		my_strcpy(buf, kind->flavor->text, max);
+		(void) obj_desc_name_format(buf, max, 0, kind->flavor->text, NULL,
+			false);
 
 	/* Use proper name (Healing, or whatever) */
 	else
