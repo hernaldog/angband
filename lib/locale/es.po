@@ -9418,13 +9418,13 @@ msgid "It %s intruders, and can notice them from "
 msgstr "%s a los intrusos, y puede notarlos desde "
 
 msgid "He may appear with other monsters"
-msgstr "Él puede aparecer con otros monstruos"
+msgstr "Suele aparecer junto a otros monstruos"
 
 msgid "She may appear with other monsters"
-msgstr "Ella puede aparecer con otros monstruos"
+msgstr "Suele aparecer junto a otros monstruos"
 
 msgid "It may appear with other monsters"
-msgstr "Puede aparecer con otros monstruos"
+msgstr "Suele aparecer junto a otros monstruos"
 
 msgid "He can "
 msgstr "Él puede "
