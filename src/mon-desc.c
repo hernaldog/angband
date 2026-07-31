@@ -135,6 +135,84 @@ static bool monster_name_is_feminine_es(const char *name,
 }
 
 /**
+ * In Spanish, return a pointer to the name with any leading article
+ * ("el ", "la ", "un ", "una ") removed.  Used for messages that read
+ * better with just the species name (e.g. "Has matado a Arquero Kobold").
+ * In other languages the name is returned unchanged.
+ */
+const char *monster_name_strip_article_es(const char *name)
+{
+	static const char *articles[] = { "el ", "la ", "un ", "una " };
+	size_t i;
+
+	if (!streq(lang_current, "es")) {
+		return name;
+	}
+
+	for (i = 0; i < N_ELEMENTS(articles); i++) {
+		size_t alen = strlen(articles[i]);
+
+		if (my_strnicmp(name, articles[i], (int) alen) == 0) {
+			return name + alen;
+		}
+	}
+
+	return name;
+}
+
+/**
+ * In Spanish, capitalise the first letter of each word of a species
+ * name (like a label), except for short particles ("de", "del", "la",
+ * "el", ...) that stay in lower case.
+ */
+static void es_species_name_title_case(char *name)
+{
+	static const char *particles[] = {
+		"a", "al", "con", "de", "del", "e", "el", "en", "la", "las",
+		"los", "o", "por", "un", "una", "y"
+	};
+	char *s = name;
+	bool at_word_start = true;
+
+	while (*s) {
+		if (isspace((unsigned char) *s)) {
+			at_word_start = true;
+			s++;
+			continue;
+		}
+
+		if (at_word_start) {
+			char *end = s;
+			size_t len;
+
+			while (*end && !isspace((unsigned char) *end)) {
+				end++;
+			}
+			len = (size_t) (end - s);
+
+			/* Keep particles (except the first word) in lower case */
+			if (s != name) {
+				size_t i;
+
+				for (i = 0; i < N_ELEMENTS(particles); i++) {
+					if (strlen(particles[i]) == len
+							&& my_strnicmp(s, particles[i],
+								(int) len) == 0) {
+						goto skip;
+					}
+				}
+			}
+
+			*s = toupper((unsigned char) *s);
+		}
+
+		skip:
+		at_word_start = false;
+		s++;
+	}
+}
+
+/**
  * Perform simple English pluralization on a monster name.
  */
 void plural_aux(char *name, size_t max)
@@ -329,7 +407,7 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 
 			/* Spanish species names are capitalised, like a label */
 			if (es && name_part[0]) {
-				name_part[0] = toupper((unsigned char) name_part[0]);
+				es_species_name_title_case(name_part);
 			}
 
 			if (mode & MDESC_IND_VIS) {

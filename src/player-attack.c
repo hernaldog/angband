@@ -1226,7 +1226,7 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 					} else {
 						msgt(kill_soundfx, _("%s %s."),
 							was_destroyed ? _("You have destroyed") : _("You have slain"),
-							kill_name);
+							monster_name_strip_article_es(kill_name));
 					}
 				} else {
 					message_pain(mon, dmg);

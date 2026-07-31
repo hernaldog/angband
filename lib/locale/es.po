@@ -4579,7 +4579,7 @@ msgid "Slays and brands: "
 msgstr "Muertes y marcas: "
 
 msgid "You have slain"
-msgstr "Has matado"
+msgstr "Has matado a"
 
 msgid "You have killed %s."
 msgstr "Has matado a %s."
@@ -4591,7 +4591,7 @@ msgid "You have destroyed %s."
 msgstr "Has destruido a %s."
 
 msgid "You have slain %s."
-msgstr "Has derrotado a %s."
+msgstr "Has matado a %s."
 
 msgid "feeds you"
 msgstr "te alimenta"
@@ -5200,7 +5200,7 @@ msgid "You can't explore while confused."
 msgstr "No puedes explorar mientras estás confundido."
 
 msgid "You have destroyed"
-msgstr "Has destruido"
+msgstr "Has destruido a"
 
 msgid "You see nothing there to tunnel."
 msgstr "No ves nada ahí para excavar."
@@ -6578,7 +6578,7 @@ msgid "[is|are] no longer afraid."
 msgstr "ya no [tiene|tienen] miedo."
 
 msgid "[is|are] paralyzed in place!"
-msgstr "[está|están] paralizad{o|a}[|s] en el sitio!"
+msgstr "[está|están] paralizad{o|a}[|s]!"
 
 msgid "can move again."
 msgstr "puede[|n] moverse de nuevo."

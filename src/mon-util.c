@@ -1060,10 +1060,12 @@ static void player_kill_monster(struct monster *mon, struct player *p,
 			msgt(soundfx, _("You have killed it."));
 		else if (monster_is_destroyed(mon))
 			/* Death by Physical attack -- non-living monster */
-			msgt(soundfx, _("You have destroyed %s."), m_name);
+			msgt(soundfx, _("You have destroyed %s."),
+				monster_name_strip_article_es(m_name));
 		else
 			/* Death by Physical attack -- living monster */
-			msgt(soundfx, _("You have slain %s."), m_name);
+			msgt(soundfx, _("You have slain %s."),
+				monster_name_strip_article_es(m_name));
 	}
 
 	/* Player level */

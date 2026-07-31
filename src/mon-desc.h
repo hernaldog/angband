@@ -51,5 +51,6 @@ void plural_aux(char *name, size_t max);
 void get_mon_name(char *buf, size_t buflen,
 				  const struct monster_race *race, int num);
 void monster_desc(char *desc, size_t max, const struct monster *mon, int mode);
+const char *monster_name_strip_article_es(const char *name);
 
 #endif /* MONSTER_DESC_H */
