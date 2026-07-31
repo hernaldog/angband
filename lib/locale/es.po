@@ -5428,7 +5428,7 @@ msgid "<dir>, 'r' to recall, ESC"
 msgstr "<dir>, 'r' para recordar, ESC"
 
 msgid "You have learned the rune of %s."
-msgstr "Has aprendido la runa de %s."
+msgstr "Has aprendido algo gracias a la runa de %s."
 
 msgid "(Enter select, ESC) Command for %s:"
 msgstr "(Enter seleccionar, ESC) Comandos para %s:"
