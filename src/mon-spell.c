@@ -18,6 +18,7 @@
 #include "angband.h"
 #include "effects.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-attack.h"
 #include "mon-desc.h"
 #include "mon-lore.h"
@@ -228,7 +229,8 @@ static void spell_message(struct monster *mon,
 						strnfcat(buf, sizeof(buf), &end,
 							"%s", m_name);
 					} else {
-						strnfcat(buf, sizeof(buf), &end, "you");
+						strnfcat(buf, sizeof(buf), &end, "%s",
+							streq(lang_current, "es") ? "te" : "you");
 					}
 					break;
 				}
@@ -249,7 +251,8 @@ static void spell_message(struct monster *mon,
 					char *type_name = projections[type].lash_desc;
 
 					if (type_name) {
-						strnfcat(buf, sizeof(buf), &end, " of ");
+						strnfcat(buf, sizeof(buf), &end, "%s",
+							streq(lang_current, "es") ? " de " : " of ");
 						strnfcat(buf, sizeof(buf), &end,
 							"%s", type_name);
 					}

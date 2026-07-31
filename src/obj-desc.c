@@ -137,11 +137,11 @@ static const char *obj_desc_get_basename(const struct object *obj, bool aware,
 			case TV_SOFT_ARMOR: case TV_HARD_ARMOR: case TV_DRAG_ARMOR:
 			case TV_LIGHT: case TV_FOOD:
 				return obj->kind->name;
-			case TV_AMULET:   return (show_flavor ? "& Amuleto~ #"  : "& Amuleto~");
-			case TV_RING:     return (show_flavor ? "& Anillo~ #"   : "& Anillo~");
-			case TV_STAFF:    return (show_flavor ? "& Báculo~ #"   : "& Báculo~");
-			case TV_WAND:     return (show_flavor ? "& Varita~ #"   : "& Varita~");
-			case TV_ROD:      return (show_flavor ? "& Vara~ #"     : "& Vara~");
+			case TV_AMULET:   return (show_flavor ? "& Amuleto~ de #" : "& Amuleto~");
+			case TV_RING:     return (show_flavor ? "& Anillo~ de #"  : "& Anillo~");
+			case TV_STAFF:    return (show_flavor ? "& Báculo~ de #"  : "& Báculo~");
+			case TV_WAND:     return (show_flavor ? "& Varita~ de #"  : "& Varita~");
+			case TV_ROD:      return (show_flavor ? "& Vara~ de #"    : "& Vara~");
 			case TV_POTION:
 				if (plural) return (show_flavor ? "Pociones #" : "Pociones");
 				return (show_flavor ? "& Poción #" : "& Poción");

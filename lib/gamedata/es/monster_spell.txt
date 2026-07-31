@@ -152,7 +152,7 @@ hit:100
 effect:LASH:MISSILE:2
 lore:azotarte si estás cerca
 lore-color-base:Orange
-message-vis:{name} te azota con un látigo{oftype}.
+message-vis:{name} te azota con un látigo {oftype}.
 message-invis:Escuchas un chasquido.
 
 name:SPIT
@@ -170,19 +170,19 @@ dice:$Dd5
 expr:D:SPELL_POWER:/ 8 + 1
 lore:lanzar piedrecitas
 lore-color-base:Yellow
-message-vis:{name} lanza una piedrecita con una honda a {target}.
+message-vis:{name} {target} lanza una piedrecita con una honda.
 message-invis:Escuchas algo volar por el aire.
 message-miss:{name} lanza una piedrecita, pero falla.
 power-cutoff:25
 lore:lanzar perdigones de plomo
 lore-color-base:Yellow
-message-vis:{name} lanza un perdigón de plomo con una honda a {target}.
+message-vis:{name} {target} lanza un perdigón de plomo con una honda.
 message-invis:Escuchas algo zumbar por el aire.
 message-miss:{name} lanza un perdigón de plomo, pero falla.
 power-cutoff:50
 lore:lanzar proyectiles buscadores
 lore-color-base:Yellow
-message-vis:{name} lanza un proyectil buscador con una honda a {target}.
+message-vis:{name} {target} lanza un proyectil buscador con una honda.
 message-invis:Escuchas algo pesado zumbar por el aire.
 message-miss:{name} lanza un proyectil buscador, pero falla.
 
@@ -672,7 +672,7 @@ lore:causar explosión mental
 lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
-message-vis:{name} mira fijamente a {target} con energía psiónica.
+message-vis:{name} {target} mira fijamente con energía psiónica.
 message-invis:Algo se enfoca en tu mente.
 message-save:Te sacudes un fuerte dolor de cabeza.
 
@@ -692,7 +692,7 @@ lore:causar aplastamiento cerebral
 lore-color-base:Light Red
 lore-color-resist:Orange
 lore-color-immune:Light Green
-message-vis:{name} aplasta a {target} con energía psiónica.
+message-vis:{name} {target} aplasta con energía psiónica.
 message-invis:Algo se enfoca en tu mente.
 message-save:Te sacudes una migraña punzante.
 
@@ -871,7 +871,7 @@ expr:B:SPELL_POWER:* 2 + 30
 lore:disparar chispas de relámpago
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} dispara una chispa de relámpago a {target}.
+message-vis:{name} {target} dispara una chispa de relámpago.
 message-invis:Sientes un crepitar en el aire.
 
 name:BE_NETH
@@ -923,7 +923,7 @@ lore-color-base:Orange
 lore-color-resist:Light Green
 message-vis:{name} conjura cosas extrañas.
 message-invis:Algo altera tu mente.
-message-save:Mantienes tu presencia de ánimo.
+message-save:Mantienes la entereza.
 
 name:SLOW
 hit:100
@@ -932,7 +932,7 @@ dice:3+1d4
 lore:ralentizar
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} intenta hacer que {target} se mueva lentamente.
+message-vis:{name} intenta hacerte mover lentamente.
 message-invis:Algo murmura.
 message-save:Combates una sensación de lentitud.
 
@@ -943,7 +943,7 @@ dice:3+1d4
 lore:paralizar
 lore-color-base:Light Red
 lore-color-resist:Light Green
-message-vis:{name} intenta hacer que {target} deje de moverse.
+message-vis:{name} intenta detenerte.
 message-invis:Algo murmura.
 message-save:Combates una sensación de torpor.
 
@@ -1001,7 +1001,7 @@ hit:100
 effect:TELEPORT_TO
 lore:teletransportar hacia sí
 lore-color-base:Yellow
-message-vis:{name} ordena a {target} que regrese.
+message-vis:{name} {target} ordena regresar.
 message-invis:Algo te ordena que regreses.
 
 name:TELE_SELF_TO
@@ -1010,7 +1010,7 @@ hit:100
 effect:TELEPORT_TO:SELF
 lore:teletransportarse hacia
 lore-color-base:Yellow
-message-vis:{name} parpadea hacia {target}.
+message-vis:{name} se {target} acerca con un parpadeo.
 message-invis:Algo murmura.
 
 name:TELE_AWAY
@@ -1020,7 +1020,7 @@ effect:TELEPORT:AWAY
 dice:100
 lore:teletransportar lejos
 lore-color-base:Yellow
-message-vis:{name} ordena a {target} que se vaya.
+message-vis:{name} {target} ordena irte.
 message-invis:Algo te ordena que te vayas.
 
 name:TELE_LEVEL
@@ -1030,7 +1030,7 @@ effect:TELEPORT_LEVEL
 lore:teletransportar de nivel
 lore-color-base:Yellow
 lore-color-resist:Light Green
-message-vis:{name} ordena a {target} que se vaya muy lejos.
+message-vis:{name} {target} ordena irte muy lejos.
 message-invis:Algo te ordena que te vayas muy lejos.
 message-save:Te sientes inestable por un segundo, pero pasa.
 
@@ -1041,7 +1041,7 @@ effect:BALL:DARK_WEAK:3
 dice:10
 lore:crear oscuridad
 lore-color-base:Light Green
-message-vis:{name} envuelve a {target} en oscuridad.
+message-vis:{name} te lanzó un hechizo de oscuridad.
 message-invis:Algo murmura.
 
 name:TRAPS
@@ -1060,9 +1060,9 @@ dice:3
 lore:causar amnesia
 lore-color-base:Yellow
 lore-color-resist:Light Green
-message-vis:{name} intenta hacer que {target} olvide cosas.
+message-vis:{name} intenta hacerte olvidar cosas.
 message-invis:Algo altera tu mente.
-message-save:Mantienes tu presencia de ánimo.
+message-save:Mantienes la entereza.
 
 name:SHAPECHANGE
 hit:100

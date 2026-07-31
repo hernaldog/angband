@@ -1920,6 +1920,12 @@ msgstr "¡La cueva tiembla!"
 msgid "You are hit by debris!"
 msgstr "¡Eres golpeado por escombros!"
 
+msgid "You are hit by %s!"
+msgstr "¡Eres golpeado por %s!"
+
+msgid "a %s"
+msgstr "%s"
+
 msgid "You are severely crushed!%s"
 msgstr "¡Eres aplastado severamente!%s"
 
@@ -2282,6 +2288,81 @@ msgstr "Error: efecto TELEPORT_TO:SELF usado que no es lanzado por un monstruo."
 
 msgid "You resist the effect!"
 msgstr "¡Resistes el efecto!"
+
+msgid "You avoid the effect!"
+msgstr "¡Esquivas el efecto!"
+
+msgid "You are dazzled!"
+msgstr "¡Quedas deslumbrado!"
+
+msgid "Gravity warps around you."
+msgstr "La gravedad se distorsiona a tu alrededor."
+
+msgid "You feel your life force draining away!"
+msgstr "¡Sientes que tu fuerza vital se drena!"
+
+msgid "Your mind is dulled."
+msgstr "Tu mente se embota."
+
+msgid "Your energy is sapped!"
+msgstr "¡Tu energía se agota!"
+
+msgid "Your eyes fill with smoke!"
+msgstr "¡Tus ojos se llenan de humo!"
+
+msgid "The stench sickens you."
+msgstr "El hedor te enferma."
+
+msgid "The venom stings your skin!"
+msgstr "¡El veneno te pica la piel!"
+
+msgid "The intense heat saps you."
+msgstr "El intenso calor te agota."
+
+msgid "The cold seeps into your bones."
+msgstr "El frío se te mete en los huesos."
+
+msgid "The cold withers your life force!"
+msgstr "¡El frío marchita tu fuerza vital!"
+
+msgid "The darkness steals your life force!"
+msgstr "¡La oscuridad te roba la fuerza vital!"
+
+msgid "Darkness penetrates your mind!"
+msgstr "¡La oscuridad penetra tu mente!"
+
+msgid "The noise disorients you."
+msgstr "El ruido te desorienta."
+
+msgid "You are assailed by poisonous fumes!"
+msgstr "¡Te asaltan vapores venenosos!"
+
+msgid "You feel unsure of yourself in the darkness."
+msgstr "Te sientes inseguro en la oscuridad."
+
+msgid "You take an extra %d damage."
+msgstr "Recibes %d de daño adicional."
+
+msgid "You're not as %s as you used to be..."
+msgstr "Ya no eres tan %s como antes..."
+
+msgid "You're not as powerful as you used to be..."
+msgstr "Ya no eres tan poderoso como antes..."
+
+msgid "strong"
+msgstr "fuerte"
+
+msgid "bright"
+msgstr "brillante"
+
+msgid "wise"
+msgstr "sabio"
+
+msgid "agile"
+msgstr "ágil"
+
+msgid "hale"
+msgstr "sano"
 
 msgid "You rise through the ceiling."
 msgstr "Te elevas a través del techo."
@@ -4323,8 +4404,14 @@ msgstr "Mejora tu resistencia a efectos de %s."
 msgid "Note: "
 msgstr "Nota: "
 
+msgid "ignore"
+msgstr "ignorar"
+
 msgid " {ignore}"
 msgstr " {ignorar}"
+
+msgid " (%s)"
+msgstr " (%s)"
 
 msgid " {unseen}"
 msgstr " {no visto}"
