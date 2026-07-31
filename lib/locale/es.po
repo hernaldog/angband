@@ -5683,7 +5683,7 @@ msgid "Calculating curse power for %s...\n"
 msgstr "Calculando el poder de la maldición para %s...\n"
 
 msgid "is ever vigilant for"
-msgstr "está siempre vigilante ante"
+msgstr "está siempre vigilante"
 
 msgid "You were wearing"
 msgstr "Llevabas puesto"
@@ -9369,5 +9369,102 @@ msgstr "Poniendo los dados en marcha..."
 
 msgid "Initializing visuals"
 msgstr "Inicializando los gráficos"
+
+# --- mon-lore.c: frases por género (He/She/It) ---
+
+msgid "He has killed %d of your ancestors"
+msgstr "Él ha matado a %d de tus antepasados"
+
+msgid "She has killed %d of your ancestors"
+msgstr "Ella ha matado a %d de tus antepasados"
+
+msgid "It has killed %d of your ancestors"
+msgstr "Ha matado a %d de tus antepasados"
+
+msgid "and he is not known to have ever been defeated.  "
+msgstr "y no se sabe que haya sido derrotado jamás.  "
+
+msgid "and she is not known to have ever been defeated.  "
+msgstr "y no se sabe que haya sido derrotada jamás.  "
+
+msgid "and it is not known to have ever been defeated.  "
+msgstr "y no se sabe que haya sido derrotado jamás.  "
+
+msgid "He may carry"
+msgstr "Él puede llevar"
+
+msgid "She may carry"
+msgstr "Ella puede llevar"
+
+msgid "It may carry"
+msgstr "Puede llevar"
+
+msgid "He %s intruders, and can notice them from "
+msgstr "Él %s a los intrusos, y puede notarlos desde "
+
+msgid "She %s intruders, and can notice them from "
+msgstr "Ella %s a los intrusos, y puede notarlos desde "
+
+msgid "It %s intruders, and can notice them from "
+msgstr "%s a los intrusos, y puede notarlos desde "
+
+msgid "He may appear with other monsters"
+msgstr "Él puede aparecer con otros monstruos"
+
+msgid "She may appear with other monsters"
+msgstr "Ella puede aparecer con otros monstruos"
+
+msgid "It may appear with other monsters"
+msgstr "Puede aparecer con otros monstruos"
+
+msgid "He can "
+msgstr "Él puede "
+
+msgid "She can "
+msgstr "Ella puede "
+
+msgid "It can "
+msgstr "Puede "
+
+msgid "He is able to "
+msgstr "Él es capaz de "
+
+msgid "She is able to "
+msgstr "Ella es capaz de "
+
+msgid "It is able to "
+msgstr "Es capaz de "
+
+# --- mon-lore.c: conciencia del monstruo ---
+
+msgid "prefers to ignore"
+msgstr "prefiere ignorar"
+
+msgid "pays very little attention to"
+msgstr "presta muy poca atención"
+
+msgid "pays little attention to"
+msgstr "presta poca atención"
+
+msgid "tends to overlook"
+msgstr "tiende a pasar por alto"
+
+msgid "takes quite a while to see"
+msgstr "tarda bastante en ver"
+
+msgid "takes a while to see"
+msgstr "tarda un poco en ver"
+
+msgid "is quite observant of"
+msgstr "observa con gran atención"
+
+msgid "is observant of"
+msgstr "observa con atención"
+
+msgid "is alert for"
+msgstr "está alerta"
+
+msgid "is watchful for"
+msgstr "se mantiene alerta"
 
 

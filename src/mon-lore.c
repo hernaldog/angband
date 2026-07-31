@@ -706,35 +706,6 @@ static monster_sex_t lore_monster_sex(const struct monster_race *race)
 }
 
 /**
- * Return a pronoun for a monster; used as the subject of a sentence.
- *
- * Descriptions are in a table within the function. Table must match
- * monster_sex_t values.
- *
- * \param sex is the gender value (as provided by `lore_monster_sex()`.
- * \param title_case indicates whether the initial letter should be
- * capitalized; `true` is capitalized, `false` is not.
- */
-static const char *lore_pronoun_nominative(monster_sex_t sex, bool title_case)
-{
-	static const char *lore_pronouns[MON_SEX_MAX][2] = {
-		{"it", "It"}, //Fix traduc
-		{"he", "He"},
-		{"she", "She"},
-	};
-
-	int pronoun_index = MON_SEX_NEUTER, case_index = 0;
-
-	if (sex < MON_SEX_MAX)
-		pronoun_index = sex;
-
-	if (title_case)
-		case_index = 1;
-
-	return _(lore_pronouns[pronoun_index][case_index]);
-}
-
-/**
  * Return a possessive pronoun for a monster.
  *
  * Descriptions are in a table within the function. Table must match
@@ -761,6 +732,30 @@ static const char *lore_pronoun_possessive(monster_sex_t sex, bool title_case)
 		case_index = 1;
 
 	return _(lore_pronouns[pronoun_index][case_index]);
+}
+
+/**
+ * Return a gender-appropriate translated phrase for a monster description.
+ *
+ * The three variants (male, female, neuter) are complete phrases that read
+ * naturally in Spanish, where the subject pronoun is often dropped.
+ *
+ * \param sex is the gender value (as provided by `lore_monster_sex()`.
+ * \param male is the phrase used for male monsters.
+ * \param female is the phrase used for female monsters.
+ * \param neuter is the phrase used for monsters without a gender.
+ */
+static const char *lore_gender_phrase(monster_sex_t sex, const char *male,
+									  const char *female, const char *neuter)
+{
+	switch (sex) {
+		case MON_SEX_MALE:
+			return _(male);
+		case MON_SEX_FEMALE:
+			return _(female);
+		default:
+			return _(neuter);
+	}
 }
 
 /**
@@ -887,8 +882,10 @@ void lore_append_kills(textblock *tb, const struct monster_race *race,
 		/* We've been killed... */
 		if (lore->deaths) {
 			/* Killed ancestors */
-			textblock_append(tb, _("%s has killed %d of your ancestors"),
-							 lore_pronoun_nominative(msex, true), lore->deaths);
+			textblock_append(tb, lore_gender_phrase(msex,
+							 "He has killed %d of your ancestors",
+							 "She has killed %d of your ancestors",
+							 "It has killed %d of your ancestors"), lore->deaths);
 
 			/* But we've also killed it */
 			if (dead)
@@ -917,7 +914,10 @@ void lore_append_kills(textblock *tb, const struct monster_race *race,
 			textblock_append(tb, _("and your ancestors have exterminated at least %d of the creatures.  "), lore->tkills);
 		} else {
 			/* No kills */
-			textblock_append_c(tb, COLOUR_RED, _("and %s is not known to have ever been defeated.  "), lore_pronoun_nominative(msex, false));
+			textblock_append_c(tb, COLOUR_RED, "%s", lore_gender_phrase(msex,
+							 "and he is not known to have ever been defeated.  ",
+							 "and she is not known to have ever been defeated.  ",
+							 "and it is not known to have ever been defeated.  "));
 		}
 	} else {
 		if (lore->pkills) {
@@ -1226,8 +1226,8 @@ void lore_append_drop(textblock *tb, const struct monster_race *race,
 
 	/* Drops gold and/or items */
 	if (n > 0 || nspec > 0) {
-		textblock_append(tb, _("%s may carry"),
-			lore_pronoun_nominative(msex, true));
+		textblock_append(tb, lore_gender_phrase(msex,
+			"He may carry", "She may carry", "It may carry"));
 
 		/* Report general drops */
 		if (n > 0) {
@@ -1473,8 +1473,10 @@ void lore_append_awareness(textblock *tb, const struct monster_race *race,
 	{
 		const char *aware = lore_describe_awareness(race->sleep);
 		long dist_mt_x10 = 10L * race->hearing * 3048 / 1000;
-		textblock_append(tb, _("%s %s intruders, and can notice them from "),
-						 lore_pronoun_nominative(msex, true), aware);
+		textblock_append(tb, lore_gender_phrase(msex,
+						 "He %s intruders, and can notice them from ",
+						 "She %s intruders, and can notice them from ",
+						 "It %s intruders, and can notice them from "), aware);
 		textblock_append_c(tb, COLOUR_L_BLUE, "%ld.%ld", dist_mt_x10 / 10, dist_mt_x10 % 10);
 		textblock_append(tb, _(" meters away.  "));
 	}
@@ -1503,8 +1505,10 @@ void lore_append_friends(textblock *tb, const struct monster_race *race,
 
 	/* Describe friends */
 	if (race->friends || race->friends_base) {
-		textblock_append(tb, _("%s may appear with other monsters"),
-						 lore_pronoun_nominative(msex, true));
+		textblock_append(tb, lore_gender_phrase(msex,
+						 "He may appear with other monsters",
+						 "She may appear with other monsters",
+						 "It may appear with other monsters"));
 		if (rf_has(known_flags, RF_GROUP_AI))
 			textblock_append(tb, _(" and hunts in packs"));
 		textblock_append(tb, ".  ");
@@ -1530,7 +1534,6 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 	monster_sex_t msex = MON_SEX_NEUTER;
 	bool innate = false;
 	bool breath = false;
-	const char *initial_pronoun;
 	bool know_hp;
 	bitflag current_flags[RSF_SIZE], test_flags[RSF_SIZE];
 	const struct monster_race *old_ref;
@@ -1546,7 +1549,6 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 	/* Extract a gender (if applicable) and get a pronoun for the start of
 	 * sentences */
 	msex = lore_monster_sex(race);
-	initial_pronoun = lore_pronoun_nominative(msex, true);
 
 	/* Collect innate (non-breath) attacks */
 	create_mon_spell_mask(current_flags, RST_INNATE, RST_NONE);
@@ -1554,7 +1556,8 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 	create_mon_spell_mask(test_flags, RST_BREATH, RST_NONE);
 	rsf_diff(current_flags, test_flags);
 	if (!rsf_is_empty(current_flags)) {
-		textblock_append(tb, _("%s can "), initial_pronoun);
+		textblock_append(tb, lore_gender_phrase(msex,
+			"He can ", "She can ", "It can "));
 		lore_append_spell_clause(tb, current_flags, know_hp, race, _("or"), "");
 		innate = true;
 	}
@@ -1566,7 +1569,8 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 		if (innate) {
 			textblock_append(tb, _(", and can "));
 		} else {
-			textblock_append(tb, _("%s can "), initial_pronoun);
+			textblock_append(tb, lore_gender_phrase(msex,
+				"He can ", "She can ", "It can "));
 		}
 		textblock_append_c(tb, COLOUR_L_RED, _("breathe "));
 		lore_append_spell_clause(tb, current_flags, know_hp, race, _("or"), "");
@@ -1601,7 +1605,8 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 	rsf_diff(current_flags, test_flags);
 	if (!rsf_is_empty(current_flags)) {
 		/* Introducción */
-		textblock_append(tb, _("%s is able to "), initial_pronoun);
+		textblock_append(tb, lore_gender_phrase(msex,
+			"He is able to ", "She is able to ", "It is able to "));
 
 		/* Verb Phrase */
 		textblock_append_c(tb, COLOUR_L_RED, _("cast spells"));
