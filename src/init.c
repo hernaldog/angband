@@ -1064,7 +1064,7 @@ struct file_parser constants_parser = {
  */
 void init_game_constants(void)
 {
-	event_signal_message(EVENT_INITSTATUS, 0, "Initializing constants");
+	event_signal_message(EVENT_INITSTATUS, 0, _("Initializing constants"));
 	if (run_parser(&constants_parser))
 		quit_fmt("Cannot initialize constants.");
 }
@@ -4426,7 +4426,7 @@ void init_arrays(void)
 	unsigned int i;
 
 	for (i = 0; i < N_ELEMENTS(pl); i++) {
-		char *msg = string_make(format("Initializing %s...", pl[i].name));
+		char *msg = string_make(format(_("Initializing %s..."), pl[i].name));
 		event_signal_message(EVENT_INITSTATUS, 0, msg);
 		string_free(msg);
 		if (run_parser(pl[i].parser))
@@ -4513,14 +4513,14 @@ bool init_angband(void)
 			modules[i]->init();
 
 	/* Initialize some other things */
-	event_signal_message(EVENT_INITSTATUS, 0, "Initializing other stuff...");
+	event_signal_message(EVENT_INITSTATUS, 0, _("Initializing other stuff..."));
 
 	/* List display codes */
 	monster_list_init();
 	object_list_init();
 
 	/* Initialise RNG */
-	event_signal_message(EVENT_INITSTATUS, 0, "Getting the dice rolling...");
+	event_signal_message(EVENT_INITSTATUS, 0, _("Getting the dice rolling..."));
 	Rand_init();
 
 	return true;

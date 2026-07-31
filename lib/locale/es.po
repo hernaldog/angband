@@ -9339,4 +9339,35 @@ msgstr "Error al leer el objeto"
 msgid "Error reading known item"
 msgstr "Error al leer el objeto conocido"
 
+# --- ui-init.c: startup messages ---
+
+msgid "Loading basic pref file..."
+msgstr "Cargando archivo de preferencias básico..."
+
+msgid "Main window does not exist"
+msgstr "La ventana principal no existe"
+
+msgid "Main window is too small - please make it bigger."
+msgstr "La ventana principal es demasiado pequeña; por favor hazla más grande."
+
+msgid "Initialization complete"
+msgstr "Inicialización completa"
+
+# --- init.c / ui-visuals.c: startup loading screen ---
+
+msgid "Initializing constants"
+msgstr "Inicializando constantes"
+
+msgid "Initializing %s..."
+msgstr "Inicializando %s..."
+
+msgid "Initializing other stuff..."
+msgstr "Inicializando otras cosas..."
+
+msgid "Getting the dice rolling..."
+msgstr "Poniendo los dados en marcha..."
+
+msgid "Initializing visuals"
+msgstr "Inicializando los gráficos"
+
 

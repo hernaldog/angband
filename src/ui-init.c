@@ -27,6 +27,7 @@
 #include "game-input.h"
 #include "game-event.h"
 #include "init.h"
+#include "lang.h"
 #include "ui-display.h"
 #include "ui-game.h"
 #include "ui-init.h"
@@ -46,7 +47,7 @@ void textui_init(void)
 	uint32_t default_window_flag[ANGBAND_TERM_MAX];
 
 	/* Initialize graphics info and basic pref data */
-	event_signal_message(EVENT_INITSTATUS, 0, "Loading basic pref file...");
+	event_signal_message(EVENT_INITSTATUS, 0, _("Loading basic pref file..."));
 	(void)process_pref_file("pref.prf", false, false);
 
 	if (!play_again) {
@@ -67,14 +68,14 @@ void textui_init(void)
 
 		/* Verify main term */
 		if (!term_screen)
-			quit("Main window does not exist");
+			quit(_("Main window does not exist"));
 
 		/* Make sure main term is active */
 		Term_activate(term_screen);
 
 		/* Verify minimum size */
 		if ((Term->hgt < 24) || (Term->wid < 80))
-			plog("Main window is too small - please make it bigger.");
+			plog(_("Main window is too small - please make it bigger."));
 
 		/* Turn off the cursor */
 		(void)Term_set_cursor(false);
@@ -103,7 +104,7 @@ void textui_init(void)
 	subwindows_set_flags(default_window_flag, ANGBAND_TERM_MAX);
 
 	/* Done */
-	event_signal_message(EVENT_INITSTATUS, 0, "Initialization complete");
+	event_signal_message(EVENT_INITSTATUS, 0, _("Initialization complete"));
 }
 
 
