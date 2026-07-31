@@ -29,31 +29,31 @@
 # range-verb: verb used when a susceptible monster is hit at range
 
 code:EVIL_2
-name:evil creatures
+name:criaturas malvadas
 race-flag:EVIL
 multiplier:2
 o-multiplier:18
 power:200
-melee-verb:smite
-range-verb:pierces
+melee-verb:Golpeas
+range-verb:atraviesa
 
 code:ANIMAL_2
-name:animals
+name:animales
 race-flag:ANIMAL
 multiplier:2
 o-multiplier:20
 power:115
-melee-verb:smite
-range-verb:pierces
+melee-verb:Golpeas
+range-verb:atraviesa
 
 code:ORC_3
-name:orcs
+name:orcos
 race-flag:ORC
 multiplier:3
 o-multiplier:25
 power:101
-melee-verb:smite
-range-verb:pierces
+melee-verb:Golpeas
+range-verb:atraviesa
 
 code:TROLL_3
 name:trolls
@@ -61,68 +61,68 @@ race-flag:TROLL
 multiplier:3
 o-multiplier:25
 power:101
-melee-verb:smite
-range-verb:pierces
+melee-verb:Golpeas
+range-verb:atraviesa
 
 code:GIANT_3
-name:giants
+name:gigantes
 race-flag:GIANT
 multiplier:3
 o-multiplier:25
 power:102
-melee-verb:smite
-range-verb:pierces
+melee-verb:Golpeas
+range-verb:atraviesa
 
 code:DEMON_3
-name:demons
+name:demonios
 race-flag:DEMON
 multiplier:3
 o-multiplier:25
 power:110
-melee-verb:smite
-range-verb:pierces
+melee-verb:Golpeas
+range-verb:atraviesa
 
 code:DRAGON_3
-name:dragons
+name:dragones
 race-flag:DRAGON
 multiplier:3
 o-multiplier:25
 power:105
-melee-verb:smite
-range-verb:pierces
+melee-verb:Golpeas
+range-verb:atraviesa
 
 code:UNDEAD_3
-name:undead
+name:no muertos
 race-flag:UNDEAD
 multiplier:3
 o-multiplier:25
 power:115
-melee-verb:smite
-range-verb:pierces
+melee-verb:Golpeas
+range-verb:atraviesa
 
 code:DEMON_5
-name:demons
+name:demonios
 race-flag:DEMON
 multiplier:5
 o-multiplier:35
 power:120
-melee-verb:fiercely smite
-range-verb:deeply pierces
+melee-verb:Golpeas con fiereza
+range-verb:atraviesa a fondo
 
 code:DRAGON_5
-name:dragons
+name:dragones
 race-flag:DRAGON
 multiplier:5
 o-multiplier:35
 power:110
-melee-verb:fiercely smite
-range-verb:deeply pierces
+melee-verb:Golpeas con fiereza
+range-verb:atraviesa a fondo
 
 code:UNDEAD_5
-name:undead
+name:no muertos
 race-flag:UNDEAD
 multiplier:5
 o-multiplier:35
 power:130
-melee-verb:fiercely smite
-range-verb:deeply pierces
+melee-verb:Golpeas con fiereza
+range-verb:atraviesa a fondo
