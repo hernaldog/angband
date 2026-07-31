@@ -64,9 +64,14 @@ static bool monster_name_is_feminine_es(const char *name,
 		const bitflag *flags)
 {
 	/* Nouns ending in "-a" that are nonetheless masculine */
-	static const char *masc_exceptions[] = { "fantasma" };
+	static const char *masc_exceptions[] = {
+		"fantasma", "ilusionista", "carterista", "idiota", "druida",
+		"guardia", "patriarca"
+	};
 	/* Nouns ending in "-e" that are nonetheless feminine */
 	static const char *fem_exceptions[] = { "serpiente" };
+	/* Epicene nouns whose gender is set by the monster's flag */
+	static const char *flag_governed[] = { "maia" };
 	const char *space = strchr(name, ' ');
 	size_t noun_len = space ? (size_t) (space - name) : strlen(name);
 	size_t i;
@@ -85,6 +90,15 @@ static bool monster_name_is_feminine_es(const char *name,
 				&& my_strnicmp(name, fem_exceptions[i],
 					(int) noun_len) == 0) {
 			return true;
+		}
+	}
+
+	/* Epicene nouns defer to the race's gender flag */
+	for (i = 0; i < N_ELEMENTS(flag_governed); i++) {
+		if (strlen(flag_governed[i]) == noun_len
+				&& my_strnicmp(name, flag_governed[i],
+					(int) noun_len) == 0) {
+			return (flags != NULL) && rf_has(flags, RF_FEMALE);
 		}
 	}
 

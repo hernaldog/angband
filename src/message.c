@@ -400,6 +400,16 @@ static void es_contract_prepositions(char *buf)
 		size_t to_len = strlen(pairs[i].to);
 
 		while ((p = strstr(p, pairs[i].from)) != NULL) {
+			/*
+			 * Only contract when "a"/"de" is a standalone preposition
+			 * (preceded by whitespace or at the start of the string),
+			 * not when it is the tail of a word (e.g. "ignora el").
+			 */
+			if (p != buf && !isspace((unsigned char) p[-1])) {
+				p += 1;
+				continue;
+			}
+
 			memmove(p + to_len, p + from_len,
 				strlen(p + from_len) + 1);
 			memcpy(p, pairs[i].to, to_len);

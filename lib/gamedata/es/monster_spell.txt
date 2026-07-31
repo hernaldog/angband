@@ -460,7 +460,7 @@ lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
 message-vis:{name} lanza una esfera de ácido.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:BA_ELEC
 hit:100
@@ -472,7 +472,7 @@ lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
 message-vis:{name} lanza una esfera de relámpago.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:BA_FIRE
 hit:100
@@ -484,7 +484,7 @@ lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
 message-vis:{name} lanza una esfera de fuego.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 power-cutoff:80
 lore:producir tormentas de fuego
 lore-color-base:Orange
@@ -503,7 +503,7 @@ lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
 message-vis:{name} lanza una esfera de escarcha.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 power-cutoff:80
 lore:producir ventiscas
 lore-color-base:Orange
@@ -522,7 +522,7 @@ lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
 message-vis:{name} lanza una nube venenosa.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 power-cutoff:60
 lore:producir tormentas de veneno
 lore-color-base:Orange
@@ -539,7 +539,7 @@ lore:producir tormentas de esquirlas
 lore-color-base:Orange
 lore-color-resist:Light Green
 message-vis:{name} invoca un torbellino de esquirlas.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 power-cutoff:70
 lore:invocar tormentas de cuchillos
 lore-color-base:Light Red
@@ -621,7 +621,7 @@ lore:producir esferas de luz
 lore-color-base:Orange
 lore-color-resist:Light Green
 message-vis:{name} lanza una esfera de luz.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 power-cutoff:70
 lore:invocar estallidos estelares
 lore-color-base:Light Red
@@ -749,7 +749,7 @@ lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
 message-vis:{name} lanza un proyectil de ácido.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:BO_ELEC
 hit:100
@@ -761,7 +761,7 @@ lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
 message-vis:{name} lanza un proyectil de relámpago.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:BO_FIRE
 hit:100
@@ -773,7 +773,7 @@ lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
 message-vis:{name} lanza un proyectil de fuego.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:BO_COLD
 hit:100
@@ -785,7 +785,7 @@ lore-color-base:Orange
 lore-color-resist:Yellow
 lore-color-immune:Light Green
 message-vis:{name} lanza un proyectil de escarcha.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:BO_POIS
 hit:100
@@ -808,7 +808,7 @@ lore:producir proyectiles de éter
 lore-color-base:Orange
 lore-color-resist:Light Green
 message-vis:{name} lanza un proyectil de éter.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:BO_WATE
 hit:100
@@ -851,7 +851,7 @@ lore:producir proyectiles de hielo
 lore-color-base:Orange
 lore-color-resist:Yellow
 message-vis:{name} lanza una lanza de hielo.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:MISSILE
 hit:100
@@ -861,7 +861,7 @@ expr:B:SPELL_POWER:/ 3
 lore:producir proyectiles mágicos
 lore-color-base:Yellow
 message-vis:{name} dispara un proyectil mágico.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:BE_ELEC
 hit:100
@@ -911,7 +911,7 @@ lore:cegar
 lore-color-base:Orange
 lore-color-resist:Light Green
 message-vis:{name} provoca un destello cegador.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 message-save:Repeles una repentina somnolencia.
 
 name:CONF
@@ -921,7 +921,7 @@ dice:3+1d4
 lore:confundir
 lore-color-base:Orange
 lore-color-resist:Light Green
-message-vis:{name} conjura cosas extrañas.
+message-vis:{name} crea ilusiones extravagantes.
 message-invis:Algo altera tu mente.
 message-save:Mantienes la entereza.
 
@@ -933,7 +933,7 @@ lore:ralentizar
 lore-color-base:Orange
 lore-color-resist:Light Green
 message-vis:{name} intenta hacerte mover lentamente.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 message-save:Logras vencer una sensación de lentitud.
 
 name:HOLD
@@ -944,7 +944,7 @@ lore:paralizar
 lore-color-base:Light Red
 lore-color-resist:Light Green
 message-vis:{name} intenta detenerte.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 message-save:Combates una sensación de torpor.
 
 name:HASTE
@@ -954,7 +954,7 @@ dice:50
 lore:auto-rapidez
 lore-color-base:Yellow
 message-vis:{name} se concentra en su cuerpo.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:HEAL
 hit:100
@@ -964,7 +964,7 @@ expr:B:SPELL_POWER:* 6
 lore:auto-curación
 lore-color-base:Yellow
 message-vis:{name} mágicamente comienza a cerrar sus heridas.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:HEAL_KIN
 hit:100
@@ -974,7 +974,7 @@ expr:B:SPELL_POWER:* 6
 lore:curar a sus congéneres
 lore-color-base:Yellow
 message-vis:{name} intenta curar a sus compañeros.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:BLINK
 hit:100
@@ -983,7 +983,7 @@ dice:10
 lore:auto-parpadeo
 lore-color-base:Light Green
 message-vis:{name} parpadea.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:TPORT
 hit:100
@@ -1011,7 +1011,7 @@ effect:TELEPORT_TO:SELF
 lore:teletransportarse hacia
 lore-color-base:Yellow
 message-vis:{name} se {target} acerca con un parpadeo.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:TELE_AWAY
 msgt:TELEPORT
@@ -1042,7 +1042,7 @@ dice:10
 lore:crear oscuridad
 lore-color-base:Light Green
 message-vis:{name} te lanzó un hechizo de oscuridad.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:TRAPS
 msgt:CREATE_TRAP
@@ -1071,7 +1071,7 @@ dice:5+d10
 lore:cambiar de forma
 lore-color-base:Orange
 message-vis:{name} entona palabras extrañas.
-message-invis:Algo murmura.
+message-invis:Escuchas que alguien murmura algo.
 
 name:S_KIN
 msgt:SUM_MONSTER
