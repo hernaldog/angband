@@ -5680,7 +5680,7 @@ msgid "That is not a valid object type."
 msgstr "Ese no es un tipo de objeto válido."
 
 msgid "Your %s %s %s%s."
-msgstr "Tu %s %s %s%s."
+msgstr "Tu %s %s a %s%s."
 
 msgid "badly damaged"
 msgstr "muy dañado"
@@ -6379,7 +6379,7 @@ msgid "AC bonus"
 msgstr "bono de CA"
 
 msgid "Your %s %s %s%s. %s"
-msgstr "Tu %s %s %s%s. %s"
+msgstr "Tu %s %s a %s%s. %s"
 
 msgid "No target monster selected!"
 msgstr "¡Ningún monstruo objetivo seleccionado!"

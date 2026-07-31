@@ -42,7 +42,7 @@ resist-flag:IM_ELEC
 
 code:FIRE_3
 name:fuego
-verb:Quemas a
+verb:Quemas
 multiplier:3
 o-multiplier:25
 power:113
