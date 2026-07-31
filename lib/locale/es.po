@@ -4450,7 +4450,7 @@ msgid "almost destroyed"
 msgstr "casi destruido"
 
 msgid "You have learned the %s of %s."
-msgstr "Has aprendido el %s de %s."
+msgstr "Has aprendido el %s: %s."
 
 msgid "Your machine may crash, and your savefile may become corrupted!"
 msgstr "¡Tu máquina podría bloquearse y tu partida guardada podría corromperse!"
@@ -6175,7 +6175,7 @@ msgid "Sim type: Diving (1) or Clearing (2) "
 msgstr "Tipo de simulación: Buceo (1) o Limpieza (2) "
 
 msgid "You can learn %d more %s%s."
-msgstr "Puedes aprender %d más %s%s."
+msgstr "Puedes aprender otros %d %s%s más."
 
 msgid "Your light cannot be refueled."
 msgstr "Tu luz no se puede recargar."
@@ -6226,7 +6226,7 @@ msgid "That wand has no charges."
 msgstr "Esa varita no tiene cargas."
 
 msgid "You can learn %d more %s."
-msgstr "Puedes aprender %d más %s."
+msgstr "Puedes aprender otros %d %s más."
 
 msgid "invalid monster race flag: %s"
 msgstr "marca de raza de monstruo inválida: %s"

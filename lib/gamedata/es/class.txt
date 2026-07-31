@@ -338,7 +338,7 @@ effect:TIMED_INC:OPP_ELEC
 effect:TIMED_INC:OPP_COLD
 effect:TIMED_INC:OPP_FIRE
 effect:CLEAR_VALUE
-desc:Te otorga resistencia al ácido, frío, fuego y relámpago durante 20+1d20 turnos.
+desc:Ganas resistencia al ácido, frío, fuego y relámpago durante 20+1d20 turnos.
 
 spell:Extraer Energía Mágica:22:2:30:12
 effect:TAP_DEVICE
@@ -529,7 +529,7 @@ desc:Neutraliza el veneno.
 spell:Resistir Veneno:7:6:32:5
 effect:TIMED_INC:OPP_POIS
 dice:20+d20
-desc:Te otorga resistencia al veneno durante 20+1d20 turnos.
+desc:Ganas resistencia al veneno durante 20+1d20 turnos.
 
 spell:Piedra a Lodo:8:3:25:5
 effect:LINE:KILL_WALL
@@ -773,7 +773,7 @@ dice:$B+d$S
 expr:B:PLAYER_LEVEL:- 19
 expr:S:PLAYER_LEVEL:- 19
 desc:Cura 10 puntos de daño, elimina el miedo y, a partir del nivel 20,
-desc: te otorga heroísmo (resistencia al miedo y una bonificación de +12 a golpear)
+desc: ganas heroísmo (resistencia al miedo y una bonificación de +12 a golpear)
 desc: durante una duración dependiente del nivel.
 
 book:prayer book:town:[Poder Purificador]:6:divina
@@ -1101,7 +1101,7 @@ desc:Dispara un rayo de oscuridad.
 
 spell:Forma de Huargo:28:20:60:80
 effect:SHAPECHANGE:huargo
-desc:Te transforma en la forma de un huargo, y te otorga fuerza berserker
+desc:Te transforma en la forma de un huargo y de da fuerza berserker
 desc: temporal, a costa de algunos puntos de vida.
 
 
@@ -1297,7 +1297,7 @@ dice:$B+d$S
 expr:B:PLAYER_LEVEL:- 14
 expr:S:PLAYER_LEVEL:- 14
 desc:Cura 10 puntos de daño, elimina el miedo y, a partir del nivel 15,
-desc: te otorga heroísmo (resistencia al miedo y una bonificación de +12 a golpear)
+desc: ganas heroísmo (resistencia al miedo y una bonificación de +12 a golpear)
 desc: durante una duración dependiente del nivel.
 
 book:prayer book:dungeon:[Sanación y Santuario]:5:divina
@@ -1537,7 +1537,7 @@ desc:Cura todos los cortes, veneno, aturdimiento y aliento negro.
 spell:Resistir Veneno:12:10:32:5
 effect:TIMED_INC:OPP_POIS
 dice:20+d20
-desc:Te otorga resistencia al veneno durante 20+1d20 turnos.
+desc:Ganas resistencia al veneno durante 20+1d20 turnos.
 
 spell:Piedra a Lodo:15:5:25:5
 effect:LINE:KILL_WALL
@@ -1640,7 +1640,7 @@ effect:TIMED_INC:SHERO:0:5
 dice:$B+d$S
 expr:B:PLAYER_LEVEL:+ 5
 expr:S:PLAYER_LEVEL:+ 5
-desc:Elimina el miedo y te otorga fuerza berserker (resistencia al miedo,
+desc:Elimina el miedo y te da fuerza berserker (resistencia al miedo,
 desc: +75 habilidad cuerpo a cuerpo, -10 a CA, y evita la curación
 desc: con el tiempo) durante una duración dependiente del nivel.
 
@@ -1715,7 +1715,7 @@ spell:Sed de Sangre:30:25:37:80
 effect:TIMED_INC:BLOODLUST:0:-1
 dice:10
 desc:Te da un poderoso deseo de matar, aumentando cada vez que lo satisfaces.
-desc:  Te otorga daño cuerpo a cuerpo extra y golpes extra, pero viene
+desc: Ganas daño cuerpo a cuerpo extra y golpes extra, pero viene
 desc: con peligrosos efectos secundarios.
 
 spell:Tregua Profana:34:45:60:120
