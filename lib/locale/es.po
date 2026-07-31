@@ -3923,7 +3923,7 @@ msgid "You have %s (%c)."
 msgstr "Tienes %s (%c)."
 
 msgid "You have %d charge%s remaining."
-msgstr "Te quedan %d carga%s."
+msgstr "Le quedan %d carga%s."
 
 msgid "You picked up %s (1st %c)."
 msgstr "Recoges %s (1er %c)."
