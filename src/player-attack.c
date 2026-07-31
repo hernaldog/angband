@@ -1220,10 +1220,14 @@ static void ranged_helper(struct player *p,	struct object *obj, int dir,
 
 				/* Hit the monster, check for death */
 				if (mon_take_hit(mon, p, dmg, &fear, "")) {
-  				    //fix traduc se cambia es destruido: muere por Destruiste a, o Elimninaste a
-					msgt(kill_soundfx, _("%s %s."),
-						was_destroyed ? _("You have destroyed") : _("You have slain"),
-						kill_name);
+   				    //fix traduc se cambia es destruido: muere por Destruiste a, o Elimninaste a
+					if (!visible) {
+						msgt(kill_soundfx, _("You have killed it."));
+					} else {
+						msgt(kill_soundfx, _("%s %s."),
+							was_destroyed ? _("You have destroyed") : _("You have slain"),
+							kill_name);
+					}
 				} else {
 					message_pain(mon, dmg);
 					if (fear && monster_is_obvious(mon)) {

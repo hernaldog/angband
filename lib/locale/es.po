@@ -4584,6 +4584,9 @@ msgstr "Has matado"
 msgid "You have killed %s."
 msgstr "Has matado a %s."
 
+msgid "You have killed it."
+msgstr "Eliminaste algo."
+
 msgid "You have destroyed %s."
 msgstr "Has destruido a %s."
 
