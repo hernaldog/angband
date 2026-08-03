@@ -5710,7 +5710,7 @@ msgid "You are too confused!"
 msgstr "¡Estás demasiado confundido!"
 
 msgid "%s shrouds %s surroundings in darkness.  "
-msgstr "%s envuelve %s alrededores en oscuridad.  "
+msgstr "%s envuelve sus alrededores en oscuridad.  "
 
 msgid "You jump to dungeon level %d."
 msgstr "Saltas al nivel de mazmorra %d."
@@ -6112,7 +6112,7 @@ msgid "That item is still recharging."
 msgstr "Ese objeto todavía se está recargando."
 
 msgid "%s lights up %s surroundings.  "
-msgstr "%s ilumina %s alrededores.  "
+msgstr "%s ilumina sus alrededores.  "
 
 msgid "You feel attuned to your weapon."
 msgstr "Te sientes en sintonía con tu arma."
@@ -9526,10 +9526,10 @@ msgid "It can "
 msgstr "Puede "
 
 msgid "He is able to "
-msgstr "Él es capaz de "
+msgstr "Es capaz de "
 
 msgid "She is able to "
-msgstr "Ella es capaz de "
+msgstr "Es capaz de "
 
 msgid "It is able to "
 msgstr "Es capaz de "
