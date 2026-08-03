@@ -7635,7 +7635,7 @@ msgid "Acid Balls"
 msgstr "Bolas de Ácido"
 
 msgid "Teleport Other"
-msgstr "Teletransportar Otro"
+msgstr "Teletransportar a Otro"
 
 msgid "Slow Monster"
 msgstr "Ralentizar Monstruo"

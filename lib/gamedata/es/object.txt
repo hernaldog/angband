@@ -4025,7 +4025,7 @@ charges:3+d5
 power:0
 effect:BOLT_STATUS:MON_CLONE
 
-name:Teletransportar Otro
+name:Teletransportar a Otro
 type:wand
 graphics:-:d
 level:20
@@ -4889,7 +4889,7 @@ effect:BOLT_STATUS_DAM:MON_DRAIN
 dice:150
 time:23
 
-name:Teletransportar Otro
+name:Teletransportar a Otro
 type:rod
 graphics:-:d
 level:35

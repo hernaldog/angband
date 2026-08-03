@@ -45,16 +45,26 @@
  */
 static bool monster_name_is_ungendered_es(const char *name)
 {
-	static const char *ungendered[] = { "naga", "monedas", "tengu" };
-	const char *space = strchr(name, ' ');
-	size_t noun_len = space ? (size_t) (space - name) : strlen(name);
+	static const char *ungendered[] = { "naga", "monedas", "tengu", "snaga",
+		"espíritu de la tierra" };
 	size_t i;
 
 	for (i = 0; i < N_ELEMENTS(ungendered); i++) {
-		if (strlen(ungendered[i]) == noun_len
-				&& my_strnicmp(name, ungendered[i],
-					(int) noun_len) == 0) {
-			return true;
+		if (strchr(ungendered[i], ' ')) {
+			/* Multi-word name: match it in full */
+			if (my_stricmp(name, ungendered[i]) == 0) {
+				return true;
+			}
+		} else {
+			/* Single word: match the first noun of the name */
+			const char *space = strchr(name, ' ');
+			size_t noun_len = space ? (size_t) (space - name) : strlen(name);
+
+			if (strlen(ungendered[i]) == noun_len
+					&& my_strnicmp(name, ungendered[i],
+						(int) noun_len) == 0) {
+				return true;
+			}
 		}
 	}
 	return false;
