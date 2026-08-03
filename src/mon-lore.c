@@ -1613,6 +1613,9 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 			textblock_append(tb, _(" time in "));
 			textblock_append_c(tb, COLOUR_L_GREEN, "%d",
 							   100 / race->freq_innate);
+			if (streq(lang_current, "es")) {
+				textblock_append(tb, _(" attempts"));
+			}
 		} else if (lore->cast_innate) {
 			/* Guess at the frequency */
 			int approx_frequency = MAX(((race->freq_innate + 9) / 10) * 10, 1);
@@ -1621,6 +1624,9 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 			textblock_append(tb, _(" time in "));
 			textblock_append_c(tb, COLOUR_L_GREEN, "%d",
 							   100 / approx_frequency);
+			if (streq(lang_current, "es")) {
+				textblock_append(tb, _(" attempts"));
+			}
 		}
 
 		textblock_append(tb, ".  ");
@@ -1655,6 +1661,9 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 				textblock_append(tb, _(" time in "));
 				textblock_append_c(tb, COLOUR_L_GREEN, "%d",
 								   100 / race->freq_spell);
+				if (streq(lang_current, "es")) {
+					textblock_append(tb, _(" attempts"));
+				}
 			} else if (lore->cast_spell) {
 				/* Guess at the frequency */
 				int approx_frequency = MAX(((race->freq_spell + 9) / 10) * 10,
@@ -1664,6 +1673,9 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 				textblock_append(tb, _(" time in "));
 				textblock_append_c(tb, COLOUR_L_GREEN, "%d",
 								   100 / approx_frequency);
+				if (streq(lang_current, "es")) {
+					textblock_append(tb, _(" attempts"));
+				}
 			}
 		}
 

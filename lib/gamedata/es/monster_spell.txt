@@ -1078,7 +1078,7 @@ msgt:SUM_MONSTER
 hit:100
 effect:SUMMON:KIN
 dice:8
-lore:invocar monstruos similares
+lore:invocan monstruos similares
 lore-color-base:Orange
 message-vis:{name} invoca a sus congéneres.
 message-invis:¡Escuchas que algunas cosas aparecen cerca!

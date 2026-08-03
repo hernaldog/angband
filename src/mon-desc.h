@@ -52,5 +52,6 @@ void get_mon_name(char *buf, size_t buflen,
 				  const struct monster_race *race, int num);
 void monster_desc(char *desc, size_t max, const struct monster *mon, int mode);
 const char *monster_name_strip_article_es(const char *name);
+void es_species_name_title_case(char *name);
 
 #endif /* MONSTER_DESC_H */

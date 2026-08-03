@@ -175,7 +175,7 @@ const char *monster_name_strip_article_es(const char *name)
  * name (like a label), except for short particles ("de", "del", "la",
  * "el", ...) that stay in lower case.
  */
-static void es_species_name_title_case(char *name)
+void es_species_name_title_case(char *name)
 {
 	static const char *particles[] = {
 		"a", "al", "con", "de", "del", "e", "el", "en", "la", "las",

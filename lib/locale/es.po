@@ -5314,7 +5314,10 @@ msgid "[N]ormal, [g]ood, or [e]xcellent treasure? "
 msgstr "¿Tesoro [n]ormal, [b]ueno o [e]xcelente? "
 
 msgid " time in "
-msgstr " tiempo en "
+msgstr " vez cada "
+
+msgid " attempts"
+msgstr " intentos"
 
 msgid "Feature query (debug): "
 msgstr "Consulta de característica (depuración): "
@@ -6028,7 +6031,7 @@ msgid "to shards"
 msgstr "a las esquirlas"
 
 msgid "; about "
-msgstr "; sobre "
+msgstr "; aprox "
 
 msgid "%s regenerates quickly.  "
 msgstr "%s se regenera rápidamente.  "

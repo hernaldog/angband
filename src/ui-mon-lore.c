@@ -19,6 +19,7 @@
 #include "angband.h"
 #include "init.h"
 #include "lang.h"
+#include "mon-desc.h"
 #include "mon-lore.h"
 #include "ui-mon-lore.h"
 #include "ui-output.h"
@@ -40,6 +41,7 @@ void lore_title(textblock *tb, const struct monster_race *race)
 {
 	uint8_t standard_attr, optional_attr;
 	wchar_t standard_char, optional_char;
+	char name_buf[200];
 
 	assert(race);
 
@@ -52,16 +54,23 @@ void lore_title(textblock *tb, const struct monster_race *race)
 	optional_attr = monster_x_attr[race->ridx];
 
 	/* A title (use "The" for non-uniques) */
-	if (!rf_has(race->flags, RF_UNIQUE))
+	if (!rf_has(race->flags, RF_UNIQUE)) {
 		textblock_append(tb, streq(lang_current, "es") ? "Criatura " : "The ");
-	else if (OPT(player, purple_uniques)) {
-		standard_attr = COLOUR_VIOLET;
-		if (!(optional_attr & 0x80))
-			optional_attr = COLOUR_VIOLET;
+		my_strcpy(name_buf, race->name, sizeof(name_buf));
+		if (streq(lang_current, "es")) {
+			es_species_name_title_case(name_buf);
+		}
+	} else {
+		if (OPT(player, purple_uniques)) {
+			standard_attr = COLOUR_VIOLET;
+			if (!(optional_attr & 0x80))
+				optional_attr = COLOUR_VIOLET;
+		}
+		my_strcpy(name_buf, race->name, sizeof(name_buf));
 	}
 
 	/* Dump the name and then append standard attr/char info */
-	textblock_append(tb, "%s", race->name);
+	textblock_append(tb, "%s", name_buf);
 
 	textblock_append(tb, " ('");
 	textblock_append_pict(tb, standard_attr, standard_char);
