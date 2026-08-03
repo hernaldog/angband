@@ -354,9 +354,9 @@ static const menu_skin menu_skin_object =
 static int columns_get_cursor(int row, int col, int n, int top, region *loc)
 {
 	int w, h, cursor;
-        int rows_per_page = loc->page_rows;
+	int rows_per_page = loc->page_rows;
         int cols = (n + rows_per_page - 1) / rows_per_page;
-	int colw = 23;
+	int colw = 38;
 
 	Term_get_size(&w, &h);
 
@@ -379,7 +379,7 @@ static void display_columns(struct menu *menu, int cursor, int *top, region *loc
 	int row = loc->row;
 	int rows_per_page = loc->page_rows;
 	int cols = (n + rows_per_page - 1) / rows_per_page;
-	int colw = 23;
+	int colw = 38;
 
 	Term_get_size(&w, &h);
 
