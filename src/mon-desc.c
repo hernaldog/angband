@@ -45,7 +45,7 @@
  */
 static bool monster_name_is_ungendered_es(const char *name)
 {
-	static const char *ungendered[] = { "naga", "monedas" };
+	static const char *ungendered[] = { "naga", "monedas", "tengu" };
 	const char *space = strchr(name, ' ');
 	size_t noun_len = space ? (size_t) (space - name) : strlen(name);
 	size_t i;

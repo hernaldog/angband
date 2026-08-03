@@ -544,7 +544,7 @@ color:White
 
 code:AWAY_ALL
 type:monster
-desc:teletransporta monstruos
+desc:teletransporta al monstruo objetivo
 blind-desc:algo
 obvious:1
 wake:1
@@ -624,21 +624,21 @@ color:White
 
 code:MON_CLONE
 type:monster
-desc:acelera, sana y duplica mágicamente monstruos
+desc:acelera, sana y duplica mágicamente al monstruo objetivo
 blind-desc:algo
 obvious:1
 color:White
 
 code:MON_POLY
 type:monster
-desc:polimorfiza monstruos en otros tipos de criaturas
+desc:polimorfiza al monstruo en otro tipo de criatura
 blind-desc:algo
 obvious:0
 color:White
 
 code:MON_HEAL
 type:monster
-desc:sana monstruos
+desc:sana al monstruo objetivo
 blind-desc:algo
 obvious:1
 wake:1
@@ -646,7 +646,7 @@ color:White
 
 code:MON_SPEED
 type:monster
-desc:acelera monstruos
+desc:acelera al monstruo objetivo
 blind-desc:algo
 obvious:1
 wake:1
@@ -654,7 +654,7 @@ color:White
 
 code:MON_SLOW
 type:monster
-desc:intenta ralentizar monstruos
+desc:intenta ralentizar al monstruo objetivo
 blind-desc:algo
 obvious:1
 wake:1
@@ -662,21 +662,21 @@ color:White
 
 code:MON_CONF
 type:monster
-desc:intenta confundir monstruos
+desc:intenta confundir al monstruo objetivo
 blind-desc:algo
 obvious:0
 color:White
 
 code:MON_HOLD
 type:monster
-desc:intenta paralizar monstruos
+desc:intenta paralizar al monstruo objetivo
 blind-desc:algo
 obvious:0
 color:White
 
 code:MON_STUN
 type:monster
-desc:intenta aturdir monstruos
+desc:intenta aturdir al monstruo objetivo
 blind-desc:algo
 obvious:0
 color:White
