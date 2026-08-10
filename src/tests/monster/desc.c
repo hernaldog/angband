@@ -3,6 +3,7 @@
 
 #include "unit-test.h"
 #include "game-input.h"
+#include "lang.h"
 #include "mon-desc.h"
 #include "z-virt.h"
 
@@ -139,6 +140,37 @@ static int test_plural_aux_0(void *state) {
 	fill_fluff(buf, "ibis", sizeof(buf));
 	plural_aux(buf, 6);
 	require(check_fluff(buf, "ibise", sizeof(buf)));
+	ok;
+}
+
+
+static int test_plural_aux_spanish_0(void *state) {
+	char buf[80];
+
+	/* Run in Spanish to exercise the Spanish pluralization rules. */
+	my_strcpy(lang_current, "es", sizeof(lang_current));
+
+	/* The head noun and the last word are pluralized. */
+	fill_fluff(buf, "mago drúadan", sizeof(buf));
+	plural_aux(buf, sizeof(buf));
+	require(check_fluff(buf, "magos drúadans", sizeof(buf)));
+
+	/* Names with a "de"/"del" connector only pluralize the head noun. */
+	fill_fluff(buf, "araña de cueva", sizeof(buf));
+	plural_aux(buf, sizeof(buf));
+	require(check_fluff(buf, "arañas de cueva", sizeof(buf)));
+
+	/* Accented -n heads drop the accent (capitán -> capitanes). */
+	fill_fluff(buf, "capitán orco", sizeof(buf));
+	plural_aux(buf, sizeof(buf));
+	require(check_fluff(buf, "capitanes orcos", sizeof(buf)));
+
+	fill_fluff(buf, "acechador invisible", sizeof(buf));
+	plural_aux(buf, sizeof(buf));
+	require(check_fluff(buf, "acechadores invisibles", sizeof(buf)));
+
+	/* Restore English for the remaining tests. */
+	my_strcpy(lang_current, "en", sizeof(lang_current));
 	ok;
 }
 
@@ -751,5 +783,7 @@ struct test tests[] = {
 	{ "monster_desc hidden_indef_0", test_monster_desc_hidden_indef_0 },
 	{ "monster_desc seen_def_0", test_monster_desc_seen_def_0 },
 	{ "monster_desc seen_indef_0", test_monster_desc_seen_indef_0 },
+	/* Run last: it switches the game to Spanish and must restore it. */
+	{ "plural_aux Spanish 0", test_plural_aux_spanish_0 },
 	{ NULL, NULL }
 };

@@ -223,13 +223,112 @@ void es_species_name_title_case(char *name)
 }
 
 /**
- * Perform simple English pluralization on a monster name.
+ * Write the Spanish plural of a single word to out.  Handles the common
+ * Spanish pluralization rules used by monster names.  Returns the number of
+ * bytes written to out.
+ */
+static size_t spanish_plural_word(const char *word, size_t wlen,
+		char *out, size_t outmax)
+{
+	unsigned char last;
+
+	if (wlen >= outmax)
+		wlen = outmax - 1;
+	memcpy(out, word, wlen);
+	if (wlen == 0)
+		return 0;
+
+	/* Words ending in "s" are treated as invariable (e.g. ciempiés). */
+	if (out[wlen - 1] == 's')
+		return wlen;
+
+	/* Words ending in "z": pez -> peces. */
+	if (out[wlen - 1] == 'z') {
+		if (wlen + 2 >= outmax)
+			return wlen;
+		out[wlen - 1] = 'c';
+		out[wlen] = 'e';
+		out[wlen + 1] = 's';
+		return wlen + 2;
+	}
+
+	/* Words ending in an accented vowel followed by "n" (dragón, capitán,
+	 * avispón): drop the accent in the plural (dragones, capitanes,
+	 * avispones). */
+	if (wlen >= 3 && out[wlen - 1] == 'n'
+			&& (unsigned char)out[wlen - 3] == 0xC3) {
+		const char *plain = NULL;
+		switch ((unsigned char)out[wlen - 2]) {
+			case 0xA1: plain = "a"; break; /* á */
+			case 0xAD: plain = "i"; break; /* í */
+			case 0xB3: plain = "o"; break; /* ó */
+			case 0xBA: plain = "u"; break; /* ú */
+		}
+		if (plain != NULL && wlen + 1 < outmax) {
+			out[wlen - 3] = plain[0];
+			out[wlen - 2] = 'n';
+			out[wlen - 1] = 'e';
+			out[wlen] = 's';
+			return wlen + 1;
+		}
+	}
+
+	/* Words ending in a vowel (accented or not): add "s" (mago -> magos,
+	 * araña -> arañas, bebé -> bebés). */
+	last = (unsigned char)out[wlen - 1];
+	if (strchr("aeiou", out[wlen - 1]) != NULL
+			|| (wlen >= 2 && (unsigned char)out[wlen - 2] == 0xC3
+				&& (last == 0xA1 || last == 0xA9 || last == 0xAD
+					|| last == 0xB3 || last == 0xBA))) {
+		if (wlen + 1 >= outmax)
+			return wlen;
+		out[wlen] = 's';
+		return wlen + 1;
+	}
+
+	/* Any other consonant: add "es" (acechador -> acechadores). */
+	if (wlen + 2 >= outmax)
+		return wlen;
+	out[wlen] = 'e';
+	out[wlen + 1] = 's';
+	return wlen + 2;
+}
+
+/**
+ * Perform simple pluralization on a monster name.
+ *
+ * English simply appends "s" (or "es") to the end of the name.  In Spanish
+ * the head noun (first word) is also pluralized, while the last word keeps
+ * the simple "s"/"es" suffix; names containing a "de"/"del" connector only
+ * pluralize the head noun.
  */
 void plural_aux(char *name, size_t max)
 {
 	size_t name_len = strlen(name);
 	assert(name_len != 0);
 
+	if (streq(lang_current, "es")) {
+		char *space = strchr(name, ' ');
+		if (space != NULL) {
+			bool skip_tail = (strstr(name, " de ") != NULL)
+					|| (strstr(name, " del ") != NULL);
+			char head[128];
+			size_t head_len = space - name;
+			size_t plural_len = spanish_plural_word(name, head_len,
+					head, sizeof(head));
+
+			/* Make room for the pluralized head word. */
+			memmove(name + plural_len, space, name_len - head_len + 1);
+			memcpy(name, head, plural_len);
+			name_len += plural_len - head_len;
+
+			/* "x de y" / "x del y" names leave the tail alone. */
+			if (skip_tail)
+				return;
+		}
+	}
+
+	/* Simple pluralization of the last word. */
 	if (name[name_len - 1] == 's')
 		my_strcat(name, "es", max);
 	else
@@ -258,8 +357,10 @@ void get_mon_name(char *buf, size_t buflen,
 	    } else if (race->plural != NULL) {
 	        my_strcat(buf, race->plural, buflen);
 	    } else {
-	        my_strcat(buf, race->name, buflen);
-	        plural_aux(buf, buflen);
+	        char race_name[128];
+	        my_strcpy(race_name, race->name, sizeof(race_name));
+	        plural_aux(race_name, sizeof(race_name));
+	        my_strcat(buf, race_name, buflen);
 	    }
     }
 }

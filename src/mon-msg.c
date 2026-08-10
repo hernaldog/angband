@@ -339,12 +339,17 @@ static void get_subject(char *buf, size_t buflen,
 			buf[0] = (char)toupper((unsigned char)buf[0]);
 		} else {
 			/* Get the plural of the race name */
+			char race_name[128];
 			if (race->plural != NULL) {
-				strnfmt(buf, buflen, "%d %s", count, race->plural);
+				my_strcpy(race_name, race->plural, sizeof(race_name));
 			} else {
-				strnfmt(buf, buflen, "%d %s", count, race->name);
-				plural_aux(buf, buflen);
+				my_strcpy(race_name, race->name, sizeof(race_name));
+				plural_aux(race_name, sizeof(race_name));
 			}
+			/* Spanish: capitalize the first letter of the enemy name */
+			if (streq(lang_current, "es"))
+				race_name[0] = (char)toupper((unsigned char)race_name[0]);
+			strnfmt(buf, buflen, "%d %s", count, race_name);
 		}
 		if (rf_has(race->flags, RF_NAME_COMMA)) {
 			my_strcat(buf, ",", buflen);
