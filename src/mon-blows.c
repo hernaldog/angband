@@ -71,8 +71,13 @@ static blow_tag_t blow_tag_lookup(const char *tag)
  *
  * We fill in the monster name and/or pronoun where necessary in
  * the message to replace instances of {name} or {pronoun}.
+ *
+ * \param plural_subject is true if the attacking monster's name is
+ * grammatically plural in the current language, so the action verbs must
+ * be plural too.
  */
-char *monster_blow_method_action(const struct blow_method *method, int midx)
+char *monster_blow_method_action(const struct blow_method *method, int midx,
+		bool plural_subject)
 {
 	const char punct[] = ".!?;:,'";
 	char buf[1024] = "\0";
@@ -96,6 +101,15 @@ char *monster_blow_method_action(const struct blow_method *method, int midx)
 		msg = msg->next;
 	}
 	in_cursor = msg->act_msg;
+
+	/*
+	 * In Spanish, an attacker whose name is grammatically plural (such as
+	 * "monedas de oro rastreras") needs plural verb forms.  The plural
+	 * action strings are stored in the translation table keyed by the
+	 * singular form; if no entry exists the singular form is kept.
+	 */
+	if (plural_subject && streq(lang_current, "es"))
+		in_cursor = _(in_cursor);
 
 	/* Add info to the message */
 	next = strchr(in_cursor, '{');
@@ -173,6 +187,16 @@ char *monster_blow_method_action(const struct blow_method *method, int midx)
 }
 
 /**
+ * Whether the attacking monster's name is grammatically plural in Spanish,
+ * so its melee blow messages must use plural verb forms.
+ */
+static bool blow_subject_is_plural(const melee_effect_handler_context_t *context)
+{
+	return streq(lang_current, "es")
+		&& monster_name_is_plural_es(context->mon->race->name);
+}
+
+/**
  * ------------------------------------------------------------------------
  * Monster blow effect helper functions
  * ------------------------------------------------------------------------ */
@@ -195,11 +219,14 @@ int blow_index(const char *name)
  * \param m_name is the formatted name for the attacking monster.
  * \param p is the player being attacked.
  * \param damage is the amount of damage from the blow.
+ * \param plural_subject is true if the attacker's name is plural in the
+ * current language.
  */
 static void display_blow_message_vs_player(const struct blow_method *method,
-		const char *m_name, struct player *p, int damage)
+		const char *m_name, struct player *p, int damage,
+		bool plural_subject)
 {
-	char *act = monster_blow_method_action(method, -1);
+	char *act = monster_blow_method_action(method, -1, plural_subject);
 
 	if (act) {
 		const char *fullstop = ".";
@@ -226,11 +253,13 @@ static void display_blow_message_vs_player(const struct blow_method *method,
  * \param m_name is the formatted name for the attacking monster.
  * \param t_idx is the index for the targeted monster (i.e. if mon is the
  * structure representing the target, it is mon->midx).
+ * \param plural_subject is true if the attacker's name is plural in the
+ * current language.
  */
 static void display_blow_message_vs_monster(const struct blow_method *method,
-		const char *m_name, int t_idx)
+		const char *m_name, int t_idx, bool plural_subject)
 {
-	char *act = monster_blow_method_action(method, t_idx);
+	char *act = monster_blow_method_action(method, t_idx, plural_subject);
 
 	if (act) {
 		const char *fullstop = ".";
@@ -391,14 +420,15 @@ static bool monster_damage_target(melee_effect_handler_context_t *context,
 			context->damage);
 
 		display_blow_message_vs_player(context->method, context->m_name,
-			context->p, reduced);
+			context->p, reduced, blow_subject_is_plural(context));
 		take_hit(context->p, reduced, context->ddesc);
 		if (context->p->is_dead) return true;
 	} else {
 		bool dead;
 
 		display_blow_message_vs_monster(context->method,
-			context->m_name, context->t_mon->midx);
+			context->m_name, context->t_mon->midx,
+			blow_subject_is_plural(context));
 		dead = mon_take_nonplayer_hit(context->damage, context->t_mon,
 			MON_MSG_NONE, MON_MSG_DIE);
 		return (dead || no_further_monster_effect);
@@ -475,12 +505,14 @@ static void melee_effect_elemental(melee_effect_handler_context_t *context,
 				context->damage);
 
 			display_blow_message_vs_player(context->method,
-				context->m_name, context->p, reduced);
+				context->m_name, context->p, reduced,
+				blow_subject_is_plural(context));
 			take_hit(context->p, reduced, context->ddesc);
 		} else {
 			assert(context->t_mon);
 			display_blow_message_vs_monster(context->method,
-				context->m_name, context->t_mon->midx);
+				context->m_name, context->t_mon->midx,
+				blow_subject_is_plural(context));
 			(void) mon_take_nonplayer_hit(context->damage,
 				context->t_mon, hurt_msg, die_msg);
 		}
@@ -604,7 +636,8 @@ static void melee_effect_experience(melee_effect_handler_context_t *context,
 			context->damage);
 
 		display_blow_message_vs_player(context->method,
-			context->m_name, context->p, reduced);
+			context->m_name, context->p, reduced,
+			blow_subject_is_plural(context));
 		take_hit(context->p, reduced, context->ddesc);
 		context->obvious = true;
 		update_smart_learn(context->mon, context->p, OF_HOLD_LIFE, 0, -1);
@@ -612,7 +645,8 @@ static void melee_effect_experience(melee_effect_handler_context_t *context,
 	} else {
 		assert(context->t_mon);
 		display_blow_message_vs_monster(context->method,
-			context->m_name, context->t_mon->midx);
+			context->m_name, context->t_mon->midx,
+			blow_subject_is_plural(context));
 		(void) mon_take_nonplayer_hit(context->damage, context->t_mon,
 									  MON_MSG_NONE, MON_MSG_DIE);
 		return;
@@ -644,11 +678,13 @@ static void melee_effect_handler_NONE(melee_effect_handler_context_t *context)
 {
 	if (context->p) {
 		display_blow_message_vs_player(context->method,
-			context->m_name, context->p, 0);
+			context->m_name, context->p, 0,
+			blow_subject_is_plural(context));
 	} else {
 		assert(context->t_mon);
 		display_blow_message_vs_monster(context->method,
-			context->m_name, context->t_mon->midx);
+			context->m_name, context->t_mon->midx,
+			blow_subject_is_plural(context));
 	}
 	context->obvious = true;
 	context->damage = 0;

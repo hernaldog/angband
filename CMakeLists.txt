@@ -847,6 +847,7 @@ set(ANGBAND_TEST_CASE_SOURCES
     game/mage.c
     message/message.c
     monster/attack.c
+    monster/blows.c
     monster/desc.c
     monster/monster.c
     object/alloc.c

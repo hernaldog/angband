@@ -1,1 +1,1 @@
-TESTPROGS += monster/attack monster/desc monster/monster
+TESTPROGS += monster/attack monster/blows monster/desc monster/monster

@@ -9594,3 +9594,110 @@ msgid "is watchful for"
 msgstr "se mantiene alerta"
 
 
+# ---------------------------------------------------------------------------
+# Plural action strings for monster blow methods.  These entries are keyed by
+# the Spanish singular action string from lib/gamedata/es/blow_methods.txt and
+# map it to the plural verb forms used when the attacking monster's name is
+# grammatically plural (e.g. "monedas de oro rastreras").  Looked up in
+# monster_blow_method_action() in src/mon-blows.c.
+# ---------------------------------------------------------------------------
+
+msgid "{target} golpea"
+msgstr "{target} golpean"
+
+msgid "{target} toca"
+msgstr "{target} tocan"
+
+msgid "{target} da un puñetazo"
+msgstr "{target} dan un puñetazo"
+
+msgid "{target} patea"
+msgstr "{target} patean"
+
+msgid "{target} araña"
+msgstr "{target} arañan"
+
+msgid "{target} muerde"
+msgstr "{target} muerden"
+
+msgid "{target} pica"
+msgstr "{target} pican"
+
+msgid "{target} da un cabezazo"
+msgstr "{target} dan un cabezazo"
+
+msgid "{target} aplasta"
+msgstr "{target} aplastan"
+
+msgid "{target} envuelve"
+msgstr "{target} envuelven"
+
+msgid "{target} recorre"
+msgstr "{target} recorren"
+
+msgid "{target} moja con baba"
+msgstr "{target} mojan con baba"
+
+msgid "{target} escupe"
+msgstr "{target} escupen"
+
+msgid "{target} mira fijamente"
+msgstr "{target} miran fijamente"
+
+msgid "{target} grita lamentos"
+msgstr "{target} gritan lamentos"
+
+msgid "{target} lanza esporas"
+msgstr "{target} lanzan esporas"
+
+msgid "{target} suplica dinero"
+msgstr "{target} suplican dinero"
+
+msgid "¡{target} te insulta!"
+msgstr "¡{target} te insultan!"
+
+msgid "¡insulta a la madre de {oftarget}!"
+msgstr "¡insultan a la madre de {oftarget}!"
+
+msgid "¡{target} hace un gesto obsceno!"
+msgstr "¡{target} hacen un gesto obsceno!"
+
+msgid "¡{target} humilla!"
+msgstr "¡{target} humillan!"
+
+msgid "¡{target} mancilla!"
+msgstr "¡{target} mancillan!"
+
+msgid "¡{target} baila alrededor!"
+msgstr "¡{target} bailan alrededor!"
+
+msgid "¡hace gestos obscenos!"
+msgstr "¡hacen gestos obscenos!"
+
+msgid "¡{target} enseña el trasero!"
+msgstr "¡{target} enseñan el trasero!"
+
+msgid "quiere que le devuelvan sus setas"
+msgstr "quieren que le devuelvan sus setas"
+
+msgid "{target} dice que salgas de sus tierras"
+msgstr "{target} dicen que salgas de sus tierras"
+
+msgid "busca a sus perros"
+msgstr "buscan a sus perros"
+
+msgid "dice '¿Has matado a mi Colmillo?'"
+msgstr "dicen '¿Has matado a mi Colmillo?'"
+
+msgid "pregunta '¿Quieres comprar setas?'"
+msgstr "preguntan '¿Quieres comprar setas?'"
+
+msgid "parece triste por algo"
+msgstr "parecen tristes por algo"
+
+msgid "{target} pregunta si {has} visto a sus perros"
+msgstr "{target} preguntan si {has} visto a sus perros"
+
+msgid "murmura algo sobre setas"
+msgstr "murmuran algo sobre setas"
+
