@@ -169,6 +169,16 @@ static int test_plural_aux_spanish_0(void *state) {
 	plural_aux(buf, sizeof(buf));
 	require(check_fluff(buf, "acechadores invisibles", sizeof(buf)));
 
+	/* Words ending in "ll" keep the double ell and take a simple "s"
+	 * (troll -> trolls). */
+	fill_fluff(buf, "troll del bosque", sizeof(buf));
+	plural_aux(buf, sizeof(buf));
+	require(check_fluff(buf, "trolls del bosque", sizeof(buf)));
+
+	fill_fluff(buf, "troll carroñero", sizeof(buf));
+	plural_aux(buf, sizeof(buf));
+	require(check_fluff(buf, "trolls carroñeros", sizeof(buf)));
+
 	/* Restore English for the remaining tests. */
 	my_strcpy(lang_current, "en", sizeof(lang_current));
 	ok;

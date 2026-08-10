@@ -277,6 +277,15 @@ static size_t spanish_plural_word(const char *word, size_t wlen,
 	if (out[wlen - 1] == 's')
 		return wlen;
 
+	/* Words ending in "ll" (mostly English loanwords such as troll) keep
+	 * the double ell and take a simple "s" in the plural (troll -> trolls). */
+	if (wlen >= 2 && out[wlen - 2] == 'l' && out[wlen - 1] == 'l') {
+		if (wlen + 1 >= outmax)
+			return wlen;
+		out[wlen] = 's';
+		return wlen + 1;
+	}
+
 	/* Words ending in "z": pez -> peces. */
 	if (out[wlen - 1] == 'z') {
 		if (wlen + 2 >= outmax)
