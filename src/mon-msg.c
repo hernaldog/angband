@@ -326,7 +326,7 @@ static void get_subject(char *buf, size_t buflen,
 {
 	if (invisible) {
 		if (count == 1) {
-			my_strcpy(buf, "It", buflen);
+			my_strcpy(buf, _("It"), buflen);
 		} else {
 			strnfmt(buf, buflen, _("%d monsters"), count);
 		}

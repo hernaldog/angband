@@ -2043,6 +2043,9 @@ msgstr "¡Vomitas!"
 msgid "It's crunchy."
 msgstr "Está crujiente."
 
+msgid "It"
+msgstr "Algo"
+
 msgid "It nearly breaks your tooth!"
 msgstr "¡Casi te rompe un diente!"
 
