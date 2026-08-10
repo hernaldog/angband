@@ -145,6 +145,41 @@ static bool monster_name_is_feminine_es(const char *name,
 }
 
 /**
+ * Return true if a Spanish monster race name is grammatically plural, so
+ * messages about it must use plural verb forms.  The head noun is the first
+ * word of the name and a Spanish plural noun ends in "s".  A few invariable
+ * or proper names also end in "s" but stay singular ("ciempiés",
+ * "estegociempiés", "catoblepas").
+ */
+bool monster_name_is_plural_es(const char *name)
+{
+	static const char *singular_ending_in_s[] = {
+		"catoblepas", "ciempiés", "estegociempiés"
+	};
+	const char *space = strchr(name, ' ');
+	size_t noun_len = space ? (size_t) (space - name) : strlen(name);
+	size_t i;
+
+	if (noun_len == 0)
+		return false;
+
+	/* Plural nouns end in "s". */
+	if (name[noun_len - 1] != 's')
+		return false;
+
+	/* Invariable names that end in "s" but stay singular. */
+	for (i = 0; i < N_ELEMENTS(singular_ending_in_s); i++) {
+		if (strlen(singular_ending_in_s[i]) == noun_len
+				&& my_strnicmp(name, singular_ending_in_s[i],
+					(int) noun_len) == 0) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
  * In Spanish, return a pointer to the name with any leading article
  * ("el ", "la ", "un ", "una ") removed.  Used for messages that read
  * better with just the species name (e.g. "Has matado a Arquero Kobold").

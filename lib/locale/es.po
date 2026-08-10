@@ -4374,17 +4374,29 @@ msgstr "%s intenta robar %s %s, pero falla."
 msgid "%s tries to cast a spell, but fails."
 msgstr "%s intenta lanzar un hechizo, pero falla."
 
+msgid "%s try to cast a spell, but fail."
+msgstr "%s intentan lanzar un hechizo, pero fallan."
+
 msgid "ERROR: Effect handler not found for %s."
 msgstr "ERROR: Manejador de efecto no encontrado para %s."
 
 msgid "%s is repelled."
 msgstr "%s es repelido."
 
+msgid "%s are repelled."
+msgstr "%s son repelidos."
+
 msgid "%s misses you."
 msgstr "%s no logra darte."
 
+msgid "%s miss you."
+msgstr "%s no logran darte."
+
 msgid "%s misses %s."
 msgstr "%s falla contra %s."
+
+msgid "%s miss %s."
+msgstr "%s fallan contra %s."
 
 msgid "Enter the x parameter: "
 msgstr "Introduce el parámetro x: "

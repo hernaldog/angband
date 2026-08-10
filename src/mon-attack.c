@@ -458,7 +458,10 @@ bool make_ranged_attack(struct monster *mon)
 	/* Check for spell failure (innate attacks never fail) */
 	failrate = monster_spell_failrate(mon);
 	if (!mon_spell_is_innate(thrown_spell) && (randint0(100) < failrate)) {
-		msg(_("%s tries to cast a spell, but fails."), m_name);
+		msg(streq(lang_current, "es")
+				&& monster_name_is_plural_es(mon->race->name)
+			? _("%s try to cast a spell, but fail.")
+			: _("%s tries to cast a spell, but fails."), m_name);
 		return true;
 	}
 
@@ -603,7 +606,10 @@ bool make_attack_normal(struct monster *mon, struct player *p)
 				if (monster_is_evil(mon) && p->lev >= rlev &&
 				    randint0(100) + p->lev > 50) {
 					/* Message */
-					msg(_("%s is repelled."), m_name);
+					msg(streq(lang_current, "es")
+							&& monster_name_is_plural_es(mon->race->name)
+						? _("%s are repelled.")
+						: _("%s is repelled."), m_name);
 
 					/* Next attack */
 					continue;
@@ -720,7 +726,10 @@ bool make_attack_normal(struct monster *mon, struct player *p)
 			if (monster_is_visible(mon) &&	method->miss) {
 				/* Disturbing */
 				disturb(p);
-				msg(_("%s misses you."), m_name);
+				msg(streq(lang_current, "es")
+						&& monster_name_is_plural_es(mon->race->name)
+					? _("%s miss you.")
+					: _("%s misses you."), m_name);
 			}
 		}
 
@@ -866,7 +875,10 @@ bool monster_attack_monster(struct monster *mon, struct monster *t_mon)
 		} else {
 			/* Visible monster missed monster, so notify if appropriate. */
 			if (monster_is_visible(mon) && method->miss) {
-				msg(_("%s misses %s."), m_name, t_name);
+				msg(streq(lang_current, "es")
+						&& monster_name_is_plural_es(mon->race->name)
+					? _("%s miss %s.")
+					: _("%s misses %s."), m_name, t_name);
 			}
 		}
 

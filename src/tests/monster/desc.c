@@ -175,6 +175,25 @@ static int test_plural_aux_spanish_0(void *state) {
 }
 
 
+static int test_monster_name_plural_es_0(void *state) {
+	/* Plural names: the head noun ends in "s". */
+	require(monster_name_is_plural_es("monedas de oro rastreras"));
+	require(monster_name_is_plural_es("monedas de cobre rastreras"));
+	require(monster_name_is_plural_es("yetis"));
+
+	/* Singular names. */
+	require(!monster_name_is_plural_es("mago drúadan"));
+	require(!monster_name_is_plural_es("goblin"));
+	require(!monster_name_is_plural_es("araña de cueva"));
+
+	/* Invariable singular names that also end in "s". */
+	require(!monster_name_is_plural_es("ciempiés amarillo gigante"));
+	require(!monster_name_is_plural_es("estegociempiés"));
+	require(!monster_name_is_plural_es("catoblepas"));
+	ok;
+}
+
+
 static int test_get_mon_name_nonunique_0(void *state) {
 	char name1[] = "crow";
 	char name2[] = "ibis";
@@ -785,5 +804,6 @@ struct test tests[] = {
 	{ "monster_desc seen_indef_0", test_monster_desc_seen_indef_0 },
 	/* Run last: it switches the game to Spanish and must restore it. */
 	{ "plural_aux Spanish 0", test_plural_aux_spanish_0 },
+	{ "monster_name plural es 0", test_monster_name_plural_es_0 },
 	{ NULL, NULL }
 };

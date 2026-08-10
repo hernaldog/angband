@@ -513,7 +513,9 @@ static void show_message(struct monster_race_message *msg)
 	get_message_text(body, sizeof(body),
 			msg->msg_code,
 			msg->race,
-			msg->count > 1);
+			(msg->count > 1)
+			|| (streq(lang_current, "es")
+				&& monster_name_is_plural_es(msg->race->name)));
 
 	/* Spanish opens exclamations with an inverted mark before the subject */
 	const char *excl = (streq(lang_current, "es") && body[0]
