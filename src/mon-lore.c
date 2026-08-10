@@ -1687,6 +1687,77 @@ void lore_append_spells(textblock *tb, const struct monster_race *race,
 }
 
 /**
+ * Return true if the two known attacks are identical (same method, effect,
+ * damage dice and hit chance).  In Spanish identical attacks are described
+ * together, with a count, to avoid repeating the whole clause.
+ */
+static bool lore_same_blow(const struct monster_race *race,
+		const int *percent, int a, int b)
+{
+	if (strcmp(race->blow[a].method->name, race->blow[b].method->name) != 0)
+		return false;
+	if (strcmp(race->blow[a].effect->name, race->blow[b].effect->name) != 0)
+		return false;
+	if (race->blow[a].dice.base != race->blow[b].dice.base) return false;
+	if (race->blow[a].dice.dice != race->blow[b].dice.dice) return false;
+	if (race->blow[a].dice.sides != race->blow[b].dice.sides) return false;
+	if (race->blow[a].dice.m_bonus != race->blow[b].dice.m_bonus) return false;
+	if (percent[a] != percent[b]) return false;
+	return true;
+}
+
+/**
+ * Return true if the given known attack is the first of a group of
+ * identical attacks, i.e. it has not been described already.
+ */
+static bool lore_first_blow(const struct monster_race *race,
+		const struct monster_lore *lore, const int *percent, int i)
+{
+	for (int j = 0; j < i; j++) {
+		if (!race->blow[j].method || !lore->blow_known[j]) continue;
+		if (lore_same_blow(race, percent, j, i))
+			return false;
+	}
+	return true;
+}
+
+/**
+ * Count the number of known attacks identical to the given one
+ * (including itself).
+ */
+static int lore_count_blows(const struct monster_race *race,
+		const struct monster_lore *lore, const int *percent, int i)
+{
+	int n = 1;
+	for (int j = i + 1; j < z_info->mon_blows_max; j++) {
+		if (!race->blow[j].method || !lore->blow_known[j]) continue;
+		if (lore_same_blow(race, percent, i, j))
+			n++;
+	}
+	return n;
+}
+
+/**
+ * Return the Spanish number word for a repeated attack count (2-10), or
+ * NULL if it should be rendered as a number instead.
+ */
+static const char *spanish_number_word(int n)
+{
+	switch (n) {
+		case 2: return "dos";
+		case 3: return "tres";
+		case 4: return "cuatro";
+		case 5: return "cinco";
+		case 6: return "seis";
+		case 7: return "siete";
+		case 8: return "ocho";
+		case 9: return "nueve";
+		case 10: return "diez";
+		default: return NULL;
+	}
+}
+
+/**
  * Append the monster's melee attacks to a textblock.
  *
  * Known race flags are passed in for simplicity/efficiency.
@@ -1739,6 +1810,32 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 	described_count = 0;
 	total_centidamage = 99; // round up the final result to the next higher point
 
+	/* Spanish groups identical attacks into a single clause with a count
+	 * ("atacar dos veces con golpes, cada uno con (2d4, 80%)").  English
+	 * keeps describing every attack separately. */
+	bool es = (strcmp(lang_current, "es") == 0);
+
+	/* Hit chance of each known attack, needed to group and describe them */
+	int *percent = mem_zalloc(sizeof(int) * z_info->mon_blows_max);
+	for (i = 0; i < z_info->mon_blows_max; i++) {
+		random_chance c;
+		if (!race->blow[i].method || !lore->blow_known[i]) continue;
+		hit_chance(&c, chance_of_monster_hit_base(race, race->blow[i].effect),
+			player->state.ac + player->state.to_a);
+		percent[i] = random_chance_scaled(c, 100);
+	}
+
+	/* Number of attack clauses that will be described */
+	int num_desc = known_attacks;
+	if (es) {
+		num_desc = 0;
+		for (i = 0; i < z_info->mon_blows_max; i++) {
+			if (!race->blow[i].method || !lore->blow_known[i]) continue;
+			if (lore_first_blow(race, lore, percent, i))
+				num_desc++;
+		}
+	}
+
 	/* Describe each melee attack */
 	for (i = 0; i < z_info->mon_blows_max; i++) {
 		random_value dice;
@@ -1751,11 +1848,19 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 		dice = race->blow[i].dice;
 		effect_str = race->blow[i].effect->desc;
 
+		/* Spanish: identical attacks are described once, with a count */
+		int nblows = 1;
+		if (es) {
+			if (!lore_first_blow(race, lore, percent, i))
+				continue;
+			nblows = lore_count_blows(race, lore, percent, i);
+		}
+
 		/* Introduce the attack description */
 		if (described_count == 0)
 			textblock_append(tb, _("%s is able to "),
 							 _("The creature"));
-		else if (described_count < known_attacks - 1)
+		else if (described_count < num_desc - 1)
 			textblock_append(tb, ", ");
 		else
 			textblock_append(tb, _(", and "));
@@ -1779,11 +1884,29 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 					|| streq(race->blow[i].method->name, "DROOL");
 
 				textblock_append_c(tb, blow_color(player, index), "%s", effect_str);
-				textblock_append(tb, verb_phrase ? " si " : " con ");
+				if (es && nblows > 1) {
+					/* "atacar dos veces con golpes" */
+					const char *nword = spanish_number_word(nblows);
+					textblock_append(tb, " ");
+					if (nword) {
+						textblock_append(tb, "%s", nword);
+					} else {
+						textblock_append_c(tb, COLOUR_L_GREEN, "%d", nblows);
+					}
+					textblock_append(tb, _(" times with "));
+				} else {
+					textblock_append(tb, verb_phrase ? " si " : " con ");
+				}
 				textblock_append(tb, "%s", race->blow[i].method->desc);
 			}
 
-			textblock_append(tb, " (");
+			/* " (" for a single attack, or ", cada uno con (" when several
+			 * identical attacks are grouped together in Spanish */
+			if (es && nblows > 1)
+				textblock_append(tb, _(", each one with ("));
+			else
+				textblock_append(tb, " (");
+
 			/* Describe damage (if known) */
 			if (dice.base || (dice.dice && dice.sides) || dice.m_bonus) {
 				if (dice.base)
@@ -1799,20 +1922,29 @@ void lore_append_attack(textblock *tb, const struct monster_race *race,
 			}
 
 			/* Describe hit chances */
-			random_chance c;
-			hit_chance(&c, chance_of_monster_hit_base(race, race->blow[i].effect),
-				player->state.ac + player->state.to_a);
-			int percent = random_chance_scaled(c, 100);
-			textblock_append_c(tb, COLOUR_L_BLUE, "%d", percent);
+			textblock_append_c(tb, COLOUR_L_BLUE, "%d", percent[i]);
 			textblock_append(tb, "%%)");
 
-			total_centidamage += (percent * randcalc(dice, 0, AVERAGE));
+			total_centidamage += nblows * (percent[i] * randcalc(dice, 0, AVERAGE));
 		} else {
 			textblock_append(tb, "%s", race->blow[i].method->desc);
+			/* Spanish: repeated attacks without an effect also show the count */
+			if (es && nblows > 1) {
+				const char *nword = spanish_number_word(nblows);
+				textblock_append(tb, " ");
+				if (nword) {
+					textblock_append(tb, "%s", nword);
+				} else {
+					textblock_append_c(tb, COLOUR_L_GREEN, "%d", nblows);
+				}
+				textblock_append(tb, _(" times"));
+			}
 		}
 
 		described_count++;
 	}
+
+	mem_free(percent);
 
 	textblock_append(tb, _(", averaging"));
 	if (known_attacks < total_attacks) {

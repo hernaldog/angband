@@ -6057,6 +6057,15 @@ msgstr "No ves nada ahí para desarmar."
 msgid " damage on each of %s turns."
 msgstr " de daño en cada turno."
 
+msgid " times with "
+msgstr " veces con "
+
+msgid " times"
+msgstr " veces"
+
+msgid ", each one with ("
+msgstr ", cada uno con ("
+
 msgid "to sound"
 msgstr "al sonido"
 
