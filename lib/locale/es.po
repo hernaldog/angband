@@ -1923,6 +1923,9 @@ msgstr "¡Eres golpeado por escombros!"
 msgid "You are hit by %s!"
 msgstr "¡Eres golpeado por %s!"
 
+msgid "Something sharp stabs you!"
+msgstr "¡Algo afilado te clava!"
+
 msgid "a %s"
 msgstr "%s"
 

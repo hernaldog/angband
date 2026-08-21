@@ -227,7 +227,7 @@ name:fragmentos
 type:element
 desc:fragmentos
 player-desc:fragmentos
-blind-desc:algo punzante
+blind-desc:algo afilado
 lash-desc:cuchillas
 numerator:6
 denominator:8+1d4
@@ -321,7 +321,7 @@ name:hielo
 type:element
 desc:hielo
 player-desc:hielo
-blind-desc:algo punzante
+blind-desc:algo afilado
 lash-desc:carámbanos
 numerator:1
 denominator:3
@@ -462,7 +462,7 @@ name:flechas
 type:element
 desc:una flecha
 player-desc:flechas
-blind-desc:algo punzante
+blind-desc:algo afilado
 divisor:6
 damage-cap:0
 msgt:GENERIC

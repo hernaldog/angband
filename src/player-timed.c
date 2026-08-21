@@ -22,6 +22,7 @@
 #include "datafile.h"
 #include "effects.h"
 #include "init.h"
+#include "lang.h"
 #include "mon-util.h"
 #include "obj-gear.h"
 #include "obj-knowledge.h"
@@ -949,7 +950,7 @@ bool player_inc_check(struct player *p, int idx, bool lore)
 				}
 				if (player_of_has(p, f->idx)) {
 					if (mon) {
-						msg("You resist the effect!");
+						msg(_("You resist the effect!"));
 					}
 					return false;
 				}

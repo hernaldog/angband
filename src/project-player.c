@@ -889,7 +889,11 @@ bool project_p(struct source origin, int r, struct loc grid, int dam, int typ,
 
 	/* Let player know what is going on */
 	if (!seen) {
-		msg(_("You are hit by %s!"), projections[typ].blind_desc);
+		if (typ == PROJ_SHARD || typ == PROJ_ICE || typ == PROJ_ARROW) {
+			msg(_("Something sharp stabs you!"));
+		} else {
+			msg(_("You are hit by %s!"), projections[typ].blind_desc);
+		}
 	}
 
 	/* Adjust damage for resistance, immunity or vulnerability, and apply it */
