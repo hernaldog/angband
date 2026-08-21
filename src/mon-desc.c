@@ -46,7 +46,7 @@
 static bool monster_name_is_ungendered_es(const char *name)
 {
 	static const char *ungendered[] = { "naga", "monedas", "tengu", "snaga",
-		"espíritu de la tierra" };
+		"moho", "espíritu de la tierra" };
 	size_t i;
 
 	for (i = 0; i < N_ELEMENTS(ungendered); i++) {

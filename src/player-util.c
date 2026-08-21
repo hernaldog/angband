@@ -227,6 +227,23 @@ void take_hit(struct player *p, int dam, const char *kb_str)
 
 	/* Dead player */
 	if (p->chp < 0) {
+		/* ===== MODO INVENCIBLE (TESTING) - ELIMINAR ANTES DE COMPILAR FINAL ===== */
+		p->chp = p->mhp;
+		p->csp = p->msp;
+		p->chp_frac = 0;
+		p->csp_frac = 0;
+		player_clear_timed(p, TMD_BLIND, false, false);
+		player_clear_timed(p, TMD_CONFUSED, false, false);
+		player_clear_timed(p, TMD_POISONED, false, false);
+		player_clear_timed(p, TMD_AFRAID, false, false);
+		player_clear_timed(p, TMD_PARALYZED, false, false);
+		player_clear_timed(p, TMD_STUN, false, false);
+		player_clear_timed(p, TMD_CUT, false, false);
+		msg(_("¡Has sido restaurado!"));
+		p->upkeep->redraw |= (PR_HP);
+		return;
+		/* ===== FIN MODO INVENCIBLE (TESTING) - ELIMINAR ANTES DE COMPILAR FINAL ===== */
+
 		/* From hell's heart I stab at thee */
 		if (p->timed[TMD_BLOODLUST]
 			&& (p->chp + p->timed[TMD_BLOODLUST] + p->lev >= 0)) {
