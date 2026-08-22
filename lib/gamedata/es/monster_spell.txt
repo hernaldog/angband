@@ -168,11 +168,11 @@ hit:50
 effect:BOLT:ARROW
 dice:$Dd5
 expr:D:SPELL_POWER:/ 8 + 1
-lore:lanzar piedrecitas
+lore:lanzar piedras
 lore-color-base:Yellow
-message-vis:{name} {target} lanza una piedrecita con una honda.
+message-vis:{name} {target} lanza una piedra con una honda.
 message-invis:Escuchas algo volar por el aire.
-message-miss:{name} lanza una piedrecita, pero falla.
+message-miss:{name} lanza una piedra, pero falla.
 power-cutoff:25
 lore:lanzar perdigones de plomo
 lore-color-base:Yellow
