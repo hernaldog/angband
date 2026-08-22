@@ -154,7 +154,7 @@ msg-xtra:¡Te ensartan con púas venenosas!
 
 # rune -- summon (OoD) monster
 
-name:runa extraña:runa de invocar enemigo
+name:una extraña runa:runa de invocar enemigo
 graphics:^:B
 appear:1:3:0
 visibility:0
@@ -166,7 +166,7 @@ msg:¡Aparece un nuevo enemigo de la nada!
 
 # rune -- summon monsters
 
-name:runa extraña:runa de invocación
+name:una extraña runa:runa de invocación
 graphics:^:B
 appear:2:3:0
 visibility:0
@@ -178,7 +178,7 @@ msg:¡Estás envuelto en una nube de humo!
 
 # rune -- summon undead
 
-name:runa extraña:runa de nigromancia
+name:una extraña runa:runa de nigromancia
 graphics:^:B
 appear:1:20:0
 visibility:0
@@ -190,7 +190,7 @@ msg:Una sensación de pavor te invade...
 
 # rune -- summon dragons
 
-name:runa extraña:runa del canto de dragón
+name:una extraña runa:runa del canto de dragón
 graphics:^:B
 appear:1:20:0
 visibility:0
@@ -202,7 +202,7 @@ msg:¡Escuchas el llamado de un dragón!
 
 # rune -- summon demons
 
-name:runa extraña:boca del infierno
+name:una extraña runa:boca del infierno
 graphics:^:B
 appear:1:20:0
 visibility:0
@@ -216,7 +216,7 @@ msg:¡Aparecen demonios!
 
 # rune -- teleport
 
-name:runa extraña:runa de teletransporte
+name:una extraña runa:runa de teletransporte
 graphics:^:o
 appear:1:1:0
 visibility:30+d30
