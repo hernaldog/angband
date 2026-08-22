@@ -2644,7 +2644,7 @@ static void see_floor_items(game_event_type type, game_event_data *data,
 		/* Display objects on the floor */
 		screen_save();
 		show_floor(floor_list, floor_num, OLIST_WEIGHT, NULL);
-		prt(format(_("You see: ")), 0, 0);
+		prt(format("%s: ", p), 0, 0);
 
 		/* Wait for it.  Use key as next command. */
 		e = inkey_ex();
