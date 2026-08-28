@@ -5416,7 +5416,7 @@ msgid "You cannot buy that item because it is not in the store."
 msgstr "No puedes comprar ese objeto porque no está en la tienda."
 
 msgid " and hunts in packs"
-msgstr " y caza en manadas"
+msgstr " y caza en manada"
 
 msgid " at least"
 msgstr " al menos"
@@ -5746,7 +5746,7 @@ msgid " (You cannot use it!)"
 msgstr " (¡No usable!)"
 
 msgid "breathe "
-msgstr "aliento de "
+msgstr "exhalar "
 
 msgid "Add %d power for multiple brands, total is %d\n"
 msgstr "Añadir %d de poder por múltiples marcas, total es %d\n"

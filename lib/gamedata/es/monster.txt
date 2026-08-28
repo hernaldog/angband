@@ -4644,7 +4644,7 @@ flags:FORCE_SLEEP
 innate-freq:10
 spells:BR_FIRE
 friends:100:2d7:Same
-desc:Llamas lamen sus patas y su lengua es una hoja de fuego. Puedes sentir el
+desc:Salen llamas de sus patas y su lengua es una hoja de fuego. Puedes sentir el
 desc: calor de un horno irradiando de la criatura.
 
 name:sabueso de frío
