@@ -414,9 +414,13 @@ bool minus_ac(struct player *p)
 
 		/* Object resists */
 		if (obj->el_info[ELEM_ACID].flags & EL_INFO_IGNORE) {
-			msg(_("Your %s is unaffected!"), o_name);
+			msg(VERB_AGREEMENT(obj->number,
+				_("Your %s is unaffected!"),
+				_("Your %s are unaffected!")), o_name);
 		} else {
-			msg(_("Your %s is damaged!"), o_name);
+			msg(VERB_AGREEMENT(obj->number,
+				_("Your %s is damaged!"),
+				_("Your %s are damaged!")), o_name);
 
 			/* Damage the item */
 			obj->to_a--;

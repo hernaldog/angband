@@ -5904,6 +5904,9 @@ msgstr "%9ld prom"
 msgid "Your %s is damaged!"
 msgstr "¡Tu %s está dañado!"
 
+msgid "Your %s are damaged!"
+msgstr "¡Tus %s están dañadas!"
+
 msgid "You failed to disarm the chest."
 msgstr "No conseguiste desarmar el cofre."
 
@@ -6179,6 +6182,9 @@ msgstr "No se pudo encontrar el amigo llamado '%s' para el monstruo '%s'"
 
 msgid "Your %s is unaffected!"
 msgstr "¡Tu %s no se ve afectado!"
+
+msgid "Your %s are unaffected!"
+msgstr "¡Tus %s no se ven afectadas!"
 
 msgid "Attempt it anyway? "
 msgstr "¿Intentarlo de todas formas? "
