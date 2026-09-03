@@ -678,7 +678,7 @@ object:scroll:Detección de lo Invisible:0x83:0x9C
 ### Enchantments ###
 
 object:scroll:Encantamiento de golpe certero:0x83:0x9C
-object:scroll:Encantamiento de Daño:0x83:0x9C
+object:scroll:Encantar Arma para Daño:0x83:0x9C
 object:scroll:Encantar Armadura:0x83:0x9C
 object:scroll:*Encantar Arma*:0x83:0x9C
 object:scroll:*Encantar Armadura*:0x83:0x9C
@@ -847,7 +847,7 @@ object:dragon armor:Cota de Escamas de Dragón Blanco:0x8A:0x81
 object:dragon armor:Cota de Escamas de Dragón Rojo:0x8A:0x83
 object:dragon armor:Cota de Escamas de Dragón Verde:0x8A:0x84
 object:dragon armor:Cota de Escamas de Dragón Multicolor:0x8A:0x8B
-object:dragon armor:Pseudo-Dragon Scale Mail:0x8A:0x87
+object:dragon armor:Cota de Escamas de Dragón Brillante:0x8A:0x87
 object:dragon armor:Cota de Escamas de Dragón de la Ley:0x8A:0x89
 object:dragon armor:Cota de Escamas de Dragón Dorado:0x8A:0x86
 object:dragon armor:Cota de Escamas de Dragón del Caos:0x8A:0x88

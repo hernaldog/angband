@@ -921,7 +921,7 @@ object:food:Trozo de Pan Élfico:0x82:0x86
 object:food:Frasco de Whisky:0x88:0x83
 object:food:Sorbo de Vino Fino:0x82:0x81
 object:food:Sorbo de Miruvor:0x88:0xc8
-object:food:Un trago de licor orco:0x82:0x80
+object:food:Trago de Licor Orco:0x82:0x80
 object:food:Trago de los Ents:0x88:0xbc
 object:food:Manzana:0x9a:0xc6
 object:food:Galleta Dura:0x82:0x82
@@ -1144,7 +1144,7 @@ object:scroll:Detección de lo Invisible:0x87:0xEE
 ### Enchantments ###
 
 object:scroll:Encantamiento de golpe certero:0x87:0xCF
-object:scroll:Encantamiento de Daño:0x87:0xD0
+object:scroll:Encantar Arma para Daño:0x87:0xD0
 object:scroll:Encantar Armadura:0x87:0xD2
 object:scroll:*Encantar Arma*:0x87:0xEB
 object:scroll:*Encantar Armadura*:0x87:0xD1
@@ -1316,7 +1316,6 @@ object:dragon armor:Cota de Escamas de Dragón Blanco:0x80:0xBC
 object:dragon armor:Cota de Escamas de Dragón Rojo:0x80:0xBE
 object:dragon armor:Cota de Escamas de Dragón Verde:0x80:0xBF
 object:dragon armor:Cota de Escamas de Dragón Multicolor:0x80:0xC6
-object:dragon armor:Pseudo-Dragon Scale Mail:0x80:0xC2
 object:dragon armor:Cota de Escamas de Dragón de la Ley:0x80:0xC4
 object:dragon armor:Cota de Escamas de Dragón Dorado:0x80:0xC1
 object:dragon armor:Cota de Escamas de Dragón del Caos:0x80:0xC3

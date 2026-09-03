@@ -332,7 +332,7 @@ object:food:Trozo de Pan Élfico:0x82:0xA7
 object:food:Frasco de Whisky:0x82:0x80
 object:food:Sorbo de Vino Fino:0x82:0x81
 object:food:Sorbo de Miruvor:0x82:0xAE
-object:food:Un trago de licor orco:0x82:0xAD
+object:food:Trago de Licor Orco:0x82:0xAD
 object:food:Trago de los Ents:0x82:0xAF
 
 
@@ -520,7 +520,7 @@ object:scroll:Detección de lo Invisible:0x87:0xEE
 ### Enchantments ###
 
 object:scroll:Encantamiento de golpe certero:0x87:0xCF
-object:scroll:Encantamiento de Daño:0x87:0xD0
+object:scroll:Encantar Arma para Daño:0x87:0xD0
 object:scroll:Encantar Armadura:0x87:0xD2
 object:scroll:*Encantar Arma*:0x87:0xEAdquisiciónB
 object:scroll:*Encantar Armadura*:0x87:0xD1
