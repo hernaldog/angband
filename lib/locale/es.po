@@ -6214,7 +6214,7 @@ msgid "Sim type: Diving (1) or Clearing (2) "
 msgstr "Tipo de simulación: Buceo (1) o Limpieza (2) "
 
 msgid "You can learn %d more %s%s."
-msgstr "Puedes aprender otros %d %s%s más."
+msgstr "Puedes aprender %d %s%s más."
 
 msgid "Your light cannot be refueled."
 msgstr "Tu luz no se puede recargar."
@@ -6265,7 +6265,7 @@ msgid "That wand has no charges."
 msgstr "Esa varita no tiene cargas."
 
 msgid "You can learn %d more %s."
-msgstr "Puedes aprender otros %d %s más."
+msgstr "Puedes aprender %d %s más."
 
 msgid "invalid monster race flag: %s"
 msgstr "marca de raza de monstruo inválida: %s"
