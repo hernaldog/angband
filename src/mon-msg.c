@@ -517,6 +517,15 @@ static void show_message(struct monster_race_message *msg)
 			|| (streq(lang_current, "es")
 				&& monster_name_is_plural_es(msg->race->name)));
 
+	/* Spanish: use active voice for "destroyed" messages */
+	if (streq(lang_current, "es") && msg->msg_code == MON_MSG_DESTROYED) {
+		size_t sublen = strlen(subject);
+		if (sublen > 0 && subject[sublen - 1] == ' ')
+			subject[sublen - 1] = '\0';
+		msgt(msg_type, "Eliminaste a %s.", subject);
+		return;
+	}
+
 	/* Spanish opens exclamations with an inverted mark before the subject */
 	const char *excl = (streq(lang_current, "es") && body[0]
 			&& body[strlen(body) - 1] == '!') ? "¡" : "";
