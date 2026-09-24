@@ -17,7 +17,7 @@
 #include "z-file.h"
 #include "lang.h"
 
-char lang_current[8] = "en";
+char lang_current[8] = "es";
 
 /* ------------------------------------------------------------------ */
 /* Translation table                                                   */

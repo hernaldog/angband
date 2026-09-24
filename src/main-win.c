@@ -5609,10 +5609,10 @@ int FAR PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,
 	/* Prepare the filepaths */
 	init_stuff();
 
-	/* Read language from INI, default to English */
+	/* Read language from INI, default to Spanish */
 	{
 		char lang[8];
-		GetPrivateProfileStringA("Angband", "Language", "en", lang, sizeof(lang), ini_file);
+		GetPrivateProfileStringA("Angband", "Language", "es", lang, sizeof(lang), ini_file);
 
 		/* Load translations for the chosen language */
 		lang_init(lang, angband_lib_dir);
