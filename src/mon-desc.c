@@ -580,6 +580,9 @@ void monster_desc(char *desc, size_t max, const struct monster *mon, int mode)
 						is_a_vowel(mon->race->name[0]) ? "an " : "a ",
 						max);
 				}
+			} else if (es && (mode & MDESC_OBJE)) {
+				/* No article for objective case in Spanish */
+				my_strcpy(desc, "", max);
 			} else if (es && monster_name_is_ungendered_es(mon->race->name)) {
 				my_strcpy(desc, "", max);
 			} else if (es) {

@@ -4852,7 +4852,7 @@ msgid "to magic missiles"
 msgstr "a los proyectiles mágicos"
 
 msgid "You have activated %s!"
-msgstr "¡Has activado %s!"
+msgstr "¡Has activado una %s!"
 
 msgid "The object magically increases the player's damage"
 msgstr "Aumenta mágicamente el daño del jugador"
