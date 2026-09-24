@@ -189,9 +189,9 @@ static int test_monster_name_plural_es_0(void *state) {
 	/* Plural names: the head noun ends in "s". */
 	require(monster_name_is_plural_es("monedas de oro rastreras"));
 	require(monster_name_is_plural_es("monedas de cobre rastreras"));
-	require(monster_name_is_plural_es("yetis"));
 
 	/* Singular names. */
+	require(!monster_name_is_plural_es("yeti"));
 	require(!monster_name_is_plural_es("mago drúadan"));
 	require(!monster_name_is_plural_es("goblin"));
 	require(!monster_name_is_plural_es("araña de cueva"));

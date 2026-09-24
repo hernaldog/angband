@@ -2531,8 +2531,8 @@ experience:3
 blow:BITE:HURT:1d2
 desc:Te pica con solo mirarlo.
 
-name:yetis
-plural:yetis
+name:yeti
+plural:yeti
 base:yeti
 color:w
 speed:110
