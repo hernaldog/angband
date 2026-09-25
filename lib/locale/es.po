@@ -2305,7 +2305,7 @@ msgid "Gravity warps around you."
 msgstr "La gravedad se distorsiona a tu alrededor."
 
 msgid "You feel your life force draining away!"
-msgstr "¡Sientes que tu fuerza vital se drena!"
+msgstr "¡Sientes cómo se agota tu fuerza vital!"
 
 msgid "Your mind is dulled."
 msgstr "Tu mente se embota."
@@ -6160,7 +6160,7 @@ msgid "use the wand"
 msgstr "usar la varita"
 
 msgid "You feel your life draining away."
-msgstr "Sientes que tu vida se drena."
+msgstr "Sientes cómo te arrebatan la vida."
 
 msgid "Aim which wand? "
 msgstr "¿Qué varita usar? "

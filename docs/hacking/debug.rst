@@ -1,181 +1,184 @@
-==========================
-Debug Command Descriptions
-==========================
+======================================
+Descripciones de Comandos de Depuración
+======================================
 
-Item Creation
-=============
+Creación de Objetos
+===================
 
-Create an object ``c``
-  Provides a menu to let you create any object, and drops it on the floor.
+Crear un objeto ``c``
+  Muestra un menú para crear cualquier objeto y lo deja caer en el suelo.
 
-Create an artifact ``C``
-  Provides a menu to let you create any artifact, and drops it on the floor.
+Crear un artefacto ``C``
+  Muestra un menú para crear cualquier artefacto y lo deja caer en el suelo.
 
-Create a good object ``g``
-  Prompts for the number of objects to create and then creates that many
-  good objects nearby.
+Crear un objeto bueno ``g``
+  Solicita la cantidad de objetos a crear y luego genera esa cantidad de
+  objetos buenos en los alrededores.
 
-Create a very good object ``v``
-  Prompts for the number of objects to create and then creates that many
-  very good ("excellent") objects nearby.
+Crear un objeto muy bueno ``v``
+  Solicita la cantidad de objetos a crear y luego genera esa cantidad de
+  objetos muy buenos ("excelentes") en los alrededores.
 
-Play with an object ``o``
-  Lets you modify an object by randomly rerolling it as a normal, good, or
-  excellent object or lets you edit its attributes, including quantity, ego
-  type, presence or absence of curses, combat values, and modifiers.  There's
-  also a statistics option to evaluate how likely worse, better, or matching
-  objects of the same kind would be generated.
+Jugar con un objeto ``o``
+  Permite modificar un objeto regenerándolo aleatoriamente como un objeto
+  normal, bueno o excelente, o editar sus atributos, incluyendo cantidad, tipo
+  de ego, presencia o ausencia de maldiciones, valores de combate y
+  modificadores. También hay una opción de estadísticas para evaluar qué tan
+  probable sería generar objetos peores, mejores o equivalentes del mismo tipo.
 
-Test kind ``V``
-  Will prompt for a tval, as an integer.  For that tval, creates one object
-  of each sval and drops it nearby.  There is a similar option with the 'c'
-  command, but this one will generate any instant artifacts associated with
-  a tval and selects the tval by number rather than name.
+Probar tipo ``V``
+  Solicita un tval como número entero. Para ese tval, crea un objeto de cada
+  sval y lo deja caer en los alrededores. Existe una opción similar con el
+  comando ``c``, pero este genera cualquier artefacto instantáneo asociado a
+  un tval y selecciona el tval por número en lugar de por nombre.
 
-Detection / Information
+Detección / Información
 =======================
 
-Detect all ``d``
-  Detects all traps, doors, stairs, treasure, and monsters nearby.
+Detectar todo ``d``
+  Detecta todas las trampas, puertas, escaleras, tesoros y monstruos cercanos.
 
-Magic Mapping ``m``
-  Maps the nearby dungeon.
+Mapeado mágico ``m``
+  Mapea la mazmorra cercana.
 
-Learn about objects ``l``
-  Makes you "aware" of all items with level less than or equal to 100.
+Aprender sobre objetos ``l``
+  Te hace "consciente" de todos los objetos con nivel menor o igual a 100.
 
-Monster recall ``r``
-  Gives you full monster recall on all monsters or on a chosen monster.
+Recuerdo de monstruos ``r``
+  Te da el recuerdo completo de todos los monstruos o de uno elegido.
 
-Wipe recall ``W``
-  Resets monster recall on all monsters or on a chosen monster.
+Borrar recuerdo ``W``
+  Reinicia el recuerdo de todos los monstruos o de uno elegido.
 
-Unhide monsters ``u``
-  Reveals all monsters.
+Revelar monstruos ``u``
+  Revela todos los monstruos.
 
-Wizard-light the level ``w``
-  Lights the entire level, as the Potion of Enlightenment.
+Iluminar el nivel con luz mágica ``w``
+  Ilumina el nivel entero, como la Poción de Iluminación.
 
-Create spoilers ``"``
-  Lets you create a spoiler file for objects or monsters.
+Crear spoilers ``"``
+  Permite crear un archivo de spoilers para objetos o monstruos.
 
-Teleportation
-=============
+Teletransportación
+==================
 
-Teleport level ``j``
-  Allows you to teleport to any dungeon level instantly.
+Teletransportar nivel ``j``
+  Permite teletransportarte a cualquier nivel de la mazmorra al instante.
 
-Phase Door ``p``
-  Teleports you up to 10 spaces away.
+Puerta de Fase ``p``
+  Te teletransporta hasta 10 espacios de distancia.
 
-Teleport ``t``
-  Teleports you up to 100 spaces away.
+Teletransporte ``t``
+  Te teletransporta hasta 100 espacios de distancia.
 
-Teleport to target ``b``
-  Teleports you to the targeted grid (or close to it, if it is occupied).
+Teletransporte al objetivo ``b``
+  Te teletransporta a la casilla objetivo (o cerca de ella, si está ocupada).
 
-Character Improvement
-=====================
+Mejora del Personaje
+====================
 
-Cure all maladies ``a``
-  Removes all curses, restores all stats, xp, hp, and sp, cures all bad
-  effects, and satisfies your hunger.
+Curar todas las dolencias ``a``
+  Elimina todas las maldiciones, restaura todas las estadísticas, xp, hp y sp,
+  cura todos los efectos negativos y sacia tu hambre.
 
-Advance the character ``A``
-  Advances your character to level 50, maxes all stats, and gives you a
-  million gold.
+Avanzar el personaje ``A``
+  Lleva tu personaje al nivel 50, maximiza todas las estadísticas y te da un
+  millón de monedas de oro.
 
-Edit character ``e``
-  Lets you specify your base stats, xp, and gold.
+Editar personaje ``e``
+  Permite especificar tus estadísticas base, xp y oro.
 
-Increase experience ``x``
-  Prompts for an amount, up to 9999, to add to your current experience.
+Aumentar experiencia ``x``
+  Solicita una cantidad, hasta 9999, para añadir a tu experiencia actual.
 
-Rerate hitpoints ``h``
-  Rerates your hitpoints.
+Recalcular puntos de vida ``h``
+  Recalcula tus puntos de vida.
 
-Monsters
-========
+Monstruos
+=========
 
-Summon monster ``n``
-  Prompts you for the name or integer index of a monster, then summons that
-  monster nearby.
+Invocar monstruo ``n``
+  Solicita el nombre o índice entero de un monstruo y luego lo invoca cerca
+  de ti.
 
-Summon random monster ``s``
-  Prompts for a number and then summons that many random monsters near you.
+Invocar monstruo aleatorio ``s``
+  Solicita una cantidad y luego invoca ese número de monstruos aleatorios
+  cerca de ti.
 
-Zap monsters ``z``
-  Prompts for a distance, up to the maximum sight range, and deletes all
-  monsters within that distance.
+Eliminar monstruos ``z``
+  Solicita una distancia, hasta el rango máximo de visión, y elimina todos
+  los monstruos dentro de esa distancia.
 
-Hit all in line of sight ``H``
-  Hits all monster in the line of sight for a large, 10000, amount of damage.
+Golpear a todos en línea de visión ``H``
+  Golpea a todos los monstruos en línea de visión con una gran cantidad de
+  daño: 10000.
 
 .. _DebugDungeon:
 
-Dungeon
+Mazmorra
 ========
 
-Create a trap ``T``
-  Prompts for the type of trap to create and places it on your square.
+Crear una trampa ``T``
+  Solicita el tipo de trampa a crear y la coloca en tu casilla actual.
 
-Perform an effect ``E``
-  Prompts for an effect type and its parameters.  Then executes that effect.
+Ejecutar un efecto ``E``
+  Solicita un tipo de efecto y sus parámetros, y luego ejecuta ese efecto.
 
-Quit without saving ``X``
-  Quits the game without saving (prompts first).
+Salir sin guardar ``X``
+  Sale del juego sin guardar (solicita confirmación primero).
 
-Query the dungeon ``q``
-  Light up all the grids with a given square flag
-  (see src/list-square-flags.h).
+Consultar la mazmorra ``q``
+  Ilumina todas las casillas que tengan un flag de casilla determinado
+  (ver src/list-square-flags.h).
 
-Query terrain ``F``
-  Light up all the grids with a given terrain type
-  (see lib/gamedata/terrain.txt).
+Consultar terreno ``F``
+  Ilumina todas las casillas con un tipo de terreno determinado
+  (ver lib/gamedata/terrain.txt).
 
-Collect stats ``f`` or ``S``
-  Collects stats on monsters and objects present on level generation.
-  Requests number of runs, and whether diving or clearing levels, and
-  outputs the results into the file 'stats.log' in the user directory.
-  The comments in that file will be helpful for interpreting the
-  results; for more in-depth information, it's best to check the
-  implementation of stats_collect() in wiz-stats.c.
+Recopilar estadísticas ``f`` o ``S``
+  Recopila estadísticas sobre monstruos y objetos presentes al generar un
+  nivel. Solicita el número de ejecuciones y si se deben explorar niveles en
+  profundidad o limpiarlos, y escribe los resultados en el archivo
+  'stats.log' en el directorio del usuario. Los comentarios en ese archivo
+  ayudarán a interpretar los resultados; para información más detallada, es
+  recomendable revisar la implementación de stats_collect() en wiz-stats.c.
 
-Collect disconnection stats ``D``
-  Generates several levels to collect statistics about how often all
-  down staircases are inaccessible to the player, how often the player's
-  starting location isn't valid,  and how often a level has non-vault
-  areas that are inaccessible to the player.  The results are written
-  to the message window, and maps of the levels that are disconnected or
-  have invalid starting locations are written to 'disconnect.html' in
-  the user directory.  Also collects general statistics about the
-  layout of all the generated levels and writes them to
-  'disconnect_gstat.txt' in the user directory.  For more in-depth
-  details about what's considered disconnected and what else is
-  summarized about level generation, check the implementation for
-  disconnect_stats() in wiz-stats.c.
+Recopilar estadísticas de desconexión ``D``
+  Genera varios niveles para recopilar estadísticas sobre con qué frecuencia
+  todas las escaleras descendentes son inaccesibles para el jugador, con qué
+  frecuencia la ubicación inicial del jugador no es válida, y con qué
+  frecuencia un nivel tiene áreas sin bóveda inaccesibles para el jugador.
+  Los resultados se escriben en la ventana de mensajes, y los mapas de los
+  niveles desconectados o con ubicaciones iniciales inválidas se escriben en
+  'disconnect.html' en el directorio del usuario. También recopila estadísticas
+  generales sobre la distribución de todos los niveles generados y las escribe
+  en 'disconnect_gstat.txt' en el directorio del usuario. Para más detalles
+  sobre qué se considera desconectado y qué más se resume sobre la generación
+  de niveles, consulta la implementación de disconnect_stats() en wiz-stats.c.
 
-Collect pit stats ``P``
-  Generates several pits of the room type you specify (pit, nest, or
-  other) and computes a histogram of the types of monsters involved.
-  A summary of the results are written to the message window.
-  Per-level results and the summary are also written to a file.
+Recopilar estadísticas de pozos ``P``
+  Genera varios pozos del tipo de sala que especifiques (foso, nido u otro)
+  y calcula un histograma de los tipos de monstruos involucrados. Un resumen
+  de los resultados se escribe en la ventana de mensajes. Los resultados por
+  nivel y el resumen también se escriben en un archivo.
 
-Nick hack ``_``
-  Maps out the reachable grids (by the sound and scent algorithm) in
-  successive distances from the player grid.
+Hack Nick ``_``
+  Mapea las casillas accesibles (por el algoritmo de sonido y olfato) en
+  distancias sucesivas desde la casilla del jugador.
 
-Push objects ``>``
-  Pushes objects off the targeted grid as a way of exercising push_object().
+Empujar objetos ``>``
+  Empuja los objetos fuera de la casilla objetivo como forma de probar
+  push_object().
 
-Write a map of the current level ``M``
-  Writes out a map of the current level as an HTML file.
+Escribir un mapa del nivel actual ``M``
+  Escribe un mapa del nivel actual como archivo HTML.
 
-Miscellaneous
-=============
+Miscelánea
+==========
 
-Animations demo ``G``
-  Displays the graphics or characters used for animating projection effects.
+Demo de animaciones ``G``
+  Muestra los gráficos o caracteres usados para animar los efectos de
+  proyección.
 
-Key log ``L``
-  Displays the recent keystrokes entered.
+Registro de teclas ``L``
+  Muestra las pulsaciones de teclas recientes.
