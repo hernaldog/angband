@@ -3065,6 +3065,18 @@ msgstr "Rápido"
 msgid "Slow"
 msgstr "Lento"
 
+msgid "AC Act "
+msgstr "CA Act "
+
+msgid "HP "
+msgstr "Pv "
+
+msgid "Mov +%d "
+msgstr "Mov +%d "
+
+msgid "Mov -%d "
+msgstr "Mov -%d "
+
 msgid "Display inven/equip"
 msgstr "Mostrar inv/equip"
 

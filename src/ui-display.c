@@ -303,7 +303,7 @@ static void prt_ac(int row, int col)
 {
 	char tmp[32];
 
-	put_str("AC Act ", row, col);
+	put_str(_("AC Act "), row, col);
 	strnfmt(tmp, sizeof(tmp), "%5d", 
 			player->known_state.ac + player->known_state.to_a);
 	c_put_str(COLOUR_L_GREEN, tmp, row, col + 7);
@@ -317,7 +317,7 @@ static void prt_hp(int row, int col)
 	char cur_hp[32], max_hp[32];
 	uint8_t color = player_hp_attr(player);
 
-	put_str("HP ", row, col);
+	put_str(_("HP "), row, col);
 
 	strnfmt(max_hp, sizeof(max_hp), "%4d", player->mhp);
 	strnfmt(cur_hp, sizeof(cur_hp), "%4d", player->chp);
@@ -514,7 +514,8 @@ static void prt_speed(int row, int col)
 	prt_speed_aux(buf, sizeof(buf), &attr);
 
 	/* Display the speed */
-	c_put_str(attr, format("%-11s", buf), row, col);
+	Term_erase(col, row, 255);
+	c_put_str(attr, buf, row, col);
 }
 
 static int fmt_depth(char buf[], int max)
@@ -733,11 +734,14 @@ static int prt_speed_short(int row, int col)
 {
 	char buf[32];
 	uint8_t attr;
+	int width;
 
 	int len = prt_speed_aux(buf, sizeof(buf), &attr);	
 	if (len > 0) {
+		width = (int)utf8_strlen(buf) + 1;
+		Term_erase(col, row, width);
 		c_put_str(attr, buf, row, col);
-		return len+1;
+		return width;
 	}
 	return 0;
 }
@@ -1154,10 +1158,10 @@ static size_t prt_moves(int row, int col)
 	/* 1 move is normal and requires no display */
 	if (i > 0) {
 		/* Display the number of moves */
-		c_put_str(COLOUR_L_TEAL, format("Mov +%d ", i), row, col);
+		c_put_str(COLOUR_L_TEAL, format(_("Mov +%d "), i), row, col);
 	} else if (i < 0) {
 		/* Display the number of moves */
-		c_put_str(COLOUR_L_TEAL, format("Mov -%d ", ABS(i)), row, col);
+		c_put_str(COLOUR_L_TEAL, format(_("Mov -%d "), ABS(i)), row, col);
 	}
 
 	/* Shouldn't be double digits, but be paranoid */
