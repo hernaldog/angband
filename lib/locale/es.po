@@ -3523,7 +3523,7 @@ msgid "Display equippables comparison"
 msgstr "Mostrar comparación de equipables"
 
 msgid "Show contents of %s'%s%s"
-msgstr "Mostrar contenido de %s'%s%s"
+msgstr "Mostrar contenido de %s%.0s%s"
 
 msgid "Show contents of store %d%s"
 msgstr "Mostrar contenido de tienda %d%s"
