@@ -324,3 +324,19 @@ const char *lang_get(const char *key)
 	}
 	return key;
 }
+
+const char *lang_get_gendered(const char *key, bool feminine)
+{
+	char variant[512];
+	int i;
+
+	if (!key) return "";
+	if (!translations) return key;
+
+	strnfmt(variant, sizeof(variant), "%s (%c)", key, feminine ? 'f' : 'm');
+	for (i = 0; i < trans_count; i++) {
+		if (strcmp(translations[i].msgid, variant) == 0)
+			return translations[i].msgstr;
+	}
+	return lang_get(key);
+}

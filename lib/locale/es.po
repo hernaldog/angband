@@ -4054,6 +4054,80 @@ msgstr "Soltaste %s."
 msgid "You no longer have %s."
 msgstr "Ya no tienes %s."
 
+# --- project-obj.c ---
+
+msgid "Your %s (%c) was damaged!"
+msgstr "¡Se dañó tu %s (%c)!"
+
+msgid "Your %s (%c) was destroyed!"
+msgstr "¡Se destruyó tu %s (%c)!"
+
+msgid "All of your %s (%c) were damaged!"
+msgstr "¡Se dañaron todos tus %s (%c)!"
+
+msgid "All of your %s (%c) were destroyed!"
+msgstr "¡Se destruyeron todos tus %s (%c)!"
+
+msgid "Some of your %s (%c) were damaged!"
+msgstr "¡Se dañaron algunos de tus %s (%c)!"
+
+msgid "Some of your %s (%c) were destroyed!"
+msgstr "¡Se destruyeron algunos de tus %s (%c)!"
+
+msgid "One of your %s (%c) was damaged!"
+msgstr "¡Se dañó uno de tus %s (%c)!"
+
+msgid "One of your %s (%c) was destroyed!"
+msgstr "¡Se destruyó uno de tus %s (%c)!"
+
+msgid "Click!"
+msgstr "¡Clic!"
+
+msgid "The %s is unaffected!"
+msgstr "¡%s no se ve afectado!"
+
+msgid "The %s are unaffected!"
+msgstr "¡%s no se ven afectados!"
+
+msgid "The %s is unaffected! (f)"
+msgstr "¡%s no se ve afectada!"
+
+msgid "The %s is unaffected! (m)"
+msgstr "¡%s no se ve afectado!"
+
+msgid "The %s are unaffected! (f)"
+msgstr "¡%s no se ven afectadas!"
+
+msgid "The %s are unaffected! (m)"
+msgstr "¡%s no se ven afectados!"
+
+msgid "The %s %s!"
+msgstr "¡%s %s!"
+
+msgid "melts"
+msgstr "se derrite"
+
+msgid "melt"
+msgstr "se derriten"
+
+msgid "is destroyed"
+msgstr "se destruye"
+
+msgid "are destroyed"
+msgstr "se destruyen"
+
+msgid "burns up"
+msgstr "se quema"
+
+msgid "burn up"
+msgstr "se queman"
+
+msgid "shatters"
+msgstr "se hace pedazos"
+
+msgid "shatter"
+msgstr "se hacen pedazos"
+
 # --- cave-square.c ---
 
 msgid "on "

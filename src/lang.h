@@ -6,6 +6,7 @@
 #ifndef INCLUDED_LANG_H
 #define INCLUDED_LANG_H
 
+#include <stdbool.h>
 #include <stddef.h>
 
 /**
@@ -34,6 +35,20 @@ extern char lang_current[8];
  * Translate a string. In English mode returns the string unchanged.
  */
 #define _(str) lang_get(str)
+
+/**
+ * Translate a string that has grammatical gender variants in the .po file.
+ * Looks up "<key> (f)" when feminine and "<key> (m)" otherwise, falling
+ * back to <key> when that variant is missing (no .po loaded, as in English).
+ * \param key is the untranslated English string
+ * \param feminine is whether the noun is grammatically feminine
+ */
+const char *lang_get_gendered(const char *key, bool feminine);
+
+/**
+ * Translate a string with a grammatical gender variant (see above).
+ */
+#define _G(key, feminine) lang_get_gendered(key, feminine)
 
 /* ------------------------------------------------------------------ */
 /* Unit display configuration (loaded from lib/locale/units.ini)      */
