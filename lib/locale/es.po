@@ -6676,7 +6676,7 @@ msgid "[is|are] no longer confused."
 msgstr "ya no [está|están] confundid{o|a}[|s]."
 
 msgid "look[s|] slower."
-msgstr "se ve[|n] más lent{o|a}[|s]."
+msgstr "se mueve[|n] más lent{o|a}[|s]."
 
 msgid "speed[s|] up."
 msgstr "acelera[|n]."

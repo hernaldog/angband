@@ -1726,12 +1726,12 @@ static const char *mon_feeling_text[] =
 	/* first string is just a place holder to
 	 * maintain symmetry with obj_feeling.
 	 */
-	"Aún no estás seguro sobre este lugar",
+	"Aún no estás seguro de este lugar",
 	"Augurios de muerte acechan este lugar",
 	"Este lugar se ve mortal",
 	"Este lugar parece terriblemente peligroso",
-	"Te sientes ansioso sobre este lugar",
-	"Te sientes nervioso sobre este lugar",
+	"Te sientes ansioso en este lugar",
+	"Te sientes nervioso en este lugar",
 	"Este lugar no parece demasiado arriesgado",
 	"Este lugar parece razonablemente seguro",
 	"Este parece un lugar tranquilo y protegido",
