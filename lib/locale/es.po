@@ -9796,3 +9796,21 @@ msgstr "{target} preguntan si {has} visto a sus perros"
 msgid "murmura algo sobre setas"
 msgstr "murmuran algo sobre setas"
 
+msgid "Starving"
+msgstr "Muriendo de hambre"
+
+msgid "Faint"
+msgstr "Desmayo"
+
+msgid "Weak"
+msgstr "Débil"
+
+msgid "Hungry"
+msgstr "Hambriento"
+
+msgid "Fed"
+msgstr "Sin hambre"
+
+msgid "Full"
+msgstr "Saciado"
+

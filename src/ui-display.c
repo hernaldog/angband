@@ -1264,12 +1264,15 @@ static size_t prt_tmd(int row, int col)
 	for (i = 0; i < TMD_MAX; i++) {
 		if (player->timed[i]) {
 			struct timed_grade *grade = timed_effects[i].grade;
+			const char *name;
+
 			while (player->timed[i] > grade->max) {
 				grade = grade->next;
 			}
 			if (!grade->name) continue;
-			c_put_str(grade->color, grade->name, row, col + len);
-			len += strlen(grade->name) + 1;
+			name = _(grade->name);
+			c_put_str(grade->color, name, row, col + len);
+			len += strlen(name) + 1;
 
 			/* Food meter */
 			if (i == TMD_FOOD) {
