@@ -3990,7 +3990,7 @@ msgid " (asleep)"
 msgstr " (dormido)"
 
 msgid "%6s...and %d others.\n"
-msgstr "%6s...y %d otros.\n"
+msgstr "%6s...y otros %d.\n"
 
 msgid "Your hallucinations are too wild to see things clearly.\n"
 msgstr "Tus alucinaciones son demasiado salvajes para ver las cosas con claridad.\n"
