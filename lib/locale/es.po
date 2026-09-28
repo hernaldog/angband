@@ -1565,7 +1565,7 @@ msgid "probe"
 msgstr "sondear"
 
 msgid "teleports %s randomly %s"
-msgstr "teletransporta %s aleatoriamente %s"
+msgstr "%s teletransporta aleatoriamente %s"
 
 msgid "teleport %s %s"
 msgstr "teletransportar %s %s"

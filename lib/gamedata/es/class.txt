@@ -1206,7 +1206,7 @@ desc: ya, a costa de 100 puntos de vida.
 spell:Dominar:45:40:60:250
 effect:COMMAND
 dice:5+1d10
-desc:Te permite tomar el control de un monstruo y moverlo en lugar de a ti mismo.
+desc:Te permite tomar el control de un monstruo y moverlo en lugar de ti mismo.
 desc:  Las acciones posibles son mover, quedarse quieto, 's'oltar, 'm'agia o 'l'iberar.
 
 ############### PALADIN ###############

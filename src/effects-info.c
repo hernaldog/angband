@@ -484,7 +484,9 @@ textblock *effect_describe(const struct effect *e, const char *prefix,
 						_("%d grids"), value.base);
 				}
 				strnfmt(desc, sizeof(desc), edesc,
-					(e->subtype) ? _("a monster") : _("you"),
+					(e->subtype) ? _("a monster") :
+					(streq(lang_current, "es") ? "te" :
+					_("you")),
 					dist);
 			}
 			break;

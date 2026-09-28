@@ -13332,7 +13332,7 @@ spells:BR_ACID
 color-cycle:fancy:bile
 desc:Un dragón enorme y muy poderoso. Grandes charcos humeantes de ácido gotean
 desc: de su forma al suelo. Te estremeces al ver el ácido carcomiendo las mismas
-desc: piedras de la mazmorra. ¿Qué podría hacerte a ti?
+desc: piedras de la mazmorra. ¿Qué podría hacerte?
 
 name:gran wyrm de trueno
 plural:grandes wyrms de trueno
