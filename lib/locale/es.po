@@ -1289,7 +1289,7 @@ msgid "heals hitpoints of the monster's kin"
 msgstr "cura puntos de vida a monstruos aliados"
 
 msgid "%s for %s turns (%s percent)"
-msgstr "%s durante %s turnos (%s por ciento)"
+msgstr "%s durante %s turnos (%s %%)"
 
 msgid "crunches"
 msgstr "cruje"
