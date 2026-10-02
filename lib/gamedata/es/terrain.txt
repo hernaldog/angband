@@ -346,7 +346,7 @@ die-msg:quemado hasta convertirse en cenizas en la lava
 resist-flag:IM_FIRE
 
 code:PASS_RUBBLE
-name:montón de escombros transitable
+name:escombros transitables
 graphics:::u
 priority:13
 flags:ROCK | PASSABLE | INTERESTING | TORCH

@@ -40,7 +40,7 @@ Características que bloquean la línea de visión
 #  Una puerta secreta             #  Una pared
 +  Una puerta cerrada             %  Una veta mineral
 +  Una puerta con llave           *  Una veta mineral con tesoro
-:  Un montón de escombros         :  Un montón de escombros transitable
+:  Un montón de escombros         :  Escombros transitables
 
 
 Objetos
