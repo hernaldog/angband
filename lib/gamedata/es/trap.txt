@@ -383,7 +383,7 @@ msg:¡Suena una trompeta!
 
 # explosion -- mine
 
-name:explosión:trampa de mina
+name:trampa explosiva:trampa de mina
 graphics:^:M
 appear:1:15:0
 visibility:10+d5
@@ -396,7 +396,7 @@ msg:¡El suelo explota a tu alrededor!
 
 # explosion -- blast
 
-name:explosión:trampa de explosión
+name:trampa explosiva:trampa de explosión
 graphics:^:M
 appear:2:25:0
 visibility:0
