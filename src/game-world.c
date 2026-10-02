@@ -301,7 +301,7 @@ static void decrease_timeouts(void)
 			case TMD_CUT:
 			{
 				/* Check for truly "mortal" wound */
-				if (player_timed_grade_eq(player, i, "Mortal Wound")) {
+				if (player_timed_grade_eq(player, i, _("Mortal Wound"))) {
 					decr = 0;
 				} else {
 					decr = adjust;
@@ -600,10 +600,10 @@ void process_world(struct chunk *c)
 		if (player_has(player, PF_ROCK)) {
 			/* Rock players just maintain */
 			i = 0;
-		} else if (player_timed_grade_eq(player, TMD_CUT, "Mortal Wound") ||
-				   player_timed_grade_eq(player, TMD_CUT, "Deep Gash")) {
+		} else if (player_timed_grade_eq(player, TMD_CUT, _("Mortal Wound")) ||
+				   player_timed_grade_eq(player, TMD_CUT, _("Deep Gash"))) {
 			i = 3;
-		} else if (player_timed_grade_eq(player, TMD_CUT, "Severe Cut")) {
+		} else if (player_timed_grade_eq(player, TMD_CUT, _("Severe Cut"))) {
 			i = 2;
 		} else {
 			i = 1;
@@ -965,7 +965,7 @@ void process_player(void)
 
 		/* Paralyzed or Knocked Out player gets no turn */
 		if (player->timed[TMD_PARALYZED] ||
-			player_timed_grade_eq(player, TMD_STUN, "Knocked Out")) {
+			player_timed_grade_eq(player, TMD_STUN, _("Knocked Out"))) {
 			cmdq_push(CMD_SLEEP);
 		}
 

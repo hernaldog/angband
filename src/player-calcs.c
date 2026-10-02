@@ -2097,7 +2097,7 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 	}
 
 	/* Effects of food outside the "Fed" range */
-	if (!player_timed_grade_eq(p, TMD_FOOD, "Alimentado")) {
+	if (!player_timed_grade_eq(p, TMD_FOOD, "Fed")) {
 		int excess = p->timed[TMD_FOOD] - PY_FOOD_FULL;
 		int lack = PY_FOOD_HUNGRY - p->timed[TMD_FOOD];
 		if ((excess > 0) && !p->timed[TMD_ATT_VAMP]) {
@@ -2139,14 +2139,14 @@ void calc_bonuses(struct player *p, struct player_state *state, bool known_only,
 	/* Other timed effects */
 	player_flags_timed(p, state->flags);
 
-	if (player_timed_grade_eq(p, TMD_STUN, "Aturdimiento Fuerte")) {
+	if (player_timed_grade_eq(p, TMD_STUN, _("Heavy Stun"))) {
 		state->to_h -= 20;
 		state->to_d -= 20;
 		adjust_skill_scale(&state->skills[SKILL_DEVICE], -1, 5, 0);
 		if (update) {
 			p->timed[TMD_FASTCAST] = 0;
 		}
-	} else if (player_timed_grade_eq(p, TMD_STUN, "Aturdimiento")) {
+	} else if (player_timed_grade_eq(p, TMD_STUN, _("Stun"))) {
 		state->to_h -= 5;
 		state->to_d -= 5;
 		adjust_skill_scale(&state->skills[SKILL_DEVICE], -1, 10, 0);

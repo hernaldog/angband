@@ -9814,3 +9814,22 @@ msgstr "Sin hambre"
 msgid "Full"
 msgstr "Saciado"
 
+# --- Grade names for player_timed_grade_eq() in src/game-world.c and src/player-calcs.c ---
+
+msgid "Mortal Wound"
+msgstr "Herida Mortal"
+
+msgid "Deep Gash"
+msgstr "Cuchillada Profunda"
+
+msgid "Severe Cut"
+msgstr "Corte Grave"
+
+msgid "Knocked Out"
+msgstr "Inconsciente"
+
+msgid "Heavy Stun"
+msgstr "Aturdimiento Fuerte"
+
+msgid "Stun"
+msgstr "Aturdido"
