@@ -4572,7 +4572,7 @@ msgid "Wear/wield the item to use it."
 msgstr "Viste/empuña el objeto para usarlo."
 
 msgid "There is no known path to a down staircase."
-msgstr "No hay un camino conocido hacia una escalera hacia abajo."
+msgstr "No hay un camino conocido hacia las escaleras de bajada."
 
 msgid "The object magically increases the player's armor class"
 msgstr "Aumenta mágicamente la clase de armadura del jugador"
@@ -6015,7 +6015,7 @@ msgid "Add 20 power for full set of kills, total is %d\n"
 msgstr "Añadir 20 de poder por el juego completo de muertes, total es %d\n"
 
 msgid "There is no known path to an up staircase."
-msgstr "No hay un camino conocido hacia una escalera hacia arriba."
+msgstr "No hay un camino conocido hacia las escaleras de subida."
 
 msgid "You failed to pick the lock."
 msgstr "No conseguiste forzar la cerradura."
