@@ -121,29 +121,41 @@ static void textblock_vappend_c(textblock *tb, uint8_t attr, const char *fmt,
 		temp_space = mem_realloc(temp_space, temp_len * sizeof *temp_space);
 	}
 
-	/* Fix traduc UTF-8: retroceder si el string termina con bytes de secuencia incompleta. Ejemplo plural del Poción, Pociones
-	 * Esto puede ocurrir cuando vstrnfmt trunca en medio de un carácter multibyte. */
+	/* Fix traduc UTF-8: descartar sólo una secuencia incompleta al final.
+	 * Puede ocurrir cuando vstrnfmt o strnfcat truncan en medio de un carácter
+	 * multibyte (ejemplo: plural del Poción, Pociones). Una secuencia completa
+	 * al final, como la "í" de "teletransportar hacia sí", se conserva. */
 	{
 		int len = (int)strlen(temp_space);
-		while (len > 0) {
-			unsigned char last = (unsigned char)temp_space[len - 1];
-			/* Byte de inicio de 2 bytes (0xC2-0xDF) sin su continuación */
-			if (last >= 0xC2 && last <= 0xDF) {
-				temp_space[len - 1] = '\0';
-				break;
+		int start = len;
+
+		/* Retroceder sobre los bytes de continuación (10xxxxxx) */
+		while (start > 0
+			   && ((unsigned char)temp_space[start - 1] & 0xC0) == 0x80) {
+			start--;
+		}
+
+		if (start == 0) {
+			/* Sólo bytes de continuación: nada válido que mostrar */
+			if (len > 0) temp_space[0] = '\0';
+		} else {
+			unsigned char lead = (unsigned char)temp_space[start - 1];
+			int need = 1;
+
+			if (lead >= 0xC2 && lead <= 0xDF) {
+				need = 2;
+			} else if (lead >= 0xE0 && lead <= 0xEF) {
+				need = 3;
+			} else if (lead >= 0xF0 && lead <= 0xF4) {
+				need = 4;
+			} else if (lead >= 0x80) {
+				need = 0; /* byte inválido */
 			}
-			/* Byte de inicio de 3 bytes (0xE0-0xEF) */
-			if (last >= 0xE0 && last <= 0xEF) {
-				temp_space[len - 1] = '\0';
-				break;
+
+			/* Longitud de la última secuencia, contando el byte de inicio */
+			if (need <= 0 || (len - start + 1) < need) {
+				temp_space[start - 1] = '\0';
 			}
-			/* Byte de continuación suelto al final (0x80-0xBF) — retroceder */
-			if (last >= 0x80 && last <= 0xBF) {
-				temp_space[len - 1] = '\0';
-				len--;
-				continue;
-			}
-			break;
 		}
 	}
 

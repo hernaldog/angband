@@ -3,12 +3,64 @@
 #include "unit-test.h"
 #include "z-color.h"
 #include "z-textblock.h"
+#include "z-util.h"
+
+/**
+ * Minimal UTF-8 to wide character conversion, installed as text_mbcs_hook so
+ * tests of multibyte handling do not depend on the locale.
+ * As mbstowcs(), the returned count does not include the terminating null.
+ */
+static size_t test_utf8_mbstowcs(wchar_t *dest, const char *src, int n)
+{
+	const unsigned char *s = (const unsigned char *)src;
+	size_t count = 0;
+
+	while (*s) {
+		wchar_t wc;
+		int extra, i;
+
+		if (*s < 0x80) {
+			wc = (wchar_t)*s;
+			extra = 0;
+		} else if ((*s & 0xE0) == 0xC0) {
+			wc = (wchar_t)(*s & 0x1F);
+			extra = 1;
+		} else if ((*s & 0xF0) == 0xE0) {
+			wc = (wchar_t)(*s & 0x0F);
+			extra = 2;
+		} else if ((*s & 0xF8) == 0xF0) {
+			wc = (wchar_t)(*s & 0x07);
+			extra = 3;
+		} else {
+			return (size_t)-1;
+		}
+
+		s++;
+		for (i = 0; i < extra; i++) {
+			if ((*s & 0xC0) != 0x80) return (size_t)-1;
+			wc = (wchar_t)((wc << 6) | (*s & 0x3F));
+			s++;
+		}
+
+		if (dest) {
+			if ((int)count >= n) break;
+			dest[count] = wc;
+		}
+		count++;
+	}
+
+	if (dest) dest[count] = L'\0';
+
+	return count;
+}
 
 int setup_tests(void **state) {
+	text_mbcs_hook = test_utf8_mbstowcs;
 	ok;
 }
 
 int teardown_tests(void *state) {
+	text_mbcs_hook = NULL;
 	ok;
 }
 
@@ -32,6 +84,30 @@ static int test_append(void *state) {
 
 	textblock_append(tb, "%d", 20);
 	require(!wcscmp(textblock_text(tb), L"Hello20"));
+
+	textblock_free(tb);
+
+	ok;
+}
+
+static int test_append_utf8(void *state) {
+	textblock *tb = textblock_new();
+
+	require(tb);
+
+	/* A complete multibyte character at the end has to be kept. */
+	textblock_append(tb, "teletransportar hacia s\xC3\xAD");
+	require(!wcscmp(textblock_text(tb),
+		L"teletransportar hacia s" L"\x00ed"));
+	textblock_append(tb, ", drenar man\xC3\xA1");
+	require(!wcscmp(textblock_text(tb),
+		L"teletransportar hacia s" L"\x00ed" L", drenar man" L"\x00e1"));
+
+	/* An incomplete sequence at the end still has to be discarded. */
+	textblock_append(tb, " \xC3");
+	require(!wcscmp(textblock_text(tb),
+		L"teletransportar hacia s" L"\x00ed" L", drenar man" L"\x00e1"
+		L" "));
 
 	textblock_free(tb);
 
@@ -106,6 +182,7 @@ const char *suite_name = "z-textblock/textblock";
 struct test tests[] = {
 	{ "alloc", test_alloc },
 	{ "append", test_append },
+	{ "append_utf8", test_append_utf8 },
 	{ "colour", test_colour },
 	{ "length", test_length },
 	{ "append_textblock", test_append_textblock },

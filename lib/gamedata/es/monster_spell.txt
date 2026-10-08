@@ -951,7 +951,7 @@ name:HASTE
 hit:100
 effect:MON_TIMED_INC:FAST
 dice:50
-lore:auto-rapidez
+lore:acelerarse
 lore-color-base:Yellow
 message-vis:{name} se concentra en su cuerpo.
 message-invis:Escuchas que alguien murmura algo.
@@ -961,7 +961,7 @@ hit:100
 effect:MON_HEAL_HP
 dice:$B
 expr:B:SPELL_POWER:* 6
-lore:auto-curación
+lore:curarse
 lore-color-base:Yellow
 message-vis:{name} mágicamente comienza a cerrar sus heridas.
 message-invis:Escuchas que alguien murmura algo.
@@ -980,7 +980,7 @@ name:BLINK
 hit:100
 effect:TELEPORT
 dice:10
-lore:auto-parpadeo
+lore:parpadear
 lore-color-base:Light Green
 message-vis:{name} parpadea.
 message-invis:Escuchas que alguien murmura algo.
@@ -990,7 +990,7 @@ hit:100
 effect:TELEPORT
 dice:$B
 expr:B:MAX_SIGHT:* 2 + 5
-lore:auto-teletransporte
+lore:teletransportarse
 lore-color-base:Light Green
 message-vis:{name} se teletransporta lejos.
 message-invis:Algo hace un suave 'pop'.
@@ -999,7 +999,7 @@ name:TELE_TO
 msgt:TELEPORT
 hit:100
 effect:TELEPORT_TO
-lore:teletransportar hacia sí
+lore:teletransportarte hacia sí
 lore-color-base:Yellow
 message-vis:{name} {target} ordena regresar.
 message-invis:Algo te ordena que regreses.
@@ -1008,7 +1008,7 @@ name:TELE_SELF_TO
 msgt:TELEPORT
 hit:100
 effect:TELEPORT_TO:SELF
-lore:teletransportarse hacia
+lore:teletransportarse hacia ti
 lore-color-base:Yellow
 message-vis:{name} se {target} acerca con un parpadeo.
 message-invis:Escuchas que alguien murmura algo.
@@ -1018,7 +1018,7 @@ msgt:TELEPORT
 hit:100
 effect:TELEPORT:AWAY
 dice:100
-lore:teletransportar lejos
+lore:teletransportarte lejos
 lore-color-base:Yellow
 message-vis:{name} {target} ordena irte.
 message-invis:Algo te ordena que te vayas.
@@ -1027,7 +1027,7 @@ name:TELE_LEVEL
 msgt:TPLEVEL
 hit:100
 effect:TELEPORT_LEVEL
-lore:teletransportar de nivel
+lore:teletransportarte a otro nivel
 lore-color-base:Yellow
 lore-color-resist:Light Green
 message-vis:{name} {target} ordena irte muy lejos.
@@ -1078,7 +1078,7 @@ msgt:SUM_MONSTER
 hit:100
 effect:SUMMON:KIN
 dice:8
-lore:invocan monstruos similares
+lore:invocar monstruos similares
 lore-color-base:Orange
 message-vis:{name} invoca a sus congéneres.
 message-invis:¡Escuchas que algunas cosas aparecen cerca!

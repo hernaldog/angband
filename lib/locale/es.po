@@ -6291,7 +6291,7 @@ msgid "object%s or treasure%s"
 msgstr "objeto%s o tesoro%s"
 
 msgid " which "
-msgstr " que "
+msgstr " que pueden "
 
 msgid "Could not find shape %d!"
 msgstr "¡No se pudo encontrar la forma %d!"
