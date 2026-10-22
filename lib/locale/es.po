@@ -2632,7 +2632,7 @@ msgid "Spd"
 msgstr "Vel"
 
 msgid "HP"
-msgstr "Pv"
+msgstr "PV"
 
 msgid "AC"
 msgstr "Ca"
@@ -2668,7 +2668,7 @@ msgid "Spd:-%d  "
 msgstr "Vel:-%d  "
 
 msgid "HP:%d  "
-msgstr "Pv:%d  "
+msgstr "PV:%d  "
 
 msgid "AC:%d  "
 msgstr "Ca:%d  "
@@ -3069,7 +3069,7 @@ msgid "AC Act "
 msgstr "CA Act "
 
 msgid "HP "
-msgstr "Pv "
+msgstr "PV "
 
 msgid "Mov +%d "
 msgstr "Mov +%d "

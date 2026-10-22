@@ -1255,28 +1255,88 @@ static size_t prt_study(int row, int col)
 
 
 /**
+ * Abbreviate a status name to four characters:  the first three
+ * characters of the first word plus the first character of the second
+ * word (e.g. "Corte Grave" becomes "CorG").  Names without a second
+ * word are simply clipped to four characters (e.g. "Confusión").
+ */
+static void abbreviate_status(const char *name, char *out, size_t out_size)
+{
+	char buf[32];
+	char *space;
+	size_t used;
+
+	my_strcpy(buf, name, sizeof(buf));
+	space = strchr(buf, ' ');
+
+	if (space && space[1]) {
+		/* Keep the first three characters of the first word */
+		*space = 0;
+		utf8_clipto(buf, 3);
+		used = strlen(buf);
+
+		/* Append the first character of the second word */
+		{
+			const char *q = space + 1;
+
+			do {
+				if (used >= sizeof(buf) - 1) break;
+				buf[used++] = *q++;
+			} while (*q && ((unsigned char)*q & 0xc0) == 0x80);
+			buf[used] = 0;
+		}
+	} else {
+		utf8_clipto(buf, 4);
+	}
+
+	my_strcpy(out, buf, out_size);
+}
+
+/**
  * Print all timed effects.
  */
 static size_t prt_tmd(int row, int col)
 {
 	size_t i, len = 0;
+	int count = 0;
+
+	/* Count active timed effects excluding food */
+	for (i = 0; i < TMD_MAX; i++) {
+		if (i == TMD_FOOD) continue;
+		if (player->timed[i]) {
+			struct timed_grade *grade = timed_effects[i].grade;
+
+			while (player->timed[i] > grade->max) {
+				grade = grade->next;
+			}
+			if (grade->name) count++;
+		}
+	}
 
 	for (i = 0; i < TMD_MAX; i++) {
 		if (player->timed[i]) {
 			struct timed_grade *grade = timed_effects[i].grade;
 			const char *name;
+			char shortname[32];
 
 			while (player->timed[i] > grade->max) {
 				grade = grade->next;
 			}
 			if (!grade->name) continue;
 			name = _(grade->name);
+
+			/* Abbreviate non-food statuses to 4 characters when 3 or more */
+			if ((i != TMD_FOOD) && (count >= 3)) {
+				abbreviate_status(name, shortname, sizeof(shortname));
+				name = shortname;
+			}
+
 			c_put_str(grade->color, name, row, col + len);
-			len += strlen(name) + 1;
+			len += utf8_strlen(name) + 1;
 
 			/* Food meter */
 			if (i == TMD_FOOD) {
-				char *meter = format("%d %%", player->timed[i] / 100);
+				char *meter = format("%d%%", player->timed[i] / 100);
 				c_put_str(grade->color, meter, row, col + len);
 				len += strlen(meter) + 1;
 			}
