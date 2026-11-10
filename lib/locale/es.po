@@ -7977,7 +7977,7 @@ msgid "Find Traps, Doors & Stairs"
 msgstr "Detec Trampas Puertas Escale"
 
 msgid "Electric Arc"
-msgstr "Arco eléctrico"
+msgstr "Arco Eléctrico"
 
 msgid "Treasure Detection"
 msgstr "Detección de Tesoros"

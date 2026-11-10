@@ -240,7 +240,7 @@ effect:TELEPORT
 dice:10
 desc:Te teletransporta aleatoriamente hasta 10 casillas de distancia.
 
-spell:Arco eléctrico:2:2:34:4
+spell:Arco Eléctrico:2:2:34:4
 effect:SHORT_BEAM:ELEC:0:1
 dice:$Dd6
 expr:D:PLAYER_LEVEL:- 1 / 5 + 3
