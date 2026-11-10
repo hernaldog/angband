@@ -3226,6 +3226,39 @@ msgstr " y"
 msgid " damage."
 msgstr " de daño."
 
+msgid "dam"
+msgstr "daño"
+
+msgid "hurt"
+msgstr "daño"
+
+msgid "heal"
+msgstr "curación"
+
+msgid "dur"
+msgstr "duración"
+
+msgid "power"
+msgstr "poder"
+
+msgid "range"
+msgstr "alcance"
+
+msgid "blows"
+msgstr "golpes"
+
+msgid "random"
+msgstr "aleatorio"
+
+msgid ", long %d"
+msgstr ", dist %d"
+
+msgid ", rad %d"
+msgstr ", radio %d"
+
+msgid ", rad 2"
+msgstr ", radio 2"
+
 msgid "Name                             Lv Mana Fail Info"
 msgstr "Nombre                           Nv Maná Fallo Info"
 

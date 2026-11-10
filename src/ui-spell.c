@@ -69,8 +69,8 @@ static void spell_menu_display(struct menu *m, int oid, bool cursor,
 	int spell_index = d->spells[oid];
 	const struct class_spell *spell = spell_by_index(player, spell_index);
 
-	char help[30];
-	char out[80];
+	char help[40];
+	char out[96];
 
 	int attr;
 	const char *illegible = NULL;

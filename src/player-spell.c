@@ -630,17 +630,17 @@ static void spell_effect_append_value_info(const struct effect *effect,
 		case EF_TELEPORT:
 			/* m_bonus means it's a weird random thing */
 			if (rv.m_bonus) {
-				my_strcpy(special, "aleatorio", sizeof(special));
+				my_strcpy(special, _("random"), sizeof(special));
 			}
 			break;
 		case EF_SPHERE:
 			/* Append radius */
 			if (effect->radius) {
 				int rad = effect->radius;
-				strnfmt(special, sizeof(special), ", rad %d",
+				strnfmt(special, sizeof(special), _(", rad %d"),
 					rad);
 			} else {
-				my_strcpy(special, ", rad 2", sizeof(special));
+				my_strcpy(special, _(", rad 2"), sizeof(special));
 			}
 			break;
 		case EF_BALL:
@@ -650,16 +650,16 @@ static void spell_effect_append_value_info(const struct effect *effect,
 				if (effect->other) {
 					rad += player->lev / effect->other;
 				}
-				strnfmt(special, sizeof(special), ", rad %d",
+				strnfmt(special, sizeof(special), _(", rad %d"),
 					rad);
 			} else {
-				my_strcpy(special, "rad 2", sizeof(special));
+				my_strcpy(special, _(", rad 2"), sizeof(special));
 			}
 			break;
 		case EF_STRIKE:
 			/* Append radius */
 			if (effect->radius) {
-				strnfmt(special, sizeof(special), ", rad %d",
+				strnfmt(special, sizeof(special), _(", rad %d"),
 					effect->radius);
 			}
 			break;
@@ -670,7 +670,7 @@ static void spell_effect_append_value_info(const struct effect *effect,
 				beam_len += player->lev / effect->other;
 				beam_len = MIN(beam_len, z_info->max_range);
 			}
-			strnfmt(special, sizeof(special), ", long %d", beam_len);
+			strnfmt(special, sizeof(special), _(", long %d"), beam_len);
 			break;
 		}
 		case EF_SWARM:
@@ -696,7 +696,7 @@ static void spell_effect_append_value_info(const struct effect *effect,
 			offset += strnfmt(p + offset, len - offset, ";");
 		}
 
-		offset += strnfmt(p + offset, len - offset, " %s ", type);
+		offset += strnfmt(p + offset, len - offset, " %s ", _(type));
 		offset += append_random_value_string(p + offset, len - offset, &rv);
 
 		if (strlen(special) > 1) {
